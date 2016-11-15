@@ -1,0 +1,155 @@
+#include "Math/GenVector/LorentzVector.h"
+#include "Math/GenVector/PtEtaPhiM4D.h"
+#include "TLorentzVector.h"
+#include "TVector2.h"
+
+#include <cmath>
+
+typedef ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<double>> LorentzVectorM;
+
+[PObject:MAX=256]
+pt/F
+eta/F
+phi/F
+LorentzVectorM p4() const { return LorentzVectorM(pt, eta, phi, m()); }
+TLorentzVector p4v() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt, eta, phi, m()); return p4; }
+virtual double e() const { return pt * std::cosh(eta); }
+double p() const { return pt * std::cosh(eta); }
+double px() const { return pt * std::cos(phi); }
+double py() const { return pt * std::sin(phi); }
+double pz() const { return pt * std::sinh(eta); }
+virtual double m() const { return 0.; }
+double dEta(PObject const& p) const { return eta - p.eta; }
+double dPhi(PObject const& p) const { return TVector2::Phi_mpi_pi(phi - p.phi); }
+double dR2(PObject const& p) const { double d1(dEta(p)); double d2(dPhi(p)); return d1 * d1 + d2 * d2; }
+double dR(PObject const& p) const { return std::sqrt(dR2(p)); }
+
+[PPFCand:PObject]
+e/F
+q/F
+weight/F
+pftype/I
+
+[PLeptonBase:PObject]
+q/I
+id/i
+iso/F
+
+[PLepton:PLeptonBase]
+chiso/F
+nhiso/F
+phoiso/F
+puiso/F
+
+[PElectron:PLepton]
+
+[PMuon:PLepton]
+
+[PTau:PLeptonBase]
+isoDeltaBetaCorr/F
+
+[PPhoton:PObject]
+id/i
+iso/F
+
+[PJet:PObject]
+rawPt/F
+csv/F
+qgl/F
+nhf/F
+chf/F
+id/i
+constituents[128]/PPFCand*
+
+[PFatJet:PJet]
+tau1/F
+tau2/F
+tau3/F
+mSD/F
+tau1SD/F = -1.
+tau2SD/F = -1.
+tau3SD/F = -1.
+htt_mass/F
+htt_frec/F
+ecfs[3][4][4]/F
+float get_ecf(short o_, short N_, int ib_) const
+{
+  if (o_<1 || o_>3 || N_<1 || N_>4 || ib_<0 || ib_>3) 
+    return -1;
+  return ecfs[o_-1][N_-1][ib_];
+}
+int set_ecf(int o_, int N_, int ib_, float x_)
+{
+  if (o_<1 || o_>3 || N_<1 || N_>4 || ib_<0 || ib_>3) 
+    return 1;
+  ecfs[o_-1][N_-1][ib_] = x_;
+  return 0;
+}
+
+[PGenJet:PObject]
+pdgid/I
+
+[PGenParticle:PObject]
+pdgid/I
+parent/PGenParticle*
+
+[PMET:SINGLE]
+pt/F
+phi/F
+sumETRaw/F
+raw_pt/F
+raw_phi/F
+calo_pt/F
+calo_phi/F
+noMu_pt/F
+noMu_phi/F
+noHF_pt/F
+noHF_phi/F
+trk_pt/F
+trk_phi/F
+neutral_pt/F
+neutral_phi/F
+photon_pt/F
+photon_phi/F
+hf_pt/F
+hf_phi/F
+virtual TVector2 v() const { TVector2 vec; vec.SetMagPhi(pt, phi); return vec; }
+
+[PMETFilters:SINGLE]
+cschalo/O
+globalHalo16/O
+hbhe/O
+hbheIso/O
+badsc/O
+badTrack/O
+badMuonTrack/O
+virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !badsc && !badTrack && !badMuonTrack; }
+
+[HLTBits:SINGLE]
+words[16]/i
+void set(unsigned iB) { words[iB / 32] |= (1 << (iB % 32)); }
+bool pass(unsigned iB) const { return ((words[iB / 32] >> (iB % 32)) & 1) != 0; }
+
+{Event}
+runNumber/i
+lumiNumber/i
+eventNumber/i
+isData/O
+npv/I
+mcWeight/F
+electrons/PElectronCollection
+muons/PMuonCollection
+taus/PTauCollection
+photons/PPhotonCollection
+jets/PJetCollection
+fatJets/PFatJetCollection
+genJets/PGenJetCollection
+genParticles/PGenParticleCollection
+met/PMET
+metFilters/PMETFilters
+triggers/HLTBits
+genParticles.parent->genParticles
+
+{Run}
+run/i
+hltMenu/i
