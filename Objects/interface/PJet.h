@@ -25,6 +25,7 @@ namespace panda {
       Float_t nhf[NMAX]{};
       Float_t chf[NMAX]{};
       UInt_t id[NMAX]{};
+      UInt_t nConstituents[NMAX]{};
       UInt_t constituents_[NMAX][128]{};
 
       void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"});
@@ -55,6 +56,7 @@ namespace panda {
     Float_t& nhf;
     Float_t& chf;
     UInt_t& id;
+    UInt_t& nConstituents;
     PPFCand* constituents(UInt_t i) const
     { if (constituentsRef_ && constituents_[i] < constituentsRef_->size()) return &(*constituentsRef_)[constituents_[i]]; else return 0; }
     void constituents(UInt_t i, PPFCand& p)

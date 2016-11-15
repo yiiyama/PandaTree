@@ -25,6 +25,7 @@ namespace panda {
       Float_t nhf[NMAX]{};
       Float_t chf[NMAX]{};
       UInt_t id[NMAX]{};
+      UInt_t nConstituents[NMAX]{};
       UInt_t constituents_[NMAX][128]{};
       */
       Float_t tau1[NMAX]{};
@@ -70,6 +71,7 @@ namespace panda {
     Float_t& nhf;
     Float_t& chf;
     UInt_t& id;
+    UInt_t& nConstituents;
     PPFCand* constituents(UInt_t i) const
     { if (constituentsRef_ && constituents_[i] < constituentsRef_->size()) return &(*constituentsRef_)[constituents_[i]]; else return 0; }
     void constituents(UInt_t i, PPFCand& p)

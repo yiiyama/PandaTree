@@ -59,6 +59,7 @@ qgl/F
 nhf/F
 chf/F
 id/i
+nConstituents/i
 constituents[128]/PPFCand*
 
 [PFatJet:PJet]
