@@ -54,15 +54,6 @@ class Typedef(OneLiner):
         OneLiner.__init__(self, line, 'typedef +[^ ]+ +[^ ]+$')
 
 
-class FwdDecl(OneLiner):
-    """
-    C++ forward declarations.
-    """
-
-    def __init__(self, line):
-        OneLiner.__init__(self, line, 'class +[^ ]+;$')
-
-
 class Constant(Definition):
     """
     C++ const lines.
@@ -134,6 +125,8 @@ class EnumDef(Definition):
                     elem = elem.strip()
                     if elem:
                         self.elements.append(elem)
+
+            self.elements.append('n{name}s'.format(name = self.name))
 
     def write_decl(self, out, names = True):
         out.writeline('enum ' + self.name + ' {')
@@ -581,7 +574,7 @@ class PhysicsObjectDef(Definition, ObjectDef):
     """
     Physics object definition. Definition file syntax:
     
-    [<Name>:<max size | parent class | SINGLE>]
+    [<Name>(<-<Parent>):<max size | SINGLE>]
     <variable definitions>
     <function definitions>
     """
@@ -602,11 +595,13 @@ class PhysicsObjectDef(Definition, ObjectDef):
         Argument: re match object
         """
 
-        Definition.__init__(self, line, '\\[([A-Z][a-zA-Z0-9]+)\\:(SINGLE|MAX=.+|SIZE=.+|[A-Z][a-zA-Z0-9]+)\\] *$')
+        Definition.__init__(self, line, '\\[([A-Z][a-zA-Z0-9]+)(<-[A-Z][a-zA-Z0-9]+|)(?:\\:(SINGLE|MAX=.+|SIZE=.+)|)\\] *$')
         PhysicsObjectDef._known_objects.append(self)
 
-        coldef = self.matches.group(2)
-        
+        self._sizestr = None
+
+        coldef = self.matches.group(3)
+       
         if coldef == 'SINGLE':
             self.parent = 'Singlet'
             self._coltype = PhysicsObjectDef.SINGLE
@@ -622,10 +617,11 @@ class PhysicsObjectDef(Definition, ObjectDef):
             self._coltype = PhysicsObjectDef.FIXED
             self._sizestr = coldef[5:]
 
-        else:
-            self.parent = coldef
+        if self.matches.group(2):
+            self.parent = self.matches.group(2)[2:]
             self._coltype = None
-            self._sizestr = None
+        elif self._sizestr is None:
+            raise RuntimeError('No parent or size specified for class {name}'.format(name = self.name))
 
         ObjectDef.__init__(self, self.matches.group(1), source)
 
@@ -704,9 +700,8 @@ class PhysicsObjectDef(Definition, ObjectDef):
             header.writeline('struct array_data : public {parent}::array_data {{'.format(parent = self.parent))
             header.indent += 1
 
-            if self.parent == 'ContainerElement':
-                header.writeline('static UInt_t const NMAX{{{size}}};'.format(size = self.sizestr()))
-                header.newline()
+            header.writeline('static UInt_t const NMAX{{{size}}};'.format(size = self.sizestr()))
+            header.newline()
 
             header.writeline('array_data() : {parent}::array_data() {{}}'.format(parent = self.parent))
 
@@ -1319,7 +1314,6 @@ if __name__ == '__main__':
         Include('#include "Rtypes.h"')
     ]
     typedefs = []
-    fwddecls = []
     constants = []
     asserts = []
     enums = []
@@ -1351,12 +1345,6 @@ if __name__ == '__main__':
 
         try:
             typedefs.append(Typedef(line))
-            continue
-        except Definition.NoMatch:
-            pass
-
-        try:
-            fwddecls.append(FwdDecl(line))
             continue
         except Definition.NoMatch:
             pass
@@ -1441,12 +1429,6 @@ if __name__ == '__main__':
     if len(typedefs) != 0:
         for typedef in typedefs:
             typedef.write(header)
-
-        header.newline()
-
-    if len(fwddecls) != 0:
-        for fwddecl in fwddecls:
-            fwddecl.write(header)
 
         header.newline()
 

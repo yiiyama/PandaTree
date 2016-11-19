@@ -7,7 +7,7 @@
 
 typedef ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<double>> LorentzVectorM;
 
-[PObject:MAX=256]
+[PParticle:MAX=256]
 pt/F
 eta/F
 phi/F
@@ -24,35 +24,39 @@ double dPhi(PObject const& p) const { return TVector2::Phi_mpi_pi(phi - p.phi); 
 double dR2(PObject const& p) const { double d1(dEta(p)); double d2(dPhi(p)); return d1 * d1 + d2 * d2; }
 double dR(PObject const& p) const { return std::sqrt(dR2(p)); }
 
-[PPFCand:PObject]
+[PParticleM<-PParticle]
+mass/F
+double m() const override { return mass; }
+
+[PPFCand<-PParticleM]
 e/F
 q/F
 weight/F
 pftype/I
 
-[PLeptonBase:PObject]
+[PLeptonBase<-PParticleM:MAX=32]
 q/I
 id/i
 iso/F
 
-[PLepton:PLeptonBase]
+[PLepton<-PLeptonBase]
 chiso/F
 nhiso/F
 phoiso/F
 puiso/F
 
-[PElectron:PLepton]
+[PElectron<-PLepton]
 
-[PMuon:PLepton]
+[PMuon<-PLepton]
 
-[PTau:PLeptonBase]
+[PTau<-PLeptonBase]
 isoDeltaBetaCorr/F
 
-[PPhoton:PObject]
+[PPhoton<-PParticle:MAX=64]
 id/i
 iso/F
 
-[PJet:PObject]
+[PJet<-PParticleM:MAX=64]
 rawPt/F
 csv/F
 qgl/F
@@ -62,7 +66,7 @@ id/i
 nConstituents/i
 constituents[128]/PPFCand*
 
-[PFatJet:PJet]
+[PFatJet<-PJet:MAX=8]
 tau1/F
 tau2/F
 tau3/F
@@ -87,16 +91,19 @@ int set_ecf(int o_, int N_, int ib_, float x_)
   return 0;
 }
 
-[PGenJet:PObject]
+[PGenJet<-PParticleM:MAX=64]
 pdgid/I
 
-[PGenParticle:PObject]
+[PGenParticle<-PParticleM]
 pdgid/I
 parent/PGenParticle*
 
 [PMET:SINGLE]
 pt/F
 phi/F
+virtual TVector2 v() const { TVector2 vec; vec.SetMagPhi(pt, phi); return vec; }
+
+[PRecoMET<-PMET]
 sumETRaw/F
 raw_pt/F
 raw_phi/F
@@ -114,7 +121,6 @@ photon_pt/F
 photon_phi/F
 hf_pt/F
 hf_phi/F
-virtual TVector2 v() const { TVector2 vec; vec.SetMagPhi(pt, phi); return vec; }
 
 [PMETFilters:SINGLE]
 cschalo/O
