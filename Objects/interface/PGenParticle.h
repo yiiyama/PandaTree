@@ -1,23 +1,28 @@
 #ifndef PandaTree_Objects_PGenParticle_h
 #define PandaTree_Objects_PGenParticle_h
 #include "Constants.h"
-#include "PObject.h"
+#include "PParticleM.h"
 #include "../../Interface/interface/Container.h"
 #include "PGenParticle.h"
 
 namespace panda {
 
-  class PGenParticle : public PObject {
+  class PGenParticle : public PParticleM {
   public:
-    typedef Container<PGenParticle, PObjectCollection> container_type;
+    typedef Container<PGenParticle, PParticleMCollection> container_type;
 
-    struct array_data : public PObject::array_data {
-      array_data() : PObject::array_data() {}
+    struct array_data : public PParticleM::array_data {
+      static UInt_t const NMAX{256};
 
-      /* PObject
+      array_data() : PParticleM::array_data() {}
+
+      /* PParticle
       Float_t pt[NMAX]{};
       Float_t eta[NMAX]{};
       Float_t phi[NMAX]{};
+      */
+      /* PParticleM
+      Float_t mass[NMAX]{};
       */
       Int_t pdgid[NMAX]{};
       UInt_t parent_[NMAX]{};
@@ -39,10 +44,13 @@ namespace panda {
 
     void init() override;
 
-    /* PObject
+    /* PParticle
     Float_t& pt;
     Float_t& eta;
     Float_t& phi;
+    */
+    /* PParticleM
+    Float_t& mass;
     */
     Int_t& pdgid;
     PGenParticle* parent() const

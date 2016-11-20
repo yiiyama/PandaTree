@@ -1,24 +1,28 @@
 #ifndef PandaTree_Objects_PPFCand_h
 #define PandaTree_Objects_PPFCand_h
 #include "Constants.h"
-#include "PObject.h"
+#include "PParticleM.h"
 #include "../../Interface/interface/Container.h"
 
 namespace panda {
 
-  class PPFCand : public PObject {
+  class PPFCand : public PParticleM {
   public:
-    typedef Container<PPFCand, PObjectCollection> container_type;
+    typedef Container<PPFCand, PParticleMCollection> container_type;
 
-    struct array_data : public PObject::array_data {
-      array_data() : PObject::array_data() {}
+    struct array_data : public PParticleM::array_data {
+      static UInt_t const NMAX{256};
 
-      /* PObject
+      array_data() : PParticleM::array_data() {}
+
+      /* PParticle
       Float_t pt[NMAX]{};
       Float_t eta[NMAX]{};
       Float_t phi[NMAX]{};
       */
-      Float_t e[NMAX]{};
+      /* PParticleM
+      Float_t mass[NMAX]{};
+      */
       Float_t q[NMAX]{};
       Float_t weight[NMAX]{};
       Int_t pftype[NMAX]{};
@@ -40,12 +44,14 @@ namespace panda {
 
     void init() override;
 
-    /* PObject
+    /* PParticle
     Float_t& pt;
     Float_t& eta;
     Float_t& phi;
     */
-    Float_t& e;
+    /* PParticleM
+    Float_t& mass;
+    */
     Float_t& q;
     Float_t& weight;
     Int_t& pftype;

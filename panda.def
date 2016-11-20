@@ -1,3 +1,5 @@
+% INCLUDES
+
 #include "Math/GenVector/LorentzVector.h"
 #include "Math/GenVector/PtEtaPhiM4D.h"
 #include "TLorentzVector.h"
@@ -5,7 +7,67 @@
 
 #include <cmath>
 
+% TYPEDEFS
+
 typedef ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<double>> LorentzVectorM;
+
+% CONSTANTS
+
+enum PhotonL1Object {
+  fSEG34IorSEG40,
+  fSEG40IorSJet200,
+  fSEG34IorSEG40IorSJet200,
+  fSEG24,
+  fSEG30,
+  fSEG40,
+  nPhotonL1Objects
+};
+
+enum PhotonHLTObject {
+  fPh120,
+  fPh135,
+  fPh165HE10,
+  fPh175,
+  fPh22EBR9Iso,
+  fPh36EBR9Iso,
+  fPh50EBR9Iso,
+  fPh75EBR9Iso,
+  fPh90EBR9Iso,
+  fPh120EBR9Iso,
+  nPhotonHLTObjects
+};
+
+enum ElectronHLTObject {
+  fEl23Loose,
+  fEl27Loose,
+  fEl120Ph,
+  fEl135Ph,
+  fEl165HE10Ph,
+  fEl175Ph,
+  fEl22EBR9IsoPh,
+  fEl36EBR9IsoPh,
+  fEl50EBR9IsoPh,
+  fEl75EBR9IsoPh,
+  fEl90EBR9IsoPh,
+  fEl120EBR9IsoPh,
+  nElectronHLTObjects
+};
+
+enum MuonHLTObject {
+  fMu20,
+  fMuTrk20,
+  fMu24,
+  fMu27,
+  nMuonHLTObjects
+};
+
+unsigned const nMaxHLTObjects(nElectronHLTObjects);
+
+ASSERT nMaxHLTObjects >= nPhotonHLTObjects
+ASSERT nMaxHLTObjects >= nElectronHLTObjects
+ASSERT nMaxHLTObjects >= nMuonHLTObjects
+
+% OBJECTS
 
 [PParticle:MAX=256]
 pt/F
@@ -13,7 +75,7 @@ eta/F
 phi/F
 LorentzVectorM p4() const { return LorentzVectorM(pt, eta, phi, m()); }
 TLorentzVector p4v() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt, eta, phi, m()); return p4; }
-virtual double e() const { return pt * std::cosh(eta); }
+double e() const { return std::sqrt(std::pow(pt * std::cosh(eta), 2.) + m() * m()); }
 double p() const { return pt * std::cosh(eta); }
 double px() const { return pt * std::cos(phi); }
 double py() const { return pt * std::sin(phi); }
@@ -24,40 +86,94 @@ double dPhi(PObject const& p) const { return TVector2::Phi_mpi_pi(phi - p.phi); 
 double dR2(PObject const& p) const { double d1(dEta(p)); double d2(dPhi(p)); return d1 * d1 + d2 * d2; }
 double dR(PObject const& p) const { return std::sqrt(dR2(p)); }
 
-[PParticleM<-PParticle]
+[PParticleM>PParticle]
 mass/F
 double m() const override { return mass; }
 
-[PPFCand<-PParticleM]
-e/F
+[PPFCand>PParticleM]
 q/F
 weight/F
 pftype/I
 
-[PLeptonBase<-PParticleM:MAX=32]
-q/I
-id/i
-iso/F
+[PSuperCluster:MAX=128]
+rawPt/F
+eta/F
+phi/F
 
-[PLepton<-PLeptonBase]
+[PLepton>PParticle:MAX=32]
+q/C
+loose/O
+tight/O
 chiso/F
 nhiso/F
 phoiso/F
 puiso/F
+tauDecay/O
+hadDecay/O
+virtual double combRelIso() const {}
 
-[PElectron<-PLepton]
+[PElectron>PLepton]
+chisoPh/F
+nhisoPh/F
+phisoPh/F
+ecaliso/F
+hcaliso/F
+sieie/F
+sipip/F
+hOverE/F
+veto/O
+superCluster/PSuperCluster*
+double m() const override { return 5.109989e-4; }
+double combRelIso() const override {}
+bool isEB() const { return superCluster() ? std::abs(superCluster()->eta) < 1.4442 : false; }
 
-[PMuon<-PLepton]
+[PMuon>PLepton]
+double m() const override { return 1.05658e-2; }
+double combRelIso() const override {}
 
-[PTau<-PLeptonBase]
+[PTau>PParticleM]
+q/C
+decayMode/O
 isoDeltaBetaCorr/F
 
-[PPhoton<-PParticle:MAX=64]
-id/i
-iso/F
+[PPhoton>PParticle:MAX=64]
+chiso/F
+chworstiso/F
+chisoMax/F
+nhiso/F
+phiso/F
+ecaliso/F
+hcaliso/F
+sieie/F
+sipip/F
+hOverE/F
+geniso/F
+mipEnergy/F
+e33/F
+emax/F
+e2nd/F
+r9/F
+etaWidth/F
+phiWidth/F
+time/F
+timeSpan/F
+genMatchDR/F
+loose/O
+medium/O
+tight/O
+highpt/O
+pixelVeto/O
+csafeVeto/O
+matchL1[nPhotonL1Objects]/O
+superCluster/PSuperCluster*
+bool isEB() const { return superCluster() ? std::abs(superCluster()->eta) < 1.4442 : false; }
 
-[PJet<-PParticleM:MAX=64]
+[PJet>PParticleM:MAX=64]
 rawPt/F
+ptCorrUp/F
+ptCorrDown/F
+ptResCorr/F
+phiResCorr/F
 csv/F
 qgl/F
 nhf/F
@@ -66,7 +182,7 @@ id/i
 nConstituents/i
 constituents[128]/PPFCand*
 
-[PFatJet<-PJet:MAX=8]
+[PFatJet>PJet:MAX=8]
 tau1/F
 tau2/F
 tau3/F
@@ -91,10 +207,10 @@ int set_ecf(int o_, int N_, int ib_, float x_)
   return 0;
 }
 
-[PGenJet<-PParticleM:MAX=64]
+[PGenJet>PParticleM:MAX=64]
 pdgid/I
 
-[PGenParticle<-PParticleM]
+[PGenParticle>PParticleM]
 pdgid/I
 parent/PGenParticle*
 
@@ -103,7 +219,7 @@ pt/F
 phi/F
 virtual TVector2 v() const { TVector2 vec; vec.SetMagPhi(pt, phi); return vec; }
 
-[PRecoMET<-PMET]
+[PRecoMET>PMET]
 sumETRaw/F
 raw_pt/F
 raw_phi/F
@@ -121,6 +237,32 @@ photon_pt/F
 photon_phi/F
 hf_pt/F
 hf_phi/F
+ptCorrUp/F
+phiCorrUp/F
+ptCorrDown/F
+phiCorrDown/F
+ptJetRes/F
+phiJetRes/F
+ptUnclUp/F
+phiUnclUp/F
+ptUnclDown/F
+phiUnclDown/F
+virtual TVector2 vCorr(int corr = 0) const
+{
+  if (corr == 0)
+    return v();
+
+  TVector2 vec;
+  switch (corr) {
+  case 1:
+    vec.SetMagPhi(metCorrUp, phiCorrUp);
+    break;
+  case -1:
+    vec.SetMagPhi(metCorrDown, phiCorrDown);
+    break;
+  }
+  return vec;
+}
 
 [PMETFilters:SINGLE]
 cschalo/O
@@ -144,6 +286,8 @@ eventNumber/i
 isData/O
 npv/I
 mcWeight/F
+pfCandidates/PPFCandCollection
+superClusters/SuperClusterCollection
 electrons/PElectronCollection
 muons/PMuonCollection
 taus/PTauCollection
@@ -155,6 +299,8 @@ genParticles/PGenParticleCollection
 met/PMET
 metFilters/PMETFilters
 triggers/HLTBits
+electrons.superCluster->superClusters
+photons.superCluster->superClusters
 genParticles.parent->genParticles
 
 {Run}

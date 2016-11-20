@@ -24,23 +24,6 @@ namespace panda {
 
     Float_t pt{};
     Float_t phi{};
-    Float_t sumETRaw{};
-    Float_t raw_pt{};
-    Float_t raw_phi{};
-    Float_t calo_pt{};
-    Float_t calo_phi{};
-    Float_t noMu_pt{};
-    Float_t noMu_phi{};
-    Float_t noHF_pt{};
-    Float_t noHF_phi{};
-    Float_t trk_pt{};
-    Float_t trk_phi{};
-    Float_t neutral_pt{};
-    Float_t neutral_phi{};
-    Float_t photon_pt{};
-    Float_t photon_phi{};
-    Float_t hf_pt{};
-    Float_t hf_phi{};
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */

@@ -108,9 +108,11 @@ class EnumDef(Definition):
         self.name = self.matches.group(1)
 
         if type(source) is list:
+            # a list is already given
             self.elements = source
 
         else:
+            # otherwise parse the source text
             self.elements = []
     
             while True:
@@ -126,7 +128,8 @@ class EnumDef(Definition):
                     if elem:
                         self.elements.append(elem)
 
-            self.elements.append('n{name}s'.format(name = self.name))
+        # last entry is always n{name}s (e.g. enum Trigger -> nTriggers)
+        self.elements.append('n{name}s'.format(name = self.name))
 
     def write_decl(self, out, names = True):
         out.writeline('enum ' + self.name + ' {')
@@ -185,6 +188,7 @@ class BranchDef(Definition):
         Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ ]+)(?:| += +(.*))$')
 
         self.name = self.matches.group(1)
+        # is this an array branch?
         arrdef = self.matches.group(2)
         if arrdef:
             self.arrdef = arrdef.strip('[]').split('][')
@@ -318,6 +322,60 @@ class BranchDef(Definition):
         out.writeline(self.initializer)
 
 
+class RefBranchDef(BranchDef):
+    """
+    Reference definition. Definition file syntax:
+    <name>/<type>*
+    References are written as unsigned integers to the trees.
+    """
+
+    def __init__(self, line):
+        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ ]+)\*$')
+        self.refname = self.matches.group(1)
+        arrdef = self.matches.group(2)
+        self.objname = self.matches.group(3)
+        try:
+            objdef = PhysicsObjectDef.get(self.objname)
+        except KeyError:
+            raise Definition.NoMatch
+
+        if objdef.coltype() == PhysicsObjectDef.SINGLE:
+            raise RuntimeError('Cannot create reference to single object ' + objdef.name)
+
+        # create a branch for the index
+        BranchDef.__init__(self, '{name}_{arrdef}/i = {type}::array_data::NMAX'.format(name = self.refname, arrdef = arrdef, type = self.objname))
+
+    def write_decl(self, out, context):
+        if context == 'array_data':
+            BranchDef.write_decl(self, out, context)
+        else:
+            if self.is_array():
+                out.writeline('{type}* {name}(UInt_t i) const'.format(type = self.objname, name = self.refname))
+                out.writeline('{{ if ({name}Ref_ && {name}_[i] < {name}Ref_->size()) return &(*{name}Ref_)[{name}_[i]]; else return 0; }}'.format(name = self.refname))
+            else:
+                out.writeline('{type}* {name}() const'.format(type = self.objname, name = self.refname))
+                out.writeline('{{ if ({name}Ref_ && {name}_ < {name}Ref_->size()) return &(*{name}Ref_)[{name}_]; else return 0; }}'.format(name = self.refname))
+
+            if self.is_array():
+                out.writeline('void {name}(UInt_t i, {type}& p)'.format(name = self.refname, type = self.objname))
+                out.writeline('{{ if (!{name}Ref_) return; for ({name}_[i] = 0; {name}_[i] != {name}Ref_->size(); ++{name}_[i]) if (&(*{name}Ref_)[{name}_[i]] == &p) return; {name}_[i] = {type}::array_data::NMAX; }}'.format(name = self.refname, type = self.objname))
+            else:
+                out.writeline('void {name}({type}& p)'.format(name = self.refname, type = self.objname))
+                out.writeline('{{ if (!{name}Ref_) return; for ({name}_ = 0; {name}_ != {name}Ref_->size(); ++{name}_) if (&(*{name}Ref_)[{name}_] == &p) return; {name}_ = {type}::array_data::NMAX; }}'.format(name = self.refname, type = self.objname))
+
+            out.writeline('void {name}Ref({objname}::container_type& cont) {{ {name}Ref_ = &cont; }}'.format(name = self.refname, objname = self.objname))
+
+            out.indent -= 1
+            out.writeline('private:')
+            out.indent += 1
+            BranchDef.write_decl(self, out, context)
+            out.writeline('{objname}::container_type* {name}Ref_{{0}};'.format(objname = self.objname, name = self.refname))
+
+            out.indent -= 1
+            out.writeline('public:')
+            out.indent += 1
+
+
 class ObjBranchDef(Definition):
     """
     Composite object "branch" definition. Definition file syntax:
@@ -340,6 +398,7 @@ class ObjBranchDef(Definition):
             self.conttype = ''
 
         try:
+            # is this a valid object?
             objdef = PhysicsObjectDef.get(self.objname)
         except KeyError:
             raise Definition.NoMatch
@@ -374,58 +433,6 @@ class ObjBranchDef(Definition):
 
     def write_init(self, out):
         out.writeline('{name}.init();'.format(name = self.name))
-
-
-class RefBranchDef(BranchDef):
-    """
-    Reference definition. Definition file syntax:
-    <name>/<type>*
-    """
-
-    def __init__(self, line):
-        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ ]+)\*$')
-        self.refname = self.matches.group(1)
-        arrdef = self.matches.group(2)
-        self.objname = self.matches.group(3)
-        try:
-            objdef = PhysicsObjectDef.get(self.objname)
-        except KeyError:
-            raise Definition.NoMatch
-
-        if objdef.coltype() == PhysicsObjectDef.SINGLE:
-            raise RuntimeError('Cannot create reference to single object ' + objdef.name)
-
-        BranchDef.__init__(self, '{name}_{arrdef}/i = {type}::array_data::NMAX'.format(name = self.refname, arrdef = arrdef, type = self.objname))
-
-    def write_decl(self, out, context):
-        if context == 'array_data':
-            BranchDef.write_decl(self, out, context)
-        else:
-            if self.is_array():
-                out.writeline('{type}* {name}(UInt_t i) const'.format(type = self.objname, name = self.refname))
-                out.writeline('{{ if ({name}Ref_ && {name}_[i] < {name}Ref_->size()) return &(*{name}Ref_)[{name}_[i]]; else return 0; }}'.format(name = self.refname))
-            else:
-                out.writeline('{type}* {name}() const'.format(type = self.objname, name = self.refname))
-                out.writeline('{{ if ({name}Ref_ && {name}_ < {name}Ref_->size()) return &(*{name}Ref_)[{name}_]; else return 0; }}'.format(name = self.refname))
-
-            if self.is_array():
-                out.writeline('void {name}(UInt_t i, {type}& p)'.format(name = self.refname, type = self.objname))
-                out.writeline('{{ if (!{name}Ref_) return; for ({name}_[i] = 0; {name}_[i] != {name}Ref_->size(); ++{name}_[i]) if (&(*{name}Ref_)[{name}_[i]] == &p) return; {name}_[i] = {type}::array_data::NMAX; }}'.format(name = self.refname, type = self.objname))
-            else:
-                out.writeline('void {name}({type}& p)'.format(name = self.refname, type = self.objname))
-                out.writeline('{{ if (!{name}Ref_) return; for ({name}_ = 0; {name}_ != {name}Ref_->size(); ++{name}_) if (&(*{name}Ref_)[{name}_] == &p) return; {name}_ = {type}::array_data::NMAX; }}'.format(name = self.refname, type = self.objname))
-
-            out.writeline('void {name}Ref({objname}::container_type& cont) {{ {name}Ref_ = &cont; }}'.format(name = self.refname, objname = self.objname))
-
-            out.indent -= 1
-            out.writeline('private:')
-            out.indent += 1
-            BranchDef.write_decl(self, out, context)
-            out.writeline('{objname}::container_type* {name}Ref_{{0}};'.format(objname = self.objname, name = self.refname))
-
-            out.indent -= 1
-            out.writeline('public:')
-            out.indent += 1
 
 
 class FunctionDef(Definition):
@@ -493,6 +500,7 @@ class FunctionDef(Definition):
             for line in self.impl.split('\n'):
                 out.writeline(line)
 
+
 class ObjectDef(object):
     """
     Base class for physics objects and tree entry objects.
@@ -500,7 +508,8 @@ class ObjectDef(object):
 
     def __init__(self, name, source):
         """
-        Argument: re match object
+        Constructor called either by PhysicsObjectDef or TreeDef.
+        Parse the source text block and collect all information on this object.
         """
 
         self.name = name
@@ -562,19 +571,12 @@ class ObjectDef(object):
 
             break
 
-    def get_branch(self, name):
-        for branch in self.objbranches + self.branches:
-            if branch.name == name:
-                return branch
-
-        return None
-
 
 class PhysicsObjectDef(Definition, ObjectDef):
     """
     Physics object definition. Definition file syntax:
     
-    [<Name>(<-<Parent>):<max size | SINGLE>]
+    [<Name>(><Parent>):<max size | SINGLE>]
     <variable definitions>
     <function definitions>
     """
@@ -595,33 +597,34 @@ class PhysicsObjectDef(Definition, ObjectDef):
         Argument: re match object
         """
 
-        Definition.__init__(self, line, '\\[([A-Z][a-zA-Z0-9]+)(<-[A-Z][a-zA-Z0-9]+|)(?:\\:(SINGLE|MAX=.+|SIZE=.+)|)\\] *$')
+        Definition.__init__(self, line, '\\[([A-Z][a-zA-Z0-9]+)(>[A-Z][a-zA-Z0-9]+|)(\\:SINGLE|\\:MAX=.+|\\:SIZE=.+|)\\] *$')
         PhysicsObjectDef._known_objects.append(self)
 
         self._sizestr = None
 
+        # collection definition (optional)
         coldef = self.matches.group(3)
        
-        if coldef == 'SINGLE':
+        if coldef == ':SINGLE':
             self.parent = 'Singlet'
             self._coltype = PhysicsObjectDef.SINGLE
-            self._sizestr = None
 
-        elif coldef.startswith('MAX'):
+        elif coldef.startswith(':MAX'):
             self.parent = 'ContainerElement'
             self._coltype = PhysicsObjectDef.DYNAMIC
-            self._sizestr = coldef[4:]
+            self._sizestr = coldef[5:]
             
-        elif coldef.startswith('SIZE'):
+        elif coldef.startswith(':SIZE'):
             self.parent = 'ContainerElement'
             self._coltype = PhysicsObjectDef.FIXED
-            self._sizestr = coldef[5:]
+            self._sizestr = coldef[6:]
 
+        # if >parent is present, update the parent class name
         if self.matches.group(2):
-            self.parent = self.matches.group(2)[2:]
+            self.parent = self.matches.group(2)[1:]
             self._coltype = None
-        elif self._sizestr is None:
-            raise RuntimeError('No parent or size specified for class {name}'.format(name = self.name))
+        elif not self.parent:
+            raise RuntimeError('No parent or size specified for class {name}'.format(name = self.matches.group(1)))
 
         ObjectDef.__init__(self, self.matches.group(1), source)
 
@@ -638,6 +641,10 @@ class PhysicsObjectDef(Definition, ObjectDef):
             return self._sizestr
 
     def generate_header(self):
+        """
+        Write a header file.
+        """
+
         inheritance = [self]
         while True:
             try:
@@ -838,6 +845,10 @@ class PhysicsObjectDef(Definition, ObjectDef):
         header.close()
 
     def _write_method(self, out, context, methodspec, nestedcls = ''):
+        """
+        Util function to write class methods with a common pattern.
+        """
+
         fname, rettype, arguments, generator, retexpr = methodspec
 
         out.writeline(rettype)
@@ -875,6 +886,10 @@ class PhysicsObjectDef(Definition, ObjectDef):
         out.writeline('}')
 
     def generate_source(self):
+        """
+        Write the .cc file.
+        """
+
         subst = {'NAMESPACE': NAMESPACE, 'name': self.name, 'parent': self.parent}
 
         src = FileOutput('{PACKDIR}/Objects/src/{name}.cc'.format(PACKDIR = PACKDIR, **subst))
@@ -1043,6 +1058,10 @@ class TreeDef(Definition, ObjectDef):
         ObjectDef.__init__(self, self.matches.group(1), source)
 
     def generate_header(self):
+        """
+        Write the header file.
+        """
+
         header = FileOutput('{PACKDIR}/Objects/interface/{name}.h'.format(PACKDIR = PACKDIR, name = self.name))
         header.writeline('#ifndef {PACKAGE}_Objects_{name}_h'.format(PACKAGE = PACKAGE, name = self.name))
         header.writeline('#define {PACKAGE}_Objects_{name}_h'.format(PACKAGE = PACKAGE, name = self.name))
@@ -1125,6 +1144,10 @@ class TreeDef(Definition, ObjectDef):
         header.close()
 
     def generate_source(self):
+        """
+        Write the .cc file.
+        """
+
         src = FileOutput('{PACKDIR}/Objects/src/{name}.cc'.format(PACKDIR = PACKDIR, name = self.name))
         src.writeline('#include "../interface/{name}.h"'.format(name = self.name))
         src.newline()
@@ -1228,7 +1251,7 @@ class TreeDef(Definition, ObjectDef):
 
 class ReferenceDef(Definition):
     """
-    Sets reference. Syntax:
+    Sets reference within a tree definition. Syntax:
     <branch>(.<branch>)-><collection>
     """
 
@@ -1238,6 +1261,10 @@ class ReferenceDef(Definition):
         self.target = self.matches.group(2)
 
     def write_def(self, out):
+        """
+        Part of the tree entry constructor code to pass the target collection pointer to the reference.
+        """
+
         rnames = self.ref_name.split('.')
         if len(rnames) == 1:
             out.writeline('{rname}Ref({target});'.format(rname = rnames[0], target = self.target))
@@ -1303,7 +1330,7 @@ if __name__ == '__main__':
     from argparse import ArgumentParser
 
     argParser = ArgumentParser(description = 'Generate C++ code for a flat tree')
-    argParser.add_argument('config', metavar = 'CONFIG')
+    argParser.add_argument('configs', metavar = 'CONFIG', nargs = '+', help = 'Tree definition files.')
     
     args = argParser.parse_args()
 
@@ -1321,96 +1348,97 @@ if __name__ == '__main__':
     phobjects = []
     trees = []
 
-    configFile = open(args.config)
-
-    while True:
-        line = configFile.readline()
-        if line == '':
-            break
-
-        line = line.strip()
-        
-        if line == '':
-            continue
-
-        if line.startswith('%'):
-            #comment line
-            continue
-
-        try:
-            includes.append(Include(line))
-            continue
-        except Definition.NoMatch:
-            pass
-
-        try:
-            typedefs.append(Typedef(line))
-            continue
-        except Definition.NoMatch:
-            pass
-
-        try:
-            constants.append(Constant(line))
-            continue
-        except Definition.NoMatch:
-            pass
-
-        try:
-            asserts.append(AssertDef(line))
-            continue
-        except Definition.NoMatch:
-            pass
-
-        try:
-            enums.append(EnumDef(line, configFile))
-            continue
-        except Definition.NoMatch:
-            pass
-
-        try:
-            functions.append(FunctionDef(line, configFile))
-            continue
-        except Definition.NoMatch:
-            pass
-
-        try:
-            phobjects.append(PhysicsObjectDef(line, configFile))
-            continue
-        except Definition.NoMatch:
-            pass
-
-        try:
-            trees.append(TreeDef(line, configFile))
-            continue
-        except Definition.NoMatch:
-            pass
-
-        print 'Skipping unrecognized pattern:', line
-
-    configFile.close()
+    # parse all config files
+    for fname in args.configs:
+        configFile = open(fname)
+    
+        while True:
+            line = configFile.readline()
+            if line == '':
+                break
+    
+            line = line.strip()
+            
+            if line == '':
+                continue
+    
+            if line.startswith('%'):
+                #comment line
+                continue
+    
+            try:
+                includes.append(Include(line))
+                continue
+            except Definition.NoMatch:
+                pass
+    
+            try:
+                typedefs.append(Typedef(line))
+                continue
+            except Definition.NoMatch:
+                pass
+    
+            try:
+                constants.append(Constant(line))
+                continue
+            except Definition.NoMatch:
+                pass
+    
+            try:
+                asserts.append(AssertDef(line))
+                continue
+            except Definition.NoMatch:
+                pass
+    
+            try:
+                enums.append(EnumDef(line, configFile))
+                continue
+            except Definition.NoMatch:
+                pass
+    
+            try:
+                functions.append(FunctionDef(line, configFile))
+                continue
+            except Definition.NoMatch:
+                pass
+    
+            try:
+                phobjects.append(PhysicsObjectDef(line, configFile))
+                continue
+            except Definition.NoMatch:
+                pass
+    
+            try:
+                trees.append(TreeDef(line, configFile))
+                continue
+            except Definition.NoMatch:
+                pass
+    
+            print 'Skipping unrecognized pattern:', line
+    
+        configFile.close()
    
-
+    # create directories if necessary
     if not os.path.isdir(PACKDIR + '/Objects/interface'):
         os.makedirs(PACKDIR + '/Objects/interface')
     if not os.path.isdir(PACKDIR + '/Objects/src'):
         os.makedirs(PACKDIR + '/Objects/src')
     if not os.path.isdir(PACKDIR + '/obj'):
         os.makedirs(PACKDIR + '/obj')
-    
-    isCMSSW = False
+
+    # are we running in a CMSSW environment?
     if os.path.exists(PACKDIR + '/../../.SCRAM/Environment'):
         with open(PACKDIR + '/../../.SCRAM/Environment') as environment:
-            isCMSSW = 'CMSSW' in environment.readline()
+            if 'CMSSW' in environment.readline():
+                # if so, we need to write the build file
+                with open(PACKDIR + '/Objects/BuildFile.xml', 'w') as buildFile:
+                    buildFile.write('<use name="root"/>\n')
+                    buildFile.write('<use name="{PACKAGE}/Interface"/>\n'.format(PACKAGE = PACKAGE))
+                    buildFile.write('<export>\n')
+                    buildFile.write('  <lib name="1"/>\n')
+                    buildFile.write('</export>\n')
 
-    if isCMSSW and not os.path.exists(PACKDIR + '/Objects/BuildFile.xml'):
-        with open(PACKDIR + '/Objects/BuildFile.xml', 'w') as buildFile:
-            buildFile.write('<use name="root"/>\n')
-            buildFile.write('<use name="{PACKAGE}/Interface"/>\n'.format(PACKAGE = PACKAGE))
-            buildFile.write('<export>\n')
-            buildFile.write('  <lib name="1"/>\n')
-            buildFile.write('</export>\n')
-
-
+    # write the globals file
     header = FileOutput(PACKDIR + '/Objects/interface/Constants.h')
     header.writeline('#ifndef {PACKAGE}_Objects_Constants_h'.format(PACKAGE = PACKAGE))
     header.writeline('#define {PACKAGE}_Objects_Constants_h'.format(PACKAGE = PACKAGE))
@@ -1463,6 +1491,7 @@ if __name__ == '__main__':
     header.writeline('#endif')
     header.close()
 
+    # .cc for constants
     src = FileOutput(PACKDIR + '/Objects/src/Constants.cc')
     src.writeline('#include "../interface/Constants.h"')
 
@@ -1483,10 +1512,12 @@ if __name__ == '__main__':
 
     src.close()
 
+    # write code for all objects and trees
     for objdef in phobjects + trees:
         objdef.generate_header()
         objdef.generate_source()
 
+    # write a linkdef file (not compiled by CMSSW - only for Makefile)
     linkdef = FileOutput(PACKDIR + '/obj/LinkDef.h')
     linkdef.writeline('#include "../Interface/interface/Object.h"')
     linkdef.writeline('#include "../Interface/interface/Container.h"')

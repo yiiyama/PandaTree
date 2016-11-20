@@ -1,28 +1,30 @@
 #ifndef PandaTree_Objects_PTau_h
 #define PandaTree_Objects_PTau_h
 #include "Constants.h"
-#include "PLeptonBase.h"
+#include "PParticleM.h"
 #include "../../Interface/interface/Container.h"
 
 namespace panda {
 
-  class PTau : public PLeptonBase {
+  class PTau : public PParticleM {
   public:
-    typedef Container<PTau, PLeptonBaseCollection> container_type;
+    typedef Container<PTau, PParticleMCollection> container_type;
 
-    struct array_data : public PLeptonBase::array_data {
-      array_data() : PLeptonBase::array_data() {}
+    struct array_data : public PParticleM::array_data {
+      static UInt_t const NMAX{256};
 
-      /* PObject
+      array_data() : PParticleM::array_data() {}
+
+      /* PParticle
       Float_t pt[NMAX]{};
       Float_t eta[NMAX]{};
       Float_t phi[NMAX]{};
       */
-      /* PLeptonBase
-      Int_t q[NMAX]{};
-      UInt_t id[NMAX]{};
-      Float_t iso[NMAX]{};
+      /* PParticleM
+      Float_t mass[NMAX]{};
       */
+      Text_t const* q[NMAX]{};
+      Bool_t decayMode[NMAX]{};
       Float_t isoDeltaBetaCorr[NMAX]{};
 
       void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"});
@@ -42,16 +44,16 @@ namespace panda {
 
     void init() override;
 
-    /* PObject
+    /* PParticle
     Float_t& pt;
     Float_t& eta;
     Float_t& phi;
     */
-    /* PLeptonBase
-    Int_t& q;
-    UInt_t& id;
-    Float_t& iso;
+    /* PParticleM
+    Float_t& mass;
     */
+    Text_t const*& q;
+    Bool_t& decayMode;
     Float_t& isoDeltaBetaCorr;
 
     /* BEGIN CUSTOM */

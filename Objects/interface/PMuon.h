@@ -11,23 +11,25 @@ namespace panda {
     typedef Container<PMuon, PLeptonCollection> container_type;
 
     struct array_data : public PLepton::array_data {
+      static UInt_t const NMAX{32};
+
       array_data() : PLepton::array_data() {}
 
-      /* PObject
+      /* PParticle
       Float_t pt[NMAX]{};
       Float_t eta[NMAX]{};
       Float_t phi[NMAX]{};
       */
-      /* PLeptonBase
-      Int_t q[NMAX]{};
-      UInt_t id[NMAX]{};
-      Float_t iso[NMAX]{};
-      */
       /* PLepton
+      Text_t const* q[NMAX]{};
+      Bool_t loose[NMAX]{};
+      Bool_t tight[NMAX]{};
       Float_t chiso[NMAX]{};
       Float_t nhiso[NMAX]{};
       Float_t phoiso[NMAX]{};
       Float_t puiso[NMAX]{};
+      Bool_t tauDecay[NMAX]{};
+      Bool_t hadDecay[NMAX]{};
       */
 
       void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"});
@@ -47,21 +49,24 @@ namespace panda {
 
     void init() override;
 
-    /* PObject
+    double m() const override { return 1.05658e-2; }
+    double combRelIso() const override {}
+
+    /* PParticle
     Float_t& pt;
     Float_t& eta;
     Float_t& phi;
     */
-    /* PLeptonBase
-    Int_t& q;
-    UInt_t& id;
-    Float_t& iso;
-    */
     /* PLepton
+    Text_t const*& q;
+    Bool_t& loose;
+    Bool_t& tight;
     Float_t& chiso;
     Float_t& nhiso;
     Float_t& phoiso;
     Float_t& puiso;
+    Bool_t& tauDecay;
+    Bool_t& hadDecay;
     */
 
     /* BEGIN CUSTOM */

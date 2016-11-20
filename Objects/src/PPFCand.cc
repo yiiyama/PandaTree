@@ -3,9 +3,8 @@
 void
 panda::PPFCand::array_data::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PObject::array_data::setStatus(_tree, _name, _status, _branches);
+  PParticleM::array_data::setStatus(_tree, _name, _status, _branches);
 
-  utils::setStatus(_tree, _name, "e", _status, _branches);
   utils::setStatus(_tree, _name, "q", _status, _branches);
   utils::setStatus(_tree, _name, "weight", _status, _branches);
   utils::setStatus(_tree, _name, "pftype", _status, _branches);
@@ -14,9 +13,8 @@ panda::PPFCand::array_data::setStatus(TTree& _tree, TString const& _name, Bool_t
 void
 panda::PPFCand::array_data::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PObject::array_data::setAddress(_tree, _name, _branches);
+  PParticleM::array_data::setAddress(_tree, _name, _branches);
 
-  utils::setStatusAndAddress(_tree, _name, "e", e, _branches);
   utils::setStatusAndAddress(_tree, _name, "q", q, _branches);
   utils::setStatusAndAddress(_tree, _name, "weight", weight, _branches);
   utils::setStatusAndAddress(_tree, _name, "pftype", pftype, _branches);
@@ -25,17 +23,15 @@ panda::PPFCand::array_data::setAddress(TTree& _tree, TString const& _name, utils
 void
 panda::PPFCand::array_data::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PObject::array_data::book(_tree, _name, _branches);
+  PParticleM::array_data::book(_tree, _name, _branches);
 
-  utils::book(_tree, _name, "e", "[" + _name + ".size]", 'F', e, _branches);
   utils::book(_tree, _name, "q", "[" + _name + ".size]", 'F', q, _branches);
   utils::book(_tree, _name, "weight", "[" + _name + ".size]", 'F', weight, _branches);
   utils::book(_tree, _name, "pftype", "[" + _name + ".size]", 'I', pftype, _branches);
 }
 
 panda::PPFCand::PPFCand() :
-  PObject(utils::Allocator<PPFCand>()),
-  e(gStore.getData(this).e[gStore.getIndex(this)]),
+  PParticleM(utils::Allocator<PPFCand>()),
   q(gStore.getData(this).q[gStore.getIndex(this)]),
   weight(gStore.getData(this).weight[gStore.getIndex(this)]),
   pftype(gStore.getData(this).pftype[gStore.getIndex(this)])
@@ -43,23 +39,20 @@ panda::PPFCand::PPFCand() :
 }
 
 panda::PPFCand::PPFCand(PPFCand const& _src) :
-  PObject(utils::Allocator<PPFCand>()),
-  e(gStore.getData(this).e[gStore.getIndex(this)]),
+  PParticleM(utils::Allocator<PPFCand>()),
   q(gStore.getData(this).q[gStore.getIndex(this)]),
   weight(gStore.getData(this).weight[gStore.getIndex(this)]),
   pftype(gStore.getData(this).pftype[gStore.getIndex(this)])
 {
-  PObject::operator=(_src);
+  PParticleM::operator=(_src);
 
-  e = _src.e;
   q = _src.q;
   weight = _src.weight;
   pftype = _src.pftype;
 }
 
 panda::PPFCand::PPFCand(array_data& _data, UInt_t _idx) :
-  PObject(_data, _idx),
-  e(_data.e[_idx]),
+  PParticleM(_data, _idx),
   q(_data.q[_idx]),
   weight(_data.weight[_idx]),
   pftype(_data.pftype[_idx])
@@ -67,8 +60,7 @@ panda::PPFCand::PPFCand(array_data& _data, UInt_t _idx) :
 }
 
 panda::PPFCand::PPFCand(utils::AllocatorBase const& _allocator) :
-  PObject(_allocator),
-  e(gStore.getData(this).e[gStore.getIndex(this)]),
+  PParticleM(_allocator),
   q(gStore.getData(this).q[gStore.getIndex(this)]),
   weight(gStore.getData(this).weight[gStore.getIndex(this)]),
   pftype(gStore.getData(this).pftype[gStore.getIndex(this)])
@@ -83,9 +75,8 @@ panda::PPFCand::~PPFCand()
 panda::PPFCand&
 panda::PPFCand::operator=(PPFCand const& _src)
 {
-  PObject::operator=(_src);
+  PParticleM::operator=(_src);
 
-  e = _src.e;
   q = _src.q;
   weight = _src.weight;
   pftype = _src.pftype;
@@ -96,9 +87,8 @@ panda::PPFCand::operator=(PPFCand const& _src)
 void
 panda::PPFCand::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PObject::setStatus(_tree, _name, _status, _branches);
+  PParticleM::setStatus(_tree, _name, _status, _branches);
 
-  utils::setStatus(_tree, _name, "e", _status, _branches);
   utils::setStatus(_tree, _name, "q", _status, _branches);
   utils::setStatus(_tree, _name, "weight", _status, _branches);
   utils::setStatus(_tree, _name, "pftype", _status, _branches);
@@ -107,9 +97,8 @@ panda::PPFCand::setStatus(TTree& _tree, TString const& _name, Bool_t _status, ut
 void
 panda::PPFCand::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PObject::setAddress(_tree, _name, _branches);
+  PParticleM::setAddress(_tree, _name, _branches);
 
-  utils::setStatusAndAddress(_tree, _name, "e", &e, _branches);
   utils::setStatusAndAddress(_tree, _name, "q", &q, _branches);
   utils::setStatusAndAddress(_tree, _name, "weight", &weight, _branches);
   utils::setStatusAndAddress(_tree, _name, "pftype", &pftype, _branches);
@@ -118,9 +107,8 @@ panda::PPFCand::setAddress(TTree& _tree, TString const& _name, utils::BranchList
 void
 panda::PPFCand::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PObject::book(_tree, _name, _branches);
+  PParticleM::book(_tree, _name, _branches);
 
-  utils::book(_tree, _name, "e", "", 'F', &e, _branches);
   utils::book(_tree, _name, "q", "", 'F', &q, _branches);
   utils::book(_tree, _name, "weight", "", 'F', &weight, _branches);
   utils::book(_tree, _name, "pftype", "", 'I', &pftype, _branches);
@@ -129,9 +117,8 @@ panda::PPFCand::book(TTree& _tree, TString const& _name, utils::BranchList const
 void
 panda::PPFCand::init()
 {
-  PObject::init();
+  PParticleM::init();
 
-  e = 0.;
   q = 0.;
   weight = 0.;
   pftype = 0;

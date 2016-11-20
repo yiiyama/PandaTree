@@ -11,15 +11,24 @@ namespace panda {
     typedef Container<PFatJet, PJetCollection> container_type;
 
     struct array_data : public PJet::array_data {
+      static UInt_t const NMAX{8};
+
       array_data() : PJet::array_data() {}
 
-      /* PObject
+      /* PParticle
       Float_t pt[NMAX]{};
       Float_t eta[NMAX]{};
       Float_t phi[NMAX]{};
       */
+      /* PParticleM
+      Float_t mass[NMAX]{};
+      */
       /* PJet
       Float_t rawPt[NMAX]{};
+      Float_t ptCorrUp[NMAX]{};
+      Float_t ptCorrDown[NMAX]{};
+      Float_t ptResCorr[NMAX]{};
+      Float_t phiResCorr[NMAX]{};
       Float_t csv[NMAX]{};
       Float_t qgl[NMAX]{};
       Float_t nhf[NMAX]{};
@@ -59,13 +68,20 @@ namespace panda {
     float get_ecf(short o_, short N_, int ib_) const;
     int set_ecf(int o_, int N_, int ib_, float x_);
 
-    /* PObject
+    /* PParticle
     Float_t& pt;
     Float_t& eta;
     Float_t& phi;
     */
+    /* PParticleM
+    Float_t& mass;
+    */
     /* PJet
     Float_t& rawPt;
+    Float_t& ptCorrUp;
+    Float_t& ptCorrDown;
+    Float_t& ptResCorr;
+    Float_t& phiResCorr;
     Float_t& csv;
     Float_t& qgl;
     Float_t& nhf;

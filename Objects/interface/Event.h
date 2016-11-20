@@ -1,6 +1,7 @@
 #ifndef PandaTree_Objects_Event_h
 #define PandaTree_Objects_Event_h
 #include "Constants.h"
+#include "PPFCand.h"
 #include "PElectron.h"
 #include "PMuon.h"
 #include "PTau.h"
@@ -29,6 +30,7 @@ namespace panda {
 
     void init() override;
 
+    PPFCandCollection pfCandidates = PPFCandCollection("pfCandidates");
     PElectronCollection electrons = PElectronCollection("electrons");
     PMuonCollection muons = PMuonCollection("muons");
     PTauCollection taus = PTauCollection("taus");
@@ -47,6 +49,7 @@ namespace panda {
     Bool_t isData{};
     Int_t npv{};
     Float_t mcWeight{};
+    SuperClusterCollection superClusters{};
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */

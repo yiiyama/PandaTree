@@ -1,25 +1,34 @@
 #ifndef PandaTree_Objects_PJet_h
 #define PandaTree_Objects_PJet_h
 #include "Constants.h"
-#include "PObject.h"
+#include "PParticleM.h"
 #include "../../Interface/interface/Container.h"
 #include "PPFCand.h"
 
 namespace panda {
 
-  class PJet : public PObject {
+  class PJet : public PParticleM {
   public:
-    typedef Container<PJet, PObjectCollection> container_type;
+    typedef Container<PJet, PParticleMCollection> container_type;
 
-    struct array_data : public PObject::array_data {
-      array_data() : PObject::array_data() {}
+    struct array_data : public PParticleM::array_data {
+      static UInt_t const NMAX{64};
 
-      /* PObject
+      array_data() : PParticleM::array_data() {}
+
+      /* PParticle
       Float_t pt[NMAX]{};
       Float_t eta[NMAX]{};
       Float_t phi[NMAX]{};
       */
+      /* PParticleM
+      Float_t mass[NMAX]{};
+      */
       Float_t rawPt[NMAX]{};
+      Float_t ptCorrUp[NMAX]{};
+      Float_t ptCorrDown[NMAX]{};
+      Float_t ptResCorr[NMAX]{};
+      Float_t phiResCorr[NMAX]{};
       Float_t csv[NMAX]{};
       Float_t qgl[NMAX]{};
       Float_t nhf[NMAX]{};
@@ -45,12 +54,19 @@ namespace panda {
 
     void init() override;
 
-    /* PObject
+    /* PParticle
     Float_t& pt;
     Float_t& eta;
     Float_t& phi;
     */
+    /* PParticleM
+    Float_t& mass;
+    */
     Float_t& rawPt;
+    Float_t& ptCorrUp;
+    Float_t& ptCorrDown;
+    Float_t& ptResCorr;
+    Float_t& phiResCorr;
     Float_t& csv;
     Float_t& qgl;
     Float_t& nhf;
