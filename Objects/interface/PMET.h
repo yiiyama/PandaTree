@@ -1,16 +1,15 @@
 #ifndef PandaTree_Objects_PMET_h
 #define PandaTree_Objects_PMET_h
 #include "Constants.h"
-#include "../../Interface/interface/Object.h"
-#include "../../Interface/interface/Container.h"
+#include "../../Framework/interface/Object.h"
+#include "../../Framework/interface/Container.h"
 
 namespace panda {
 
   class PMET : public Singlet {
   public:
-    PMET();
+    PMET(char const* name = "");
     PMET(PMET const&);
-    PMET(TString const& name);
     ~PMET();
     PMET& operator=(PMET const&);
 

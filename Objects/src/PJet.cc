@@ -57,8 +57,8 @@ panda::PJet::array_data::book(TTree& _tree, TString const& _name, utils::BranchL
   utils::book(_tree, _name, "constituents_", "[" + _name + ".size][128]", 'i', constituents_, _branches);
 }
 
-panda::PJet::PJet() :
-  PParticleM(utils::Allocator<PJet>()),
+panda::PJet::PJet(char const* _name/* = ""*/) :
+  PParticleM(utils::Allocator<PJet>(), _name),
   rawPt(gStore.getData(this).rawPt[gStore.getIndex(this)]),
   ptCorrUp(gStore.getData(this).ptCorrUp[gStore.getIndex(this)]),
   ptCorrDown(gStore.getData(this).ptCorrDown[gStore.getIndex(this)]),
@@ -74,8 +74,25 @@ panda::PJet::PJet() :
 {
 }
 
+panda::PJet::PJet(array_data& _data, UInt_t _idx) :
+  PParticleM(_data, _idx),
+  rawPt(_data.rawPt[_idx]),
+  ptCorrUp(_data.ptCorrUp[_idx]),
+  ptCorrDown(_data.ptCorrDown[_idx]),
+  ptResCorr(_data.ptResCorr[_idx]),
+  phiResCorr(_data.phiResCorr[_idx]),
+  csv(_data.csv[_idx]),
+  qgl(_data.qgl[_idx]),
+  nhf(_data.nhf[_idx]),
+  chf(_data.chf[_idx]),
+  id(_data.id[_idx]),
+  nConstituents(_data.nConstituents[_idx]),
+  constituents_(_data.constituents_[_idx])
+{
+}
+
 panda::PJet::PJet(PJet const& _src) :
-  PParticleM(utils::Allocator<PJet>()),
+  PParticleM(utils::Allocator<PJet>(), gStore.getName(&_src)),
   rawPt(gStore.getData(this).rawPt[gStore.getIndex(this)]),
   ptCorrUp(gStore.getData(this).ptCorrUp[gStore.getIndex(this)]),
   ptCorrDown(gStore.getData(this).ptCorrDown[gStore.getIndex(this)]),
@@ -104,25 +121,8 @@ panda::PJet::PJet(PJet const& _src) :
   nConstituents = _src.nConstituents;
 }
 
-panda::PJet::PJet(array_data& _data, UInt_t _idx) :
-  PParticleM(_data, _idx),
-  rawPt(_data.rawPt[_idx]),
-  ptCorrUp(_data.ptCorrUp[_idx]),
-  ptCorrDown(_data.ptCorrDown[_idx]),
-  ptResCorr(_data.ptResCorr[_idx]),
-  phiResCorr(_data.phiResCorr[_idx]),
-  csv(_data.csv[_idx]),
-  qgl(_data.qgl[_idx]),
-  nhf(_data.nhf[_idx]),
-  chf(_data.chf[_idx]),
-  id(_data.id[_idx]),
-  nConstituents(_data.nConstituents[_idx]),
-  constituents_(_data.constituents_[_idx])
-{
-}
-
-panda::PJet::PJet(utils::AllocatorBase const& _allocator) :
-  PParticleM(_allocator),
+panda::PJet::PJet(utils::AllocatorBase const& _allocator, char const* _name) :
+  PParticleM(_allocator, _name),
   rawPt(gStore.getData(this).rawPt[gStore.getIndex(this)]),
   ptCorrUp(gStore.getData(this).ptCorrUp[gStore.getIndex(this)]),
   ptCorrDown(gStore.getData(this).ptCorrDown[gStore.getIndex(this)]),
@@ -164,60 +164,66 @@ panda::PJet::operator=(PJet const& _src)
 }
 
 void
-panda::PJet::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PParticleM::setStatus(_tree, _name, _status, _branches);
+  PParticleM::setStatus(_tree, _status, _branches);
 
-  utils::setStatus(_tree, _name, "rawPt", _status, _branches);
-  utils::setStatus(_tree, _name, "ptCorrUp", _status, _branches);
-  utils::setStatus(_tree, _name, "ptCorrDown", _status, _branches);
-  utils::setStatus(_tree, _name, "ptResCorr", _status, _branches);
-  utils::setStatus(_tree, _name, "phiResCorr", _status, _branches);
-  utils::setStatus(_tree, _name, "csv", _status, _branches);
-  utils::setStatus(_tree, _name, "qgl", _status, _branches);
-  utils::setStatus(_tree, _name, "nhf", _status, _branches);
-  utils::setStatus(_tree, _name, "chf", _status, _branches);
-  utils::setStatus(_tree, _name, "id", _status, _branches);
-  utils::setStatus(_tree, _name, "nConstituents", _status, _branches);
-  utils::setStatus(_tree, _name, "constituents_", _status, _branches);
+  TString name(gStore.getName(this));
+
+  utils::setStatus(_tree, name, "rawPt", _status, _branches);
+  utils::setStatus(_tree, name, "ptCorrUp", _status, _branches);
+  utils::setStatus(_tree, name, "ptCorrDown", _status, _branches);
+  utils::setStatus(_tree, name, "ptResCorr", _status, _branches);
+  utils::setStatus(_tree, name, "phiResCorr", _status, _branches);
+  utils::setStatus(_tree, name, "csv", _status, _branches);
+  utils::setStatus(_tree, name, "qgl", _status, _branches);
+  utils::setStatus(_tree, name, "nhf", _status, _branches);
+  utils::setStatus(_tree, name, "chf", _status, _branches);
+  utils::setStatus(_tree, name, "id", _status, _branches);
+  utils::setStatus(_tree, name, "nConstituents", _status, _branches);
+  utils::setStatus(_tree, name, "constituents_", _status, _branches);
 }
 
 void
-panda::PJet::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PParticleM::setAddress(_tree, _name, _branches);
+  PParticleM::setAddress(_tree, _branches);
 
-  utils::setStatusAndAddress(_tree, _name, "rawPt", &rawPt, _branches);
-  utils::setStatusAndAddress(_tree, _name, "ptCorrUp", &ptCorrUp, _branches);
-  utils::setStatusAndAddress(_tree, _name, "ptCorrDown", &ptCorrDown, _branches);
-  utils::setStatusAndAddress(_tree, _name, "ptResCorr", &ptResCorr, _branches);
-  utils::setStatusAndAddress(_tree, _name, "phiResCorr", &phiResCorr, _branches);
-  utils::setStatusAndAddress(_tree, _name, "csv", &csv, _branches);
-  utils::setStatusAndAddress(_tree, _name, "qgl", &qgl, _branches);
-  utils::setStatusAndAddress(_tree, _name, "nhf", &nhf, _branches);
-  utils::setStatusAndAddress(_tree, _name, "chf", &chf, _branches);
-  utils::setStatusAndAddress(_tree, _name, "id", &id, _branches);
-  utils::setStatusAndAddress(_tree, _name, "nConstituents", &nConstituents, _branches);
-  utils::setStatusAndAddress(_tree, _name, "constituents_", constituents_, _branches);
+  TString name(gStore.getName(this));
+
+  utils::setStatusAndAddress(_tree, name, "rawPt", &rawPt, _branches);
+  utils::setStatusAndAddress(_tree, name, "ptCorrUp", &ptCorrUp, _branches);
+  utils::setStatusAndAddress(_tree, name, "ptCorrDown", &ptCorrDown, _branches);
+  utils::setStatusAndAddress(_tree, name, "ptResCorr", &ptResCorr, _branches);
+  utils::setStatusAndAddress(_tree, name, "phiResCorr", &phiResCorr, _branches);
+  utils::setStatusAndAddress(_tree, name, "csv", &csv, _branches);
+  utils::setStatusAndAddress(_tree, name, "qgl", &qgl, _branches);
+  utils::setStatusAndAddress(_tree, name, "nhf", &nhf, _branches);
+  utils::setStatusAndAddress(_tree, name, "chf", &chf, _branches);
+  utils::setStatusAndAddress(_tree, name, "id", &id, _branches);
+  utils::setStatusAndAddress(_tree, name, "nConstituents", &nConstituents, _branches);
+  utils::setStatusAndAddress(_tree, name, "constituents_", constituents_, _branches);
 }
 
 void
-panda::PJet::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PParticleM::book(_tree, _name, _branches);
+  PParticleM::book(_tree, _branches);
 
-  utils::book(_tree, _name, "rawPt", "", 'F', &rawPt, _branches);
-  utils::book(_tree, _name, "ptCorrUp", "", 'F', &ptCorrUp, _branches);
-  utils::book(_tree, _name, "ptCorrDown", "", 'F', &ptCorrDown, _branches);
-  utils::book(_tree, _name, "ptResCorr", "", 'F', &ptResCorr, _branches);
-  utils::book(_tree, _name, "phiResCorr", "", 'F', &phiResCorr, _branches);
-  utils::book(_tree, _name, "csv", "", 'F', &csv, _branches);
-  utils::book(_tree, _name, "qgl", "", 'F', &qgl, _branches);
-  utils::book(_tree, _name, "nhf", "", 'F', &nhf, _branches);
-  utils::book(_tree, _name, "chf", "", 'F', &chf, _branches);
-  utils::book(_tree, _name, "id", "", 'i', &id, _branches);
-  utils::book(_tree, _name, "nConstituents", "", 'i', &nConstituents, _branches);
-  utils::book(_tree, _name, "constituents_", "[128]", 'i', constituents_, _branches);
+  TString name(gStore.getName(this));
+
+  utils::book(_tree, name, "rawPt", "", 'F', &rawPt, _branches);
+  utils::book(_tree, name, "ptCorrUp", "", 'F', &ptCorrUp, _branches);
+  utils::book(_tree, name, "ptCorrDown", "", 'F', &ptCorrDown, _branches);
+  utils::book(_tree, name, "ptResCorr", "", 'F', &ptResCorr, _branches);
+  utils::book(_tree, name, "phiResCorr", "", 'F', &phiResCorr, _branches);
+  utils::book(_tree, name, "csv", "", 'F', &csv, _branches);
+  utils::book(_tree, name, "qgl", "", 'F', &qgl, _branches);
+  utils::book(_tree, name, "nhf", "", 'F', &nhf, _branches);
+  utils::book(_tree, name, "chf", "", 'F', &chf, _branches);
+  utils::book(_tree, name, "id", "", 'i', &id, _branches);
+  utils::book(_tree, name, "nConstituents", "", 'i', &nConstituents, _branches);
+  utils::book(_tree, name, "constituents_", "[128]", 'i', constituents_, _branches);
 }
 
 void

@@ -1,7 +1,7 @@
 #include "../interface/PRecoMET.h"
 
-panda::PRecoMET::PRecoMET() :
-  PMET()
+panda::PRecoMET::PRecoMET(char const* _name/* = ""*/) :
+  PMET(_name)
 {
 }
 
@@ -34,11 +34,6 @@ panda::PRecoMET::PRecoMET(PRecoMET const& _src) :
   phiUnclUp(_src.phiUnclUp),
   ptUnclDown(_src.ptUnclDown),
   phiUnclDown(_src.phiUnclDown)
-{
-}
-
-panda::PRecoMET::PRecoMET(TString const& _name) :
-  PMET(_name)
 {
 }
 
@@ -219,7 +214,7 @@ panda::PRecoMET::init()
 }
 
 TVector2
-panda::PRecoMET::vCorr(int corr = 0) const
+panda::PRecoMET::vCorr(int corr/* = 0*/) const
 {
   if (corr == 0)
     return v();
@@ -227,10 +222,10 @@ panda::PRecoMET::vCorr(int corr = 0) const
   TVector2 vec;
   switch (corr) {
   case 1:
-    vec.SetMagPhi(metCorrUp, phiCorrUp);
+    vec.SetMagPhi(ptCorrUp, phiCorrUp);
     break;
   case -1:
-    vec.SetMagPhi(metCorrDown, phiCorrDown);
+    vec.SetMagPhi(ptCorrDown, phiCorrDown);
     break;
   }
   return vec;

@@ -7,6 +7,8 @@ NAMESPACE = 'panda'
 PACKDIR = os.path.realpath(os.path.dirname(__file__))
 PACKAGE = os.path.basename(PACKDIR)
 
+PRESERVE_CUSTOM = True
+
 class Definition(object):
     """
     Base class for all objects reading from the definitions file.
@@ -250,28 +252,28 @@ class BranchDef(Definition):
                 out.writeline('{type}& {name};'.format(type = self.typename(), name = self.name))
 
     def write_set_status(self, out, context):
-        if context == 'Singlet':
+        if context == 'array_data':
+            namevar = '_name'
+        elif context == 'Singlet':
             namevar = 'name_'
+        elif context == 'ContainerElement':
+            namevar = 'name'
         elif context == 'TreeEntry':
             namevar = '""'
-        else:
-            namevar = '_name'
 
         out.writeline('utils::setStatus(_tree, {namevar}, "{name}", _status, _branches);'.format(namevar = namevar, name = self.name))
 
     def write_set_address(self, out, context):
         if context == 'array_data':
-            out.writeline('utils::setStatusAndAddress(_tree, _name, "{name}", {name}, _branches);'.format(name = self.name))
-            return
-
-        if context == 'Singlet':
+            namevar = '_name'
+        elif context == 'Singlet':
             namevar = 'name_'
         elif context == 'ContainerElement':
-            namevar = '_name'
+            namevar = 'name'
         elif context == 'TreeEntry':
             namevar = '""'
 
-        if self.is_array():
+        if context == 'array_data' or self.is_array():
             ptr = self.name
         else:
             ptr = '&' + self.name
@@ -281,18 +283,17 @@ class BranchDef(Definition):
     def write_book(self, out, context):
         arrdef = ''.join('[%s]' % a for a in self.arrdef)
 
-        if context == 'array_data': 
-            out.writeline('utils::book(_tree, _name, "{name}", "[" + _name + ".size]{arrdef}", \'{type}\', {name}, _branches);'.format(name = self.name, arrdef = arrdef, type = self.type))
-            return
-
-        if context == 'Singlet':
+        if context == 'array_data':
+            namevar = '_name'
+            arrdef = '[" + _name + ".size]{arrdef}'.format(arrdef = arrdef)
+        elif context == 'Singlet':
             namevar = 'name_'
         elif context == 'ContainerElement':
-            namevar = '_name'
+            namevar = 'name'
         elif context == 'TreeEntry':
             namevar = '""'
 
-        if self.is_array():
+        if context == 'array_data' or self.is_array():
             ptr = self.name
         else:
             ptr = '&' + self.name
@@ -484,9 +485,11 @@ class FunctionDef(Definition):
                 out.writeline('{decl};'.format(decl = self.decl))
 
     def write_def(self, out, context):
+        # comment out default arguments - won't work if the default value is a string that contains , or )
+        signature = re.sub(' *= *[^,)]+', lambda m: '/*' + m.group(0) + '*/', self.signature)
         if context == 'global':
             out.writeline(self.type)
-            out.writeline('{NAMESPACE}::{sign}'.format(NAMESPACE = NAMESPACE, sign = self.signature))
+            out.writeline('{NAMESPACE}::{sign}'.format(NAMESPACE = NAMESPACE, sign = signature))
             for line in self.impl.split('\n'):
                 out.writeline(line)
 
@@ -496,7 +499,7 @@ class FunctionDef(Definition):
 
             # context is the class name
             out.writeline(self.type)
-            out.writeline('{NAMESPACE}::{cls}::{sign}'.format(NAMESPACE = NAMESPACE, cls = context, sign = self.signature))
+            out.writeline('{NAMESPACE}::{cls}::{sign}'.format(NAMESPACE = NAMESPACE, cls = context, sign = signature))
             for line in self.impl.split('\n'):
                 out.writeline(line)
 
@@ -659,14 +662,14 @@ class PhysicsObjectDef(Definition, ObjectDef):
 
         included = []
         if self.parent == 'ContainerElement' or self.parent == 'Singlet':
-            header.writeline('#include "../../Interface/interface/Object.h"')
+            header.writeline('#include "../../Framework/interface/Object.h"')
         else:
             stmt = '#include "{parent}.h"'.format(parent = self.parent)
             if stmt not in included:
                 header.writeline(stmt)
                 included.append(stmt)
 
-        header.writeline('#include "../../Interface/interface/Container.h"')
+        header.writeline('#include "../../Framework/interface/Container.h"')
 
         for include in self.includes:
             if include.code not in included:
@@ -739,14 +742,11 @@ class PhysicsObjectDef(Definition, ObjectDef):
             header.newline()
 
         # "boilerplate" functions (default ctor for non-SINGLE objects are pretty nontrivial though)
-        header.writeline('{name}();'.format(name = self.name)) # default constructor
+        header.writeline('{name}(char const* name = "");'.format(name = self.name)) # default constructor
         header.writeline('{name}({name} const&);'.format(name = self.name)) # copy constructor
 
         # standard constructors and specific functions
-        if self.coltype() == PhysicsObjectDef.SINGLE:
-            # SINGLE objects can have names of their own (used to book branches)
-            header.writeline('{name}(TString const& name);'.format(name = self.name))
-        else:
+        if self.coltype() != PhysicsObjectDef.SINGLE:
             # whereas elements of collections are constructed from an array and an index
             header.writeline('{name}(array_data&, UInt_t idx);'.format(name = self.name))
 
@@ -755,16 +755,10 @@ class PhysicsObjectDef(Definition, ObjectDef):
 
         header.newline()
 
-        if self.coltype() == PhysicsObjectDef.SINGLE:
-            # I/O with default name
-            header.writeline('void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;')
-            header.writeline('void setAddress(TTree&, utils::BranchList const& = {"*"}) override;')
-            header.writeline('void book(TTree&, utils::BranchList const& = {"*"}) override;')
-        else:
-            # for writing individual objects to trees
-            header.writeline('void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;')
-            header.writeline('void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}) override;')
-            header.writeline('void book(TTree&, TString const&, utils::BranchList const& = {"*"}) override;')
+        # I/O with default name
+        header.writeline('void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;')
+        header.writeline('void setAddress(TTree&, utils::BranchList const& = {"*"}) override;')
+        header.writeline('void book(TTree&, utils::BranchList const& = {"*"}) override;')
 
         header.newline()
         header.writeline('void init() override;')
@@ -814,7 +808,7 @@ class PhysicsObjectDef(Definition, ObjectDef):
             header.indent -= 1
             header.writeline('protected:')
             header.indent += 1
-            header.writeline('{name}(utils::AllocatorBase const&);'.format(name = self.name))
+            header.writeline('{name}(utils::AllocatorBase const&, char const* name);'.format(name = self.name))
 
         header.indent -= 1
 
@@ -849,7 +843,11 @@ class PhysicsObjectDef(Definition, ObjectDef):
         Util function to write class methods with a common pattern.
         """
 
-        fname, rettype, arguments, generator, retexpr = methodspec
+        fname, rettype, arguments, generator, retexpr = methodspec[:5]
+        if len(methodspec) == 6:
+            pre_lines = methodspec[5]
+        else:
+            pre_lines = []
 
         out.writeline(rettype)
         signature = []
@@ -873,6 +871,12 @@ class PhysicsObjectDef(Definition, ObjectDef):
         out.writeline('{')
         out.indent += 1
         out.writeline('{parent}::{fname}({args});'.format(parent = parent, fname = fname, args = args))
+
+        if len(pre_lines) != 0:
+            out.newline()
+            for line in pre_lines:
+                out.writeline(line)
+
         if len(self.branches) != 0:
             out.newline()
             for branch in self.branches:
@@ -903,9 +907,9 @@ class PhysicsObjectDef(Definition, ObjectDef):
         if self.coltype() == PhysicsObjectDef.SINGLE:
             src.newline()
 
-            src.writeline('{NAMESPACE}::{name}::{name}() :'.format(**subst))
+            src.writeline('{NAMESPACE}::{name}::{name}(char const* _name/* = ""*/) :'.format(**subst))
             src.indent += 1
-            src.writeline('{parent}()'.format(**subst))
+            src.writeline('{parent}(_name)'.format(**subst))
             src.indent -= 1
             src.writeline('{')
             src.writeline('}')
@@ -925,14 +929,6 @@ class PhysicsObjectDef(Definition, ObjectDef):
                 if branch.is_array():
                     branch.write_assign(src, context = 'Singlet')
             src.indent -= 1
-            src.writeline('}')
-            src.newline()
-
-            src.writeline('{NAMESPACE}::{name}::{name}(TString const& _name) :'.format(**subst))
-            src.indent += 1
-            src.writeline('{parent}(_name)'.format(**subst))
-            src.indent -= 1
-            src.writeline('{')
             src.writeline('}')
             src.newline()
 
@@ -965,9 +961,9 @@ class PhysicsObjectDef(Definition, ObjectDef):
                 self._write_method(src, 'array_data', method, nestedcls = 'array_data')
 
             src.newline()
-            src.writeline('{NAMESPACE}::{name}::{name}() :'.format(**subst))
+            src.writeline('{NAMESPACE}::{name}::{name}(char const* _name/* = ""*/) :'.format(**subst))
             src.indent += 1
-            initializers = ['{parent}(utils::Allocator<{name}>())'.format(**subst)]
+            initializers = ['{parent}(utils::Allocator<{name}>(), _name)'.format(**subst)]
             for branch in self.branches:
                 initializers.append(branch.defctor_coll())
             src.writelines(initializers, ',')
@@ -976,9 +972,20 @@ class PhysicsObjectDef(Definition, ObjectDef):
             src.writeline('}')
 
             src.newline()
+            src.writeline('{NAMESPACE}::{name}::{name}(array_data& _data, UInt_t _idx) :'.format(**subst))
+            src.indent += 1
+            initializers = ['{parent}(_data, _idx)'.format(**subst)]
+            for branch in self.branches:
+                initializers.append(branch.stdctor_coll())
+            src.writelines(initializers, ',')
+            src.indent -= 1
+            src.writeline('{')
+            src.writeline('}')
+
+            src.newline()
             src.writeline('{NAMESPACE}::{name}::{name}({name} const& _src) :'.format(**subst))
             src.indent += 1
-            initializers = ['{parent}(utils::Allocator<{name}>())'.format(**subst)]
+            initializers = ['{parent}(utils::Allocator<{name}>(), gStore.getName(&_src))'.format(**subst)]
             for branch in self.branches:
                 initializers.append(branch.defctor_coll())
             src.writelines(initializers, ',')
@@ -994,20 +1001,9 @@ class PhysicsObjectDef(Definition, ObjectDef):
             src.writeline('}')
 
             src.newline()
-            src.writeline('{NAMESPACE}::{name}::{name}(array_data& _data, UInt_t _idx) :'.format(**subst))
+            src.writeline('{NAMESPACE}::{name}::{name}(utils::AllocatorBase const& _allocator, char const* _name) :'.format(**subst))
             src.indent += 1
-            initializers = ['{parent}(_data, _idx)'.format(**subst)]
-            for branch in self.branches:
-                initializers.append(branch.stdctor_coll())
-            src.writelines(initializers, ',')
-            src.indent -= 1
-            src.writeline('{')
-            src.writeline('}')
-
-            src.newline()
-            src.writeline('{NAMESPACE}::{name}::{name}(utils::AllocatorBase const& _allocator) :'.format(**subst))
-            src.indent += 1
-            initializers = ['{parent}(_allocator)'.format(**subst)]
+            initializers = ['{parent}(_allocator, _name)'.format(**subst)]
             for branch in self.branches:
                 initializers.append(branch.defctor_coll())
             src.writelines(initializers, ',')
@@ -1023,7 +1019,14 @@ class PhysicsObjectDef(Definition, ObjectDef):
             src.indent -= 1
             src.writeline('}')
 
-            methods = [('operator=', '{NAMESPACE}::{name}&'.format(**subst), [('{name} const&'.format(**subst), '_src')], 'write_assign', '*this')] + methods + [('init', 'void', [], 'write_init', None)]
+            name_line = 'TString name(gStore.getName(this));'
+            methods = [
+                ('operator=', '{NAMESPACE}::{name}&'.format(**subst), [('{name} const&'.format(**subst), '_src')], 'write_assign', '*this'),
+                ('setStatus', 'void', [('TTree&', '_tree'), ('Bool_t', '_status'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_status', None, [name_line]),
+                ('setAddress', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_address', None, [name_line]),
+                ('book', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', None, [name_line]),
+                ('init', 'void', [], 'write_init', None)
+            ]
 
             for method in methods:
                 src.newline()
@@ -1073,7 +1076,7 @@ class TreeDef(Definition, ObjectDef):
                 header.writeline('#include "{brobj}.h"'.format(brobj = objbranch.objname))
                 included.append(objbranch.objname)
 
-        header.writeline('#include "../../Interface/interface/TreeEntry.h"')
+        header.writeline('#include "../../Framework/interface/TreeEntry.h"')
 
         for include in self.includes:
             include.write(header)
@@ -1280,28 +1283,29 @@ class FileOutput(object):
 
     def __init__(self, fname):
         self.custom_blocks = []
-        try:
-            original = open(fname)
-            while True:
-                line = original.readline()
-                if not line:
-                    break
-                
-                if '/* BEGIN CUSTOM */' not in line:
-                    continue
-
-                block = line
+        if PRESERVE_CUSTOM:
+            try:
+                original = open(fname)
                 while True:
                     line = original.readline()
-                    block += line
-                    if not line or '/* END CUSTOM */' in line:
+                    if not line:
                         break
-
-                self.custom_blocks.append(block)
-            
-            original.close()
-        except IOError:
-            pass
+                    
+                    if '/* BEGIN CUSTOM */' not in line:
+                        continue
+    
+                    block = line
+                    while True:
+                        line = original.readline()
+                        block += line
+                        if not line or '/* END CUSTOM */' in line:
+                            break
+    
+                    self.custom_blocks.append(block)
+                
+                original.close()
+            except IOError:
+                pass
 
         self._file = open(fname, 'w')
         self.indent = 0
@@ -1331,8 +1335,12 @@ if __name__ == '__main__':
 
     argParser = ArgumentParser(description = 'Generate C++ code for a flat tree')
     argParser.add_argument('configs', metavar = 'CONFIG', nargs = '+', help = 'Tree definition files.')
+    argParser.add_argument('--clear-custom', '-C', dest = 'clear_custom', action = 'store_true', help = 'Clear custom code.')
     
     args = argParser.parse_args()
+
+    if args.clear_custom:
+        PRESERVE_CUSTOM = False
 
     # globals
     includes = [
@@ -1433,7 +1441,7 @@ if __name__ == '__main__':
                 # if so, we need to write the build file
                 with open(PACKDIR + '/Objects/BuildFile.xml', 'w') as buildFile:
                     buildFile.write('<use name="root"/>\n')
-                    buildFile.write('<use name="{PACKAGE}/Interface"/>\n'.format(PACKAGE = PACKAGE))
+                    buildFile.write('<use name="{PACKAGE}/Framework"/>\n'.format(PACKAGE = PACKAGE))
                     buildFile.write('<export>\n')
                     buildFile.write('  <lib name="1"/>\n')
                     buildFile.write('</export>\n')
@@ -1519,8 +1527,8 @@ if __name__ == '__main__':
 
     # write a linkdef file (not compiled by CMSSW - only for Makefile)
     linkdef = FileOutput(PACKDIR + '/obj/LinkDef.h')
-    linkdef.writeline('#include "../Interface/interface/Object.h"')
-    linkdef.writeline('#include "../Interface/interface/Container.h"')
+    linkdef.writeline('#include "../Framework/interface/Object.h"')
+    linkdef.writeline('#include "../Framework/interface/Container.h"')
     for objdef in phobjects:
         linkdef.writeline('#include "../Objects/interface/{name}.h"'.format(name = objdef.name))
     for tree in trees:

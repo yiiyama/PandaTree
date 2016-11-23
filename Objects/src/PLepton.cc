@@ -48,8 +48,8 @@ panda::PLepton::array_data::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "hadDecay", "[" + _name + ".size]", 'O', hadDecay, _branches);
 }
 
-panda::PLepton::PLepton() :
-  PParticle(utils::Allocator<PLepton>()),
+panda::PLepton::PLepton(char const* _name/* = ""*/) :
+  PParticle(utils::Allocator<PLepton>(), _name),
   q(gStore.getData(this).q[gStore.getIndex(this)]),
   loose(gStore.getData(this).loose[gStore.getIndex(this)]),
   tight(gStore.getData(this).tight[gStore.getIndex(this)]),
@@ -62,8 +62,22 @@ panda::PLepton::PLepton() :
 {
 }
 
+panda::PLepton::PLepton(array_data& _data, UInt_t _idx) :
+  PParticle(_data, _idx),
+  q(_data.q[_idx]),
+  loose(_data.loose[_idx]),
+  tight(_data.tight[_idx]),
+  chiso(_data.chiso[_idx]),
+  nhiso(_data.nhiso[_idx]),
+  phoiso(_data.phoiso[_idx]),
+  puiso(_data.puiso[_idx]),
+  tauDecay(_data.tauDecay[_idx]),
+  hadDecay(_data.hadDecay[_idx])
+{
+}
+
 panda::PLepton::PLepton(PLepton const& _src) :
-  PParticle(utils::Allocator<PLepton>()),
+  PParticle(utils::Allocator<PLepton>(), gStore.getName(&_src)),
   q(gStore.getData(this).q[gStore.getIndex(this)]),
   loose(gStore.getData(this).loose[gStore.getIndex(this)]),
   tight(gStore.getData(this).tight[gStore.getIndex(this)]),
@@ -87,22 +101,8 @@ panda::PLepton::PLepton(PLepton const& _src) :
   hadDecay = _src.hadDecay;
 }
 
-panda::PLepton::PLepton(array_data& _data, UInt_t _idx) :
-  PParticle(_data, _idx),
-  q(_data.q[_idx]),
-  loose(_data.loose[_idx]),
-  tight(_data.tight[_idx]),
-  chiso(_data.chiso[_idx]),
-  nhiso(_data.nhiso[_idx]),
-  phoiso(_data.phoiso[_idx]),
-  puiso(_data.puiso[_idx]),
-  tauDecay(_data.tauDecay[_idx]),
-  hadDecay(_data.hadDecay[_idx])
-{
-}
-
-panda::PLepton::PLepton(utils::AllocatorBase const& _allocator) :
-  PParticle(_allocator),
+panda::PLepton::PLepton(utils::AllocatorBase const& _allocator, char const* _name) :
+  PParticle(_allocator, _name),
   q(gStore.getData(this).q[gStore.getIndex(this)]),
   loose(gStore.getData(this).loose[gStore.getIndex(this)]),
   tight(gStore.getData(this).tight[gStore.getIndex(this)]),
@@ -139,51 +139,57 @@ panda::PLepton::operator=(PLepton const& _src)
 }
 
 void
-panda::PLepton::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PLepton::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PParticle::setStatus(_tree, _name, _status, _branches);
+  PParticle::setStatus(_tree, _status, _branches);
 
-  utils::setStatus(_tree, _name, "q", _status, _branches);
-  utils::setStatus(_tree, _name, "loose", _status, _branches);
-  utils::setStatus(_tree, _name, "tight", _status, _branches);
-  utils::setStatus(_tree, _name, "chiso", _status, _branches);
-  utils::setStatus(_tree, _name, "nhiso", _status, _branches);
-  utils::setStatus(_tree, _name, "phoiso", _status, _branches);
-  utils::setStatus(_tree, _name, "puiso", _status, _branches);
-  utils::setStatus(_tree, _name, "tauDecay", _status, _branches);
-  utils::setStatus(_tree, _name, "hadDecay", _status, _branches);
+  TString name(gStore.getName(this));
+
+  utils::setStatus(_tree, name, "q", _status, _branches);
+  utils::setStatus(_tree, name, "loose", _status, _branches);
+  utils::setStatus(_tree, name, "tight", _status, _branches);
+  utils::setStatus(_tree, name, "chiso", _status, _branches);
+  utils::setStatus(_tree, name, "nhiso", _status, _branches);
+  utils::setStatus(_tree, name, "phoiso", _status, _branches);
+  utils::setStatus(_tree, name, "puiso", _status, _branches);
+  utils::setStatus(_tree, name, "tauDecay", _status, _branches);
+  utils::setStatus(_tree, name, "hadDecay", _status, _branches);
 }
 
 void
-panda::PLepton::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PLepton::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PParticle::setAddress(_tree, _name, _branches);
+  PParticle::setAddress(_tree, _branches);
 
-  utils::setStatusAndAddress(_tree, _name, "q", &q, _branches);
-  utils::setStatusAndAddress(_tree, _name, "loose", &loose, _branches);
-  utils::setStatusAndAddress(_tree, _name, "tight", &tight, _branches);
-  utils::setStatusAndAddress(_tree, _name, "chiso", &chiso, _branches);
-  utils::setStatusAndAddress(_tree, _name, "nhiso", &nhiso, _branches);
-  utils::setStatusAndAddress(_tree, _name, "phoiso", &phoiso, _branches);
-  utils::setStatusAndAddress(_tree, _name, "puiso", &puiso, _branches);
-  utils::setStatusAndAddress(_tree, _name, "tauDecay", &tauDecay, _branches);
-  utils::setStatusAndAddress(_tree, _name, "hadDecay", &hadDecay, _branches);
+  TString name(gStore.getName(this));
+
+  utils::setStatusAndAddress(_tree, name, "q", &q, _branches);
+  utils::setStatusAndAddress(_tree, name, "loose", &loose, _branches);
+  utils::setStatusAndAddress(_tree, name, "tight", &tight, _branches);
+  utils::setStatusAndAddress(_tree, name, "chiso", &chiso, _branches);
+  utils::setStatusAndAddress(_tree, name, "nhiso", &nhiso, _branches);
+  utils::setStatusAndAddress(_tree, name, "phoiso", &phoiso, _branches);
+  utils::setStatusAndAddress(_tree, name, "puiso", &puiso, _branches);
+  utils::setStatusAndAddress(_tree, name, "tauDecay", &tauDecay, _branches);
+  utils::setStatusAndAddress(_tree, name, "hadDecay", &hadDecay, _branches);
 }
 
 void
-panda::PLepton::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PLepton::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PParticle::book(_tree, _name, _branches);
+  PParticle::book(_tree, _branches);
 
-  utils::book(_tree, _name, "q", "", 'C', &q, _branches);
-  utils::book(_tree, _name, "loose", "", 'O', &loose, _branches);
-  utils::book(_tree, _name, "tight", "", 'O', &tight, _branches);
-  utils::book(_tree, _name, "chiso", "", 'F', &chiso, _branches);
-  utils::book(_tree, _name, "nhiso", "", 'F', &nhiso, _branches);
-  utils::book(_tree, _name, "phoiso", "", 'F', &phoiso, _branches);
-  utils::book(_tree, _name, "puiso", "", 'F', &puiso, _branches);
-  utils::book(_tree, _name, "tauDecay", "", 'O', &tauDecay, _branches);
-  utils::book(_tree, _name, "hadDecay", "", 'O', &hadDecay, _branches);
+  TString name(gStore.getName(this));
+
+  utils::book(_tree, name, "q", "", 'C', &q, _branches);
+  utils::book(_tree, name, "loose", "", 'O', &loose, _branches);
+  utils::book(_tree, name, "tight", "", 'O', &tight, _branches);
+  utils::book(_tree, name, "chiso", "", 'F', &chiso, _branches);
+  utils::book(_tree, name, "nhiso", "", 'F', &nhiso, _branches);
+  utils::book(_tree, name, "phoiso", "", 'F', &phoiso, _branches);
+  utils::book(_tree, name, "puiso", "", 'F', &puiso, _branches);
+  utils::book(_tree, name, "tauDecay", "", 'O', &tauDecay, _branches);
+  utils::book(_tree, name, "hadDecay", "", 'O', &hadDecay, _branches);
 }
 
 void

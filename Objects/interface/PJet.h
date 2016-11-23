@@ -2,7 +2,7 @@
 #define PandaTree_Objects_PJet_h
 #include "Constants.h"
 #include "PParticleM.h"
-#include "../../Interface/interface/Container.h"
+#include "../../Framework/interface/Container.h"
 #include "PPFCand.h"
 
 namespace panda {
@@ -42,15 +42,15 @@ namespace panda {
       void book(TTree&, TString const&, utils::BranchList const& = {"*"});
     };
 
-    PJet();
+    PJet(char const* name = "");
     PJet(PJet const&);
     PJet(array_data&, UInt_t idx);
     ~PJet();
     PJet& operator=(PJet const&);
 
-    void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
-    void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
-    void book(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+    void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
+    void setAddress(TTree&, utils::BranchList const& = {"*"}) override;
+    void book(TTree&, utils::BranchList const& = {"*"}) override;
 
     void init() override;
 
@@ -87,17 +87,12 @@ namespace panda {
     /* END CUSTOM */
 
   protected:
-    PJet(utils::AllocatorBase const&);
+    PJet(utils::AllocatorBase const&, char const* name);
   };
 
   typedef PJet::container_type PJetCollection;
 
   /* BEGIN CUSTOM */
-  inline
-  bool SortPJetByCSV(PJet *o1, PJet *o2)
-  {
-    return o1->csv > o2->csv;
-  }
   /* END CUSTOM */
 
 }

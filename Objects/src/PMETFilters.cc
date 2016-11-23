@@ -1,7 +1,7 @@
 #include "../interface/PMETFilters.h"
 
-panda::PMETFilters::PMETFilters() :
-  Singlet()
+panda::PMETFilters::PMETFilters(char const* _name/* = ""*/) :
+  Singlet(_name)
 {
 }
 
@@ -14,11 +14,6 @@ panda::PMETFilters::PMETFilters(PMETFilters const& _src) :
   badsc(_src.badsc),
   badTrack(_src.badTrack),
   badMuonTrack(_src.badMuonTrack)
-{
-}
-
-panda::PMETFilters::PMETFilters(TString const& _name) :
-  Singlet(_name)
 {
 }
 

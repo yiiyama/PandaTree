@@ -6,8 +6,7 @@ TString panda::PhotonL1ObjectName[] = {
   "fSEG34IorSEG40IorSJet200",
   "fSEG24",
   "fSEG30",
-  "fSEG40",
-  "nPhotonL1Objects"
+  "fSEG40"
 };
 
 TTree*
@@ -34,8 +33,7 @@ TString panda::PhotonHLTObjectName[] = {
   "fPh50EBR9Iso",
   "fPh75EBR9Iso",
   "fPh90EBR9Iso",
-  "fPh120EBR9Iso",
-  "nPhotonHLTObjects"
+  "fPh120EBR9Iso"
 };
 
 TTree*
@@ -64,8 +62,7 @@ TString panda::ElectronHLTObjectName[] = {
   "fEl50EBR9IsoPh",
   "fEl75EBR9IsoPh",
   "fEl90EBR9IsoPh",
-  "fEl120EBR9IsoPh",
-  "nElectronHLTObjects"
+  "fEl120EBR9IsoPh"
 };
 
 TTree*
@@ -86,8 +83,7 @@ TString panda::MuonHLTObjectName[] = {
   "fMu20",
   "fMuTrk20",
   "fMu24",
-  "fMu27",
-  "nMuonHLTObjects"
+  "fMu27"
 };
 
 TTree*

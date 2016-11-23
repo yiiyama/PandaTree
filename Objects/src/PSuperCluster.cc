@@ -30,16 +30,24 @@ panda::PSuperCluster::array_data::book(TTree& _tree, TString const& _name, utils
   utils::book(_tree, _name, "phi", "[" + _name + ".size]", 'F', phi, _branches);
 }
 
-panda::PSuperCluster::PSuperCluster() :
-  ContainerElement(utils::Allocator<PSuperCluster>()),
+panda::PSuperCluster::PSuperCluster(char const* _name/* = ""*/) :
+  ContainerElement(utils::Allocator<PSuperCluster>(), _name),
   rawPt(gStore.getData(this).rawPt[gStore.getIndex(this)]),
   eta(gStore.getData(this).eta[gStore.getIndex(this)]),
   phi(gStore.getData(this).phi[gStore.getIndex(this)])
 {
 }
 
+panda::PSuperCluster::PSuperCluster(array_data& _data, UInt_t _idx) :
+  ContainerElement(_data, _idx),
+  rawPt(_data.rawPt[_idx]),
+  eta(_data.eta[_idx]),
+  phi(_data.phi[_idx])
+{
+}
+
 panda::PSuperCluster::PSuperCluster(PSuperCluster const& _src) :
-  ContainerElement(utils::Allocator<PSuperCluster>()),
+  ContainerElement(utils::Allocator<PSuperCluster>(), gStore.getName(&_src)),
   rawPt(gStore.getData(this).rawPt[gStore.getIndex(this)]),
   eta(gStore.getData(this).eta[gStore.getIndex(this)]),
   phi(gStore.getData(this).phi[gStore.getIndex(this)])
@@ -51,16 +59,8 @@ panda::PSuperCluster::PSuperCluster(PSuperCluster const& _src) :
   phi = _src.phi;
 }
 
-panda::PSuperCluster::PSuperCluster(array_data& _data, UInt_t _idx) :
-  ContainerElement(_data, _idx),
-  rawPt(_data.rawPt[_idx]),
-  eta(_data.eta[_idx]),
-  phi(_data.phi[_idx])
-{
-}
-
-panda::PSuperCluster::PSuperCluster(utils::AllocatorBase const& _allocator) :
-  ContainerElement(_allocator),
+panda::PSuperCluster::PSuperCluster(utils::AllocatorBase const& _allocator, char const* _name) :
+  ContainerElement(_allocator, _name),
   rawPt(gStore.getData(this).rawPt[gStore.getIndex(this)]),
   eta(gStore.getData(this).eta[gStore.getIndex(this)]),
   phi(gStore.getData(this).phi[gStore.getIndex(this)])
@@ -85,33 +85,39 @@ panda::PSuperCluster::operator=(PSuperCluster const& _src)
 }
 
 void
-panda::PSuperCluster::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PSuperCluster::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  ContainerElement::setStatus(_tree, _name, _status, _branches);
+  ContainerElement::setStatus(_tree, _status, _branches);
 
-  utils::setStatus(_tree, _name, "rawPt", _status, _branches);
-  utils::setStatus(_tree, _name, "eta", _status, _branches);
-  utils::setStatus(_tree, _name, "phi", _status, _branches);
+  TString name(gStore.getName(this));
+
+  utils::setStatus(_tree, name, "rawPt", _status, _branches);
+  utils::setStatus(_tree, name, "eta", _status, _branches);
+  utils::setStatus(_tree, name, "phi", _status, _branches);
 }
 
 void
-panda::PSuperCluster::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PSuperCluster::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  ContainerElement::setAddress(_tree, _name, _branches);
+  ContainerElement::setAddress(_tree, _branches);
 
-  utils::setStatusAndAddress(_tree, _name, "rawPt", &rawPt, _branches);
-  utils::setStatusAndAddress(_tree, _name, "eta", &eta, _branches);
-  utils::setStatusAndAddress(_tree, _name, "phi", &phi, _branches);
+  TString name(gStore.getName(this));
+
+  utils::setStatusAndAddress(_tree, name, "rawPt", &rawPt, _branches);
+  utils::setStatusAndAddress(_tree, name, "eta", &eta, _branches);
+  utils::setStatusAndAddress(_tree, name, "phi", &phi, _branches);
 }
 
 void
-panda::PSuperCluster::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PSuperCluster::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  ContainerElement::book(_tree, _name, _branches);
+  ContainerElement::book(_tree, _branches);
 
-  utils::book(_tree, _name, "rawPt", "", 'F', &rawPt, _branches);
-  utils::book(_tree, _name, "eta", "", 'F', &eta, _branches);
-  utils::book(_tree, _name, "phi", "", 'F', &phi, _branches);
+  TString name(gStore.getName(this));
+
+  utils::book(_tree, name, "rawPt", "", 'F', &rawPt, _branches);
+  utils::book(_tree, name, "eta", "", 'F', &eta, _branches);
+  utils::book(_tree, name, "phi", "", 'F', &phi, _branches);
 }
 
 void

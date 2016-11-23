@@ -1,7 +1,7 @@
 #ifndef PandaTree_Objects_Run_h
 #define PandaTree_Objects_Run_h
 #include "Constants.h"
-#include "../../Interface/interface/TreeEntry.h"
+#include "../../Framework/interface/TreeEntry.h"
 
 namespace panda {
 

@@ -22,7 +22,6 @@ namespace panda {
     fSEG24,
     fSEG30,
     fSEG40,
-    nPhotonL1Objects,
     nPhotonL1Objects
   };
 
@@ -40,7 +39,6 @@ namespace panda {
     fPh75EBR9Iso,
     fPh90EBR9Iso,
     fPh120EBR9Iso,
-    nPhotonHLTObjects,
     nPhotonHLTObjects
   };
 
@@ -60,7 +58,6 @@ namespace panda {
     fEl75EBR9IsoPh,
     fEl90EBR9IsoPh,
     fEl120EBR9IsoPh,
-    nElectronHLTObjects,
     nElectronHLTObjects
   };
 
@@ -72,7 +69,6 @@ namespace panda {
     fMuTrk20,
     fMu24,
     fMu27,
-    nMuonHLTObjects,
     nMuonHLTObjects
   };
 

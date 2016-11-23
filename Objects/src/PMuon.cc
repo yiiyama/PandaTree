@@ -18,15 +18,9 @@ panda::PMuon::array_data::book(TTree& _tree, TString const& _name, utils::Branch
   PLepton::array_data::book(_tree, _name, _branches);
 }
 
-panda::PMuon::PMuon() :
-  PLepton(utils::Allocator<PMuon>())
+panda::PMuon::PMuon(char const* _name/* = ""*/) :
+  PLepton(utils::Allocator<PMuon>(), _name)
 {
-}
-
-panda::PMuon::PMuon(PMuon const& _src) :
-  PLepton(utils::Allocator<PMuon>())
-{
-  PLepton::operator=(_src);
 }
 
 panda::PMuon::PMuon(array_data& _data, UInt_t _idx) :
@@ -34,8 +28,14 @@ panda::PMuon::PMuon(array_data& _data, UInt_t _idx) :
 {
 }
 
-panda::PMuon::PMuon(utils::AllocatorBase const& _allocator) :
-  PLepton(_allocator)
+panda::PMuon::PMuon(PMuon const& _src) :
+  PLepton(utils::Allocator<PMuon>(), gStore.getName(&_src))
+{
+  PLepton::operator=(_src);
+}
+
+panda::PMuon::PMuon(utils::AllocatorBase const& _allocator, char const* _name) :
+  PLepton(_allocator, _name)
 {
 }
 
@@ -53,21 +53,27 @@ panda::PMuon::operator=(PMuon const& _src)
 }
 
 void
-panda::PMuon::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PMuon::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PLepton::setStatus(_tree, _name, _status, _branches);
+  PLepton::setStatus(_tree, _status, _branches);
+
+  TString name(gStore.getName(this));
 }
 
 void
-panda::PMuon::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PMuon::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PLepton::setAddress(_tree, _name, _branches);
+  PLepton::setAddress(_tree, _branches);
+
+  TString name(gStore.getName(this));
 }
 
 void
-panda::PMuon::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PMuon::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PLepton::book(_tree, _name, _branches);
+  PLepton::book(_tree, _branches);
+
+  TString name(gStore.getName(this));
 }
 
 void

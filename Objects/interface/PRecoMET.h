@@ -2,15 +2,14 @@
 #define PandaTree_Objects_PRecoMET_h
 #include "Constants.h"
 #include "PMET.h"
-#include "../../Interface/interface/Container.h"
+#include "../../Framework/interface/Container.h"
 
 namespace panda {
 
   class PRecoMET : public PMET {
   public:
-    PRecoMET();
+    PRecoMET(char const* name = "");
     PRecoMET(PRecoMET const&);
-    PRecoMET(TString const& name);
     ~PRecoMET();
     PRecoMET& operator=(PRecoMET const&);
 

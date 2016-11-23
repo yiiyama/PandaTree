@@ -1,17 +1,12 @@
 #include "../interface/HLTBits.h"
 
-panda::HLTBits::HLTBits() :
-  Singlet()
+panda::HLTBits::HLTBits(char const* _name/* = ""*/) :
+  Singlet(_name)
 {
 }
 
 panda::HLTBits::HLTBits(HLTBits const& _src) :
   Singlet(_src.name_)
-{
-}
-
-panda::HLTBits::HLTBits(TString const& _name) :
-  Singlet(_name)
 {
 }
 

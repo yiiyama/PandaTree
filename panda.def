@@ -19,8 +19,7 @@ enum PhotonL1Object {
   fSEG34IorSEG40IorSJet200,
   fSEG24,
   fSEG30,
-  fSEG40,
-  nPhotonL1Objects
+  fSEG40
 };
 
 enum PhotonHLTObject {
@@ -33,8 +32,7 @@ enum PhotonHLTObject {
   fPh50EBR9Iso,
   fPh75EBR9Iso,
   fPh90EBR9Iso,
-  fPh120EBR9Iso,
-  nPhotonHLTObjects
+  fPh120EBR9Iso
 };
 
 enum ElectronHLTObject {
@@ -49,16 +47,14 @@ enum ElectronHLTObject {
   fEl50EBR9IsoPh,
   fEl75EBR9IsoPh,
   fEl90EBR9IsoPh,
-  fEl120EBR9IsoPh,
-  nElectronHLTObjects
+  fEl120EBR9IsoPh
 };
 
 enum MuonHLTObject {
   fMu20,
   fMuTrk20,
   fMu24,
-  fMu27,
-  nMuonHLTObjects
+  fMu27
 };
 
 unsigned const nMaxHLTObjects(nElectronHLTObjects);
@@ -81,10 +77,10 @@ double px() const { return pt * std::cos(phi); }
 double py() const { return pt * std::sin(phi); }
 double pz() const { return pt * std::sinh(eta); }
 virtual double m() const { return 0.; }
-double dEta(PObject const& p) const { return eta - p.eta; }
-double dPhi(PObject const& p) const { return TVector2::Phi_mpi_pi(phi - p.phi); }
-double dR2(PObject const& p) const { double d1(dEta(p)); double d2(dPhi(p)); return d1 * d1 + d2 * d2; }
-double dR(PObject const& p) const { return std::sqrt(dR2(p)); }
+double dEta(PParticle const& p) const { return eta - p.eta; }
+double dPhi(PParticle const& p) const { return TVector2::Phi_mpi_pi(phi - p.phi); }
+double dR2(PParticle const& p) const { double d1(dEta(p)); double d2(dPhi(p)); return d1 * d1 + d2 * d2; }
+double dR(PParticle const& p) const { return std::sqrt(dR2(p)); }
 
 [PParticleM>PParticle]
 mass/F
@@ -110,7 +106,7 @@ phoiso/F
 puiso/F
 tauDecay/O
 hadDecay/O
-virtual double combRelIso() const {}
+virtual double combiso() const { return 0.; }
 
 [PElectron>PLepton]
 chisoPh/F
@@ -118,18 +114,19 @@ nhisoPh/F
 phisoPh/F
 ecaliso/F
 hcaliso/F
+isoPUOffset/F
 sieie/F
 sipip/F
 hOverE/F
 veto/O
 superCluster/PSuperCluster*
 double m() const override { return 5.109989e-4; }
-double combRelIso() const override {}
+double combiso() const override { return chiso + std::max(nhiso + phoiso - isoPUOffset, Float_t(0.)); }
 bool isEB() const { return superCluster() ? std::abs(superCluster()->eta) < 1.4442 : false; }
 
 [PMuon>PLepton]
 double m() const override { return 1.05658e-2; }
-double combRelIso() const override {}
+double combiso() const override { return chiso + std::max(nhiso + phoiso - 0.5 * puiso, 0.); }
 
 [PTau>PParticleM]
 q/C
@@ -255,10 +252,10 @@ virtual TVector2 vCorr(int corr = 0) const
   TVector2 vec;
   switch (corr) {
   case 1:
-    vec.SetMagPhi(metCorrUp, phiCorrUp);
+    vec.SetMagPhi(ptCorrUp, phiCorrUp);
     break;
   case -1:
-    vec.SetMagPhi(metCorrDown, phiCorrDown);
+    vec.SetMagPhi(ptCorrDown, phiCorrDown);
     break;
   }
   return vec;
@@ -287,7 +284,7 @@ isData/O
 npv/I
 mcWeight/F
 pfCandidates/PPFCandCollection
-superClusters/SuperClusterCollection
+superClusters/PSuperClusterCollection
 electrons/PElectronCollection
 muons/PMuonCollection
 taus/PTauCollection

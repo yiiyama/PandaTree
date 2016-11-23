@@ -2,7 +2,7 @@
 #define PandaTree_Objects_PGenJet_h
 #include "Constants.h"
 #include "PParticleM.h"
-#include "../../Interface/interface/Container.h"
+#include "../../Framework/interface/Container.h"
 
 namespace panda {
 
@@ -30,15 +30,15 @@ namespace panda {
       void book(TTree&, TString const&, utils::BranchList const& = {"*"});
     };
 
-    PGenJet();
+    PGenJet(char const* name = "");
     PGenJet(PGenJet const&);
     PGenJet(array_data&, UInt_t idx);
     ~PGenJet();
     PGenJet& operator=(PGenJet const&);
 
-    void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
-    void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
-    void book(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+    void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
+    void setAddress(TTree&, utils::BranchList const& = {"*"}) override;
+    void book(TTree&, utils::BranchList const& = {"*"}) override;
 
     void init() override;
 
@@ -56,7 +56,7 @@ namespace panda {
     /* END CUSTOM */
 
   protected:
-    PGenJet(utils::AllocatorBase const&);
+    PGenJet(utils::AllocatorBase const&, char const* name);
   };
 
   typedef PGenJet::container_type PGenJetCollection;

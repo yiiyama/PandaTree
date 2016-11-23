@@ -1,8 +1,8 @@
 #ifndef PandaTree_Objects_PSuperCluster_h
 #define PandaTree_Objects_PSuperCluster_h
 #include "Constants.h"
-#include "../../Interface/interface/Object.h"
-#include "../../Interface/interface/Container.h"
+#include "../../Framework/interface/Object.h"
+#include "../../Framework/interface/Container.h"
 
 namespace panda {
 
@@ -24,15 +24,15 @@ namespace panda {
       void book(TTree&, TString const&, utils::BranchList const& = {"*"});
     };
 
-    PSuperCluster();
+    PSuperCluster(char const* name = "");
     PSuperCluster(PSuperCluster const&);
     PSuperCluster(array_data&, UInt_t idx);
     ~PSuperCluster();
     PSuperCluster& operator=(PSuperCluster const&);
 
-    void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
-    void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
-    void book(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+    void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
+    void setAddress(TTree&, utils::BranchList const& = {"*"}) override;
+    void book(TTree&, utils::BranchList const& = {"*"}) override;
 
     void init() override;
 
@@ -44,7 +44,7 @@ namespace panda {
     /* END CUSTOM */
 
   protected:
-    PSuperCluster(utils::AllocatorBase const&);
+    PSuperCluster(utils::AllocatorBase const&, char const* name);
   };
 
   typedef PSuperCluster::container_type PSuperClusterCollection;

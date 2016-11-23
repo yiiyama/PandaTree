@@ -2,7 +2,7 @@
 #define PandaTree_Objects_PParticleM_h
 #include "Constants.h"
 #include "PParticle.h"
-#include "../../Interface/interface/Container.h"
+#include "../../Framework/interface/Container.h"
 
 namespace panda {
 
@@ -27,15 +27,15 @@ namespace panda {
       void book(TTree&, TString const&, utils::BranchList const& = {"*"});
     };
 
-    PParticleM();
+    PParticleM(char const* name = "");
     PParticleM(PParticleM const&);
     PParticleM(array_data&, UInt_t idx);
     ~PParticleM();
     PParticleM& operator=(PParticleM const&);
 
-    void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
-    void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
-    void book(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+    void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
+    void setAddress(TTree&, utils::BranchList const& = {"*"}) override;
+    void book(TTree&, utils::BranchList const& = {"*"}) override;
 
     void init() override;
 
@@ -52,7 +52,7 @@ namespace panda {
     /* END CUSTOM */
 
   protected:
-    PParticleM(utils::AllocatorBase const&);
+    PParticleM(utils::AllocatorBase const&, char const* name);
   };
 
   typedef PParticleM::container_type PParticleMCollection;

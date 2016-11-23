@@ -2,7 +2,7 @@
 #define PandaTree_Objects_PPhoton_h
 #include "Constants.h"
 #include "PParticle.h"
-#include "../../Interface/interface/Container.h"
+#include "../../Framework/interface/Container.h"
 #include "PSuperCluster.h"
 
 namespace panda {
@@ -56,15 +56,15 @@ namespace panda {
       void book(TTree&, TString const&, utils::BranchList const& = {"*"});
     };
 
-    PPhoton();
+    PPhoton(char const* name = "");
     PPhoton(PPhoton const&);
     PPhoton(array_data&, UInt_t idx);
     ~PPhoton();
     PPhoton& operator=(PPhoton const&);
 
-    void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
-    void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
-    void book(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+    void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
+    void setAddress(TTree&, utils::BranchList const& = {"*"}) override;
+    void book(TTree&, utils::BranchList const& = {"*"}) override;
 
     void init() override;
 
@@ -117,7 +117,7 @@ namespace panda {
     /* END CUSTOM */
 
   protected:
-    PPhoton(utils::AllocatorBase const&);
+    PPhoton(utils::AllocatorBase const&, char const* name);
   };
 
   typedef PPhoton::container_type PPhotonCollection;

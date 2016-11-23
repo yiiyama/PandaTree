@@ -1,16 +1,15 @@
 #ifndef PandaTree_Objects_HLTBits_h
 #define PandaTree_Objects_HLTBits_h
 #include "Constants.h"
-#include "../../Interface/interface/Object.h"
-#include "../../Interface/interface/Container.h"
+#include "../../Framework/interface/Object.h"
+#include "../../Framework/interface/Container.h"
 
 namespace panda {
 
   class HLTBits : public Singlet {
   public:
-    HLTBits();
+    HLTBits(char const* name = "");
     HLTBits(HLTBits const&);
-    HLTBits(TString const& name);
     ~HLTBits();
     HLTBits& operator=(HLTBits const&);
 

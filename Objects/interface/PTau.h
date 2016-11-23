@@ -2,7 +2,7 @@
 #define PandaTree_Objects_PTau_h
 #include "Constants.h"
 #include "PParticleM.h"
-#include "../../Interface/interface/Container.h"
+#include "../../Framework/interface/Container.h"
 
 namespace panda {
 
@@ -32,15 +32,15 @@ namespace panda {
       void book(TTree&, TString const&, utils::BranchList const& = {"*"});
     };
 
-    PTau();
+    PTau(char const* name = "");
     PTau(PTau const&);
     PTau(array_data&, UInt_t idx);
     ~PTau();
     PTau& operator=(PTau const&);
 
-    void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
-    void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
-    void book(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+    void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
+    void setAddress(TTree&, utils::BranchList const& = {"*"}) override;
+    void book(TTree&, utils::BranchList const& = {"*"}) override;
 
     void init() override;
 
@@ -60,7 +60,7 @@ namespace panda {
     /* END CUSTOM */
 
   protected:
-    PTau(utils::AllocatorBase const&);
+    PTau(utils::AllocatorBase const&, char const* name);
   };
 
   typedef PTau::container_type PTauCollection;

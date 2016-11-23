@@ -2,7 +2,7 @@
 #define PandaTree_Objects_PFatJet_h
 #include "Constants.h"
 #include "PJet.h"
-#include "../../Interface/interface/Container.h"
+#include "../../Framework/interface/Container.h"
 
 namespace panda {
 
@@ -53,15 +53,15 @@ namespace panda {
       void book(TTree&, TString const&, utils::BranchList const& = {"*"});
     };
 
-    PFatJet();
+    PFatJet(char const* name = "");
     PFatJet(PFatJet const&);
     PFatJet(array_data&, UInt_t idx);
     ~PFatJet();
     PFatJet& operator=(PFatJet const&);
 
-    void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
-    void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
-    void book(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+    void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
+    void setAddress(TTree&, utils::BranchList const& = {"*"}) override;
+    void book(TTree&, utils::BranchList const& = {"*"}) override;
 
     void init() override;
 
@@ -113,7 +113,7 @@ namespace panda {
     /* END CUSTOM */
 
   protected:
-    PFatJet(utils::AllocatorBase const&);
+    PFatJet(utils::AllocatorBase const&, char const* name);
   };
 
   typedef PFatJet::container_type PFatJetCollection;

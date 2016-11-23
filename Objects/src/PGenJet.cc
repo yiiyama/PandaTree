@@ -24,19 +24,10 @@ panda::PGenJet::array_data::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "pdgid", "[" + _name + ".size]", 'I', pdgid, _branches);
 }
 
-panda::PGenJet::PGenJet() :
-  PParticleM(utils::Allocator<PGenJet>()),
+panda::PGenJet::PGenJet(char const* _name/* = ""*/) :
+  PParticleM(utils::Allocator<PGenJet>(), _name),
   pdgid(gStore.getData(this).pdgid[gStore.getIndex(this)])
 {
-}
-
-panda::PGenJet::PGenJet(PGenJet const& _src) :
-  PParticleM(utils::Allocator<PGenJet>()),
-  pdgid(gStore.getData(this).pdgid[gStore.getIndex(this)])
-{
-  PParticleM::operator=(_src);
-
-  pdgid = _src.pdgid;
 }
 
 panda::PGenJet::PGenJet(array_data& _data, UInt_t _idx) :
@@ -45,8 +36,17 @@ panda::PGenJet::PGenJet(array_data& _data, UInt_t _idx) :
 {
 }
 
-panda::PGenJet::PGenJet(utils::AllocatorBase const& _allocator) :
-  PParticleM(_allocator),
+panda::PGenJet::PGenJet(PGenJet const& _src) :
+  PParticleM(utils::Allocator<PGenJet>(), gStore.getName(&_src)),
+  pdgid(gStore.getData(this).pdgid[gStore.getIndex(this)])
+{
+  PParticleM::operator=(_src);
+
+  pdgid = _src.pdgid;
+}
+
+panda::PGenJet::PGenJet(utils::AllocatorBase const& _allocator, char const* _name) :
+  PParticleM(_allocator, _name),
   pdgid(gStore.getData(this).pdgid[gStore.getIndex(this)])
 {
 }
@@ -67,27 +67,33 @@ panda::PGenJet::operator=(PGenJet const& _src)
 }
 
 void
-panda::PGenJet::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PGenJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PParticleM::setStatus(_tree, _name, _status, _branches);
+  PParticleM::setStatus(_tree, _status, _branches);
 
-  utils::setStatus(_tree, _name, "pdgid", _status, _branches);
+  TString name(gStore.getName(this));
+
+  utils::setStatus(_tree, name, "pdgid", _status, _branches);
 }
 
 void
-panda::PGenJet::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PGenJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PParticleM::setAddress(_tree, _name, _branches);
+  PParticleM::setAddress(_tree, _branches);
 
-  utils::setStatusAndAddress(_tree, _name, "pdgid", &pdgid, _branches);
+  TString name(gStore.getName(this));
+
+  utils::setStatusAndAddress(_tree, name, "pdgid", &pdgid, _branches);
 }
 
 void
-panda::PGenJet::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PGenJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PParticleM::book(_tree, _name, _branches);
+  PParticleM::book(_tree, _branches);
 
-  utils::book(_tree, _name, "pdgid", "", 'I', &pdgid, _branches);
+  TString name(gStore.getName(this));
+
+  utils::book(_tree, name, "pdgid", "", 'I', &pdgid, _branches);
 }
 
 void

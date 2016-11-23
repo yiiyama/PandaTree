@@ -1,8 +1,8 @@
 #ifndef PandaTree_Objects_PParticle_h
 #define PandaTree_Objects_PParticle_h
 #include "Constants.h"
-#include "../../Interface/interface/Object.h"
-#include "../../Interface/interface/Container.h"
+#include "../../Framework/interface/Object.h"
+#include "../../Framework/interface/Container.h"
 
 namespace panda {
 
@@ -24,15 +24,15 @@ namespace panda {
       void book(TTree&, TString const&, utils::BranchList const& = {"*"});
     };
 
-    PParticle();
+    PParticle(char const* name = "");
     PParticle(PParticle const&);
     PParticle(array_data&, UInt_t idx);
     ~PParticle();
     PParticle& operator=(PParticle const&);
 
-    void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
-    void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
-    void book(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+    void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
+    void setAddress(TTree&, utils::BranchList const& = {"*"}) override;
+    void book(TTree&, utils::BranchList const& = {"*"}) override;
 
     void init() override;
 
@@ -44,10 +44,10 @@ namespace panda {
     double py() const { return pt * std::sin(phi); }
     double pz() const { return pt * std::sinh(eta); }
     virtual double m() const { return 0.; }
-    double dEta(PObject const& p) const { return eta - p.eta; }
-    double dPhi(PObject const& p) const { return TVector2::Phi_mpi_pi(phi - p.phi); }
-    double dR2(PObject const& p) const { double d1(dEta(p)); double d2(dPhi(p)); return d1 * d1 + d2 * d2; }
-    double dR(PObject const& p) const { return std::sqrt(dR2(p)); }
+    double dEta(PParticle const& p) const { return eta - p.eta; }
+    double dPhi(PParticle const& p) const { return TVector2::Phi_mpi_pi(phi - p.phi); }
+    double dR2(PParticle const& p) const { double d1(dEta(p)); double d2(dPhi(p)); return d1 * d1 + d2 * d2; }
+    double dR(PParticle const& p) const { return std::sqrt(dR2(p)); }
 
     Float_t& pt;
     Float_t& eta;
@@ -57,7 +57,7 @@ namespace panda {
     /* END CUSTOM */
 
   protected:
-    PParticle(utils::AllocatorBase const&);
+    PParticle(utils::AllocatorBase const&, char const* name);
   };
 
   typedef PParticle::container_type PParticleCollection;

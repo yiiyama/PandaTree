@@ -2,7 +2,7 @@
 #define PandaTree_Objects_PMuon_h
 #include "Constants.h"
 #include "PLepton.h"
-#include "../../Interface/interface/Container.h"
+#include "../../Framework/interface/Container.h"
 
 namespace panda {
 
@@ -37,20 +37,20 @@ namespace panda {
       void book(TTree&, TString const&, utils::BranchList const& = {"*"});
     };
 
-    PMuon();
+    PMuon(char const* name = "");
     PMuon(PMuon const&);
     PMuon(array_data&, UInt_t idx);
     ~PMuon();
     PMuon& operator=(PMuon const&);
 
-    void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
-    void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
-    void book(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+    void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
+    void setAddress(TTree&, utils::BranchList const& = {"*"}) override;
+    void book(TTree&, utils::BranchList const& = {"*"}) override;
 
     void init() override;
 
     double m() const override { return 1.05658e-2; }
-    double combRelIso() const override {}
+    double combiso() const override { return chiso + std::max(nhiso + phoiso - 0.5 * puiso, 0.); }
 
     /* PParticle
     Float_t& pt;
@@ -73,7 +73,7 @@ namespace panda {
     /* END CUSTOM */
 
   protected:
-    PMuon(utils::AllocatorBase const&);
+    PMuon(utils::AllocatorBase const&, char const* name);
   };
 
   typedef PMuon::container_type PMuonCollection;

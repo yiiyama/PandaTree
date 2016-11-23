@@ -1,7 +1,7 @@
 #include "../interface/PMET.h"
 
-panda::PMET::PMET() :
-  Singlet()
+panda::PMET::PMET(char const* _name/* = ""*/) :
+  Singlet(_name)
 {
 }
 
@@ -9,11 +9,6 @@ panda::PMET::PMET(PMET const& _src) :
   Singlet(_src.name_),
   pt(_src.pt),
   phi(_src.phi)
-{
-}
-
-panda::PMET::PMET(TString const& _name) :
-  Singlet(_name)
 {
 }
 

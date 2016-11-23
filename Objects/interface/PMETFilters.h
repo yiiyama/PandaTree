@@ -1,16 +1,15 @@
 #ifndef PandaTree_Objects_PMETFilters_h
 #define PandaTree_Objects_PMETFilters_h
 #include "Constants.h"
-#include "../../Interface/interface/Object.h"
-#include "../../Interface/interface/Container.h"
+#include "../../Framework/interface/Object.h"
+#include "../../Framework/interface/Container.h"
 
 namespace panda {
 
   class PMETFilters : public Singlet {
   public:
-    PMETFilters();
+    PMETFilters(char const* name = "");
     PMETFilters(PMETFilters const&);
-    PMETFilters(TString const& name);
     ~PMETFilters();
     PMETFilters& operator=(PMETFilters const&);
 

@@ -108,8 +108,8 @@ panda::PPhoton::array_data::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "superCluster_", "[" + _name + ".size]", 'i', superCluster_, _branches);
 }
 
-panda::PPhoton::PPhoton() :
-  PParticle(utils::Allocator<PPhoton>()),
+panda::PPhoton::PPhoton(char const* _name/* = ""*/) :
+  PParticle(utils::Allocator<PPhoton>(), _name),
   chiso(gStore.getData(this).chiso[gStore.getIndex(this)]),
   chworstiso(gStore.getData(this).chworstiso[gStore.getIndex(this)]),
   chisoMax(gStore.getData(this).chisoMax[gStore.getIndex(this)]),
@@ -142,8 +142,42 @@ panda::PPhoton::PPhoton() :
 {
 }
 
+panda::PPhoton::PPhoton(array_data& _data, UInt_t _idx) :
+  PParticle(_data, _idx),
+  chiso(_data.chiso[_idx]),
+  chworstiso(_data.chworstiso[_idx]),
+  chisoMax(_data.chisoMax[_idx]),
+  nhiso(_data.nhiso[_idx]),
+  phiso(_data.phiso[_idx]),
+  ecaliso(_data.ecaliso[_idx]),
+  hcaliso(_data.hcaliso[_idx]),
+  sieie(_data.sieie[_idx]),
+  sipip(_data.sipip[_idx]),
+  hOverE(_data.hOverE[_idx]),
+  geniso(_data.geniso[_idx]),
+  mipEnergy(_data.mipEnergy[_idx]),
+  e33(_data.e33[_idx]),
+  emax(_data.emax[_idx]),
+  e2nd(_data.e2nd[_idx]),
+  r9(_data.r9[_idx]),
+  etaWidth(_data.etaWidth[_idx]),
+  phiWidth(_data.phiWidth[_idx]),
+  time(_data.time[_idx]),
+  timeSpan(_data.timeSpan[_idx]),
+  genMatchDR(_data.genMatchDR[_idx]),
+  loose(_data.loose[_idx]),
+  medium(_data.medium[_idx]),
+  tight(_data.tight[_idx]),
+  highpt(_data.highpt[_idx]),
+  pixelVeto(_data.pixelVeto[_idx]),
+  csafeVeto(_data.csafeVeto[_idx]),
+  matchL1(_data.matchL1[_idx]),
+  superCluster_(_data.superCluster_[_idx])
+{
+}
+
 panda::PPhoton::PPhoton(PPhoton const& _src) :
-  PParticle(utils::Allocator<PPhoton>()),
+  PParticle(utils::Allocator<PPhoton>(), gStore.getName(&_src)),
   chiso(gStore.getData(this).chiso[gStore.getIndex(this)]),
   chworstiso(gStore.getData(this).chworstiso[gStore.getIndex(this)]),
   chisoMax(gStore.getData(this).chisoMax[gStore.getIndex(this)]),
@@ -206,42 +240,8 @@ panda::PPhoton::PPhoton(PPhoton const& _src) :
   superCluster_ = _src.superCluster_;
 }
 
-panda::PPhoton::PPhoton(array_data& _data, UInt_t _idx) :
-  PParticle(_data, _idx),
-  chiso(_data.chiso[_idx]),
-  chworstiso(_data.chworstiso[_idx]),
-  chisoMax(_data.chisoMax[_idx]),
-  nhiso(_data.nhiso[_idx]),
-  phiso(_data.phiso[_idx]),
-  ecaliso(_data.ecaliso[_idx]),
-  hcaliso(_data.hcaliso[_idx]),
-  sieie(_data.sieie[_idx]),
-  sipip(_data.sipip[_idx]),
-  hOverE(_data.hOverE[_idx]),
-  geniso(_data.geniso[_idx]),
-  mipEnergy(_data.mipEnergy[_idx]),
-  e33(_data.e33[_idx]),
-  emax(_data.emax[_idx]),
-  e2nd(_data.e2nd[_idx]),
-  r9(_data.r9[_idx]),
-  etaWidth(_data.etaWidth[_idx]),
-  phiWidth(_data.phiWidth[_idx]),
-  time(_data.time[_idx]),
-  timeSpan(_data.timeSpan[_idx]),
-  genMatchDR(_data.genMatchDR[_idx]),
-  loose(_data.loose[_idx]),
-  medium(_data.medium[_idx]),
-  tight(_data.tight[_idx]),
-  highpt(_data.highpt[_idx]),
-  pixelVeto(_data.pixelVeto[_idx]),
-  csafeVeto(_data.csafeVeto[_idx]),
-  matchL1(_data.matchL1[_idx]),
-  superCluster_(_data.superCluster_[_idx])
-{
-}
-
-panda::PPhoton::PPhoton(utils::AllocatorBase const& _allocator) :
-  PParticle(_allocator),
+panda::PPhoton::PPhoton(utils::AllocatorBase const& _allocator, char const* _name) :
+  PParticle(_allocator, _name),
   chiso(gStore.getData(this).chiso[gStore.getIndex(this)]),
   chworstiso(gStore.getData(this).chworstiso[gStore.getIndex(this)]),
   chisoMax(gStore.getData(this).chisoMax[gStore.getIndex(this)]),
@@ -317,111 +317,117 @@ panda::PPhoton::operator=(PPhoton const& _src)
 }
 
 void
-panda::PPhoton::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PPhoton::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PParticle::setStatus(_tree, _name, _status, _branches);
+  PParticle::setStatus(_tree, _status, _branches);
 
-  utils::setStatus(_tree, _name, "chiso", _status, _branches);
-  utils::setStatus(_tree, _name, "chworstiso", _status, _branches);
-  utils::setStatus(_tree, _name, "chisoMax", _status, _branches);
-  utils::setStatus(_tree, _name, "nhiso", _status, _branches);
-  utils::setStatus(_tree, _name, "phiso", _status, _branches);
-  utils::setStatus(_tree, _name, "ecaliso", _status, _branches);
-  utils::setStatus(_tree, _name, "hcaliso", _status, _branches);
-  utils::setStatus(_tree, _name, "sieie", _status, _branches);
-  utils::setStatus(_tree, _name, "sipip", _status, _branches);
-  utils::setStatus(_tree, _name, "hOverE", _status, _branches);
-  utils::setStatus(_tree, _name, "geniso", _status, _branches);
-  utils::setStatus(_tree, _name, "mipEnergy", _status, _branches);
-  utils::setStatus(_tree, _name, "e33", _status, _branches);
-  utils::setStatus(_tree, _name, "emax", _status, _branches);
-  utils::setStatus(_tree, _name, "e2nd", _status, _branches);
-  utils::setStatus(_tree, _name, "r9", _status, _branches);
-  utils::setStatus(_tree, _name, "etaWidth", _status, _branches);
-  utils::setStatus(_tree, _name, "phiWidth", _status, _branches);
-  utils::setStatus(_tree, _name, "time", _status, _branches);
-  utils::setStatus(_tree, _name, "timeSpan", _status, _branches);
-  utils::setStatus(_tree, _name, "genMatchDR", _status, _branches);
-  utils::setStatus(_tree, _name, "loose", _status, _branches);
-  utils::setStatus(_tree, _name, "medium", _status, _branches);
-  utils::setStatus(_tree, _name, "tight", _status, _branches);
-  utils::setStatus(_tree, _name, "highpt", _status, _branches);
-  utils::setStatus(_tree, _name, "pixelVeto", _status, _branches);
-  utils::setStatus(_tree, _name, "csafeVeto", _status, _branches);
-  utils::setStatus(_tree, _name, "matchL1", _status, _branches);
-  utils::setStatus(_tree, _name, "superCluster_", _status, _branches);
+  TString name(gStore.getName(this));
+
+  utils::setStatus(_tree, name, "chiso", _status, _branches);
+  utils::setStatus(_tree, name, "chworstiso", _status, _branches);
+  utils::setStatus(_tree, name, "chisoMax", _status, _branches);
+  utils::setStatus(_tree, name, "nhiso", _status, _branches);
+  utils::setStatus(_tree, name, "phiso", _status, _branches);
+  utils::setStatus(_tree, name, "ecaliso", _status, _branches);
+  utils::setStatus(_tree, name, "hcaliso", _status, _branches);
+  utils::setStatus(_tree, name, "sieie", _status, _branches);
+  utils::setStatus(_tree, name, "sipip", _status, _branches);
+  utils::setStatus(_tree, name, "hOverE", _status, _branches);
+  utils::setStatus(_tree, name, "geniso", _status, _branches);
+  utils::setStatus(_tree, name, "mipEnergy", _status, _branches);
+  utils::setStatus(_tree, name, "e33", _status, _branches);
+  utils::setStatus(_tree, name, "emax", _status, _branches);
+  utils::setStatus(_tree, name, "e2nd", _status, _branches);
+  utils::setStatus(_tree, name, "r9", _status, _branches);
+  utils::setStatus(_tree, name, "etaWidth", _status, _branches);
+  utils::setStatus(_tree, name, "phiWidth", _status, _branches);
+  utils::setStatus(_tree, name, "time", _status, _branches);
+  utils::setStatus(_tree, name, "timeSpan", _status, _branches);
+  utils::setStatus(_tree, name, "genMatchDR", _status, _branches);
+  utils::setStatus(_tree, name, "loose", _status, _branches);
+  utils::setStatus(_tree, name, "medium", _status, _branches);
+  utils::setStatus(_tree, name, "tight", _status, _branches);
+  utils::setStatus(_tree, name, "highpt", _status, _branches);
+  utils::setStatus(_tree, name, "pixelVeto", _status, _branches);
+  utils::setStatus(_tree, name, "csafeVeto", _status, _branches);
+  utils::setStatus(_tree, name, "matchL1", _status, _branches);
+  utils::setStatus(_tree, name, "superCluster_", _status, _branches);
 }
 
 void
-panda::PPhoton::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PPhoton::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PParticle::setAddress(_tree, _name, _branches);
+  PParticle::setAddress(_tree, _branches);
 
-  utils::setStatusAndAddress(_tree, _name, "chiso", &chiso, _branches);
-  utils::setStatusAndAddress(_tree, _name, "chworstiso", &chworstiso, _branches);
-  utils::setStatusAndAddress(_tree, _name, "chisoMax", &chisoMax, _branches);
-  utils::setStatusAndAddress(_tree, _name, "nhiso", &nhiso, _branches);
-  utils::setStatusAndAddress(_tree, _name, "phiso", &phiso, _branches);
-  utils::setStatusAndAddress(_tree, _name, "ecaliso", &ecaliso, _branches);
-  utils::setStatusAndAddress(_tree, _name, "hcaliso", &hcaliso, _branches);
-  utils::setStatusAndAddress(_tree, _name, "sieie", &sieie, _branches);
-  utils::setStatusAndAddress(_tree, _name, "sipip", &sipip, _branches);
-  utils::setStatusAndAddress(_tree, _name, "hOverE", &hOverE, _branches);
-  utils::setStatusAndAddress(_tree, _name, "geniso", &geniso, _branches);
-  utils::setStatusAndAddress(_tree, _name, "mipEnergy", &mipEnergy, _branches);
-  utils::setStatusAndAddress(_tree, _name, "e33", &e33, _branches);
-  utils::setStatusAndAddress(_tree, _name, "emax", &emax, _branches);
-  utils::setStatusAndAddress(_tree, _name, "e2nd", &e2nd, _branches);
-  utils::setStatusAndAddress(_tree, _name, "r9", &r9, _branches);
-  utils::setStatusAndAddress(_tree, _name, "etaWidth", &etaWidth, _branches);
-  utils::setStatusAndAddress(_tree, _name, "phiWidth", &phiWidth, _branches);
-  utils::setStatusAndAddress(_tree, _name, "time", &time, _branches);
-  utils::setStatusAndAddress(_tree, _name, "timeSpan", &timeSpan, _branches);
-  utils::setStatusAndAddress(_tree, _name, "genMatchDR", &genMatchDR, _branches);
-  utils::setStatusAndAddress(_tree, _name, "loose", &loose, _branches);
-  utils::setStatusAndAddress(_tree, _name, "medium", &medium, _branches);
-  utils::setStatusAndAddress(_tree, _name, "tight", &tight, _branches);
-  utils::setStatusAndAddress(_tree, _name, "highpt", &highpt, _branches);
-  utils::setStatusAndAddress(_tree, _name, "pixelVeto", &pixelVeto, _branches);
-  utils::setStatusAndAddress(_tree, _name, "csafeVeto", &csafeVeto, _branches);
-  utils::setStatusAndAddress(_tree, _name, "matchL1", matchL1, _branches);
-  utils::setStatusAndAddress(_tree, _name, "superCluster_", &superCluster_, _branches);
+  TString name(gStore.getName(this));
+
+  utils::setStatusAndAddress(_tree, name, "chiso", &chiso, _branches);
+  utils::setStatusAndAddress(_tree, name, "chworstiso", &chworstiso, _branches);
+  utils::setStatusAndAddress(_tree, name, "chisoMax", &chisoMax, _branches);
+  utils::setStatusAndAddress(_tree, name, "nhiso", &nhiso, _branches);
+  utils::setStatusAndAddress(_tree, name, "phiso", &phiso, _branches);
+  utils::setStatusAndAddress(_tree, name, "ecaliso", &ecaliso, _branches);
+  utils::setStatusAndAddress(_tree, name, "hcaliso", &hcaliso, _branches);
+  utils::setStatusAndAddress(_tree, name, "sieie", &sieie, _branches);
+  utils::setStatusAndAddress(_tree, name, "sipip", &sipip, _branches);
+  utils::setStatusAndAddress(_tree, name, "hOverE", &hOverE, _branches);
+  utils::setStatusAndAddress(_tree, name, "geniso", &geniso, _branches);
+  utils::setStatusAndAddress(_tree, name, "mipEnergy", &mipEnergy, _branches);
+  utils::setStatusAndAddress(_tree, name, "e33", &e33, _branches);
+  utils::setStatusAndAddress(_tree, name, "emax", &emax, _branches);
+  utils::setStatusAndAddress(_tree, name, "e2nd", &e2nd, _branches);
+  utils::setStatusAndAddress(_tree, name, "r9", &r9, _branches);
+  utils::setStatusAndAddress(_tree, name, "etaWidth", &etaWidth, _branches);
+  utils::setStatusAndAddress(_tree, name, "phiWidth", &phiWidth, _branches);
+  utils::setStatusAndAddress(_tree, name, "time", &time, _branches);
+  utils::setStatusAndAddress(_tree, name, "timeSpan", &timeSpan, _branches);
+  utils::setStatusAndAddress(_tree, name, "genMatchDR", &genMatchDR, _branches);
+  utils::setStatusAndAddress(_tree, name, "loose", &loose, _branches);
+  utils::setStatusAndAddress(_tree, name, "medium", &medium, _branches);
+  utils::setStatusAndAddress(_tree, name, "tight", &tight, _branches);
+  utils::setStatusAndAddress(_tree, name, "highpt", &highpt, _branches);
+  utils::setStatusAndAddress(_tree, name, "pixelVeto", &pixelVeto, _branches);
+  utils::setStatusAndAddress(_tree, name, "csafeVeto", &csafeVeto, _branches);
+  utils::setStatusAndAddress(_tree, name, "matchL1", matchL1, _branches);
+  utils::setStatusAndAddress(_tree, name, "superCluster_", &superCluster_, _branches);
 }
 
 void
-panda::PPhoton::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PPhoton::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PParticle::book(_tree, _name, _branches);
+  PParticle::book(_tree, _branches);
 
-  utils::book(_tree, _name, "chiso", "", 'F', &chiso, _branches);
-  utils::book(_tree, _name, "chworstiso", "", 'F', &chworstiso, _branches);
-  utils::book(_tree, _name, "chisoMax", "", 'F', &chisoMax, _branches);
-  utils::book(_tree, _name, "nhiso", "", 'F', &nhiso, _branches);
-  utils::book(_tree, _name, "phiso", "", 'F', &phiso, _branches);
-  utils::book(_tree, _name, "ecaliso", "", 'F', &ecaliso, _branches);
-  utils::book(_tree, _name, "hcaliso", "", 'F', &hcaliso, _branches);
-  utils::book(_tree, _name, "sieie", "", 'F', &sieie, _branches);
-  utils::book(_tree, _name, "sipip", "", 'F', &sipip, _branches);
-  utils::book(_tree, _name, "hOverE", "", 'F', &hOverE, _branches);
-  utils::book(_tree, _name, "geniso", "", 'F', &geniso, _branches);
-  utils::book(_tree, _name, "mipEnergy", "", 'F', &mipEnergy, _branches);
-  utils::book(_tree, _name, "e33", "", 'F', &e33, _branches);
-  utils::book(_tree, _name, "emax", "", 'F', &emax, _branches);
-  utils::book(_tree, _name, "e2nd", "", 'F', &e2nd, _branches);
-  utils::book(_tree, _name, "r9", "", 'F', &r9, _branches);
-  utils::book(_tree, _name, "etaWidth", "", 'F', &etaWidth, _branches);
-  utils::book(_tree, _name, "phiWidth", "", 'F', &phiWidth, _branches);
-  utils::book(_tree, _name, "time", "", 'F', &time, _branches);
-  utils::book(_tree, _name, "timeSpan", "", 'F', &timeSpan, _branches);
-  utils::book(_tree, _name, "genMatchDR", "", 'F', &genMatchDR, _branches);
-  utils::book(_tree, _name, "loose", "", 'O', &loose, _branches);
-  utils::book(_tree, _name, "medium", "", 'O', &medium, _branches);
-  utils::book(_tree, _name, "tight", "", 'O', &tight, _branches);
-  utils::book(_tree, _name, "highpt", "", 'O', &highpt, _branches);
-  utils::book(_tree, _name, "pixelVeto", "", 'O', &pixelVeto, _branches);
-  utils::book(_tree, _name, "csafeVeto", "", 'O', &csafeVeto, _branches);
-  utils::book(_tree, _name, "matchL1", "[nPhotonL1Objects]", 'O', matchL1, _branches);
-  utils::book(_tree, _name, "superCluster_", "", 'i', &superCluster_, _branches);
+  TString name(gStore.getName(this));
+
+  utils::book(_tree, name, "chiso", "", 'F', &chiso, _branches);
+  utils::book(_tree, name, "chworstiso", "", 'F', &chworstiso, _branches);
+  utils::book(_tree, name, "chisoMax", "", 'F', &chisoMax, _branches);
+  utils::book(_tree, name, "nhiso", "", 'F', &nhiso, _branches);
+  utils::book(_tree, name, "phiso", "", 'F', &phiso, _branches);
+  utils::book(_tree, name, "ecaliso", "", 'F', &ecaliso, _branches);
+  utils::book(_tree, name, "hcaliso", "", 'F', &hcaliso, _branches);
+  utils::book(_tree, name, "sieie", "", 'F', &sieie, _branches);
+  utils::book(_tree, name, "sipip", "", 'F', &sipip, _branches);
+  utils::book(_tree, name, "hOverE", "", 'F', &hOverE, _branches);
+  utils::book(_tree, name, "geniso", "", 'F', &geniso, _branches);
+  utils::book(_tree, name, "mipEnergy", "", 'F', &mipEnergy, _branches);
+  utils::book(_tree, name, "e33", "", 'F', &e33, _branches);
+  utils::book(_tree, name, "emax", "", 'F', &emax, _branches);
+  utils::book(_tree, name, "e2nd", "", 'F', &e2nd, _branches);
+  utils::book(_tree, name, "r9", "", 'F', &r9, _branches);
+  utils::book(_tree, name, "etaWidth", "", 'F', &etaWidth, _branches);
+  utils::book(_tree, name, "phiWidth", "", 'F', &phiWidth, _branches);
+  utils::book(_tree, name, "time", "", 'F', &time, _branches);
+  utils::book(_tree, name, "timeSpan", "", 'F', &timeSpan, _branches);
+  utils::book(_tree, name, "genMatchDR", "", 'F', &genMatchDR, _branches);
+  utils::book(_tree, name, "loose", "", 'O', &loose, _branches);
+  utils::book(_tree, name, "medium", "", 'O', &medium, _branches);
+  utils::book(_tree, name, "tight", "", 'O', &tight, _branches);
+  utils::book(_tree, name, "highpt", "", 'O', &highpt, _branches);
+  utils::book(_tree, name, "pixelVeto", "", 'O', &pixelVeto, _branches);
+  utils::book(_tree, name, "csafeVeto", "", 'O', &csafeVeto, _branches);
+  utils::book(_tree, name, "matchL1", "[nPhotonL1Objects]", 'O', matchL1, _branches);
+  utils::book(_tree, name, "superCluster_", "", 'i', &superCluster_, _branches);
 }
 
 void

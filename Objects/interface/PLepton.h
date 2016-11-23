@@ -2,7 +2,7 @@
 #define PandaTree_Objects_PLepton_h
 #include "Constants.h"
 #include "PParticle.h"
-#include "../../Interface/interface/Container.h"
+#include "../../Framework/interface/Container.h"
 
 namespace panda {
 
@@ -35,19 +35,19 @@ namespace panda {
       void book(TTree&, TString const&, utils::BranchList const& = {"*"});
     };
 
-    PLepton();
+    PLepton(char const* name = "");
     PLepton(PLepton const&);
     PLepton(array_data&, UInt_t idx);
     ~PLepton();
     PLepton& operator=(PLepton const&);
 
-    void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
-    void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
-    void book(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+    void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
+    void setAddress(TTree&, utils::BranchList const& = {"*"}) override;
+    void book(TTree&, utils::BranchList const& = {"*"}) override;
 
     void init() override;
 
-    virtual double combRelIso() const {}
+    virtual double combiso() const { return 0.; }
 
     /* PParticle
     Float_t& pt;
@@ -68,7 +68,7 @@ namespace panda {
     /* END CUSTOM */
 
   protected:
-    PLepton(utils::AllocatorBase const&);
+    PLepton(utils::AllocatorBase const&, char const* name);
   };
 
   typedef PLepton::container_type PLeptonCollection;

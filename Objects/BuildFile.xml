@@ -1,5 +1,5 @@
 <use name="root"/>
-<use name="PandaTree/Interface"/>
+<use name="PandaTree/Framework"/>
 <export>
   <lib name="1"/>
 </export>

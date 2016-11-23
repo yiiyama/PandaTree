@@ -2,7 +2,7 @@
 #define PandaTree_Objects_PElectron_h
 #include "Constants.h"
 #include "PLepton.h"
-#include "../../Interface/interface/Container.h"
+#include "../../Framework/interface/Container.h"
 #include "PSuperCluster.h"
 
 namespace panda {
@@ -37,6 +37,7 @@ namespace panda {
       Float_t phisoPh[NMAX]{};
       Float_t ecaliso[NMAX]{};
       Float_t hcaliso[NMAX]{};
+      Float_t isoPUOffset[NMAX]{};
       Float_t sieie[NMAX]{};
       Float_t sipip[NMAX]{};
       Float_t hOverE[NMAX]{};
@@ -48,20 +49,20 @@ namespace panda {
       void book(TTree&, TString const&, utils::BranchList const& = {"*"});
     };
 
-    PElectron();
+    PElectron(char const* name = "");
     PElectron(PElectron const&);
     PElectron(array_data&, UInt_t idx);
     ~PElectron();
     PElectron& operator=(PElectron const&);
 
-    void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
-    void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
-    void book(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+    void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
+    void setAddress(TTree&, utils::BranchList const& = {"*"}) override;
+    void book(TTree&, utils::BranchList const& = {"*"}) override;
 
     void init() override;
 
     double m() const override { return 5.109989e-4; }
-    double combRelIso() const override {}
+    double combiso() const override { return chiso + std::max(nhiso + phoiso - isoPUOffset, Float_t(0.)); }
     bool isEB() const { return superCluster() ? std::abs(superCluster()->eta) < 1.4442 : false; }
 
     /* PParticle
@@ -85,6 +86,7 @@ namespace panda {
     Float_t& phisoPh;
     Float_t& ecaliso;
     Float_t& hcaliso;
+    Float_t& isoPUOffset;
     Float_t& sieie;
     Float_t& sipip;
     Float_t& hOverE;
@@ -103,7 +105,7 @@ namespace panda {
     /* END CUSTOM */
 
   protected:
-    PElectron(utils::AllocatorBase const&);
+    PElectron(utils::AllocatorBase const&, char const* name);
   };
 
   typedef PElectron::container_type PElectronCollection;
