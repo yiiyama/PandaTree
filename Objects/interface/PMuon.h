@@ -3,12 +3,14 @@
 #include "Constants.h"
 #include "PLepton.h"
 #include "../../Framework/interface/Container.h"
+#include "../../Framework/interface/Ref.h"
 
 namespace panda {
 
   class PMuon : public PLepton {
   public:
-    typedef Container<PMuon, PLeptonCollection> container_type;
+    typedef Container<PMuon, PLeptonCollection> PMuonCollection;
+    typedef Ref<PMuonCollection> PMuonRef;
 
     struct array_data : public PLepton::array_data {
       static UInt_t const NMAX{32};
@@ -76,7 +78,8 @@ namespace panda {
     PMuon(utils::AllocatorBase const&, char const* name);
   };
 
-  typedef PMuon::container_type PMuonCollection;
+  typedef PMuon::PMuonCollection PMuonCollection;
+  typedef PMuon::PMuonRef PMuonRef;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

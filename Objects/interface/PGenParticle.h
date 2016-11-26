@@ -3,13 +3,15 @@
 #include "Constants.h"
 #include "PParticleM.h"
 #include "../../Framework/interface/Container.h"
+#include "../../Framework/interface/Ref.h"
 #include "PGenParticle.h"
 
 namespace panda {
 
   class PGenParticle : public PParticleM {
   public:
-    typedef Container<PGenParticle, PParticleMCollection> container_type;
+    typedef Container<PGenParticle, PParticleMCollection> PGenParticleCollection;
+    typedef Ref<PGenParticleCollection> PGenParticleRef;
 
     struct array_data : public PParticleM::array_data {
       static UInt_t const NMAX{256};
@@ -53,15 +55,7 @@ namespace panda {
     Float_t& mass;
     */
     Int_t& pdgid;
-    PGenParticle* parent() const
-    { if (parentRef_ && parent_ < parentRef_->size()) return &(*parentRef_)[parent_]; else return 0; }
-    void parent(PGenParticle& p)
-    { if (!parentRef_) return; for (parent_ = 0; parent_ != parentRef_->size(); ++parent_) if (&(*parentRef_)[parent_] == &p) return; parent_ = PGenParticle::array_data::NMAX; }
-    void parentRef(PGenParticle::container_type& cont) { parentRef_ = &cont; }
-  private:
-    UInt_t& parent_;
-    PGenParticle::container_type* parentRef_{0};
-  public:
+    PGenParticleRef parent;
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */
@@ -70,7 +64,8 @@ namespace panda {
     PGenParticle(utils::AllocatorBase const&, char const* name);
   };
 
-  typedef PGenParticle::container_type PGenParticleCollection;
+  typedef PGenParticle::PGenParticleCollection PGenParticleCollection;
+  typedef PGenParticle::PGenParticleRef PGenParticleRef;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

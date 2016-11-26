@@ -3,12 +3,14 @@
 #include "Constants.h"
 #include "PParticle.h"
 #include "../../Framework/interface/Container.h"
+#include "../../Framework/interface/Ref.h"
 
 namespace panda {
 
   class PParticleM : public PParticle {
   public:
-    typedef Container<PParticleM, PParticleCollection> container_type;
+    typedef Container<PParticleM, PParticleCollection> PParticleMCollection;
+    typedef Ref<PParticleMCollection> PParticleMRef;
 
     struct array_data : public PParticle::array_data {
       static UInt_t const NMAX{256};
@@ -55,7 +57,8 @@ namespace panda {
     PParticleM(utils::AllocatorBase const&, char const* name);
   };
 
-  typedef PParticleM::container_type PParticleMCollection;
+  typedef PParticleM::PParticleMCollection PParticleMCollection;
+  typedef PParticleM::PParticleMRef PParticleMRef;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

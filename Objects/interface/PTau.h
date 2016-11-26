@@ -3,12 +3,14 @@
 #include "Constants.h"
 #include "PParticleM.h"
 #include "../../Framework/interface/Container.h"
+#include "../../Framework/interface/Ref.h"
 
 namespace panda {
 
   class PTau : public PParticleM {
   public:
-    typedef Container<PTau, PParticleMCollection> container_type;
+    typedef Container<PTau, PParticleMCollection> PTauCollection;
+    typedef Ref<PTauCollection> PTauRef;
 
     struct array_data : public PParticleM::array_data {
       static UInt_t const NMAX{256};
@@ -63,7 +65,8 @@ namespace panda {
     PTau(utils::AllocatorBase const&, char const* name);
   };
 
-  typedef PTau::container_type PTauCollection;
+  typedef PTau::PTauCollection PTauCollection;
+  typedef PTau::PTauRef PTauRef;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

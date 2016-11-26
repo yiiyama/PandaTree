@@ -3,13 +3,15 @@
 #include "Constants.h"
 #include "PLepton.h"
 #include "../../Framework/interface/Container.h"
+#include "../../Framework/interface/Ref.h"
 #include "PSuperCluster.h"
 
 namespace panda {
 
   class PElectron : public PLepton {
   public:
-    typedef Container<PElectron, PLeptonCollection> container_type;
+    typedef Container<PElectron, PLeptonCollection> PElectronCollection;
+    typedef Ref<PElectronCollection> PElectronRef;
 
     struct array_data : public PLepton::array_data {
       static UInt_t const NMAX{32};
@@ -63,7 +65,7 @@ namespace panda {
 
     double m() const override { return 5.109989e-4; }
     double combiso() const override { return chiso + std::max(nhiso + phoiso - isoPUOffset, Float_t(0.)); }
-    bool isEB() const { return superCluster() ? std::abs(superCluster()->eta) < 1.4442 : false; }
+    bool isEB() const { return superCluster.isValid() ? std::abs(superCluster->eta) < 1.4442 : false; }
 
     /* PParticle
     Float_t& pt;
@@ -91,15 +93,7 @@ namespace panda {
     Float_t& sipip;
     Float_t& hOverE;
     Bool_t& veto;
-    PSuperCluster* superCluster() const
-    { if (superClusterRef_ && superCluster_ < superClusterRef_->size()) return &(*superClusterRef_)[superCluster_]; else return 0; }
-    void superCluster(PSuperCluster& p)
-    { if (!superClusterRef_) return; for (superCluster_ = 0; superCluster_ != superClusterRef_->size(); ++superCluster_) if (&(*superClusterRef_)[superCluster_] == &p) return; superCluster_ = PSuperCluster::array_data::NMAX; }
-    void superClusterRef(PSuperCluster::container_type& cont) { superClusterRef_ = &cont; }
-  private:
-    UInt_t& superCluster_;
-    PSuperCluster::container_type* superClusterRef_{0};
-  public:
+    PSuperClusterRef superCluster;
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */
@@ -108,7 +102,8 @@ namespace panda {
     PElectron(utils::AllocatorBase const&, char const* name);
   };
 
-  typedef PElectron::container_type PElectronCollection;
+  typedef PElectron::PElectronCollection PElectronCollection;
+  typedef PElectron::PElectronRef PElectronRef;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

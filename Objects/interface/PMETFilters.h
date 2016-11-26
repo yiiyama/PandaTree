@@ -3,6 +3,7 @@
 #include "Constants.h"
 #include "../../Framework/interface/Object.h"
 #include "../../Framework/interface/Container.h"
+#include "../../Framework/interface/Ref.h"
 
 namespace panda {
 

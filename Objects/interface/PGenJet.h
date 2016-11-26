@@ -3,12 +3,14 @@
 #include "Constants.h"
 #include "PParticleM.h"
 #include "../../Framework/interface/Container.h"
+#include "../../Framework/interface/Ref.h"
 
 namespace panda {
 
   class PGenJet : public PParticleM {
   public:
-    typedef Container<PGenJet, PParticleMCollection> container_type;
+    typedef Container<PGenJet, PParticleMCollection> PGenJetCollection;
+    typedef Ref<PGenJetCollection> PGenJetRef;
 
     struct array_data : public PParticleM::array_data {
       static UInt_t const NMAX{64};
@@ -59,7 +61,8 @@ namespace panda {
     PGenJet(utils::AllocatorBase const&, char const* name);
   };
 
-  typedef PGenJet::container_type PGenJetCollection;
+  typedef PGenJet::PGenJetCollection PGenJetCollection;
+  typedef PGenJet::PGenJetRef PGenJetRef;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

@@ -3,13 +3,15 @@
 #include "Constants.h"
 #include "PParticleM.h"
 #include "../../Framework/interface/Container.h"
+#include "../../Framework/interface/Ref.h"
 #include "PPFCand.h"
 
 namespace panda {
 
   class PJet : public PParticleM {
   public:
-    typedef Container<PJet, PParticleMCollection> container_type;
+    typedef Container<PJet, PParticleMCollection> PJetCollection;
+    typedef Ref<PJetCollection> PJetRef;
 
     struct array_data : public PParticleM::array_data {
       static UInt_t const NMAX{64};
@@ -73,15 +75,7 @@ namespace panda {
     Float_t& chf;
     UInt_t& id;
     UInt_t& nConstituents;
-    PPFCand* constituents(UInt_t i) const
-    { if (constituentsRef_ && constituents_[i] < constituentsRef_->size()) return &(*constituentsRef_)[constituents_[i]]; else return 0; }
-    void constituents(UInt_t i, PPFCand& p)
-    { if (!constituentsRef_) return; for (constituents_[i] = 0; constituents_[i] != constituentsRef_->size(); ++constituents_[i]) if (&(*constituentsRef_)[constituents_[i]] == &p) return; constituents_[i] = PPFCand::array_data::NMAX; }
-    void constituentsRef(PPFCand::container_type& cont) { constituentsRef_ = &cont; }
-  private:
-    UInt_t (&constituents_)[128];
-    PPFCand::container_type* constituentsRef_{0};
-  public:
+    PPFCandRef* constituents{}; // use as PPFCandRef[128]
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */
@@ -90,7 +84,8 @@ namespace panda {
     PJet(utils::AllocatorBase const&, char const* name);
   };
 
-  typedef PJet::container_type PJetCollection;
+  typedef PJet::PJetCollection PJetCollection;
+  typedef PJet::PJetRef PJetRef;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

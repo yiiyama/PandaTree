@@ -3,12 +3,14 @@
 #include "Constants.h"
 #include "PJet.h"
 #include "../../Framework/interface/Container.h"
+#include "../../Framework/interface/Ref.h"
 
 namespace panda {
 
   class PFatJet : public PJet {
   public:
-    typedef Container<PFatJet, PJetCollection> container_type;
+    typedef Container<PFatJet, PJetCollection> PFatJetCollection;
+    typedef Ref<PFatJetCollection> PFatJetRef;
 
     struct array_data : public PJet::array_data {
       static UInt_t const NMAX{8};
@@ -88,15 +90,7 @@ namespace panda {
     Float_t& chf;
     UInt_t& id;
     UInt_t& nConstituents;
-    PPFCand* constituents(UInt_t i) const
-    { if (constituentsRef_ && constituents_[i] < constituentsRef_->size()) return &(*constituentsRef_)[constituents_[i]]; else return 0; }
-    void constituents(UInt_t i, PPFCand& p)
-    { if (!constituentsRef_) return; for (constituents_[i] = 0; constituents_[i] != constituentsRef_->size(); ++constituents_[i]) if (&(*constituentsRef_)[constituents_[i]] == &p) return; constituents_[i] = PPFCand::array_data::NMAX; }
-    void constituentsRef(PPFCand::container_type& cont) { constituentsRef_ = &cont; }
-  private:
-    UInt_t (&constituents_)[128];
-    PPFCand::container_type* constituentsRef_{0};
-  public:
+    PPFCandRef* constituents{}; // use as PPFCandRef[128]
     */
     Float_t& tau1;
     Float_t& tau2;
@@ -116,7 +110,8 @@ namespace panda {
     PFatJet(utils::AllocatorBase const&, char const* name);
   };
 
-  typedef PFatJet::container_type PFatJetCollection;
+  typedef PFatJet::PFatJetCollection PFatJetCollection;
+  typedef PFatJet::PFatJetRef PFatJetRef;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

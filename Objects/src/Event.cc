@@ -4,11 +4,11 @@ panda::Event::Event() :
   TreeEntry()
 {
   for (auto& p : electrons)
-    p.superClusterRef(superClusters);
+    p.superCluster.setContainer(superClusters);
   for (auto& p : photons)
-    p.superClusterRef(superClusters);
+    p.superCluster.setContainer(superClusters);
   for (auto& p : genParticles)
-    p.parentRef(genParticles);
+    p.parent.setContainer(genParticles);
 }
 
 panda::Event::Event(Event const& _src) :
@@ -34,11 +34,11 @@ panda::Event::Event(Event const& _src) :
   mcWeight(_src.mcWeight)
 {
   for (auto& p : electrons)
-    p.superClusterRef(superClusters);
+    p.superCluster.setContainer(superClusters);
   for (auto& p : photons)
-    p.superClusterRef(superClusters);
+    p.superCluster.setContainer(superClusters);
   for (auto& p : genParticles)
-    p.parentRef(genParticles);
+    p.parent.setContainer(genParticles);
 }
 
 void

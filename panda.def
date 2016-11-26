@@ -122,7 +122,7 @@ veto/O
 superCluster/PSuperCluster*
 double m() const override { return 5.109989e-4; }
 double combiso() const override { return chiso + std::max(nhiso + phoiso - isoPUOffset, Float_t(0.)); }
-bool isEB() const { return superCluster() ? std::abs(superCluster()->eta) < 1.4442 : false; }
+bool isEB() const { return superCluster.isValid() ? std::abs(superCluster->eta) < 1.4442 : false; }
 
 [PMuon>PLepton]
 double m() const override { return 1.05658e-2; }
@@ -163,7 +163,7 @@ pixelVeto/O
 csafeVeto/O
 matchL1[nPhotonL1Objects]/O
 superCluster/PSuperCluster*
-bool isEB() const { return superCluster() ? std::abs(superCluster()->eta) < 1.4442 : false; }
+bool isEB() const { return superCluster.isValid() ? std::abs(superCluster->eta) < 1.4442 : false; }
 
 [PJet>PParticleM:MAX=64]
 rawPt/F

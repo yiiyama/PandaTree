@@ -3,13 +3,15 @@
 #include "Constants.h"
 #include "PParticle.h"
 #include "../../Framework/interface/Container.h"
+#include "../../Framework/interface/Ref.h"
 #include "PSuperCluster.h"
 
 namespace panda {
 
   class PPhoton : public PParticle {
   public:
-    typedef Container<PPhoton, PParticleCollection> container_type;
+    typedef Container<PPhoton, PParticleCollection> PPhotonCollection;
+    typedef Ref<PPhotonCollection> PPhotonRef;
 
     struct array_data : public PParticle::array_data {
       static UInt_t const NMAX{64};
@@ -68,7 +70,7 @@ namespace panda {
 
     void init() override;
 
-    bool isEB() const { return superCluster() ? std::abs(superCluster()->eta) < 1.4442 : false; }
+    bool isEB() const { return superCluster.isValid() ? std::abs(superCluster->eta) < 1.4442 : false; }
 
     /* PParticle
     Float_t& pt;
@@ -103,15 +105,7 @@ namespace panda {
     Bool_t& pixelVeto;
     Bool_t& csafeVeto;
     Bool_t (&matchL1)[nPhotonL1Objects];
-    PSuperCluster* superCluster() const
-    { if (superClusterRef_ && superCluster_ < superClusterRef_->size()) return &(*superClusterRef_)[superCluster_]; else return 0; }
-    void superCluster(PSuperCluster& p)
-    { if (!superClusterRef_) return; for (superCluster_ = 0; superCluster_ != superClusterRef_->size(); ++superCluster_) if (&(*superClusterRef_)[superCluster_] == &p) return; superCluster_ = PSuperCluster::array_data::NMAX; }
-    void superClusterRef(PSuperCluster::container_type& cont) { superClusterRef_ = &cont; }
-  private:
-    UInt_t& superCluster_;
-    PSuperCluster::container_type* superClusterRef_{0};
-  public:
+    PSuperClusterRef superCluster;
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */
@@ -120,7 +114,8 @@ namespace panda {
     PPhoton(utils::AllocatorBase const&, char const* name);
   };
 
-  typedef PPhoton::container_type PPhotonCollection;
+  typedef PPhoton::PPhotonCollection PPhotonCollection;
+  typedef PPhoton::PPhotonRef PPhotonRef;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

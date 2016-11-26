@@ -138,7 +138,7 @@ panda::PPhoton::PPhoton(char const* _name/* = ""*/) :
   pixelVeto(gStore.getData(this).pixelVeto[gStore.getIndex(this)]),
   csafeVeto(gStore.getData(this).csafeVeto[gStore.getIndex(this)]),
   matchL1(gStore.getData(this).matchL1[gStore.getIndex(this)]),
-  superCluster_(gStore.getData(this).superCluster_[gStore.getIndex(this)])
+  superCluster(gStore.getData(this).superCluster_[gStore.getIndex(this)])
 {
 }
 
@@ -172,7 +172,7 @@ panda::PPhoton::PPhoton(array_data& _data, UInt_t _idx) :
   pixelVeto(_data.pixelVeto[_idx]),
   csafeVeto(_data.csafeVeto[_idx]),
   matchL1(_data.matchL1[_idx]),
-  superCluster_(_data.superCluster_[_idx])
+  superCluster(_data.superCluster_[_idx])
 {
 }
 
@@ -206,7 +206,7 @@ panda::PPhoton::PPhoton(PPhoton const& _src) :
   pixelVeto(gStore.getData(this).pixelVeto[gStore.getIndex(this)]),
   csafeVeto(gStore.getData(this).csafeVeto[gStore.getIndex(this)]),
   matchL1(gStore.getData(this).matchL1[gStore.getIndex(this)]),
-  superCluster_(gStore.getData(this).superCluster_[gStore.getIndex(this)])
+  superCluster(gStore.getData(this).superCluster_[gStore.getIndex(this)])
 {
   PParticle::operator=(_src);
 
@@ -237,7 +237,7 @@ panda::PPhoton::PPhoton(PPhoton const& _src) :
   highpt = _src.highpt;
   pixelVeto = _src.pixelVeto;
   csafeVeto = _src.csafeVeto;
-  superCluster_ = _src.superCluster_;
+  superCluster = _src.superCluster;
 }
 
 panda::PPhoton::PPhoton(utils::AllocatorBase const& _allocator, char const* _name) :
@@ -270,7 +270,7 @@ panda::PPhoton::PPhoton(utils::AllocatorBase const& _allocator, char const* _nam
   pixelVeto(gStore.getData(this).pixelVeto[gStore.getIndex(this)]),
   csafeVeto(gStore.getData(this).csafeVeto[gStore.getIndex(this)]),
   matchL1(gStore.getData(this).matchL1[gStore.getIndex(this)]),
-  superCluster_(gStore.getData(this).superCluster_[gStore.getIndex(this)])
+  superCluster(gStore.getData(this).superCluster_[gStore.getIndex(this)])
 {
 }
 
@@ -311,7 +311,7 @@ panda::PPhoton::operator=(PPhoton const& _src)
   highpt = _src.highpt;
   pixelVeto = _src.pixelVeto;
   csafeVeto = _src.csafeVeto;
-  superCluster_ = _src.superCluster_;
+  superCluster = _src.superCluster;
 
   return *this;
 }
@@ -389,7 +389,7 @@ panda::PPhoton::setAddress(TTree& _tree, utils::BranchList const& _branches/* = 
   utils::setStatusAndAddress(_tree, name, "pixelVeto", &pixelVeto, _branches);
   utils::setStatusAndAddress(_tree, name, "csafeVeto", &csafeVeto, _branches);
   utils::setStatusAndAddress(_tree, name, "matchL1", matchL1, _branches);
-  utils::setStatusAndAddress(_tree, name, "superCluster_", &superCluster_, _branches);
+  utils::setStatusAndAddress(_tree, name, "superCluster_", &superCluster.idx, _branches);
 }
 
 void
@@ -427,7 +427,7 @@ panda::PPhoton::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*
   utils::book(_tree, name, "pixelVeto", "", 'O', &pixelVeto, _branches);
   utils::book(_tree, name, "csafeVeto", "", 'O', &csafeVeto, _branches);
   utils::book(_tree, name, "matchL1", "[nPhotonL1Objects]", 'O', matchL1, _branches);
-  utils::book(_tree, name, "superCluster_", "", 'i', &superCluster_, _branches);
+  utils::book(_tree, name, "superCluster_", "", 'i', &superCluster.idx, _branches);
 }
 
 void
@@ -463,7 +463,7 @@ panda::PPhoton::init()
   pixelVeto = false;
   csafeVeto = false;
   for (auto& p0 : matchL1) p0 = false;
-  superCluster_ = PSuperCluster::array_data::NMAX;
+  superCluster.init();
 }
 
 

@@ -3,12 +3,14 @@
 #include "Constants.h"
 #include "../../Framework/interface/Object.h"
 #include "../../Framework/interface/Container.h"
+#include "../../Framework/interface/Ref.h"
 
 namespace panda {
 
   class PSuperCluster : public ContainerElement {
   public:
-    typedef Container<PSuperCluster, Collection> container_type;
+    typedef Container<PSuperCluster, Collection> PSuperClusterCollection;
+    typedef Ref<PSuperClusterCollection> PSuperClusterRef;
 
     struct array_data : public ContainerElement::array_data {
       static UInt_t const NMAX{128};
@@ -47,7 +49,8 @@ namespace panda {
     PSuperCluster(utils::AllocatorBase const&, char const* name);
   };
 
-  typedef PSuperCluster::container_type PSuperClusterCollection;
+  typedef PSuperCluster::PSuperClusterCollection PSuperClusterCollection;
+  typedef PSuperCluster::PSuperClusterRef PSuperClusterRef;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */
