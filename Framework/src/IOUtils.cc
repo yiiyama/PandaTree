@@ -38,6 +38,16 @@ panda::utils::BranchName::operator TString() const
   return name;
 }
 
+TString
+panda::utils::BranchName::fullName(TString const& _objName) const
+{
+  TString bFullName(*this);
+  if (_objName.Length() != 0)
+    bFullName.Prepend(_objName + ".");
+
+  return bFullName;
+}
+
 bool
 panda::utils::BranchName::match(BranchName const& _rhs) const
 {
@@ -93,40 +103,54 @@ panda::utils::BranchList::subList(TString const& _objName) const
 }
 
 Int_t
-panda::utils::setStatus(TTree& _tree, TString const& _objName, BranchName const& _bName, Bool_t _status, BranchList const& _bList)
+panda::utils::checkStatus(TTree& _tree, TString const& _objName, BranchName const& _bName, Bool_t _status, BranchList const& _bList)
 {
-  // can assume that _bList is a list of terminal branches
-
-  TString bFullName(_bName);
-  if (_objName.Length() != 0)
-    bFullName.Prepend(_objName + ".");
-
-  if (!_tree.GetBranch(bFullName))
-    return -1;
-
+  // we can assume that _bList is a list of terminal branches
   if (!_bName.in(_bList))
     return -1;
 
-  if (_tree.GetBranchStatus(bFullName) == _status)
-    return 0;
+  TString fullName(_bName.fullName(_objName));
 
-  _tree.SetBranchStatus(bFullName, _status);
+  if (!_tree.GetBranch(fullName))
+    return -1;
+
+  if (_tree.GetBranchStatus(fullName) == _status)
+    return 0;
+  else
+    return 1;
+}
+
+Int_t
+panda::utils::setStatus(TTree& _tree, TString const& _objName, BranchName const& _bName, Bool_t _status, BranchList const& _bList)
+{
+  // -1 -> branch does not exist or not in the list; 0 -> status is already set
+  Int_t checkResult(checkStatus(_tree, _objName, _bName, _status, _bList));
+  if (checkResult != 0)
+    return checkResult;
+
+  _tree.SetBranchStatus(_bName.fullName(_objName), _status);
   return 1;
 }
 
 Int_t
-panda::utils::setStatusAndAddress(TTree& _tree, TString const& _objName, BranchName const& _bName, void* _bPtr, BranchList const& _bList)
+panda::utils::setAddress(TTree& _tree, TString const& _objName, BranchName const& _bName, void* _bPtr, BranchList const& _bList, Bool_t _setStatus)
 {
-  if (setStatus(_tree, _objName, _bName, true, _bList) == -1)
-    return -1;
+  Int_t returnCode(0);
 
-  TString bFullName(_bName);
-  if (_objName.Length() != 0)
-    bFullName.Prepend(_objName + ".");
+  if (_setStatus) {
+    returnCode = setStatus(_tree, _objName, _bName, true, _bList);
+    if (returnCode == -1)
+      return -1;
+  }
+  else {
+    // -1 -> branch does not exist or not in the list; 0 -> status is false
+    returnCode = checkStatus(_tree, _objName, _bName, false, _bList);
+    if (returnCode != 1)
+      return returnCode;
+  }
 
-  _tree.SetBranchAddress(bFullName, _bPtr);
-
-  return 1;
+  _tree.SetBranchAddress(_bName.fullName(_objName), _bPtr);
+  return returnCode;
 }
 
 Int_t 
@@ -139,16 +163,12 @@ panda::utils::book(TTree& _tree, TString const& _objName, BranchName const& _bNa
   if (!_bName.in(_bList))
     return -1;
 
-  TString bFullName(_bName);
-  if (_objName.Length() != 0)
-    bFullName.Prepend(_objName + ".");
-
   TString lExpr(_bName + _size);
 
   lExpr += "/";
   lExpr += _lType;
 
-  _tree.Branch(bFullName, _bPtr, lExpr);
+  _tree.Branch(_bName.fullName(_objName), _bPtr, lExpr);
 
   return 0;
 }

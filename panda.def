@@ -82,224 +82,224 @@ double dPhi(PParticle const& p) const { return TVector2::Phi_mpi_pi(phi - p.phi)
 double dR2(PParticle const& p) const { double d1(dEta(p)); double d2(dPhi(p)); return d1 * d1 + d2 * d2; }
 double dR(PParticle const& p) const { return std::sqrt(dR2(p)); }
 
-[PParticleM>PParticle]
-mass/F
-double m() const override { return mass; }
-
-[PPFCand>PParticleM]
-q/F
-weight/F
-pftype/I
-
-[PSuperCluster:MAX=128]
-rawPt/F
-eta/F
-phi/F
-
-[PLepton>PParticle:MAX=32]
-q/C
-loose/O
-tight/O
-chiso/F
-nhiso/F
-phoiso/F
-puiso/F
-tauDecay/O
-hadDecay/O
-virtual double combiso() const { return 0.; }
-
-[PElectron>PLepton]
-chisoPh/F
-nhisoPh/F
-phisoPh/F
-ecaliso/F
-hcaliso/F
-isoPUOffset/F
-sieie/F
-sipip/F
-hOverE/F
-veto/O
-superCluster/PSuperCluster*
-double m() const override { return 5.109989e-4; }
-double combiso() const override { return chiso + std::max(nhiso + phoiso - isoPUOffset, Float_t(0.)); }
-bool isEB() const { return superCluster.isValid() ? std::abs(superCluster->eta) < 1.4442 : false; }
-
-[PMuon>PLepton]
-double m() const override { return 1.05658e-2; }
-double combiso() const override { return chiso + std::max(nhiso + phoiso - 0.5 * puiso, 0.); }
-
-[PTau>PParticleM]
-q/C
-decayMode/O
-isoDeltaBetaCorr/F
-
-[PPhoton>PParticle:MAX=64]
-chiso/F
-chworstiso/F
-chisoMax/F
-nhiso/F
-phiso/F
-ecaliso/F
-hcaliso/F
-sieie/F
-sipip/F
-hOverE/F
-geniso/F
-mipEnergy/F
-e33/F
-emax/F
-e2nd/F
-r9/F
-etaWidth/F
-phiWidth/F
-time/F
-timeSpan/F
-genMatchDR/F
-loose/O
-medium/O
-tight/O
-highpt/O
-pixelVeto/O
-csafeVeto/O
-matchL1[nPhotonL1Objects]/O
-superCluster/PSuperCluster*
-bool isEB() const { return superCluster.isValid() ? std::abs(superCluster->eta) < 1.4442 : false; }
-
-[PJet>PParticleM:MAX=64]
-rawPt/F
-ptCorrUp/F
-ptCorrDown/F
-ptResCorr/F
-phiResCorr/F
-csv/F
-qgl/F
-nhf/F
-chf/F
-id/i
-nConstituents/i
-constituents[128]/PPFCand*
-
-[PFatJet>PJet:MAX=8]
-tau1/F
-tau2/F
-tau3/F
-mSD/F
-tau1SD/F = -1.
-tau2SD/F = -1.
-tau3SD/F = -1.
-htt_mass/F
-htt_frec/F
-ecfs[3][4][4]/F
-float get_ecf(short o_, short N_, int ib_) const
-{
-  if (o_<1 || o_>3 || N_<1 || N_>4 || ib_<0 || ib_>3) 
-    return -1;
-  return ecfs[o_-1][N_-1][ib_];
-}
-int set_ecf(int o_, int N_, int ib_, float x_)
-{
-  if (o_<1 || o_>3 || N_<1 || N_>4 || ib_<0 || ib_>3) 
-    return 1;
-  ecfs[o_-1][N_-1][ib_] = x_;
-  return 0;
-}
-
-[PGenJet>PParticleM:MAX=64]
-pdgid/I
-
-[PGenParticle>PParticleM]
-pdgid/I
-parent/PGenParticle*
-
-[PMET:SINGLE]
-pt/F
-phi/F
-virtual TVector2 v() const { TVector2 vec; vec.SetMagPhi(pt, phi); return vec; }
-
-[PRecoMET>PMET]
-sumETRaw/F
-raw_pt/F
-raw_phi/F
-calo_pt/F
-calo_phi/F
-noMu_pt/F
-noMu_phi/F
-noHF_pt/F
-noHF_phi/F
-trk_pt/F
-trk_phi/F
-neutral_pt/F
-neutral_phi/F
-photon_pt/F
-photon_phi/F
-hf_pt/F
-hf_phi/F
-ptCorrUp/F
-phiCorrUp/F
-ptCorrDown/F
-phiCorrDown/F
-ptJetRes/F
-phiJetRes/F
-ptUnclUp/F
-phiUnclUp/F
-ptUnclDown/F
-phiUnclDown/F
-virtual TVector2 vCorr(int corr = 0) const
-{
-  if (corr == 0)
-    return v();
-
-  TVector2 vec;
-  switch (corr) {
-  case 1:
-    vec.SetMagPhi(ptCorrUp, phiCorrUp);
-    break;
-  case -1:
-    vec.SetMagPhi(ptCorrDown, phiCorrDown);
-    break;
-  }
-  return vec;
-}
-
-[PMETFilters:SINGLE]
-cschalo/O
-globalHalo16/O
-hbhe/O
-hbheIso/O
-badsc/O
-badTrack/O
-badMuonTrack/O
-virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !badsc && !badTrack && !badMuonTrack; }
-
-[HLTBits:SINGLE]
-words[16]/i
-void set(unsigned iB) { words[iB / 32] |= (1 << (iB % 32)); }
-bool pass(unsigned iB) const { return ((words[iB / 32] >> (iB % 32)) & 1) != 0; }
-
-{Event}
-runNumber/i
-lumiNumber/i
-eventNumber/i
-isData/O
-npv/I
-mcWeight/F
-pfCandidates/PPFCandCollection
-superClusters/PSuperClusterCollection
-electrons/PElectronCollection
-muons/PMuonCollection
-taus/PTauCollection
-photons/PPhotonCollection
-jets/PJetCollection
-fatJets/PFatJetCollection
-genJets/PGenJetCollection
-genParticles/PGenParticleCollection
-met/PMET
-metFilters/PMETFilters
-triggers/HLTBits
-electrons.superCluster->superClusters
-photons.superCluster->superClusters
-genParticles.parent->genParticles
-
-{Run}
-run/i
-hltMenu/i
+%[PParticleM>PParticle]
+%mass/F
+%double m() const override { return mass; }
+%
+%[PPFCand>PParticleM]
+%q/F
+%weight/F
+%pftype/I
+%
+%[PSuperCluster:MAX=128]
+%rawPt/F
+%eta/F
+%phi/F
+%
+%[PLepton>PParticle:MAX=32]
+%q/C
+%loose/O
+%tight/O
+%chiso/F
+%nhiso/F
+%phoiso/F
+%puiso/F
+%tauDecay/O
+%hadDecay/O
+%virtual double combiso() const { return 0.; }
+%
+%[PElectron>PLepton]
+%chisoPh/F
+%nhisoPh/F
+%phisoPh/F
+%ecaliso/F
+%hcaliso/F
+%isoPUOffset/F
+%sieie/F
+%sipip/F
+%hOverE/F
+%veto/O
+%superCluster/PSuperCluster*
+%double m() const override { return 5.109989e-4; }
+%double combiso() const override { return chiso + std::max(nhiso + phoiso - isoPUOffset, Float_t(0.)); }
+%bool isEB() const { return superCluster.isValid() ? std::abs(superCluster->eta) < 1.4442 : false; }
+%
+%[PMuon>PLepton]
+%double m() const override { return 1.05658e-2; }
+%double combiso() const override { return chiso + std::max(nhiso + phoiso - 0.5 * puiso, 0.); }
+%
+%[PTau>PParticleM]
+%q/C
+%decayMode/O
+%isoDeltaBetaCorr/F
+%
+%[PPhoton>PParticle:MAX=64]
+%chiso/F
+%chworstiso/F
+%chisoMax/F
+%nhiso/F
+%phiso/F
+%ecaliso/F
+%hcaliso/F
+%sieie/F
+%sipip/F
+%hOverE/F
+%geniso/F
+%mipEnergy/F
+%e33/F
+%emax/F
+%e2nd/F
+%r9/F
+%etaWidth/F
+%phiWidth/F
+%time/F
+%timeSpan/F
+%genMatchDR/F
+%loose/O
+%medium/O
+%tight/O
+%highpt/O
+%pixelVeto/O
+%csafeVeto/O
+%matchL1[nPhotonL1Objects]/O
+%superCluster/PSuperCluster*
+%bool isEB() const { return superCluster.isValid() ? std::abs(superCluster->eta) < 1.4442 : false; }
+%
+%[PJet>PParticleM:MAX=64]
+%rawPt/F
+%ptCorrUp/F
+%ptCorrDown/F
+%ptResCorr/F
+%phiResCorr/F
+%csv/F
+%qgl/F
+%nhf/F
+%chf/F
+%id/i
+%nConstituents/i
+%constituents[128]/PPFCand*
+%
+%[PFatJet>PJet:MAX=8]
+%tau1/F
+%tau2/F
+%tau3/F
+%mSD/F
+%tau1SD/F = -1.
+%tau2SD/F = -1.
+%tau3SD/F = -1.
+%htt_mass/F
+%htt_frec/F
+%ecfs[3][4][4]/F
+%float get_ecf(short o_, short N_, int ib_) const
+%{
+%  if (o_<1 || o_>3 || N_<1 || N_>4 || ib_<0 || ib_>3) 
+%    return -1;
+%  return ecfs[o_-1][N_-1][ib_];
+%}
+%int set_ecf(int o_, int N_, int ib_, float x_)
+%{
+%  if (o_<1 || o_>3 || N_<1 || N_>4 || ib_<0 || ib_>3) 
+%    return 1;
+%  ecfs[o_-1][N_-1][ib_] = x_;
+%  return 0;
+%}
+%
+%[PGenJet>PParticleM:MAX=64]
+%pdgid/I
+%
+%[PGenParticle>PParticleM]
+%pdgid/I
+%parent/PGenParticle*
+%
+%[PMET:SINGLE]
+%pt/F
+%phi/F
+%virtual TVector2 v() const { TVector2 vec; vec.SetMagPhi(pt, phi); return vec; }
+%
+%[PRecoMET>PMET]
+%sumETRaw/F
+%raw_pt/F
+%raw_phi/F
+%calo_pt/F
+%calo_phi/F
+%noMu_pt/F
+%noMu_phi/F
+%noHF_pt/F
+%noHF_phi/F
+%trk_pt/F
+%trk_phi/F
+%neutral_pt/F
+%neutral_phi/F
+%photon_pt/F
+%photon_phi/F
+%hf_pt/F
+%hf_phi/F
+%ptCorrUp/F
+%phiCorrUp/F
+%ptCorrDown/F
+%phiCorrDown/F
+%ptJetRes/F
+%phiJetRes/F
+%ptUnclUp/F
+%phiUnclUp/F
+%ptUnclDown/F
+%phiUnclDown/F
+%virtual TVector2 vCorr(int corr = 0) const
+%{
+%  if (corr == 0)
+%    return v();
+%
+%  TVector2 vec;
+%  switch (corr) {
+%  case 1:
+%    vec.SetMagPhi(ptCorrUp, phiCorrUp);
+%    break;
+%  case -1:
+%    vec.SetMagPhi(ptCorrDown, phiCorrDown);
+%    break;
+%  }
+%  return vec;
+%}
+%
+%[PMETFilters:SINGLE]
+%cschalo/O
+%globalHalo16/O
+%hbhe/O
+%hbheIso/O
+%badsc/O
+%badTrack/O
+%badMuonTrack/O
+%virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !badsc && !badTrack && !badMuonTrack; }
+%
+%[HLTBits:SINGLE]
+%words[16]/i
+%void set(unsigned iB) { words[iB / 32] |= (1 << (iB % 32)); }
+%bool pass(unsigned iB) const { return ((words[iB / 32] >> (iB % 32)) & 1) != 0; }
+%
+%{Event}
+%runNumber/i
+%lumiNumber/i
+%eventNumber/i
+%isData/O
+%npv/I
+%mcWeight/F
+%pfCandidates/PPFCandCollection
+%superClusters/PSuperClusterCollection
+%electrons/PElectronCollection
+%muons/PMuonCollection
+%taus/PTauCollection
+%photons/PPhotonCollection
+%jets/PJetCollection
+%fatJets/PFatJetCollection
+%genJets/PGenJetCollection
+%genParticles/PGenParticleCollection
+%met/PMET
+%metFilters/PMETFilters
+%triggers/HLTBits
+%electrons.superCluster->superClusters
+%photons.superCluster->superClusters
+%genParticles.parent->genParticles
+%
+%{Run}
+%run/i
+%hltMenu/i

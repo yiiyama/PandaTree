@@ -232,8 +232,8 @@ class BranchDef(Definition):
         # True if the branch itself is an array
         return len(self.arrdef) != 0
 
-    def arrdef_text(self, end = None):
-        return ''.join('[%s]' % a for a in self.arrdef[:end])
+    def arrdef_text(self, begin = None, end = None):
+        return ''.join('[%s]' % a for a in self.arrdef[begin:end])
 
     def typename(self):
         try:
@@ -242,8 +242,11 @@ class BranchDef(Definition):
             return self.type
 
     def write_decl(self, out, context):
-        if context == 'array_data':
-            out.writeline('{type} {name}[NMAX]{arrdef}{{}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text()))
+        if context == 'datastore':
+            if self.is_array():
+                out.writeline('{type} (*{name}){arrdef}{{0}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text()))
+            else:
+                out.writeline('{type}* {name}{{0}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text()))
         elif context == 'Singlet' or context == 'TreeEntry':
             out.writeline('{type} {name}{arrdef}{{{init}}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text(), init = self.init))
         elif context == 'ContainerElement':
@@ -252,8 +255,17 @@ class BranchDef(Definition):
             else:
                 out.writeline('{type}& {name};'.format(type = self.typename(), name = self.name))
 
+    def write_allocate(self, out, context):
+        # context must be datastore
+        out.writeline('{name} = new {type}[nmax_]{arrdef};'.format(name = self.name, type = self.typename(), arrdef = self.arrdef_text()))
+
+    def write_deallocate(self, out, context):
+        # context must be datastore
+        out.writeline('delete [] {name};'.format(name = self.name))
+        out.writeline('{name} = 0;'.format(name = self.name))
+
     def write_set_status(self, out, context):
-        if context == 'array_data':
+        if context == 'datastore':
             namevar = '_name'
         elif context == 'Singlet':
             namevar = 'name_'
@@ -265,7 +277,7 @@ class BranchDef(Definition):
         out.writeline('utils::setStatus(_tree, {namevar}, "{name}", _status, _branches);'.format(namevar = namevar, name = self.name))
 
     def write_set_address(self, out, context):
-        if context == 'array_data':
+        if context == 'datastore':
             namevar = '_name'
         elif context == 'Singlet':
             namevar = 'name_'
@@ -274,19 +286,22 @@ class BranchDef(Definition):
         elif context == 'TreeEntry':
             namevar = '""'
 
-        if context == 'array_data' or self.is_array():
+        if context == 'datastore' or self.is_array():
             ptr = self.name
         else:
             ptr = '&' + self.name
 
-        out.writeline('utils::setStatusAndAddress(_tree, {namevar}, "{name}", {ptr}, _branches);'.format(namevar = namevar, name = self.name, ptr = ptr))
+        out.writeline('utils::setAddress(_tree, {namevar}, "{name}", {ptr}, _branches, _setStatus);'.format(namevar = namevar, name = self.name, ptr = ptr))
 
     def write_book(self, out, context):
-        arrdef = self.arrdef_text()
+        size_str = '"{arrdef}"'.format(arrdef = self.arrdef_text())
 
-        if context == 'array_data':
+        if context == 'datastore':
             namevar = '_name'
-            arrdef = '[" + _name + ".size]{arrdef}'.format(arrdef = self.arrdef_text())
+            if self.is_array():
+                size_str = 'size + ' + size_str
+            else:
+                size_str = 'size'
         elif context == 'Singlet':
             namevar = 'name_'
         elif context == 'ContainerElement':
@@ -294,16 +309,16 @@ class BranchDef(Definition):
         elif context == 'TreeEntry':
             namevar = '""'
 
-        if context == 'array_data' or self.is_array():
+        if context == 'datastore' or self.is_array():
             ptr = self.name
         else:
             ptr = '&' + self.name
 
-        out.writeline('utils::book(_tree, {namevar}, "{name}", "{arrdef}", \'{type}\', {ptr}, _branches);'.format(namevar = namevar, name = self.name, arrdef = arrdef, type = self.type, ptr = ptr))
+        out.writeline('utils::book(_tree, {namevar}, "{name}", {size}, \'{type}\', {ptr}, _branches);'.format(namevar = namevar, name = self.name, size = size_str, type = self.type, ptr = ptr))
 
     def init_default(self, lines, context):
         if context == 'ContainerElement':
-            lines.append('{name}(gStore.getData(this).{name}[gStore.getIndex(this)])'.format(name = self.name))
+            lines.append('{name}(gStore.getData(this).{name}[0])'.format(name = self.name))
 
     def init_standard(self, lines, context):
         if context == 'ContainerElement':
@@ -314,9 +329,15 @@ class BranchDef(Definition):
             if not self.is_array():
                 lines.append('{name}(_src.{name})'.format(name = self.name))
         elif context == 'ContainerElement':
-            lines.append('{name}(gStore.getData(this).{name}[gStore.getIndex(this)])'.format(name = self.name))
+            lines.append('{name}(gStore.getData(this).{name}[0])'.format(name = self.name))
 
-    def write_ctor(self, lines, context):
+    def write_default_ctor(self, out, context):
+        pass
+
+    def write_standard_ctor(self, out, context):
+        pass
+
+    def write_copy_ctor(self, out, context):
         pass
 
     def write_assign(self, out, context):
@@ -351,10 +372,10 @@ class RefBranchDef(BranchDef):
             raise RuntimeError('Cannot create reference to single object ' + objdef.name)
 
         # create a branch for the index with name {name}_
-        BranchDef.__init__(self, '{name}_{arrdef}/i = {type}::array_data::NMAX'.format(name = self.refname, arrdef = arrdef, type = self.objname))
+        BranchDef.__init__(self, '{name}_{arrdef}/i = -1'.format(name = self.refname, arrdef = arrdef, type = self.objname))
 
     def write_decl(self, out, context):
-        if context == 'array_data':
+        if context == 'datastore':
             BranchDef.write_decl(self, out, context)
         else:
             if context == 'Singlet':
@@ -368,25 +389,21 @@ class RefBranchDef(BranchDef):
 
             if self.is_array():
                 # Ref does not have a default constructor -> need to declare as a pointer and do allocate-deallocate
-                out.writeline('{type}Ref* {name}{arrdef_reduced}{{}}; // use as {type}Ref{arrdef}'.format(type = self.objname, name = self.refname, arrdef_reduced = self.arrdef_text(-1), arrdef = self.arrdef_text()))
+                out.writeline('{type}Ref {name}{arrdef}{{}};'.format(type = self.objname, name = self.refname, arrdef = self.arrdef_text()))
             else:
                 out.writeline('{type}Ref {name};'.format(type = self.objname, name = self.refname))
 
     def write_set_address(self, out, context):
         if context == 'ContainerElement':
-            if self.is_array():
-                pass
-            else:
-                out.writeline('utils::setStatusAndAddress(_tree, name, "{name}", &{refname}.idx, _branches);'.format(name = self.name, refname = self.refname))
+            subscript = ''.join('[0]' for a in self.arrdef)
+            out.writeline('utils::setAddress(_tree, name, "{name}", &{refname}{subscript}.idx(), _branches, true);'.format(name = self.name, refname = self.refname, subscript = subscript))
         else:
             BranchDef.write_set_address(self, out, context)
 
     def write_book(self, out, context):
         if context == 'ContainerElement':
-            if self.is_array():
-                pass
-            else:
-                out.writeline('utils::book(_tree, name, "{name}", "{arrdef}", \'{type}\', &{refname}.idx, _branches);'.format(name = self.name, arrdef = self.arrdef_text(), type = self.type, refname = self.refname))
+            subscript = ''.join('[0]' for a in self.arrdef)
+            out.writeline('utils::book(_tree, name, "{name}", "{arrdef}", \'{type}\', &{refname}{subscript}.idx(), _branches);'.format(name = self.name, arrdef = self.arrdef_text(), type = self.type, refname = self.refname, subscript = subscript))
         else:
             BranchDef.write_book(self, out, context)
 
@@ -397,7 +414,7 @@ class RefBranchDef(BranchDef):
         if context == 'Singlet':
             lines.append('{name}({name}_)'.format(name = self.refname))
         elif context == 'ContainerElement':
-            lines.append('{name}(gStore.getData(this).{name}_[gStore.getIndex(this)])'.format(name = self.refname))
+            lines.append('{name}(gStore.getData(this).{name}_[0])'.format(name = self.refname))
 
     def init_standard(self, lines, context):
         if self.is_array():
@@ -414,51 +431,71 @@ class RefBranchDef(BranchDef):
             BranchDef.init_copy(lines, context)
             lines.append('{name}({name}_)'.format(name = self.refname))
         elif context == 'ContainerElement':
-            lines.append('{name}(gStore.getData(this).{name}_[gStore.getIndex(this)])'.format(name = self.refname))
+            lines.append('{name}(gStore.getData(this).{name}_[0])'.format(name = self.refname))
 
-    def write_ctor(self, out, context):
+    def write_default_ctor(self, out, context):
         if not self.is_array():
             return
 
         if context == 'Singlet':
-            out.writeline('UInt_t (&indices){arrdef}({name});'.format(arrdef = self.arrdef_text(), name = self.name))
+            out.writeline('UInt_t (&{refname}Indices){arrdef}({name});'.format(refname = self.refname, arrdef = self.arrdef_text(), name = self.name))
         else:
-            out.writeline('UInt_t (&indices){arrdef}(gStore.getData(this).{name}[gStore.getIndex(this)]);'.format(arrdef = self.arrdef_text(), name = self.name))
+            out.writeline('UInt_t (&{refname}Indices){arrdef}(gStore.getData(this).{name}[0]);'.format(refname = self.refname, arrdef = self.arrdef_text(), name = self.name))
 
-        name = self.refname
-        array = 'indices'            
-        for i in range(len(self.arrdef) - 1):
-            out.writeline('unsigned i{i}(0);'.format(i = i))
-            out.writeline('for (auto& arr{i} : {array}) {{'.format(i = i, array = array))
+        self._write_ref_set(out)
+
+    def write_standard_ctor(self, out, context):
+        if not self.is_array():
+            return
+
+        out.writeline('UInt_t (&{refname}Indices){arrdef}(_data.{name}[_idx]);'.format(refname = self.refname, arrdef = self.arrdef_text(), name = self.name))
+
+        self._write_ref_set(out)
+
+    def write_copy_ctor(self, out, context):
+        if not self.is_array():
+            return
+
+        if context == 'Singlet':
+            out.writeline('UInt_t (&{refname}Indices){arrdef}({name});'.format(refname = self.refname, arrdef = self.arrdef_text(), name = self.name))
+        else:
+            out.writeline('UInt_t (&{refname}Indices){arrdef}(gStore.getData(this).{name}[0]);'.format(refname = self.refname, arrdef = self.arrdef_text(), name = self.name))
+
+        self._write_ref_set(out)
+        # copy is performed in write_assign
+
+    def _write_ref_set(self, out, copy = False):
+        subscript = ''
+        array = self.refname + 'Indices'            
+        for depth in range(len(self.arrdef)):
+            out.writeline('for (UInt_t i{depth}(0); i{depth} != sizeof({array}); ++i{depth}) {{'.format(depth = depth, array = array))
+            subscript += '[i{depth}]'.format(depth = depth)
+            newarray = 'arr{depth}'.format(depth = depth)
+
             out.indent += 1
-            out.writeline('++i{i};')
-            array = 'arr{i}'.format(i = i)
-            name += '[i{i}]'.format(i = i)
 
-        out.writeline('{name} = reinterpret_cast<{type}Ref*>(std::allocator<{type}Ref>().allocate({n}));'.format(name = name, type = self.objname, n = self.arrdef[-1]))
-        out.writeline('unsigned r(0);')
-        out.writeline('for (UInt_t& idx : {array}) {{'.format(array = array))
-        out.indent += 1
-        out.writeline('new ({name} + r) {type}Ref(idx);'.format(name = name, type = self.objname))
-        out.writeline('++r;')
-        out.writeline('}')
-        out.indent -= 1
+            if depth == len(self.arrdef) - 1:
+                out.writeline('{name}{subscript}.set(0, {array}[i{depth}]);'.format(name = self.refname, subscript = subscript, array = array, depth = depth))
+            else:
+                out.writeline('UInt_t (&{newarray}){arrdef}({array}[i{depth}]);'.format(newarray = newarray, arrdef = self.arrdef_text(depth + 1), depth = depth))
 
-        for i in range(len(self.arrdef) - 1):
-            out.writeline('}')
+            array = newarray
+
+        for depth in range(len(self.arrdef)):
             out.indent -= 1
+            out.writeline('}')
 
     def write_assign(self, out, context):
         if self.is_array():
             index = ''
-            for i in range(len(self.arrdef)):
-                out.writeline('for (UInt_t i{i}(0); i{i} != {n}; ++i{i}) {{'.format(i = i, n = self.arrdef[i]))
+            for depth in range(len(self.arrdef)):
+                out.writeline('for (UInt_t i{depth}(0); i{depth} != {n}; ++i{depth}) {{'.format(depth = depth, n = self.arrdef[depth]))
                 out.indent += 1
-                index += '[i{i}]'.format(i = i)
+                index += '[i{depth}]'.format(depth = depth)
 
             out.writeline('{name}{index} = _src.{name}{index};'.format(name = self.refname, index = index))
 
-            for i in range(len(self.arrdef)):
+            for depth in range(len(self.arrdef)):
                 out.indent -= 1
                 out.writeline('}')
 
@@ -762,15 +799,18 @@ class PhysicsObjectDef(Definition, ObjectDef):
         header.writeline('#include "Constants.h"')
 
         included = []
-        if self.parent == 'ContainerElement' or self.parent == 'Singlet':
-            header.writeline('#include "../../Framework/interface/Object.h"')
+        if self.parent == 'ContainerElement':
+            header.writeline('#include "../../Framework/interface/ContainerElement.h"')
+        elif self.parent == 'Singlet':
+            header.writeline('#include "../../Framework/interface/Singlet.h"')
         else:
             stmt = '#include "{parent}.h"'.format(parent = self.parent)
             if stmt not in included:
                 header.writeline(stmt)
                 included.append(stmt)
 
-        header.writeline('#include "../../Framework/interface/Container.h"')
+        header.writeline('#include "../../Framework/interface/Collection.h"')
+        header.writeline('#include "../../Framework/interface/Array.h"')
         header.writeline('#include "../../Framework/interface/Ref.h"')
 
         for include in self.includes:
@@ -795,22 +835,21 @@ class PhysicsObjectDef(Definition, ObjectDef):
         header.indent += 1
         
         if self.coltype() != PhysicsObjectDef.SINGLE:
-            if self.parent == 'ContainerElement':
-                parent = ''
-            else:
-                parent = self.parent
+#            if self.parent == 'ContainerElement':
+#                header.writeline('typedef Collection<{name}> {name}Collection;'.format(name = self.name))
+#                header.writeline('typedef Array<{name}> {name}Array;'.format(name = self.name))
+#            else:
+#                header.writeline('typedef Collection<{name}, {parent}Collection> {name}Collection;'.format(name = self.name, parent = self.parent))
+#                header.writeline('typedef Array<{name}, {parent}Array> {name}Array;'.format(name = self.name, parent = self.parent))
 
-            header.writeline('typedef Container<{name}, {parent}{container}> {name}{container};'.format(name = self.name, parent = parent, container = self.container()))
-            header.writeline('typedef Ref<{name}{container}> {name}Ref;'.format(name = self.name, container = self.container()))
-            header.newline()
+#            header.writeline('typedef Ref<{name}> {name}Ref;'.format(name = self.name))
+#            header.newline()
 
-            header.writeline('struct array_data : public {parent}::array_data {{'.format(parent = self.parent))
+            header.writeline('struct datastore : public {parent}::datastore {{'.format(parent = self.parent))
             header.indent += 1
 
-            header.writeline('static UInt_t const NMAX{{{size}}};'.format(size = self.sizestr()))
-            header.newline()
-
-            header.writeline('array_data() : {parent}::array_data() {{}}'.format(parent = self.parent))
+            header.writeline('datastore() : {parent}::datastore() {{}}'.format(parent = self.parent))
+            header.writeline('~datastore() { deallocate(); }')
 
             newline = False
             for ancestor in inheritance:
@@ -825,15 +864,17 @@ class PhysicsObjectDef(Definition, ObjectDef):
                     header.writeline('/* {name}'.format(name = ancestor.name))
 
                 for branch in ancestor.branches:
-                    branch.write_decl(header, context = 'array_data')
+                    branch.write_decl(header, context = 'datastore')
 
                 if ancestor != self:
                     header.writeline('*/')
 
             header.newline()
-            header.writeline('void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"});')
-            header.writeline('void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"});')
-            header.writeline('void book(TTree&, TString const&, utils::BranchList const& = {"*"});')
+            header.writeline('void allocate(UInt_t n) override;')
+            header.writeline('void deallocate() override;')
+            header.writeline('void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;')
+            header.writeline('void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
+            header.writeline('void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;')
             header.indent -= 1
             header.writeline('};')
             header.newline()
@@ -845,7 +886,7 @@ class PhysicsObjectDef(Definition, ObjectDef):
         # standard constructors and specific functions
         if self.coltype() != PhysicsObjectDef.SINGLE:
             # whereas elements of collections are constructed from an array and an index
-            header.writeline('{name}(array_data&, UInt_t idx);'.format(name = self.name))
+            header.writeline('{name}(datastore&, UInt_t idx);'.format(name = self.name))
 
         header.writeline('~{name}();'.format(name = self.name)) # destructor
         header.writeline('{name}& operator=({name} const&);'.format(name = self.name)) # assignment operator
@@ -854,7 +895,7 @@ class PhysicsObjectDef(Definition, ObjectDef):
 
         # I/O with default name
         header.writeline('void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;')
-        header.writeline('void setAddress(TTree&, utils::BranchList const& = {"*"}) override;')
+        header.writeline('void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
         header.writeline('void book(TTree&, utils::BranchList const& = {"*"}) override;')
 
         header.newline()
@@ -905,7 +946,7 @@ class PhysicsObjectDef(Definition, ObjectDef):
             header.indent -= 1
             header.writeline('protected:')
             header.indent += 1
-            header.writeline('{name}(utils::AllocatorBase const&, char const* name);'.format(name = self.name))
+            header.writeline('{name}(ArrayBase const*);'.format(name = self.name))
 
         header.indent -= 1
 
@@ -914,8 +955,17 @@ class PhysicsObjectDef(Definition, ObjectDef):
         header.newline()
 
         if self.coltype() != PhysicsObjectDef.SINGLE:
-            header.writeline('typedef {name}::{name}{container} {name}{container};'.format(name = self.name, container = self.container()))
-            header.writeline('typedef {name}::{name}Ref {name}Ref;'.format(name = self.name))
+#            header.writeline('typedef {name}::{name}Collection {name}Collection;'.format(name = self.name))
+#            header.writeline('typedef {name}::{name}Array {name}Array;'.format(name = self.name))
+#            header.writeline('typedef {name}::{name}Ref {name}Ref;'.format(name = self.name))
+            if self.parent == 'ContainerElement':
+                header.writeline('typedef Collection<{name}, CollectionBase> {name}Collection;'.format(name = self.name))
+                header.writeline('typedef Array<{name}, ArrayBase> {name}Array;'.format(name = self.name))
+            else:
+                header.writeline('typedef Collection<{name}, {parent}Collection> {name}Collection;'.format(name = self.name, parent = self.parent))
+                header.writeline('typedef Array<{name}, {parent}Array> {name}Array;'.format(name = self.name, parent = self.parent))
+
+            header.writeline('typedef Ref<{name}> {name}Ref;'.format(name = self.name))
             header.newline()
 
         if len(header.custom_blocks) > 1:
@@ -1011,7 +1061,7 @@ class PhysicsObjectDef(Definition, ObjectDef):
             src.writeline('{')
             src.indent += 1
             for branch in self.branches:
-                branch.write_ctor(src, context = 'Singlet')
+                branch.write_default_ctor(src, context = 'Singlet')
             src.indent -= 1
             src.writeline('}')
             src.newline()
@@ -1026,7 +1076,7 @@ class PhysicsObjectDef(Definition, ObjectDef):
             src.writeline('{')
             src.indent += 1
             for branch in self.branches:
-                branch.write_ctor(src, context = 'Singlet')
+                branch.write_copy_ctor(src, context = 'Singlet')
             for branch in self.branches:
                 if branch.is_array():
                     branch.write_assign(src, context = 'Singlet')
@@ -1041,7 +1091,7 @@ class PhysicsObjectDef(Definition, ObjectDef):
             methods = [
                 ('operator=', '{NAMESPACE}::{name}&'.format(**subst), [('{name} const&'.format(**subst), '_src')], 'write_assign', '*this'),
                 ('setStatus', 'void', [('TTree&', '_tree'), ('Bool_t', '_status'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_status', None),
-                ('setAddress', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_address', None),
+                ('setAddress', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
                 ('book', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', None),
                 ('init', 'void', [], 'write_init', None)
             ]
@@ -1051,21 +1101,24 @@ class PhysicsObjectDef(Definition, ObjectDef):
                 self._write_method(src, 'Singlet', method)
 
         #if self.coltype == PhysicsObjectDef.SINGLE:
-        else: 
+        else:
+            size_lines = ['TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));']
             methods = [
+                ('allocate', 'void', [('UInt_t', '_nmax')], 'write_allocate', None),
+                ('deallocate', 'void', [], 'write_deallocate', None),
                 ('setStatus', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('Bool_t', '_status'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_status', None),
-                ('setAddress', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_address', None),
-                ('book', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', None)
+                ('setAddress', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
+                ('book', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_dynamic', 'kTRUE')], 'write_book', None, size_lines)
             ]
 
             for method in methods:
                 src.newline()
-                self._write_method(src, 'array_data', method, nestedcls = 'array_data')
+                self._write_method(src, 'datastore', method, nestedcls = 'datastore')
 
             src.newline()
             src.writeline('{NAMESPACE}::{name}::{name}(char const* _name/* = ""*/) :'.format(**subst))
             src.indent += 1
-            initializers = ['{parent}(utils::Allocator<{name}>(), _name)'.format(**subst)]
+            initializers = ['{parent}(new {name}Array(1, _name))'.format(**subst)]
             for branch in self.branches:
                 branch.init_default(initializers, context = 'ContainerElement')
             src.writelines(initializers, ',')
@@ -1073,12 +1126,12 @@ class PhysicsObjectDef(Definition, ObjectDef):
             src.writeline('{')
             src.indent += 1
             for branch in self.branches:
-                branch.write_ctor(src, context = 'ContainerElement')
+                branch.write_default_ctor(src, context = 'ContainerElement')
             src.indent -= 1
             src.writeline('}')
 
             src.newline()
-            src.writeline('{NAMESPACE}::{name}::{name}(array_data& _data, UInt_t _idx) :'.format(**subst))
+            src.writeline('{NAMESPACE}::{name}::{name}(datastore& _data, UInt_t _idx) :'.format(**subst))
             src.indent += 1
             initializers = ['{parent}(_data, _idx)'.format(**subst)]
             for branch in self.branches:
@@ -1088,24 +1141,25 @@ class PhysicsObjectDef(Definition, ObjectDef):
             src.writeline('{')
             src.indent += 1
             for branch in self.branches:
-                branch.write_ctor(src, context = 'ContainerElement')
+                branch.write_standard_ctor(src, context = 'ContainerElement')
             src.indent -= 1
             src.writeline('}')
 
             src.newline()
             src.writeline('{NAMESPACE}::{name}::{name}({name} const& _src) :'.format(**subst))
             src.indent += 1
-            initializers = ['{parent}(utils::Allocator<{name}>(), gStore.getName(&_src))'.format(**subst)]
+            initializers = ['{parent}(new {name}Array(1, gStore.getName(&_src)))'.format(**subst)]
             for branch in self.branches:
                 branch.init_copy(initializers, context = 'ContainerElement')
             src.writelines(initializers, ',')
             src.indent -= 1
             src.writeline('{')
             src.indent += 1
-            for branch in self.branches:
-                branch.write_ctor(src, context = 'ContainerElement')
             src.writeline('{parent}::operator=(_src);'.format(**subst))
             if len(self.branches) != 0:
+                src.newline()
+                for branch in self.branches:
+                    branch.write_copy_ctor(src, context = 'ContainerElement')
                 src.newline()
                 for branch in self.branches:
                     branch.write_assign(src, context = 'ContainerElement')
@@ -1113,9 +1167,9 @@ class PhysicsObjectDef(Definition, ObjectDef):
             src.writeline('}')
 
             src.newline()
-            src.writeline('{NAMESPACE}::{name}::{name}(utils::AllocatorBase const& _allocator, char const* _name) :'.format(**subst))
+            src.writeline('{NAMESPACE}::{name}::{name}(ArrayBase const* _array) :'.format(**subst))
             src.indent += 1
-            initializers = ['{parent}(_allocator, _name)'.format(**subst)]
+            initializers = ['{parent}(_array)'.format(**subst)]
             for branch in self.branches:
                 branch.init_default(initializers, context = 'ContainerElement')
             src.writelines(initializers, ',')
@@ -1123,7 +1177,7 @@ class PhysicsObjectDef(Definition, ObjectDef):
             src.writeline('{')
             src.indent += 1
             for branch in self.branches:
-                branch.write_ctor(src, context = 'ContainerElement')
+                branch.write_default_ctor(src, context = 'ContainerElement')
             src.indent -= 1
             src.writeline('}')
 
@@ -1139,7 +1193,7 @@ class PhysicsObjectDef(Definition, ObjectDef):
             methods = [
                 ('operator=', '{NAMESPACE}::{name}&'.format(**subst), [('{name} const&'.format(**subst), '_src')], 'write_assign', '*this'),
                 ('setStatus', 'void', [('TTree&', '_tree'), ('Bool_t', '_status'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_status', None, [name_line]),
-                ('setAddress', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_address', None, [name_line]),
+                ('setAddress', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None, [name_line]),
                 ('book', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', None, [name_line]),
                 ('init', 'void', [], 'write_init', None)
             ]

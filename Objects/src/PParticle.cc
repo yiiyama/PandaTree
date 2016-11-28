@@ -1,9 +1,32 @@
 #include "../interface/PParticle.h"
 
 void
-panda::PParticle::array_data::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PParticle::datastore::allocate(UInt_t _nmax)
 {
-  ContainerElement::array_data::setStatus(_tree, _name, _status, _branches);
+  ContainerElement::datastore::allocate(_nmax);
+
+  pt = new Float_t[nmax_];
+  eta = new Float_t[nmax_];
+  phi = new Float_t[nmax_];
+}
+
+void
+panda::PParticle::datastore::deallocate()
+{
+  ContainerElement::datastore::deallocate();
+
+  delete [] pt;
+  pt = 0;
+  delete [] eta;
+  eta = 0;
+  delete [] phi;
+  phi = 0;
+}
+
+void
+panda::PParticle::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+{
+  ContainerElement::datastore::setStatus(_tree, _name, _status, _branches);
 
   utils::setStatus(_tree, _name, "pt", _status, _branches);
   utils::setStatus(_tree, _name, "eta", _status, _branches);
@@ -11,34 +34,36 @@ panda::PParticle::array_data::setStatus(TTree& _tree, TString const& _name, Bool
 }
 
 void
-panda::PParticle::array_data::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PParticle::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  ContainerElement::array_data::setAddress(_tree, _name, _branches);
+  ContainerElement::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
-  utils::setStatusAndAddress(_tree, _name, "pt", pt, _branches);
-  utils::setStatusAndAddress(_tree, _name, "eta", eta, _branches);
-  utils::setStatusAndAddress(_tree, _name, "phi", phi, _branches);
+  utils::setAddress(_tree, _name, "pt", pt, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "eta", eta, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "phi", phi, _branches, _setStatus);
 }
 
 void
-panda::PParticle::array_data::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PParticle::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
 {
-  ContainerElement::array_data::book(_tree, _name, _branches);
+  ContainerElement::datastore::book(_tree, _name, _branches, _dynamic);
 
-  utils::book(_tree, _name, "pt", "[" + _name + ".size]", 'F', pt, _branches);
-  utils::book(_tree, _name, "eta", "[" + _name + ".size]", 'F', eta, _branches);
-  utils::book(_tree, _name, "phi", "[" + _name + ".size]", 'F', phi, _branches);
+  TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
+
+  utils::book(_tree, _name, "pt", size, 'F', pt, _branches);
+  utils::book(_tree, _name, "eta", size, 'F', eta, _branches);
+  utils::book(_tree, _name, "phi", size, 'F', phi, _branches);
 }
 
 panda::PParticle::PParticle(char const* _name/* = ""*/) :
-  ContainerElement(utils::Allocator<PParticle>(), _name),
-  pt(gStore.getData(this).pt[gStore.getIndex(this)]),
-  eta(gStore.getData(this).eta[gStore.getIndex(this)]),
-  phi(gStore.getData(this).phi[gStore.getIndex(this)])
+  ContainerElement(new PParticleArray(1, _name)),
+  pt(gStore.getData(this).pt[0]),
+  eta(gStore.getData(this).eta[0]),
+  phi(gStore.getData(this).phi[0])
 {
 }
 
-panda::PParticle::PParticle(array_data& _data, UInt_t _idx) :
+panda::PParticle::PParticle(datastore& _data, UInt_t _idx) :
   ContainerElement(_data, _idx),
   pt(_data.pt[_idx]),
   eta(_data.eta[_idx]),
@@ -47,23 +72,24 @@ panda::PParticle::PParticle(array_data& _data, UInt_t _idx) :
 }
 
 panda::PParticle::PParticle(PParticle const& _src) :
-  ContainerElement(utils::Allocator<PParticle>(), gStore.getName(&_src)),
-  pt(gStore.getData(this).pt[gStore.getIndex(this)]),
-  eta(gStore.getData(this).eta[gStore.getIndex(this)]),
-  phi(gStore.getData(this).phi[gStore.getIndex(this)])
+  ContainerElement(new PParticleArray(1, gStore.getName(&_src))),
+  pt(gStore.getData(this).pt[0]),
+  eta(gStore.getData(this).eta[0]),
+  phi(gStore.getData(this).phi[0])
 {
   ContainerElement::operator=(_src);
+
 
   pt = _src.pt;
   eta = _src.eta;
   phi = _src.phi;
 }
 
-panda::PParticle::PParticle(utils::AllocatorBase const& _allocator, char const* _name) :
-  ContainerElement(_allocator, _name),
-  pt(gStore.getData(this).pt[gStore.getIndex(this)]),
-  eta(gStore.getData(this).eta[gStore.getIndex(this)]),
-  phi(gStore.getData(this).phi[gStore.getIndex(this)])
+panda::PParticle::PParticle(ArrayBase const* _array) :
+  ContainerElement(_array),
+  pt(gStore.getData(this).pt[0]),
+  eta(gStore.getData(this).eta[0]),
+  phi(gStore.getData(this).phi[0])
 {
 }
 
@@ -97,15 +123,15 @@ panda::PParticle::setStatus(TTree& _tree, Bool_t _status, utils::BranchList cons
 }
 
 void
-panda::PParticle::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PParticle::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  ContainerElement::setAddress(_tree, _branches);
+  ContainerElement::setAddress(_tree, _branches, _setStatus);
 
   TString name(gStore.getName(this));
 
-  utils::setStatusAndAddress(_tree, name, "pt", &pt, _branches);
-  utils::setStatusAndAddress(_tree, name, "eta", &eta, _branches);
-  utils::setStatusAndAddress(_tree, name, "phi", &phi, _branches);
+  utils::setAddress(_tree, name, "pt", &pt, _branches, _setStatus);
+  utils::setAddress(_tree, name, "eta", &eta, _branches, _setStatus);
+  utils::setAddress(_tree, name, "phi", &phi, _branches, _setStatus);
 }
 
 void
