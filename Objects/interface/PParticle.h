@@ -25,6 +25,9 @@ namespace panda {
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
     };
 
+    typedef Array<PParticle, ContainerElement::array_type> array_type;
+    typedef Collection<PParticle, ContainerElement::collection_type> collection_type;
+
     PParticle(char const* name = "");
     PParticle(PParticle const&);
     PParticle(datastore&, UInt_t idx);
@@ -58,11 +61,11 @@ namespace panda {
     /* END CUSTOM */
 
   protected:
-    PParticle(ArrayBase const*);
+    PParticle(ArrayBase*);
   };
 
-  typedef Collection<PParticle, CollectionBase> PParticleCollection;
-  typedef Array<PParticle, ArrayBase> PParticleArray;
+  typedef PParticle::array_type PParticleArray;
+  typedef PParticle::collection_type PParticleCollection;
   typedef Ref<PParticle> PParticleRef;
 
   /* BEGIN CUSTOM */
