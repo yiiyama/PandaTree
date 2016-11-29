@@ -4,6 +4,7 @@
 #include "PMET.h"
 #include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
+#include "../../Framework/interface/RefVector.h"
 
 namespace panda {
 

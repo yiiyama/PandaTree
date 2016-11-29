@@ -4,6 +4,8 @@
 #include "PParticleM.h"
 #include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
+#include "../../Framework/interface/RefVector.h"
+#include "PPFCand.h"
 
 namespace panda {
 
@@ -31,7 +33,7 @@ namespace panda {
       Float_t* nhf{0};
       Float_t* chf{0};
       UInt_t* id{0};
-      std::vector<std::array<PPFCandRefVector, 3>>* constituents{0};
+      std::vector<std::vector<UInt_t>>* constituents_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -76,7 +78,7 @@ namespace panda {
     Float_t& nhf;
     Float_t& chf;
     UInt_t& id;
-    std::array<PPFCandRefVector, 3>* constituents;
+    RefVector<PPFCand> constituents;
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */
@@ -88,6 +90,7 @@ namespace panda {
   typedef PJet::array_type PJetArray;
   typedef PJet::collection_type PJetCollection;
   typedef Ref<PJet> PJetRef;
+  typedef RefVector<PJet> PJetRefVector;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

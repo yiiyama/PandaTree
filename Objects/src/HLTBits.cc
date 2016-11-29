@@ -8,6 +8,7 @@ panda::HLTBits::HLTBits(char const* _name/* = ""*/) :
 panda::HLTBits::HLTBits(HLTBits const& _src) :
   Singlet(_src.name_)
 {
+  std::memcpy(words, _src.words, sizeof(UInt_t) * 16);
 }
 
 panda::HLTBits::~HLTBits()
@@ -19,6 +20,7 @@ panda::HLTBits::operator=(HLTBits const& _src)
 {
   Singlet::operator=(_src);
 
+  std::memcpy(words, _src.words, sizeof(UInt_t) * 16);
 
   return *this;
 }

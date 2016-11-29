@@ -80,6 +80,7 @@ class PhysicsObject(Definition, Object):
 
         header.writeline('#include "../../Framework/interface/Container.h"')
         header.writeline('#include "../../Framework/interface/Ref.h"')
+        header.writeline('#include "../../Framework/interface/RefVector.h"')
 
         for include in self.includes:
             if include.code not in included:
@@ -223,6 +224,7 @@ class PhysicsObject(Definition, Object):
             header.writeline('typedef {name}::array_type {name}Array;'.format(name = self.name))
             header.writeline('typedef {name}::collection_type {name}Collection;'.format(name = self.name))
             header.writeline('typedef Ref<{name}> {name}Ref;'.format(name = self.name))
+            header.writeline('typedef RefVector<{name}> {name}RefVector;'.format(name = self.name))
             header.newline()
 
         if len(header.custom_blocks) > 1:
@@ -416,9 +418,6 @@ class PhysicsObject(Definition, Object):
                 src.newline()
                 for branch in self.branches:
                     branch.write_copy_ctor(src, context = 'ContainerElement')
-                src.newline()
-                for branch in self.branches:
-                    branch.write_assign(src, context = 'ContainerElement')
             src.indent -= 1
             src.writeline('}')
 

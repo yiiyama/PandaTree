@@ -4,6 +4,7 @@
 #include "PParticleM.h"
 #include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
+#include "../../Framework/interface/RefVector.h"
 
 namespace panda {
 
@@ -72,6 +73,7 @@ namespace panda {
   typedef PTau::array_type PTauArray;
   typedef PTau::collection_type PTauCollection;
   typedef Ref<PTau> PTauRef;
+  typedef RefVector<PTau> PTauRefVector;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

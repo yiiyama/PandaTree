@@ -94,7 +94,7 @@ class GenericBranch(Branch):
 
     def init_default(self, lines, context):
         if context == 'ContainerElement':
-            lines.append('{name}(&gStore.getData(this).{name}[0])'.format(name = self.name))
+            lines.append('{name}(&(*gStore.getData(this).{name})[0])'.format(name = self.name))
         else:
             lines.append('{name}(new {type}({init}))'.format(name = self.name, type = self.type, init = self.init))
 
@@ -106,7 +106,7 @@ class GenericBranch(Branch):
         if context == 'Singlet' or context == 'TreeEntry':
             lines.append('{name}(new {type}{{*_src.{name}}})'.format(name = self.name, type = self.type))
         elif context == 'ContainerElement':
-            lines.append('{name}(&gStore.getData(this).{name}[0])'.format(name = self.name))
+            lines.append('{name}(&(*gStore.getData(this).{name})[0])'.format(name = self.name))
 
     def write_assign(self, out, context):
         out.writeline('*{name} = *_src.{name};'.format(name = self.name))

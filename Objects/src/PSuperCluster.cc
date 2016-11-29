@@ -89,7 +89,6 @@ panda::PSuperCluster::PSuperCluster(PSuperCluster const& _src) :
 {
   ContainerElement::operator=(_src);
 
-
   rawPt = _src.rawPt;
   eta = _src.eta;
   phi = _src.phi;

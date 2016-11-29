@@ -89,7 +89,6 @@ panda::PPFCand::PPFCand(PPFCand const& _src) :
 {
   PParticleM::operator=(_src);
 
-
   q = _src.q;
   weight = _src.weight;
   pftype = _src.pftype;

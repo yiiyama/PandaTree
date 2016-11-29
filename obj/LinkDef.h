@@ -42,8 +42,6 @@
 #pragma link C++ class panda::PTau;
 #pragma link C++ class panda::PPhoton;
 #pragma link C++ class panda::PJet;
-#pragma link C++ class std::array<PPFCandRefVector, 3>+;
-#pragma link C++ class std::vector<std::array<PPFCandRefVector, 3>>+;
 #pragma link C++ class panda::PFatJet;
 #pragma link C++ class panda::PGenJet;
 #pragma link C++ class panda::PGenParticle;

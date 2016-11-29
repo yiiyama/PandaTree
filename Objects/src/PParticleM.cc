@@ -69,7 +69,6 @@ panda::PParticleM::PParticleM(PParticleM const& _src) :
 {
   PParticle::operator=(_src);
 
-
   mass = _src.mass;
 }
 

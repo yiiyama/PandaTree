@@ -4,6 +4,7 @@
 #include "PParticleM.h"
 #include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
+#include "../../Framework/interface/RefVector.h"
 
 namespace panda {
 
@@ -68,6 +69,7 @@ namespace panda {
   typedef PGenJet::array_type PGenJetArray;
   typedef PGenJet::collection_type PGenJetCollection;
   typedef Ref<PGenJet> PGenJetRef;
+  typedef RefVector<PGenJet> PGenJetRefVector;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

@@ -15,6 +15,13 @@ panda::PMETFilters::PMETFilters(PMETFilters const& _src) :
   badTrack(_src.badTrack),
   badMuonTrack(_src.badMuonTrack)
 {
+  cschalo = _src.cschalo;
+  globalHalo16 = _src.globalHalo16;
+  hbhe = _src.hbhe;
+  hbheIso = _src.hbheIso;
+  badsc = _src.badsc;
+  badTrack = _src.badTrack;
+  badMuonTrack = _src.badMuonTrack;
 }
 
 panda::PMETFilters::~PMETFilters()

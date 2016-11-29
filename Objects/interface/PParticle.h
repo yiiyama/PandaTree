@@ -4,6 +4,7 @@
 #include "../../Framework/interface/ContainerElement.h"
 #include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
+#include "../../Framework/interface/RefVector.h"
 
 namespace panda {
 
@@ -69,6 +70,7 @@ namespace panda {
   typedef PParticle::array_type PParticleArray;
   typedef PParticle::collection_type PParticleCollection;
   typedef Ref<PParticle> PParticleRef;
+  typedef RefVector<PParticle> PParticleRefVector;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

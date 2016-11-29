@@ -159,7 +159,6 @@ panda::PFatJet::PFatJet(PFatJet const& _src) :
 {
   PJet::operator=(_src);
 
-
   tau1 = _src.tau1;
   tau2 = _src.tau2;
   tau3 = _src.tau3;
@@ -169,6 +168,7 @@ panda::PFatJet::PFatJet(PFatJet const& _src) :
   tau3SD = _src.tau3SD;
   htt_mass = _src.htt_mass;
   htt_frec = _src.htt_frec;
+  std::memcpy(ecfs, _src.ecfs, sizeof(Float_t) * 3 * 4 * 4);
 }
 
 panda::PFatJet::PFatJet(ArrayBase* _array) :
@@ -205,6 +205,7 @@ panda::PFatJet::operator=(PFatJet const& _src)
   tau3SD = _src.tau3SD;
   htt_mass = _src.htt_mass;
   htt_frec = _src.htt_frec;
+  std::memcpy(ecfs, _src.ecfs, sizeof(Float_t) * 3 * 4 * 4);
 
   return *this;
 }

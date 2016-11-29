@@ -4,6 +4,7 @@
 #include "PParticleM.h"
 #include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
+#include "../../Framework/interface/RefVector.h"
 
 namespace panda {
 
@@ -70,6 +71,7 @@ namespace panda {
   typedef PGenParticle::array_type PGenParticleArray;
   typedef PGenParticle::collection_type PGenParticleCollection;
   typedef Ref<PGenParticle> PGenParticleRef;
+  typedef RefVector<PGenParticle> PGenParticleRefVector;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

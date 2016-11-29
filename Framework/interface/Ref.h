@@ -33,14 +33,18 @@ namespace panda {
       The argument idx must not go out of the scope before this object is destroyed.
     */
     Ref(UInt_t& idx) : idx_(&idx) {}
+    //! Constructor with array container.
+    Ref(UInt_t& idx, array_type const& c) : idx_(&idx), container_(&c) {}
+    //! Constructor with collection container.
+    Ref(UInt_t& idx, collection_type const& c) : idx_(&idx), container_(&c) {}
     //! Copy constructor.
     Ref(self_type const& orig) : idx_(orig.idx_), container_(orig.container_) {}
     //! Set the index.
     void setIndex(UInt_t& idx) { idx_ = &idx; }
-    //! Set the container (an Array or a Collection).
-    template<class C> typename std::enable_if<std::is_base_of<array_type, C>::value>::type setContainer(C const& c) { container_ = &c; }
-    //! Set the container (an Array or a Collection).
-    template<class C> typename std::enable_if<std::is_base_of<collection_type, C>::value>::type setContainer(C const& c) { container_ = &c; }
+    //! Set the container to an array.
+    void setContainer(array_type const& c) { container_ = &c; }
+    //! Set the container to a collection.
+    void setContainer(collection_type const& c) { container_ = &c; }
     //! The arrow operator.
     /*!
       Returns a null pointer if the container is not set or the index points to an invalid location.
@@ -75,6 +79,8 @@ namespace panda {
       Throws a runtime_error if idx is not valid.
     */
     UInt_t& idx();
+    //! Accessor to container
+    ContainerBase const* container() const { return container_; }
 
   private:
     ContainerBase const* container_{0};

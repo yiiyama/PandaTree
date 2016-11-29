@@ -79,7 +79,6 @@ panda::PGenParticle::PGenParticle(PGenParticle const& _src) :
 {
   PParticleM::operator=(_src);
 
-
   pdgid = _src.pdgid;
   parent = _src.parent;
 }
@@ -126,7 +125,7 @@ panda::PGenParticle::setAddress(TTree& _tree, utils::BranchList const& _branches
   TString name(gStore.getName(this));
 
   utils::setAddress(_tree, name, "pdgid", &pdgid, _branches, _setStatus);
-  utils::setAddress(_tree, name, "parent_", &parent.idx(), _branches, true);
+  utils::setAddress(_tree, name, "parent_", gStore.getData(this).parent_[0], _branches, true);
 }
 
 void

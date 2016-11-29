@@ -89,7 +89,6 @@ panda::PParticle::PParticle(PParticle const& _src) :
 {
   ContainerElement::operator=(_src);
 
-
   pt = _src.pt;
   eta = _src.eta;
   phi = _src.phi;

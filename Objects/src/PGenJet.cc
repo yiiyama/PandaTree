@@ -69,7 +69,6 @@ panda::PGenJet::PGenJet(PGenJet const& _src) :
 {
   PParticleM::operator=(_src);
 
-
   pdgid = _src.pdgid;
 }
 

@@ -4,6 +4,7 @@
 #include "PLepton.h"
 #include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
+#include "../../Framework/interface/RefVector.h"
 
 namespace panda {
 
@@ -85,6 +86,7 @@ namespace panda {
   typedef PMuon::array_type PMuonArray;
   typedef PMuon::collection_type PMuonCollection;
   typedef Ref<PMuon> PMuonRef;
+  typedef RefVector<PMuon> PMuonRefVector;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

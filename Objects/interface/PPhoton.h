@@ -4,6 +4,7 @@
 #include "PParticle.h"
 #include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
+#include "../../Framework/interface/RefVector.h"
 #include "PSuperCluster.h"
 
 namespace panda {
@@ -121,6 +122,7 @@ namespace panda {
   typedef PPhoton::array_type PPhotonArray;
   typedef PPhoton::collection_type PPhotonCollection;
   typedef Ref<PPhoton> PPhotonRef;
+  typedef RefVector<PPhoton> PPhotonRefVector;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

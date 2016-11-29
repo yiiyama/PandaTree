@@ -39,15 +39,13 @@ class RefBranch(Branch):
                 out.indent += 1
 
             if self.is_array():
-                # Ref does not have a default constructor -> need to declare as a pointer and do allocate-deallocate
                 out.writeline('Ref<{type}> {name}{arrdef}{{}};'.format(type = self.objname, name = self.refname, arrdef = self.arrdef_text()))
             else:
                 out.writeline('Ref<{type}> {name};'.format(type = self.objname, name = self.refname))
 
     def write_set_address(self, out, context):
         if context == 'ContainerElement':
-            subscript = ''.join('[0]' for a in self.arrdef)
-            out.writeline('utils::setAddress(_tree, name, "{name}", &{refname}{subscript}.idx(), _branches, true);'.format(name = self.name, refname = self.refname, subscript = subscript))
+            out.writeline('utils::setAddress(_tree, name, "{name}", gStore.getData(this).{name}[0], _branches, true);'.format(name = self.name))
         else:
             Branch.write_set_address(self, out, context)
 
@@ -57,12 +55,6 @@ class RefBranch(Branch):
             out.writeline('utils::book(_tree, name, "{name}", "{arrdef}", \'{type}\', &{refname}{subscript}.idx(), _branches);'.format(name = self.name, arrdef = self.arrdef_text(), type = self.type, refname = self.refname, subscript = subscript))
         else:
             Branch.write_book(self, out, context)
-
-    def write_reset_address(self, out, context):
-        if context == 'ContainerElement':
-            out.writeline('utils::resetAddress(_tree, name, "{name}");'.format(name = self.name))
-        else:
-            Branch.write_reset_address(self, out, context)
 
     def init_default(self, lines, context):
         if self.is_array():
@@ -95,9 +87,9 @@ class RefBranch(Branch):
             return
 
         if context == 'Singlet':
-            out.writeline('UInt_t (&{refname}Indices){arrdef}({name});'.format(refname = self.refname, arrdef = self.arrdef_text(), name = self.name))
+            out.writeline('auto& {name}Indices({name}_);'.format(name = self.refname))
         else:
-            out.writeline('UInt_t (&{refname}Indices){arrdef}(gStore.getData(this).{name}[0]);'.format(refname = self.refname, arrdef = self.arrdef_text(), name = self.name))
+            out.writeline('auto& {name}Indices(gStore.getData(this).{name}_[0]);'.format(name = self.refname))
 
         self._write_ref_set(out)
 
@@ -105,20 +97,18 @@ class RefBranch(Branch):
         if not self.is_array():
             return
 
-        out.writeline('UInt_t (&{refname}Indices){arrdef}(_data.{name}[_idx]);'.format(refname = self.refname, arrdef = self.arrdef_text(), name = self.name))
+        out.writeline('auto& {name}Indices(_data.{name}_[_idx]);'.format(name = self.refname))
 
         self._write_ref_set(out)
 
     def write_copy_ctor(self, out, context):
-        if not self.is_array():
-            return
-
-        if context == 'Singlet':
-            out.writeline('UInt_t (&{refname}Indices){arrdef}({name});'.format(refname = self.refname, arrdef = self.arrdef_text(), name = self.name))
-        else:
-            out.writeline('UInt_t (&{refname}Indices){arrdef}(gStore.getData(this).{name}[0]);'.format(refname = self.refname, arrdef = self.arrdef_text(), name = self.name))
-
-        self._write_ref_set(out)
+        if self.is_array():
+            if context == 'Singlet':
+                out.writeline('auto& {name}Indices({name}_);'.format(name = self.refname))
+            else:
+                out.writeline('auto& {refname}Indices(gStore.getData(this).{name}_[0]);'.format(name = self.refname))
+    
+            self._write_ref_set(out)
 
         self.write_assign(out, context)
 
@@ -126,7 +116,7 @@ class RefBranch(Branch):
         subscript = ''
         array = self.refname + 'Indices'            
         for depth in range(len(self.arrdef)):
-            out.writeline('for (UInt_t i{depth}(0); i{depth} != sizeof({array}); ++i{depth}) {{'.format(depth = depth, array = array))
+            out.writeline('for (UInt_t i{depth}(0); i{depth} != {size}; ++i{depth}) {{'.format(depth = depth, size = self.arrdef[depth]))
             subscript += '[i{depth}]'.format(depth = depth)
             newarray = 'arr{depth}'.format(depth = depth)
 
@@ -135,7 +125,7 @@ class RefBranch(Branch):
             if depth == len(self.arrdef) - 1:
                 out.writeline('{name}{subscript}.setIndex({array}[i{depth}]);'.format(name = self.refname, subscript = subscript, array = array, depth = depth))
             else:
-                out.writeline('UInt_t (&{newarray}){arrdef}({array}[i{depth}]);'.format(newarray = newarray, arrdef = self.arrdef_text(depth + 1), depth = depth))
+                out.writeline('auto& {newarray}({array}[i{depth}]);'.format(newarray = newarray, array = array, depth = depth))
 
             array = newarray
 
@@ -144,22 +134,27 @@ class RefBranch(Branch):
             out.writeline('}')
 
     def write_assign(self, out, context):
-        if self.is_array():
-            index = ''
-            for depth in range(len(self.arrdef)):
-                out.writeline('for (UInt_t i{depth}(0); i{depth} != {n}; ++i{depth}) {{'.format(depth = depth, n = self.arrdef[depth]))
-                out.indent += 1
-                index += '[i{depth}]'.format(depth = depth)
+        subscript = ''
+        for depth in range(len(self.arrdef)):
+            out.writeline('for (UInt_t i{depth}(0); i{depth} != {n}; ++i{depth}) {{'.format(depth = depth, n = self.arrdef[depth]))
+            out.indent += 1
+            subscript += '[i{depth}]'.format(depth = depth)
 
-            out.writeline('{name}{index} = _src.{name}{index};'.format(name = self.refname, index = index))
+        out.writeline('{name}{subscript} = _src.{name}{subscript};'.format(name = self.refname, subscript = subscript))
 
-            for depth in range(len(self.arrdef)):
-                out.indent -= 1
-                out.writeline('}')
-
-        else:
-            out.writeline('{name} = _src.{name};'.format(name = self.refname))
+        for depth in range(len(self.arrdef)):
+            out.indent -= 1
+            out.writeline('}')
 
     def write_init(self, out, context):
-        if not self.is_array():
-            out.writeline('{name}.init();'.format(name = self.refname))
+        subscript = ''
+        for depth in range(len(self.arrdef)):
+            out.writeline('for (UInt_t i{depth}(0); i{depth} != {n}; ++i{depth}) {{'.format(depth = depth, n = self.arrdef[depth]))
+            out.indent += 1
+            subscript += '[i{depth}]'.format(depth = depth)
+
+        out.writeline('{name}{subscript}.init();'.format(name = self.refname, subscript = subscript))
+
+        for depth in range(len(self.arrdef)):
+            out.indent -= 1
+            out.writeline('}')

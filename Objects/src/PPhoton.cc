@@ -349,7 +349,6 @@ panda::PPhoton::PPhoton(PPhoton const& _src) :
 {
   PParticle::operator=(_src);
 
-
   chiso = _src.chiso;
   chworstiso = _src.chworstiso;
   chisoMax = _src.chisoMax;
@@ -377,6 +376,7 @@ panda::PPhoton::PPhoton(PPhoton const& _src) :
   highpt = _src.highpt;
   pixelVeto = _src.pixelVeto;
   csafeVeto = _src.csafeVeto;
+  std::memcpy(matchL1, _src.matchL1, sizeof(Bool_t) * nPhotonL1Objects);
   superCluster = _src.superCluster;
 }
 
@@ -451,6 +451,7 @@ panda::PPhoton::operator=(PPhoton const& _src)
   highpt = _src.highpt;
   pixelVeto = _src.pixelVeto;
   csafeVeto = _src.csafeVeto;
+  std::memcpy(matchL1, _src.matchL1, sizeof(Bool_t) * nPhotonL1Objects);
   superCluster = _src.superCluster;
 
   return *this;
@@ -529,7 +530,7 @@ panda::PPhoton::setAddress(TTree& _tree, utils::BranchList const& _branches/* = 
   utils::setAddress(_tree, name, "pixelVeto", &pixelVeto, _branches, _setStatus);
   utils::setAddress(_tree, name, "csafeVeto", &csafeVeto, _branches, _setStatus);
   utils::setAddress(_tree, name, "matchL1", matchL1, _branches, _setStatus);
-  utils::setAddress(_tree, name, "superCluster_", &superCluster.idx(), _branches, true);
+  utils::setAddress(_tree, name, "superCluster_", gStore.getData(this).superCluster_[0], _branches, true);
 }
 
 void

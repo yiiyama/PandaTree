@@ -89,7 +89,6 @@ panda::PTau::PTau(PTau const& _src) :
 {
   PParticleM::operator=(_src);
 
-
   q = _src.q;
   decayMode = _src.decayMode;
   isoDeltaBetaCorr = _src.isoDeltaBetaCorr;

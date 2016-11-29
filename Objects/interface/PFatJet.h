@@ -4,6 +4,7 @@
 #include "PJet.h"
 #include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
+#include "../../Framework/interface/RefVector.h"
 
 namespace panda {
 
@@ -32,7 +33,7 @@ namespace panda {
       Float_t* nhf{0};
       Float_t* chf{0};
       UInt_t* id{0};
-      std::vector<std::array<PPFCandRefVector, 3>>* constituents{0};
+      std::vector<std::vector<UInt_t>>* constituents_{0};
       */
       Float_t* tau1{0};
       Float_t* tau2{0};
@@ -92,7 +93,7 @@ namespace panda {
     Float_t& nhf;
     Float_t& chf;
     UInt_t& id;
-    std::array<PPFCandRefVector, 3>* constituents;
+    RefVector<PPFCand> constituents;
     */
     Float_t& tau1;
     Float_t& tau2;
@@ -115,6 +116,7 @@ namespace panda {
   typedef PFatJet::array_type PFatJetArray;
   typedef PFatJet::collection_type PFatJetCollection;
   typedef Ref<PFatJet> PFatJetRef;
+  typedef RefVector<PFatJet> PFatJetRefVector;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

@@ -4,6 +4,7 @@
 #include "../../Framework/interface/ContainerElement.h"
 #include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
+#include "../../Framework/interface/RefVector.h"
 
 namespace panda {
 
@@ -56,6 +57,7 @@ namespace panda {
   typedef PSuperCluster::array_type PSuperClusterArray;
   typedef PSuperCluster::collection_type PSuperClusterCollection;
   typedef Ref<PSuperCluster> PSuperClusterRef;
+  typedef RefVector<PSuperCluster> PSuperClusterRefVector;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

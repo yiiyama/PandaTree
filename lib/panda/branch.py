@@ -168,12 +168,12 @@ class Branch(Definition):
         pass
 
     def write_copy_ctor(self, out, context):
-        pass
+        self.write_assign(out, context)
 
     def write_assign(self, out, context):
         if self.is_array():
             size = ' * '.join(self.arrdef)
-            'std::memcpy({name}, _src.{name}, sizeof({type}) * {size});'.format(name = self.name, type = self.typename(), size = size)
+            out.writeline('std::memcpy({name}, _src.{name}, sizeof({type}) * {size});'.format(name = self.name, type = self.typename(), size = size))
         else:
             out.writeline('{name} = _src.{name};'.format(name = self.name))
 

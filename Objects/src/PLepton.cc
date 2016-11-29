@@ -149,7 +149,6 @@ panda::PLepton::PLepton(PLepton const& _src) :
 {
   PParticle::operator=(_src);
 
-
   q = _src.q;
   loose = _src.loose;
   tight = _src.tight;

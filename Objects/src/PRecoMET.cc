@@ -35,6 +35,33 @@ panda::PRecoMET::PRecoMET(PRecoMET const& _src) :
   ptUnclDown(_src.ptUnclDown),
   phiUnclDown(_src.phiUnclDown)
 {
+  sumETRaw = _src.sumETRaw;
+  raw_pt = _src.raw_pt;
+  raw_phi = _src.raw_phi;
+  calo_pt = _src.calo_pt;
+  calo_phi = _src.calo_phi;
+  noMu_pt = _src.noMu_pt;
+  noMu_phi = _src.noMu_phi;
+  noHF_pt = _src.noHF_pt;
+  noHF_phi = _src.noHF_phi;
+  trk_pt = _src.trk_pt;
+  trk_phi = _src.trk_phi;
+  neutral_pt = _src.neutral_pt;
+  neutral_phi = _src.neutral_phi;
+  photon_pt = _src.photon_pt;
+  photon_phi = _src.photon_phi;
+  hf_pt = _src.hf_pt;
+  hf_phi = _src.hf_phi;
+  ptCorrUp = _src.ptCorrUp;
+  phiCorrUp = _src.phiCorrUp;
+  ptCorrDown = _src.ptCorrDown;
+  phiCorrDown = _src.phiCorrDown;
+  ptJetRes = _src.ptJetRes;
+  phiJetRes = _src.phiJetRes;
+  ptUnclUp = _src.ptUnclUp;
+  phiUnclUp = _src.phiUnclUp;
+  ptUnclDown = _src.ptUnclDown;
+  phiUnclDown = _src.phiUnclDown;
 }
 
 panda::PRecoMET::~PRecoMET()

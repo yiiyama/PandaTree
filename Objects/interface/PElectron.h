@@ -4,6 +4,7 @@
 #include "PLepton.h"
 #include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
+#include "../../Framework/interface/RefVector.h"
 #include "PSuperCluster.h"
 
 namespace panda {
@@ -109,6 +110,7 @@ namespace panda {
   typedef PElectron::array_type PElectronArray;
   typedef PElectron::collection_type PElectronCollection;
   typedef Ref<PElectron> PElectronRef;
+  typedef RefVector<PElectron> PElectronRefVector;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

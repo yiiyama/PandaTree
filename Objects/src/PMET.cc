@@ -10,6 +10,8 @@ panda::PMET::PMET(PMET const& _src) :
   pt(_src.pt),
   phi(_src.phi)
 {
+  pt = _src.pt;
+  phi = _src.phi;
 }
 
 panda::PMET::~PMET()

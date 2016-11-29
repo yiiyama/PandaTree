@@ -169,7 +169,6 @@ panda::PElectron::PElectron(PElectron const& _src) :
 {
   PLepton::operator=(_src);
 
-
   chisoPh = _src.chisoPh;
   nhisoPh = _src.nhisoPh;
   phisoPh = _src.phisoPh;
@@ -261,7 +260,7 @@ panda::PElectron::setAddress(TTree& _tree, utils::BranchList const& _branches/* 
   utils::setAddress(_tree, name, "sipip", &sipip, _branches, _setStatus);
   utils::setAddress(_tree, name, "hOverE", &hOverE, _branches, _setStatus);
   utils::setAddress(_tree, name, "veto", &veto, _branches, _setStatus);
-  utils::setAddress(_tree, name, "superCluster_", &superCluster.idx(), _branches, true);
+  utils::setAddress(_tree, name, "superCluster_", gStore.getData(this).superCluster_[0], _branches, true);
 }
 
 void
