@@ -65,6 +65,13 @@ panda::PParticle::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "phi");
 }
 
+void
+panda::PParticle::datastore::resizeVectors_(UInt_t _size)
+{
+  ContainerElement::datastore::resizeVectors_(_size);
+
+}
+
 panda::PParticle::PParticle(char const* _name/* = ""*/) :
   ContainerElement(new PParticleArray(1, _name)),
   pt(gStore.getData(this).pt[0]),

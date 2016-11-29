@@ -107,6 +107,13 @@ panda::PLepton::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "hadDecay");
 }
 
+void
+panda::PLepton::datastore::resizeVectors_(UInt_t _size)
+{
+  PParticle::datastore::resizeVectors_(_size);
+
+}
+
 panda::PLepton::PLepton(char const* _name/* = ""*/) :
   PParticle(new PLeptonArray(1, _name)),
   q(gStore.getData(this).q[0]),

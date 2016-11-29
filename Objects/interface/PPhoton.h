@@ -49,6 +49,7 @@ namespace panda {
       Bool_t* csafeVeto{0};
       Bool_t (*matchL1)[nPhotonL1Objects]{0};
       UInt_t* superCluster_{0};
+      std::vector<TString>* text{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -56,6 +57,7 @@ namespace panda {
       void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
       void resetAddress(TTree&, TString const&) override;
+      void resizeVectors_(UInt_t) override;
     };
 
     typedef PParticle base_type;
@@ -111,6 +113,7 @@ namespace panda {
     Bool_t& csafeVeto;
     Bool_t (&matchL1)[nPhotonL1Objects];
     Ref<PSuperCluster> superCluster;
+    TString* text;
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */

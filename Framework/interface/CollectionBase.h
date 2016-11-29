@@ -14,7 +14,7 @@ namespace panda {
     void init() override { clear(); }
 
     void resize(UInt_t);
-    void clear() { size_ = 0; }
+    void clear() { size_ = 0; getData().resizeVectors_(0); }
 
   protected:
     CollectionBase(char const* name, UInt_t unitSize, Bool_t dummy) : ContainerBase(name, unitSize) {}

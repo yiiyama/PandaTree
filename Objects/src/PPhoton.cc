@@ -34,6 +34,7 @@ panda::PPhoton::datastore::allocate(UInt_t _nmax)
   csafeVeto = new Bool_t[nmax_];
   matchL1 = new Bool_t[nmax_][nPhotonL1Objects];
   superCluster_ = new UInt_t[nmax_];
+  text = new std::vector<TString>(nmax_);
 }
 
 void
@@ -99,6 +100,8 @@ panda::PPhoton::datastore::deallocate()
   matchL1 = 0;
   delete [] superCluster_;
   superCluster_ = 0;
+  delete text;
+  text = 0;
 }
 
 void
@@ -135,6 +138,7 @@ panda::PPhoton::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t 
   utils::setStatus(_tree, _name, "csafeVeto", _status, _branches);
   utils::setStatus(_tree, _name, "matchL1", _status, _branches);
   utils::setStatus(_tree, _name, "superCluster_", _status, _branches);
+  utils::setStatus(_tree, _name, "text", _status, _branches);
 }
 
 void
@@ -171,6 +175,7 @@ panda::PPhoton::datastore::setAddress(TTree& _tree, TString const& _name, utils:
   utils::setAddress(_tree, _name, "csafeVeto", csafeVeto, _branches, _setStatus);
   utils::setAddress(_tree, _name, "matchL1", matchL1, _branches, _setStatus);
   utils::setAddress(_tree, _name, "superCluster_", superCluster_, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "text", &text, _branches, _setStatus);
 }
 
 void
@@ -209,6 +214,7 @@ panda::PPhoton::datastore::book(TTree& _tree, TString const& _name, utils::Branc
   utils::book(_tree, _name, "csafeVeto", size, 'O', csafeVeto, _branches);
   utils::book(_tree, _name, "matchL1", size + "[nPhotonL1Objects]", 'O', matchL1, _branches);
   utils::book(_tree, _name, "superCluster_", size, 'i', superCluster_, _branches);
+  utils::book(_tree, _name, "text", "std::vector<TString>", &text, _branches);
 }
 
 void
@@ -245,6 +251,15 @@ panda::PPhoton::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "csafeVeto");
   utils::resetAddress(_tree, _name, "matchL1");
   utils::resetAddress(_tree, _name, "superCluster_");
+  utils::resetAddress(_tree, _name, "text");
+}
+
+void
+panda::PPhoton::datastore::resizeVectors_(UInt_t _size)
+{
+  PParticle::datastore::resizeVectors_(_size);
+
+  text->resize(_size);
 }
 
 panda::PPhoton::PPhoton(char const* _name/* = ""*/) :
@@ -277,7 +292,8 @@ panda::PPhoton::PPhoton(char const* _name/* = ""*/) :
   pixelVeto(gStore.getData(this).pixelVeto[0]),
   csafeVeto(gStore.getData(this).csafeVeto[0]),
   matchL1(gStore.getData(this).matchL1[0]),
-  superCluster(gStore.getData(this).superCluster_[0])
+  superCluster(gStore.getData(this).superCluster_[0]),
+  text(&(*gStore.getData(this).text)[0])
 {
 }
 
@@ -311,7 +327,8 @@ panda::PPhoton::PPhoton(datastore& _data, UInt_t _idx) :
   pixelVeto(_data.pixelVeto[_idx]),
   csafeVeto(_data.csafeVeto[_idx]),
   matchL1(_data.matchL1[_idx]),
-  superCluster(_data.superCluster_[_idx])
+  superCluster(_data.superCluster_[_idx]),
+  text(&(*_data.text)[_idx])
 {
 }
 
@@ -345,7 +362,8 @@ panda::PPhoton::PPhoton(PPhoton const& _src) :
   pixelVeto(gStore.getData(this).pixelVeto[0]),
   csafeVeto(gStore.getData(this).csafeVeto[0]),
   matchL1(gStore.getData(this).matchL1[0]),
-  superCluster(gStore.getData(this).superCluster_[0])
+  superCluster(gStore.getData(this).superCluster_[0]),
+  text(&(*gStore.getData(this).text)[0])
 {
   PParticle::operator=(_src);
 
@@ -378,6 +396,7 @@ panda::PPhoton::PPhoton(PPhoton const& _src) :
   csafeVeto = _src.csafeVeto;
   std::memcpy(matchL1, _src.matchL1, sizeof(Bool_t) * nPhotonL1Objects);
   superCluster = _src.superCluster;
+  *text = *_src.text;
 }
 
 panda::PPhoton::PPhoton(ArrayBase* _array) :
@@ -410,7 +429,8 @@ panda::PPhoton::PPhoton(ArrayBase* _array) :
   pixelVeto(gStore.getData(this).pixelVeto[0]),
   csafeVeto(gStore.getData(this).csafeVeto[0]),
   matchL1(gStore.getData(this).matchL1[0]),
-  superCluster(gStore.getData(this).superCluster_[0])
+  superCluster(gStore.getData(this).superCluster_[0]),
+  text(&(*gStore.getData(this).text)[0])
 {
 }
 
@@ -453,6 +473,7 @@ panda::PPhoton::operator=(PPhoton const& _src)
   csafeVeto = _src.csafeVeto;
   std::memcpy(matchL1, _src.matchL1, sizeof(Bool_t) * nPhotonL1Objects);
   superCluster = _src.superCluster;
+  *text = *_src.text;
 
   return *this;
 }
@@ -493,6 +514,7 @@ panda::PPhoton::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const&
   utils::setStatus(_tree, name, "csafeVeto", _status, _branches);
   utils::setStatus(_tree, name, "matchL1", _status, _branches);
   utils::setStatus(_tree, name, "superCluster_", _status, _branches);
+  utils::setStatus(_tree, name, "text", _status, _branches);
 }
 
 void
@@ -530,7 +552,8 @@ panda::PPhoton::setAddress(TTree& _tree, utils::BranchList const& _branches/* = 
   utils::setAddress(_tree, name, "pixelVeto", &pixelVeto, _branches, _setStatus);
   utils::setAddress(_tree, name, "csafeVeto", &csafeVeto, _branches, _setStatus);
   utils::setAddress(_tree, name, "matchL1", matchL1, _branches, _setStatus);
-  utils::setAddress(_tree, name, "superCluster_", gStore.getData(this).superCluster_[0], _branches, true);
+  utils::setAddress(_tree, name, "superCluster_", gStore.getData(this).superCluster_, _branches, true);
+  utils::setAddress(_tree, name, "text", &text, _branches, _setStatus);
 }
 
 void
@@ -568,7 +591,8 @@ panda::PPhoton::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*
   utils::book(_tree, name, "pixelVeto", "", 'O', &pixelVeto, _branches);
   utils::book(_tree, name, "csafeVeto", "", 'O', &csafeVeto, _branches);
   utils::book(_tree, name, "matchL1", "[nPhotonL1Objects]", 'O', matchL1, _branches);
-  utils::book(_tree, name, "superCluster_", "", 'i', &superCluster.idx(), _branches);
+  utils::book(_tree, name, "superCluster_", "", 'i', gStore.getData(this).superCluster_, _branches);
+  utils::book(_tree, name, "text", "TString", &text, _branches);
 }
 
 void
@@ -607,6 +631,7 @@ panda::PPhoton::resetAddress(TTree& _tree)
   utils::resetAddress(_tree, name, "csafeVeto");
   utils::resetAddress(_tree, name, "matchL1");
   utils::resetAddress(_tree, name, "superCluster_");
+  utils::resetAddress(_tree, name, "text");
 }
 
 void
@@ -643,6 +668,7 @@ panda::PPhoton::init()
   csafeVeto = false;
   for (auto& p0 : matchL1) p0 = false;
   superCluster.init();
+  *text = TString();
 }
 
 

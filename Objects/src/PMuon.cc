@@ -38,6 +38,12 @@ panda::PMuon::datastore::resetAddress(TTree& _tree, TString const& _name)
   PLepton::datastore::resetAddress(_tree, _name);
 }
 
+void
+panda::PMuon::datastore::resizeVectors_(UInt_t _size)
+{
+  PLepton::datastore::resizeVectors_(_size);
+}
+
 panda::PMuon::PMuon(char const* _name/* = ""*/) :
   PLepton(new PMuonArray(1, _name))
 {

@@ -92,6 +92,9 @@ class GenericBranch(Branch):
 
         out.writeline('utils::book(_tree, {namevar}, "{name}", "{type}", &{name}, _branches);'.format(namevar = namevar, name = self.name, type = type_name))
 
+    def write_resize_vectors(self, out, context):
+        out.writeline('{name}->resize(_size);'.format(name = self.name))
+
     def init_default(self, lines, context):
         if context == 'ContainerElement':
             lines.append('{name}(&(*gStore.getData(this).{name})[0])'.format(name = self.name))
@@ -100,7 +103,7 @@ class GenericBranch(Branch):
 
     def init_standard(self, lines, context):
         if context == 'ContainerElement':
-            lines.append('{name}(&_data.{name}[_idx])'.format(name = self.name))
+            lines.append('{name}(&(*_data.{name})[_idx])'.format(name = self.name))
 
     def init_copy(self, lines, context):
         if context == 'Singlet' or context == 'TreeEntry':

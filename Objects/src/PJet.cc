@@ -121,6 +121,14 @@ panda::PJet::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "constituents_");
 }
 
+void
+panda::PJet::datastore::resizeVectors_(UInt_t _size)
+{
+  PParticleM::datastore::resizeVectors_(_size);
+
+  constituents_->resize(_size);
+}
+
 panda::PJet::PJet(char const* _name/* = ""*/) :
   PParticleM(new PJetArray(1, _name)),
   rawPt(gStore.getData(this).rawPt[0]),

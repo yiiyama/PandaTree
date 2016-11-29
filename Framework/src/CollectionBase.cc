@@ -13,6 +13,7 @@ panda::CollectionBase::resize(UInt_t _size)
   }
   
   size_ = _size;
+  getData().resizeVectors_(_size);
 }
 
 /*private*/

@@ -41,6 +41,7 @@ namespace panda {
       void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
       void resetAddress(TTree&, TString const&) override;
+      void resizeVectors_(UInt_t) override;
     };
 
     typedef PParticleM base_type;

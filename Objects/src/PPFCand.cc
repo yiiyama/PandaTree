@@ -65,6 +65,13 @@ panda::PPFCand::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "pftype");
 }
 
+void
+panda::PPFCand::datastore::resizeVectors_(UInt_t _size)
+{
+  PParticleM::datastore::resizeVectors_(_size);
+
+}
+
 panda::PPFCand::PPFCand(char const* _name/* = ""*/) :
   PParticleM(new PPFCandArray(1, _name)),
   q(gStore.getData(this).q[0]),

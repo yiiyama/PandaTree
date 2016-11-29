@@ -146,6 +146,9 @@ class Branch(Definition):
 
         out.writeline('utils::resetAddress(_tree, {namevar}, "{name}");'.format(namevar = namevar, name = self.name))
 
+    def write_resize_vectors(self, out, context):
+        pass
+
     def init_default(self, lines, context):
         if context == 'ContainerElement':
             lines.append('{name}(gStore.getData(this).{name}[0])'.format(name = self.name))

@@ -65,6 +65,13 @@ panda::PSuperCluster::datastore::resetAddress(TTree& _tree, TString const& _name
   utils::resetAddress(_tree, _name, "phi");
 }
 
+void
+panda::PSuperCluster::datastore::resizeVectors_(UInt_t _size)
+{
+  ContainerElement::datastore::resizeVectors_(_size);
+
+}
+
 panda::PSuperCluster::PSuperCluster(char const* _name/* = ""*/) :
   ContainerElement(new PSuperClusterArray(1, _name)),
   rawPt(gStore.getData(this).rawPt[0]),

@@ -114,6 +114,13 @@ panda::PFatJet::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "ecfs");
 }
 
+void
+panda::PFatJet::datastore::resizeVectors_(UInt_t _size)
+{
+  PJet::datastore::resizeVectors_(_size);
+
+}
+
 panda::PFatJet::PFatJet(char const* _name/* = ""*/) :
   PJet(new PFatJetArray(1, _name)),
   tau1(gStore.getData(this).tau1[0]),

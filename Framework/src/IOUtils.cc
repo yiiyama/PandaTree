@@ -1,11 +1,5 @@
 #include "../interface/IOUtils.h"
 
-#include "TString.h"
-#include "TObjArray.h"
-#include "TTree.h"
-
-#include <utility>
-
 panda::utils::BranchName::BranchName(BranchName const& _src) :
   std::vector<TString>(_src),
   isVeto_(_src.isVeto_)
@@ -170,21 +164,6 @@ panda::utils::book(TTree& _tree, TString const& _objName, BranchName const& _bNa
   lExpr += _lType;
 
   _tree.Branch(_bName.fullName(_objName), _bPtr, lExpr);
-
-  return 0;
-}
-
-Int_t 
-panda::utils::book(TTree& _tree, TString const& _objName, BranchName const& _bName, TString const& _objType, void** _bPtr, BranchList const& _bList)
-{
-  // objName: electrons
-  // bName: tags
-  // objType: std::vector<int>
-
-  if (!_bName.in(_bList))
-    return -1;
-
-  _tree.Branch(_bName.fullName(_objName), _objType, _bPtr);
 
   return 0;
 }

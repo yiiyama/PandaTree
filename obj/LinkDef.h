@@ -41,6 +41,8 @@
 #pragma link C++ class panda::PMuon;
 #pragma link C++ class panda::PTau;
 #pragma link C++ class panda::PPhoton;
+#pragma link C++ class TString+;
+#pragma link C++ class std::vector<TString>+;
 #pragma link C++ class panda::PJet;
 #pragma link C++ class panda::PFatJet;
 #pragma link C++ class panda::PGenJet;

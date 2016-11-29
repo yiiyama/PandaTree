@@ -58,6 +58,13 @@ panda::PGenParticle::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "parent_");
 }
 
+void
+panda::PGenParticle::datastore::resizeVectors_(UInt_t _size)
+{
+  PParticleM::datastore::resizeVectors_(_size);
+
+}
+
 panda::PGenParticle::PGenParticle(char const* _name/* = ""*/) :
   PParticleM(new PGenParticleArray(1, _name)),
   pdgid(gStore.getData(this).pdgid[0]),
@@ -125,7 +132,7 @@ panda::PGenParticle::setAddress(TTree& _tree, utils::BranchList const& _branches
   TString name(gStore.getName(this));
 
   utils::setAddress(_tree, name, "pdgid", &pdgid, _branches, _setStatus);
-  utils::setAddress(_tree, name, "parent_", gStore.getData(this).parent_[0], _branches, true);
+  utils::setAddress(_tree, name, "parent_", gStore.getData(this).parent_, _branches, true);
 }
 
 void
@@ -136,7 +143,7 @@ panda::PGenParticle::book(TTree& _tree, utils::BranchList const& _branches/* = {
   TString name(gStore.getName(this));
 
   utils::book(_tree, name, "pdgid", "", 'I', &pdgid, _branches);
-  utils::book(_tree, name, "parent_", "", 'i', &parent.idx(), _branches);
+  utils::book(_tree, name, "parent_", "", 'i', gStore.getData(this).parent_, _branches);
 }
 
 void

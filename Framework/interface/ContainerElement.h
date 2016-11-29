@@ -54,6 +54,12 @@ namespace panda {
 
       UInt_t nmax() const { return nmax_; }
 
+      //! Override when there are vector members
+      /*!
+        This method should only be used from Collections
+      */
+      virtual void resizeVectors_(UInt_t) {}
+
     protected:
       UInt_t nmax_;
     };

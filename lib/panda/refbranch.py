@@ -45,14 +45,13 @@ class RefBranch(Branch):
 
     def write_set_address(self, out, context):
         if context == 'ContainerElement':
-            out.writeline('utils::setAddress(_tree, name, "{name}", gStore.getData(this).{name}[0], _branches, true);'.format(name = self.name))
+            out.writeline('utils::setAddress(_tree, name, "{name}", gStore.getData(this).{name}, _branches, true);'.format(name = self.name))
         else:
             Branch.write_set_address(self, out, context)
 
     def write_book(self, out, context):
         if context == 'ContainerElement':
-            subscript = ''.join('[0]' for a in self.arrdef)
-            out.writeline('utils::book(_tree, name, "{name}", "{arrdef}", \'{type}\', &{refname}{subscript}.idx(), _branches);'.format(name = self.name, arrdef = self.arrdef_text(), type = self.type, refname = self.refname, subscript = subscript))
+            out.writeline('utils::book(_tree, name, "{name}", "{arrdef}", \'{type}\', gStore.getData(this).{name}, _branches);'.format(name = self.name, arrdef = self.arrdef_text(), type = self.type, refname = self.refname))
         else:
             Branch.write_book(self, out, context)
 

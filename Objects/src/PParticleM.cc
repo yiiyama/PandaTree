@@ -51,6 +51,13 @@ panda::PParticleM::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "mass");
 }
 
+void
+panda::PParticleM::datastore::resizeVectors_(UInt_t _size)
+{
+  PParticle::datastore::resizeVectors_(_size);
+
+}
+
 panda::PParticleM::PParticleM(char const* _name/* = ""*/) :
   PParticle(new PParticleMArray(1, _name)),
   mass(gStore.getData(this).mass[0])

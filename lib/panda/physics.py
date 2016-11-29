@@ -1,6 +1,7 @@
 from common import *
 from base import Definition
 from obj import Object
+from branch import Branch
 from output import FileOutput
 
 class PhysicsObject(Definition, Object):
@@ -135,6 +136,8 @@ class PhysicsObject(Definition, Object):
             header.writeline('void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
             header.writeline('void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;')
             header.writeline('void resetAddress(TTree&, TString const&) override;')
+            header.writeline('void resizeVectors_(UInt_t) override;')
+
             header.indent -= 1
             header.writeline('};')
             header.newline()
@@ -366,7 +369,8 @@ class PhysicsObject(Definition, Object):
                 ('setStatus', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('Bool_t', '_status'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_status', None),
                 ('setAddress', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
                 ('book', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_dynamic', 'kTRUE')], 'write_book', None, size_lines),
-                ('resetAddress', 'void', [('TTree&', '_tree'), ('TString const&', '_name')], 'write_reset_address', None)
+                ('resetAddress', 'void', [('TTree&', '_tree'), ('TString const&', '_name')], 'write_reset_address', None),
+                ('resizeVectors_', 'void', [('UInt_t', '_size')], 'write_resize_vectors', None)
             ]
 
             for method in methods:

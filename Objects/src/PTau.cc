@@ -65,6 +65,13 @@ panda::PTau::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "isoDeltaBetaCorr");
 }
 
+void
+panda::PTau::datastore::resizeVectors_(UInt_t _size)
+{
+  PParticleM::datastore::resizeVectors_(_size);
+
+}
+
 panda::PTau::PTau(char const* _name/* = ""*/) :
   PParticleM(new PTauArray(1, _name)),
   q(gStore.getData(this).q[0]),

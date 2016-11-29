@@ -33,9 +33,9 @@ namespace panda {
     */
     RefVector(Indices& indices) : indices_(&indices) {}
     //! Constructor with array container.
-    Ref(Indices& indices, array_type const& c) : indices_(&indices), container_(&c) {}
+    RefVector(Indices& indices, array_type const& c) : indices_(&indices), container_(&c) {}
     //! Constructor with collection container.
-    Ref(Indices& indices, collection_type const& c) : indices_(&indices), container_(&c) {}
+    RefVector(Indices& indices, collection_type const& c) : indices_(&indices), container_(&c) {}
     //! Copy constructor.
     RefVector(self_type const& orig) : indices_(orig.indices_), container_(orig.container_) {}
     //! Set the index.
@@ -72,7 +72,7 @@ namespace panda {
     /*!
       Throws a runtime_error if indices is NULL.
     */
-    Indices* indices();
+    Indices*& indices();
 
   private:
     ContainerBase const* container_{0};
@@ -96,7 +96,7 @@ namespace panda {
     if (!container_ || !indices_)
       throw std::runtime_error("at() called on an invalid RefVector");
 
-    return container_->at(indices_->at(_i));
+    return static_cast<E const&>(container_->elemAt(indices_->at(_i)));
   }
 
   template<class E>
@@ -115,7 +115,7 @@ namespace panda {
 
   template<class E>
   void
-  Ref<E>::push_back(value_type const& _obj)
+  RefVector<E>::push_back(value_type const& _obj)
   {
     if (!container_ || !indices_)
       throw std::runtime_error("Cannot push to an invalid RefVector");
@@ -130,7 +130,7 @@ namespace panda {
   
   template<class E>
   void
-  Ref<E>::push_back(Ref<E> const& _ref)
+  RefVector<E>::push_back(Ref<E> const& _ref)
   {
     if (!container_ || !indices_)
       throw std::runtime_error("Cannot push to an invalid RefVector");
@@ -142,8 +142,8 @@ namespace panda {
   }
 
   template<class E>
-  std::vector<UInt_t>*
-  Ref<E>::indices()
+  std::vector<UInt_t>*&
+  RefVector<E>::indices()
   {
     if (!indices_)
       throw std::runtime_error("Invalid indices ref");

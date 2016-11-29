@@ -51,6 +51,13 @@ panda::PGenJet::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "pdgid");
 }
 
+void
+panda::PGenJet::datastore::resizeVectors_(UInt_t _size)
+{
+  PParticleM::datastore::resizeVectors_(_size);
+
+}
+
 panda::PGenJet::PGenJet(char const* _name/* = ""*/) :
   PParticleM(new PGenJetArray(1, _name)),
   pdgid(gStore.getData(this).pdgid[0])
