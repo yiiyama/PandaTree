@@ -1,0 +1,513 @@
+from common import *
+from base import Definition
+from obj import Object
+from output import FileOutput
+
+class PhysicsObject(Definition, Object):
+    """
+    Physics object definition. Definition file syntax:
+    
+    [<Name>(><Parent>):<max size | SINGLE>]
+    <variable definitions>
+    <function definitions>
+    """
+
+    DYNAMIC, FIXED, SINGLE = range(3)
+
+    _known_objects = []
+
+    @staticmethod
+    def get(name):
+        try:
+            return next(o for o in PhysicsObject._known_objects if o.name == name)
+        except StopIteration:
+            raise KeyError('PhysicsObject.get({name})'.format(name = name))
+
+    def __init__(self, line, source):
+        """
+        Argument: re match object
+        """
+
+        Definition.__init__(self, line, '\\[([A-Z][a-zA-Z0-9]+)(>[A-Z][a-zA-Z0-9]+|)(\\:SINGLE|\\:MAX=.+|\\:SIZE=.+|)\\] *$')
+        PhysicsObject._known_objects.append(self)
+
+        self._sizestr = None
+
+        # collection definition (optional)
+        coldef = self.matches.group(3)
+       
+        if coldef == ':SINGLE':
+            self.parent = 'Singlet'
+            self._coltype = PhysicsObject.SINGLE
+
+        elif coldef.startswith(':MAX'):
+            self.parent = 'ContainerElement'
+            self._coltype = PhysicsObject.DYNAMIC
+            self._sizestr = coldef[5:]
+            
+        elif coldef.startswith(':SIZE'):
+            self.parent = 'ContainerElement'
+            self._coltype = PhysicsObject.FIXED
+            self._sizestr = coldef[6:]
+
+        # if >parent is present, update the parent class name
+        if self.matches.group(2):
+            self.parent = self.matches.group(2)[1:]
+            self._coltype = None
+        elif not self.parent:
+            raise RuntimeError('No parent or size specified for class {name}'.format(name = self.matches.group(1)))
+
+        Object.__init__(self, self.matches.group(1), source)
+
+    def coltype(self):
+        if self._coltype is None:
+            return PhysicsObject.get(self.parent).coltype()
+        else:
+            return self._coltype
+
+    def container(self):
+        if self.coltype() == PhysicsObject.DYNAMIC:
+            return 'Collection'
+        elif self.coltype() == PhysicsObject.FIXED:
+            return 'Array'
+        else:
+            return ''
+
+    def sizestr(self):
+        if self._sizestr is None:
+            return PhysicsObject.get(self.parent).sizestr()
+        else:
+            return self._sizestr
+
+    def generate_header(self):
+        """
+        Write a header file.
+        """
+
+        inheritance = [self]
+        while True:
+            try:
+                inheritance.insert(0, PhysicsObject.get(inheritance[0].parent))
+            except KeyError:
+                break
+
+        header = FileOutput('{PACKDIR}/Objects/interface/{name}.h'.format(PACKDIR = PACKDIR, name = self.name))
+        header.writeline('#ifndef {PACKAGE}_Objects_{name}_h'.format(PACKAGE = PACKAGE, name = self.name))
+        header.writeline('#define {PACKAGE}_Objects_{name}_h'.format(PACKAGE = PACKAGE, name = self.name))
+        header.writeline('#include "Constants.h"')
+
+        included = ['#include "{name}.h"'.format(name = self.name)]
+        if self.parent == 'ContainerElement':
+            header.writeline('#include "../../Framework/interface/ContainerElement.h"')
+        elif self.parent == 'Singlet':
+            header.writeline('#include "../../Framework/interface/Singlet.h"')
+        else:
+            stmt = '#include "{parent}.h"'.format(parent = self.parent)
+            if stmt not in included:
+                header.writeline(stmt)
+                included.append(stmt)
+
+        header.writeline('#include "../../Framework/interface/Container.h"')
+        header.writeline('#include "../../Framework/interface/Ref.h"')
+
+        for include in self.includes:
+            if include.code not in included:
+                include.write(header)
+                included.append(include.code)
+
+        refobjects = []
+        for branch in self.branches:
+            if hasattr(branch, 'refname'): # is a RefBranch
+                refobjects.append(branch.objname)
+                stmt = '#include "{obj}.h"'.format(obj = branch.objname)
+                if stmt not in included:
+                    header.writeline(stmt)
+                    included.append(stmt)
+
+        header.newline()
+        header.writeline('namespace {NAMESPACE} {{'.format(NAMESPACE = NAMESPACE))
+        header.newline()
+        header.indent += 1
+
+        if len(refobjects):
+            for obj in refobjects:
+                header.writeline('class {obj};'.format(obj = obj))
+            header.newline()
+
+        header.writeline('class {name} : public {parent} {{'.format(name = self.name, parent = self.parent))
+        header.writeline('public:')
+        header.indent += 1
+        
+        if self.coltype() != PhysicsObject.SINGLE:
+            header.writeline('struct datastore : public {parent}::datastore {{'.format(parent = self.parent))
+            header.indent += 1
+
+            header.writeline('datastore() : {parent}::datastore() {{}}'.format(parent = self.parent))
+            header.writeline('~datastore() { deallocate(); }')
+
+            newline = False
+            for ancestor in inheritance:
+                if len(ancestor.branches) == 0:
+                    continue
+
+                if not newline:
+                    header.newline()
+                    newline = True
+
+                if ancestor != self:
+                    header.writeline('/* {name}'.format(name = ancestor.name))
+
+                for branch in ancestor.branches:
+                    branch.write_decl(header, context = 'datastore')
+
+                if ancestor != self:
+                    header.writeline('*/')
+
+            header.newline()
+            header.writeline('void allocate(UInt_t n) override;')
+            header.writeline('void deallocate() override;')
+            header.writeline('void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;')
+            header.writeline('void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
+            header.writeline('void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;')
+            header.writeline('void resetAddress(TTree&, TString const&) override;')
+            header.indent -= 1
+            header.writeline('};')
+            header.newline()
+
+            header.writeline('typedef {parent} base_type;'.format(parent = self.parent))
+            header.writeline('typedef Array<{name}> array_type;'.format(name = self.name, parent = self.parent))
+            header.writeline('typedef Collection<{name}> collection_type;'.format(name = self.name, parent = self.parent))
+            header.newline()
+
+        # "boilerplate" functions (default ctor for non-SINGLE objects are pretty nontrivial though)
+        header.writeline('{name}(char const* name = "");'.format(name = self.name)) # default constructor
+        header.writeline('{name}({name} const&);'.format(name = self.name)) # copy constructor
+
+        # standard constructors and specific functions
+        if self.coltype() != PhysicsObject.SINGLE:
+            # whereas elements of collections are constructed from an array and an index
+            header.writeline('{name}(datastore&, UInt_t idx);'.format(name = self.name))
+
+        header.writeline('~{name}();'.format(name = self.name)) # destructor
+        header.writeline('{name}& operator=({name} const&);'.format(name = self.name)) # assignment operator
+
+        header.newline()
+
+        # I/O with default name
+        header.writeline('void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;')
+        header.writeline('void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
+        header.writeline('void book(TTree&, utils::BranchList const& = {"*"}) override;')
+        header.writeline('void resetAddress(TTree&) override;')
+
+        header.newline()
+        header.writeline('void init() override;')
+
+        if len(self.constants) != 0:
+            header.newline()
+            for constant in self.constants:
+                constant.write_decl(header, context = 'class')
+
+        if len(self.functions) != 0:
+            header.newline()
+            for function in self.functions:
+                function.write_decl(header, context = 'class')
+
+        if self.coltype() == PhysicsObject.SINGLE:
+            context = 'Singlet'
+        else:
+            context = 'ContainerElement'
+
+        newline = False
+        for ancestor in inheritance:
+            if len(ancestor.branches) == 0:
+                continue
+
+            if not newline:
+                header.newline()
+                newline = True
+
+            if ancestor != self:
+                header.writeline('/* {name}'.format(name = ancestor.name))
+
+            for branch in ancestor.branches:
+                branch.write_decl(header, context = context)
+
+            if ancestor != self:
+                header.writeline('*/')
+
+        header.newline()
+        if len(header.custom_blocks) != 0:
+            header.write(header.custom_blocks[0])
+        else:
+            header.writeline('/* BEGIN CUSTOM */')
+            header.writeline('/* END CUSTOM */')
+
+        if self.coltype() != PhysicsObject.SINGLE:
+            header.newline()
+            header.indent -= 1
+            header.writeline('protected:')
+            header.indent += 1
+            header.writeline('{name}(ArrayBase*);'.format(name = self.name))
+
+        header.indent -= 1
+
+        header.writeline('};')
+
+        header.newline()
+
+        if self.coltype() != PhysicsObject.SINGLE:
+            header.writeline('typedef {name}::array_type {name}Array;'.format(name = self.name))
+            header.writeline('typedef {name}::collection_type {name}Collection;'.format(name = self.name))
+            header.writeline('typedef Ref<{name}> {name}Ref;'.format(name = self.name))
+            header.newline()
+
+        if len(header.custom_blocks) > 1:
+            header.write(header.custom_blocks[1])
+        else:
+            header.writeline('/* BEGIN CUSTOM */')
+            header.writeline('/* END CUSTOM */')
+        header.newline()
+
+        header.indent -= 1
+        header.writeline('}')
+        header.newline()
+
+        header.writeline('#endif')
+        header.close()
+
+    def _write_method(self, out, context, methodspec, nestedcls = ''):
+        """
+        Util function to write class methods with a common pattern.
+        """
+
+        fname, rettype, arguments, generator, retexpr = methodspec[:5]
+        if len(methodspec) == 6:
+            pre_lines = methodspec[5]
+        else:
+            pre_lines = []
+
+        out.writeline(rettype)
+        signature = []
+        for arg in arguments:
+            s = '{0} {1}'.format(*arg)
+            if len(arg) == 3: # has default
+                s += '/* = {0}*/'.format(arg[2])
+                
+            signature.append(s)
+
+        args = ', '.join(arg[1] for arg in arguments)
+
+        if nestedcls:
+            name = self.name + '::' + nestedcls
+            parent = self.parent + '::' + nestedcls
+        else:
+            name = self.name
+            parent = self.parent
+
+        out.writeline('{NAMESPACE}::{name}::{fname}({signature})'.format(NAMESPACE = NAMESPACE, name = name, fname = fname, signature = ', '.join(signature)))
+        out.writeline('{')
+        out.indent += 1
+        out.writeline('{parent}::{fname}({args});'.format(parent = parent, fname = fname, args = args))
+
+        if len(pre_lines) != 0:
+            out.newline()
+            for line in pre_lines:
+                out.writeline(line)
+
+        if len(self.branches) != 0:
+            out.newline()
+            for branch in self.branches:
+                getattr(branch, generator)(out, context = context)
+
+        if retexpr:
+            out.newline()
+            out.writeline('return {expr};'.format(expr = retexpr))
+
+        out.indent -= 1
+        out.writeline('}')
+
+    def generate_source(self):
+        """
+        Write the .cc file.
+        """
+
+        subst = {'NAMESPACE': NAMESPACE, 'name': self.name, 'parent': self.parent}
+
+        src = FileOutput('{PACKDIR}/Objects/src/{name}.cc'.format(PACKDIR = PACKDIR, **subst))
+        src.writeline('#include "../interface/{name}.h"'.format(**subst))
+
+        if len(self.constants) != 0:
+            src.newline()
+            for constant in self.constants:
+                constant.write_def(src)
+
+        if self.coltype() == PhysicsObject.SINGLE:
+            src.newline()
+
+            src.writeline('{NAMESPACE}::{name}::{name}(char const* _name/* = ""*/) :'.format(**subst))
+            src.indent += 1
+            initializers = ['{parent}(_name)'.format(**subst)]
+            for branch in self.branches:
+                branch.init_default(initializers, context = 'Singlet')
+            src.writelines(initializers, ',')
+            src.indent -= 1
+            src.writeline('{')
+            src.indent += 1
+            for branch in self.branches:
+                branch.write_default_ctor(src, context = 'Singlet')
+            src.indent -= 1
+            src.writeline('}')
+            src.newline()
+
+            src.writeline('{NAMESPACE}::{name}::{name}({name} const& _src) :'.format(**subst))
+            src.indent += 1
+            initializers = ['{parent}(_src.name_)'.format(**subst)]
+            for branch in self.branches:
+                branch.init_copy(initializers, context = 'Singlet')
+            src.writelines(initializers, ',')
+            src.indent -= 1
+            src.writeline('{')
+            src.indent += 1
+            for branch in self.branches:
+                branch.write_copy_ctor(src, context = 'Singlet')
+            for branch in self.branches:
+                if branch.is_array():
+                    branch.write_assign(src, context = 'Singlet')
+            src.indent -= 1
+            src.writeline('}')
+            src.newline()
+
+            src.writeline('{NAMESPACE}::{name}::~{name}()'.format(**subst))
+            src.writeline('{')
+            src.writeline('}')
+
+            methods = [
+                ('operator=', '{NAMESPACE}::{name}&'.format(**subst), [('{name} const&'.format(**subst), '_src')], 'write_assign', '*this'),
+                ('setStatus', 'void', [('TTree&', '_tree'), ('Bool_t', '_status'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_status', None),
+                ('setAddress', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
+                ('book', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', None),
+                ('resetAddress', 'void', [('TTree&', '_tree')], 'write_reset_address', None),
+                ('init', 'void', [], 'write_init', None)
+            ]
+
+            for method in methods:
+                src.newline()
+                self._write_method(src, 'Singlet', method)
+
+        #if self.coltype == PhysicsObject.SINGLE:
+        else:
+            size_lines = ['TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));']
+            methods = [
+                ('allocate', 'void', [('UInt_t', '_nmax')], 'write_allocate', None),
+                ('deallocate', 'void', [], 'write_deallocate', None),
+                ('setStatus', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('Bool_t', '_status'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_status', None),
+                ('setAddress', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
+                ('book', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_dynamic', 'kTRUE')], 'write_book', None, size_lines),
+                ('resetAddress', 'void', [('TTree&', '_tree'), ('TString const&', '_name')], 'write_reset_address', None)
+            ]
+
+            for method in methods:
+                src.newline()
+                self._write_method(src, 'datastore', method, nestedcls = 'datastore')
+
+            src.newline()
+            src.writeline('{NAMESPACE}::{name}::{name}(char const* _name/* = ""*/) :'.format(**subst))
+            src.indent += 1
+            initializers = ['{parent}(new {name}Array(1, _name))'.format(**subst)]
+            for branch in self.branches:
+                branch.init_default(initializers, context = 'ContainerElement')
+            src.writelines(initializers, ',')
+            src.indent -= 1
+            src.writeline('{')
+            src.indent += 1
+            for branch in self.branches:
+                branch.write_default_ctor(src, context = 'ContainerElement')
+            src.indent -= 1
+            src.writeline('}')
+
+            src.newline()
+            src.writeline('{NAMESPACE}::{name}::{name}(datastore& _data, UInt_t _idx) :'.format(**subst))
+            src.indent += 1
+            initializers = ['{parent}(_data, _idx)'.format(**subst)]
+            for branch in self.branches:
+                branch.init_standard(initializers, context = 'ContainerElement')
+            src.writelines(initializers, ',')
+            src.indent -= 1
+            src.writeline('{')
+            src.indent += 1
+            for branch in self.branches:
+                branch.write_standard_ctor(src, context = 'ContainerElement')
+            src.indent -= 1
+            src.writeline('}')
+
+            src.newline()
+            src.writeline('{NAMESPACE}::{name}::{name}({name} const& _src) :'.format(**subst))
+            src.indent += 1
+            initializers = ['{parent}(new {name}Array(1, gStore.getName(&_src)))'.format(**subst)]
+            for branch in self.branches:
+                branch.init_copy(initializers, context = 'ContainerElement')
+            src.writelines(initializers, ',')
+            src.indent -= 1
+            src.writeline('{')
+            src.indent += 1
+            src.writeline('{parent}::operator=(_src);'.format(**subst))
+            if len(self.branches) != 0:
+                src.newline()
+                for branch in self.branches:
+                    branch.write_copy_ctor(src, context = 'ContainerElement')
+                src.newline()
+                for branch in self.branches:
+                    branch.write_assign(src, context = 'ContainerElement')
+            src.indent -= 1
+            src.writeline('}')
+
+            src.newline()
+            src.writeline('{NAMESPACE}::{name}::{name}(ArrayBase* _array) :'.format(**subst))
+            src.indent += 1
+            initializers = ['{parent}(_array)'.format(**subst)]
+            for branch in self.branches:
+                branch.init_default(initializers, context = 'ContainerElement')
+            src.writelines(initializers, ',')
+            src.indent -= 1
+            src.writeline('{')
+            src.indent += 1
+            for branch in self.branches:
+                branch.write_default_ctor(src, context = 'ContainerElement')
+            src.indent -= 1
+            src.writeline('}')
+
+            src.newline()
+            src.writeline('{NAMESPACE}::{name}::~{name}()'.format(**subst))
+            src.writeline('{')
+            src.indent += 1
+            src.writeline('gStore.free(this);')
+            src.indent -= 1
+            src.writeline('}')
+
+            name_line = 'TString name(gStore.getName(this));'
+            methods = [
+                ('operator=', '{NAMESPACE}::{name}&'.format(**subst), [('{name} const&'.format(**subst), '_src')], 'write_assign', '*this'),
+                ('setStatus', 'void', [('TTree&', '_tree'), ('Bool_t', '_status'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_status', None, [name_line]),
+                ('setAddress', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None, [name_line]),
+                ('book', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', None, [name_line]),
+                ('resetAddress', 'void', [('TTree&', '_tree')], 'write_reset_address', None, [name_line]),
+                ('init', 'void', [], 'write_init', None)
+            ]
+
+            for method in methods:
+                src.newline()
+                self._write_method(src, 'ContainerElement', method)
+
+        if len(self.functions):
+            src.newline()
+            for function in self.functions:
+                function.write_def(src, context = self.name)
+
+        src.newline()
+        if len(src.custom_blocks) != 0:
+            src.write(src.custom_blocks[0])
+        else:
+            src.writeline('/* BEGIN CUSTOM */')
+            src.writeline('/* END CUSTOM */')
+
+        src.close()

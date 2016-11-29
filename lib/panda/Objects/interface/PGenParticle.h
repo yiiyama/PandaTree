@@ -1,5 +1,5 @@
-#ifndef PandaTree_Objects_PPFCand_h
-#define PandaTree_Objects_PPFCand_h
+#ifndef panda_Objects_PGenParticle_h
+#define panda_Objects_PGenParticle_h
 #include "Constants.h"
 #include "PParticleM.h"
 #include "../../Framework/interface/Container.h"
@@ -7,7 +7,9 @@
 
 namespace panda {
 
-  class PPFCand : public PParticleM {
+  class PGenParticle;
+
+  class PGenParticle : public PParticleM {
   public:
     struct datastore : public PParticleM::datastore {
       datastore() : PParticleM::datastore() {}
@@ -21,9 +23,8 @@ namespace panda {
       /* PParticleM
       Float_t* mass{0};
       */
-      Float_t* q{0};
-      Float_t* weight{0};
-      Int_t* pftype{0};
+      Int_t* pdgid{0};
+      UInt_t* parent_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -34,14 +35,14 @@ namespace panda {
     };
 
     typedef PParticleM base_type;
-    typedef Array<PPFCand> array_type;
-    typedef Collection<PPFCand> collection_type;
+    typedef Array<PGenParticle> array_type;
+    typedef Collection<PGenParticle> collection_type;
 
-    PPFCand(char const* name = "");
-    PPFCand(PPFCand const&);
-    PPFCand(datastore&, UInt_t idx);
-    ~PPFCand();
-    PPFCand& operator=(PPFCand const&);
+    PGenParticle(char const* name = "");
+    PGenParticle(PGenParticle const&);
+    PGenParticle(datastore&, UInt_t idx);
+    ~PGenParticle();
+    PGenParticle& operator=(PGenParticle const&);
 
     void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
     void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
@@ -58,20 +59,19 @@ namespace panda {
     /* PParticleM
     Float_t& mass;
     */
-    Float_t& q;
-    Float_t& weight;
-    Int_t& pftype;
+    Int_t& pdgid;
+    Ref<PGenParticle> parent;
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */
 
   protected:
-    PPFCand(ArrayBase*);
+    PGenParticle(ArrayBase*);
   };
 
-  typedef PPFCand::array_type PPFCandArray;
-  typedef PPFCand::collection_type PPFCandCollection;
-  typedef Ref<PPFCand> PPFCandRef;
+  typedef PGenParticle::array_type PGenParticleArray;
+  typedef PGenParticle::collection_type PGenParticleCollection;
+  typedef Ref<PGenParticle> PGenParticleRef;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

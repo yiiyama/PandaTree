@@ -1,16 +1,16 @@
-#ifndef PandaTree_Objects_PPFCand_h
-#define PandaTree_Objects_PPFCand_h
+#ifndef panda_Objects_PMuon_h
+#define panda_Objects_PMuon_h
 #include "Constants.h"
-#include "PParticleM.h"
+#include "PLepton.h"
 #include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
 
 namespace panda {
 
-  class PPFCand : public PParticleM {
+  class PMuon : public PLepton {
   public:
-    struct datastore : public PParticleM::datastore {
-      datastore() : PParticleM::datastore() {}
+    struct datastore : public PLepton::datastore {
+      datastore() : PLepton::datastore() {}
       ~datastore() { deallocate(); }
 
       /* PParticle
@@ -18,12 +18,17 @@ namespace panda {
       Float_t* eta{0};
       Float_t* phi{0};
       */
-      /* PParticleM
-      Float_t* mass{0};
+      /* PLepton
+      Text_t const** q{0};
+      Bool_t* loose{0};
+      Bool_t* tight{0};
+      Float_t* chiso{0};
+      Float_t* nhiso{0};
+      Float_t* phoiso{0};
+      Float_t* puiso{0};
+      Bool_t* tauDecay{0};
+      Bool_t* hadDecay{0};
       */
-      Float_t* q{0};
-      Float_t* weight{0};
-      Int_t* pftype{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -33,15 +38,15 @@ namespace panda {
       void resetAddress(TTree&, TString const&) override;
     };
 
-    typedef PParticleM base_type;
-    typedef Array<PPFCand> array_type;
-    typedef Collection<PPFCand> collection_type;
+    typedef PLepton base_type;
+    typedef Array<PMuon> array_type;
+    typedef Collection<PMuon> collection_type;
 
-    PPFCand(char const* name = "");
-    PPFCand(PPFCand const&);
-    PPFCand(datastore&, UInt_t idx);
-    ~PPFCand();
-    PPFCand& operator=(PPFCand const&);
+    PMuon(char const* name = "");
+    PMuon(PMuon const&);
+    PMuon(datastore&, UInt_t idx);
+    ~PMuon();
+    PMuon& operator=(PMuon const&);
 
     void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
     void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
@@ -50,28 +55,36 @@ namespace panda {
 
     void init() override;
 
+    double m() const override { return 1.05658e-2; }
+    double combiso() const override { return chiso + std::max(nhiso + phoiso - 0.5 * puiso, 0.); }
+
     /* PParticle
     Float_t& pt;
     Float_t& eta;
     Float_t& phi;
     */
-    /* PParticleM
-    Float_t& mass;
+    /* PLepton
+    Text_t const*& q;
+    Bool_t& loose;
+    Bool_t& tight;
+    Float_t& chiso;
+    Float_t& nhiso;
+    Float_t& phoiso;
+    Float_t& puiso;
+    Bool_t& tauDecay;
+    Bool_t& hadDecay;
     */
-    Float_t& q;
-    Float_t& weight;
-    Int_t& pftype;
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */
 
   protected:
-    PPFCand(ArrayBase*);
+    PMuon(ArrayBase*);
   };
 
-  typedef PPFCand::array_type PPFCandArray;
-  typedef PPFCand::collection_type PPFCandCollection;
-  typedef Ref<PPFCand> PPFCandRef;
+  typedef PMuon::array_type PMuonArray;
+  typedef PMuon::collection_type PMuonCollection;
+  typedef Ref<PMuon> PMuonRef;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

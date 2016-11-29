@@ -1,5 +1,5 @@
-#ifndef PandaTree_Objects_PFatJet_h
-#define PandaTree_Objects_PFatJet_h
+#ifndef panda_Objects_PFatJet_h
+#define panda_Objects_PFatJet_h
 #include "Constants.h"
 #include "PJet.h"
 #include "../../Framework/interface/Container.h"

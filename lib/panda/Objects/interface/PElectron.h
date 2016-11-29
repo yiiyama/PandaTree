@@ -1,7 +1,7 @@
-#ifndef PandaTree_Objects_PPhoton_h
-#define PandaTree_Objects_PPhoton_h
+#ifndef panda_Objects_PElectron_h
+#define panda_Objects_PElectron_h
 #include "Constants.h"
-#include "PParticle.h"
+#include "PLepton.h"
 #include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
 #include "PSuperCluster.h"
@@ -10,10 +10,10 @@ namespace panda {
 
   class PSuperCluster;
 
-  class PPhoton : public PParticle {
+  class PElectron : public PLepton {
   public:
-    struct datastore : public PParticle::datastore {
-      datastore() : PParticle::datastore() {}
+    struct datastore : public PLepton::datastore {
+      datastore() : PLepton::datastore() {}
       ~datastore() { deallocate(); }
 
       /* PParticle
@@ -21,34 +21,27 @@ namespace panda {
       Float_t* eta{0};
       Float_t* phi{0};
       */
+      /* PLepton
+      Text_t const** q{0};
+      Bool_t* loose{0};
+      Bool_t* tight{0};
       Float_t* chiso{0};
-      Float_t* chworstiso{0};
-      Float_t* chisoMax{0};
       Float_t* nhiso{0};
-      Float_t* phiso{0};
+      Float_t* phoiso{0};
+      Float_t* puiso{0};
+      Bool_t* tauDecay{0};
+      Bool_t* hadDecay{0};
+      */
+      Float_t* chisoPh{0};
+      Float_t* nhisoPh{0};
+      Float_t* phisoPh{0};
       Float_t* ecaliso{0};
       Float_t* hcaliso{0};
+      Float_t* isoPUOffset{0};
       Float_t* sieie{0};
       Float_t* sipip{0};
       Float_t* hOverE{0};
-      Float_t* geniso{0};
-      Float_t* mipEnergy{0};
-      Float_t* e33{0};
-      Float_t* emax{0};
-      Float_t* e2nd{0};
-      Float_t* r9{0};
-      Float_t* etaWidth{0};
-      Float_t* phiWidth{0};
-      Float_t* time{0};
-      Float_t* timeSpan{0};
-      Float_t* genMatchDR{0};
-      Bool_t* loose{0};
-      Bool_t* medium{0};
-      Bool_t* tight{0};
-      Bool_t* highpt{0};
-      Bool_t* pixelVeto{0};
-      Bool_t* csafeVeto{0};
-      Bool_t (*matchL1)[nPhotonL1Objects]{0};
+      Bool_t* veto{0};
       UInt_t* superCluster_{0};
 
       void allocate(UInt_t n) override;
@@ -59,15 +52,15 @@ namespace panda {
       void resetAddress(TTree&, TString const&) override;
     };
 
-    typedef PParticle base_type;
-    typedef Array<PPhoton> array_type;
-    typedef Collection<PPhoton> collection_type;
+    typedef PLepton base_type;
+    typedef Array<PElectron> array_type;
+    typedef Collection<PElectron> collection_type;
 
-    PPhoton(char const* name = "");
-    PPhoton(PPhoton const&);
-    PPhoton(datastore&, UInt_t idx);
-    ~PPhoton();
-    PPhoton& operator=(PPhoton const&);
+    PElectron(char const* name = "");
+    PElectron(PElectron const&);
+    PElectron(datastore&, UInt_t idx);
+    ~PElectron();
+    PElectron& operator=(PElectron const&);
 
     void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
     void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
@@ -76,6 +69,8 @@ namespace panda {
 
     void init() override;
 
+    double m() const override { return 5.109989e-4; }
+    double combiso() const override { return chiso + std::max(nhiso + phoiso - isoPUOffset, Float_t(0.)); }
     bool isEB() const { return superCluster.isValid() ? std::abs(superCluster->eta) < 1.4442 : false; }
 
     /* PParticle
@@ -83,46 +78,39 @@ namespace panda {
     Float_t& eta;
     Float_t& phi;
     */
+    /* PLepton
+    Text_t const*& q;
+    Bool_t& loose;
+    Bool_t& tight;
     Float_t& chiso;
-    Float_t& chworstiso;
-    Float_t& chisoMax;
     Float_t& nhiso;
-    Float_t& phiso;
+    Float_t& phoiso;
+    Float_t& puiso;
+    Bool_t& tauDecay;
+    Bool_t& hadDecay;
+    */
+    Float_t& chisoPh;
+    Float_t& nhisoPh;
+    Float_t& phisoPh;
     Float_t& ecaliso;
     Float_t& hcaliso;
+    Float_t& isoPUOffset;
     Float_t& sieie;
     Float_t& sipip;
     Float_t& hOverE;
-    Float_t& geniso;
-    Float_t& mipEnergy;
-    Float_t& e33;
-    Float_t& emax;
-    Float_t& e2nd;
-    Float_t& r9;
-    Float_t& etaWidth;
-    Float_t& phiWidth;
-    Float_t& time;
-    Float_t& timeSpan;
-    Float_t& genMatchDR;
-    Bool_t& loose;
-    Bool_t& medium;
-    Bool_t& tight;
-    Bool_t& highpt;
-    Bool_t& pixelVeto;
-    Bool_t& csafeVeto;
-    Bool_t (&matchL1)[nPhotonL1Objects];
+    Bool_t& veto;
     Ref<PSuperCluster> superCluster;
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */
 
   protected:
-    PPhoton(ArrayBase*);
+    PElectron(ArrayBase*);
   };
 
-  typedef PPhoton::array_type PPhotonArray;
-  typedef PPhoton::collection_type PPhotonCollection;
-  typedef Ref<PPhoton> PPhotonRef;
+  typedef PElectron::array_type PElectronArray;
+  typedef PElectron::collection_type PElectronCollection;
+  typedef Ref<PElectron> PElectronRef;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

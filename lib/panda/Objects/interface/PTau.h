@@ -1,5 +1,5 @@
-#ifndef PandaTree_Objects_PPFCand_h
-#define PandaTree_Objects_PPFCand_h
+#ifndef panda_Objects_PTau_h
+#define panda_Objects_PTau_h
 #include "Constants.h"
 #include "PParticleM.h"
 #include "../../Framework/interface/Container.h"
@@ -7,7 +7,7 @@
 
 namespace panda {
 
-  class PPFCand : public PParticleM {
+  class PTau : public PParticleM {
   public:
     struct datastore : public PParticleM::datastore {
       datastore() : PParticleM::datastore() {}
@@ -21,9 +21,9 @@ namespace panda {
       /* PParticleM
       Float_t* mass{0};
       */
-      Float_t* q{0};
-      Float_t* weight{0};
-      Int_t* pftype{0};
+      Text_t const** q{0};
+      Bool_t* decayMode{0};
+      Float_t* isoDeltaBetaCorr{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -34,14 +34,14 @@ namespace panda {
     };
 
     typedef PParticleM base_type;
-    typedef Array<PPFCand> array_type;
-    typedef Collection<PPFCand> collection_type;
+    typedef Array<PTau> array_type;
+    typedef Collection<PTau> collection_type;
 
-    PPFCand(char const* name = "");
-    PPFCand(PPFCand const&);
-    PPFCand(datastore&, UInt_t idx);
-    ~PPFCand();
-    PPFCand& operator=(PPFCand const&);
+    PTau(char const* name = "");
+    PTau(PTau const&);
+    PTau(datastore&, UInt_t idx);
+    ~PTau();
+    PTau& operator=(PTau const&);
 
     void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
     void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
@@ -58,20 +58,20 @@ namespace panda {
     /* PParticleM
     Float_t& mass;
     */
-    Float_t& q;
-    Float_t& weight;
-    Int_t& pftype;
+    Text_t const*& q;
+    Bool_t& decayMode;
+    Float_t& isoDeltaBetaCorr;
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */
 
   protected:
-    PPFCand(ArrayBase*);
+    PTau(ArrayBase*);
   };
 
-  typedef PPFCand::array_type PPFCandArray;
-  typedef PPFCand::collection_type PPFCandCollection;
-  typedef Ref<PPFCand> PPFCandRef;
+  typedef PTau::array_type PTauArray;
+  typedef PTau::collection_type PTauCollection;
+  typedef Ref<PTau> PTauRef;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

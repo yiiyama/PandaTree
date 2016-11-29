@@ -1,5 +1,5 @@
-#ifndef PandaTree_Objects_PParticle_h
-#define PandaTree_Objects_PParticle_h
+#ifndef panda_Objects_PParticle_h
+#define panda_Objects_PParticle_h
 #include "Constants.h"
 #include "../../Framework/interface/ContainerElement.h"
 #include "../../Framework/interface/Container.h"

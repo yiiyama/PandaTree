@@ -38,8 +38,9 @@ namespace panda {
       void resetAddress(TTree&, TString const&) override;
     };
 
-    typedef Container<PMuon, PLepton::array_type> array_type;
-    typedef Container<PMuon, PLepton::collection_type> collection_type;
+    typedef PLepton base_type;
+    typedef Array<PMuon> array_type;
+    typedef Collection<PMuon> collection_type;
 
     PMuon(char const* name = "");
     PMuon(PMuon const&);

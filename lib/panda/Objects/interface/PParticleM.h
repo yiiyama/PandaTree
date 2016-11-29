@@ -1,16 +1,16 @@
-#ifndef PandaTree_Objects_PPFCand_h
-#define PandaTree_Objects_PPFCand_h
+#ifndef panda_Objects_PParticleM_h
+#define panda_Objects_PParticleM_h
 #include "Constants.h"
-#include "PParticleM.h"
+#include "PParticle.h"
 #include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
 
 namespace panda {
 
-  class PPFCand : public PParticleM {
+  class PParticleM : public PParticle {
   public:
-    struct datastore : public PParticleM::datastore {
-      datastore() : PParticleM::datastore() {}
+    struct datastore : public PParticle::datastore {
+      datastore() : PParticle::datastore() {}
       ~datastore() { deallocate(); }
 
       /* PParticle
@@ -18,12 +18,7 @@ namespace panda {
       Float_t* eta{0};
       Float_t* phi{0};
       */
-      /* PParticleM
       Float_t* mass{0};
-      */
-      Float_t* q{0};
-      Float_t* weight{0};
-      Int_t* pftype{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -33,15 +28,15 @@ namespace panda {
       void resetAddress(TTree&, TString const&) override;
     };
 
-    typedef PParticleM base_type;
-    typedef Array<PPFCand> array_type;
-    typedef Collection<PPFCand> collection_type;
+    typedef PParticle base_type;
+    typedef Array<PParticleM> array_type;
+    typedef Collection<PParticleM> collection_type;
 
-    PPFCand(char const* name = "");
-    PPFCand(PPFCand const&);
-    PPFCand(datastore&, UInt_t idx);
-    ~PPFCand();
-    PPFCand& operator=(PPFCand const&);
+    PParticleM(char const* name = "");
+    PParticleM(PParticleM const&);
+    PParticleM(datastore&, UInt_t idx);
+    ~PParticleM();
+    PParticleM& operator=(PParticleM const&);
 
     void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
     void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
@@ -50,28 +45,25 @@ namespace panda {
 
     void init() override;
 
+    double m() const override { return mass; }
+
     /* PParticle
     Float_t& pt;
     Float_t& eta;
     Float_t& phi;
     */
-    /* PParticleM
     Float_t& mass;
-    */
-    Float_t& q;
-    Float_t& weight;
-    Int_t& pftype;
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */
 
   protected:
-    PPFCand(ArrayBase*);
+    PParticleM(ArrayBase*);
   };
 
-  typedef PPFCand::array_type PPFCandArray;
-  typedef PPFCand::collection_type PPFCandCollection;
-  typedef Ref<PPFCand> PPFCandRef;
+  typedef PParticleM::array_type PParticleMArray;
+  typedef PParticleM::collection_type PParticleMCollection;
+  typedef Ref<PParticleM> PParticleMRef;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

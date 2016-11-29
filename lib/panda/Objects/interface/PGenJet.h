@@ -1,5 +1,5 @@
-#ifndef PandaTree_Objects_PPFCand_h
-#define PandaTree_Objects_PPFCand_h
+#ifndef panda_Objects_PGenJet_h
+#define panda_Objects_PGenJet_h
 #include "Constants.h"
 #include "PParticleM.h"
 #include "../../Framework/interface/Container.h"
@@ -7,7 +7,7 @@
 
 namespace panda {
 
-  class PPFCand : public PParticleM {
+  class PGenJet : public PParticleM {
   public:
     struct datastore : public PParticleM::datastore {
       datastore() : PParticleM::datastore() {}
@@ -21,9 +21,7 @@ namespace panda {
       /* PParticleM
       Float_t* mass{0};
       */
-      Float_t* q{0};
-      Float_t* weight{0};
-      Int_t* pftype{0};
+      Int_t* pdgid{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -34,14 +32,14 @@ namespace panda {
     };
 
     typedef PParticleM base_type;
-    typedef Array<PPFCand> array_type;
-    typedef Collection<PPFCand> collection_type;
+    typedef Array<PGenJet> array_type;
+    typedef Collection<PGenJet> collection_type;
 
-    PPFCand(char const* name = "");
-    PPFCand(PPFCand const&);
-    PPFCand(datastore&, UInt_t idx);
-    ~PPFCand();
-    PPFCand& operator=(PPFCand const&);
+    PGenJet(char const* name = "");
+    PGenJet(PGenJet const&);
+    PGenJet(datastore&, UInt_t idx);
+    ~PGenJet();
+    PGenJet& operator=(PGenJet const&);
 
     void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
     void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
@@ -58,20 +56,18 @@ namespace panda {
     /* PParticleM
     Float_t& mass;
     */
-    Float_t& q;
-    Float_t& weight;
-    Int_t& pftype;
+    Int_t& pdgid;
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */
 
   protected:
-    PPFCand(ArrayBase*);
+    PGenJet(ArrayBase*);
   };
 
-  typedef PPFCand::array_type PPFCandArray;
-  typedef PPFCand::collection_type PPFCandCollection;
-  typedef Ref<PPFCand> PPFCandRef;
+  typedef PGenJet::array_type PGenJetArray;
+  typedef PGenJet::collection_type PGenJetCollection;
+  typedef Ref<PGenJet> PGenJetRef;
 
   /* BEGIN CUSTOM */
   /* END CUSTOM */

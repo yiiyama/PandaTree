@@ -31,8 +31,9 @@ namespace panda {
       void resetAddress(TTree&, TString const&) override;
     };
 
-    typedef Container<PGenJet, PParticleM::array_type> array_type;
-    typedef Container<PGenJet, PParticleM::collection_type> collection_type;
+    typedef PParticleM base_type;
+    typedef Array<PGenJet> array_type;
+    typedef Collection<PGenJet> collection_type;
 
     PGenJet(char const* name = "");
     PGenJet(PGenJet const&);

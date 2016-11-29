@@ -34,8 +34,9 @@ namespace panda {
       void resetAddress(TTree&, TString const&) override;
     };
 
-    typedef Container<PGenParticle, PParticleM::array_type> array_type;
-    typedef Container<PGenParticle, PParticleM::collection_type> collection_type;
+    typedef PParticleM base_type;
+    typedef Array<PGenParticle> array_type;
+    typedef Collection<PGenParticle> collection_type;
 
     PGenParticle(char const* name = "");
     PGenParticle(PGenParticle const&);

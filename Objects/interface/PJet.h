@@ -45,8 +45,9 @@ namespace panda {
       void resetAddress(TTree&, TString const&) override;
     };
 
-    typedef Container<PJet, PParticleM::array_type> array_type;
-    typedef Container<PJet, PParticleM::collection_type> collection_type;
+    typedef PParticleM base_type;
+    typedef Array<PJet> array_type;
+    typedef Collection<PJet> collection_type;
 
     PJet(char const* name = "");
     PJet(PJet const&);

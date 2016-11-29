@@ -25,8 +25,9 @@ namespace panda {
       void resetAddress(TTree&, TString const&) override;
     };
 
-    typedef Container<PSuperCluster, ContainerElement::array_type> array_type;
-    typedef Container<PSuperCluster, ContainerElement::collection_type> collection_type;
+    typedef ContainerElement base_type;
+    typedef Array<PSuperCluster> array_type;
+    typedef Collection<PSuperCluster> collection_type;
 
     PSuperCluster(char const* name = "");
     PSuperCluster(PSuperCluster const&);

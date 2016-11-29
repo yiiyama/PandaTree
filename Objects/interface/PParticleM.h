@@ -28,8 +28,9 @@ namespace panda {
       void resetAddress(TTree&, TString const&) override;
     };
 
-    typedef Container<PParticleM, PParticle::array_type> array_type;
-    typedef Container<PParticleM, PParticle::collection_type> collection_type;
+    typedef PParticle base_type;
+    typedef Array<PParticleM> array_type;
+    typedef Collection<PParticleM> collection_type;
 
     PParticleM(char const* name = "");
     PParticleM(PParticleM const&);

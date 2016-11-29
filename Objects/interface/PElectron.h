@@ -52,8 +52,9 @@ namespace panda {
       void resetAddress(TTree&, TString const&) override;
     };
 
-    typedef Container<PElectron, PLepton::array_type> array_type;
-    typedef Container<PElectron, PLepton::collection_type> collection_type;
+    typedef PLepton base_type;
+    typedef Array<PElectron> array_type;
+    typedef Collection<PElectron> collection_type;
 
     PElectron(char const* name = "");
     PElectron(PElectron const&);

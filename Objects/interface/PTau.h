@@ -33,8 +33,9 @@ namespace panda {
       void resetAddress(TTree&, TString const&) override;
     };
 
-    typedef Container<PTau, PParticleM::array_type> array_type;
-    typedef Container<PTau, PParticleM::collection_type> collection_type;
+    typedef PParticleM base_type;
+    typedef Array<PTau> array_type;
+    typedef Collection<PTau> collection_type;
 
     PTau(char const* name = "");
     PTau(PTau const&);
