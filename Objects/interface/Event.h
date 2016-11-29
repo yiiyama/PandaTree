@@ -53,6 +53,7 @@ namespace panda {
     void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;
     void doBook_(TTree&, utils::BranchList const&) override;
     void doReleaseTree_(TTree&) override;
+    void adjustCollectionSizes_() override;
 
   public:
     /* BEGIN CUSTOM */

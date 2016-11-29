@@ -1,6 +1,20 @@
 #include "../interface/CollectionBase.h"
 #include "../interface/IOUtils.h"
 
+void
+panda::CollectionBase::resize(UInt_t _size)
+{
+  if (_size > getData().nmax()) {
+    UInt_t nmax(getData().nmax());
+    while (nmax < _size)
+      nmax *= 2;
+
+    reallocate_(nmax);
+  }
+  
+  size_ = _size;
+}
+
 /*private*/
 void
 panda::CollectionBase::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const& _branches)

@@ -13,16 +13,16 @@ namespace panda {
     UInt_t size() const override { return size_; }    
     void init() override { clear(); }
 
+    void resize(UInt_t);
     void clear() { size_ = 0; }
 
-  private:
+  protected:
+    CollectionBase(char const* name, UInt_t unitSize, Bool_t dummy) : ContainerBase(name, unitSize) {}
+
     void doSetStatus_(TTree&, Bool_t, utils::BranchList const&) override;
     void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;
     void doBook_(TTree&, utils::BranchList const&) override;
     void doResetAddress_(TTree&) override;
-
-  protected:
-    CollectionBase(char const* name, UInt_t unitSize, Bool_t dummy) : ContainerBase(name, unitSize) {}
 
     UInt_t size_{0};
   };

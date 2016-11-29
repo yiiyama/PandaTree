@@ -33,7 +33,7 @@ namespace panda {
     virtual void adjustCollectionSizes_() = 0;
 
     TTree* input_{0}; // set by setAddress
-    std::vector<TBranch*> sizeBranches_{};
+    std::vector<TBranch*> sizeBranches_{}; // branches in the input tree for object sizes
     std::vector<TTree*> outputs_{};
   };
 

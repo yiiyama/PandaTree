@@ -133,6 +133,28 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
   utils::setAddress(_tree, "", "isData", &isData, _branches, _setStatus);
   utils::setAddress(_tree, "", "npv", &npv, _branches, _setStatus);
   utils::setAddress(_tree, "", "mcWeight", &mcWeight, _branches, _setStatus);
+
+  sizeBranches_.clear();
+  if (_tree.GetBranchStatus("pfCandidates.size"))
+    sizeBranches_.push_back(_tree.GetBranch("pfCandidates.size"));
+  if (_tree.GetBranchStatus("superClusters.size"))
+    sizeBranches_.push_back(_tree.GetBranch("superClusters.size"));
+  if (_tree.GetBranchStatus("electrons.size"))
+    sizeBranches_.push_back(_tree.GetBranch("electrons.size"));
+  if (_tree.GetBranchStatus("muons.size"))
+    sizeBranches_.push_back(_tree.GetBranch("muons.size"));
+  if (_tree.GetBranchStatus("taus.size"))
+    sizeBranches_.push_back(_tree.GetBranch("taus.size"));
+  if (_tree.GetBranchStatus("photons.size"))
+    sizeBranches_.push_back(_tree.GetBranch("photons.size"));
+  if (_tree.GetBranchStatus("jets.size"))
+    sizeBranches_.push_back(_tree.GetBranch("jets.size"));
+  if (_tree.GetBranchStatus("fatJets.size"))
+    sizeBranches_.push_back(_tree.GetBranch("fatJets.size"));
+  if (_tree.GetBranchStatus("genJets.size"))
+    sizeBranches_.push_back(_tree.GetBranch("genJets.size"));
+  if (_tree.GetBranchStatus("genParticles.size"))
+    sizeBranches_.push_back(_tree.GetBranch("genParticles.size"));
 }
 
 /*protected*/
@@ -182,3 +204,19 @@ panda::Event::doReleaseTree_(TTree& _tree)
 
 /* BEGIN CUSTOM */
 /* END CUSTOM */
+/*protected*/
+void
+panda::Event::adjustCollectionSizes_()
+{
+  pfCandidates.resize(pfCandidates.size());
+  superClusters.resize(superClusters.size());
+  electrons.resize(electrons.size());
+  muons.resize(muons.size());
+  taus.resize(taus.size());
+  photons.resize(photons.size());
+  jets.resize(jets.size());
+  fatJets.resize(fatJets.size());
+  genJets.resize(genJets.size());
+  genParticles.resize(genParticles.size());
+}
+

@@ -64,14 +64,15 @@ namespace panda {
     /*!
       If the new size is greater than nmax, data will be reallocated, making all references invalid.
     */
-    void copy(self_type const&);
+    template<Bool_t T = FIXED>
+    typename std::enable_if<T>::type copy(self_type const&);
+    template<Bool_t T = FIXED>
+    typename std::enable_if<!T>::type copy(self_type const&);
 
     template<Bool_t T = FIXED>
     typename std::enable_if<!T>::type push_back(const_reference);
     template<Bool_t T = FIXED>
     typename std::enable_if<!T, reference>::type create_back() { resize(max_() + 1); return back(); }
-    template<Bool_t T = FIXED>
-    typename std::enable_if<!T>::type resize(UInt_t size);
 
     ContainerElement::datastore& getData() override { return data; }
     ContainerElement::datastore const& getData() const override { return data; }
@@ -83,16 +84,15 @@ namespace panda {
   protected:
     Container(char const* name, UInt_t unitSize, Bool_t dummy) : base_type(name, unitSize, kFALSE) {}
 
-    template<Bool_t T = FIXED>
-    typename std::enable_if<T, UInt_t>::type max_() const { return getData().nmax(); }
-    template<Bool_t T = FIXED>
-    typename std::enable_if<!T, UInt_t>::type max_() const { return CollectionBase::size_; }
-
-  private:
     void allocate_(UInt_t) override;
     void deallocate_() override;
     void reallocate_(UInt_t) override;
 
+  private:
+    template<Bool_t T = FIXED>
+    typename std::enable_if<T, UInt_t>::type max_() const { return getData().nmax(); }
+    template<Bool_t T = FIXED>
+    typename std::enable_if<!T, UInt_t>::type max_() const { return CollectionBase::size_; }
     pointer addr_() const { return reinterpret_cast<pointer>(ContainerBase::array_); }
     const_pointer const_addr_() const { return reinterpret_cast<const_pointer>(ContainerBase::array_); }
   };
@@ -161,19 +161,31 @@ namespace panda {
   }
 
   template<class E, Bool_t FIXED>
-  void
+  template<Bool_t T/* = FIXED*/>
+  typename std::enable_if<T>::type
   Container<E, FIXED>::copy(self_type const& _src)
   {
     if (_src.ContainerBase::unitSize_ != ContainerBase::unitSize_)
       throw std::runtime_error((ContainerBase::name_ + "::copy incompatible array").Data());
 
-    if (FIXED) {
-      if (_src.getData().nmax() != getData().nmax())
-        reallocate_(_src.getData().nmax());
-    }
-    else {
-      resize(_src.size_);
-    }
+    if (_src.getData().nmax() != getData().nmax())
+      reallocate_(_src.getData().nmax());
+    
+    for (unsigned iP(0); iP != max_(); ++iP)
+      (*this)[iP] = _src[iP];
+
+    setName(_src.name_);
+  }
+
+  template<class E, Bool_t FIXED>
+  template<Bool_t T/* = FIXED*/>
+  typename std::enable_if<!T>::type
+  Container<E, FIXED>::copy(self_type const& _src)
+  {
+    if (_src.ContainerBase::unitSize_ != ContainerBase::unitSize_)
+      throw std::runtime_error((ContainerBase::name_ + "::copy incompatible array").Data());
+
+    resize(_src.size_);
     
     for (unsigned iP(0); iP != max_(); ++iP)
       (*this)[iP] = _src[iP];
@@ -194,22 +206,6 @@ namespace panda {
 
     (*this)[CollectionBase::size_] = _elem;
     ++CollectionBase::size_;
-  }
-
-  template<class E, Bool_t FIXED>
-  template<Bool_t T/* = FIXED*/>
-  typename std::enable_if<!T>::type
-  Container<E, FIXED>::resize(UInt_t _size)
-  {
-    if (_size > getData().nmax()) {
-      UInt_t nmax(getData().nmax());
-      while (nmax < _size)
-        nmax *= 2;
-
-      reallocate_(nmax);
-    }
-  
-    CollectionBase::size_ = _size;
   }
 
   /*private*/

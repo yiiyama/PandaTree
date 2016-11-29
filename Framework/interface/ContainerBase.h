@@ -31,7 +31,9 @@ namespace panda {
     void book(TTree&, utils::BranchList const& = {"*"});
     void releaseTree(TTree&);
 
-  private:
+  protected:
+    ContainerBase(char const* name, UInt_t unitSize) : name_(name), unitSize_(unitSize) {}
+
     virtual void allocate_(UInt_t) = 0;
     virtual void deallocate_() = 0;
     virtual void reallocate_(UInt_t) = 0;
@@ -40,9 +42,6 @@ namespace panda {
     virtual void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) = 0;
     virtual void doBook_(TTree&, utils::BranchList const&) = 0;
     virtual void doResetAddress_(TTree&) = 0;
-
-  protected:
-    ContainerBase(char const* name, UInt_t unitSize) : name_(name), unitSize_(unitSize) {}
 
     void updateAddress_();
 
