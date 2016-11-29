@@ -8,8 +8,6 @@
 
 namespace panda {
 
-  class PSuperCluster;
-
   class PPhoton : public PParticle {
   public:
     struct datastore : public PParticle::datastore {

@@ -24,6 +24,7 @@ class Tree(Definition, Object):
         header = FileOutput('{PACKDIR}/Objects/interface/{name}.h'.format(PACKDIR = PACKDIR, name = self.name))
         header.writeline('#ifndef {PACKAGE}_Objects_{name}_h'.format(PACKAGE = PACKAGE, name = self.name))
         header.writeline('#define {PACKAGE}_Objects_{name}_h'.format(PACKAGE = PACKAGE, name = self.name))
+        header.writeline('#include "../../Framework/interface/TreeEntry.h"')
         header.writeline('#include "Constants.h"')
 
         included = []
@@ -31,8 +32,6 @@ class Tree(Definition, Object):
             if objbranch.objname not in included:
                 header.writeline('#include "{brobj}.h"'.format(brobj = objbranch.objname))
                 included.append(objbranch.objname)
-
-        header.writeline('#include "../../Framework/interface/TreeEntry.h"')
 
         for include in self.includes:
             include.write(header)

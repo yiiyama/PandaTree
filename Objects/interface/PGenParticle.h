@@ -7,8 +7,6 @@
 
 namespace panda {
 
-  class PGenParticle;
-
   class PGenParticle : public PParticleM {
   public:
     struct datastore : public PParticleM::datastore {

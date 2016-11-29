@@ -227,20 +227,13 @@ for objdef in phobjects:
     linkdef.writeline('#pragma link C++ class {NAMESPACE}::{name};'.format(NAMESPACE = common.NAMESPACE, name = objdef.name))
 
 for objdef in phobjects:
-    if objdef.coltype() == PhysicsObject.DYNAMIC:
-        conttype = 'Collection'
-    elif objdef.coltype() == PhysicsObject.FIXED:
-        conttype = 'Array'
-    else:
-        continue
-
-    if objdef.parent == 'ContainerElement':
-        parent = conttype
-    else:
-        parent = objdef.parent + conttype
-
-    linkdef.writeline('#pragma link C++ class Container<{NAMESPACE}::{name}, {NAMESPACE}::{parent}>;'.format(NAMESPACE = common.NAMESPACE, name = objdef.name, parent = parent))
-    linkdef.writeline('#pragma link C++ typedef {NAMESPACE}::{name}{type};'.format(NAMESPACE = common.NAMESPACE, name = objdef.name, type = conttype))
+    if not objdef.is_singlet():
+        linkdef.writeline('#pragma link C++ class Array<{NAMESPACE}::{name}>;'.format(NAMESPACE = common.NAMESPACE, name = objdef.name))
+        linkdef.writeline('#pragma link C++ class Collection<{NAMESPACE}::{name}>;'.format(NAMESPACE = common.NAMESPACE, name = objdef.name))
+for objdef in phobjects:
+    if not objdef.is_singlet():
+        linkdef.writeline('#pragma link C++ typedef {NAMESPACE}::{name}Array;'.format(NAMESPACE = common.NAMESPACE, name = objdef.name))
+        linkdef.writeline('#pragma link C++ typedef {NAMESPACE}::{name}Collection;'.format(NAMESPACE = common.NAMESPACE, name = objdef.name))
 
 for tree in trees:
     linkdef.writeline('#pragma link C++ class {NAMESPACE}::{name};'.format(NAMESPACE = common.NAMESPACE, name = tree.name))

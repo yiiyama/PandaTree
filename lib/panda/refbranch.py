@@ -5,21 +5,21 @@ from physics import PhysicsObject
 class RefBranch(Branch):
     """
     Reference definition. Definition file syntax:
-    <name>/<type>*
+    <name>/<type>Ref
     References are written as unsigned integers to the trees.
     """
 
     def __init__(self, line):
-        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ ]+)\*$')
+        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ ]+)Ref$')
         self.refname = self.matches.group(1)
         arrdef = self.matches.group(2)
         self.objname = self.matches.group(3)
         try:
             objdef = PhysicsObject.get(self.objname)
         except KeyError:
-            raise Definition.NoMatch
+            raise Definition.NoMatch()
 
-        if objdef.coltype() == PhysicsObject.SINGLE:
+        if objdef.is_singlet():
             raise RuntimeError('Cannot create reference to single object ' + objdef.name)
 
         # create a branch for the index with name {name}_

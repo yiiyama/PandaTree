@@ -65,7 +65,7 @@ ASSERT nMaxHLTObjects >= nMuonHLTObjects
 
 % OBJECTS
 
-[PParticle:MAX=256]
+[PParticle]
 pt/F
 eta/F
 phi/F
@@ -91,12 +91,12 @@ q/F
 weight/F
 pftype/I
 
-[PSuperCluster:MAX=128]
+[PSuperCluster]
 rawPt/F
 eta/F
 phi/F
 
-[PLepton>PParticle:MAX=32]
+[PLepton>PParticle]
 q/C
 loose/O
 tight/O
@@ -119,7 +119,7 @@ sieie/F
 sipip/F
 hOverE/F
 veto/O
-superCluster/PSuperCluster*
+superCluster/PSuperClusterRef
 double m() const override { return 5.109989e-4; }
 double combiso() const override { return chiso + std::max(nhiso + phoiso - isoPUOffset, Float_t(0.)); }
 bool isEB() const { return superCluster.isValid() ? std::abs(superCluster->eta) < 1.4442 : false; }
@@ -133,7 +133,7 @@ q/C
 decayMode/O
 isoDeltaBetaCorr/F
 
-[PPhoton>PParticle:MAX=64]
+[PPhoton>PParticle]
 chiso/F
 chworstiso/F
 chisoMax/F
@@ -162,10 +162,10 @@ highpt/O
 pixelVeto/O
 csafeVeto/O
 matchL1[nPhotonL1Objects]/O
-superCluster/PSuperCluster*
+superCluster/PSuperClusterRef
 bool isEB() const { return superCluster.isValid() ? std::abs(superCluster->eta) < 1.4442 : false; }
 
-[PJet>PParticleM:MAX=64]
+[PJet>PParticleM]
 rawPt/F
 ptCorrUp/F
 ptCorrDown/F
@@ -176,10 +176,9 @@ qgl/F
 nhf/F
 chf/F
 id/i
-nConstituents/i
-constituents[128]/PPFCand*
+constituents/PPFCandRef
 
-[PFatJet>PJet:MAX=8]
+[PFatJet>PJet]
 tau1/F
 tau2/F
 tau3/F
@@ -204,12 +203,12 @@ int set_ecf(int o_, int N_, int ib_, float x_)
   return 0;
 }
 
-[PGenJet>PParticleM:MAX=64]
+[PGenJet>PParticleM]
 pdgid/I
 
 [PGenParticle>PParticleM]
 pdgid/I
-parent/PGenParticle*
+parent/PGenParticleRef
 
 [PMET:SINGLE]
 pt/F
@@ -283,16 +282,16 @@ eventNumber/i
 isData/O
 npv/I
 mcWeight/F
-pfCandidates/PPFCandCollection
-superClusters/PSuperClusterCollection
-electrons/PElectronCollection
-muons/PMuonCollection
-taus/PTauCollection
-photons/PPhotonCollection
-jets/PJetCollection
-fatJets/PFatJetCollection
-genJets/PGenJetCollection
-genParticles/PGenParticleCollection
+pfCandidates/PPFCandCollection(256)
+superClusters/PSuperClusterCollection(64)
+electrons/PElectronCollection(32)
+muons/PMuonCollection(32)
+taus/PTauCollection(64)
+photons/PPhotonCollection(32)
+jets/PJetCollection(64)
+fatJets/PFatJetCollection(8)
+genJets/PGenJetCollection(64)
+genParticles/PGenParticleCollection(128)
 met/PMET
 metFilters/PMETFilters
 triggers/HLTBits

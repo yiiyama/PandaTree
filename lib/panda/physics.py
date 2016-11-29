@@ -7,12 +7,10 @@ class PhysicsObject(Definition, Object):
     """
     Physics object definition. Definition file syntax:
     
-    [<Name>(><Parent>):<max size | SINGLE>]
+    [Name(>Parent)(:SINGLE)]
     <variable definitions>
     <function definitions>
     """
-
-    DYNAMIC, FIXED, SINGLE = range(3)
 
     _known_objects = []
 
@@ -28,56 +26,29 @@ class PhysicsObject(Definition, Object):
         Argument: re match object
         """
 
-        Definition.__init__(self, line, '\\[([A-Z][a-zA-Z0-9]+)(>[A-Z][a-zA-Z0-9]+|)(\\:SINGLE|\\:MAX=.+|\\:SIZE=.+|)\\] *$')
+        Definition.__init__(self, line, '\\[([A-Z][a-zA-Z0-9]+)(>[A-Z][a-zA-Z0-9]+|)(\\:SINGLE|)\\] *$')
         PhysicsObject._known_objects.append(self)
 
-        self._sizestr = None
-
-        # collection definition (optional)
-        coldef = self.matches.group(3)
-       
-        if coldef == ':SINGLE':
+        # is this a singlet?
+        if self.matches.group(3) == ':SINGLE':
             self.parent = 'Singlet'
-            self._coltype = PhysicsObject.SINGLE
-
-        elif coldef.startswith(':MAX'):
+            self._singlet = True
+        else:
             self.parent = 'ContainerElement'
-            self._coltype = PhysicsObject.DYNAMIC
-            self._sizestr = coldef[5:]
-            
-        elif coldef.startswith(':SIZE'):
-            self.parent = 'ContainerElement'
-            self._coltype = PhysicsObject.FIXED
-            self._sizestr = coldef[6:]
+            self._singlet = False
 
         # if >parent is present, update the parent class name
         if self.matches.group(2):
             self.parent = self.matches.group(2)[1:]
-            self._coltype = None
-        elif not self.parent:
-            raise RuntimeError('No parent or size specified for class {name}'.format(name = self.matches.group(1)))
+            self._singlet = None
 
         Object.__init__(self, self.matches.group(1), source)
 
-    def coltype(self):
-        if self._coltype is None:
-            return PhysicsObject.get(self.parent).coltype()
+    def is_singlet(self):
+        if self._singlet is None:
+            return PhysicsObject.get(self.parent).is_singlet()
         else:
-            return self._coltype
-
-    def container(self):
-        if self.coltype() == PhysicsObject.DYNAMIC:
-            return 'Collection'
-        elif self.coltype() == PhysicsObject.FIXED:
-            return 'Array'
-        else:
-            return ''
-
-    def sizestr(self):
-        if self._sizestr is None:
-            return PhysicsObject.get(self.parent).sizestr()
-        else:
-            return self._sizestr
+            return self._singlet
 
     def generate_header(self):
         """
@@ -115,10 +86,8 @@ class PhysicsObject(Definition, Object):
                 include.write(header)
                 included.append(include.code)
 
-        refobjects = []
         for branch in self.branches:
             if hasattr(branch, 'refname'): # is a RefBranch
-                refobjects.append(branch.objname)
                 stmt = '#include "{obj}.h"'.format(obj = branch.objname)
                 if stmt not in included:
                     header.writeline(stmt)
@@ -129,16 +98,11 @@ class PhysicsObject(Definition, Object):
         header.newline()
         header.indent += 1
 
-        if len(refobjects):
-            for obj in refobjects:
-                header.writeline('class {obj};'.format(obj = obj))
-            header.newline()
-
         header.writeline('class {name} : public {parent} {{'.format(name = self.name, parent = self.parent))
         header.writeline('public:')
         header.indent += 1
         
-        if self.coltype() != PhysicsObject.SINGLE:
+        if not self.is_singlet():
             header.writeline('struct datastore : public {parent}::datastore {{'.format(parent = self.parent))
             header.indent += 1
 
@@ -184,7 +148,7 @@ class PhysicsObject(Definition, Object):
         header.writeline('{name}({name} const&);'.format(name = self.name)) # copy constructor
 
         # standard constructors and specific functions
-        if self.coltype() != PhysicsObject.SINGLE:
+        if not self.is_singlet():
             # whereas elements of collections are constructed from an array and an index
             header.writeline('{name}(datastore&, UInt_t idx);'.format(name = self.name))
 
@@ -212,7 +176,7 @@ class PhysicsObject(Definition, Object):
             for function in self.functions:
                 function.write_decl(header, context = 'class')
 
-        if self.coltype() == PhysicsObject.SINGLE:
+        if self.is_singlet():
             context = 'Singlet'
         else:
             context = 'ContainerElement'
@@ -242,7 +206,7 @@ class PhysicsObject(Definition, Object):
             header.writeline('/* BEGIN CUSTOM */')
             header.writeline('/* END CUSTOM */')
 
-        if self.coltype() != PhysicsObject.SINGLE:
+        if not self.is_singlet():
             header.newline()
             header.indent -= 1
             header.writeline('protected:')
@@ -255,7 +219,7 @@ class PhysicsObject(Definition, Object):
 
         header.newline()
 
-        if self.coltype() != PhysicsObject.SINGLE:
+        if not self.is_singlet():
             header.writeline('typedef {name}::array_type {name}Array;'.format(name = self.name))
             header.writeline('typedef {name}::collection_type {name}Collection;'.format(name = self.name))
             header.writeline('typedef Ref<{name}> {name}Ref;'.format(name = self.name))
@@ -341,7 +305,7 @@ class PhysicsObject(Definition, Object):
             for constant in self.constants:
                 constant.write_def(src)
 
-        if self.coltype() == PhysicsObject.SINGLE:
+        if self.is_singlet():
             src.newline()
 
             src.writeline('{NAMESPACE}::{name}::{name}(char const* _name/* = ""*/) :'.format(**subst))
@@ -394,7 +358,7 @@ class PhysicsObject(Definition, Object):
                 src.newline()
                 self._write_method(src, 'Singlet', method)
 
-        #if self.coltype == PhysicsObject.SINGLE:
+        #if self.is_singlet():
         else:
             size_lines = ['TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));']
             methods = [

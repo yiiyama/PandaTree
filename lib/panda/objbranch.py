@@ -9,7 +9,7 @@ class ObjBranch(Definition):
     """
 
     def __init__(self, line):
-        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)/([^ ]+)$')
+        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)/([^ \\(]+)(\\([0-9]+\\)|)$')
 
         self.name = self.matches.group(1)
         self.objname = self.matches.group(2)
@@ -22,24 +22,30 @@ class ObjBranch(Definition):
         else:
             self.conttype = ''
 
+        self.init_size = self.matches.group(3).strip('()')
+
         try:
             # is this a valid object?
             objdef = PhysicsObject.get(self.objname)
         except KeyError:
-            raise Definition.NoMatch
+            raise Definition.NoMatch()
 
-        if objdef.coltype() == PhysicsObject.SINGLE and self.conttype != '':
+        if objdef.is_singlet() and (self.conttype != '' or self.init_size != ''):
             raise RuntimeError('Cannot create container of object ' + objdef.name)
-        elif objdef.coltype() == PhysicsObject.DYNAMIC and self.conttype == 'Array':
-            raise RuntimeError('Cannot create array of object ' + objdef.name)
-        elif objdef.coltype() == PhysicsObject.FIXED and self.conttype == 'Collection':
-            raise RuntimeError('Cannot create collection of object ' + objdef.name)
+
+        if self.conttype == 'Array' and self.init_size == '':
+            raise RuntimeError('Array object ' + objdef.name + ' needs a size')
 
     def type(self):
         return self.objname + self.conttype
 
     def write_decl(self, out):
-        out.writeline('{objname}{type} {name} = {objname}{type}("{name}");'.format(objname = self.objname, type = self.conttype, name = self.name))
+        if self.conttype == 'Array':
+            out.writeline('{objname}{type} {name} = {objname}{type}({size}, "{name}");'.format(objname = self.objname, type = self.conttype, name = self.name, size = self.init_size))
+        elif self.conttype == 'Collection' and self.init_size != '':
+            out.writeline('{objname}{type} {name} = {objname}{type}("{name}", {size});'.format(objname = self.objname, type = self.conttype, name = self.name, size = self.init_size))
+        else:
+            out.writeline('{objname}{type} {name} = {objname}{type}("{name}");'.format(objname = self.objname, type = self.conttype, name = self.name))
 
     def write_set_status(self, out):
         out.writeline('{name}.setStatus(_tree, _status, _branches.subList("{name}"));'.format(name = self.name))

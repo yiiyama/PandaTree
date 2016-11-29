@@ -8,8 +8,6 @@
 
 namespace panda {
 
-  class PSuperCluster;
-
   class PElectron : public PLepton {
   public:
     struct datastore : public PLepton::datastore {

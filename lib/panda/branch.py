@@ -13,6 +13,10 @@ class Branch(Definition):
     def __init__(self, line):
         Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ ]+)(?:| += +(.*))$')
 
+        self.type = self.matches.group(3)
+        if self.type not int TYPE_MAP:
+            raise Definition.NoMatch()
+
         self.name = self.matches.group(1)
         # is this an array branch?
         arrdef = self.matches.group(2)
@@ -20,7 +24,7 @@ class Branch(Definition):
             self.arrdef = arrdef.strip('[]').split('][')
         else:
             self.arrdef = []
-        self.type = self.matches.group(3)
+
         self.init = self.matches.group(4) # used in decl
         if self.init is None:
             self.init = ''

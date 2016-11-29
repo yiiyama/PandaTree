@@ -32,8 +32,7 @@ namespace panda {
       Float_t* nhf{0};
       Float_t* chf{0};
       UInt_t* id{0};
-      UInt_t* nConstituents{0};
-      UInt_t (*constituents_)[128]{0};
+      UInt_t* constituents_{0};
       */
       Float_t* tau1{0};
       Float_t* tau2{0};
@@ -93,8 +92,7 @@ namespace panda {
     Float_t& nhf;
     Float_t& chf;
     UInt_t& id;
-    UInt_t& nConstituents;
-    Ref<PPFCand> constituents[128]{};
+    Ref<PPFCand> constituents;
     */
     Float_t& tau1;
     Float_t& tau2;

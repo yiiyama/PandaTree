@@ -1,5 +1,6 @@
 #ifndef PandaTree_Objects_Event_h
 #define PandaTree_Objects_Event_h
+#include "../../Framework/interface/TreeEntry.h"
 #include "Constants.h"
 #include "PPFCand.h"
 #include "PSuperCluster.h"
@@ -14,7 +15,6 @@
 #include "PMET.h"
 #include "PMETFilters.h"
 #include "HLTBits.h"
-#include "../../Framework/interface/TreeEntry.h"
 
 namespace panda {
 
@@ -27,16 +27,16 @@ namespace panda {
 
     void init() override;
 
-    PPFCandCollection pfCandidates = PPFCandCollection("pfCandidates");
-    PSuperClusterCollection superClusters = PSuperClusterCollection("superClusters");
-    PElectronCollection electrons = PElectronCollection("electrons");
-    PMuonCollection muons = PMuonCollection("muons");
-    PTauCollection taus = PTauCollection("taus");
-    PPhotonCollection photons = PPhotonCollection("photons");
-    PJetCollection jets = PJetCollection("jets");
-    PFatJetCollection fatJets = PFatJetCollection("fatJets");
-    PGenJetCollection genJets = PGenJetCollection("genJets");
-    PGenParticleCollection genParticles = PGenParticleCollection("genParticles");
+    PPFCandCollection pfCandidates = PPFCandCollection("pfCandidates", 256);
+    PSuperClusterCollection superClusters = PSuperClusterCollection("superClusters", 64);
+    PElectronCollection electrons = PElectronCollection("electrons", 32);
+    PMuonCollection muons = PMuonCollection("muons", 32);
+    PTauCollection taus = PTauCollection("taus", 64);
+    PPhotonCollection photons = PPhotonCollection("photons", 32);
+    PJetCollection jets = PJetCollection("jets", 64);
+    PFatJetCollection fatJets = PFatJetCollection("fatJets", 8);
+    PGenJetCollection genJets = PGenJetCollection("genJets", 64);
+    PGenParticleCollection genParticles = PGenParticleCollection("genParticles", 128);
     PMET met = PMET("met");
     PMETFilters metFilters = PMETFilters("metFilters");
     HLTBits triggers = HLTBits("triggers");
