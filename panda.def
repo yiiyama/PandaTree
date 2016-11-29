@@ -163,6 +163,7 @@ pixelVeto/O
 csafeVeto/O
 matchL1[nPhotonL1Objects]/O
 superCluster/PSuperClusterRef
+text/TString
 bool isEB() const { return superCluster.isValid() ? std::abs(superCluster->eta) < 1.4442 : false; }
 
 [PJet>PParticleM]
