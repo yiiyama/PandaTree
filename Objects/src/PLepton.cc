@@ -91,6 +91,22 @@ panda::PLepton::datastore::book(TTree& _tree, TString const& _name, utils::Branc
   utils::book(_tree, _name, "hadDecay", size, 'O', hadDecay, _branches);
 }
 
+void
+panda::PLepton::datastore::resetAddress(TTree& _tree, TString const& _name)
+{
+  PParticle::datastore::resetAddress(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "q");
+  utils::resetAddress(_tree, _name, "loose");
+  utils::resetAddress(_tree, _name, "tight");
+  utils::resetAddress(_tree, _name, "chiso");
+  utils::resetAddress(_tree, _name, "nhiso");
+  utils::resetAddress(_tree, _name, "phoiso");
+  utils::resetAddress(_tree, _name, "puiso");
+  utils::resetAddress(_tree, _name, "tauDecay");
+  utils::resetAddress(_tree, _name, "hadDecay");
+}
+
 panda::PLepton::PLepton(char const* _name/* = ""*/) :
   PParticle(new PLeptonArray(1, _name)),
   q(gStore.getData(this).q[0]),
@@ -234,6 +250,24 @@ panda::PLepton::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*
   utils::book(_tree, name, "puiso", "", 'F', &puiso, _branches);
   utils::book(_tree, name, "tauDecay", "", 'O', &tauDecay, _branches);
   utils::book(_tree, name, "hadDecay", "", 'O', &hadDecay, _branches);
+}
+
+void
+panda::PLepton::resetAddress(TTree& _tree)
+{
+  PParticle::resetAddress(_tree);
+
+  TString name(gStore.getName(this));
+
+  utils::resetAddress(_tree, name, "q");
+  utils::resetAddress(_tree, name, "loose");
+  utils::resetAddress(_tree, name, "tight");
+  utils::resetAddress(_tree, name, "chiso");
+  utils::resetAddress(_tree, name, "nhiso");
+  utils::resetAddress(_tree, name, "phoiso");
+  utils::resetAddress(_tree, name, "puiso");
+  utils::resetAddress(_tree, name, "tauDecay");
+  utils::resetAddress(_tree, name, "hadDecay");
 }
 
 void

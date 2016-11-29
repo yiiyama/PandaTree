@@ -42,6 +42,7 @@ namespace panda {
     Int_t setStatus(TTree&, TString const& objName, BranchName const& bName, Bool_t status, BranchList const&);
     Int_t setAddress(TTree&, TString const& objName, BranchName const& bName, void* bPtr, BranchList const&, Bool_t setStatus);
     Int_t book(TTree&, TString const& objName, BranchName const& bName, TString const& size, char lType, void* bPtr, BranchList const&);
+    Int_t resetAddress(TTree&, TString const& objName, BranchName const& bName);
 
   }
 }

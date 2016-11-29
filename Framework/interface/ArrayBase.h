@@ -11,14 +11,16 @@ namespace panda {
     ~ArrayBase() {}
 
     UInt_t size() const override { return getData().nmax(); }
+    void init() override;
 
   private:
-    void doSetStatus_(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
-    void doSetAddress_(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
-    void doBook_(TTree&, utils::BranchList const& = {"*"}) override;
+    void doSetStatus_(TTree&, Bool_t, utils::BranchList const&) override;
+    void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;
+    void doBook_(TTree&, utils::BranchList const&) override;
+    void doResetAddress_(TTree&) override;
 
   protected:
-    ArrayBase(char const* name, UInt_t unitSize) : ContainerBase(name, unitSize) {}
+    ArrayBase(char const* name, UInt_t unitSize, Bool_t dummy) : ContainerBase(name, unitSize) {}
   };
 
 }

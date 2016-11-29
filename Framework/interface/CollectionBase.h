@@ -16,14 +16,13 @@ namespace panda {
     void clear() { size_ = 0; }
 
   private:
-    void doSetStatus_(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
-    void doSetAddress_(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
-    void doBook_(TTree&, utils::BranchList const& = {"*"}) override;
+    void doSetStatus_(TTree&, Bool_t, utils::BranchList const&) override;
+    void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;
+    void doBook_(TTree&, utils::BranchList const&) override;
+    void doResetAddress_(TTree&) override;
 
   protected:
     CollectionBase(char const* name, UInt_t unitSize, Bool_t dummy) : ContainerBase(name, unitSize) {}
-
-    virtual void reallocate_() = 0;
 
     UInt_t size_{0};
   };

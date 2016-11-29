@@ -180,6 +180,40 @@ panda::PRecoMET::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}
 }
 
 void
+panda::PRecoMET::resetAddress(TTree& _tree)
+{
+  PMET::resetAddress(_tree);
+
+  utils::resetAddress(_tree, name_, "sumETRaw");
+  utils::resetAddress(_tree, name_, "raw_pt");
+  utils::resetAddress(_tree, name_, "raw_phi");
+  utils::resetAddress(_tree, name_, "calo_pt");
+  utils::resetAddress(_tree, name_, "calo_phi");
+  utils::resetAddress(_tree, name_, "noMu_pt");
+  utils::resetAddress(_tree, name_, "noMu_phi");
+  utils::resetAddress(_tree, name_, "noHF_pt");
+  utils::resetAddress(_tree, name_, "noHF_phi");
+  utils::resetAddress(_tree, name_, "trk_pt");
+  utils::resetAddress(_tree, name_, "trk_phi");
+  utils::resetAddress(_tree, name_, "neutral_pt");
+  utils::resetAddress(_tree, name_, "neutral_phi");
+  utils::resetAddress(_tree, name_, "photon_pt");
+  utils::resetAddress(_tree, name_, "photon_phi");
+  utils::resetAddress(_tree, name_, "hf_pt");
+  utils::resetAddress(_tree, name_, "hf_phi");
+  utils::resetAddress(_tree, name_, "ptCorrUp");
+  utils::resetAddress(_tree, name_, "phiCorrUp");
+  utils::resetAddress(_tree, name_, "ptCorrDown");
+  utils::resetAddress(_tree, name_, "phiCorrDown");
+  utils::resetAddress(_tree, name_, "ptJetRes");
+  utils::resetAddress(_tree, name_, "phiJetRes");
+  utils::resetAddress(_tree, name_, "ptUnclUp");
+  utils::resetAddress(_tree, name_, "phiUnclUp");
+  utils::resetAddress(_tree, name_, "ptUnclDown");
+  utils::resetAddress(_tree, name_, "phiUnclDown");
+}
+
+void
 panda::PRecoMET::init()
 {
   PMET::init();

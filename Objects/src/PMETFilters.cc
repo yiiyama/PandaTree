@@ -80,6 +80,20 @@ panda::PMETFilters::book(TTree& _tree, utils::BranchList const& _branches/* = {"
 }
 
 void
+panda::PMETFilters::resetAddress(TTree& _tree)
+{
+  Singlet::resetAddress(_tree);
+
+  utils::resetAddress(_tree, name_, "cschalo");
+  utils::resetAddress(_tree, name_, "globalHalo16");
+  utils::resetAddress(_tree, name_, "hbhe");
+  utils::resetAddress(_tree, name_, "hbheIso");
+  utils::resetAddress(_tree, name_, "badsc");
+  utils::resetAddress(_tree, name_, "badTrack");
+  utils::resetAddress(_tree, name_, "badMuonTrack");
+}
+
+void
 panda::PMETFilters::init()
 {
   Singlet::init();

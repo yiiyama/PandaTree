@@ -18,14 +18,13 @@
 
 namespace panda {
 
-  template<class E> class Array<E>;
-  template<class E> class Collection<E>;
-
   template<class E>
   class Ref {
   public:
     typedef Ref<E> self_type;
     typedef E value_type;
+    typedef typename E::array_type array_type;
+    typedef typename E::collection_type collection_type;
 
     //! Default constructor.
     Ref() {}
@@ -36,10 +35,12 @@ namespace panda {
     Ref(UInt_t& idx) : idx_(&idx) {}
     //! Copy constructor.
     Ref(self_type const& orig) : idx_(orig.idx_), container_(orig.container_) {}
+    //! Set the index.
+    void setIndex(UInt_t& idx) { idx_ = &idx; }
     //! Set the container (an Array or a Collection).
-    template<class C> typename std::enable_if<std::is_base_of<Array<E>, C>::value>::type set(C const&, UInt_t*);
+    template<class C> typename std::enable_if<std::is_base_of<array_type, C>::value>::type setContainer(C const& c) { container_ = &c; }
     //! Set the container (an Array or a Collection).
-    template<class C> typename std::enable_if<std::is_base_of<Collection<E>, C>::value>::type set(C const&, UInt_t*);
+    template<class C> typename std::enable_if<std::is_base_of<collection_type, C>::value>::type setContainer(C const& c) { container_ = &c; }
     //! The arrow operator.
     /*!
       Returns a null pointer if the container is not set or the index points to an invalid location.
@@ -79,26 +80,6 @@ namespace panda {
     ContainerBase const* container_{0};
     UInt_t* idx_{0};
   };
-
-  template<class E>
-  template<class C>
-  typename std::enable_if<std::is_base_of<Array<E>, C>::value>::type
-  Ref<E>::set(C const& _container, UInt_t* _idx/* = 0*/)
-  {
-    container_ = &_container;
-    if (_idx)
-      idx_ = _idx;
-  }
-
-  template<class E>
-  template<class C>
-  typename std::enable_if<std::is_base_of<Collection<E>, C>::value>::type
-  Ref<E>::set(C const& _container, UInt_t* _idx/* = 0*/)
-  {
-    container_ = &_container;
-    if (_idx)
-      idx_ = _idx;
-  }
 
   template<class E>
   E const*

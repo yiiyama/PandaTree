@@ -2,8 +2,7 @@
 #define PandaTree_Objects_PFatJet_h
 #include "Constants.h"
 #include "PJet.h"
-#include "../../Framework/interface/Collection.h"
-#include "../../Framework/interface/Array.h"
+#include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
 
 namespace panda {
@@ -52,10 +51,11 @@ namespace panda {
       void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
       void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
+      void resetAddress(TTree&, TString const&) override;
     };
 
-    typedef Array<PFatJet, PJet::array_type> array_type;
-    typedef Collection<PFatJet, PJet::collection_type> collection_type;
+    typedef Container<PFatJet, PJet::array_type> array_type;
+    typedef Container<PFatJet, PJet::collection_type> collection_type;
 
     PFatJet(char const* name = "");
     PFatJet(PFatJet const&);
@@ -66,6 +66,7 @@ namespace panda {
     void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
     void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
     void book(TTree&, utils::BranchList const& = {"*"}) override;
+    void resetAddress(TTree&) override;
 
     void init() override;
 
@@ -92,7 +93,7 @@ namespace panda {
     Float_t& chf;
     UInt_t& id;
     UInt_t& nConstituents;
-    PPFCandRef constituents[128]{};
+    Ref<PPFCand> constituents[128]{};
     */
     Float_t& tau1;
     Float_t& tau2;

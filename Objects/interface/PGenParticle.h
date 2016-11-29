@@ -2,12 +2,12 @@
 #define PandaTree_Objects_PGenParticle_h
 #include "Constants.h"
 #include "PParticleM.h"
-#include "../../Framework/interface/Collection.h"
-#include "../../Framework/interface/Array.h"
+#include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
-#include "PGenParticle.h"
 
 namespace panda {
+
+  class PGenParticle;
 
   class PGenParticle : public PParticleM {
   public:
@@ -31,10 +31,11 @@ namespace panda {
       void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
       void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
+      void resetAddress(TTree&, TString const&) override;
     };
 
-    typedef Array<PGenParticle, PParticleM::array_type> array_type;
-    typedef Collection<PGenParticle, PParticleM::collection_type> collection_type;
+    typedef Container<PGenParticle, PParticleM::array_type> array_type;
+    typedef Container<PGenParticle, PParticleM::collection_type> collection_type;
 
     PGenParticle(char const* name = "");
     PGenParticle(PGenParticle const&);
@@ -45,6 +46,7 @@ namespace panda {
     void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
     void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
     void book(TTree&, utils::BranchList const& = {"*"}) override;
+    void resetAddress(TTree&) override;
 
     void init() override;
 
@@ -57,7 +59,7 @@ namespace panda {
     Float_t& mass;
     */
     Int_t& pdgid;
-    PGenParticleRef parent;
+    Ref<PGenParticle> parent;
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */

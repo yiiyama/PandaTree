@@ -12,27 +12,13 @@ panda::Run::Run(Run const& _src) :
 {
 }
 
-void
-panda::Run::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::Run&
+panda::Run::operator=(Run const& _src)
 {
-  utils::setStatus(_tree, "", "run", _status, _branches);
-  utils::setStatus(_tree, "", "hltMenu", _status, _branches);
-}
+  run = _src.run;
+  hltMenu = _src.hltMenu;
 
-void
-panda::Run::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
-{
-  TreeEntry::setAddress(_tree, _branches);
-
-  utils::setAddress(_tree, "", "run", &run, _branches, _setStatus);
-  utils::setAddress(_tree, "", "hltMenu", &hltMenu, _branches, _setStatus);
-}
-
-void
-panda::Run::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
-{
-  utils::book(_tree, "", "run", "", 'i', &run, _branches);
-  utils::book(_tree, "", "hltMenu", "", 'i', &hltMenu, _branches);
+  return *this;
 }
 
 void
@@ -41,6 +27,37 @@ panda::Run::init()
   run = 0;
   hltMenu = 0;
 }
+
+/*protected*/
+void
+panda::Run::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const& _branches)
+{
+  utils::setStatus(_tree, "", "run", _status, _branches);
+  utils::setStatus(_tree, "", "hltMenu", _status, _branches);
+}
+
+/*protected*/
+void
+panda::Run::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus)
+{
+  utils::setAddress(_tree, "", "run", &run, _branches, _setStatus);
+  utils::setAddress(_tree, "", "hltMenu", &hltMenu, _branches, _setStatus);
+}
+
+/*protected*/
+void
+panda::Run::doBook_(TTree& _tree, utils::BranchList const& _branches)
+{
+  utils::book(_tree, "", "run", "", 'i', &run, _branches);
+  utils::book(_tree, "", "hltMenu", "", 'i', &hltMenu, _branches);
+}
+
+/*protected*/
+void
+panda::Run::doReleaseTree_(TTree& _tree)
+{
+}
+
 
 /* BEGIN CUSTOM */
 /* END CUSTOM */

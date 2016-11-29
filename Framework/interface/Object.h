@@ -28,6 +28,8 @@ namespace panda {
     virtual void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) {}
     //! Book new branches to the tree corresponding to the variables of this object.
     virtual void book(TTree&, utils::BranchList const& = {"*"}) {}
+    //! Reset the branch pointer to unlink the branch from this object.
+    virtual void resetAddress(TTree&) {}
 
     virtual void setName(char const*) {}
     virtual void init() {}

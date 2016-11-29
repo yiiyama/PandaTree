@@ -2,8 +2,7 @@
 #define PandaTree_Objects_PMuon_h
 #include "Constants.h"
 #include "PLepton.h"
-#include "../../Framework/interface/Collection.h"
-#include "../../Framework/interface/Array.h"
+#include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
 
 namespace panda {
@@ -36,10 +35,11 @@ namespace panda {
       void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
       void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
+      void resetAddress(TTree&, TString const&) override;
     };
 
-    typedef Array<PMuon, PLepton::array_type> array_type;
-    typedef Collection<PMuon, PLepton::collection_type> collection_type;
+    typedef Container<PMuon, PLepton::array_type> array_type;
+    typedef Container<PMuon, PLepton::collection_type> collection_type;
 
     PMuon(char const* name = "");
     PMuon(PMuon const&);
@@ -50,6 +50,7 @@ namespace panda {
     void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
     void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
     void book(TTree&, utils::BranchList const& = {"*"}) override;
+    void resetAddress(TTree&) override;
 
     void init() override;
 

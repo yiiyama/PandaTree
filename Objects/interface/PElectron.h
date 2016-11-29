@@ -2,12 +2,13 @@
 #define PandaTree_Objects_PElectron_h
 #include "Constants.h"
 #include "PLepton.h"
-#include "../../Framework/interface/Collection.h"
-#include "../../Framework/interface/Array.h"
+#include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
 #include "PSuperCluster.h"
 
 namespace panda {
+
+  class PSuperCluster;
 
   class PElectron : public PLepton {
   public:
@@ -48,10 +49,11 @@ namespace panda {
       void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
       void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
+      void resetAddress(TTree&, TString const&) override;
     };
 
-    typedef Array<PElectron, PLepton::array_type> array_type;
-    typedef Collection<PElectron, PLepton::collection_type> collection_type;
+    typedef Container<PElectron, PLepton::array_type> array_type;
+    typedef Container<PElectron, PLepton::collection_type> collection_type;
 
     PElectron(char const* name = "");
     PElectron(PElectron const&);
@@ -62,6 +64,7 @@ namespace panda {
     void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
     void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
     void book(TTree&, utils::BranchList const& = {"*"}) override;
+    void resetAddress(TTree&) override;
 
     void init() override;
 
@@ -95,7 +98,7 @@ namespace panda {
     Float_t& sipip;
     Float_t& hOverE;
     Bool_t& veto;
-    PSuperClusterRef superCluster;
+    Ref<PSuperCluster> superCluster;
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */

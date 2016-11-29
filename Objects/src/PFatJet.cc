@@ -97,6 +97,23 @@ panda::PFatJet::datastore::book(TTree& _tree, TString const& _name, utils::Branc
   utils::book(_tree, _name, "ecfs", size + "[3][4][4]", 'F', ecfs, _branches);
 }
 
+void
+panda::PFatJet::datastore::resetAddress(TTree& _tree, TString const& _name)
+{
+  PJet::datastore::resetAddress(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "tau1");
+  utils::resetAddress(_tree, _name, "tau2");
+  utils::resetAddress(_tree, _name, "tau3");
+  utils::resetAddress(_tree, _name, "mSD");
+  utils::resetAddress(_tree, _name, "tau1SD");
+  utils::resetAddress(_tree, _name, "tau2SD");
+  utils::resetAddress(_tree, _name, "tau3SD");
+  utils::resetAddress(_tree, _name, "htt_mass");
+  utils::resetAddress(_tree, _name, "htt_frec");
+  utils::resetAddress(_tree, _name, "ecfs");
+}
+
 panda::PFatJet::PFatJet(char const* _name/* = ""*/) :
   PJet(new PFatJetArray(1, _name)),
   tau1(gStore.getData(this).tau1[0]),
@@ -247,6 +264,25 @@ panda::PFatJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*
   utils::book(_tree, name, "htt_mass", "", 'F', &htt_mass, _branches);
   utils::book(_tree, name, "htt_frec", "", 'F', &htt_frec, _branches);
   utils::book(_tree, name, "ecfs", "[3][4][4]", 'F', ecfs, _branches);
+}
+
+void
+panda::PFatJet::resetAddress(TTree& _tree)
+{
+  PJet::resetAddress(_tree);
+
+  TString name(gStore.getName(this));
+
+  utils::resetAddress(_tree, name, "tau1");
+  utils::resetAddress(_tree, name, "tau2");
+  utils::resetAddress(_tree, name, "tau3");
+  utils::resetAddress(_tree, name, "mSD");
+  utils::resetAddress(_tree, name, "tau1SD");
+  utils::resetAddress(_tree, name, "tau2SD");
+  utils::resetAddress(_tree, name, "tau3SD");
+  utils::resetAddress(_tree, name, "htt_mass");
+  utils::resetAddress(_tree, name, "htt_frec");
+  utils::resetAddress(_tree, name, "ecfs");
 }
 
 void

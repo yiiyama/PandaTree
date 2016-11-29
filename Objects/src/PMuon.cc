@@ -32,6 +32,12 @@ panda::PMuon::datastore::book(TTree& _tree, TString const& _name, utils::BranchL
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 }
 
+void
+panda::PMuon::datastore::resetAddress(TTree& _tree, TString const& _name)
+{
+  PLepton::datastore::resetAddress(_tree, _name);
+}
+
 panda::PMuon::PMuon(char const* _name/* = ""*/) :
   PLepton(new PMuonArray(1, _name))
 {
@@ -86,6 +92,14 @@ void
 panda::PMuon::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   PLepton::book(_tree, _branches);
+
+  TString name(gStore.getName(this));
+}
+
+void
+panda::PMuon::resetAddress(TTree& _tree)
+{
+  PLepton::resetAddress(_tree);
 
   TString name(gStore.getName(this));
 }

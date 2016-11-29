@@ -9,7 +9,7 @@
 
 namespace panda {
 
-  template<class T, class Base = CollectionBase>
+  template<class T, class Base>
   class Collection : public Base {
   public:
     typedef Collection<T, Base> self_type;
@@ -78,14 +78,14 @@ namespace panda {
     const_pointer const_addr_() const { return reinterpret_cast<const_pointer>(ContainerBase::array_); }
   };
 
-  template<class T, class Base/* = CollectionBase*/>
+  template<class T, class Base>
   Collection<T, Base>::Collection(char const* _name/* = ""*/, UInt_t _initialMax/* = 64*/) :
     Base(_name, sizeof(T), kFALSE)
   {
     allocate_(_initialMax);
   }
 
-  template<class T, class Base/* = CollectionBase*/>
+  template<class T, class Base>
   Collection<T, Base>::Collection(self_type const& _src) :
     Collection(_src.ContainerBase::name_, _src.getData().nmax())
   {
@@ -93,13 +93,13 @@ namespace panda {
   }
 
   /*protected*/
-  template<class T, class Base/* = CollectionBase*/>
+  template<class T, class Base>
   Collection<T, Base>::Collection(char const* _name, UInt_t _unitSize, Bool_t) :
     Base(_name, _unitSize, kFALSE)
   {
   }
 
-  template<class T, class Base/* = CollectionBase*/>
+  template<class T, class Base>
   Collection<T, Base>::~Collection()
   {
     if (ContainerBase::array_) {
@@ -108,7 +108,7 @@ namespace panda {
     }
   }
 
-  template<class T, class Base/* = CollectionBase*/>
+  template<class T, class Base>
   typename Collection<T, Base>::reference
   Collection<T, Base>::at(UInt_t _idx)
   {
@@ -123,7 +123,7 @@ namespace panda {
     return *reinterpret_cast<pointer>(p);
   }
 
-  template<class T, class Base/* = CollectionBase*/>
+  template<class T, class Base>
   typename Collection<T, Base>::const_reference
   Collection<T, Base>::at(UInt_t _idx) const
   {
@@ -138,7 +138,7 @@ namespace panda {
     return *reinterpret_cast<const_pointer>(p);
   }
 
-  template<class T, class Base/* = CollectionBase*/>
+  template<class T, class Base>
   typename Collection<T, Base>::reference
   Collection<T, Base>::operator[](UInt_t _idx)
   {
@@ -150,7 +150,7 @@ namespace panda {
     return *reinterpret_cast<pointer>(p);
   }
 
-  template<class T, class Base/* = CollectionBase*/>
+  template<class T, class Base>
   typename Collection<T, Base>::const_reference
   Collection<T, Base>::operator[](UInt_t _idx) const
   {
@@ -162,7 +162,7 @@ namespace panda {
     return *reinterpret_cast<const_pointer>(p);
   }
 
-  template<class T, class Base/* = CollectionBase*/>
+  template<class T, class Base>
   void
   Collection<T, Base>::copy(self_type const& _src)
   {
@@ -177,7 +177,7 @@ namespace panda {
     setName(_src.name_);
   }
 
-  template<class T, class Base/* = CollectionBase*/>
+  template<class T, class Base>
   void
   Collection<T, Base>::push_back(const_reference _elem)
   {
@@ -191,7 +191,7 @@ namespace panda {
     ++CollectionBase::size_;
   }
 
-  template<class T, class Base/* = CollectionBase*/>
+  template<class T, class Base>
   void
   Collection<T, Base>::resize(UInt_t _size)
   {
@@ -207,7 +207,7 @@ namespace panda {
   }
 
   /*private*/
-  template<class T, class Base/* = CollectionBase*/>
+  template<class T, class Base>
   void
   Collection<T, Base>::allocate_(UInt_t _nmax)
   {
@@ -221,7 +221,7 @@ namespace panda {
   }
 
   /*private*/
-  template<class T, class Base/* = CollectionBase*/>
+  template<class T, class Base>
   void
   Collection<T, Base>::deallocate_()
   {
@@ -230,7 +230,7 @@ namespace panda {
   }
 
   /*private*/
-  template<class T, class Base/* = CollectionBase*/>
+  template<class T, class Base>
   void
   Collection<T, Base>::reallocate_(UInt_t _nmax)
   {

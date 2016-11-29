@@ -6,17 +6,27 @@
 void
 panda::ContainerBase::releaseTree(TTree& _tree)
 {
+  bool found(false);
+
   if (&_tree == input_) {
     input_ = 0;
-    return;
+    found = true;
   }
 
-  for (auto itr(outputs_.begin()); itr != outputs_.end(); ++itr) {
-    if (*itr == &_tree) {
-      outputs_.erase(itr);
-      break;
+  if (!found) {
+    for (auto itr(outputs_.begin()); itr != outputs_.end(); ++itr) {
+      if (*itr == &_tree) {
+        outputs_.erase(itr);
+        found = true;
+        break;
+      }
     }
   }
+
+  if (!found)
+    return;
+
+  doResetAddress_(_tree);
 }
 
 void
@@ -39,7 +49,7 @@ panda::ContainerBase::book(TTree& _tree, utils::BranchList const& _branches/* = 
     return;
 
   if (std::find(outputs_.begin(), outputs_.end(), &_tree) != outputs_.end())
-    throw std::runtime_error("ArrayBase::book tree branch already booked");
+    throw std::runtime_error("ContainerBase::book tree branch already booked");
 
   doBook_(_tree, _branches);
   outputs_.push_back(&_tree);

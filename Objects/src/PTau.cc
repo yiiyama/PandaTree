@@ -55,6 +55,16 @@ panda::PTau::datastore::book(TTree& _tree, TString const& _name, utils::BranchLi
   utils::book(_tree, _name, "isoDeltaBetaCorr", size, 'F', isoDeltaBetaCorr, _branches);
 }
 
+void
+panda::PTau::datastore::resetAddress(TTree& _tree, TString const& _name)
+{
+  PParticleM::datastore::resetAddress(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "q");
+  utils::resetAddress(_tree, _name, "decayMode");
+  utils::resetAddress(_tree, _name, "isoDeltaBetaCorr");
+}
+
 panda::PTau::PTau(char const* _name/* = ""*/) :
   PParticleM(new PTauArray(1, _name)),
   q(gStore.getData(this).q[0]),
@@ -144,6 +154,18 @@ panda::PTau::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
   utils::book(_tree, name, "q", "", 'C', &q, _branches);
   utils::book(_tree, name, "decayMode", "", 'O', &decayMode, _branches);
   utils::book(_tree, name, "isoDeltaBetaCorr", "", 'F', &isoDeltaBetaCorr, _branches);
+}
+
+void
+panda::PTau::resetAddress(TTree& _tree)
+{
+  PParticleM::resetAddress(_tree);
+
+  TString name(gStore.getName(this));
+
+  utils::resetAddress(_tree, name, "q");
+  utils::resetAddress(_tree, name, "decayMode");
+  utils::resetAddress(_tree, name, "isoDeltaBetaCorr");
 }
 
 void

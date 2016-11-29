@@ -24,12 +24,9 @@
 
 namespace panda {
 
-  namespace utils {
-    class AllocatorBase;
-  }
-
   class ContainerBase;
   class ArrayBase;
+  class CollectionBase;
 
   class ContainerElement : public Object {
   public:
@@ -53,12 +50,16 @@ namespace panda {
       virtual void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) {}
       virtual void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) {}
       virtual void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) {}
+      virtual void resetAddress(TTree&, TString const&) {}
 
       UInt_t nmax() const { return nmax_; }
 
     protected:
       UInt_t nmax_;
     };
+
+    typedef ArrayBase array_type;
+    typedef CollectionBase collection_type;
 
     //! Standard constructor.
     ContainerElement(datastore&, UInt_t) {}

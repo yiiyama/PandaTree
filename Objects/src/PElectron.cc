@@ -103,6 +103,24 @@ panda::PElectron::datastore::book(TTree& _tree, TString const& _name, utils::Bra
   utils::book(_tree, _name, "superCluster_", size, 'i', superCluster_, _branches);
 }
 
+void
+panda::PElectron::datastore::resetAddress(TTree& _tree, TString const& _name)
+{
+  PLepton::datastore::resetAddress(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "chisoPh");
+  utils::resetAddress(_tree, _name, "nhisoPh");
+  utils::resetAddress(_tree, _name, "phisoPh");
+  utils::resetAddress(_tree, _name, "ecaliso");
+  utils::resetAddress(_tree, _name, "hcaliso");
+  utils::resetAddress(_tree, _name, "isoPUOffset");
+  utils::resetAddress(_tree, _name, "sieie");
+  utils::resetAddress(_tree, _name, "sipip");
+  utils::resetAddress(_tree, _name, "hOverE");
+  utils::resetAddress(_tree, _name, "veto");
+  utils::resetAddress(_tree, _name, "superCluster_");
+}
+
 panda::PElectron::PElectron(char const* _name/* = ""*/) :
   PLepton(new PElectronArray(1, _name)),
   chisoPh(gStore.getData(this).chisoPh[0]),
@@ -264,6 +282,26 @@ panda::PElectron::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"
   utils::book(_tree, name, "hOverE", "", 'F', &hOverE, _branches);
   utils::book(_tree, name, "veto", "", 'O', &veto, _branches);
   utils::book(_tree, name, "superCluster_", "", 'i', &superCluster.idx(), _branches);
+}
+
+void
+panda::PElectron::resetAddress(TTree& _tree)
+{
+  PLepton::resetAddress(_tree);
+
+  TString name(gStore.getName(this));
+
+  utils::resetAddress(_tree, name, "chisoPh");
+  utils::resetAddress(_tree, name, "nhisoPh");
+  utils::resetAddress(_tree, name, "phisoPh");
+  utils::resetAddress(_tree, name, "ecaliso");
+  utils::resetAddress(_tree, name, "hcaliso");
+  utils::resetAddress(_tree, name, "isoPUOffset");
+  utils::resetAddress(_tree, name, "sieie");
+  utils::resetAddress(_tree, name, "sipip");
+  utils::resetAddress(_tree, name, "hOverE");
+  utils::resetAddress(_tree, name, "veto");
+  utils::resetAddress(_tree, name, "superCluster_");
 }
 
 void

@@ -2,12 +2,13 @@
 #define PandaTree_Objects_PJet_h
 #include "Constants.h"
 #include "PParticleM.h"
-#include "../../Framework/interface/Collection.h"
-#include "../../Framework/interface/Array.h"
+#include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
 #include "PPFCand.h"
 
 namespace panda {
+
+  class PPFCand;
 
   class PJet : public PParticleM {
   public:
@@ -41,10 +42,11 @@ namespace panda {
       void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
       void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
+      void resetAddress(TTree&, TString const&) override;
     };
 
-    typedef Array<PJet, PParticleM::array_type> array_type;
-    typedef Collection<PJet, PParticleM::collection_type> collection_type;
+    typedef Container<PJet, PParticleM::array_type> array_type;
+    typedef Container<PJet, PParticleM::collection_type> collection_type;
 
     PJet(char const* name = "");
     PJet(PJet const&);
@@ -55,6 +57,7 @@ namespace panda {
     void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
     void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
     void book(TTree&, utils::BranchList const& = {"*"}) override;
+    void resetAddress(TTree&) override;
 
     void init() override;
 
@@ -77,7 +80,7 @@ namespace panda {
     Float_t& chf;
     UInt_t& id;
     UInt_t& nConstituents;
-    PPFCandRef constituents[128]{};
+    Ref<PPFCand> constituents[128]{};
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */

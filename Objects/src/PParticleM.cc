@@ -43,6 +43,14 @@ panda::PParticleM::datastore::book(TTree& _tree, TString const& _name, utils::Br
   utils::book(_tree, _name, "mass", size, 'F', mass, _branches);
 }
 
+void
+panda::PParticleM::datastore::resetAddress(TTree& _tree, TString const& _name)
+{
+  PParticle::datastore::resetAddress(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "mass");
+}
+
 panda::PParticleM::PParticleM(char const* _name/* = ""*/) :
   PParticle(new PParticleMArray(1, _name)),
   mass(gStore.getData(this).mass[0])
@@ -114,6 +122,16 @@ panda::PParticleM::book(TTree& _tree, utils::BranchList const& _branches/* = {"*
   TString name(gStore.getName(this));
 
   utils::book(_tree, name, "mass", "", 'F', &mass, _branches);
+}
+
+void
+panda::PParticleM::resetAddress(TTree& _tree)
+{
+  PParticle::resetAddress(_tree);
+
+  TString name(gStore.getName(this));
+
+  utils::resetAddress(_tree, name, "mass");
 }
 
 void

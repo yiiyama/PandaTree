@@ -316,6 +316,18 @@ class BranchDef(Definition):
 
         out.writeline('utils::book(_tree, {namevar}, "{name}", {size}, \'{type}\', {ptr}, _branches);'.format(namevar = namevar, name = self.name, size = size_str, type = self.type, ptr = ptr))
 
+    def write_reset_address(self, out, context):
+        if context == 'datastore':
+            namevar = '_name'
+        elif context == 'Singlet':
+            namevar = 'name_'
+        elif context == 'ContainerElement':
+            namevar = 'name'
+        elif context == 'TreeEntry':
+            namevar = '""'
+
+        out.writeline('utils::resetAddress(_tree, {namevar}, "{name}");'.format(namevar = namevar, name = self.name))
+
     def init_default(self, lines, context):
         if context == 'ContainerElement':
             lines.append('{name}(gStore.getData(this).{name}[0])'.format(name = self.name))
@@ -325,7 +337,7 @@ class BranchDef(Definition):
             lines.append('{name}(_data.{name}[_idx])'.format(name = self.name))
 
     def init_copy(self, lines, context):
-        if context == 'Singlet':
+        if context == 'Singlet' or context == 'TreeEntry':
             if not self.is_array():
                 lines.append('{name}(_src.{name})'.format(name = self.name))
         elif context == 'ContainerElement':
@@ -389,9 +401,9 @@ class RefBranchDef(BranchDef):
 
             if self.is_array():
                 # Ref does not have a default constructor -> need to declare as a pointer and do allocate-deallocate
-                out.writeline('{type}Ref {name}{arrdef}{{}};'.format(type = self.objname, name = self.refname, arrdef = self.arrdef_text()))
+                out.writeline('Ref<{type}> {name}{arrdef}{{}};'.format(type = self.objname, name = self.refname, arrdef = self.arrdef_text()))
             else:
-                out.writeline('{type}Ref {name};'.format(type = self.objname, name = self.refname))
+                out.writeline('Ref<{type}> {name};'.format(type = self.objname, name = self.refname))
 
     def write_set_address(self, out, context):
         if context == 'ContainerElement':
@@ -406,6 +418,12 @@ class RefBranchDef(BranchDef):
             out.writeline('utils::book(_tree, name, "{name}", "{arrdef}", \'{type}\', &{refname}{subscript}.idx(), _branches);'.format(name = self.name, arrdef = self.arrdef_text(), type = self.type, refname = self.refname, subscript = subscript))
         else:
             BranchDef.write_book(self, out, context)
+
+    def write_reset_address(self, out, context):
+        if context == 'ContainerElement':
+            out.writeline('utils::resetAddress(_tree, name, "{name}");'.format(name = self.name))
+        else:
+            BranchDef.write_reset_address(self, out, context)
 
     def init_default(self, lines, context):
         if self.is_array():
@@ -427,7 +445,7 @@ class RefBranchDef(BranchDef):
         if self.is_array(): 
             return
 
-        if context == 'Singlet':
+        if context == 'Singlet' or context == 'TreeEntry':
             BranchDef.init_copy(lines, context)
             lines.append('{name}({name}_)'.format(name = self.refname))
         elif context == 'ContainerElement':
@@ -475,7 +493,7 @@ class RefBranchDef(BranchDef):
             out.indent += 1
 
             if depth == len(self.arrdef) - 1:
-                out.writeline('{name}{subscript}.set(0, {array}[i{depth}]);'.format(name = self.refname, subscript = subscript, array = array, depth = depth))
+                out.writeline('{name}{subscript}.setIndex({array}[i{depth}]);'.format(name = self.refname, subscript = subscript, array = array, depth = depth))
             else:
                 out.writeline('UInt_t (&{newarray}){arrdef}({array}[i{depth}]);'.format(newarray = newarray, arrdef = self.arrdef_text(depth + 1), depth = depth))
 
@@ -551,10 +569,16 @@ class ObjBranchDef(Definition):
         out.writeline('{name}.setStatus(_tree, _status, _branches.subList("{name}"));'.format(name = self.name))
 
     def write_set_address(self, out):
-        out.writeline('{name}.setAddress(_tree, _branches.subList("{name}"));'.format(name = self.name))
+        out.writeline('{name}.setAddress(_tree, _branches.subList("{name}"), _setStatus);'.format(name = self.name))
 
     def write_book(self, out):
         out.writeline('{name}.book(_tree, _branches.subList("{name}"));'.format(name = self.name))
+
+    def write_release_tree(self, out):
+        if self.conttype == '':
+            out.writeline('{name}.resetAddress(_tree);'.format(name = self.name))
+        else:
+            out.writeline('{name}.releaseTree(_tree);'.format(name = self.name))
 
     def cpyctor(self):
         return '{name}(_src.{name})'.format(name = self.name)
@@ -798,7 +822,7 @@ class PhysicsObjectDef(Definition, ObjectDef):
         header.writeline('#define {PACKAGE}_Objects_{name}_h'.format(PACKAGE = PACKAGE, name = self.name))
         header.writeline('#include "Constants.h"')
 
-        included = []
+        included = ['#include "{name}.h"'.format(name = self.name)]
         if self.parent == 'ContainerElement':
             header.writeline('#include "../../Framework/interface/ContainerElement.h"')
         elif self.parent == 'Singlet':
@@ -809,8 +833,7 @@ class PhysicsObjectDef(Definition, ObjectDef):
                 header.writeline(stmt)
                 included.append(stmt)
 
-        header.writeline('#include "../../Framework/interface/Collection.h"')
-        header.writeline('#include "../../Framework/interface/Array.h"')
+        header.writeline('#include "../../Framework/interface/Container.h"')
         header.writeline('#include "../../Framework/interface/Ref.h"')
 
         for include in self.includes:
@@ -818,8 +841,10 @@ class PhysicsObjectDef(Definition, ObjectDef):
                 include.write(header)
                 included.append(include.code)
 
+        refobjects = []
         for branch in self.branches:
             if type(branch) is RefBranchDef:
+                refobjects.append(branch.objname)
                 stmt = '#include "{obj}.h"'.format(obj = branch.objname)
                 if stmt not in included:
                     header.writeline(stmt)
@@ -830,21 +855,16 @@ class PhysicsObjectDef(Definition, ObjectDef):
         header.newline()
         header.indent += 1
 
+        if len(refobjects):
+            for obj in refobjects:
+                header.writeline('class {obj};'.format(obj = obj))
+            header.newline()
+
         header.writeline('class {name} : public {parent} {{'.format(name = self.name, parent = self.parent))
         header.writeline('public:')
         header.indent += 1
         
         if self.coltype() != PhysicsObjectDef.SINGLE:
-#            if self.parent == 'ContainerElement':
-#                header.writeline('typedef Collection<{name}> {name}Collection;'.format(name = self.name))
-#                header.writeline('typedef Array<{name}> {name}Array;'.format(name = self.name))
-#            else:
-#                header.writeline('typedef Collection<{name}, {parent}Collection> {name}Collection;'.format(name = self.name, parent = self.parent))
-#                header.writeline('typedef Array<{name}, {parent}Array> {name}Array;'.format(name = self.name, parent = self.parent))
-
-#            header.writeline('typedef Ref<{name}> {name}Ref;'.format(name = self.name))
-#            header.newline()
-
             header.writeline('struct datastore : public {parent}::datastore {{'.format(parent = self.parent))
             header.indent += 1
 
@@ -875,8 +895,14 @@ class PhysicsObjectDef(Definition, ObjectDef):
             header.writeline('void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;')
             header.writeline('void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
             header.writeline('void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;')
+            header.writeline('void resetAddress(TTree&, TString const&) override;')
             header.indent -= 1
             header.writeline('};')
+            header.newline()
+
+            header.writeline('typedef {parent} base_type;'.format(parent = self.parent))
+            header.writeline('typedef Container<{name}, {parent}::array_type> array_type;'.format(name = self.name, parent = self.parent))
+            header.writeline('typedef Container<{name}, {parent}::collection_type> collection_type;'.format(name = self.name, parent = self.parent))
             header.newline()
 
         # "boilerplate" functions (default ctor for non-SINGLE objects are pretty nontrivial though)
@@ -897,6 +923,7 @@ class PhysicsObjectDef(Definition, ObjectDef):
         header.writeline('void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;')
         header.writeline('void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
         header.writeline('void book(TTree&, utils::BranchList const& = {"*"}) override;')
+        header.writeline('void resetAddress(TTree&) override;')
 
         header.newline()
         header.writeline('void init() override;')
@@ -946,7 +973,7 @@ class PhysicsObjectDef(Definition, ObjectDef):
             header.indent -= 1
             header.writeline('protected:')
             header.indent += 1
-            header.writeline('{name}(ArrayBase const*);'.format(name = self.name))
+            header.writeline('{name}(ArrayBase*);'.format(name = self.name))
 
         header.indent -= 1
 
@@ -955,16 +982,8 @@ class PhysicsObjectDef(Definition, ObjectDef):
         header.newline()
 
         if self.coltype() != PhysicsObjectDef.SINGLE:
-#            header.writeline('typedef {name}::{name}Collection {name}Collection;'.format(name = self.name))
-#            header.writeline('typedef {name}::{name}Array {name}Array;'.format(name = self.name))
-#            header.writeline('typedef {name}::{name}Ref {name}Ref;'.format(name = self.name))
-            if self.parent == 'ContainerElement':
-                header.writeline('typedef Collection<{name}, CollectionBase> {name}Collection;'.format(name = self.name))
-                header.writeline('typedef Array<{name}, ArrayBase> {name}Array;'.format(name = self.name))
-            else:
-                header.writeline('typedef Collection<{name}, {parent}Collection> {name}Collection;'.format(name = self.name, parent = self.parent))
-                header.writeline('typedef Array<{name}, {parent}Array> {name}Array;'.format(name = self.name, parent = self.parent))
-
+            header.writeline('typedef {name}::array_type {name}Array;'.format(name = self.name))
+            header.writeline('typedef {name}::collection_type {name}Collection;'.format(name = self.name))
             header.writeline('typedef Ref<{name}> {name}Ref;'.format(name = self.name))
             header.newline()
 
@@ -1093,6 +1112,7 @@ class PhysicsObjectDef(Definition, ObjectDef):
                 ('setStatus', 'void', [('TTree&', '_tree'), ('Bool_t', '_status'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_status', None),
                 ('setAddress', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
                 ('book', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', None),
+                ('resetAddress', 'void', [('TTree&', '_tree')], 'write_reset_address', None),
                 ('init', 'void', [], 'write_init', None)
             ]
 
@@ -1108,7 +1128,8 @@ class PhysicsObjectDef(Definition, ObjectDef):
                 ('deallocate', 'void', [], 'write_deallocate', None),
                 ('setStatus', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('Bool_t', '_status'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_status', None),
                 ('setAddress', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
-                ('book', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_dynamic', 'kTRUE')], 'write_book', None, size_lines)
+                ('book', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_dynamic', 'kTRUE')], 'write_book', None, size_lines),
+                ('resetAddress', 'void', [('TTree&', '_tree'), ('TString const&', '_name')], 'write_reset_address', None)
             ]
 
             for method in methods:
@@ -1167,7 +1188,7 @@ class PhysicsObjectDef(Definition, ObjectDef):
             src.writeline('}')
 
             src.newline()
-            src.writeline('{NAMESPACE}::{name}::{name}(ArrayBase const* _array) :'.format(**subst))
+            src.writeline('{NAMESPACE}::{name}::{name}(ArrayBase* _array) :'.format(**subst))
             src.indent += 1
             initializers = ['{parent}(_array)'.format(**subst)]
             for branch in self.branches:
@@ -1195,6 +1216,7 @@ class PhysicsObjectDef(Definition, ObjectDef):
                 ('setStatus', 'void', [('TTree&', '_tree'), ('Bool_t', '_status'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_status', None, [name_line]),
                 ('setAddress', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None, [name_line]),
                 ('book', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', None, [name_line]),
+                ('resetAddress', 'void', [('TTree&', '_tree')], 'write_reset_address', None, [name_line]),
                 ('init', 'void', [], 'write_init', None)
             ]
 
@@ -1266,12 +1288,6 @@ class TreeDef(Definition, ObjectDef):
         header.writeline('{name}& operator=({name} const&);'.format(name = self.name)) # assignment operator
 
         header.newline()
-
-        header.writeline('void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;')
-        header.writeline('void setAddress(TTree&, utils::BranchList const& = {"*"}) override;')
-        header.writeline('void book(TTree&, utils::BranchList const& = {"*"}) override;')
-
-        header.newline()
         header.writeline('void init() override;')
 
         if len(self.functions) != 0:
@@ -1290,6 +1306,18 @@ class TreeDef(Definition, ObjectDef):
                 branch.write_decl(header, context = 'TreeEntry')
 
         header.newline()
+        header.indent -= 1
+        header.writeline('protected:')
+        header.indent += 1
+        header.writeline('void doSetStatus_(TTree&, Bool_t, utils::BranchList const&) override;')
+        header.writeline('void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;')
+        header.writeline('void doBook_(TTree&, utils::BranchList const&) override;')
+        header.writeline('void doReleaseTree_(TTree&) override;')
+
+        header.newline()
+        header.indent -= 1
+        header.writeline('public:')
+        header.indent += 1
         if len(header.custom_blocks) != 0:
             header.write(header.custom_blocks[0])
         else:
@@ -1343,54 +1371,33 @@ class TreeDef(Definition, ObjectDef):
         for objbranch in self.objbranches:
             initializers.append(objbranch.cpyctor())
         for branch in self.branches:
-            branch.init_copy(initializers, context = 'Singlet')
+            branch.init_copy(initializers, context = 'TreeEntry')
         src.writelines(initializers, ',')
         src.indent -= 1
         src.writeline('{')
         src.indent += 1
         for branch in self.branches:
             if branch.is_array():
-                branch.write_assign(src, context = 'Singlet')
+                branch.write_assign(src, context = 'TreeEntry')
         for ref in self.references:
             ref.write_def(src)
         src.indent -= 1
         src.writeline('}')
         src.newline()
 
-        src.writeline('void')
-        src.writeline('{NAMESPACE}::{name}::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {{"*"}}*/)'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{NAMESPACE}::{name}&'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{NAMESPACE}::{name}::operator=({name} const& _src)'.format(NAMESPACE = NAMESPACE, name = self.name))
         src.writeline('{')
         src.indent += 1
-        for objbranch in self.objbranches:
-            objbranch.write_set_status(src)
-        for branch in self.branches:
-            branch.write_set_status(src, context = 'TreeEntry')
-        src.indent -= 1
-        src.writeline('}')
-        src.newline()
-
-        src.writeline('void')
-        src.writeline('{NAMESPACE}::{name}::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {{"*"}}*/)'.format(NAMESPACE = NAMESPACE, name = self.name))
-        src.writeline('{')
-        src.indent += 1
-        src.writeline('TreeEntry::setAddress(_tree, _branches);')
-        src.newline()
-        for objbranch in self.objbranches:
-            objbranch.write_set_address(src)
-        for branch in self.branches:
-            branch.write_set_address(src, context = 'TreeEntry')
-        src.indent -= 1
-        src.writeline('}')
-        src.newline()
-
-        src.writeline('void')
-        src.writeline('{NAMESPACE}::{name}::book(TTree& _tree, utils::BranchList const& _branches/* = {{"*"}}*/)'.format(NAMESPACE = NAMESPACE, name = self.name))
-        src.writeline('{')
-        src.indent += 1
-        for objbranch in self.objbranches:
-            objbranch.write_book(src)
-        for branch in self.branches:
-            branch.write_book(src, context = 'TreeEntry')
+        if len(self.branches) != 0:
+            for branch in self.branches:
+                branch.write_assign(src, context = 'TreeEntry')
+            src.newline()
+        if len(self.references) != 0:
+            for ref in self.references:
+                ref.write_def(src)
+            src.newline()
+        src.writeline('return *this;')
         src.indent -= 1
         src.writeline('}')
         src.newline()
@@ -1405,6 +1412,57 @@ class TreeDef(Definition, ObjectDef):
             branch.write_init(src, context = 'TreeEntry')
         src.indent -= 1
         src.writeline('}')
+        src.newline()
+
+        src.writeline('/*protected*/')
+        src.writeline('void')
+        src.writeline('{NAMESPACE}::{name}::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const& _branches)'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{')
+        src.indent += 1
+        for objbranch in self.objbranches:
+            objbranch.write_set_status(src)
+        for branch in self.branches:
+            branch.write_set_status(src, context = 'TreeEntry')
+        src.indent -= 1
+        src.writeline('}')
+        src.newline()
+
+        src.writeline('/*protected*/')
+        src.writeline('void')
+        src.writeline('{NAMESPACE}::{name}::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus)'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{')
+        src.indent += 1
+        for objbranch in self.objbranches:
+            objbranch.write_set_address(src)
+        for branch in self.branches:
+            branch.write_set_address(src, context = 'TreeEntry')
+        src.indent -= 1
+        src.writeline('}')
+        src.newline()
+
+        src.writeline('/*protected*/')
+        src.writeline('void')
+        src.writeline('{NAMESPACE}::{name}::doBook_(TTree& _tree, utils::BranchList const& _branches)'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{')
+        src.indent += 1
+        for objbranch in self.objbranches:
+            objbranch.write_book(src)
+        for branch in self.branches:
+            branch.write_book(src, context = 'TreeEntry')
+        src.indent -= 1
+        src.writeline('}')
+        src.newline()
+
+        src.writeline('/*protected*/')
+        src.writeline('void')
+        src.writeline('{NAMESPACE}::{name}::doReleaseTree_(TTree& _tree)'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{')
+        src.indent += 1
+        for objbranch in self.objbranches:
+            objbranch.write_release_tree(src)
+        src.indent -= 1
+        src.writeline('}')
+        src.newline()
 
         if len(self.functions) != 0:
             src.newline()

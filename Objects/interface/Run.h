@@ -12,15 +12,18 @@ namespace panda {
     ~Run() {}
     Run& operator=(Run const&);
 
-    void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
-    void setAddress(TTree&, utils::BranchList const& = {"*"}) override;
-    void book(TTree&, utils::BranchList const& = {"*"}) override;
-
     void init() override;
 
     UInt_t run{};
     UInt_t hltMenu{};
 
+  protected:
+    void doSetStatus_(TTree&, Bool_t, utils::BranchList const&) override;
+    void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;
+    void doBook_(TTree&, utils::BranchList const&) override;
+    void doReleaseTree_(TTree&) override;
+
+  public:
     /* BEGIN CUSTOM */
     /* END CUSTOM */
   };

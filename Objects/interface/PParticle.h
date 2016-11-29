@@ -2,8 +2,7 @@
 #define PandaTree_Objects_PParticle_h
 #include "Constants.h"
 #include "../../Framework/interface/ContainerElement.h"
-#include "../../Framework/interface/Collection.h"
-#include "../../Framework/interface/Array.h"
+#include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
 
 namespace panda {
@@ -23,10 +22,11 @@ namespace panda {
       void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
       void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
+      void resetAddress(TTree&, TString const&) override;
     };
 
-    typedef Array<PParticle, ContainerElement::array_type> array_type;
-    typedef Collection<PParticle, ContainerElement::collection_type> collection_type;
+    typedef Container<PParticle, ContainerElement::array_type> array_type;
+    typedef Container<PParticle, ContainerElement::collection_type> collection_type;
 
     PParticle(char const* name = "");
     PParticle(PParticle const&);
@@ -37,6 +37,7 @@ namespace panda {
     void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
     void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
     void book(TTree&, utils::BranchList const& = {"*"}) override;
+    void resetAddress(TTree&) override;
 
     void init() override;
 

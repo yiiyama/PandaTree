@@ -48,6 +48,14 @@ panda::HLTBits::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*
 }
 
 void
+panda::HLTBits::resetAddress(TTree& _tree)
+{
+  Singlet::resetAddress(_tree);
+
+  utils::resetAddress(_tree, name_, "words");
+}
+
+void
 panda::HLTBits::init()
 {
   Singlet::init();

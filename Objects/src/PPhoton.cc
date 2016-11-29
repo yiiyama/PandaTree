@@ -211,6 +211,42 @@ panda::PPhoton::datastore::book(TTree& _tree, TString const& _name, utils::Branc
   utils::book(_tree, _name, "superCluster_", size, 'i', superCluster_, _branches);
 }
 
+void
+panda::PPhoton::datastore::resetAddress(TTree& _tree, TString const& _name)
+{
+  PParticle::datastore::resetAddress(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "chiso");
+  utils::resetAddress(_tree, _name, "chworstiso");
+  utils::resetAddress(_tree, _name, "chisoMax");
+  utils::resetAddress(_tree, _name, "nhiso");
+  utils::resetAddress(_tree, _name, "phiso");
+  utils::resetAddress(_tree, _name, "ecaliso");
+  utils::resetAddress(_tree, _name, "hcaliso");
+  utils::resetAddress(_tree, _name, "sieie");
+  utils::resetAddress(_tree, _name, "sipip");
+  utils::resetAddress(_tree, _name, "hOverE");
+  utils::resetAddress(_tree, _name, "geniso");
+  utils::resetAddress(_tree, _name, "mipEnergy");
+  utils::resetAddress(_tree, _name, "e33");
+  utils::resetAddress(_tree, _name, "emax");
+  utils::resetAddress(_tree, _name, "e2nd");
+  utils::resetAddress(_tree, _name, "r9");
+  utils::resetAddress(_tree, _name, "etaWidth");
+  utils::resetAddress(_tree, _name, "phiWidth");
+  utils::resetAddress(_tree, _name, "time");
+  utils::resetAddress(_tree, _name, "timeSpan");
+  utils::resetAddress(_tree, _name, "genMatchDR");
+  utils::resetAddress(_tree, _name, "loose");
+  utils::resetAddress(_tree, _name, "medium");
+  utils::resetAddress(_tree, _name, "tight");
+  utils::resetAddress(_tree, _name, "highpt");
+  utils::resetAddress(_tree, _name, "pixelVeto");
+  utils::resetAddress(_tree, _name, "csafeVeto");
+  utils::resetAddress(_tree, _name, "matchL1");
+  utils::resetAddress(_tree, _name, "superCluster_");
+}
+
 panda::PPhoton::PPhoton(char const* _name/* = ""*/) :
   PParticle(new PPhotonArray(1, _name)),
   chiso(gStore.getData(this).chiso[0]),
@@ -532,6 +568,44 @@ panda::PPhoton::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*
   utils::book(_tree, name, "csafeVeto", "", 'O', &csafeVeto, _branches);
   utils::book(_tree, name, "matchL1", "[nPhotonL1Objects]", 'O', matchL1, _branches);
   utils::book(_tree, name, "superCluster_", "", 'i', &superCluster.idx(), _branches);
+}
+
+void
+panda::PPhoton::resetAddress(TTree& _tree)
+{
+  PParticle::resetAddress(_tree);
+
+  TString name(gStore.getName(this));
+
+  utils::resetAddress(_tree, name, "chiso");
+  utils::resetAddress(_tree, name, "chworstiso");
+  utils::resetAddress(_tree, name, "chisoMax");
+  utils::resetAddress(_tree, name, "nhiso");
+  utils::resetAddress(_tree, name, "phiso");
+  utils::resetAddress(_tree, name, "ecaliso");
+  utils::resetAddress(_tree, name, "hcaliso");
+  utils::resetAddress(_tree, name, "sieie");
+  utils::resetAddress(_tree, name, "sipip");
+  utils::resetAddress(_tree, name, "hOverE");
+  utils::resetAddress(_tree, name, "geniso");
+  utils::resetAddress(_tree, name, "mipEnergy");
+  utils::resetAddress(_tree, name, "e33");
+  utils::resetAddress(_tree, name, "emax");
+  utils::resetAddress(_tree, name, "e2nd");
+  utils::resetAddress(_tree, name, "r9");
+  utils::resetAddress(_tree, name, "etaWidth");
+  utils::resetAddress(_tree, name, "phiWidth");
+  utils::resetAddress(_tree, name, "time");
+  utils::resetAddress(_tree, name, "timeSpan");
+  utils::resetAddress(_tree, name, "genMatchDR");
+  utils::resetAddress(_tree, name, "loose");
+  utils::resetAddress(_tree, name, "medium");
+  utils::resetAddress(_tree, name, "tight");
+  utils::resetAddress(_tree, name, "highpt");
+  utils::resetAddress(_tree, name, "pixelVeto");
+  utils::resetAddress(_tree, name, "csafeVeto");
+  utils::resetAddress(_tree, name, "matchL1");
+  utils::resetAddress(_tree, name, "superCluster_");
 }
 
 void

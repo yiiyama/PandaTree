@@ -55,6 +55,16 @@ panda::PPFCand::datastore::book(TTree& _tree, TString const& _name, utils::Branc
   utils::book(_tree, _name, "pftype", size, 'I', pftype, _branches);
 }
 
+void
+panda::PPFCand::datastore::resetAddress(TTree& _tree, TString const& _name)
+{
+  PParticleM::datastore::resetAddress(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "q");
+  utils::resetAddress(_tree, _name, "weight");
+  utils::resetAddress(_tree, _name, "pftype");
+}
+
 panda::PPFCand::PPFCand(char const* _name/* = ""*/) :
   PParticleM(new PPFCandArray(1, _name)),
   q(gStore.getData(this).q[0]),
@@ -144,6 +154,18 @@ panda::PPFCand::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*
   utils::book(_tree, name, "q", "", 'F', &q, _branches);
   utils::book(_tree, name, "weight", "", 'F', &weight, _branches);
   utils::book(_tree, name, "pftype", "", 'I', &pftype, _branches);
+}
+
+void
+panda::PPFCand::resetAddress(TTree& _tree)
+{
+  PParticleM::resetAddress(_tree);
+
+  TString name(gStore.getName(this));
+
+  utils::resetAddress(_tree, name, "q");
+  utils::resetAddress(_tree, name, "weight");
+  utils::resetAddress(_tree, name, "pftype");
 }
 
 void

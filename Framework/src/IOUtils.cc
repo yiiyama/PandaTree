@@ -172,3 +172,14 @@ panda::utils::book(TTree& _tree, TString const& _objName, BranchName const& _bNa
 
   return 0;
 }
+
+Int_t 
+panda::utils::resetAddress(TTree& _tree, TString const& _objName, BranchName const& _bName)
+{
+  // bName: electrons.pt
+  auto* branch(_tree.GetBranch(_bName.fullName(_objName)));
+  if (branch)
+    branch->ResetAddress();
+
+  return 0;
+}

@@ -9,7 +9,7 @@
 
 namespace panda {
 
-  template<class T, class Base = ArrayBase>
+  template<class T, class Base>
   class Array : public Base {
   public:
     typedef Array<T, Base> self_type;
@@ -76,14 +76,14 @@ namespace panda {
     const_pointer const_addr_() const { return reinterpret_cast<const_pointer>(ContainerBase::array_); }
   };
 
-  template<class T, class Base/* = ArrayBase*/>
-    Array<T, Base>::Array(UInt_t _size, char const* _name/* = ""*/) :
+  template<class T, class Base>
+  Array<T, Base>::Array(UInt_t _size, char const* _name/* = ""*/) :
     Base(_name, sizeof(value_type))
   {
     allocate_(_size);
   }
 
-  template<class T, class Base/* = ArrayBase*/>
+  template<class T, class Base>
   Array<T, Base>::Array(self_type const& _src) :
     Array<T, Base>::Array(_src.getData().nmax(), _src.ContainerBase::name_)
   {
@@ -91,13 +91,13 @@ namespace panda {
   }
 
   /*protected*/
-  template<class T, class Base/* = ArrayBase*/>
+  template<class T, class Base>
   Array<T, Base>::Array(char const* _name, UInt_t _unitSize) :
     Base(_name, _unitSize)
   {
   }
 
-  template<class T, class Base/* = ArrayBase*/>
+  template<class T, class Base>
   Array<T, Base>::~Array()
   {
     if (ContainerBase::array_) {
@@ -106,7 +106,7 @@ namespace panda {
     }
   }
 
-  template<class T, class Base/* = ArrayBase*/>
+  template<class T, class Base>
   typename Array<T, Base>::reference
   Array<T, Base>::at(UInt_t _idx)
   {
@@ -121,7 +121,7 @@ namespace panda {
     return *reinterpret_cast<pointer>(p);
   }
 
-  template<class T, class Base/* = ArrayBase*/>
+  template<class T, class Base>
   typename Array<T, Base>::const_reference
   Array<T, Base>::at(UInt_t _idx) const
   {
@@ -136,7 +136,7 @@ namespace panda {
     return *reinterpret_cast<const_pointer>(p);
   }
 
-  template<class T, class Base/* = ArrayBase*/>
+  template<class T, class Base>
   typename Array<T, Base>::reference
   Array<T, Base>::operator[](UInt_t _idx)
   {
@@ -148,7 +148,7 @@ namespace panda {
     return *reinterpret_cast<pointer>(p);
   }
 
-  template<class T, class Base/* = ArrayBase*/>
+  template<class T, class Base>
   typename Array<T, Base>::const_reference
   Array<T, Base>::operator[](UInt_t _idx) const
   {
@@ -160,7 +160,7 @@ namespace panda {
     return *reinterpret_cast<const_pointer>(p);
   }
 
-  template<class T, class Base/* = ArrayBase*/>
+  template<class T, class Base>
   void
   Array<T, Base>::copy(self_type const& _src)
   {
@@ -179,7 +179,7 @@ namespace panda {
     setName(_src.name_);
   }
 
-  template<class T, class Base/* = ArrayBase*/>
+  template<class T, class Base>
   void
   Array<T, Base>::init()
   {
@@ -188,7 +188,7 @@ namespace panda {
   }
 
   /*private*/
-  template<class T, class Base/* = ArrayBase*/>
+  template<class T, class Base>
   void
   Array<T, Base>::allocate_(UInt_t _size)
   {
@@ -203,7 +203,7 @@ namespace panda {
   }
 
   /*private*/
-  template<class T, class Base/* = ArrayBase*/>
+  template<class T, class Base>
   void
   Array<T, Base>::deallocate_()
   {

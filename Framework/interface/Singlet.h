@@ -6,6 +6,8 @@
   Singlet objects are owners of its data, in contrast to ContainerElement.
 */
 
+#include "Object.h"
+
 #include "TString.h"
 
 namespace panda {

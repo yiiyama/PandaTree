@@ -55,6 +55,16 @@ panda::PSuperCluster::datastore::book(TTree& _tree, TString const& _name, utils:
   utils::book(_tree, _name, "phi", size, 'F', phi, _branches);
 }
 
+void
+panda::PSuperCluster::datastore::resetAddress(TTree& _tree, TString const& _name)
+{
+  ContainerElement::datastore::resetAddress(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "rawPt");
+  utils::resetAddress(_tree, _name, "eta");
+  utils::resetAddress(_tree, _name, "phi");
+}
+
 panda::PSuperCluster::PSuperCluster(char const* _name/* = ""*/) :
   ContainerElement(new PSuperClusterArray(1, _name)),
   rawPt(gStore.getData(this).rawPt[0]),
@@ -144,6 +154,18 @@ panda::PSuperCluster::book(TTree& _tree, utils::BranchList const& _branches/* = 
   utils::book(_tree, name, "rawPt", "", 'F', &rawPt, _branches);
   utils::book(_tree, name, "eta", "", 'F', &eta, _branches);
   utils::book(_tree, name, "phi", "", 'F', &phi, _branches);
+}
+
+void
+panda::PSuperCluster::resetAddress(TTree& _tree)
+{
+  ContainerElement::resetAddress(_tree);
+
+  TString name(gStore.getName(this));
+
+  utils::resetAddress(_tree, name, "rawPt");
+  utils::resetAddress(_tree, name, "eta");
+  utils::resetAddress(_tree, name, "phi");
 }
 
 void

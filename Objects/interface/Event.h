@@ -25,10 +25,6 @@ namespace panda {
     ~Event() {}
     Event& operator=(Event const&);
 
-    void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
-    void setAddress(TTree&, utils::BranchList const& = {"*"}) override;
-    void book(TTree&, utils::BranchList const& = {"*"}) override;
-
     void init() override;
 
     PPFCandCollection pfCandidates = PPFCandCollection("pfCandidates");
@@ -52,6 +48,13 @@ namespace panda {
     Int_t npv{};
     Float_t mcWeight{};
 
+  protected:
+    void doSetStatus_(TTree&, Bool_t, utils::BranchList const&) override;
+    void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;
+    void doBook_(TTree&, utils::BranchList const&) override;
+    void doReleaseTree_(TTree&) override;
+
+  public:
     /* BEGIN CUSTOM */
     /* END CUSTOM */
   };

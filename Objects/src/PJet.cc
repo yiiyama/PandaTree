@@ -109,6 +109,25 @@ panda::PJet::datastore::book(TTree& _tree, TString const& _name, utils::BranchLi
   utils::book(_tree, _name, "constituents_", size + "[128]", 'i', constituents_, _branches);
 }
 
+void
+panda::PJet::datastore::resetAddress(TTree& _tree, TString const& _name)
+{
+  PParticleM::datastore::resetAddress(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "rawPt");
+  utils::resetAddress(_tree, _name, "ptCorrUp");
+  utils::resetAddress(_tree, _name, "ptCorrDown");
+  utils::resetAddress(_tree, _name, "ptResCorr");
+  utils::resetAddress(_tree, _name, "phiResCorr");
+  utils::resetAddress(_tree, _name, "csv");
+  utils::resetAddress(_tree, _name, "qgl");
+  utils::resetAddress(_tree, _name, "nhf");
+  utils::resetAddress(_tree, _name, "chf");
+  utils::resetAddress(_tree, _name, "id");
+  utils::resetAddress(_tree, _name, "nConstituents");
+  utils::resetAddress(_tree, _name, "constituents_");
+}
+
 panda::PJet::PJet(char const* _name/* = ""*/) :
   PParticleM(new PJetArray(1, _name)),
   rawPt(gStore.getData(this).rawPt[0]),
@@ -295,6 +314,27 @@ panda::PJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
   utils::book(_tree, name, "id", "", 'i', &id, _branches);
   utils::book(_tree, name, "nConstituents", "", 'i', &nConstituents, _branches);
   utils::book(_tree, name, "constituents_", "[128]", 'i', &constituents[0].idx(), _branches);
+}
+
+void
+panda::PJet::resetAddress(TTree& _tree)
+{
+  PParticleM::resetAddress(_tree);
+
+  TString name(gStore.getName(this));
+
+  utils::resetAddress(_tree, name, "rawPt");
+  utils::resetAddress(_tree, name, "ptCorrUp");
+  utils::resetAddress(_tree, name, "ptCorrDown");
+  utils::resetAddress(_tree, name, "ptResCorr");
+  utils::resetAddress(_tree, name, "phiResCorr");
+  utils::resetAddress(_tree, name, "csv");
+  utils::resetAddress(_tree, name, "qgl");
+  utils::resetAddress(_tree, name, "nhf");
+  utils::resetAddress(_tree, name, "chf");
+  utils::resetAddress(_tree, name, "id");
+  utils::resetAddress(_tree, name, "nConstituents");
+  utils::resetAddress(_tree, name, "constituents_");
 }
 
 void

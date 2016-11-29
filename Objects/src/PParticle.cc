@@ -55,6 +55,16 @@ panda::PParticle::datastore::book(TTree& _tree, TString const& _name, utils::Bra
   utils::book(_tree, _name, "phi", size, 'F', phi, _branches);
 }
 
+void
+panda::PParticle::datastore::resetAddress(TTree& _tree, TString const& _name)
+{
+  ContainerElement::datastore::resetAddress(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "pt");
+  utils::resetAddress(_tree, _name, "eta");
+  utils::resetAddress(_tree, _name, "phi");
+}
+
 panda::PParticle::PParticle(char const* _name/* = ""*/) :
   ContainerElement(new PParticleArray(1, _name)),
   pt(gStore.getData(this).pt[0]),
@@ -144,6 +154,18 @@ panda::PParticle::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"
   utils::book(_tree, name, "pt", "", 'F', &pt, _branches);
   utils::book(_tree, name, "eta", "", 'F', &eta, _branches);
   utils::book(_tree, name, "phi", "", 'F', &phi, _branches);
+}
+
+void
+panda::PParticle::resetAddress(TTree& _tree)
+{
+  ContainerElement::resetAddress(_tree);
+
+  TString name(gStore.getName(this));
+
+  utils::resetAddress(_tree, name, "pt");
+  utils::resetAddress(_tree, name, "eta");
+  utils::resetAddress(_tree, name, "phi");
 }
 
 void

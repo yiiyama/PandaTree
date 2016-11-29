@@ -43,6 +43,14 @@ panda::PGenJet::datastore::book(TTree& _tree, TString const& _name, utils::Branc
   utils::book(_tree, _name, "pdgid", size, 'I', pdgid, _branches);
 }
 
+void
+panda::PGenJet::datastore::resetAddress(TTree& _tree, TString const& _name)
+{
+  PParticleM::datastore::resetAddress(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "pdgid");
+}
+
 panda::PGenJet::PGenJet(char const* _name/* = ""*/) :
   PParticleM(new PGenJetArray(1, _name)),
   pdgid(gStore.getData(this).pdgid[0])
@@ -114,6 +122,16 @@ panda::PGenJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*
   TString name(gStore.getName(this));
 
   utils::book(_tree, name, "pdgid", "", 'I', &pdgid, _branches);
+}
+
+void
+panda::PGenJet::resetAddress(TTree& _tree)
+{
+  PParticleM::resetAddress(_tree);
+
+  TString name(gStore.getName(this));
+
+  utils::resetAddress(_tree, name, "pdgid");
 }
 
 void
