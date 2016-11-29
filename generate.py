@@ -225,6 +225,10 @@ for enum in enums:
 
 for objdef in phobjects:
     linkdef.writeline('#pragma link C++ class {NAMESPACE}::{name};'.format(NAMESPACE = common.NAMESPACE, name = objdef.name))
+    for branch in objdef.branches:
+        if type(branch) is GenericBranch:
+            linkdef.writeline('#pragma link C++ class {type}+;'.format(type = branch.type))
+            linkdef.writeline('#pragma link C++ class std::vector<{type}>+;'.format(type = branch.type))
 
 for objdef in phobjects:
     if not objdef.is_singlet():

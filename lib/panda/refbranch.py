@@ -119,7 +119,8 @@ class RefBranch(Branch):
             out.writeline('UInt_t (&{refname}Indices){arrdef}(gStore.getData(this).{name}[0]);'.format(refname = self.refname, arrdef = self.arrdef_text(), name = self.name))
 
         self._write_ref_set(out)
-        # copy is performed in write_assign
+
+        self.write_assign(out, context)
 
     def _write_ref_set(self, out, copy = False):
         subscript = ''

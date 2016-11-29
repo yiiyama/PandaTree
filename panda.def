@@ -176,7 +176,7 @@ qgl/F
 nhf/F
 chf/F
 id/i
-constituents/PPFCandRef
+constituents/PPFCandRefVector
 
 [PFatJet>PJet]
 tau1/F

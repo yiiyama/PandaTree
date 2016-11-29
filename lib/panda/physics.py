@@ -334,9 +334,6 @@ class PhysicsObject(Definition, Object):
             src.indent += 1
             for branch in self.branches:
                 branch.write_copy_ctor(src, context = 'Singlet')
-            for branch in self.branches:
-                if branch.is_array():
-                    branch.write_assign(src, context = 'Singlet')
             src.indent -= 1
             src.writeline('}')
             src.newline()

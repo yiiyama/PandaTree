@@ -156,7 +156,8 @@ panda::utils::setAddress(TTree& _tree, TString const& _objName, BranchName const
 Int_t 
 panda::utils::book(TTree& _tree, TString const& _objName, BranchName const& _bName, TString const& _size, char _lType, void* _bPtr, BranchList const& _bList)
 {
-  // bName: electrons.pt
+  // objName: electrons
+  // bName: pt
   // size: [electrons.size]
   // lType: F
 
@@ -169,6 +170,21 @@ panda::utils::book(TTree& _tree, TString const& _objName, BranchName const& _bNa
   lExpr += _lType;
 
   _tree.Branch(_bName.fullName(_objName), _bPtr, lExpr);
+
+  return 0;
+}
+
+Int_t 
+panda::utils::book(TTree& _tree, TString const& _objName, BranchName const& _bName, TString const& _objType, void** _bPtr, BranchList const& _bList)
+{
+  // objName: electrons
+  // bName: tags
+  // objType: std::vector<int>
+
+  if (!_bName.in(_bList))
+    return -1;
+
+  _tree.Branch(_bName.fullName(_objName), _objType, _bPtr);
 
   return 0;
 }

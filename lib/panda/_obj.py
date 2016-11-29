@@ -2,6 +2,7 @@ from base import Definition
 from oneliner import Include
 from constexpr import Constant
 from refbranch import RefBranch
+from generic import GenericBranch
 from objbranch import ObjBranch
 from branch import Branch
 from reference import Reference
@@ -55,6 +56,12 @@ def __init__(self, name, source):
 
         try:
             self.branches.append(Branch(line))
+            continue
+        except Definition.NoMatch:
+            pass
+
+        try:
+            self.branches.append(GenericBranch(line))
             continue
         except Definition.NoMatch:
             pass

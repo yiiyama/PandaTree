@@ -14,7 +14,7 @@ class Branch(Definition):
         Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ ]+)(?:| += +(.*))$')
 
         self.type = self.matches.group(3)
-        if self.type not int TYPE_MAP:
+        if self.type not in Branch.TYPE_MAP:
             raise Definition.NoMatch()
 
         self.name = self.matches.group(1)
@@ -30,31 +30,24 @@ class Branch(Definition):
             self.init = ''
 
         # initializer: used in init()
-        if self.is_simple():
-            if self.init:
-                init = self.init
-            elif self.type == 'O':
-                init = 'false'
-            elif self.type in 'FD':
-                init = '0.'
-            else:
-                init = '0'
-        
-            if self.is_array():
-                self.initializer = ''
-                arr = self.name
-                for iarr in range(len(self.arrdef)):
-                    self.initializer += 'for (auto& p{iarr} : {arr}) '.format(iarr = iarr, arr = arr)
-                    arr = 'p{iarr}'.format(iarr = iarr)
-                self.initializer += 'p{iarr} = {init};'.format(iarr = iarr, init = init)
-            else:
-                self.initializer = '{name} = {init};'.format(name = self.name, init = init)
-
+        if self.init:
+            init = self.init
+        elif self.type == 'O':
+            init = 'false'
+        elif self.type in 'FD':
+            init = '0.'
         else:
-            self.initializer = '/*INITIALIZE {name}*/'.format(name = self.name)
-
-    def is_simple(self):
-        return len(self.type) == 1 and self.type in 'CBbSsIiLlFDO'
+            init = '0'
+    
+        if self.is_array():
+            self.initializer = ''
+            arr = self.name
+            for iarr in range(len(self.arrdef)):
+                self.initializer += 'for (auto& p{iarr} : {arr}) '.format(iarr = iarr, arr = arr)
+                arr = 'p{iarr}'.format(iarr = iarr)
+            self.initializer += 'p{iarr} = {init};'.format(iarr = iarr, init = init)
+        else:
+            self.initializer = '{name} = {init};'.format(name = self.name, init = init)
 
     def is_array(self):
         # True if the branch itself is an array
@@ -64,10 +57,7 @@ class Branch(Definition):
         return ''.join('[%s]' % a for a in self.arrdef[begin:end])
 
     def typename(self):
-        try:
-            return Branch.TYPE_MAP[self.type]
-        except KeyError:# object type
-            return self.type
+        return Branch.TYPE_MAP[self.type]
 
     def write_decl(self, out, context):
         if context == 'datastore':

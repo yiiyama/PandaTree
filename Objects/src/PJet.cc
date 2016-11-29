@@ -15,7 +15,7 @@ panda::PJet::datastore::allocate(UInt_t _nmax)
   nhf = new Float_t[nmax_];
   chf = new Float_t[nmax_];
   id = new UInt_t[nmax_];
-  constituents_ = new UInt_t[nmax_];
+  constituents = new std::vector<std::array<PPFCandRefVector, 3>>(nmax_);
 }
 
 void
@@ -43,8 +43,8 @@ panda::PJet::datastore::deallocate()
   chf = 0;
   delete [] id;
   id = 0;
-  delete [] constituents_;
-  constituents_ = 0;
+  delete constituents;
+  constituents = 0;
 }
 
 void
@@ -62,7 +62,7 @@ panda::PJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _st
   utils::setStatus(_tree, _name, "nhf", _status, _branches);
   utils::setStatus(_tree, _name, "chf", _status, _branches);
   utils::setStatus(_tree, _name, "id", _status, _branches);
-  utils::setStatus(_tree, _name, "constituents_", _status, _branches);
+  utils::setStatus(_tree, _name, "constituents", _status, _branches);
 }
 
 void
@@ -80,7 +80,7 @@ panda::PJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::Br
   utils::setAddress(_tree, _name, "nhf", nhf, _branches, _setStatus);
   utils::setAddress(_tree, _name, "chf", chf, _branches, _setStatus);
   utils::setAddress(_tree, _name, "id", id, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "constituents_", constituents_, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "constituents", &constituents, _branches, _setStatus);
 }
 
 void
@@ -100,7 +100,7 @@ panda::PJet::datastore::book(TTree& _tree, TString const& _name, utils::BranchLi
   utils::book(_tree, _name, "nhf", size, 'F', nhf, _branches);
   utils::book(_tree, _name, "chf", size, 'F', chf, _branches);
   utils::book(_tree, _name, "id", size, 'i', id, _branches);
-  utils::book(_tree, _name, "constituents_", size, 'i', constituents_, _branches);
+  utils::book(_tree, _name, "constituents", "std::vector<std::array<PPFCandRefVector, 3>>", &constituents, _branches);
 }
 
 void
@@ -118,7 +118,7 @@ panda::PJet::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "nhf");
   utils::resetAddress(_tree, _name, "chf");
   utils::resetAddress(_tree, _name, "id");
-  utils::resetAddress(_tree, _name, "constituents_");
+  utils::resetAddress(_tree, _name, "constituents");
 }
 
 panda::PJet::PJet(char const* _name/* = ""*/) :
@@ -133,7 +133,7 @@ panda::PJet::PJet(char const* _name/* = ""*/) :
   nhf(gStore.getData(this).nhf[0]),
   chf(gStore.getData(this).chf[0]),
   id(gStore.getData(this).id[0]),
-  constituents(gStore.getData(this).constituents_[0])
+  constituents(&gStore.getData(this).constituents[0])
 {
 }
 
@@ -149,7 +149,7 @@ panda::PJet::PJet(datastore& _data, UInt_t _idx) :
   nhf(_data.nhf[_idx]),
   chf(_data.chf[_idx]),
   id(_data.id[_idx]),
-  constituents(_data.constituents_[_idx])
+  constituents(&_data.constituents[_idx])
 {
 }
 
@@ -165,7 +165,7 @@ panda::PJet::PJet(PJet const& _src) :
   nhf(gStore.getData(this).nhf[0]),
   chf(gStore.getData(this).chf[0]),
   id(gStore.getData(this).id[0]),
-  constituents(gStore.getData(this).constituents_[0])
+  constituents(&gStore.getData(this).constituents[0])
 {
   PParticleM::operator=(_src);
 
@@ -180,7 +180,7 @@ panda::PJet::PJet(PJet const& _src) :
   nhf = _src.nhf;
   chf = _src.chf;
   id = _src.id;
-  constituents = _src.constituents;
+  *constituents = *_src.constituents;
 }
 
 panda::PJet::PJet(ArrayBase* _array) :
@@ -195,7 +195,7 @@ panda::PJet::PJet(ArrayBase* _array) :
   nhf(gStore.getData(this).nhf[0]),
   chf(gStore.getData(this).chf[0]),
   id(gStore.getData(this).id[0]),
-  constituents(gStore.getData(this).constituents_[0])
+  constituents(&gStore.getData(this).constituents[0])
 {
 }
 
@@ -219,7 +219,7 @@ panda::PJet::operator=(PJet const& _src)
   nhf = _src.nhf;
   chf = _src.chf;
   id = _src.id;
-  constituents = _src.constituents;
+  *constituents = *_src.constituents;
 
   return *this;
 }
@@ -241,7 +241,7 @@ panda::PJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _b
   utils::setStatus(_tree, name, "nhf", _status, _branches);
   utils::setStatus(_tree, name, "chf", _status, _branches);
   utils::setStatus(_tree, name, "id", _status, _branches);
-  utils::setStatus(_tree, name, "constituents_", _status, _branches);
+  utils::setStatus(_tree, name, "constituents", _status, _branches);
 }
 
 void
@@ -261,7 +261,7 @@ panda::PJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*
   utils::setAddress(_tree, name, "nhf", &nhf, _branches, _setStatus);
   utils::setAddress(_tree, name, "chf", &chf, _branches, _setStatus);
   utils::setAddress(_tree, name, "id", &id, _branches, _setStatus);
-  utils::setAddress(_tree, name, "constituents_", &constituents.idx(), _branches, true);
+  utils::setAddress(_tree, name, "constituents", &constituents, _branches, _setStatus);
 }
 
 void
@@ -281,7 +281,7 @@ panda::PJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
   utils::book(_tree, name, "nhf", "", 'F', &nhf, _branches);
   utils::book(_tree, name, "chf", "", 'F', &chf, _branches);
   utils::book(_tree, name, "id", "", 'i', &id, _branches);
-  utils::book(_tree, name, "constituents_", "", 'i', &constituents.idx(), _branches);
+  utils::book(_tree, name, "constituents", "std::array<PPFCandRefVector, 3>", &constituents, _branches);
 }
 
 void
@@ -301,7 +301,7 @@ panda::PJet::resetAddress(TTree& _tree)
   utils::resetAddress(_tree, name, "nhf");
   utils::resetAddress(_tree, name, "chf");
   utils::resetAddress(_tree, name, "id");
-  utils::resetAddress(_tree, name, "constituents_");
+  utils::resetAddress(_tree, name, "constituents");
 }
 
 void
@@ -319,7 +319,7 @@ panda::PJet::init()
   nhf = 0.;
   chf = 0.;
   id = 0;
-  constituents.init();
+  for (auto& p0 : *constituents) p0 = PPFCandRefVector();
 }
 
 /* BEGIN CUSTOM */

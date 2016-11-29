@@ -32,7 +32,7 @@ namespace panda {
       Float_t* nhf{0};
       Float_t* chf{0};
       UInt_t* id{0};
-      UInt_t* constituents_{0};
+      std::vector<std::array<PPFCandRefVector, 3>>* constituents{0};
       */
       Float_t* tau1{0};
       Float_t* tau2{0};
@@ -92,7 +92,7 @@ namespace panda {
     Float_t& nhf;
     Float_t& chf;
     UInt_t& id;
-    Ref<PPFCand> constituents;
+    std::array<PPFCandRefVector, 3>* constituents;
     */
     Float_t& tau1;
     Float_t& tau2;
