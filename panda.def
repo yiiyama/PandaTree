@@ -130,7 +130,10 @@ double combiso() const override { return chiso + std::max(nhiso + phoiso - 0.5 *
 
 [PTau>PParticleM]
 q/C
+baseline/O
 decayMode/O
+decayModeNew/O
+iso/F
 isoDeltaBetaCorr/F
 
 [PPhoton>PParticle]
@@ -190,6 +193,7 @@ tau3SD/F = -1.
 htt_mass/F
 htt_frec/F
 ecfs[3][4][4]/F
+subjets/PJetRefVector
 float get_ecf(short o_, short N_, int ib_) const
 {
   if (o_<1 || o_>3 || N_<1 || N_>4 || ib_<0 || ib_>3) 
