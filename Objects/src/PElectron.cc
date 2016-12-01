@@ -15,6 +15,7 @@ panda::PElectron::datastore::allocate(UInt_t _nmax)
   sipip = new Float_t[nmax_];
   hOverE = new Float_t[nmax_];
   veto = new Bool_t[nmax_];
+  matchHLT = new Bool_t[nmax_][nElectronHLTObjects];
   superCluster_ = new UInt_t[nmax_];
 }
 
@@ -43,6 +44,8 @@ panda::PElectron::datastore::deallocate()
   hOverE = 0;
   delete [] veto;
   veto = 0;
+  delete [] matchHLT;
+  matchHLT = 0;
   delete [] superCluster_;
   superCluster_ = 0;
 }
@@ -62,6 +65,7 @@ panda::PElectron::datastore::setStatus(TTree& _tree, TString const& _name, Bool_
   utils::setStatus(_tree, _name, "sipip", _status, _branches);
   utils::setStatus(_tree, _name, "hOverE", _status, _branches);
   utils::setStatus(_tree, _name, "veto", _status, _branches);
+  utils::setStatus(_tree, _name, "matchHLT", _status, _branches);
   utils::setStatus(_tree, _name, "superCluster_", _status, _branches);
 }
 
@@ -80,6 +84,7 @@ panda::PElectron::datastore::setAddress(TTree& _tree, TString const& _name, util
   utils::setAddress(_tree, _name, "sipip", sipip, _branches, _setStatus);
   utils::setAddress(_tree, _name, "hOverE", hOverE, _branches, _setStatus);
   utils::setAddress(_tree, _name, "veto", veto, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "matchHLT", matchHLT, _branches, _setStatus);
   utils::setAddress(_tree, _name, "superCluster_", superCluster_, _branches, _setStatus);
 }
 
@@ -100,6 +105,7 @@ panda::PElectron::datastore::book(TTree& _tree, TString const& _name, utils::Bra
   utils::book(_tree, _name, "sipip", size, 'F', sipip, _branches);
   utils::book(_tree, _name, "hOverE", size, 'F', hOverE, _branches);
   utils::book(_tree, _name, "veto", size, 'O', veto, _branches);
+  utils::book(_tree, _name, "matchHLT", size + "[nElectronHLTObjects]", 'O', matchHLT, _branches);
   utils::book(_tree, _name, "superCluster_", size, 'i', superCluster_, _branches);
 }
 
@@ -118,6 +124,7 @@ panda::PElectron::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "sipip");
   utils::resetAddress(_tree, _name, "hOverE");
   utils::resetAddress(_tree, _name, "veto");
+  utils::resetAddress(_tree, _name, "matchHLT");
   utils::resetAddress(_tree, _name, "superCluster_");
 }
 
@@ -140,6 +147,7 @@ panda::PElectron::PElectron(char const* _name/* = ""*/) :
   sipip(gStore.getData(this).sipip[0]),
   hOverE(gStore.getData(this).hOverE[0]),
   veto(gStore.getData(this).veto[0]),
+  matchHLT(gStore.getData(this).matchHLT[0]),
   superCluster(gStore.getData(this).superCluster_[0])
 {
 }
@@ -156,6 +164,7 @@ panda::PElectron::PElectron(datastore& _data, UInt_t _idx) :
   sipip(_data.sipip[_idx]),
   hOverE(_data.hOverE[_idx]),
   veto(_data.veto[_idx]),
+  matchHLT(_data.matchHLT[_idx]),
   superCluster(_data.superCluster_[_idx])
 {
 }
@@ -172,6 +181,7 @@ panda::PElectron::PElectron(PElectron const& _src) :
   sipip(gStore.getData(this).sipip[0]),
   hOverE(gStore.getData(this).hOverE[0]),
   veto(gStore.getData(this).veto[0]),
+  matchHLT(gStore.getData(this).matchHLT[0]),
   superCluster(gStore.getData(this).superCluster_[0])
 {
   PLepton::operator=(_src);
@@ -186,6 +196,7 @@ panda::PElectron::PElectron(PElectron const& _src) :
   sipip = _src.sipip;
   hOverE = _src.hOverE;
   veto = _src.veto;
+  std::memcpy(matchHLT, _src.matchHLT, sizeof(Bool_t) * nElectronHLTObjects);
   superCluster = _src.superCluster;
 }
 
@@ -201,6 +212,7 @@ panda::PElectron::PElectron(ArrayBase* _array) :
   sipip(gStore.getData(this).sipip[0]),
   hOverE(gStore.getData(this).hOverE[0]),
   veto(gStore.getData(this).veto[0]),
+  matchHLT(gStore.getData(this).matchHLT[0]),
   superCluster(gStore.getData(this).superCluster_[0])
 {
 }
@@ -225,6 +237,7 @@ panda::PElectron::operator=(PElectron const& _src)
   sipip = _src.sipip;
   hOverE = _src.hOverE;
   veto = _src.veto;
+  std::memcpy(matchHLT, _src.matchHLT, sizeof(Bool_t) * nElectronHLTObjects);
   superCluster = _src.superCluster;
 
   return *this;
@@ -247,6 +260,7 @@ panda::PElectron::setStatus(TTree& _tree, Bool_t _status, utils::BranchList cons
   utils::setStatus(_tree, name, "sipip", _status, _branches);
   utils::setStatus(_tree, name, "hOverE", _status, _branches);
   utils::setStatus(_tree, name, "veto", _status, _branches);
+  utils::setStatus(_tree, name, "matchHLT", _status, _branches);
   utils::setStatus(_tree, name, "superCluster_", _status, _branches);
 }
 
@@ -267,6 +281,7 @@ panda::PElectron::setAddress(TTree& _tree, utils::BranchList const& _branches/* 
   utils::setAddress(_tree, name, "sipip", &sipip, _branches, _setStatus);
   utils::setAddress(_tree, name, "hOverE", &hOverE, _branches, _setStatus);
   utils::setAddress(_tree, name, "veto", &veto, _branches, _setStatus);
+  utils::setAddress(_tree, name, "matchHLT", matchHLT, _branches, _setStatus);
   utils::setAddress(_tree, name, "superCluster_", gStore.getData(this).superCluster_, _branches, true);
 }
 
@@ -287,6 +302,7 @@ panda::PElectron::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"
   utils::book(_tree, name, "sipip", "", 'F', &sipip, _branches);
   utils::book(_tree, name, "hOverE", "", 'F', &hOverE, _branches);
   utils::book(_tree, name, "veto", "", 'O', &veto, _branches);
+  utils::book(_tree, name, "matchHLT", "[nElectronHLTObjects]", 'O', matchHLT, _branches);
   utils::book(_tree, name, "superCluster_", "", 'i', gStore.getData(this).superCluster_, _branches);
 }
 
@@ -307,6 +323,7 @@ panda::PElectron::resetAddress(TTree& _tree)
   utils::resetAddress(_tree, name, "sipip");
   utils::resetAddress(_tree, name, "hOverE");
   utils::resetAddress(_tree, name, "veto");
+  utils::resetAddress(_tree, name, "matchHLT");
   utils::resetAddress(_tree, name, "superCluster_");
 }
 
@@ -325,6 +342,7 @@ panda::PElectron::init()
   sipip = 0.;
   hOverE = 0.;
   veto = false;
+  for (auto& p0 : matchHLT) p0 = false;
   superCluster.init();
 }
 

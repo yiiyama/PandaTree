@@ -5,8 +5,9 @@ panda::PLepton::datastore::allocate(UInt_t _nmax)
 {
   PParticle::datastore::allocate(_nmax);
 
-  q = new Text_t const*[nmax_];
+  q = new Short_t[nmax_];
   loose = new Bool_t[nmax_];
+  medium = new Bool_t[nmax_];
   tight = new Bool_t[nmax_];
   chiso = new Float_t[nmax_];
   nhiso = new Float_t[nmax_];
@@ -25,6 +26,8 @@ panda::PLepton::datastore::deallocate()
   q = 0;
   delete [] loose;
   loose = 0;
+  delete [] medium;
+  medium = 0;
   delete [] tight;
   tight = 0;
   delete [] chiso;
@@ -48,6 +51,7 @@ panda::PLepton::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t 
 
   utils::setStatus(_tree, _name, "q", _status, _branches);
   utils::setStatus(_tree, _name, "loose", _status, _branches);
+  utils::setStatus(_tree, _name, "medium", _status, _branches);
   utils::setStatus(_tree, _name, "tight", _status, _branches);
   utils::setStatus(_tree, _name, "chiso", _status, _branches);
   utils::setStatus(_tree, _name, "nhiso", _status, _branches);
@@ -64,6 +68,7 @@ panda::PLepton::datastore::setAddress(TTree& _tree, TString const& _name, utils:
 
   utils::setAddress(_tree, _name, "q", q, _branches, _setStatus);
   utils::setAddress(_tree, _name, "loose", loose, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "medium", medium, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tight", tight, _branches, _setStatus);
   utils::setAddress(_tree, _name, "chiso", chiso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nhiso", nhiso, _branches, _setStatus);
@@ -80,8 +85,9 @@ panda::PLepton::datastore::book(TTree& _tree, TString const& _name, utils::Branc
 
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
-  utils::book(_tree, _name, "q", size, 'C', q, _branches);
+  utils::book(_tree, _name, "q", size, 'S', q, _branches);
   utils::book(_tree, _name, "loose", size, 'O', loose, _branches);
+  utils::book(_tree, _name, "medium", size, 'O', medium, _branches);
   utils::book(_tree, _name, "tight", size, 'O', tight, _branches);
   utils::book(_tree, _name, "chiso", size, 'F', chiso, _branches);
   utils::book(_tree, _name, "nhiso", size, 'F', nhiso, _branches);
@@ -98,6 +104,7 @@ panda::PLepton::datastore::resetAddress(TTree& _tree, TString const& _name)
 
   utils::resetAddress(_tree, _name, "q");
   utils::resetAddress(_tree, _name, "loose");
+  utils::resetAddress(_tree, _name, "medium");
   utils::resetAddress(_tree, _name, "tight");
   utils::resetAddress(_tree, _name, "chiso");
   utils::resetAddress(_tree, _name, "nhiso");
@@ -118,6 +125,7 @@ panda::PLepton::PLepton(char const* _name/* = ""*/) :
   PParticle(new PLeptonArray(1, _name)),
   q(gStore.getData(this).q[0]),
   loose(gStore.getData(this).loose[0]),
+  medium(gStore.getData(this).medium[0]),
   tight(gStore.getData(this).tight[0]),
   chiso(gStore.getData(this).chiso[0]),
   nhiso(gStore.getData(this).nhiso[0]),
@@ -132,6 +140,7 @@ panda::PLepton::PLepton(datastore& _data, UInt_t _idx) :
   PParticle(_data, _idx),
   q(_data.q[_idx]),
   loose(_data.loose[_idx]),
+  medium(_data.medium[_idx]),
   tight(_data.tight[_idx]),
   chiso(_data.chiso[_idx]),
   nhiso(_data.nhiso[_idx]),
@@ -146,6 +155,7 @@ panda::PLepton::PLepton(PLepton const& _src) :
   PParticle(new PLeptonArray(1, gStore.getName(&_src))),
   q(gStore.getData(this).q[0]),
   loose(gStore.getData(this).loose[0]),
+  medium(gStore.getData(this).medium[0]),
   tight(gStore.getData(this).tight[0]),
   chiso(gStore.getData(this).chiso[0]),
   nhiso(gStore.getData(this).nhiso[0]),
@@ -158,6 +168,7 @@ panda::PLepton::PLepton(PLepton const& _src) :
 
   q = _src.q;
   loose = _src.loose;
+  medium = _src.medium;
   tight = _src.tight;
   chiso = _src.chiso;
   nhiso = _src.nhiso;
@@ -171,6 +182,7 @@ panda::PLepton::PLepton(ArrayBase* _array) :
   PParticle(_array),
   q(gStore.getData(this).q[0]),
   loose(gStore.getData(this).loose[0]),
+  medium(gStore.getData(this).medium[0]),
   tight(gStore.getData(this).tight[0]),
   chiso(gStore.getData(this).chiso[0]),
   nhiso(gStore.getData(this).nhiso[0]),
@@ -193,6 +205,7 @@ panda::PLepton::operator=(PLepton const& _src)
 
   q = _src.q;
   loose = _src.loose;
+  medium = _src.medium;
   tight = _src.tight;
   chiso = _src.chiso;
   nhiso = _src.nhiso;
@@ -213,6 +226,7 @@ panda::PLepton::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const&
 
   utils::setStatus(_tree, name, "q", _status, _branches);
   utils::setStatus(_tree, name, "loose", _status, _branches);
+  utils::setStatus(_tree, name, "medium", _status, _branches);
   utils::setStatus(_tree, name, "tight", _status, _branches);
   utils::setStatus(_tree, name, "chiso", _status, _branches);
   utils::setStatus(_tree, name, "nhiso", _status, _branches);
@@ -231,6 +245,7 @@ panda::PLepton::setAddress(TTree& _tree, utils::BranchList const& _branches/* = 
 
   utils::setAddress(_tree, name, "q", &q, _branches, _setStatus);
   utils::setAddress(_tree, name, "loose", &loose, _branches, _setStatus);
+  utils::setAddress(_tree, name, "medium", &medium, _branches, _setStatus);
   utils::setAddress(_tree, name, "tight", &tight, _branches, _setStatus);
   utils::setAddress(_tree, name, "chiso", &chiso, _branches, _setStatus);
   utils::setAddress(_tree, name, "nhiso", &nhiso, _branches, _setStatus);
@@ -247,8 +262,9 @@ panda::PLepton::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*
 
   TString name(gStore.getName(this));
 
-  utils::book(_tree, name, "q", "", 'C', &q, _branches);
+  utils::book(_tree, name, "q", "", 'S', &q, _branches);
   utils::book(_tree, name, "loose", "", 'O', &loose, _branches);
+  utils::book(_tree, name, "medium", "", 'O', &medium, _branches);
   utils::book(_tree, name, "tight", "", 'O', &tight, _branches);
   utils::book(_tree, name, "chiso", "", 'F', &chiso, _branches);
   utils::book(_tree, name, "nhiso", "", 'F', &nhiso, _branches);
@@ -267,6 +283,7 @@ panda::PLepton::resetAddress(TTree& _tree)
 
   utils::resetAddress(_tree, name, "q");
   utils::resetAddress(_tree, name, "loose");
+  utils::resetAddress(_tree, name, "medium");
   utils::resetAddress(_tree, name, "tight");
   utils::resetAddress(_tree, name, "chiso");
   utils::resetAddress(_tree, name, "nhiso");
@@ -283,6 +300,7 @@ panda::PLepton::init()
 
   q = 0;
   loose = false;
+  medium = false;
   tight = false;
   chiso = 0.;
   nhiso = 0.;

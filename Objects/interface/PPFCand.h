@@ -22,7 +22,7 @@ namespace panda {
       /* PParticleM
       Float_t* mass{0};
       */
-      Float_t* q{0};
+      Short_t* q{0};
       Float_t* weight{0};
       Int_t* pftype{0};
 
@@ -60,7 +60,7 @@ namespace panda {
     /* PParticleM
     Float_t& mass;
     */
-    Float_t& q;
+    Short_t& q;
     Float_t& weight;
     Int_t& pftype;
 

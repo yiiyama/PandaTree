@@ -24,6 +24,14 @@ panda::Event::Event(Event const& _src) :
   genJets(_src.genJets),
   genParticles(_src.genParticles),
   met(_src.met),
+  rawMet(_src.rawMet),
+  caloMet(_src.caloMet),
+  noMuMet(_src.noMuMet),
+  noHFMet(_src.noHFMet),
+  trkMet(_src.trkMet),
+  neutralMet(_src.neutralMet),
+  photonMet(_src.photonMet),
+  hfMet(_src.hfMet),
   metFilters(_src.metFilters),
   triggers(_src.triggers),
   runNumber(_src.runNumber),
@@ -31,7 +39,9 @@ panda::Event::Event(Event const& _src) :
   eventNumber(_src.eventNumber),
   isData(_src.isData),
   npv(_src.npv),
-  mcWeight(_src.mcWeight)
+  npvTrue(_src.npvTrue),
+  rho(_src.rho),
+  weight(_src.weight)
 {
   for (auto& p : electrons)
     p.superCluster.setContainer(superClusters);
@@ -49,7 +59,9 @@ panda::Event::operator=(Event const& _src)
   eventNumber = _src.eventNumber;
   isData = _src.isData;
   npv = _src.npv;
-  mcWeight = _src.mcWeight;
+  npvTrue = _src.npvTrue;
+  rho = _src.rho;
+  weight = _src.weight;
 
   for (auto& p : electrons)
     p.superCluster.setContainer(superClusters);
@@ -75,6 +87,14 @@ panda::Event::init()
   genJets.init();
   genParticles.init();
   met.init();
+  rawMet.init();
+  caloMet.init();
+  noMuMet.init();
+  noHFMet.init();
+  trkMet.init();
+  neutralMet.init();
+  photonMet.init();
+  hfMet.init();
   metFilters.init();
   triggers.init();
   runNumber = 0;
@@ -82,7 +102,9 @@ panda::Event::init()
   eventNumber = 0;
   isData = false;
   npv = 0;
-  mcWeight = 0.;
+  npvTrue = 0;
+  rho = 0.;
+  weight = 0.;
 }
 
 /*protected*/
@@ -100,6 +122,14 @@ panda::Event::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const
   genJets.setStatus(_tree, _status, _branches.subList("genJets"));
   genParticles.setStatus(_tree, _status, _branches.subList("genParticles"));
   met.setStatus(_tree, _status, _branches.subList("met"));
+  rawMet.setStatus(_tree, _status, _branches.subList("rawMet"));
+  caloMet.setStatus(_tree, _status, _branches.subList("caloMet"));
+  noMuMet.setStatus(_tree, _status, _branches.subList("noMuMet"));
+  noHFMet.setStatus(_tree, _status, _branches.subList("noHFMet"));
+  trkMet.setStatus(_tree, _status, _branches.subList("trkMet"));
+  neutralMet.setStatus(_tree, _status, _branches.subList("neutralMet"));
+  photonMet.setStatus(_tree, _status, _branches.subList("photonMet"));
+  hfMet.setStatus(_tree, _status, _branches.subList("hfMet"));
   metFilters.setStatus(_tree, _status, _branches.subList("metFilters"));
   triggers.setStatus(_tree, _status, _branches.subList("triggers"));
   utils::setStatus(_tree, "", "runNumber", _status, _branches);
@@ -107,7 +137,9 @@ panda::Event::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const
   utils::setStatus(_tree, "", "eventNumber", _status, _branches);
   utils::setStatus(_tree, "", "isData", _status, _branches);
   utils::setStatus(_tree, "", "npv", _status, _branches);
-  utils::setStatus(_tree, "", "mcWeight", _status, _branches);
+  utils::setStatus(_tree, "", "npvTrue", _status, _branches);
+  utils::setStatus(_tree, "", "rho", _status, _branches);
+  utils::setStatus(_tree, "", "weight", _status, _branches);
 }
 
 /*protected*/
@@ -125,6 +157,14 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
   genJets.setAddress(_tree, _branches.subList("genJets"), _setStatus);
   genParticles.setAddress(_tree, _branches.subList("genParticles"), _setStatus);
   met.setAddress(_tree, _branches.subList("met"), _setStatus);
+  rawMet.setAddress(_tree, _branches.subList("rawMet"), _setStatus);
+  caloMet.setAddress(_tree, _branches.subList("caloMet"), _setStatus);
+  noMuMet.setAddress(_tree, _branches.subList("noMuMet"), _setStatus);
+  noHFMet.setAddress(_tree, _branches.subList("noHFMet"), _setStatus);
+  trkMet.setAddress(_tree, _branches.subList("trkMet"), _setStatus);
+  neutralMet.setAddress(_tree, _branches.subList("neutralMet"), _setStatus);
+  photonMet.setAddress(_tree, _branches.subList("photonMet"), _setStatus);
+  hfMet.setAddress(_tree, _branches.subList("hfMet"), _setStatus);
   metFilters.setAddress(_tree, _branches.subList("metFilters"), _setStatus);
   triggers.setAddress(_tree, _branches.subList("triggers"), _setStatus);
   utils::setAddress(_tree, "", "runNumber", &runNumber, _branches, _setStatus);
@@ -132,7 +172,9 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
   utils::setAddress(_tree, "", "eventNumber", &eventNumber, _branches, _setStatus);
   utils::setAddress(_tree, "", "isData", &isData, _branches, _setStatus);
   utils::setAddress(_tree, "", "npv", &npv, _branches, _setStatus);
-  utils::setAddress(_tree, "", "mcWeight", &mcWeight, _branches, _setStatus);
+  utils::setAddress(_tree, "", "npvTrue", &npvTrue, _branches, _setStatus);
+  utils::setAddress(_tree, "", "rho", &rho, _branches, _setStatus);
+  utils::setAddress(_tree, "", "weight", &weight, _branches, _setStatus);
 
   sizeBranches_.clear();
   if (_tree.GetBranchStatus("pfCandidates.size"))
@@ -172,6 +214,14 @@ panda::Event::doBook_(TTree& _tree, utils::BranchList const& _branches)
   genJets.book(_tree, _branches.subList("genJets"));
   genParticles.book(_tree, _branches.subList("genParticles"));
   met.book(_tree, _branches.subList("met"));
+  rawMet.book(_tree, _branches.subList("rawMet"));
+  caloMet.book(_tree, _branches.subList("caloMet"));
+  noMuMet.book(_tree, _branches.subList("noMuMet"));
+  noHFMet.book(_tree, _branches.subList("noHFMet"));
+  trkMet.book(_tree, _branches.subList("trkMet"));
+  neutralMet.book(_tree, _branches.subList("neutralMet"));
+  photonMet.book(_tree, _branches.subList("photonMet"));
+  hfMet.book(_tree, _branches.subList("hfMet"));
   metFilters.book(_tree, _branches.subList("metFilters"));
   triggers.book(_tree, _branches.subList("triggers"));
   utils::book(_tree, "", "runNumber", "", 'i', &runNumber, _branches);
@@ -179,7 +229,9 @@ panda::Event::doBook_(TTree& _tree, utils::BranchList const& _branches)
   utils::book(_tree, "", "eventNumber", "", 'i', &eventNumber, _branches);
   utils::book(_tree, "", "isData", "", 'O', &isData, _branches);
   utils::book(_tree, "", "npv", "", 'I', &npv, _branches);
-  utils::book(_tree, "", "mcWeight", "", 'F', &mcWeight, _branches);
+  utils::book(_tree, "", "npvTrue", "", 'I', &npvTrue, _branches);
+  utils::book(_tree, "", "rho", "", 'F', &rho, _branches);
+  utils::book(_tree, "", "weight", "", 'F', &weight, _branches);
 }
 
 /*protected*/
@@ -197,6 +249,14 @@ panda::Event::doReleaseTree_(TTree& _tree)
   genJets.releaseTree(_tree);
   genParticles.releaseTree(_tree);
   met.resetAddress(_tree);
+  rawMet.resetAddress(_tree);
+  caloMet.resetAddress(_tree);
+  noMuMet.resetAddress(_tree);
+  noHFMet.resetAddress(_tree);
+  trkMet.resetAddress(_tree);
+  neutralMet.resetAddress(_tree);
+  photonMet.resetAddress(_tree);
+  hfMet.resetAddress(_tree);
   metFilters.resetAddress(_tree);
   triggers.resetAddress(_tree);
 }

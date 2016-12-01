@@ -5,7 +5,7 @@ panda::PPFCand::datastore::allocate(UInt_t _nmax)
 {
   PParticleM::datastore::allocate(_nmax);
 
-  q = new Float_t[nmax_];
+  q = new Short_t[nmax_];
   weight = new Float_t[nmax_];
   pftype = new Int_t[nmax_];
 }
@@ -50,7 +50,7 @@ panda::PPFCand::datastore::book(TTree& _tree, TString const& _name, utils::Branc
 
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
-  utils::book(_tree, _name, "q", size, 'F', q, _branches);
+  utils::book(_tree, _name, "q", size, 'S', q, _branches);
   utils::book(_tree, _name, "weight", size, 'F', weight, _branches);
   utils::book(_tree, _name, "pftype", size, 'I', pftype, _branches);
 }
@@ -157,7 +157,7 @@ panda::PPFCand::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*
 
   TString name(gStore.getName(this));
 
-  utils::book(_tree, name, "q", "", 'F', &q, _branches);
+  utils::book(_tree, name, "q", "", 'S', &q, _branches);
   utils::book(_tree, name, "weight", "", 'F', &weight, _branches);
   utils::book(_tree, name, "pftype", "", 'I', &pftype, _branches);
 }
@@ -179,7 +179,7 @@ panda::PPFCand::init()
 {
   PParticleM::init();
 
-  q = 0.;
+  q = 0;
   weight = 0.;
   pftype = 0;
 }

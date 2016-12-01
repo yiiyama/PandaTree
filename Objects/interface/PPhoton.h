@@ -20,19 +20,18 @@ namespace panda {
       Float_t* eta{0};
       Float_t* phi{0};
       */
+      Float_t* scRawPt{0};
       Float_t* chiso{0};
-      Float_t* chworstiso{0};
-      Float_t* chisoMax{0};
+      Float_t* chisoWorst{0};
       Float_t* nhiso{0};
-      Float_t* phiso{0};
-      Float_t* ecaliso{0};
-      Float_t* hcaliso{0};
+      Float_t* phoiso{0};
       Float_t* sieie{0};
       Float_t* sipip{0};
       Float_t* hOverE{0};
       Float_t* geniso{0};
       Float_t* mipEnergy{0};
       Float_t* e33{0};
+      Float_t* e4{0};
       Float_t* emax{0};
       Float_t* e2nd{0};
       Float_t* r9{0};
@@ -41,15 +40,18 @@ namespace panda {
       Float_t* time{0};
       Float_t* timeSpan{0};
       Float_t* genMatchDR{0};
+      Bool_t* isEB{0};
       Bool_t* loose{0};
       Bool_t* medium{0};
       Bool_t* tight{0};
       Bool_t* highpt{0};
       Bool_t* pixelVeto{0};
       Bool_t* csafeVeto{0};
+      Int_t* matchedGen{0};
+      Float_t* genIso{0};
       Bool_t (*matchL1)[nPhotonL1Objects]{0};
+      Bool_t (*matchHLT)[nPhotonHLTObjects]{0};
       UInt_t* superCluster_{0};
-      std::vector<TString>* text{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -77,26 +79,23 @@ namespace panda {
 
     void init() override;
 
-    bool isEB() const { return superCluster.isValid() ? std::abs(superCluster->eta) < 1.4442 : false; }
-
     /* PParticle
     Float_t& pt;
     Float_t& eta;
     Float_t& phi;
     */
+    Float_t& scRawPt;
     Float_t& chiso;
-    Float_t& chworstiso;
-    Float_t& chisoMax;
+    Float_t& chisoWorst;
     Float_t& nhiso;
-    Float_t& phiso;
-    Float_t& ecaliso;
-    Float_t& hcaliso;
+    Float_t& phoiso;
     Float_t& sieie;
     Float_t& sipip;
     Float_t& hOverE;
     Float_t& geniso;
     Float_t& mipEnergy;
     Float_t& e33;
+    Float_t& e4;
     Float_t& emax;
     Float_t& e2nd;
     Float_t& r9;
@@ -105,15 +104,18 @@ namespace panda {
     Float_t& time;
     Float_t& timeSpan;
     Float_t& genMatchDR;
+    Bool_t& isEB;
     Bool_t& loose;
     Bool_t& medium;
     Bool_t& tight;
     Bool_t& highpt;
     Bool_t& pixelVeto;
     Bool_t& csafeVeto;
+    Int_t& matchedGen;
+    Float_t& genIso;
     Bool_t (&matchL1)[nPhotonL1Objects];
+    Bool_t (&matchHLT)[nPhotonHLTObjects];
     Ref<PSuperCluster> superCluster;
-    TString* text;
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */

@@ -8,60 +8,36 @@ panda::PRecoMET::PRecoMET(char const* _name/* = ""*/) :
 panda::PRecoMET::PRecoMET(PRecoMET const& _src) :
   PMET(_src.name_),
   sumETRaw(_src.sumETRaw),
-  raw_pt(_src.raw_pt),
-  raw_phi(_src.raw_phi),
-  calo_pt(_src.calo_pt),
-  calo_phi(_src.calo_phi),
-  noMu_pt(_src.noMu_pt),
-  noMu_phi(_src.noMu_phi),
-  noHF_pt(_src.noHF_pt),
-  noHF_phi(_src.noHF_phi),
-  trk_pt(_src.trk_pt),
-  trk_phi(_src.trk_phi),
-  neutral_pt(_src.neutral_pt),
-  neutral_phi(_src.neutral_phi),
-  photon_pt(_src.photon_pt),
-  photon_phi(_src.photon_phi),
-  hf_pt(_src.hf_pt),
-  hf_phi(_src.hf_phi),
   ptCorrUp(_src.ptCorrUp),
   phiCorrUp(_src.phiCorrUp),
   ptCorrDown(_src.ptCorrDown),
   phiCorrDown(_src.phiCorrDown),
-  ptJetRes(_src.ptJetRes),
-  phiJetRes(_src.phiJetRes),
   ptUnclUp(_src.ptUnclUp),
   phiUnclUp(_src.phiUnclUp),
   ptUnclDown(_src.ptUnclDown),
-  phiUnclDown(_src.phiUnclDown)
+  phiUnclDown(_src.phiUnclDown),
+  ptSmear(_src.ptSmear),
+  phiSmear(_src.phiSmear),
+  ptSmearUp(_src.ptSmearUp),
+  phiSmearUp(_src.phiSmearUp),
+  ptSmearDown(_src.ptSmearDown),
+  phiSmearDown(_src.phiSmearDown)
 {
   sumETRaw = _src.sumETRaw;
-  raw_pt = _src.raw_pt;
-  raw_phi = _src.raw_phi;
-  calo_pt = _src.calo_pt;
-  calo_phi = _src.calo_phi;
-  noMu_pt = _src.noMu_pt;
-  noMu_phi = _src.noMu_phi;
-  noHF_pt = _src.noHF_pt;
-  noHF_phi = _src.noHF_phi;
-  trk_pt = _src.trk_pt;
-  trk_phi = _src.trk_phi;
-  neutral_pt = _src.neutral_pt;
-  neutral_phi = _src.neutral_phi;
-  photon_pt = _src.photon_pt;
-  photon_phi = _src.photon_phi;
-  hf_pt = _src.hf_pt;
-  hf_phi = _src.hf_phi;
   ptCorrUp = _src.ptCorrUp;
   phiCorrUp = _src.phiCorrUp;
   ptCorrDown = _src.ptCorrDown;
   phiCorrDown = _src.phiCorrDown;
-  ptJetRes = _src.ptJetRes;
-  phiJetRes = _src.phiJetRes;
   ptUnclUp = _src.ptUnclUp;
   phiUnclUp = _src.phiUnclUp;
   ptUnclDown = _src.ptUnclDown;
   phiUnclDown = _src.phiUnclDown;
+  ptSmear = _src.ptSmear;
+  phiSmear = _src.phiSmear;
+  ptSmearUp = _src.ptSmearUp;
+  phiSmearUp = _src.phiSmearUp;
+  ptSmearDown = _src.ptSmearDown;
+  phiSmearDown = _src.phiSmearDown;
 }
 
 panda::PRecoMET::~PRecoMET()
@@ -74,32 +50,20 @@ panda::PRecoMET::operator=(PRecoMET const& _src)
   PMET::operator=(_src);
 
   sumETRaw = _src.sumETRaw;
-  raw_pt = _src.raw_pt;
-  raw_phi = _src.raw_phi;
-  calo_pt = _src.calo_pt;
-  calo_phi = _src.calo_phi;
-  noMu_pt = _src.noMu_pt;
-  noMu_phi = _src.noMu_phi;
-  noHF_pt = _src.noHF_pt;
-  noHF_phi = _src.noHF_phi;
-  trk_pt = _src.trk_pt;
-  trk_phi = _src.trk_phi;
-  neutral_pt = _src.neutral_pt;
-  neutral_phi = _src.neutral_phi;
-  photon_pt = _src.photon_pt;
-  photon_phi = _src.photon_phi;
-  hf_pt = _src.hf_pt;
-  hf_phi = _src.hf_phi;
   ptCorrUp = _src.ptCorrUp;
   phiCorrUp = _src.phiCorrUp;
   ptCorrDown = _src.ptCorrDown;
   phiCorrDown = _src.phiCorrDown;
-  ptJetRes = _src.ptJetRes;
-  phiJetRes = _src.phiJetRes;
   ptUnclUp = _src.ptUnclUp;
   phiUnclUp = _src.phiUnclUp;
   ptUnclDown = _src.ptUnclDown;
   phiUnclDown = _src.phiUnclDown;
+  ptSmear = _src.ptSmear;
+  phiSmear = _src.phiSmear;
+  ptSmearUp = _src.ptSmearUp;
+  phiSmearUp = _src.phiSmearUp;
+  ptSmearDown = _src.ptSmearDown;
+  phiSmearDown = _src.phiSmearDown;
 
   return *this;
 }
@@ -110,32 +74,20 @@ panda::PRecoMET::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const
   PMET::setStatus(_tree, _status, _branches);
 
   utils::setStatus(_tree, name_, "sumETRaw", _status, _branches);
-  utils::setStatus(_tree, name_, "raw_pt", _status, _branches);
-  utils::setStatus(_tree, name_, "raw_phi", _status, _branches);
-  utils::setStatus(_tree, name_, "calo_pt", _status, _branches);
-  utils::setStatus(_tree, name_, "calo_phi", _status, _branches);
-  utils::setStatus(_tree, name_, "noMu_pt", _status, _branches);
-  utils::setStatus(_tree, name_, "noMu_phi", _status, _branches);
-  utils::setStatus(_tree, name_, "noHF_pt", _status, _branches);
-  utils::setStatus(_tree, name_, "noHF_phi", _status, _branches);
-  utils::setStatus(_tree, name_, "trk_pt", _status, _branches);
-  utils::setStatus(_tree, name_, "trk_phi", _status, _branches);
-  utils::setStatus(_tree, name_, "neutral_pt", _status, _branches);
-  utils::setStatus(_tree, name_, "neutral_phi", _status, _branches);
-  utils::setStatus(_tree, name_, "photon_pt", _status, _branches);
-  utils::setStatus(_tree, name_, "photon_phi", _status, _branches);
-  utils::setStatus(_tree, name_, "hf_pt", _status, _branches);
-  utils::setStatus(_tree, name_, "hf_phi", _status, _branches);
   utils::setStatus(_tree, name_, "ptCorrUp", _status, _branches);
   utils::setStatus(_tree, name_, "phiCorrUp", _status, _branches);
   utils::setStatus(_tree, name_, "ptCorrDown", _status, _branches);
   utils::setStatus(_tree, name_, "phiCorrDown", _status, _branches);
-  utils::setStatus(_tree, name_, "ptJetRes", _status, _branches);
-  utils::setStatus(_tree, name_, "phiJetRes", _status, _branches);
   utils::setStatus(_tree, name_, "ptUnclUp", _status, _branches);
   utils::setStatus(_tree, name_, "phiUnclUp", _status, _branches);
   utils::setStatus(_tree, name_, "ptUnclDown", _status, _branches);
   utils::setStatus(_tree, name_, "phiUnclDown", _status, _branches);
+  utils::setStatus(_tree, name_, "ptSmear", _status, _branches);
+  utils::setStatus(_tree, name_, "phiSmear", _status, _branches);
+  utils::setStatus(_tree, name_, "ptSmearUp", _status, _branches);
+  utils::setStatus(_tree, name_, "phiSmearUp", _status, _branches);
+  utils::setStatus(_tree, name_, "ptSmearDown", _status, _branches);
+  utils::setStatus(_tree, name_, "phiSmearDown", _status, _branches);
 }
 
 void
@@ -144,32 +96,20 @@ panda::PRecoMET::setAddress(TTree& _tree, utils::BranchList const& _branches/* =
   PMET::setAddress(_tree, _branches, _setStatus);
 
   utils::setAddress(_tree, name_, "sumETRaw", &sumETRaw, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "raw_pt", &raw_pt, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "raw_phi", &raw_phi, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "calo_pt", &calo_pt, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "calo_phi", &calo_phi, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "noMu_pt", &noMu_pt, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "noMu_phi", &noMu_phi, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "noHF_pt", &noHF_pt, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "noHF_phi", &noHF_phi, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "trk_pt", &trk_pt, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "trk_phi", &trk_phi, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "neutral_pt", &neutral_pt, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "neutral_phi", &neutral_phi, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "photon_pt", &photon_pt, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "photon_phi", &photon_phi, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "hf_pt", &hf_pt, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "hf_phi", &hf_phi, _branches, _setStatus);
   utils::setAddress(_tree, name_, "ptCorrUp", &ptCorrUp, _branches, _setStatus);
   utils::setAddress(_tree, name_, "phiCorrUp", &phiCorrUp, _branches, _setStatus);
   utils::setAddress(_tree, name_, "ptCorrDown", &ptCorrDown, _branches, _setStatus);
   utils::setAddress(_tree, name_, "phiCorrDown", &phiCorrDown, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "ptJetRes", &ptJetRes, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "phiJetRes", &phiJetRes, _branches, _setStatus);
   utils::setAddress(_tree, name_, "ptUnclUp", &ptUnclUp, _branches, _setStatus);
   utils::setAddress(_tree, name_, "phiUnclUp", &phiUnclUp, _branches, _setStatus);
   utils::setAddress(_tree, name_, "ptUnclDown", &ptUnclDown, _branches, _setStatus);
   utils::setAddress(_tree, name_, "phiUnclDown", &phiUnclDown, _branches, _setStatus);
+  utils::setAddress(_tree, name_, "ptSmear", &ptSmear, _branches, _setStatus);
+  utils::setAddress(_tree, name_, "phiSmear", &phiSmear, _branches, _setStatus);
+  utils::setAddress(_tree, name_, "ptSmearUp", &ptSmearUp, _branches, _setStatus);
+  utils::setAddress(_tree, name_, "phiSmearUp", &phiSmearUp, _branches, _setStatus);
+  utils::setAddress(_tree, name_, "ptSmearDown", &ptSmearDown, _branches, _setStatus);
+  utils::setAddress(_tree, name_, "phiSmearDown", &phiSmearDown, _branches, _setStatus);
 }
 
 void
@@ -178,32 +118,20 @@ panda::PRecoMET::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}
   PMET::book(_tree, _branches);
 
   utils::book(_tree, name_, "sumETRaw", "", 'F', &sumETRaw, _branches);
-  utils::book(_tree, name_, "raw_pt", "", 'F', &raw_pt, _branches);
-  utils::book(_tree, name_, "raw_phi", "", 'F', &raw_phi, _branches);
-  utils::book(_tree, name_, "calo_pt", "", 'F', &calo_pt, _branches);
-  utils::book(_tree, name_, "calo_phi", "", 'F', &calo_phi, _branches);
-  utils::book(_tree, name_, "noMu_pt", "", 'F', &noMu_pt, _branches);
-  utils::book(_tree, name_, "noMu_phi", "", 'F', &noMu_phi, _branches);
-  utils::book(_tree, name_, "noHF_pt", "", 'F', &noHF_pt, _branches);
-  utils::book(_tree, name_, "noHF_phi", "", 'F', &noHF_phi, _branches);
-  utils::book(_tree, name_, "trk_pt", "", 'F', &trk_pt, _branches);
-  utils::book(_tree, name_, "trk_phi", "", 'F', &trk_phi, _branches);
-  utils::book(_tree, name_, "neutral_pt", "", 'F', &neutral_pt, _branches);
-  utils::book(_tree, name_, "neutral_phi", "", 'F', &neutral_phi, _branches);
-  utils::book(_tree, name_, "photon_pt", "", 'F', &photon_pt, _branches);
-  utils::book(_tree, name_, "photon_phi", "", 'F', &photon_phi, _branches);
-  utils::book(_tree, name_, "hf_pt", "", 'F', &hf_pt, _branches);
-  utils::book(_tree, name_, "hf_phi", "", 'F', &hf_phi, _branches);
   utils::book(_tree, name_, "ptCorrUp", "", 'F', &ptCorrUp, _branches);
   utils::book(_tree, name_, "phiCorrUp", "", 'F', &phiCorrUp, _branches);
   utils::book(_tree, name_, "ptCorrDown", "", 'F', &ptCorrDown, _branches);
   utils::book(_tree, name_, "phiCorrDown", "", 'F', &phiCorrDown, _branches);
-  utils::book(_tree, name_, "ptJetRes", "", 'F', &ptJetRes, _branches);
-  utils::book(_tree, name_, "phiJetRes", "", 'F', &phiJetRes, _branches);
   utils::book(_tree, name_, "ptUnclUp", "", 'F', &ptUnclUp, _branches);
   utils::book(_tree, name_, "phiUnclUp", "", 'F', &phiUnclUp, _branches);
   utils::book(_tree, name_, "ptUnclDown", "", 'F', &ptUnclDown, _branches);
   utils::book(_tree, name_, "phiUnclDown", "", 'F', &phiUnclDown, _branches);
+  utils::book(_tree, name_, "ptSmear", "", 'F', &ptSmear, _branches);
+  utils::book(_tree, name_, "phiSmear", "", 'F', &phiSmear, _branches);
+  utils::book(_tree, name_, "ptSmearUp", "", 'F', &ptSmearUp, _branches);
+  utils::book(_tree, name_, "phiSmearUp", "", 'F', &phiSmearUp, _branches);
+  utils::book(_tree, name_, "ptSmearDown", "", 'F', &ptSmearDown, _branches);
+  utils::book(_tree, name_, "phiSmearDown", "", 'F', &phiSmearDown, _branches);
 }
 
 void
@@ -212,32 +140,20 @@ panda::PRecoMET::resetAddress(TTree& _tree)
   PMET::resetAddress(_tree);
 
   utils::resetAddress(_tree, name_, "sumETRaw");
-  utils::resetAddress(_tree, name_, "raw_pt");
-  utils::resetAddress(_tree, name_, "raw_phi");
-  utils::resetAddress(_tree, name_, "calo_pt");
-  utils::resetAddress(_tree, name_, "calo_phi");
-  utils::resetAddress(_tree, name_, "noMu_pt");
-  utils::resetAddress(_tree, name_, "noMu_phi");
-  utils::resetAddress(_tree, name_, "noHF_pt");
-  utils::resetAddress(_tree, name_, "noHF_phi");
-  utils::resetAddress(_tree, name_, "trk_pt");
-  utils::resetAddress(_tree, name_, "trk_phi");
-  utils::resetAddress(_tree, name_, "neutral_pt");
-  utils::resetAddress(_tree, name_, "neutral_phi");
-  utils::resetAddress(_tree, name_, "photon_pt");
-  utils::resetAddress(_tree, name_, "photon_phi");
-  utils::resetAddress(_tree, name_, "hf_pt");
-  utils::resetAddress(_tree, name_, "hf_phi");
   utils::resetAddress(_tree, name_, "ptCorrUp");
   utils::resetAddress(_tree, name_, "phiCorrUp");
   utils::resetAddress(_tree, name_, "ptCorrDown");
   utils::resetAddress(_tree, name_, "phiCorrDown");
-  utils::resetAddress(_tree, name_, "ptJetRes");
-  utils::resetAddress(_tree, name_, "phiJetRes");
   utils::resetAddress(_tree, name_, "ptUnclUp");
   utils::resetAddress(_tree, name_, "phiUnclUp");
   utils::resetAddress(_tree, name_, "ptUnclDown");
   utils::resetAddress(_tree, name_, "phiUnclDown");
+  utils::resetAddress(_tree, name_, "ptSmear");
+  utils::resetAddress(_tree, name_, "phiSmear");
+  utils::resetAddress(_tree, name_, "ptSmearUp");
+  utils::resetAddress(_tree, name_, "phiSmearUp");
+  utils::resetAddress(_tree, name_, "ptSmearDown");
+  utils::resetAddress(_tree, name_, "phiSmearDown");
 }
 
 void
@@ -246,32 +162,20 @@ panda::PRecoMET::init()
   PMET::init();
 
   sumETRaw = 0.;
-  raw_pt = 0.;
-  raw_phi = 0.;
-  calo_pt = 0.;
-  calo_phi = 0.;
-  noMu_pt = 0.;
-  noMu_phi = 0.;
-  noHF_pt = 0.;
-  noHF_phi = 0.;
-  trk_pt = 0.;
-  trk_phi = 0.;
-  neutral_pt = 0.;
-  neutral_phi = 0.;
-  photon_pt = 0.;
-  photon_phi = 0.;
-  hf_pt = 0.;
-  hf_phi = 0.;
   ptCorrUp = 0.;
   phiCorrUp = 0.;
   ptCorrDown = 0.;
   phiCorrDown = 0.;
-  ptJetRes = 0.;
-  phiJetRes = 0.;
   ptUnclUp = 0.;
   phiUnclUp = 0.;
   ptUnclDown = 0.;
   phiUnclDown = 0.;
+  ptSmear = 0.;
+  phiSmear = 0.;
+  ptSmearUp = 0.;
+  phiSmearUp = 0.;
+  ptSmearDown = 0.;
+  phiSmearDown = 0.;
 }
 
 TVector2

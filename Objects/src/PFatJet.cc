@@ -12,9 +12,11 @@ panda::PFatJet::datastore::allocate(UInt_t _nmax)
   tau1SD = new Float_t[nmax_];
   tau2SD = new Float_t[nmax_];
   tau3SD = new Float_t[nmax_];
+  qgl = new Float_t[nmax_];
   htt_mass = new Float_t[nmax_];
   htt_frec = new Float_t[nmax_];
   ecfs = new Float_t[nmax_][3][4][4];
+  subjets_ = new std::vector<std::vector<UInt_t>>(nmax_);
 }
 
 void
@@ -36,12 +38,16 @@ panda::PFatJet::datastore::deallocate()
   tau2SD = 0;
   delete [] tau3SD;
   tau3SD = 0;
+  delete [] qgl;
+  qgl = 0;
   delete [] htt_mass;
   htt_mass = 0;
   delete [] htt_frec;
   htt_frec = 0;
   delete [] ecfs;
   ecfs = 0;
+  delete subjets_;
+  subjets_ = 0;
 }
 
 void
@@ -56,9 +62,11 @@ panda::PFatJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t 
   utils::setStatus(_tree, _name, "tau1SD", _status, _branches);
   utils::setStatus(_tree, _name, "tau2SD", _status, _branches);
   utils::setStatus(_tree, _name, "tau3SD", _status, _branches);
+  utils::setStatus(_tree, _name, "qgl", _status, _branches);
   utils::setStatus(_tree, _name, "htt_mass", _status, _branches);
   utils::setStatus(_tree, _name, "htt_frec", _status, _branches);
   utils::setStatus(_tree, _name, "ecfs", _status, _branches);
+  utils::setStatus(_tree, _name, "subjets_", _status, _branches);
 }
 
 void
@@ -73,9 +81,11 @@ panda::PFatJet::datastore::setAddress(TTree& _tree, TString const& _name, utils:
   utils::setAddress(_tree, _name, "tau1SD", tau1SD, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tau2SD", tau2SD, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tau3SD", tau3SD, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "qgl", qgl, _branches, _setStatus);
   utils::setAddress(_tree, _name, "htt_mass", htt_mass, _branches, _setStatus);
   utils::setAddress(_tree, _name, "htt_frec", htt_frec, _branches, _setStatus);
   utils::setAddress(_tree, _name, "ecfs", ecfs, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "subjets_", &subjets_, _branches, _setStatus);
 }
 
 void
@@ -92,9 +102,11 @@ panda::PFatJet::datastore::book(TTree& _tree, TString const& _name, utils::Branc
   utils::book(_tree, _name, "tau1SD", size, 'F', tau1SD, _branches);
   utils::book(_tree, _name, "tau2SD", size, 'F', tau2SD, _branches);
   utils::book(_tree, _name, "tau3SD", size, 'F', tau3SD, _branches);
+  utils::book(_tree, _name, "qgl", size, 'F', qgl, _branches);
   utils::book(_tree, _name, "htt_mass", size, 'F', htt_mass, _branches);
   utils::book(_tree, _name, "htt_frec", size, 'F', htt_frec, _branches);
   utils::book(_tree, _name, "ecfs", size + "[3][4][4]", 'F', ecfs, _branches);
+  utils::book(_tree, _name, "subjets_", "std::vector<std::vector<UInt_t>>", &subjets_, _branches);
 }
 
 void
@@ -109,9 +121,11 @@ panda::PFatJet::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "tau1SD");
   utils::resetAddress(_tree, _name, "tau2SD");
   utils::resetAddress(_tree, _name, "tau3SD");
+  utils::resetAddress(_tree, _name, "qgl");
   utils::resetAddress(_tree, _name, "htt_mass");
   utils::resetAddress(_tree, _name, "htt_frec");
   utils::resetAddress(_tree, _name, "ecfs");
+  utils::resetAddress(_tree, _name, "subjets_");
 }
 
 void
@@ -119,6 +133,7 @@ panda::PFatJet::datastore::resizeVectors_(UInt_t _size)
 {
   PJet::datastore::resizeVectors_(_size);
 
+  subjets_->resize(_size);
 }
 
 panda::PFatJet::PFatJet(char const* _name/* = ""*/) :
@@ -130,9 +145,11 @@ panda::PFatJet::PFatJet(char const* _name/* = ""*/) :
   tau1SD(gStore.getData(this).tau1SD[0]),
   tau2SD(gStore.getData(this).tau2SD[0]),
   tau3SD(gStore.getData(this).tau3SD[0]),
+  qgl(gStore.getData(this).qgl[0]),
   htt_mass(gStore.getData(this).htt_mass[0]),
   htt_frec(gStore.getData(this).htt_frec[0]),
-  ecfs(gStore.getData(this).ecfs[0])
+  ecfs(gStore.getData(this).ecfs[0]),
+  subjets((*gStore.getData(this).subjets_)[0])
 {
 }
 
@@ -145,9 +162,11 @@ panda::PFatJet::PFatJet(datastore& _data, UInt_t _idx) :
   tau1SD(_data.tau1SD[_idx]),
   tau2SD(_data.tau2SD[_idx]),
   tau3SD(_data.tau3SD[_idx]),
+  qgl(_data.qgl[_idx]),
   htt_mass(_data.htt_mass[_idx]),
   htt_frec(_data.htt_frec[_idx]),
-  ecfs(_data.ecfs[_idx])
+  ecfs(_data.ecfs[_idx]),
+  subjets((*_data.subjets_)[_idx])
 {
 }
 
@@ -160,9 +179,11 @@ panda::PFatJet::PFatJet(PFatJet const& _src) :
   tau1SD(gStore.getData(this).tau1SD[0]),
   tau2SD(gStore.getData(this).tau2SD[0]),
   tau3SD(gStore.getData(this).tau3SD[0]),
+  qgl(gStore.getData(this).qgl[0]),
   htt_mass(gStore.getData(this).htt_mass[0]),
   htt_frec(gStore.getData(this).htt_frec[0]),
-  ecfs(gStore.getData(this).ecfs[0])
+  ecfs(gStore.getData(this).ecfs[0]),
+  subjets((*gStore.getData(this).subjets_)[0])
 {
   PJet::operator=(_src);
 
@@ -173,9 +194,11 @@ panda::PFatJet::PFatJet(PFatJet const& _src) :
   tau1SD = _src.tau1SD;
   tau2SD = _src.tau2SD;
   tau3SD = _src.tau3SD;
+  qgl = _src.qgl;
   htt_mass = _src.htt_mass;
   htt_frec = _src.htt_frec;
   std::memcpy(ecfs, _src.ecfs, sizeof(Float_t) * 3 * 4 * 4);
+  subjets = _src.subjets;
 }
 
 panda::PFatJet::PFatJet(ArrayBase* _array) :
@@ -187,9 +210,11 @@ panda::PFatJet::PFatJet(ArrayBase* _array) :
   tau1SD(gStore.getData(this).tau1SD[0]),
   tau2SD(gStore.getData(this).tau2SD[0]),
   tau3SD(gStore.getData(this).tau3SD[0]),
+  qgl(gStore.getData(this).qgl[0]),
   htt_mass(gStore.getData(this).htt_mass[0]),
   htt_frec(gStore.getData(this).htt_frec[0]),
-  ecfs(gStore.getData(this).ecfs[0])
+  ecfs(gStore.getData(this).ecfs[0]),
+  subjets((*gStore.getData(this).subjets_)[0])
 {
 }
 
@@ -210,9 +235,11 @@ panda::PFatJet::operator=(PFatJet const& _src)
   tau1SD = _src.tau1SD;
   tau2SD = _src.tau2SD;
   tau3SD = _src.tau3SD;
+  qgl = _src.qgl;
   htt_mass = _src.htt_mass;
   htt_frec = _src.htt_frec;
   std::memcpy(ecfs, _src.ecfs, sizeof(Float_t) * 3 * 4 * 4);
+  subjets = _src.subjets;
 
   return *this;
 }
@@ -231,9 +258,11 @@ panda::PFatJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const&
   utils::setStatus(_tree, name, "tau1SD", _status, _branches);
   utils::setStatus(_tree, name, "tau2SD", _status, _branches);
   utils::setStatus(_tree, name, "tau3SD", _status, _branches);
+  utils::setStatus(_tree, name, "qgl", _status, _branches);
   utils::setStatus(_tree, name, "htt_mass", _status, _branches);
   utils::setStatus(_tree, name, "htt_frec", _status, _branches);
   utils::setStatus(_tree, name, "ecfs", _status, _branches);
+  utils::setStatus(_tree, name, "subjets_", _status, _branches);
 }
 
 void
@@ -250,9 +279,11 @@ panda::PFatJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = 
   utils::setAddress(_tree, name, "tau1SD", &tau1SD, _branches, _setStatus);
   utils::setAddress(_tree, name, "tau2SD", &tau2SD, _branches, _setStatus);
   utils::setAddress(_tree, name, "tau3SD", &tau3SD, _branches, _setStatus);
+  utils::setAddress(_tree, name, "qgl", &qgl, _branches, _setStatus);
   utils::setAddress(_tree, name, "htt_mass", &htt_mass, _branches, _setStatus);
   utils::setAddress(_tree, name, "htt_frec", &htt_frec, _branches, _setStatus);
   utils::setAddress(_tree, name, "ecfs", ecfs, _branches, _setStatus);
+  utils::setAddress(_tree, name, "subjets_", &subjets.indices(), _branches, true);
 }
 
 void
@@ -269,9 +300,11 @@ panda::PFatJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*
   utils::book(_tree, name, "tau1SD", "", 'F', &tau1SD, _branches);
   utils::book(_tree, name, "tau2SD", "", 'F', &tau2SD, _branches);
   utils::book(_tree, name, "tau3SD", "", 'F', &tau3SD, _branches);
+  utils::book(_tree, name, "qgl", "", 'F', &qgl, _branches);
   utils::book(_tree, name, "htt_mass", "", 'F', &htt_mass, _branches);
   utils::book(_tree, name, "htt_frec", "", 'F', &htt_frec, _branches);
   utils::book(_tree, name, "ecfs", "[3][4][4]", 'F', ecfs, _branches);
+  utils::book(_tree, name, "subjets_", "std::vector<UInt_t>", &subjets.indices(), _branches);
 }
 
 void
@@ -288,9 +321,11 @@ panda::PFatJet::resetAddress(TTree& _tree)
   utils::resetAddress(_tree, name, "tau1SD");
   utils::resetAddress(_tree, name, "tau2SD");
   utils::resetAddress(_tree, name, "tau3SD");
+  utils::resetAddress(_tree, name, "qgl");
   utils::resetAddress(_tree, name, "htt_mass");
   utils::resetAddress(_tree, name, "htt_frec");
   utils::resetAddress(_tree, name, "ecfs");
+  utils::resetAddress(_tree, name, "subjets_");
 }
 
 void
@@ -305,9 +340,11 @@ panda::PFatJet::init()
   tau1SD = -1.;
   tau2SD = -1.;
   tau3SD = -1.;
+  qgl = 0.;
   htt_mass = 0.;
   htt_frec = 0.;
   for (auto& p0 : ecfs) for (auto& p1 : p0) for (auto& p2 : p1) p2 = 0.;
+  subjets.init();
 }
 
 float

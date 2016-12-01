@@ -87,7 +87,7 @@ mass/F
 double m() const override { return mass; }
 
 [PPFCand>PParticleM]
-q/F
+q/S
 weight/F
 pftype/I
 
@@ -97,8 +97,9 @@ eta/F
 phi/F
 
 [PLepton>PParticle]
-q/C
+q/S
 loose/O
+medium/O
 tight/O
 chiso/F
 nhiso/F
@@ -119,17 +120,18 @@ sieie/F
 sipip/F
 hOverE/F
 veto/O
+matchHLT[nElectronHLTObjects]/O
 superCluster/PSuperClusterRef
 double m() const override { return 5.109989e-4; }
 double combiso() const override { return chiso + std::max(nhiso + phoiso - isoPUOffset, Float_t(0.)); }
-bool isEB() const { return superCluster.isValid() ? std::abs(superCluster->eta) < 1.4442 : false; }
 
 [PMuon>PLepton]
+matchHLT[nMuonHLTObjects]/O
 double m() const override { return 1.05658e-2; }
 double combiso() const override { return chiso + std::max(nhiso + phoiso - 0.5 * puiso, 0.); }
 
 [PTau>PParticleM]
-q/C
+q/S
 baseline/O
 decayMode/O
 decayModeNew/O
@@ -137,19 +139,18 @@ iso/F
 isoDeltaBetaCorr/F
 
 [PPhoton>PParticle]
+scRawPt/F
 chiso/F
-chworstiso/F
-chisoMax/F
+chisoWorst/F
 nhiso/F
-phiso/F
-ecaliso/F
-hcaliso/F
+phoiso/F
 sieie/F
 sipip/F
 hOverE/F
 geniso/F
 mipEnergy/F
 e33/F
+e4/F
 emax/F
 e2nd/F
 r9/F
@@ -158,28 +159,32 @@ phiWidth/F
 time/F
 timeSpan/F
 genMatchDR/F
+isEB/O
 loose/O
 medium/O
 tight/O
 highpt/O
 pixelVeto/O
 csafeVeto/O
+matchedGen/I
+genIso/F
 matchL1[nPhotonL1Objects]/O
+matchHLT[nPhotonHLTObjects]/O
 superCluster/PSuperClusterRef
-text/TString
-bool isEB() const { return superCluster.isValid() ? std::abs(superCluster->eta) < 1.4442 : false; }
 
 [PJet>PParticleM]
 rawPt/F
 ptCorrUp/F
 ptCorrDown/F
-ptResCorr/F
-phiResCorr/F
+ptSmear/F
+ptSmearUp/F
+ptSmearDown/F
 csv/F
-qgl/F
 nhf/F
 chf/F
-id/i
+loose/O
+tight/O
+monojet/O
 constituents/PPFCandRefVector
 
 [PFatJet>PJet]
@@ -190,6 +195,7 @@ mSD/F
 tau1SD/F = -1.
 tau2SD/F = -1.
 tau3SD/F = -1.
+qgl/F
 htt_mass/F
 htt_frec/F
 ecfs[3][4][4]/F
@@ -219,35 +225,24 @@ parent/PGenParticleRef
 pt/F
 phi/F
 virtual TVector2 v() const { TVector2 vec; vec.SetMagPhi(pt, phi); return vec; }
+void setXY(double x, double y) { pt = std::sqrt(x * x + y * y); phi = std::atan2(y, x); }
 
 [PRecoMET>PMET]
 sumETRaw/F
-raw_pt/F
-raw_phi/F
-calo_pt/F
-calo_phi/F
-noMu_pt/F
-noMu_phi/F
-noHF_pt/F
-noHF_phi/F
-trk_pt/F
-trk_phi/F
-neutral_pt/F
-neutral_phi/F
-photon_pt/F
-photon_phi/F
-hf_pt/F
-hf_phi/F
 ptCorrUp/F
 phiCorrUp/F
 ptCorrDown/F
 phiCorrDown/F
-ptJetRes/F
-phiJetRes/F
 ptUnclUp/F
 phiUnclUp/F
 ptUnclDown/F
 phiUnclDown/F
+ptSmear/F
+phiSmear/F
+ptSmearUp/F
+phiSmearUp/F
+ptSmearDown/F
+phiSmearDown/F
 virtual TVector2 vCorr(int corr = 0) const
 {
   if (corr == 0)
@@ -270,10 +265,11 @@ cschalo/O
 globalHalo16/O
 hbhe/O
 hbheIso/O
+ecalDeadCell/O
 badsc/O
 badTrack/O
 badMuonTrack/O
-virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !badsc && !badTrack && !badMuonTrack; }
+virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !badTrack && !badMuonTrack; }
 
 [HLTBits:SINGLE]
 words[16]/i
@@ -286,7 +282,9 @@ lumiNumber/i
 eventNumber/i
 isData/O
 npv/I
-mcWeight/F
+npvTrue/I
+rho/F
+weight/F
 pfCandidates/PPFCandCollection(256)
 superClusters/PSuperClusterCollection(64)
 electrons/PElectronCollection(32)
@@ -297,7 +295,15 @@ jets/PJetCollection(64)
 fatJets/PFatJetCollection(8)
 genJets/PGenJetCollection(64)
 genParticles/PGenParticleCollection(128)
-met/PMET
+met/PRecoMET
+rawMet/PMET
+caloMet/PMET
+noMuMet/PMET
+noHFMet/PMET
+trkMet/PMET
+neutralMet/PMET
+photonMet/PMET
+hfMet/PMET
 metFilters/PMETFilters
 triggers/HLTBits
 electrons.superCluster->superClusters

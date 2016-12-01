@@ -22,12 +22,13 @@ namespace panda {
 
     void init() override;
 
-    virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !badsc && !badTrack && !badMuonTrack; }
+    virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !badTrack && !badMuonTrack; }
 
     Bool_t cschalo{};
     Bool_t globalHalo16{};
     Bool_t hbhe{};
     Bool_t hbheIso{};
+    Bool_t ecalDeadCell{};
     Bool_t badsc{};
     Bool_t badTrack{};
     Bool_t badMuonTrack{};

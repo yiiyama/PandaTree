@@ -12,6 +12,7 @@
 #include "PFatJet.h"
 #include "PGenJet.h"
 #include "PGenParticle.h"
+#include "PRecoMET.h"
 #include "PMET.h"
 #include "PMETFilters.h"
 #include "HLTBits.h"
@@ -37,7 +38,15 @@ namespace panda {
     PFatJetCollection fatJets = PFatJetCollection("fatJets", 8);
     PGenJetCollection genJets = PGenJetCollection("genJets", 64);
     PGenParticleCollection genParticles = PGenParticleCollection("genParticles", 128);
-    PMET met = PMET("met");
+    PRecoMET met = PRecoMET("met");
+    PMET rawMet = PMET("rawMet");
+    PMET caloMet = PMET("caloMet");
+    PMET noMuMet = PMET("noMuMet");
+    PMET noHFMet = PMET("noHFMet");
+    PMET trkMet = PMET("trkMet");
+    PMET neutralMet = PMET("neutralMet");
+    PMET photonMet = PMET("photonMet");
+    PMET hfMet = PMET("hfMet");
     PMETFilters metFilters = PMETFilters("metFilters");
     HLTBits triggers = HLTBits("triggers");
 
@@ -46,7 +55,9 @@ namespace panda {
     UInt_t eventNumber{};
     Bool_t isData{};
     Int_t npv{};
-    Float_t mcWeight{};
+    Int_t npvTrue{};
+    Float_t rho{};
+    Float_t weight{};
 
   protected:
     void doSetStatus_(TTree&, Bool_t, utils::BranchList const&) override;

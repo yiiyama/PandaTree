@@ -22,8 +22,11 @@ namespace panda {
       /* PParticleM
       Float_t* mass{0};
       */
-      Text_t const** q{0};
+      Short_t* q{0};
+      Bool_t* baseline{0};
       Bool_t* decayMode{0};
+      Bool_t* decayModeNew{0};
+      Float_t* iso{0};
       Float_t* isoDeltaBetaCorr{0};
 
       void allocate(UInt_t n) override;
@@ -60,8 +63,11 @@ namespace panda {
     /* PParticleM
     Float_t& mass;
     */
-    Text_t const*& q;
+    Short_t& q;
+    Bool_t& baseline;
     Bool_t& decayMode;
+    Bool_t& decayModeNew;
+    Float_t& iso;
     Float_t& isoDeltaBetaCorr;
 
     /* BEGIN CUSTOM */

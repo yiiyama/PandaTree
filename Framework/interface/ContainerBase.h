@@ -8,6 +8,7 @@
 #include "TTree.h"
 
 #include <vector>
+#include <functional>
 
 namespace panda {
 
@@ -25,6 +26,13 @@ namespace panda {
     virtual ContainerElement::datastore const& getData() const = 0;
     virtual ContainerElement& elemAt(UInt_t) = 0;
     virtual ContainerElement const& elemAt(UInt_t) const = 0;
+
+    typedef std::function<bool(ContainerElement const&, ContainerElement const&)> Comparison;
+    //! Sort the contents using a comparison function and returns an array of pre-sort indices
+    /*!
+      For example, if [p0, p1, p2] gets sorted to [p2, p0, p1], the returned array is [2, 0, 1]
+    */
+    virtual std::vector<UInt_t> sort(Comparison const&) = 0;
 
     void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"});
     void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE);

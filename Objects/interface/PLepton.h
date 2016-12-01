@@ -19,8 +19,9 @@ namespace panda {
       Float_t* eta{0};
       Float_t* phi{0};
       */
-      Text_t const** q{0};
+      Short_t* q{0};
       Bool_t* loose{0};
+      Bool_t* medium{0};
       Bool_t* tight{0};
       Float_t* chiso{0};
       Float_t* nhiso{0};
@@ -62,8 +63,9 @@ namespace panda {
     Float_t& eta;
     Float_t& phi;
     */
-    Text_t const*& q;
+    Short_t& q;
     Bool_t& loose;
+    Bool_t& medium;
     Bool_t& tight;
     Float_t& chiso;
     Float_t& nhiso;

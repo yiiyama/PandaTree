@@ -8,13 +8,15 @@ panda::PJet::datastore::allocate(UInt_t _nmax)
   rawPt = new Float_t[nmax_];
   ptCorrUp = new Float_t[nmax_];
   ptCorrDown = new Float_t[nmax_];
-  ptResCorr = new Float_t[nmax_];
-  phiResCorr = new Float_t[nmax_];
+  ptSmear = new Float_t[nmax_];
+  ptSmearUp = new Float_t[nmax_];
+  ptSmearDown = new Float_t[nmax_];
   csv = new Float_t[nmax_];
-  qgl = new Float_t[nmax_];
   nhf = new Float_t[nmax_];
   chf = new Float_t[nmax_];
-  id = new UInt_t[nmax_];
+  loose = new Bool_t[nmax_];
+  tight = new Bool_t[nmax_];
+  monojet = new Bool_t[nmax_];
   constituents_ = new std::vector<std::vector<UInt_t>>(nmax_);
 }
 
@@ -29,20 +31,24 @@ panda::PJet::datastore::deallocate()
   ptCorrUp = 0;
   delete [] ptCorrDown;
   ptCorrDown = 0;
-  delete [] ptResCorr;
-  ptResCorr = 0;
-  delete [] phiResCorr;
-  phiResCorr = 0;
+  delete [] ptSmear;
+  ptSmear = 0;
+  delete [] ptSmearUp;
+  ptSmearUp = 0;
+  delete [] ptSmearDown;
+  ptSmearDown = 0;
   delete [] csv;
   csv = 0;
-  delete [] qgl;
-  qgl = 0;
   delete [] nhf;
   nhf = 0;
   delete [] chf;
   chf = 0;
-  delete [] id;
-  id = 0;
+  delete [] loose;
+  loose = 0;
+  delete [] tight;
+  tight = 0;
+  delete [] monojet;
+  monojet = 0;
   delete constituents_;
   constituents_ = 0;
 }
@@ -55,13 +61,15 @@ panda::PJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _st
   utils::setStatus(_tree, _name, "rawPt", _status, _branches);
   utils::setStatus(_tree, _name, "ptCorrUp", _status, _branches);
   utils::setStatus(_tree, _name, "ptCorrDown", _status, _branches);
-  utils::setStatus(_tree, _name, "ptResCorr", _status, _branches);
-  utils::setStatus(_tree, _name, "phiResCorr", _status, _branches);
+  utils::setStatus(_tree, _name, "ptSmear", _status, _branches);
+  utils::setStatus(_tree, _name, "ptSmearUp", _status, _branches);
+  utils::setStatus(_tree, _name, "ptSmearDown", _status, _branches);
   utils::setStatus(_tree, _name, "csv", _status, _branches);
-  utils::setStatus(_tree, _name, "qgl", _status, _branches);
   utils::setStatus(_tree, _name, "nhf", _status, _branches);
   utils::setStatus(_tree, _name, "chf", _status, _branches);
-  utils::setStatus(_tree, _name, "id", _status, _branches);
+  utils::setStatus(_tree, _name, "loose", _status, _branches);
+  utils::setStatus(_tree, _name, "tight", _status, _branches);
+  utils::setStatus(_tree, _name, "monojet", _status, _branches);
   utils::setStatus(_tree, _name, "constituents_", _status, _branches);
 }
 
@@ -73,13 +81,15 @@ panda::PJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::Br
   utils::setAddress(_tree, _name, "rawPt", rawPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "ptCorrUp", ptCorrUp, _branches, _setStatus);
   utils::setAddress(_tree, _name, "ptCorrDown", ptCorrDown, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "ptResCorr", ptResCorr, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "phiResCorr", phiResCorr, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "ptSmear", ptSmear, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "ptSmearUp", ptSmearUp, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "ptSmearDown", ptSmearDown, _branches, _setStatus);
   utils::setAddress(_tree, _name, "csv", csv, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "qgl", qgl, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nhf", nhf, _branches, _setStatus);
   utils::setAddress(_tree, _name, "chf", chf, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "id", id, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "loose", loose, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "tight", tight, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "monojet", monojet, _branches, _setStatus);
   utils::setAddress(_tree, _name, "constituents_", &constituents_, _branches, _setStatus);
 }
 
@@ -93,13 +103,15 @@ panda::PJet::datastore::book(TTree& _tree, TString const& _name, utils::BranchLi
   utils::book(_tree, _name, "rawPt", size, 'F', rawPt, _branches);
   utils::book(_tree, _name, "ptCorrUp", size, 'F', ptCorrUp, _branches);
   utils::book(_tree, _name, "ptCorrDown", size, 'F', ptCorrDown, _branches);
-  utils::book(_tree, _name, "ptResCorr", size, 'F', ptResCorr, _branches);
-  utils::book(_tree, _name, "phiResCorr", size, 'F', phiResCorr, _branches);
+  utils::book(_tree, _name, "ptSmear", size, 'F', ptSmear, _branches);
+  utils::book(_tree, _name, "ptSmearUp", size, 'F', ptSmearUp, _branches);
+  utils::book(_tree, _name, "ptSmearDown", size, 'F', ptSmearDown, _branches);
   utils::book(_tree, _name, "csv", size, 'F', csv, _branches);
-  utils::book(_tree, _name, "qgl", size, 'F', qgl, _branches);
   utils::book(_tree, _name, "nhf", size, 'F', nhf, _branches);
   utils::book(_tree, _name, "chf", size, 'F', chf, _branches);
-  utils::book(_tree, _name, "id", size, 'i', id, _branches);
+  utils::book(_tree, _name, "loose", size, 'O', loose, _branches);
+  utils::book(_tree, _name, "tight", size, 'O', tight, _branches);
+  utils::book(_tree, _name, "monojet", size, 'O', monojet, _branches);
   utils::book(_tree, _name, "constituents_", "std::vector<std::vector<UInt_t>>", &constituents_, _branches);
 }
 
@@ -111,13 +123,15 @@ panda::PJet::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "rawPt");
   utils::resetAddress(_tree, _name, "ptCorrUp");
   utils::resetAddress(_tree, _name, "ptCorrDown");
-  utils::resetAddress(_tree, _name, "ptResCorr");
-  utils::resetAddress(_tree, _name, "phiResCorr");
+  utils::resetAddress(_tree, _name, "ptSmear");
+  utils::resetAddress(_tree, _name, "ptSmearUp");
+  utils::resetAddress(_tree, _name, "ptSmearDown");
   utils::resetAddress(_tree, _name, "csv");
-  utils::resetAddress(_tree, _name, "qgl");
   utils::resetAddress(_tree, _name, "nhf");
   utils::resetAddress(_tree, _name, "chf");
-  utils::resetAddress(_tree, _name, "id");
+  utils::resetAddress(_tree, _name, "loose");
+  utils::resetAddress(_tree, _name, "tight");
+  utils::resetAddress(_tree, _name, "monojet");
   utils::resetAddress(_tree, _name, "constituents_");
 }
 
@@ -134,13 +148,15 @@ panda::PJet::PJet(char const* _name/* = ""*/) :
   rawPt(gStore.getData(this).rawPt[0]),
   ptCorrUp(gStore.getData(this).ptCorrUp[0]),
   ptCorrDown(gStore.getData(this).ptCorrDown[0]),
-  ptResCorr(gStore.getData(this).ptResCorr[0]),
-  phiResCorr(gStore.getData(this).phiResCorr[0]),
+  ptSmear(gStore.getData(this).ptSmear[0]),
+  ptSmearUp(gStore.getData(this).ptSmearUp[0]),
+  ptSmearDown(gStore.getData(this).ptSmearDown[0]),
   csv(gStore.getData(this).csv[0]),
-  qgl(gStore.getData(this).qgl[0]),
   nhf(gStore.getData(this).nhf[0]),
   chf(gStore.getData(this).chf[0]),
-  id(gStore.getData(this).id[0]),
+  loose(gStore.getData(this).loose[0]),
+  tight(gStore.getData(this).tight[0]),
+  monojet(gStore.getData(this).monojet[0]),
   constituents((*gStore.getData(this).constituents_)[0])
 {
 }
@@ -150,13 +166,15 @@ panda::PJet::PJet(datastore& _data, UInt_t _idx) :
   rawPt(_data.rawPt[_idx]),
   ptCorrUp(_data.ptCorrUp[_idx]),
   ptCorrDown(_data.ptCorrDown[_idx]),
-  ptResCorr(_data.ptResCorr[_idx]),
-  phiResCorr(_data.phiResCorr[_idx]),
+  ptSmear(_data.ptSmear[_idx]),
+  ptSmearUp(_data.ptSmearUp[_idx]),
+  ptSmearDown(_data.ptSmearDown[_idx]),
   csv(_data.csv[_idx]),
-  qgl(_data.qgl[_idx]),
   nhf(_data.nhf[_idx]),
   chf(_data.chf[_idx]),
-  id(_data.id[_idx]),
+  loose(_data.loose[_idx]),
+  tight(_data.tight[_idx]),
+  monojet(_data.monojet[_idx]),
   constituents((*_data.constituents_)[_idx])
 {
 }
@@ -166,13 +184,15 @@ panda::PJet::PJet(PJet const& _src) :
   rawPt(gStore.getData(this).rawPt[0]),
   ptCorrUp(gStore.getData(this).ptCorrUp[0]),
   ptCorrDown(gStore.getData(this).ptCorrDown[0]),
-  ptResCorr(gStore.getData(this).ptResCorr[0]),
-  phiResCorr(gStore.getData(this).phiResCorr[0]),
+  ptSmear(gStore.getData(this).ptSmear[0]),
+  ptSmearUp(gStore.getData(this).ptSmearUp[0]),
+  ptSmearDown(gStore.getData(this).ptSmearDown[0]),
   csv(gStore.getData(this).csv[0]),
-  qgl(gStore.getData(this).qgl[0]),
   nhf(gStore.getData(this).nhf[0]),
   chf(gStore.getData(this).chf[0]),
-  id(gStore.getData(this).id[0]),
+  loose(gStore.getData(this).loose[0]),
+  tight(gStore.getData(this).tight[0]),
+  monojet(gStore.getData(this).monojet[0]),
   constituents((*gStore.getData(this).constituents_)[0])
 {
   PParticleM::operator=(_src);
@@ -180,13 +200,15 @@ panda::PJet::PJet(PJet const& _src) :
   rawPt = _src.rawPt;
   ptCorrUp = _src.ptCorrUp;
   ptCorrDown = _src.ptCorrDown;
-  ptResCorr = _src.ptResCorr;
-  phiResCorr = _src.phiResCorr;
+  ptSmear = _src.ptSmear;
+  ptSmearUp = _src.ptSmearUp;
+  ptSmearDown = _src.ptSmearDown;
   csv = _src.csv;
-  qgl = _src.qgl;
   nhf = _src.nhf;
   chf = _src.chf;
-  id = _src.id;
+  loose = _src.loose;
+  tight = _src.tight;
+  monojet = _src.monojet;
   constituents = _src.constituents;
 }
 
@@ -195,13 +217,15 @@ panda::PJet::PJet(ArrayBase* _array) :
   rawPt(gStore.getData(this).rawPt[0]),
   ptCorrUp(gStore.getData(this).ptCorrUp[0]),
   ptCorrDown(gStore.getData(this).ptCorrDown[0]),
-  ptResCorr(gStore.getData(this).ptResCorr[0]),
-  phiResCorr(gStore.getData(this).phiResCorr[0]),
+  ptSmear(gStore.getData(this).ptSmear[0]),
+  ptSmearUp(gStore.getData(this).ptSmearUp[0]),
+  ptSmearDown(gStore.getData(this).ptSmearDown[0]),
   csv(gStore.getData(this).csv[0]),
-  qgl(gStore.getData(this).qgl[0]),
   nhf(gStore.getData(this).nhf[0]),
   chf(gStore.getData(this).chf[0]),
-  id(gStore.getData(this).id[0]),
+  loose(gStore.getData(this).loose[0]),
+  tight(gStore.getData(this).tight[0]),
+  monojet(gStore.getData(this).monojet[0]),
   constituents((*gStore.getData(this).constituents_)[0])
 {
 }
@@ -219,13 +243,15 @@ panda::PJet::operator=(PJet const& _src)
   rawPt = _src.rawPt;
   ptCorrUp = _src.ptCorrUp;
   ptCorrDown = _src.ptCorrDown;
-  ptResCorr = _src.ptResCorr;
-  phiResCorr = _src.phiResCorr;
+  ptSmear = _src.ptSmear;
+  ptSmearUp = _src.ptSmearUp;
+  ptSmearDown = _src.ptSmearDown;
   csv = _src.csv;
-  qgl = _src.qgl;
   nhf = _src.nhf;
   chf = _src.chf;
-  id = _src.id;
+  loose = _src.loose;
+  tight = _src.tight;
+  monojet = _src.monojet;
   constituents = _src.constituents;
 
   return *this;
@@ -241,13 +267,15 @@ panda::PJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _b
   utils::setStatus(_tree, name, "rawPt", _status, _branches);
   utils::setStatus(_tree, name, "ptCorrUp", _status, _branches);
   utils::setStatus(_tree, name, "ptCorrDown", _status, _branches);
-  utils::setStatus(_tree, name, "ptResCorr", _status, _branches);
-  utils::setStatus(_tree, name, "phiResCorr", _status, _branches);
+  utils::setStatus(_tree, name, "ptSmear", _status, _branches);
+  utils::setStatus(_tree, name, "ptSmearUp", _status, _branches);
+  utils::setStatus(_tree, name, "ptSmearDown", _status, _branches);
   utils::setStatus(_tree, name, "csv", _status, _branches);
-  utils::setStatus(_tree, name, "qgl", _status, _branches);
   utils::setStatus(_tree, name, "nhf", _status, _branches);
   utils::setStatus(_tree, name, "chf", _status, _branches);
-  utils::setStatus(_tree, name, "id", _status, _branches);
+  utils::setStatus(_tree, name, "loose", _status, _branches);
+  utils::setStatus(_tree, name, "tight", _status, _branches);
+  utils::setStatus(_tree, name, "monojet", _status, _branches);
   utils::setStatus(_tree, name, "constituents_", _status, _branches);
 }
 
@@ -261,13 +289,15 @@ panda::PJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*
   utils::setAddress(_tree, name, "rawPt", &rawPt, _branches, _setStatus);
   utils::setAddress(_tree, name, "ptCorrUp", &ptCorrUp, _branches, _setStatus);
   utils::setAddress(_tree, name, "ptCorrDown", &ptCorrDown, _branches, _setStatus);
-  utils::setAddress(_tree, name, "ptResCorr", &ptResCorr, _branches, _setStatus);
-  utils::setAddress(_tree, name, "phiResCorr", &phiResCorr, _branches, _setStatus);
+  utils::setAddress(_tree, name, "ptSmear", &ptSmear, _branches, _setStatus);
+  utils::setAddress(_tree, name, "ptSmearUp", &ptSmearUp, _branches, _setStatus);
+  utils::setAddress(_tree, name, "ptSmearDown", &ptSmearDown, _branches, _setStatus);
   utils::setAddress(_tree, name, "csv", &csv, _branches, _setStatus);
-  utils::setAddress(_tree, name, "qgl", &qgl, _branches, _setStatus);
   utils::setAddress(_tree, name, "nhf", &nhf, _branches, _setStatus);
   utils::setAddress(_tree, name, "chf", &chf, _branches, _setStatus);
-  utils::setAddress(_tree, name, "id", &id, _branches, _setStatus);
+  utils::setAddress(_tree, name, "loose", &loose, _branches, _setStatus);
+  utils::setAddress(_tree, name, "tight", &tight, _branches, _setStatus);
+  utils::setAddress(_tree, name, "monojet", &monojet, _branches, _setStatus);
   utils::setAddress(_tree, name, "constituents_", &constituents.indices(), _branches, true);
 }
 
@@ -281,13 +311,15 @@ panda::PJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
   utils::book(_tree, name, "rawPt", "", 'F', &rawPt, _branches);
   utils::book(_tree, name, "ptCorrUp", "", 'F', &ptCorrUp, _branches);
   utils::book(_tree, name, "ptCorrDown", "", 'F', &ptCorrDown, _branches);
-  utils::book(_tree, name, "ptResCorr", "", 'F', &ptResCorr, _branches);
-  utils::book(_tree, name, "phiResCorr", "", 'F', &phiResCorr, _branches);
+  utils::book(_tree, name, "ptSmear", "", 'F', &ptSmear, _branches);
+  utils::book(_tree, name, "ptSmearUp", "", 'F', &ptSmearUp, _branches);
+  utils::book(_tree, name, "ptSmearDown", "", 'F', &ptSmearDown, _branches);
   utils::book(_tree, name, "csv", "", 'F', &csv, _branches);
-  utils::book(_tree, name, "qgl", "", 'F', &qgl, _branches);
   utils::book(_tree, name, "nhf", "", 'F', &nhf, _branches);
   utils::book(_tree, name, "chf", "", 'F', &chf, _branches);
-  utils::book(_tree, name, "id", "", 'i', &id, _branches);
+  utils::book(_tree, name, "loose", "", 'O', &loose, _branches);
+  utils::book(_tree, name, "tight", "", 'O', &tight, _branches);
+  utils::book(_tree, name, "monojet", "", 'O', &monojet, _branches);
   utils::book(_tree, name, "constituents_", "std::vector<UInt_t>", &constituents.indices(), _branches);
 }
 
@@ -301,13 +333,15 @@ panda::PJet::resetAddress(TTree& _tree)
   utils::resetAddress(_tree, name, "rawPt");
   utils::resetAddress(_tree, name, "ptCorrUp");
   utils::resetAddress(_tree, name, "ptCorrDown");
-  utils::resetAddress(_tree, name, "ptResCorr");
-  utils::resetAddress(_tree, name, "phiResCorr");
+  utils::resetAddress(_tree, name, "ptSmear");
+  utils::resetAddress(_tree, name, "ptSmearUp");
+  utils::resetAddress(_tree, name, "ptSmearDown");
   utils::resetAddress(_tree, name, "csv");
-  utils::resetAddress(_tree, name, "qgl");
   utils::resetAddress(_tree, name, "nhf");
   utils::resetAddress(_tree, name, "chf");
-  utils::resetAddress(_tree, name, "id");
+  utils::resetAddress(_tree, name, "loose");
+  utils::resetAddress(_tree, name, "tight");
+  utils::resetAddress(_tree, name, "monojet");
   utils::resetAddress(_tree, name, "constituents_");
 }
 
@@ -319,13 +353,15 @@ panda::PJet::init()
   rawPt = 0.;
   ptCorrUp = 0.;
   ptCorrDown = 0.;
-  ptResCorr = 0.;
-  phiResCorr = 0.;
+  ptSmear = 0.;
+  ptSmearUp = 0.;
+  ptSmearDown = 0.;
   csv = 0.;
-  qgl = 0.;
   nhf = 0.;
   chf = 0.;
-  id = 0;
+  loose = false;
+  tight = false;
+  monojet = false;
   constituents.init();
 }
 

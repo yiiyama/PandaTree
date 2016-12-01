@@ -26,13 +26,15 @@ namespace panda {
       Float_t* rawPt{0};
       Float_t* ptCorrUp{0};
       Float_t* ptCorrDown{0};
-      Float_t* ptResCorr{0};
-      Float_t* phiResCorr{0};
+      Float_t* ptSmear{0};
+      Float_t* ptSmearUp{0};
+      Float_t* ptSmearDown{0};
       Float_t* csv{0};
-      Float_t* qgl{0};
       Float_t* nhf{0};
       Float_t* chf{0};
-      UInt_t* id{0};
+      Bool_t* loose{0};
+      Bool_t* tight{0};
+      Bool_t* monojet{0};
       std::vector<std::vector<UInt_t>>* constituents_{0};
 
       void allocate(UInt_t n) override;
@@ -72,13 +74,15 @@ namespace panda {
     Float_t& rawPt;
     Float_t& ptCorrUp;
     Float_t& ptCorrDown;
-    Float_t& ptResCorr;
-    Float_t& phiResCorr;
+    Float_t& ptSmear;
+    Float_t& ptSmearUp;
+    Float_t& ptSmearDown;
     Float_t& csv;
-    Float_t& qgl;
     Float_t& nhf;
     Float_t& chf;
-    UInt_t& id;
+    Bool_t& loose;
+    Bool_t& tight;
+    Bool_t& monojet;
     RefVector<PPFCand> constituents;
 
     /* BEGIN CUSTOM */

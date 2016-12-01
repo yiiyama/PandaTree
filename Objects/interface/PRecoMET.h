@@ -29,32 +29,20 @@ namespace panda {
     Float_t phi{};
     */
     Float_t sumETRaw{};
-    Float_t raw_pt{};
-    Float_t raw_phi{};
-    Float_t calo_pt{};
-    Float_t calo_phi{};
-    Float_t noMu_pt{};
-    Float_t noMu_phi{};
-    Float_t noHF_pt{};
-    Float_t noHF_phi{};
-    Float_t trk_pt{};
-    Float_t trk_phi{};
-    Float_t neutral_pt{};
-    Float_t neutral_phi{};
-    Float_t photon_pt{};
-    Float_t photon_phi{};
-    Float_t hf_pt{};
-    Float_t hf_phi{};
     Float_t ptCorrUp{};
     Float_t phiCorrUp{};
     Float_t ptCorrDown{};
     Float_t phiCorrDown{};
-    Float_t ptJetRes{};
-    Float_t phiJetRes{};
     Float_t ptUnclUp{};
     Float_t phiUnclUp{};
     Float_t ptUnclDown{};
     Float_t phiUnclDown{};
+    Float_t ptSmear{};
+    Float_t phiSmear{};
+    Float_t ptSmearUp{};
+    Float_t phiSmearUp{};
+    Float_t ptSmearDown{};
+    Float_t phiSmearDown{};
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */

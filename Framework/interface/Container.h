@@ -7,6 +7,7 @@
 
 #include <stdexcept>
 #include <memory>
+#include <set>
 #include <type_traits>
 
 namespace panda {
@@ -72,12 +73,14 @@ namespace panda {
     template<Bool_t T = FIXED>
     typename std::enable_if<!T>::type push_back(const_reference);
     template<Bool_t T = FIXED>
-    typename std::enable_if<!T, reference>::type create_back() { resize(max_() + 1); return back(); }
+    typename std::enable_if<!T, reference>::type create_back() { CollectionBase::resize(max_() + 1); return back(); }
 
     ContainerElement::datastore& getData() override { return data; }
     ContainerElement::datastore const& getData() const override { return data; }
     ContainerElement& elemAt(UInt_t idx) override { return at(idx); }
     ContainerElement const& elemAt(UInt_t idx) const override { return at(idx); }
+
+    std::vector<UInt_t> sort(ContainerBase::Comparison const&) override;
 
     typename value_type::datastore data{};
 
@@ -171,7 +174,7 @@ namespace panda {
     if (_src.getData().nmax() != getData().nmax())
       reallocate_(_src.getData().nmax());
     
-    for (unsigned iP(0); iP != max_(); ++iP)
+    for (UInt_t iP(0); iP != max_(); ++iP)
       (*this)[iP] = _src[iP];
 
     setName(_src.name_);
@@ -187,7 +190,7 @@ namespace panda {
 
     resize(_src.size_);
     
-    for (unsigned iP(0); iP != max_(); ++iP)
+    for (UInt_t iP(0); iP != max_(); ++iP)
       (*this)[iP] = _src[iP];
 
     setName(_src.name_);
@@ -208,6 +211,28 @@ namespace panda {
     ++CollectionBase::size_;
   }
 
+  template<class E, Bool_t FIXED>
+  std::vector<UInt_t>
+  Container<E, FIXED>::sort(ContainerBase::Comparison const& _c)
+  {
+    // define an index comparison using the element comparison
+    auto indexComp([this, &_c](UInt_t i1, UInt_t i2)->Bool_t {
+        return _c((*this)[i1], (*this)[i2]);
+      });
+
+    std::vector<UInt_t> sortedIndices(max_());
+    for (UInt_t iP(0); iP != max_(); ++iP)
+      sortedIndices[iP] = iP;
+
+    std::sort(sortedIndices.begin(), sortedIndices.end(), indexComp);
+
+    self_type tmpCollection(*this);
+    for (UInt_t iP(0); iP != max_(); ++iP)
+      (*this)[iP] = tmpCollection[sortedIndices[iP]];
+
+    return sortedIndices;
+  }
+
   /*private*/
   template<class E, Bool_t FIXED>
   void
@@ -218,7 +243,7 @@ namespace panda {
     ContainerBase::array_ = reinterpret_cast<Char_t*>(std::allocator<value_type>().allocate(data.nmax()));
 
     pointer p(addr_());
-    for (unsigned iP(0); iP != data.nmax(); ++iP, ++p)
+    for (UInt_t iP(0); iP != data.nmax(); ++iP, ++p)
       new (p) value_type(data, iP);
   }
 
@@ -250,7 +275,7 @@ namespace panda {
       allocate_(_nmax);
 
       // copy old values
-      for (unsigned iP(0); iP != max_(); ++iP)
+      for (UInt_t iP(0); iP != max_(); ++iP)
         (*this)[iP] = tmpArray[iP];
 
       // deallocate old space
