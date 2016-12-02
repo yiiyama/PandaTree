@@ -19,8 +19,13 @@ panda::Event::Event(Event const& _src) :
   muons(_src.muons),
   taus(_src.taus),
   photons(_src.photons),
-  jets(_src.jets),
-  fatJets(_src.fatJets),
+  chsAK4(_src.chsAK4),
+  puppiAK4(_src.puppiAK4),
+  chsAK8(_src.chsAK8),
+  chsCA15(_src.chsCA15),
+  puppiAK8(_src.puppiAK8),
+  puppiCA15(_src.puppiCA15),
+  subjets(_src.subjets),
   genJets(_src.genJets),
   genParticles(_src.genParticles),
   met(_src.met),
@@ -82,8 +87,13 @@ panda::Event::init()
   muons.init();
   taus.init();
   photons.init();
-  jets.init();
-  fatJets.init();
+  chsAK4.init();
+  puppiAK4.init();
+  chsAK8.init();
+  chsCA15.init();
+  puppiAK8.init();
+  puppiCA15.init();
+  subjets.init();
   genJets.init();
   genParticles.init();
   met.init();
@@ -117,8 +127,13 @@ panda::Event::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const
   muons.setStatus(_tree, _status, _branches.subList("muons"));
   taus.setStatus(_tree, _status, _branches.subList("taus"));
   photons.setStatus(_tree, _status, _branches.subList("photons"));
-  jets.setStatus(_tree, _status, _branches.subList("jets"));
-  fatJets.setStatus(_tree, _status, _branches.subList("fatJets"));
+  chsAK4.setStatus(_tree, _status, _branches.subList("chsAK4"));
+  puppiAK4.setStatus(_tree, _status, _branches.subList("puppiAK4"));
+  chsAK8.setStatus(_tree, _status, _branches.subList("chsAK8"));
+  chsCA15.setStatus(_tree, _status, _branches.subList("chsCA15"));
+  puppiAK8.setStatus(_tree, _status, _branches.subList("puppiAK8"));
+  puppiCA15.setStatus(_tree, _status, _branches.subList("puppiCA15"));
+  subjets.setStatus(_tree, _status, _branches.subList("subjets"));
   genJets.setStatus(_tree, _status, _branches.subList("genJets"));
   genParticles.setStatus(_tree, _status, _branches.subList("genParticles"));
   met.setStatus(_tree, _status, _branches.subList("met"));
@@ -152,8 +167,13 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
   muons.setAddress(_tree, _branches.subList("muons"), _setStatus);
   taus.setAddress(_tree, _branches.subList("taus"), _setStatus);
   photons.setAddress(_tree, _branches.subList("photons"), _setStatus);
-  jets.setAddress(_tree, _branches.subList("jets"), _setStatus);
-  fatJets.setAddress(_tree, _branches.subList("fatJets"), _setStatus);
+  chsAK4.setAddress(_tree, _branches.subList("chsAK4"), _setStatus);
+  puppiAK4.setAddress(_tree, _branches.subList("puppiAK4"), _setStatus);
+  chsAK8.setAddress(_tree, _branches.subList("chsAK8"), _setStatus);
+  chsCA15.setAddress(_tree, _branches.subList("chsCA15"), _setStatus);
+  puppiAK8.setAddress(_tree, _branches.subList("puppiAK8"), _setStatus);
+  puppiCA15.setAddress(_tree, _branches.subList("puppiCA15"), _setStatus);
+  subjets.setAddress(_tree, _branches.subList("subjets"), _setStatus);
   genJets.setAddress(_tree, _branches.subList("genJets"), _setStatus);
   genParticles.setAddress(_tree, _branches.subList("genParticles"), _setStatus);
   met.setAddress(_tree, _branches.subList("met"), _setStatus);
@@ -189,10 +209,20 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
     sizeBranches_.push_back(_tree.GetBranch("taus.size"));
   if (_tree.GetBranchStatus("photons.size"))
     sizeBranches_.push_back(_tree.GetBranch("photons.size"));
-  if (_tree.GetBranchStatus("jets.size"))
-    sizeBranches_.push_back(_tree.GetBranch("jets.size"));
-  if (_tree.GetBranchStatus("fatJets.size"))
-    sizeBranches_.push_back(_tree.GetBranch("fatJets.size"));
+  if (_tree.GetBranchStatus("chsAK4.size"))
+    sizeBranches_.push_back(_tree.GetBranch("chsAK4.size"));
+  if (_tree.GetBranchStatus("puppiAK4.size"))
+    sizeBranches_.push_back(_tree.GetBranch("puppiAK4.size"));
+  if (_tree.GetBranchStatus("chsAK8.size"))
+    sizeBranches_.push_back(_tree.GetBranch("chsAK8.size"));
+  if (_tree.GetBranchStatus("chsCA15.size"))
+    sizeBranches_.push_back(_tree.GetBranch("chsCA15.size"));
+  if (_tree.GetBranchStatus("puppiAK8.size"))
+    sizeBranches_.push_back(_tree.GetBranch("puppiAK8.size"));
+  if (_tree.GetBranchStatus("puppiCA15.size"))
+    sizeBranches_.push_back(_tree.GetBranch("puppiCA15.size"));
+  if (_tree.GetBranchStatus("subjets.size"))
+    sizeBranches_.push_back(_tree.GetBranch("subjets.size"));
   if (_tree.GetBranchStatus("genJets.size"))
     sizeBranches_.push_back(_tree.GetBranch("genJets.size"));
   if (_tree.GetBranchStatus("genParticles.size"))
@@ -209,8 +239,13 @@ panda::Event::doBook_(TTree& _tree, utils::BranchList const& _branches)
   muons.book(_tree, _branches.subList("muons"));
   taus.book(_tree, _branches.subList("taus"));
   photons.book(_tree, _branches.subList("photons"));
-  jets.book(_tree, _branches.subList("jets"));
-  fatJets.book(_tree, _branches.subList("fatJets"));
+  chsAK4.book(_tree, _branches.subList("chsAK4"));
+  puppiAK4.book(_tree, _branches.subList("puppiAK4"));
+  chsAK8.book(_tree, _branches.subList("chsAK8"));
+  chsCA15.book(_tree, _branches.subList("chsCA15"));
+  puppiAK8.book(_tree, _branches.subList("puppiAK8"));
+  puppiCA15.book(_tree, _branches.subList("puppiCA15"));
+  subjets.book(_tree, _branches.subList("subjets"));
   genJets.book(_tree, _branches.subList("genJets"));
   genParticles.book(_tree, _branches.subList("genParticles"));
   met.book(_tree, _branches.subList("met"));
@@ -244,8 +279,13 @@ panda::Event::doReleaseTree_(TTree& _tree)
   muons.releaseTree(_tree);
   taus.releaseTree(_tree);
   photons.releaseTree(_tree);
-  jets.releaseTree(_tree);
-  fatJets.releaseTree(_tree);
+  chsAK4.releaseTree(_tree);
+  puppiAK4.releaseTree(_tree);
+  chsAK8.releaseTree(_tree);
+  chsCA15.releaseTree(_tree);
+  puppiAK8.releaseTree(_tree);
+  puppiCA15.releaseTree(_tree);
+  subjets.releaseTree(_tree);
   genJets.releaseTree(_tree);
   genParticles.releaseTree(_tree);
   met.resetAddress(_tree);
@@ -274,8 +314,13 @@ panda::Event::adjustCollectionSizes_()
   muons.resize(muons.size());
   taus.resize(taus.size());
   photons.resize(photons.size());
-  jets.resize(jets.size());
-  fatJets.resize(fatJets.size());
+  chsAK4.resize(chsAK4.size());
+  puppiAK4.resize(puppiAK4.size());
+  chsAK8.resize(chsAK8.size());
+  chsCA15.resize(chsCA15.size());
+  puppiAK8.resize(puppiAK8.size());
+  puppiCA15.resize(puppiCA15.size());
+  subjets.resize(subjets.size());
   genJets.resize(genJets.size());
   genParticles.resize(genParticles.size());
 }

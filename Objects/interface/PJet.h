@@ -30,6 +30,7 @@ namespace panda {
       Float_t* ptSmearUp{0};
       Float_t* ptSmearDown{0};
       Float_t* csv{0};
+      Float_t* qgl{0};
       Float_t* nhf{0};
       Float_t* chf{0};
       Bool_t* loose{0};
@@ -78,6 +79,7 @@ namespace panda {
     Float_t& ptSmearUp;
     Float_t& ptSmearDown;
     Float_t& csv;
+    Float_t& qgl;
     Float_t& nhf;
     Float_t& chf;
     Bool_t& loose;

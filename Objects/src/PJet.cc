@@ -12,6 +12,7 @@ panda::PJet::datastore::allocate(UInt_t _nmax)
   ptSmearUp = new Float_t[nmax_];
   ptSmearDown = new Float_t[nmax_];
   csv = new Float_t[nmax_];
+  qgl = new Float_t[nmax_];
   nhf = new Float_t[nmax_];
   chf = new Float_t[nmax_];
   loose = new Bool_t[nmax_];
@@ -39,6 +40,8 @@ panda::PJet::datastore::deallocate()
   ptSmearDown = 0;
   delete [] csv;
   csv = 0;
+  delete [] qgl;
+  qgl = 0;
   delete [] nhf;
   nhf = 0;
   delete [] chf;
@@ -65,6 +68,7 @@ panda::PJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _st
   utils::setStatus(_tree, _name, "ptSmearUp", _status, _branches);
   utils::setStatus(_tree, _name, "ptSmearDown", _status, _branches);
   utils::setStatus(_tree, _name, "csv", _status, _branches);
+  utils::setStatus(_tree, _name, "qgl", _status, _branches);
   utils::setStatus(_tree, _name, "nhf", _status, _branches);
   utils::setStatus(_tree, _name, "chf", _status, _branches);
   utils::setStatus(_tree, _name, "loose", _status, _branches);
@@ -85,6 +89,7 @@ panda::PJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::Br
   utils::setAddress(_tree, _name, "ptSmearUp", ptSmearUp, _branches, _setStatus);
   utils::setAddress(_tree, _name, "ptSmearDown", ptSmearDown, _branches, _setStatus);
   utils::setAddress(_tree, _name, "csv", csv, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "qgl", qgl, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nhf", nhf, _branches, _setStatus);
   utils::setAddress(_tree, _name, "chf", chf, _branches, _setStatus);
   utils::setAddress(_tree, _name, "loose", loose, _branches, _setStatus);
@@ -107,6 +112,7 @@ panda::PJet::datastore::book(TTree& _tree, TString const& _name, utils::BranchLi
   utils::book(_tree, _name, "ptSmearUp", size, 'F', ptSmearUp, _branches);
   utils::book(_tree, _name, "ptSmearDown", size, 'F', ptSmearDown, _branches);
   utils::book(_tree, _name, "csv", size, 'F', csv, _branches);
+  utils::book(_tree, _name, "qgl", size, 'F', qgl, _branches);
   utils::book(_tree, _name, "nhf", size, 'F', nhf, _branches);
   utils::book(_tree, _name, "chf", size, 'F', chf, _branches);
   utils::book(_tree, _name, "loose", size, 'O', loose, _branches);
@@ -127,6 +133,7 @@ panda::PJet::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "ptSmearUp");
   utils::resetAddress(_tree, _name, "ptSmearDown");
   utils::resetAddress(_tree, _name, "csv");
+  utils::resetAddress(_tree, _name, "qgl");
   utils::resetAddress(_tree, _name, "nhf");
   utils::resetAddress(_tree, _name, "chf");
   utils::resetAddress(_tree, _name, "loose");
@@ -152,6 +159,7 @@ panda::PJet::PJet(char const* _name/* = ""*/) :
   ptSmearUp(gStore.getData(this).ptSmearUp[0]),
   ptSmearDown(gStore.getData(this).ptSmearDown[0]),
   csv(gStore.getData(this).csv[0]),
+  qgl(gStore.getData(this).qgl[0]),
   nhf(gStore.getData(this).nhf[0]),
   chf(gStore.getData(this).chf[0]),
   loose(gStore.getData(this).loose[0]),
@@ -170,6 +178,7 @@ panda::PJet::PJet(datastore& _data, UInt_t _idx) :
   ptSmearUp(_data.ptSmearUp[_idx]),
   ptSmearDown(_data.ptSmearDown[_idx]),
   csv(_data.csv[_idx]),
+  qgl(_data.qgl[_idx]),
   nhf(_data.nhf[_idx]),
   chf(_data.chf[_idx]),
   loose(_data.loose[_idx]),
@@ -188,6 +197,7 @@ panda::PJet::PJet(PJet const& _src) :
   ptSmearUp(gStore.getData(this).ptSmearUp[0]),
   ptSmearDown(gStore.getData(this).ptSmearDown[0]),
   csv(gStore.getData(this).csv[0]),
+  qgl(gStore.getData(this).qgl[0]),
   nhf(gStore.getData(this).nhf[0]),
   chf(gStore.getData(this).chf[0]),
   loose(gStore.getData(this).loose[0]),
@@ -204,6 +214,7 @@ panda::PJet::PJet(PJet const& _src) :
   ptSmearUp = _src.ptSmearUp;
   ptSmearDown = _src.ptSmearDown;
   csv = _src.csv;
+  qgl = _src.qgl;
   nhf = _src.nhf;
   chf = _src.chf;
   loose = _src.loose;
@@ -221,6 +232,7 @@ panda::PJet::PJet(ArrayBase* _array) :
   ptSmearUp(gStore.getData(this).ptSmearUp[0]),
   ptSmearDown(gStore.getData(this).ptSmearDown[0]),
   csv(gStore.getData(this).csv[0]),
+  qgl(gStore.getData(this).qgl[0]),
   nhf(gStore.getData(this).nhf[0]),
   chf(gStore.getData(this).chf[0]),
   loose(gStore.getData(this).loose[0]),
@@ -247,6 +259,7 @@ panda::PJet::operator=(PJet const& _src)
   ptSmearUp = _src.ptSmearUp;
   ptSmearDown = _src.ptSmearDown;
   csv = _src.csv;
+  qgl = _src.qgl;
   nhf = _src.nhf;
   chf = _src.chf;
   loose = _src.loose;
@@ -271,6 +284,7 @@ panda::PJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _b
   utils::setStatus(_tree, name, "ptSmearUp", _status, _branches);
   utils::setStatus(_tree, name, "ptSmearDown", _status, _branches);
   utils::setStatus(_tree, name, "csv", _status, _branches);
+  utils::setStatus(_tree, name, "qgl", _status, _branches);
   utils::setStatus(_tree, name, "nhf", _status, _branches);
   utils::setStatus(_tree, name, "chf", _status, _branches);
   utils::setStatus(_tree, name, "loose", _status, _branches);
@@ -293,6 +307,7 @@ panda::PJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*
   utils::setAddress(_tree, name, "ptSmearUp", &ptSmearUp, _branches, _setStatus);
   utils::setAddress(_tree, name, "ptSmearDown", &ptSmearDown, _branches, _setStatus);
   utils::setAddress(_tree, name, "csv", &csv, _branches, _setStatus);
+  utils::setAddress(_tree, name, "qgl", &qgl, _branches, _setStatus);
   utils::setAddress(_tree, name, "nhf", &nhf, _branches, _setStatus);
   utils::setAddress(_tree, name, "chf", &chf, _branches, _setStatus);
   utils::setAddress(_tree, name, "loose", &loose, _branches, _setStatus);
@@ -315,6 +330,7 @@ panda::PJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
   utils::book(_tree, name, "ptSmearUp", "", 'F', &ptSmearUp, _branches);
   utils::book(_tree, name, "ptSmearDown", "", 'F', &ptSmearDown, _branches);
   utils::book(_tree, name, "csv", "", 'F', &csv, _branches);
+  utils::book(_tree, name, "qgl", "", 'F', &qgl, _branches);
   utils::book(_tree, name, "nhf", "", 'F', &nhf, _branches);
   utils::book(_tree, name, "chf", "", 'F', &chf, _branches);
   utils::book(_tree, name, "loose", "", 'O', &loose, _branches);
@@ -337,6 +353,7 @@ panda::PJet::resetAddress(TTree& _tree)
   utils::resetAddress(_tree, name, "ptSmearUp");
   utils::resetAddress(_tree, name, "ptSmearDown");
   utils::resetAddress(_tree, name, "csv");
+  utils::resetAddress(_tree, name, "qgl");
   utils::resetAddress(_tree, name, "nhf");
   utils::resetAddress(_tree, name, "chf");
   utils::resetAddress(_tree, name, "loose");
@@ -357,6 +374,7 @@ panda::PJet::init()
   ptSmearUp = 0.;
   ptSmearDown = 0.;
   csv = 0.;
+  qgl = 0.;
   nhf = 0.;
   chf = 0.;
   loose = false;

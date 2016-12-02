@@ -34,8 +34,13 @@ namespace panda {
     PMuonCollection muons = PMuonCollection("muons", 32);
     PTauCollection taus = PTauCollection("taus", 64);
     PPhotonCollection photons = PPhotonCollection("photons", 32);
-    PJetCollection jets = PJetCollection("jets", 64);
-    PFatJetCollection fatJets = PFatJetCollection("fatJets", 8);
+    PJetCollection chsAK4 = PJetCollection("chsAK4", 64);
+    PJetCollection puppiAK4 = PJetCollection("puppiAK4", 64);
+    PFatJetCollection chsAK8 = PFatJetCollection("chsAK8", 8);
+    PFatJetCollection chsCA15 = PFatJetCollection("chsCA15", 8);
+    PFatJetCollection puppiAK8 = PFatJetCollection("puppiAK8", 8);
+    PFatJetCollection puppiCA15 = PFatJetCollection("puppiCA15", 8);
+    PJetCollection subjets = PJetCollection("subjets", 64);
     PGenJetCollection genJets = PGenJetCollection("genJets", 64);
     PGenParticleCollection genParticles = PGenParticleCollection("genParticles", 128);
     PRecoMET met = PRecoMET("met");

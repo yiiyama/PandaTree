@@ -180,6 +180,7 @@ ptSmear/F
 ptSmearUp/F
 ptSmearDown/F
 csv/F
+qgl/F
 nhf/F
 chf/F
 loose/O
@@ -195,23 +196,22 @@ mSD/F
 tau1SD/F = -1.
 tau2SD/F = -1.
 tau3SD/F = -1.
-qgl/F
 htt_mass/F
 htt_frec/F
 ecfs[3][4][4]/F
 subjets/PJetRefVector
-float get_ecf(short o_, short N_, int ib_) const
+double get_ecf(int o_, int N_, int ib_) const
 {
   if (o_<1 || o_>3 || N_<1 || N_>4 || ib_<0 || ib_>3) 
-    return -1;
+    return -1.;
   return ecfs[o_-1][N_-1][ib_];
 }
-int set_ecf(int o_, int N_, int ib_, float x_)
+bool set_ecf(int o_, int N_, int ib_, float x_)
 {
   if (o_<1 || o_>3 || N_<1 || N_>4 || ib_<0 || ib_>3) 
-    return 1;
+    return false;
   ecfs[o_-1][N_-1][ib_] = x_;
-  return 0;
+  return true;
 }
 
 [PGenJet>PParticleM]
@@ -291,8 +291,13 @@ electrons/PElectronCollection(32)
 muons/PMuonCollection(32)
 taus/PTauCollection(64)
 photons/PPhotonCollection(32)
-jets/PJetCollection(64)
-fatJets/PFatJetCollection(8)
+chsAK4/PJetCollection(64)
+puppiAK4/PJetCollection(64)
+chsAK8/PFatJetCollection(8)
+chsCA15/PFatJetCollection(8)
+puppiAK8/PFatJetCollection(8)
+puppiCA15/PFatJetCollection(8)
+subjets/PJetCollection(64)
 genJets/PGenJetCollection(64)
 genParticles/PGenParticleCollection(128)
 met/PRecoMET

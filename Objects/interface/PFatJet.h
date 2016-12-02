@@ -30,6 +30,7 @@ namespace panda {
       Float_t* ptSmearUp{0};
       Float_t* ptSmearDown{0};
       Float_t* csv{0};
+      Float_t* qgl{0};
       Float_t* nhf{0};
       Float_t* chf{0};
       Bool_t* loose{0};
@@ -44,7 +45,6 @@ namespace panda {
       Float_t* tau1SD{0};
       Float_t* tau2SD{0};
       Float_t* tau3SD{0};
-      Float_t* qgl{0};
       Float_t* htt_mass{0};
       Float_t* htt_frec{0};
       Float_t (*ecfs)[3][4][4]{0};
@@ -76,8 +76,8 @@ namespace panda {
 
     void init() override;
 
-    float get_ecf(short o_, short N_, int ib_) const;
-    int set_ecf(int o_, int N_, int ib_, float x_);
+    double get_ecf(int o_, int N_, int ib_) const;
+    bool set_ecf(int o_, int N_, int ib_, float x_);
 
     /* PParticle
     Float_t& pt;
@@ -95,6 +95,7 @@ namespace panda {
     Float_t& ptSmearUp;
     Float_t& ptSmearDown;
     Float_t& csv;
+    Float_t& qgl;
     Float_t& nhf;
     Float_t& chf;
     Bool_t& loose;
@@ -109,7 +110,6 @@ namespace panda {
     Float_t& tau1SD;
     Float_t& tau2SD;
     Float_t& tau3SD;
-    Float_t& qgl;
     Float_t& htt_mass;
     Float_t& htt_frec;
     Float_t (&ecfs)[3][4][4];
