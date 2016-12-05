@@ -18,6 +18,7 @@ panda::PJet::datastore::allocate(UInt_t _nmax)
   loose = new Bool_t[nmax_];
   tight = new Bool_t[nmax_];
   monojet = new Bool_t[nmax_];
+  matchedGenJet_ = new UInt_t[nmax_];
   constituents_ = new std::vector<std::vector<UInt_t>>(nmax_);
 }
 
@@ -52,6 +53,8 @@ panda::PJet::datastore::deallocate()
   tight = 0;
   delete [] monojet;
   monojet = 0;
+  delete [] matchedGenJet_;
+  matchedGenJet_ = 0;
   delete constituents_;
   constituents_ = 0;
 }
@@ -74,6 +77,7 @@ panda::PJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _st
   utils::setStatus(_tree, _name, "loose", _status, _branches);
   utils::setStatus(_tree, _name, "tight", _status, _branches);
   utils::setStatus(_tree, _name, "monojet", _status, _branches);
+  utils::setStatus(_tree, _name, "matchedGenJet_", _status, _branches);
   utils::setStatus(_tree, _name, "constituents_", _status, _branches);
 }
 
@@ -95,6 +99,7 @@ panda::PJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::Br
   utils::setAddress(_tree, _name, "loose", loose, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tight", tight, _branches, _setStatus);
   utils::setAddress(_tree, _name, "monojet", monojet, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "matchedGenJet_", matchedGenJet_, _branches, _setStatus);
   utils::setAddress(_tree, _name, "constituents_", &constituents_, _branches, _setStatus);
 }
 
@@ -118,6 +123,7 @@ panda::PJet::datastore::book(TTree& _tree, TString const& _name, utils::BranchLi
   utils::book(_tree, _name, "loose", size, 'O', loose, _branches);
   utils::book(_tree, _name, "tight", size, 'O', tight, _branches);
   utils::book(_tree, _name, "monojet", size, 'O', monojet, _branches);
+  utils::book(_tree, _name, "matchedGenJet_", size, 'i', matchedGenJet_, _branches);
   utils::book(_tree, _name, "constituents_", "std::vector<std::vector<UInt_t>>", &constituents_, _branches);
 }
 
@@ -139,6 +145,7 @@ panda::PJet::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "loose");
   utils::resetAddress(_tree, _name, "tight");
   utils::resetAddress(_tree, _name, "monojet");
+  utils::resetAddress(_tree, _name, "matchedGenJet_");
   utils::resetAddress(_tree, _name, "constituents_");
 }
 
@@ -165,6 +172,7 @@ panda::PJet::PJet(char const* _name/* = ""*/) :
   loose(gStore.getData(this).loose[0]),
   tight(gStore.getData(this).tight[0]),
   monojet(gStore.getData(this).monojet[0]),
+  matchedGenJet(gStore.getData(this).matchedGenJet_[0]),
   constituents((*gStore.getData(this).constituents_)[0])
 {
 }
@@ -184,6 +192,7 @@ panda::PJet::PJet(datastore& _data, UInt_t _idx) :
   loose(_data.loose[_idx]),
   tight(_data.tight[_idx]),
   monojet(_data.monojet[_idx]),
+  matchedGenJet(_data.matchedGenJet_[_idx]),
   constituents((*_data.constituents_)[_idx])
 {
 }
@@ -203,6 +212,7 @@ panda::PJet::PJet(PJet const& _src) :
   loose(gStore.getData(this).loose[0]),
   tight(gStore.getData(this).tight[0]),
   monojet(gStore.getData(this).monojet[0]),
+  matchedGenJet(gStore.getData(this).matchedGenJet_[0]),
   constituents((*gStore.getData(this).constituents_)[0])
 {
   PParticleM::operator=(_src);
@@ -220,6 +230,7 @@ panda::PJet::PJet(PJet const& _src) :
   loose = _src.loose;
   tight = _src.tight;
   monojet = _src.monojet;
+  matchedGenJet = _src.matchedGenJet;
   constituents = _src.constituents;
 }
 
@@ -238,6 +249,7 @@ panda::PJet::PJet(ArrayBase* _array) :
   loose(gStore.getData(this).loose[0]),
   tight(gStore.getData(this).tight[0]),
   monojet(gStore.getData(this).monojet[0]),
+  matchedGenJet(gStore.getData(this).matchedGenJet_[0]),
   constituents((*gStore.getData(this).constituents_)[0])
 {
 }
@@ -265,6 +277,7 @@ panda::PJet::operator=(PJet const& _src)
   loose = _src.loose;
   tight = _src.tight;
   monojet = _src.monojet;
+  matchedGenJet = _src.matchedGenJet;
   constituents = _src.constituents;
 
   return *this;
@@ -290,6 +303,7 @@ panda::PJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _b
   utils::setStatus(_tree, name, "loose", _status, _branches);
   utils::setStatus(_tree, name, "tight", _status, _branches);
   utils::setStatus(_tree, name, "monojet", _status, _branches);
+  utils::setStatus(_tree, name, "matchedGenJet_", _status, _branches);
   utils::setStatus(_tree, name, "constituents_", _status, _branches);
 }
 
@@ -313,6 +327,7 @@ panda::PJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*
   utils::setAddress(_tree, name, "loose", &loose, _branches, _setStatus);
   utils::setAddress(_tree, name, "tight", &tight, _branches, _setStatus);
   utils::setAddress(_tree, name, "monojet", &monojet, _branches, _setStatus);
+  utils::setAddress(_tree, name, "matchedGenJet_", gStore.getData(this).matchedGenJet_, _branches, true);
   utils::setAddress(_tree, name, "constituents_", &constituents.indices(), _branches, true);
 }
 
@@ -336,6 +351,7 @@ panda::PJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
   utils::book(_tree, name, "loose", "", 'O', &loose, _branches);
   utils::book(_tree, name, "tight", "", 'O', &tight, _branches);
   utils::book(_tree, name, "monojet", "", 'O', &monojet, _branches);
+  utils::book(_tree, name, "matchedGenJet_", "", 'i', gStore.getData(this).matchedGenJet_, _branches);
   utils::book(_tree, name, "constituents_", "std::vector<UInt_t>", &constituents.indices(), _branches);
 }
 
@@ -359,6 +375,7 @@ panda::PJet::resetAddress(TTree& _tree)
   utils::resetAddress(_tree, name, "loose");
   utils::resetAddress(_tree, name, "tight");
   utils::resetAddress(_tree, name, "monojet");
+  utils::resetAddress(_tree, name, "matchedGenJet_");
   utils::resetAddress(_tree, name, "constituents_");
 }
 
@@ -380,6 +397,7 @@ panda::PJet::init()
   loose = false;
   tight = false;
   monojet = false;
+  matchedGenJet.init();
   constituents.init();
 }
 

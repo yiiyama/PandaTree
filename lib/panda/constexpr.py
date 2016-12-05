@@ -107,15 +107,16 @@ class Enum(Definition):
         out.writeline('{')
         out.indent += 1
         out.writeline('auto* tree(new TTree("{name}", "{name}"));'.format(name = self.name))
-        out.writeline('char name[1024];')
-        out.writeline('tree->Branch("name", name, "name/C");')
+        out.writeline('TString* name(new TString);')
+        out.writeline('tree->Branch("name", "TString", &name);')
         out.writeline('for (auto&& n : {name}Name) {{'.format(name = self.name))
         out.indent += 1
-        out.writeline('std::strcpy(name, n.Data());')
+        out.writeline('*name = n;')
         out.writeline('tree->Fill();')
         out.indent -= 1
         out.writeline('}')
         out.writeline('tree->ResetBranchAddresses();')
+        out.writeline('delete name;')
         out.writeline('return tree;')
         out.indent -= 1
         out.writeline('}')

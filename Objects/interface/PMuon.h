@@ -30,6 +30,7 @@ namespace panda {
       Float_t* puiso{0};
       Bool_t* tauDecay{0};
       Bool_t* hadDecay{0};
+      UInt_t* matchedGen_{0};
       */
       Bool_t (*matchHLT)[nMuonHLTObjects]{0};
 
@@ -78,6 +79,7 @@ namespace panda {
     Float_t& puiso;
     Bool_t& tauDecay;
     Bool_t& hadDecay;
+    Ref<PGenParticle> matchedGen;
     */
     Bool_t (&matchHLT)[nMuonHLTObjects];
 

@@ -73,7 +73,7 @@ namespace panda {
     template<Bool_t T = FIXED>
     typename std::enable_if<!T>::type push_back(const_reference);
     template<Bool_t T = FIXED>
-    typename std::enable_if<!T, reference>::type create_back() { CollectionBase::resize(max_() + 1); return back(); }
+    typename std::enable_if<!T, reference>::type create_back();
 
     ContainerElement::datastore& getData() override { return data; }
     ContainerElement::datastore const& getData() const override { return data; }
@@ -209,6 +209,17 @@ namespace panda {
 
     (*this)[CollectionBase::size_] = _elem;
     ++CollectionBase::size_;
+  }
+
+  template<class E, Bool_t FIXED>
+  template<Bool_t T/* = FIXED*/>
+  typename std::enable_if<!T, typename panda::Container<E, FIXED>::reference>::type
+  Container<E, FIXED>::create_back()
+  {
+    CollectionBase::resize(max_() + 1);
+    auto& e(back());
+    e.init();
+    return e;
   }
 
   template<class E, Bool_t FIXED>

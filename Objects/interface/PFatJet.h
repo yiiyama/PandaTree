@@ -36,6 +36,7 @@ namespace panda {
       Bool_t* loose{0};
       Bool_t* tight{0};
       Bool_t* monojet{0};
+      UInt_t* matchedGenJet_{0};
       std::vector<std::vector<UInt_t>>* constituents_{0};
       */
       Float_t* tau1{0};
@@ -101,6 +102,7 @@ namespace panda {
     Bool_t& loose;
     Bool_t& tight;
     Bool_t& monojet;
+    Ref<PGenJet> matchedGenJet;
     RefVector<PPFCand> constituents;
     */
     Float_t& tau1;

@@ -5,6 +5,7 @@
 #include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
+#include "PGenParticle.h"
 
 namespace panda {
 
@@ -29,6 +30,7 @@ namespace panda {
       Float_t* puiso{0};
       Bool_t* tauDecay{0};
       Bool_t* hadDecay{0};
+      UInt_t* matchedGen_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -73,6 +75,7 @@ namespace panda {
     Float_t& puiso;
     Bool_t& tauDecay;
     Bool_t& hadDecay;
+    Ref<PGenParticle> matchedGen;
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */

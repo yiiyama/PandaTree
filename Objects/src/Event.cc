@@ -5,10 +5,44 @@ panda::Event::Event() :
 {
   for (auto& p : electrons)
     p.superCluster.setContainer(superClusters);
+  for (auto& p : electrons)
+    p.matchedGen.setContainer(genParticles);
+  for (auto& p : muons)
+    p.matchedGen.setContainer(genParticles);
+  for (auto& p : taus)
+    p.matchedGen.setContainer(genParticles);
   for (auto& p : photons)
     p.superCluster.setContainer(superClusters);
+  for (auto& p : photons)
+    p.matchedGen.setContainer(genParticles);
   for (auto& p : genParticles)
     p.parent.setContainer(genParticles);
+  for (auto& p : chsAK4Jets)
+    p.constituents.setContainer(pfCandidates);
+  for (auto& p : chsAK4Jets)
+    p.matchedGenJet.setContainer(genJets);
+  for (auto& p : puppiAK4Jets)
+    p.constituents.setContainer(pfCandidates);
+  for (auto& p : puppiAK4Jets)
+    p.matchedGenJet.setContainer(genJets);
+  for (auto& p : chsAK8Jets)
+    p.constituents.setContainer(pfCandidates);
+  for (auto& p : chsAK8Jets)
+    p.subjets.setContainer(subjets);
+  for (auto& p : chsCA15Jets)
+    p.constituents.setContainer(pfCandidates);
+  for (auto& p : chsCA15Jets)
+    p.subjets.setContainer(subjets);
+  for (auto& p : puppiAK8Jets)
+    p.constituents.setContainer(pfCandidates);
+  for (auto& p : puppiAK8Jets)
+    p.subjets.setContainer(subjets);
+  for (auto& p : puppiCA15Jets)
+    p.constituents.setContainer(pfCandidates);
+  for (auto& p : puppiCA15Jets)
+    p.subjets.setContainer(subjets);
+  for (auto& p : subjets)
+    p.constituents.setContainer(pfCandidates);
 }
 
 panda::Event::Event(Event const& _src) :
@@ -19,12 +53,12 @@ panda::Event::Event(Event const& _src) :
   muons(_src.muons),
   taus(_src.taus),
   photons(_src.photons),
-  chsAK4(_src.chsAK4),
-  puppiAK4(_src.puppiAK4),
-  chsAK8(_src.chsAK8),
-  chsCA15(_src.chsCA15),
-  puppiAK8(_src.puppiAK8),
-  puppiCA15(_src.puppiCA15),
+  chsAK4Jets(_src.chsAK4Jets),
+  puppiAK4Jets(_src.puppiAK4Jets),
+  chsAK8Jets(_src.chsAK8Jets),
+  chsCA15Jets(_src.chsCA15Jets),
+  puppiAK8Jets(_src.puppiAK8Jets),
+  puppiCA15Jets(_src.puppiCA15Jets),
   subjets(_src.subjets),
   genJets(_src.genJets),
   genParticles(_src.genParticles),
@@ -37,6 +71,7 @@ panda::Event::Event(Event const& _src) :
   neutralMet(_src.neutralMet),
   photonMet(_src.photonMet),
   hfMet(_src.hfMet),
+  genMet(_src.genMet),
   metFilters(_src.metFilters),
   triggers(_src.triggers),
   runNumber(_src.runNumber),
@@ -46,14 +81,50 @@ panda::Event::Event(Event const& _src) :
   npv(_src.npv),
   npvTrue(_src.npvTrue),
   rho(_src.rho),
+  rhoCentralCalo(_src.rhoCentralCalo),
   weight(_src.weight)
 {
+  std::memcpy(reweightDW, _src.reweightDW, sizeof(Float_t) * 512);
   for (auto& p : electrons)
     p.superCluster.setContainer(superClusters);
+  for (auto& p : electrons)
+    p.matchedGen.setContainer(genParticles);
+  for (auto& p : muons)
+    p.matchedGen.setContainer(genParticles);
+  for (auto& p : taus)
+    p.matchedGen.setContainer(genParticles);
   for (auto& p : photons)
     p.superCluster.setContainer(superClusters);
+  for (auto& p : photons)
+    p.matchedGen.setContainer(genParticles);
   for (auto& p : genParticles)
     p.parent.setContainer(genParticles);
+  for (auto& p : chsAK4Jets)
+    p.constituents.setContainer(pfCandidates);
+  for (auto& p : chsAK4Jets)
+    p.matchedGenJet.setContainer(genJets);
+  for (auto& p : puppiAK4Jets)
+    p.constituents.setContainer(pfCandidates);
+  for (auto& p : puppiAK4Jets)
+    p.matchedGenJet.setContainer(genJets);
+  for (auto& p : chsAK8Jets)
+    p.constituents.setContainer(pfCandidates);
+  for (auto& p : chsAK8Jets)
+    p.subjets.setContainer(subjets);
+  for (auto& p : chsCA15Jets)
+    p.constituents.setContainer(pfCandidates);
+  for (auto& p : chsCA15Jets)
+    p.subjets.setContainer(subjets);
+  for (auto& p : puppiAK8Jets)
+    p.constituents.setContainer(pfCandidates);
+  for (auto& p : puppiAK8Jets)
+    p.subjets.setContainer(subjets);
+  for (auto& p : puppiCA15Jets)
+    p.constituents.setContainer(pfCandidates);
+  for (auto& p : puppiCA15Jets)
+    p.subjets.setContainer(subjets);
+  for (auto& p : subjets)
+    p.constituents.setContainer(pfCandidates);
 }
 
 panda::Event&
@@ -66,14 +137,50 @@ panda::Event::operator=(Event const& _src)
   npv = _src.npv;
   npvTrue = _src.npvTrue;
   rho = _src.rho;
+  rhoCentralCalo = _src.rhoCentralCalo;
   weight = _src.weight;
+  std::memcpy(reweightDW, _src.reweightDW, sizeof(Float_t) * 512);
 
   for (auto& p : electrons)
     p.superCluster.setContainer(superClusters);
+  for (auto& p : electrons)
+    p.matchedGen.setContainer(genParticles);
+  for (auto& p : muons)
+    p.matchedGen.setContainer(genParticles);
+  for (auto& p : taus)
+    p.matchedGen.setContainer(genParticles);
   for (auto& p : photons)
     p.superCluster.setContainer(superClusters);
+  for (auto& p : photons)
+    p.matchedGen.setContainer(genParticles);
   for (auto& p : genParticles)
     p.parent.setContainer(genParticles);
+  for (auto& p : chsAK4Jets)
+    p.constituents.setContainer(pfCandidates);
+  for (auto& p : chsAK4Jets)
+    p.matchedGenJet.setContainer(genJets);
+  for (auto& p : puppiAK4Jets)
+    p.constituents.setContainer(pfCandidates);
+  for (auto& p : puppiAK4Jets)
+    p.matchedGenJet.setContainer(genJets);
+  for (auto& p : chsAK8Jets)
+    p.constituents.setContainer(pfCandidates);
+  for (auto& p : chsAK8Jets)
+    p.subjets.setContainer(subjets);
+  for (auto& p : chsCA15Jets)
+    p.constituents.setContainer(pfCandidates);
+  for (auto& p : chsCA15Jets)
+    p.subjets.setContainer(subjets);
+  for (auto& p : puppiAK8Jets)
+    p.constituents.setContainer(pfCandidates);
+  for (auto& p : puppiAK8Jets)
+    p.subjets.setContainer(subjets);
+  for (auto& p : puppiCA15Jets)
+    p.constituents.setContainer(pfCandidates);
+  for (auto& p : puppiCA15Jets)
+    p.subjets.setContainer(subjets);
+  for (auto& p : subjets)
+    p.constituents.setContainer(pfCandidates);
 
   return *this;
 }
@@ -87,12 +194,12 @@ panda::Event::init()
   muons.init();
   taus.init();
   photons.init();
-  chsAK4.init();
-  puppiAK4.init();
-  chsAK8.init();
-  chsCA15.init();
-  puppiAK8.init();
-  puppiCA15.init();
+  chsAK4Jets.init();
+  puppiAK4Jets.init();
+  chsAK8Jets.init();
+  chsCA15Jets.init();
+  puppiAK8Jets.init();
+  puppiCA15Jets.init();
   subjets.init();
   genJets.init();
   genParticles.init();
@@ -105,6 +212,7 @@ panda::Event::init()
   neutralMet.init();
   photonMet.init();
   hfMet.init();
+  genMet.init();
   metFilters.init();
   triggers.init();
   runNumber = 0;
@@ -114,7 +222,9 @@ panda::Event::init()
   npv = 0;
   npvTrue = 0;
   rho = 0.;
+  rhoCentralCalo = 0.;
   weight = 0.;
+  for (auto& p0 : reweightDW) p0 = 0.;
 }
 
 /*protected*/
@@ -127,12 +237,12 @@ panda::Event::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const
   muons.setStatus(_tree, _status, _branches.subList("muons"));
   taus.setStatus(_tree, _status, _branches.subList("taus"));
   photons.setStatus(_tree, _status, _branches.subList("photons"));
-  chsAK4.setStatus(_tree, _status, _branches.subList("chsAK4"));
-  puppiAK4.setStatus(_tree, _status, _branches.subList("puppiAK4"));
-  chsAK8.setStatus(_tree, _status, _branches.subList("chsAK8"));
-  chsCA15.setStatus(_tree, _status, _branches.subList("chsCA15"));
-  puppiAK8.setStatus(_tree, _status, _branches.subList("puppiAK8"));
-  puppiCA15.setStatus(_tree, _status, _branches.subList("puppiCA15"));
+  chsAK4Jets.setStatus(_tree, _status, _branches.subList("chsAK4Jets"));
+  puppiAK4Jets.setStatus(_tree, _status, _branches.subList("puppiAK4Jets"));
+  chsAK8Jets.setStatus(_tree, _status, _branches.subList("chsAK8Jets"));
+  chsCA15Jets.setStatus(_tree, _status, _branches.subList("chsCA15Jets"));
+  puppiAK8Jets.setStatus(_tree, _status, _branches.subList("puppiAK8Jets"));
+  puppiCA15Jets.setStatus(_tree, _status, _branches.subList("puppiCA15Jets"));
   subjets.setStatus(_tree, _status, _branches.subList("subjets"));
   genJets.setStatus(_tree, _status, _branches.subList("genJets"));
   genParticles.setStatus(_tree, _status, _branches.subList("genParticles"));
@@ -145,6 +255,7 @@ panda::Event::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const
   neutralMet.setStatus(_tree, _status, _branches.subList("neutralMet"));
   photonMet.setStatus(_tree, _status, _branches.subList("photonMet"));
   hfMet.setStatus(_tree, _status, _branches.subList("hfMet"));
+  genMet.setStatus(_tree, _status, _branches.subList("genMet"));
   metFilters.setStatus(_tree, _status, _branches.subList("metFilters"));
   triggers.setStatus(_tree, _status, _branches.subList("triggers"));
   utils::setStatus(_tree, "", "runNumber", _status, _branches);
@@ -154,7 +265,9 @@ panda::Event::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const
   utils::setStatus(_tree, "", "npv", _status, _branches);
   utils::setStatus(_tree, "", "npvTrue", _status, _branches);
   utils::setStatus(_tree, "", "rho", _status, _branches);
+  utils::setStatus(_tree, "", "rhoCentralCalo", _status, _branches);
   utils::setStatus(_tree, "", "weight", _status, _branches);
+  utils::setStatus(_tree, "", "reweightDW", _status, _branches);
 }
 
 /*protected*/
@@ -167,12 +280,12 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
   muons.setAddress(_tree, _branches.subList("muons"), _setStatus);
   taus.setAddress(_tree, _branches.subList("taus"), _setStatus);
   photons.setAddress(_tree, _branches.subList("photons"), _setStatus);
-  chsAK4.setAddress(_tree, _branches.subList("chsAK4"), _setStatus);
-  puppiAK4.setAddress(_tree, _branches.subList("puppiAK4"), _setStatus);
-  chsAK8.setAddress(_tree, _branches.subList("chsAK8"), _setStatus);
-  chsCA15.setAddress(_tree, _branches.subList("chsCA15"), _setStatus);
-  puppiAK8.setAddress(_tree, _branches.subList("puppiAK8"), _setStatus);
-  puppiCA15.setAddress(_tree, _branches.subList("puppiCA15"), _setStatus);
+  chsAK4Jets.setAddress(_tree, _branches.subList("chsAK4Jets"), _setStatus);
+  puppiAK4Jets.setAddress(_tree, _branches.subList("puppiAK4Jets"), _setStatus);
+  chsAK8Jets.setAddress(_tree, _branches.subList("chsAK8Jets"), _setStatus);
+  chsCA15Jets.setAddress(_tree, _branches.subList("chsCA15Jets"), _setStatus);
+  puppiAK8Jets.setAddress(_tree, _branches.subList("puppiAK8Jets"), _setStatus);
+  puppiCA15Jets.setAddress(_tree, _branches.subList("puppiCA15Jets"), _setStatus);
   subjets.setAddress(_tree, _branches.subList("subjets"), _setStatus);
   genJets.setAddress(_tree, _branches.subList("genJets"), _setStatus);
   genParticles.setAddress(_tree, _branches.subList("genParticles"), _setStatus);
@@ -185,6 +298,7 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
   neutralMet.setAddress(_tree, _branches.subList("neutralMet"), _setStatus);
   photonMet.setAddress(_tree, _branches.subList("photonMet"), _setStatus);
   hfMet.setAddress(_tree, _branches.subList("hfMet"), _setStatus);
+  genMet.setAddress(_tree, _branches.subList("genMet"), _setStatus);
   metFilters.setAddress(_tree, _branches.subList("metFilters"), _setStatus);
   triggers.setAddress(_tree, _branches.subList("triggers"), _setStatus);
   utils::setAddress(_tree, "", "runNumber", &runNumber, _branches, _setStatus);
@@ -194,7 +308,9 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
   utils::setAddress(_tree, "", "npv", &npv, _branches, _setStatus);
   utils::setAddress(_tree, "", "npvTrue", &npvTrue, _branches, _setStatus);
   utils::setAddress(_tree, "", "rho", &rho, _branches, _setStatus);
+  utils::setAddress(_tree, "", "rhoCentralCalo", &rhoCentralCalo, _branches, _setStatus);
   utils::setAddress(_tree, "", "weight", &weight, _branches, _setStatus);
+  utils::setAddress(_tree, "", "reweightDW", reweightDW, _branches, _setStatus);
 
   sizeBranches_.clear();
   if (_tree.GetBranchStatus("pfCandidates.size"))
@@ -209,18 +325,18 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
     sizeBranches_.push_back(_tree.GetBranch("taus.size"));
   if (_tree.GetBranchStatus("photons.size"))
     sizeBranches_.push_back(_tree.GetBranch("photons.size"));
-  if (_tree.GetBranchStatus("chsAK4.size"))
-    sizeBranches_.push_back(_tree.GetBranch("chsAK4.size"));
-  if (_tree.GetBranchStatus("puppiAK4.size"))
-    sizeBranches_.push_back(_tree.GetBranch("puppiAK4.size"));
-  if (_tree.GetBranchStatus("chsAK8.size"))
-    sizeBranches_.push_back(_tree.GetBranch("chsAK8.size"));
-  if (_tree.GetBranchStatus("chsCA15.size"))
-    sizeBranches_.push_back(_tree.GetBranch("chsCA15.size"));
-  if (_tree.GetBranchStatus("puppiAK8.size"))
-    sizeBranches_.push_back(_tree.GetBranch("puppiAK8.size"));
-  if (_tree.GetBranchStatus("puppiCA15.size"))
-    sizeBranches_.push_back(_tree.GetBranch("puppiCA15.size"));
+  if (_tree.GetBranchStatus("chsAK4Jets.size"))
+    sizeBranches_.push_back(_tree.GetBranch("chsAK4Jets.size"));
+  if (_tree.GetBranchStatus("puppiAK4Jets.size"))
+    sizeBranches_.push_back(_tree.GetBranch("puppiAK4Jets.size"));
+  if (_tree.GetBranchStatus("chsAK8Jets.size"))
+    sizeBranches_.push_back(_tree.GetBranch("chsAK8Jets.size"));
+  if (_tree.GetBranchStatus("chsCA15Jets.size"))
+    sizeBranches_.push_back(_tree.GetBranch("chsCA15Jets.size"));
+  if (_tree.GetBranchStatus("puppiAK8Jets.size"))
+    sizeBranches_.push_back(_tree.GetBranch("puppiAK8Jets.size"));
+  if (_tree.GetBranchStatus("puppiCA15Jets.size"))
+    sizeBranches_.push_back(_tree.GetBranch("puppiCA15Jets.size"));
   if (_tree.GetBranchStatus("subjets.size"))
     sizeBranches_.push_back(_tree.GetBranch("subjets.size"));
   if (_tree.GetBranchStatus("genJets.size"))
@@ -239,12 +355,12 @@ panda::Event::doBook_(TTree& _tree, utils::BranchList const& _branches)
   muons.book(_tree, _branches.subList("muons"));
   taus.book(_tree, _branches.subList("taus"));
   photons.book(_tree, _branches.subList("photons"));
-  chsAK4.book(_tree, _branches.subList("chsAK4"));
-  puppiAK4.book(_tree, _branches.subList("puppiAK4"));
-  chsAK8.book(_tree, _branches.subList("chsAK8"));
-  chsCA15.book(_tree, _branches.subList("chsCA15"));
-  puppiAK8.book(_tree, _branches.subList("puppiAK8"));
-  puppiCA15.book(_tree, _branches.subList("puppiCA15"));
+  chsAK4Jets.book(_tree, _branches.subList("chsAK4Jets"));
+  puppiAK4Jets.book(_tree, _branches.subList("puppiAK4Jets"));
+  chsAK8Jets.book(_tree, _branches.subList("chsAK8Jets"));
+  chsCA15Jets.book(_tree, _branches.subList("chsCA15Jets"));
+  puppiAK8Jets.book(_tree, _branches.subList("puppiAK8Jets"));
+  puppiCA15Jets.book(_tree, _branches.subList("puppiCA15Jets"));
   subjets.book(_tree, _branches.subList("subjets"));
   genJets.book(_tree, _branches.subList("genJets"));
   genParticles.book(_tree, _branches.subList("genParticles"));
@@ -257,6 +373,7 @@ panda::Event::doBook_(TTree& _tree, utils::BranchList const& _branches)
   neutralMet.book(_tree, _branches.subList("neutralMet"));
   photonMet.book(_tree, _branches.subList("photonMet"));
   hfMet.book(_tree, _branches.subList("hfMet"));
+  genMet.book(_tree, _branches.subList("genMet"));
   metFilters.book(_tree, _branches.subList("metFilters"));
   triggers.book(_tree, _branches.subList("triggers"));
   utils::book(_tree, "", "runNumber", "", 'i', &runNumber, _branches);
@@ -266,7 +383,9 @@ panda::Event::doBook_(TTree& _tree, utils::BranchList const& _branches)
   utils::book(_tree, "", "npv", "", 'I', &npv, _branches);
   utils::book(_tree, "", "npvTrue", "", 'I', &npvTrue, _branches);
   utils::book(_tree, "", "rho", "", 'F', &rho, _branches);
+  utils::book(_tree, "", "rhoCentralCalo", "", 'F', &rhoCentralCalo, _branches);
   utils::book(_tree, "", "weight", "", 'F', &weight, _branches);
+  utils::book(_tree, "", "reweightDW", "[512]", 'F', reweightDW, _branches);
 }
 
 /*protected*/
@@ -279,12 +398,12 @@ panda::Event::doReleaseTree_(TTree& _tree)
   muons.releaseTree(_tree);
   taus.releaseTree(_tree);
   photons.releaseTree(_tree);
-  chsAK4.releaseTree(_tree);
-  puppiAK4.releaseTree(_tree);
-  chsAK8.releaseTree(_tree);
-  chsCA15.releaseTree(_tree);
-  puppiAK8.releaseTree(_tree);
-  puppiCA15.releaseTree(_tree);
+  chsAK4Jets.releaseTree(_tree);
+  puppiAK4Jets.releaseTree(_tree);
+  chsAK8Jets.releaseTree(_tree);
+  chsCA15Jets.releaseTree(_tree);
+  puppiAK8Jets.releaseTree(_tree);
+  puppiCA15Jets.releaseTree(_tree);
   subjets.releaseTree(_tree);
   genJets.releaseTree(_tree);
   genParticles.releaseTree(_tree);
@@ -297,9 +416,11 @@ panda::Event::doReleaseTree_(TTree& _tree)
   neutralMet.resetAddress(_tree);
   photonMet.resetAddress(_tree);
   hfMet.resetAddress(_tree);
+  genMet.resetAddress(_tree);
   metFilters.resetAddress(_tree);
   triggers.resetAddress(_tree);
 }
+
 
 
 /* BEGIN CUSTOM */
@@ -314,12 +435,12 @@ panda::Event::adjustCollectionSizes_()
   muons.resize(muons.size());
   taus.resize(taus.size());
   photons.resize(photons.size());
-  chsAK4.resize(chsAK4.size());
-  puppiAK4.resize(puppiAK4.size());
-  chsAK8.resize(chsAK8.size());
-  chsCA15.resize(chsCA15.size());
-  puppiAK8.resize(puppiAK8.size());
-  puppiCA15.resize(puppiCA15.size());
+  chsAK4Jets.resize(chsAK4Jets.size());
+  puppiAK4Jets.resize(puppiAK4Jets.size());
+  chsAK8Jets.resize(chsAK8Jets.size());
+  chsCA15Jets.resize(chsCA15Jets.size());
+  puppiAK8Jets.resize(puppiAK8Jets.size());
+  puppiCA15Jets.resize(puppiCA15Jets.size());
   subjets.resize(subjets.size());
   genJets.resize(genJets.size());
   genParticles.resize(genParticles.size());

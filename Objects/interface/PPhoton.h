@@ -6,6 +6,7 @@
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
 #include "PSuperCluster.h"
+#include "PGenParticle.h"
 
 namespace panda {
 
@@ -47,11 +48,11 @@ namespace panda {
       Bool_t* highpt{0};
       Bool_t* pixelVeto{0};
       Bool_t* csafeVeto{0};
-      Int_t* matchedGen{0};
       Float_t* genIso{0};
       Bool_t (*matchL1)[nPhotonL1Objects]{0};
       Bool_t (*matchHLT)[nPhotonHLTObjects]{0};
       UInt_t* superCluster_{0};
+      UInt_t* matchedGen_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -111,11 +112,11 @@ namespace panda {
     Bool_t& highpt;
     Bool_t& pixelVeto;
     Bool_t& csafeVeto;
-    Int_t& matchedGen;
     Float_t& genIso;
     Bool_t (&matchL1)[nPhotonL1Objects];
     Bool_t (&matchHLT)[nPhotonHLTObjects];
     Ref<PSuperCluster> superCluster;
+    Ref<PGenParticle> matchedGen;
 
     /* BEGIN CUSTOM */
     /* END CUSTOM */

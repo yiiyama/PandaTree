@@ -13,13 +13,14 @@ TTree*
 panda::makePhotonL1ObjectTree()
 {
   auto* tree(new TTree("PhotonL1Object", "PhotonL1Object"));
-  char name[1024];
-  tree->Branch("name", name, "name/C");
+  TString* name(new TString);
+  tree->Branch("name", "TString", &name);
   for (auto&& n : PhotonL1ObjectName) {
-    std::strcpy(name, n.Data());
+    *name = n;
     tree->Fill();
   }
   tree->ResetBranchAddresses();
+  delete name;
   return tree;
 }
 
@@ -40,13 +41,14 @@ TTree*
 panda::makePhotonHLTObjectTree()
 {
   auto* tree(new TTree("PhotonHLTObject", "PhotonHLTObject"));
-  char name[1024];
-  tree->Branch("name", name, "name/C");
+  TString* name(new TString);
+  tree->Branch("name", "TString", &name);
   for (auto&& n : PhotonHLTObjectName) {
-    std::strcpy(name, n.Data());
+    *name = n;
     tree->Fill();
   }
   tree->ResetBranchAddresses();
+  delete name;
   return tree;
 }
 
@@ -69,13 +71,14 @@ TTree*
 panda::makeElectronHLTObjectTree()
 {
   auto* tree(new TTree("ElectronHLTObject", "ElectronHLTObject"));
-  char name[1024];
-  tree->Branch("name", name, "name/C");
+  TString* name(new TString);
+  tree->Branch("name", "TString", &name);
   for (auto&& n : ElectronHLTObjectName) {
-    std::strcpy(name, n.Data());
+    *name = n;
     tree->Fill();
   }
   tree->ResetBranchAddresses();
+  delete name;
   return tree;
 }
 
@@ -90,13 +93,14 @@ TTree*
 panda::makeMuonHLTObjectTree()
 {
   auto* tree(new TTree("MuonHLTObject", "MuonHLTObject"));
-  char name[1024];
-  tree->Branch("name", name, "name/C");
+  TString* name(new TString);
+  tree->Branch("name", "TString", &name);
   for (auto&& n : MuonHLTObjectName) {
-    std::strcpy(name, n.Data());
+    *name = n;
     tree->Fill();
   }
   tree->ResetBranchAddresses();
+  delete name;
   return tree;
 }
 

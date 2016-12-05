@@ -11,6 +11,7 @@ panda::PTau::datastore::allocate(UInt_t _nmax)
   decayModeNew = new Bool_t[nmax_];
   iso = new Float_t[nmax_];
   isoDeltaBetaCorr = new Float_t[nmax_];
+  matchedGen_ = new UInt_t[nmax_];
 }
 
 void
@@ -30,6 +31,8 @@ panda::PTau::datastore::deallocate()
   iso = 0;
   delete [] isoDeltaBetaCorr;
   isoDeltaBetaCorr = 0;
+  delete [] matchedGen_;
+  matchedGen_ = 0;
 }
 
 void
@@ -43,6 +46,7 @@ panda::PTau::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _st
   utils::setStatus(_tree, _name, "decayModeNew", _status, _branches);
   utils::setStatus(_tree, _name, "iso", _status, _branches);
   utils::setStatus(_tree, _name, "isoDeltaBetaCorr", _status, _branches);
+  utils::setStatus(_tree, _name, "matchedGen_", _status, _branches);
 }
 
 void
@@ -56,6 +60,7 @@ panda::PTau::datastore::setAddress(TTree& _tree, TString const& _name, utils::Br
   utils::setAddress(_tree, _name, "decayModeNew", decayModeNew, _branches, _setStatus);
   utils::setAddress(_tree, _name, "iso", iso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "isoDeltaBetaCorr", isoDeltaBetaCorr, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "matchedGen_", matchedGen_, _branches, _setStatus);
 }
 
 void
@@ -71,6 +76,7 @@ panda::PTau::datastore::book(TTree& _tree, TString const& _name, utils::BranchLi
   utils::book(_tree, _name, "decayModeNew", size, 'O', decayModeNew, _branches);
   utils::book(_tree, _name, "iso", size, 'F', iso, _branches);
   utils::book(_tree, _name, "isoDeltaBetaCorr", size, 'F', isoDeltaBetaCorr, _branches);
+  utils::book(_tree, _name, "matchedGen_", size, 'i', matchedGen_, _branches);
 }
 
 void
@@ -84,6 +90,7 @@ panda::PTau::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "decayModeNew");
   utils::resetAddress(_tree, _name, "iso");
   utils::resetAddress(_tree, _name, "isoDeltaBetaCorr");
+  utils::resetAddress(_tree, _name, "matchedGen_");
 }
 
 void
@@ -100,7 +107,8 @@ panda::PTau::PTau(char const* _name/* = ""*/) :
   decayMode(gStore.getData(this).decayMode[0]),
   decayModeNew(gStore.getData(this).decayModeNew[0]),
   iso(gStore.getData(this).iso[0]),
-  isoDeltaBetaCorr(gStore.getData(this).isoDeltaBetaCorr[0])
+  isoDeltaBetaCorr(gStore.getData(this).isoDeltaBetaCorr[0]),
+  matchedGen(gStore.getData(this).matchedGen_[0])
 {
 }
 
@@ -111,7 +119,8 @@ panda::PTau::PTau(datastore& _data, UInt_t _idx) :
   decayMode(_data.decayMode[_idx]),
   decayModeNew(_data.decayModeNew[_idx]),
   iso(_data.iso[_idx]),
-  isoDeltaBetaCorr(_data.isoDeltaBetaCorr[_idx])
+  isoDeltaBetaCorr(_data.isoDeltaBetaCorr[_idx]),
+  matchedGen(_data.matchedGen_[_idx])
 {
 }
 
@@ -122,7 +131,8 @@ panda::PTau::PTau(PTau const& _src) :
   decayMode(gStore.getData(this).decayMode[0]),
   decayModeNew(gStore.getData(this).decayModeNew[0]),
   iso(gStore.getData(this).iso[0]),
-  isoDeltaBetaCorr(gStore.getData(this).isoDeltaBetaCorr[0])
+  isoDeltaBetaCorr(gStore.getData(this).isoDeltaBetaCorr[0]),
+  matchedGen(gStore.getData(this).matchedGen_[0])
 {
   PParticleM::operator=(_src);
 
@@ -132,6 +142,7 @@ panda::PTau::PTau(PTau const& _src) :
   decayModeNew = _src.decayModeNew;
   iso = _src.iso;
   isoDeltaBetaCorr = _src.isoDeltaBetaCorr;
+  matchedGen = _src.matchedGen;
 }
 
 panda::PTau::PTau(ArrayBase* _array) :
@@ -141,7 +152,8 @@ panda::PTau::PTau(ArrayBase* _array) :
   decayMode(gStore.getData(this).decayMode[0]),
   decayModeNew(gStore.getData(this).decayModeNew[0]),
   iso(gStore.getData(this).iso[0]),
-  isoDeltaBetaCorr(gStore.getData(this).isoDeltaBetaCorr[0])
+  isoDeltaBetaCorr(gStore.getData(this).isoDeltaBetaCorr[0]),
+  matchedGen(gStore.getData(this).matchedGen_[0])
 {
 }
 
@@ -161,6 +173,7 @@ panda::PTau::operator=(PTau const& _src)
   decayModeNew = _src.decayModeNew;
   iso = _src.iso;
   isoDeltaBetaCorr = _src.isoDeltaBetaCorr;
+  matchedGen = _src.matchedGen;
 
   return *this;
 }
@@ -178,6 +191,7 @@ panda::PTau::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _b
   utils::setStatus(_tree, name, "decayModeNew", _status, _branches);
   utils::setStatus(_tree, name, "iso", _status, _branches);
   utils::setStatus(_tree, name, "isoDeltaBetaCorr", _status, _branches);
+  utils::setStatus(_tree, name, "matchedGen_", _status, _branches);
 }
 
 void
@@ -193,6 +207,7 @@ panda::PTau::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*
   utils::setAddress(_tree, name, "decayModeNew", &decayModeNew, _branches, _setStatus);
   utils::setAddress(_tree, name, "iso", &iso, _branches, _setStatus);
   utils::setAddress(_tree, name, "isoDeltaBetaCorr", &isoDeltaBetaCorr, _branches, _setStatus);
+  utils::setAddress(_tree, name, "matchedGen_", gStore.getData(this).matchedGen_, _branches, true);
 }
 
 void
@@ -208,6 +223,7 @@ panda::PTau::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
   utils::book(_tree, name, "decayModeNew", "", 'O', &decayModeNew, _branches);
   utils::book(_tree, name, "iso", "", 'F', &iso, _branches);
   utils::book(_tree, name, "isoDeltaBetaCorr", "", 'F', &isoDeltaBetaCorr, _branches);
+  utils::book(_tree, name, "matchedGen_", "", 'i', gStore.getData(this).matchedGen_, _branches);
 }
 
 void
@@ -223,6 +239,7 @@ panda::PTau::resetAddress(TTree& _tree)
   utils::resetAddress(_tree, name, "decayModeNew");
   utils::resetAddress(_tree, name, "iso");
   utils::resetAddress(_tree, name, "isoDeltaBetaCorr");
+  utils::resetAddress(_tree, name, "matchedGen_");
 }
 
 void
@@ -236,6 +253,7 @@ panda::PTau::init()
   decayModeNew = false;
   iso = 0.;
   isoDeltaBetaCorr = 0.;
+  matchedGen.init();
 }
 
 /* BEGIN CUSTOM */

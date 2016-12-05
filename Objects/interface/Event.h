@@ -28,18 +28,20 @@ namespace panda {
 
     void init() override;
 
+    double reweight(UInt_t i) const { return 1. + reweightDW[i]; }
+
     PPFCandCollection pfCandidates = PPFCandCollection("pfCandidates", 256);
     PSuperClusterCollection superClusters = PSuperClusterCollection("superClusters", 64);
     PElectronCollection electrons = PElectronCollection("electrons", 32);
     PMuonCollection muons = PMuonCollection("muons", 32);
     PTauCollection taus = PTauCollection("taus", 64);
     PPhotonCollection photons = PPhotonCollection("photons", 32);
-    PJetCollection chsAK4 = PJetCollection("chsAK4", 64);
-    PJetCollection puppiAK4 = PJetCollection("puppiAK4", 64);
-    PFatJetCollection chsAK8 = PFatJetCollection("chsAK8", 8);
-    PFatJetCollection chsCA15 = PFatJetCollection("chsCA15", 8);
-    PFatJetCollection puppiAK8 = PFatJetCollection("puppiAK8", 8);
-    PFatJetCollection puppiCA15 = PFatJetCollection("puppiCA15", 8);
+    PJetCollection chsAK4Jets = PJetCollection("chsAK4Jets", 64);
+    PJetCollection puppiAK4Jets = PJetCollection("puppiAK4Jets", 64);
+    PFatJetCollection chsAK8Jets = PFatJetCollection("chsAK8Jets", 8);
+    PFatJetCollection chsCA15Jets = PFatJetCollection("chsCA15Jets", 8);
+    PFatJetCollection puppiAK8Jets = PFatJetCollection("puppiAK8Jets", 8);
+    PFatJetCollection puppiCA15Jets = PFatJetCollection("puppiCA15Jets", 8);
     PJetCollection subjets = PJetCollection("subjets", 64);
     PGenJetCollection genJets = PGenJetCollection("genJets", 64);
     PGenParticleCollection genParticles = PGenParticleCollection("genParticles", 128);
@@ -52,6 +54,7 @@ namespace panda {
     PMET neutralMet = PMET("neutralMet");
     PMET photonMet = PMET("photonMet");
     PMET hfMet = PMET("hfMet");
+    PMET genMet = PMET("genMet");
     PMETFilters metFilters = PMETFilters("metFilters");
     HLTBits triggers = HLTBits("triggers");
 
@@ -62,7 +65,9 @@ namespace panda {
     Int_t npv{};
     Int_t npvTrue{};
     Float_t rho{};
+    Float_t rhoCentralCalo{};
     Float_t weight{};
+    Float_t reweightDW[512]{};
 
   protected:
     void doSetStatus_(TTree&, Bool_t, utils::BranchList const&) override;

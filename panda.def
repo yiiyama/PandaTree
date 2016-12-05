@@ -86,9 +86,14 @@ double dR(PParticle const& p) const { return std::sqrt(dR2(p)); }
 mass/F
 double m() const override { return mass; }
 
+[PGenParticle>PParticleM]
+pdgid/I
+parent/PGenParticleRef
+
 [PPFCand>PParticleM]
 q/S
-weight/F
+puppiW/F
+puppiWNoLep/F
 pftype/I
 
 [PSuperCluster]
@@ -107,6 +112,7 @@ phoiso/F
 puiso/F
 tauDecay/O
 hadDecay/O
+matchedGen/PGenParticleRef
 virtual double combiso() const { return 0.; }
 
 [PElectron>PLepton]
@@ -137,6 +143,7 @@ decayMode/O
 decayModeNew/O
 iso/F
 isoDeltaBetaCorr/F
+matchedGen/PGenParticleRef
 
 [PPhoton>PParticle]
 scRawPt/F
@@ -166,11 +173,14 @@ tight/O
 highpt/O
 pixelVeto/O
 csafeVeto/O
-matchedGen/I
 genIso/F
 matchL1[nPhotonL1Objects]/O
 matchHLT[nPhotonHLTObjects]/O
 superCluster/PSuperClusterRef
+matchedGen/PGenParticleRef
+
+[PGenJet>PParticleM]
+pdgid/I
 
 [PJet>PParticleM]
 rawPt/F
@@ -186,6 +196,7 @@ chf/F
 loose/O
 tight/O
 monojet/O
+matchedGenJet/PGenJetRef
 constituents/PPFCandRefVector
 
 [PFatJet>PJet]
@@ -213,13 +224,6 @@ bool set_ecf(int o_, int N_, int ib_, float x_)
   ecfs[o_-1][N_-1][ib_] = x_;
   return true;
 }
-
-[PGenJet>PParticleM]
-pdgid/I
-
-[PGenParticle>PParticleM]
-pdgid/I
-parent/PGenParticleRef
 
 [PMET:SINGLE]
 pt/F
@@ -284,19 +288,21 @@ isData/O
 npv/I
 npvTrue/I
 rho/F
+rhoCentralCalo/F
 weight/F
+reweightDW[512]/F
 pfCandidates/PPFCandCollection(256)
 superClusters/PSuperClusterCollection(64)
 electrons/PElectronCollection(32)
 muons/PMuonCollection(32)
 taus/PTauCollection(64)
 photons/PPhotonCollection(32)
-chsAK4/PJetCollection(64)
-puppiAK4/PJetCollection(64)
-chsAK8/PFatJetCollection(8)
-chsCA15/PFatJetCollection(8)
-puppiAK8/PFatJetCollection(8)
-puppiCA15/PFatJetCollection(8)
+chsAK4Jets/PJetCollection(64)
+puppiAK4Jets/PJetCollection(64)
+chsAK8Jets/PFatJetCollection(8)
+chsCA15Jets/PFatJetCollection(8)
+puppiAK8Jets/PFatJetCollection(8)
+puppiCA15Jets/PFatJetCollection(8)
 subjets/PJetCollection(64)
 genJets/PGenJetCollection(64)
 genParticles/PGenParticleCollection(128)
@@ -309,11 +315,30 @@ trkMet/PMET
 neutralMet/PMET
 photonMet/PMET
 hfMet/PMET
+genMet/PMET
 metFilters/PMETFilters
 triggers/HLTBits
 electrons.superCluster->superClusters
+electrons.matchedGen->genParticles
+muons.matchedGen->genParticles
+taus.matchedGen->genParticles
 photons.superCluster->superClusters
+photons.matchedGen->genParticles
 genParticles.parent->genParticles
+chsAK4Jets.constituents->pfCandidates
+chsAK4Jets.matchedGenJet->genJets
+puppiAK4Jets.constituents->pfCandidates
+puppiAK4Jets.matchedGenJet->genJets
+chsAK8Jets.constituents->pfCandidates
+chsAK8Jets.subjets->subjets
+chsCA15Jets.constituents->pfCandidates
+chsCA15Jets.subjets->subjets
+puppiAK8Jets.constituents->pfCandidates
+puppiAK8Jets.subjets->subjets
+puppiCA15Jets.constituents->pfCandidates
+puppiCA15Jets.subjets->subjets
+subjets.constituents->pfCandidates
+double reweight(UInt_t i) const { return 1. + reweightDW[i]; }
 
 {Run}
 run/i

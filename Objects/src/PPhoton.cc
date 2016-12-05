@@ -32,11 +32,11 @@ panda::PPhoton::datastore::allocate(UInt_t _nmax)
   highpt = new Bool_t[nmax_];
   pixelVeto = new Bool_t[nmax_];
   csafeVeto = new Bool_t[nmax_];
-  matchedGen = new Int_t[nmax_];
   genIso = new Float_t[nmax_];
   matchL1 = new Bool_t[nmax_][nPhotonL1Objects];
   matchHLT = new Bool_t[nmax_][nPhotonHLTObjects];
   superCluster_ = new UInt_t[nmax_];
+  matchedGen_ = new UInt_t[nmax_];
 }
 
 void
@@ -98,8 +98,6 @@ panda::PPhoton::datastore::deallocate()
   pixelVeto = 0;
   delete [] csafeVeto;
   csafeVeto = 0;
-  delete [] matchedGen;
-  matchedGen = 0;
   delete [] genIso;
   genIso = 0;
   delete [] matchL1;
@@ -108,6 +106,8 @@ panda::PPhoton::datastore::deallocate()
   matchHLT = 0;
   delete [] superCluster_;
   superCluster_ = 0;
+  delete [] matchedGen_;
+  matchedGen_ = 0;
 }
 
 void
@@ -142,11 +142,11 @@ panda::PPhoton::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t 
   utils::setStatus(_tree, _name, "highpt", _status, _branches);
   utils::setStatus(_tree, _name, "pixelVeto", _status, _branches);
   utils::setStatus(_tree, _name, "csafeVeto", _status, _branches);
-  utils::setStatus(_tree, _name, "matchedGen", _status, _branches);
   utils::setStatus(_tree, _name, "genIso", _status, _branches);
   utils::setStatus(_tree, _name, "matchL1", _status, _branches);
   utils::setStatus(_tree, _name, "matchHLT", _status, _branches);
   utils::setStatus(_tree, _name, "superCluster_", _status, _branches);
+  utils::setStatus(_tree, _name, "matchedGen_", _status, _branches);
 }
 
 void
@@ -181,11 +181,11 @@ panda::PPhoton::datastore::setAddress(TTree& _tree, TString const& _name, utils:
   utils::setAddress(_tree, _name, "highpt", highpt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "pixelVeto", pixelVeto, _branches, _setStatus);
   utils::setAddress(_tree, _name, "csafeVeto", csafeVeto, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "matchedGen", matchedGen, _branches, _setStatus);
   utils::setAddress(_tree, _name, "genIso", genIso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "matchL1", matchL1, _branches, _setStatus);
   utils::setAddress(_tree, _name, "matchHLT", matchHLT, _branches, _setStatus);
   utils::setAddress(_tree, _name, "superCluster_", superCluster_, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "matchedGen_", matchedGen_, _branches, _setStatus);
 }
 
 void
@@ -222,11 +222,11 @@ panda::PPhoton::datastore::book(TTree& _tree, TString const& _name, utils::Branc
   utils::book(_tree, _name, "highpt", size, 'O', highpt, _branches);
   utils::book(_tree, _name, "pixelVeto", size, 'O', pixelVeto, _branches);
   utils::book(_tree, _name, "csafeVeto", size, 'O', csafeVeto, _branches);
-  utils::book(_tree, _name, "matchedGen", size, 'I', matchedGen, _branches);
   utils::book(_tree, _name, "genIso", size, 'F', genIso, _branches);
   utils::book(_tree, _name, "matchL1", size + "[nPhotonL1Objects]", 'O', matchL1, _branches);
   utils::book(_tree, _name, "matchHLT", size + "[nPhotonHLTObjects]", 'O', matchHLT, _branches);
   utils::book(_tree, _name, "superCluster_", size, 'i', superCluster_, _branches);
+  utils::book(_tree, _name, "matchedGen_", size, 'i', matchedGen_, _branches);
 }
 
 void
@@ -261,11 +261,11 @@ panda::PPhoton::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "highpt");
   utils::resetAddress(_tree, _name, "pixelVeto");
   utils::resetAddress(_tree, _name, "csafeVeto");
-  utils::resetAddress(_tree, _name, "matchedGen");
   utils::resetAddress(_tree, _name, "genIso");
   utils::resetAddress(_tree, _name, "matchL1");
   utils::resetAddress(_tree, _name, "matchHLT");
   utils::resetAddress(_tree, _name, "superCluster_");
+  utils::resetAddress(_tree, _name, "matchedGen_");
 }
 
 void
@@ -304,11 +304,11 @@ panda::PPhoton::PPhoton(char const* _name/* = ""*/) :
   highpt(gStore.getData(this).highpt[0]),
   pixelVeto(gStore.getData(this).pixelVeto[0]),
   csafeVeto(gStore.getData(this).csafeVeto[0]),
-  matchedGen(gStore.getData(this).matchedGen[0]),
   genIso(gStore.getData(this).genIso[0]),
   matchL1(gStore.getData(this).matchL1[0]),
   matchHLT(gStore.getData(this).matchHLT[0]),
-  superCluster(gStore.getData(this).superCluster_[0])
+  superCluster(gStore.getData(this).superCluster_[0]),
+  matchedGen(gStore.getData(this).matchedGen_[0])
 {
 }
 
@@ -341,11 +341,11 @@ panda::PPhoton::PPhoton(datastore& _data, UInt_t _idx) :
   highpt(_data.highpt[_idx]),
   pixelVeto(_data.pixelVeto[_idx]),
   csafeVeto(_data.csafeVeto[_idx]),
-  matchedGen(_data.matchedGen[_idx]),
   genIso(_data.genIso[_idx]),
   matchL1(_data.matchL1[_idx]),
   matchHLT(_data.matchHLT[_idx]),
-  superCluster(_data.superCluster_[_idx])
+  superCluster(_data.superCluster_[_idx]),
+  matchedGen(_data.matchedGen_[_idx])
 {
 }
 
@@ -378,11 +378,11 @@ panda::PPhoton::PPhoton(PPhoton const& _src) :
   highpt(gStore.getData(this).highpt[0]),
   pixelVeto(gStore.getData(this).pixelVeto[0]),
   csafeVeto(gStore.getData(this).csafeVeto[0]),
-  matchedGen(gStore.getData(this).matchedGen[0]),
   genIso(gStore.getData(this).genIso[0]),
   matchL1(gStore.getData(this).matchL1[0]),
   matchHLT(gStore.getData(this).matchHLT[0]),
-  superCluster(gStore.getData(this).superCluster_[0])
+  superCluster(gStore.getData(this).superCluster_[0]),
+  matchedGen(gStore.getData(this).matchedGen_[0])
 {
   PParticle::operator=(_src);
 
@@ -413,11 +413,11 @@ panda::PPhoton::PPhoton(PPhoton const& _src) :
   highpt = _src.highpt;
   pixelVeto = _src.pixelVeto;
   csafeVeto = _src.csafeVeto;
-  matchedGen = _src.matchedGen;
   genIso = _src.genIso;
   std::memcpy(matchL1, _src.matchL1, sizeof(Bool_t) * nPhotonL1Objects);
   std::memcpy(matchHLT, _src.matchHLT, sizeof(Bool_t) * nPhotonHLTObjects);
   superCluster = _src.superCluster;
+  matchedGen = _src.matchedGen;
 }
 
 panda::PPhoton::PPhoton(ArrayBase* _array) :
@@ -449,11 +449,11 @@ panda::PPhoton::PPhoton(ArrayBase* _array) :
   highpt(gStore.getData(this).highpt[0]),
   pixelVeto(gStore.getData(this).pixelVeto[0]),
   csafeVeto(gStore.getData(this).csafeVeto[0]),
-  matchedGen(gStore.getData(this).matchedGen[0]),
   genIso(gStore.getData(this).genIso[0]),
   matchL1(gStore.getData(this).matchL1[0]),
   matchHLT(gStore.getData(this).matchHLT[0]),
-  superCluster(gStore.getData(this).superCluster_[0])
+  superCluster(gStore.getData(this).superCluster_[0]),
+  matchedGen(gStore.getData(this).matchedGen_[0])
 {
 }
 
@@ -494,11 +494,11 @@ panda::PPhoton::operator=(PPhoton const& _src)
   highpt = _src.highpt;
   pixelVeto = _src.pixelVeto;
   csafeVeto = _src.csafeVeto;
-  matchedGen = _src.matchedGen;
   genIso = _src.genIso;
   std::memcpy(matchL1, _src.matchL1, sizeof(Bool_t) * nPhotonL1Objects);
   std::memcpy(matchHLT, _src.matchHLT, sizeof(Bool_t) * nPhotonHLTObjects);
   superCluster = _src.superCluster;
+  matchedGen = _src.matchedGen;
 
   return *this;
 }
@@ -537,11 +537,11 @@ panda::PPhoton::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const&
   utils::setStatus(_tree, name, "highpt", _status, _branches);
   utils::setStatus(_tree, name, "pixelVeto", _status, _branches);
   utils::setStatus(_tree, name, "csafeVeto", _status, _branches);
-  utils::setStatus(_tree, name, "matchedGen", _status, _branches);
   utils::setStatus(_tree, name, "genIso", _status, _branches);
   utils::setStatus(_tree, name, "matchL1", _status, _branches);
   utils::setStatus(_tree, name, "matchHLT", _status, _branches);
   utils::setStatus(_tree, name, "superCluster_", _status, _branches);
+  utils::setStatus(_tree, name, "matchedGen_", _status, _branches);
 }
 
 void
@@ -578,11 +578,11 @@ panda::PPhoton::setAddress(TTree& _tree, utils::BranchList const& _branches/* = 
   utils::setAddress(_tree, name, "highpt", &highpt, _branches, _setStatus);
   utils::setAddress(_tree, name, "pixelVeto", &pixelVeto, _branches, _setStatus);
   utils::setAddress(_tree, name, "csafeVeto", &csafeVeto, _branches, _setStatus);
-  utils::setAddress(_tree, name, "matchedGen", &matchedGen, _branches, _setStatus);
   utils::setAddress(_tree, name, "genIso", &genIso, _branches, _setStatus);
   utils::setAddress(_tree, name, "matchL1", matchL1, _branches, _setStatus);
   utils::setAddress(_tree, name, "matchHLT", matchHLT, _branches, _setStatus);
   utils::setAddress(_tree, name, "superCluster_", gStore.getData(this).superCluster_, _branches, true);
+  utils::setAddress(_tree, name, "matchedGen_", gStore.getData(this).matchedGen_, _branches, true);
 }
 
 void
@@ -619,11 +619,11 @@ panda::PPhoton::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*
   utils::book(_tree, name, "highpt", "", 'O', &highpt, _branches);
   utils::book(_tree, name, "pixelVeto", "", 'O', &pixelVeto, _branches);
   utils::book(_tree, name, "csafeVeto", "", 'O', &csafeVeto, _branches);
-  utils::book(_tree, name, "matchedGen", "", 'I', &matchedGen, _branches);
   utils::book(_tree, name, "genIso", "", 'F', &genIso, _branches);
   utils::book(_tree, name, "matchL1", "[nPhotonL1Objects]", 'O', matchL1, _branches);
   utils::book(_tree, name, "matchHLT", "[nPhotonHLTObjects]", 'O', matchHLT, _branches);
   utils::book(_tree, name, "superCluster_", "", 'i', gStore.getData(this).superCluster_, _branches);
+  utils::book(_tree, name, "matchedGen_", "", 'i', gStore.getData(this).matchedGen_, _branches);
 }
 
 void
@@ -660,11 +660,11 @@ panda::PPhoton::resetAddress(TTree& _tree)
   utils::resetAddress(_tree, name, "highpt");
   utils::resetAddress(_tree, name, "pixelVeto");
   utils::resetAddress(_tree, name, "csafeVeto");
-  utils::resetAddress(_tree, name, "matchedGen");
   utils::resetAddress(_tree, name, "genIso");
   utils::resetAddress(_tree, name, "matchL1");
   utils::resetAddress(_tree, name, "matchHLT");
   utils::resetAddress(_tree, name, "superCluster_");
+  utils::resetAddress(_tree, name, "matchedGen_");
 }
 
 void
@@ -699,11 +699,11 @@ panda::PPhoton::init()
   highpt = false;
   pixelVeto = false;
   csafeVeto = false;
-  matchedGen = 0;
   genIso = 0.;
   for (auto& p0 : matchL1) p0 = false;
   for (auto& p0 : matchHLT) p0 = false;
   superCluster.init();
+  matchedGen.init();
 }
 
 /* BEGIN CUSTOM */

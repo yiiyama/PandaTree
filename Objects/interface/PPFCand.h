@@ -23,7 +23,8 @@ namespace panda {
       Float_t* mass{0};
       */
       Short_t* q{0};
-      Float_t* weight{0};
+      Float_t* puppiW{0};
+      Float_t* puppiWNoLep{0};
       Int_t* pftype{0};
 
       void allocate(UInt_t n) override;
@@ -61,7 +62,8 @@ namespace panda {
     Float_t& mass;
     */
     Short_t& q;
-    Float_t& weight;
+    Float_t& puppiW;
+    Float_t& puppiWNoLep;
     Int_t& pftype;
 
     /* BEGIN CUSTOM */
