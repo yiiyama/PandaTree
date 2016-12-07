@@ -62,8 +62,8 @@ namespace panda {
     UInt_t lumiNumber{};
     UInt_t eventNumber{};
     Bool_t isData{};
-    Int_t npv{};
-    Int_t npvTrue{};
+    UShort_t npv{};
+    UShort_t npvTrue{};
     Float_t rho{};
     Float_t rhoCentralCalo{};
     Float_t weight{};

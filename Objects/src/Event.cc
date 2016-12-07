@@ -380,8 +380,8 @@ panda::Event::doBook_(TTree& _tree, utils::BranchList const& _branches)
   utils::book(_tree, "", "lumiNumber", "", 'i', &lumiNumber, _branches);
   utils::book(_tree, "", "eventNumber", "", 'i', &eventNumber, _branches);
   utils::book(_tree, "", "isData", "", 'O', &isData, _branches);
-  utils::book(_tree, "", "npv", "", 'I', &npv, _branches);
-  utils::book(_tree, "", "npvTrue", "", 'I', &npvTrue, _branches);
+  utils::book(_tree, "", "npv", "", 's', &npv, _branches);
+  utils::book(_tree, "", "npvTrue", "", 's', &npvTrue, _branches);
   utils::book(_tree, "", "rho", "", 'F', &rho, _branches);
   utils::book(_tree, "", "rhoCentralCalo", "", 'F', &rhoCentralCalo, _branches);
   utils::book(_tree, "", "weight", "", 'F', &weight, _branches);

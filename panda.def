@@ -285,8 +285,8 @@ runNumber/i
 lumiNumber/i
 eventNumber/i
 isData/O
-npv/I
-npvTrue/I
+npv/s
+npvTrue/s
 rho/F
 rhoCentralCalo/F
 weight/F
