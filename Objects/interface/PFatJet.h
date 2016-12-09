@@ -22,6 +22,11 @@ namespace panda {
       /* PParticleM
       Float_t* mass{0};
       */
+      /* PMicroJet
+      Float_t* csv{0};
+      Float_t* qgl{0};
+ContainerBase const* constituentsContainer_{0};      std::vector<std::vector<UInt_t>>* constituents_{0};
+      */
       /* PJet
       Float_t* rawPt{0};
       Float_t* ptCorrUp{0};
@@ -29,8 +34,6 @@ namespace panda {
       Float_t* ptSmear{0};
       Float_t* ptSmearUp{0};
       Float_t* ptSmearDown{0};
-      Float_t* csv{0};
-      Float_t* qgl{0};
       Float_t* nhf{0};
       Float_t* chf{0};
       Bool_t* loose{0};
@@ -38,7 +41,6 @@ namespace panda {
       Bool_t* monojet{0};
       ContainerBase const* matchedGenJetContainer_{0};
       UInt_t* matchedGenJet_{0};
-ContainerBase const* constituentsContainer_{0};      std::vector<std::vector<UInt_t>>* constituents_{0};
       */
       Float_t* tau1{0};
       Float_t* tau2{0};
@@ -89,6 +91,11 @@ ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<UInt_t>>
     /* PParticleM
     Float_t& mass;
     */
+    /* PMicroJet
+    Float_t& csv;
+    Float_t& qgl;
+    RefVector<PPFCand> constituents;
+    */
     /* PJet
     Float_t& rawPt;
     Float_t& ptCorrUp;
@@ -96,15 +103,12 @@ ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<UInt_t>>
     Float_t& ptSmear;
     Float_t& ptSmearUp;
     Float_t& ptSmearDown;
-    Float_t& csv;
-    Float_t& qgl;
     Float_t& nhf;
     Float_t& chf;
     Bool_t& loose;
     Bool_t& tight;
     Bool_t& monojet;
     Ref<PGenJet> matchedGenJet;
-    RefVector<PPFCand> constituents;
     */
     Float_t& tau1;
     Float_t& tau2;

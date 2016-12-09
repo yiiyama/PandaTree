@@ -10,6 +10,7 @@
 #include "PPhoton.h"
 #include "PJet.h"
 #include "PFatJet.h"
+#include "PMicroJet.h"
 #include "PGenJet.h"
 #include "PGenParticle.h"
 #include "PRecoMET.h"
@@ -42,7 +43,7 @@ namespace panda {
     PFatJetCollection chsCA15Jets = PFatJetCollection("chsCA15Jets", 8);
     PFatJetCollection puppiAK8Jets = PFatJetCollection("puppiAK8Jets", 8);
     PFatJetCollection puppiCA15Jets = PFatJetCollection("puppiCA15Jets", 8);
-    PJetCollection subjets = PJetCollection("subjets", 64);
+    PMicroJetCollection subjets = PMicroJetCollection("subjets", 64);
     PGenJetCollection genJets = PGenJetCollection("genJets", 64);
     PGenParticleCollection genParticles = PGenParticleCollection("genParticles", 128);
     PRecoMET met = PRecoMET("met");

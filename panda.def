@@ -182,22 +182,24 @@ matchedGen/PGenParticleRef
 [PGenJet>PParticleM]
 pdgid/I
 
-[PJet>PParticleM]
+[PMicroJet>PParticleM]
+csv/F
+qgl/F
+constituents/PPFCandRefVector
+
+[PJet>PMicroJet]
 rawPt/F
 ptCorrUp/F
 ptCorrDown/F
 ptSmear/F
 ptSmearUp/F
 ptSmearDown/F
-csv/F
-qgl/F
 nhf/F
 chf/F
 loose/O
 tight/O
 monojet/O
 matchedGenJet/PGenJetRef
-constituents/PPFCandRefVector
 
 [PFatJet>PJet]
 tau1/F
@@ -303,7 +305,7 @@ chsAK8Jets/PFatJetCollection(8)
 chsCA15Jets/PFatJetCollection(8)
 puppiAK8Jets/PFatJetCollection(8)
 puppiCA15Jets/PFatJetCollection(8)
-subjets/PJetCollection(64)
+subjets/PMicroJetCollection(64)
 genJets/PGenJetCollection(64)
 genParticles/PGenParticleCollection(128)
 met/PRecoMET

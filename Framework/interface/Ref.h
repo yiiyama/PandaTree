@@ -119,8 +119,8 @@ namespace panda {
     if (!container_ || !(*container_) || !idx_)
       return *this;
 
-    for (unsigned& i(*idx_); i != (*container_)->size(); ++i) {
-      if (&(*container_)->elemAt(i) == _rhs)
+    for ((*idx_) = 0; (*idx_) != (*container_)->size(); ++(*idx_)) {
+      if (&(*container_)->elemAt(*idx_) == _rhs)
         return *this;
     }
 

@@ -11,6 +11,7 @@
 #include "../Objects/interface/PTau.h"
 #include "../Objects/interface/PPhoton.h"
 #include "../Objects/interface/PGenJet.h"
+#include "../Objects/interface/PMicroJet.h"
 #include "../Objects/interface/PJet.h"
 #include "../Objects/interface/PFatJet.h"
 #include "../Objects/interface/PMET.h"
@@ -43,6 +44,7 @@
 #pragma link C++ class panda::PTau;
 #pragma link C++ class panda::PPhoton;
 #pragma link C++ class panda::PGenJet;
+#pragma link C++ class panda::PMicroJet;
 #pragma link C++ class panda::PJet;
 #pragma link C++ class panda::PFatJet;
 #pragma link C++ class panda::PMET;
@@ -71,6 +73,8 @@
 #pragma link C++ class Collection<panda::PPhoton>;
 #pragma link C++ class Array<panda::PGenJet>;
 #pragma link C++ class Collection<panda::PGenJet>;
+#pragma link C++ class Array<panda::PMicroJet>;
+#pragma link C++ class Collection<panda::PMicroJet>;
 #pragma link C++ class Array<panda::PJet>;
 #pragma link C++ class Collection<panda::PJet>;
 #pragma link C++ class Array<panda::PFatJet>;
@@ -97,6 +101,8 @@
 #pragma link C++ typedef panda::PPhotonCollection;
 #pragma link C++ typedef panda::PGenJetArray;
 #pragma link C++ typedef panda::PGenJetCollection;
+#pragma link C++ typedef panda::PMicroJetArray;
+#pragma link C++ typedef panda::PMicroJetCollection;
 #pragma link C++ typedef panda::PJetArray;
 #pragma link C++ typedef panda::PJetCollection;
 #pragma link C++ typedef panda::PFatJetArray;
