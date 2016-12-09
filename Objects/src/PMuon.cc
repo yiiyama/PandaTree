@@ -87,7 +87,17 @@ panda::PMuon::PMuon(ArrayBase* _array) :
 
 panda::PMuon::~PMuon()
 {
+  destructor();
   gStore.free(this);
+}
+
+void
+panda::PMuon::destructor()
+{
+  /* BEGIN CUSTOM PMuon.cc.destructor */
+  /* END CUSTOM */
+
+  PLepton::destructor();
 }
 
 panda::PMuon&
@@ -149,5 +159,5 @@ panda::PMuon::init()
 }
 
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM PMuon.cc.global */
 /* END CUSTOM */

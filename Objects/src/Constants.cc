@@ -104,5 +104,5 @@ panda::makeMuonHLTObjectTree()
   return tree;
 }
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM Constants.cc.global */
 /* END CUSTOM */

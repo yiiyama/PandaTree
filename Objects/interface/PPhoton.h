@@ -51,7 +51,9 @@ namespace panda {
       Float_t* genIso{0};
       Bool_t (*matchL1)[nPhotonL1Objects]{0};
       Bool_t (*matchHLT)[nPhotonHLTObjects]{0};
+      ContainerBase const* superClusterContainer_{0};
       UInt_t* superCluster_{0};
+      ContainerBase const* matchedGenContainer_{0};
       UInt_t* matchedGen_{0};
 
       void allocate(UInt_t n) override;
@@ -118,8 +120,10 @@ namespace panda {
     Ref<PSuperCluster> superCluster;
     Ref<PGenParticle> matchedGen;
 
-    /* BEGIN CUSTOM */
+    /* BEGIN CUSTOM PPhoton.h.classdef */
     /* END CUSTOM */
+
+    void destructor() override;
 
   protected:
     PPhoton(ArrayBase*);
@@ -130,7 +134,7 @@ namespace panda {
   typedef Ref<PPhoton> PPhotonRef;
   typedef RefVector<PPhoton> PPhotonRefVector;
 
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM PPhoton.h.global */
   /* END CUSTOM */
 
 }

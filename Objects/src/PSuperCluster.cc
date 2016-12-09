@@ -111,7 +111,17 @@ panda::PSuperCluster::PSuperCluster(ArrayBase* _array) :
 
 panda::PSuperCluster::~PSuperCluster()
 {
+  destructor();
   gStore.free(this);
+}
+
+void
+panda::PSuperCluster::destructor()
+{
+  /* BEGIN CUSTOM PSuperCluster.cc.destructor */
+  /* END CUSTOM */
+
+  ContainerElement::destructor();
 }
 
 panda::PSuperCluster&
@@ -184,5 +194,5 @@ panda::PSuperCluster::init()
   phi = 0.;
 }
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM PSuperCluster.cc.global */
 /* END CUSTOM */

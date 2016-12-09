@@ -3,46 +3,26 @@
 panda::Event::Event() :
   TreeEntry()
 {
-  for (auto& p : electrons)
-    p.superCluster.setContainer(superClusters);
-  for (auto& p : electrons)
-    p.matchedGen.setContainer(genParticles);
-  for (auto& p : muons)
-    p.matchedGen.setContainer(genParticles);
-  for (auto& p : taus)
-    p.matchedGen.setContainer(genParticles);
-  for (auto& p : photons)
-    p.superCluster.setContainer(superClusters);
-  for (auto& p : photons)
-    p.matchedGen.setContainer(genParticles);
-  for (auto& p : genParticles)
-    p.parent.setContainer(genParticles);
-  for (auto& p : chsAK4Jets)
-    p.constituents.setContainer(pfCandidates);
-  for (auto& p : chsAK4Jets)
-    p.matchedGenJet.setContainer(genJets);
-  for (auto& p : puppiAK4Jets)
-    p.constituents.setContainer(pfCandidates);
-  for (auto& p : puppiAK4Jets)
-    p.matchedGenJet.setContainer(genJets);
-  for (auto& p : chsAK8Jets)
-    p.constituents.setContainer(pfCandidates);
-  for (auto& p : chsAK8Jets)
-    p.subjets.setContainer(subjets);
-  for (auto& p : chsCA15Jets)
-    p.constituents.setContainer(pfCandidates);
-  for (auto& p : chsCA15Jets)
-    p.subjets.setContainer(subjets);
-  for (auto& p : puppiAK8Jets)
-    p.constituents.setContainer(pfCandidates);
-  for (auto& p : puppiAK8Jets)
-    p.subjets.setContainer(subjets);
-  for (auto& p : puppiCA15Jets)
-    p.constituents.setContainer(pfCandidates);
-  for (auto& p : puppiCA15Jets)
-    p.subjets.setContainer(subjets);
-  for (auto& p : subjets)
-    p.constituents.setContainer(pfCandidates);
+  electrons.data.superClusterContainer_ = &superClusters;
+  electrons.data.matchedGenContainer_ = &genParticles;
+  muons.data.matchedGenContainer_ = &genParticles;
+  taus.data.matchedGenContainer_ = &genParticles;
+  photons.data.superClusterContainer_ = &superClusters;
+  photons.data.matchedGenContainer_ = &genParticles;
+  genParticles.data.parentContainer_ = &genParticles;
+  chsAK4Jets.data.constituentsContainer_ = &pfCandidates;
+  chsAK4Jets.data.matchedGenJetContainer_ = &genJets;
+  puppiAK4Jets.data.constituentsContainer_ = &pfCandidates;
+  puppiAK4Jets.data.matchedGenJetContainer_ = &genJets;
+  chsAK8Jets.data.constituentsContainer_ = &pfCandidates;
+  chsAK8Jets.data.subjetsContainer_ = &subjets;
+  chsCA15Jets.data.constituentsContainer_ = &pfCandidates;
+  chsCA15Jets.data.subjetsContainer_ = &subjets;
+  puppiAK8Jets.data.constituentsContainer_ = &pfCandidates;
+  puppiAK8Jets.data.subjetsContainer_ = &subjets;
+  puppiCA15Jets.data.constituentsContainer_ = &pfCandidates;
+  puppiCA15Jets.data.subjetsContainer_ = &subjets;
+  subjets.data.constituentsContainer_ = &pfCandidates;
 }
 
 panda::Event::Event(Event const& _src) :
@@ -85,46 +65,26 @@ panda::Event::Event(Event const& _src) :
   weight(_src.weight)
 {
   std::memcpy(reweightDW, _src.reweightDW, sizeof(Float_t) * 512);
-  for (auto& p : electrons)
-    p.superCluster.setContainer(superClusters);
-  for (auto& p : electrons)
-    p.matchedGen.setContainer(genParticles);
-  for (auto& p : muons)
-    p.matchedGen.setContainer(genParticles);
-  for (auto& p : taus)
-    p.matchedGen.setContainer(genParticles);
-  for (auto& p : photons)
-    p.superCluster.setContainer(superClusters);
-  for (auto& p : photons)
-    p.matchedGen.setContainer(genParticles);
-  for (auto& p : genParticles)
-    p.parent.setContainer(genParticles);
-  for (auto& p : chsAK4Jets)
-    p.constituents.setContainer(pfCandidates);
-  for (auto& p : chsAK4Jets)
-    p.matchedGenJet.setContainer(genJets);
-  for (auto& p : puppiAK4Jets)
-    p.constituents.setContainer(pfCandidates);
-  for (auto& p : puppiAK4Jets)
-    p.matchedGenJet.setContainer(genJets);
-  for (auto& p : chsAK8Jets)
-    p.constituents.setContainer(pfCandidates);
-  for (auto& p : chsAK8Jets)
-    p.subjets.setContainer(subjets);
-  for (auto& p : chsCA15Jets)
-    p.constituents.setContainer(pfCandidates);
-  for (auto& p : chsCA15Jets)
-    p.subjets.setContainer(subjets);
-  for (auto& p : puppiAK8Jets)
-    p.constituents.setContainer(pfCandidates);
-  for (auto& p : puppiAK8Jets)
-    p.subjets.setContainer(subjets);
-  for (auto& p : puppiCA15Jets)
-    p.constituents.setContainer(pfCandidates);
-  for (auto& p : puppiCA15Jets)
-    p.subjets.setContainer(subjets);
-  for (auto& p : subjets)
-    p.constituents.setContainer(pfCandidates);
+  electrons.data.superClusterContainer_ = &superClusters;
+  electrons.data.matchedGenContainer_ = &genParticles;
+  muons.data.matchedGenContainer_ = &genParticles;
+  taus.data.matchedGenContainer_ = &genParticles;
+  photons.data.superClusterContainer_ = &superClusters;
+  photons.data.matchedGenContainer_ = &genParticles;
+  genParticles.data.parentContainer_ = &genParticles;
+  chsAK4Jets.data.constituentsContainer_ = &pfCandidates;
+  chsAK4Jets.data.matchedGenJetContainer_ = &genJets;
+  puppiAK4Jets.data.constituentsContainer_ = &pfCandidates;
+  puppiAK4Jets.data.matchedGenJetContainer_ = &genJets;
+  chsAK8Jets.data.constituentsContainer_ = &pfCandidates;
+  chsAK8Jets.data.subjetsContainer_ = &subjets;
+  chsCA15Jets.data.constituentsContainer_ = &pfCandidates;
+  chsCA15Jets.data.subjetsContainer_ = &subjets;
+  puppiAK8Jets.data.constituentsContainer_ = &pfCandidates;
+  puppiAK8Jets.data.subjetsContainer_ = &subjets;
+  puppiCA15Jets.data.constituentsContainer_ = &pfCandidates;
+  puppiCA15Jets.data.subjetsContainer_ = &subjets;
+  subjets.data.constituentsContainer_ = &pfCandidates;
 }
 
 panda::Event&
@@ -141,46 +101,26 @@ panda::Event::operator=(Event const& _src)
   weight = _src.weight;
   std::memcpy(reweightDW, _src.reweightDW, sizeof(Float_t) * 512);
 
-  for (auto& p : electrons)
-    p.superCluster.setContainer(superClusters);
-  for (auto& p : electrons)
-    p.matchedGen.setContainer(genParticles);
-  for (auto& p : muons)
-    p.matchedGen.setContainer(genParticles);
-  for (auto& p : taus)
-    p.matchedGen.setContainer(genParticles);
-  for (auto& p : photons)
-    p.superCluster.setContainer(superClusters);
-  for (auto& p : photons)
-    p.matchedGen.setContainer(genParticles);
-  for (auto& p : genParticles)
-    p.parent.setContainer(genParticles);
-  for (auto& p : chsAK4Jets)
-    p.constituents.setContainer(pfCandidates);
-  for (auto& p : chsAK4Jets)
-    p.matchedGenJet.setContainer(genJets);
-  for (auto& p : puppiAK4Jets)
-    p.constituents.setContainer(pfCandidates);
-  for (auto& p : puppiAK4Jets)
-    p.matchedGenJet.setContainer(genJets);
-  for (auto& p : chsAK8Jets)
-    p.constituents.setContainer(pfCandidates);
-  for (auto& p : chsAK8Jets)
-    p.subjets.setContainer(subjets);
-  for (auto& p : chsCA15Jets)
-    p.constituents.setContainer(pfCandidates);
-  for (auto& p : chsCA15Jets)
-    p.subjets.setContainer(subjets);
-  for (auto& p : puppiAK8Jets)
-    p.constituents.setContainer(pfCandidates);
-  for (auto& p : puppiAK8Jets)
-    p.subjets.setContainer(subjets);
-  for (auto& p : puppiCA15Jets)
-    p.constituents.setContainer(pfCandidates);
-  for (auto& p : puppiCA15Jets)
-    p.subjets.setContainer(subjets);
-  for (auto& p : subjets)
-    p.constituents.setContainer(pfCandidates);
+  electrons.data.superClusterContainer_ = &superClusters;
+  electrons.data.matchedGenContainer_ = &genParticles;
+  muons.data.matchedGenContainer_ = &genParticles;
+  taus.data.matchedGenContainer_ = &genParticles;
+  photons.data.superClusterContainer_ = &superClusters;
+  photons.data.matchedGenContainer_ = &genParticles;
+  genParticles.data.parentContainer_ = &genParticles;
+  chsAK4Jets.data.constituentsContainer_ = &pfCandidates;
+  chsAK4Jets.data.matchedGenJetContainer_ = &genJets;
+  puppiAK4Jets.data.constituentsContainer_ = &pfCandidates;
+  puppiAK4Jets.data.matchedGenJetContainer_ = &genJets;
+  chsAK8Jets.data.constituentsContainer_ = &pfCandidates;
+  chsAK8Jets.data.subjetsContainer_ = &subjets;
+  chsCA15Jets.data.constituentsContainer_ = &pfCandidates;
+  chsCA15Jets.data.subjetsContainer_ = &subjets;
+  puppiAK8Jets.data.constituentsContainer_ = &pfCandidates;
+  puppiAK8Jets.data.subjetsContainer_ = &subjets;
+  puppiCA15Jets.data.constituentsContainer_ = &pfCandidates;
+  puppiCA15Jets.data.subjetsContainer_ = &subjets;
+  subjets.data.constituentsContainer_ = &pfCandidates;
 
   return *this;
 }
@@ -423,7 +363,7 @@ panda::Event::doReleaseTree_(TTree& _tree)
 
 
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM Event.cc.global */
 /* END CUSTOM */
 /*protected*/
 void

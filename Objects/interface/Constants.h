@@ -83,7 +83,7 @@ namespace panda {
     AST2 = sizeof(char[(nMaxHLTObjects >= nMuonHLTObjects) ? 1 : -1]),
     nAssertionss
   };
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM Constants.h.global */
   /* END CUSTOM */
 
 }

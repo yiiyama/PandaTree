@@ -56,8 +56,10 @@ namespace panda {
     */
     Float_t& mass;
 
-    /* BEGIN CUSTOM */
+    /* BEGIN CUSTOM PParticleM.h.classdef */
     /* END CUSTOM */
+
+    void destructor() override;
 
   protected:
     PParticleM(ArrayBase*);
@@ -68,7 +70,7 @@ namespace panda {
   typedef Ref<PParticleM> PParticleMRef;
   typedef RefVector<PParticleM> PParticleMRefVector;
 
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM PParticleM.h.global */
   /* END CUSTOM */
 
 }

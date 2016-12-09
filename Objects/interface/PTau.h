@@ -29,6 +29,7 @@ namespace panda {
       Bool_t* decayModeNew{0};
       Float_t* iso{0};
       Float_t* isoDeltaBetaCorr{0};
+      ContainerBase const* matchedGenContainer_{0};
       UInt_t* matchedGen_{0};
 
       void allocate(UInt_t n) override;
@@ -73,8 +74,10 @@ namespace panda {
     Float_t& isoDeltaBetaCorr;
     Ref<PGenParticle> matchedGen;
 
-    /* BEGIN CUSTOM */
+    /* BEGIN CUSTOM PTau.h.classdef */
     /* END CUSTOM */
+
+    void destructor() override;
 
   protected:
     PTau(ArrayBase*);
@@ -85,7 +88,7 @@ namespace panda {
   typedef Ref<PTau> PTauRef;
   typedef RefVector<PTau> PTauRefVector;
 
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM PTau.h.global */
   /* END CUSTOM */
 
 }

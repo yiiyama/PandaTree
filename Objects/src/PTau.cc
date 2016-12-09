@@ -108,7 +108,7 @@ panda::PTau::PTau(char const* _name/* = ""*/) :
   decayModeNew(gStore.getData(this).decayModeNew[0]),
   iso(gStore.getData(this).iso[0]),
   isoDeltaBetaCorr(gStore.getData(this).isoDeltaBetaCorr[0]),
-  matchedGen(gStore.getData(this).matchedGen_[0])
+  matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
 {
 }
 
@@ -120,7 +120,7 @@ panda::PTau::PTau(datastore& _data, UInt_t _idx) :
   decayModeNew(_data.decayModeNew[_idx]),
   iso(_data.iso[_idx]),
   isoDeltaBetaCorr(_data.isoDeltaBetaCorr[_idx]),
-  matchedGen(_data.matchedGen_[_idx])
+  matchedGen(_data.matchedGenContainer_, _data.matchedGen_[_idx])
 {
 }
 
@@ -132,7 +132,7 @@ panda::PTau::PTau(PTau const& _src) :
   decayModeNew(gStore.getData(this).decayModeNew[0]),
   iso(gStore.getData(this).iso[0]),
   isoDeltaBetaCorr(gStore.getData(this).isoDeltaBetaCorr[0]),
-  matchedGen(gStore.getData(this).matchedGen_[0])
+  matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
 {
   PParticleM::operator=(_src);
 
@@ -153,13 +153,23 @@ panda::PTau::PTau(ArrayBase* _array) :
   decayModeNew(gStore.getData(this).decayModeNew[0]),
   iso(gStore.getData(this).iso[0]),
   isoDeltaBetaCorr(gStore.getData(this).isoDeltaBetaCorr[0]),
-  matchedGen(gStore.getData(this).matchedGen_[0])
+  matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
 {
 }
 
 panda::PTau::~PTau()
 {
+  destructor();
   gStore.free(this);
+}
+
+void
+panda::PTau::destructor()
+{
+  /* BEGIN CUSTOM PTau.cc.destructor */
+  /* END CUSTOM */
+
+  PParticleM::destructor();
 }
 
 panda::PTau&
@@ -256,5 +266,5 @@ panda::PTau::init()
   matchedGen.init();
 }
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM PTau.cc.global */
 /* END CUSTOM */

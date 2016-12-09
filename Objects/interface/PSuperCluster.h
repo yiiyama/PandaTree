@@ -48,8 +48,10 @@ namespace panda {
     Float_t& eta;
     Float_t& phi;
 
-    /* BEGIN CUSTOM */
+    /* BEGIN CUSTOM PSuperCluster.h.classdef */
     /* END CUSTOM */
+
+    void destructor() override;
 
   protected:
     PSuperCluster(ArrayBase*);
@@ -60,7 +62,7 @@ namespace panda {
   typedef Ref<PSuperCluster> PSuperClusterRef;
   typedef RefVector<PSuperCluster> PSuperClusterRefVector;
 
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM PSuperCluster.h.global */
   /* END CUSTOM */
 
 }

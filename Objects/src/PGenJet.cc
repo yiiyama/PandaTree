@@ -87,7 +87,17 @@ panda::PGenJet::PGenJet(ArrayBase* _array) :
 
 panda::PGenJet::~PGenJet()
 {
+  destructor();
   gStore.free(this);
+}
+
+void
+panda::PGenJet::destructor()
+{
+  /* BEGIN CUSTOM PGenJet.cc.destructor */
+  /* END CUSTOM */
+
+  PParticleM::destructor();
 }
 
 panda::PGenJet&
@@ -148,5 +158,5 @@ panda::PGenJet::init()
   pdgid = 0;
 }
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM PGenJet.cc.global */
 /* END CUSTOM */

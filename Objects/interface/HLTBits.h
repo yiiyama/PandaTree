@@ -27,11 +27,11 @@ namespace panda {
 
     UInt_t words[16]{};
 
-    /* BEGIN CUSTOM */
+    /* BEGIN CUSTOM HLTBits.h.classdef */
     /* END CUSTOM */
   };
 
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM HLTBits.h.global */
   /* END CUSTOM */
 
 }

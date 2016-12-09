@@ -61,7 +61,7 @@ panda::Run::doReleaseTree_(TTree& _tree)
 }
 
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM Run.cc.global */
 /* END CUSTOM */
 /*protected*/
 void

@@ -3,8 +3,8 @@
 
 //! A reference to an element in a container.
 /*!
-  A Ref consists of a pointer to a collection and an integer that acts as the index to the element referred to.
-  The index integer is supplied by the holder of the Ref during construction. At read time, the holder of the
+  A Ref consists of a pointer reference to a collection and an integer that acts as the index to the element referred to.
+  The references are supplied by the holder of the Ref during construction. At read time, the holder of the
   Ref is responsible for instructing the Ref to point to a specific index in the given collection. At write time,
   the Ref can be passed a pointer to the element to point to, using the operator=. The Ref object will find the
   proper index internally.
@@ -23,28 +23,25 @@ namespace panda {
   public:
     typedef Ref<E> self_type;
     typedef E value_type;
-    typedef typename E::array_type array_type;
-    typedef typename E::collection_type collection_type;
 
     //! Default constructor.
     Ref() {}
-    //! Standard constructor. 
+    //! Standard constructor.
     /*!
-      The argument idx must not go out of the scope before this object is destroyed.
+      The container must be a derived class of Array<E> or Collection<E>. There is no protection against
+      assigning a wrong type of container.
     */
-    Ref(UInt_t& idx) : idx_(&idx) {}
-    //! Constructor with array container.
-    Ref(UInt_t& idx, array_type const& c) : idx_(&idx), container_(&c) {}
-    //! Constructor with collection container.
-    Ref(UInt_t& idx, collection_type const& c) : idx_(&idx), container_(&c) {}
+    Ref(ContainerBase const*& c, UInt_t& idx) : container_(&c), idx_(&idx) {}
     //! Copy constructor.
-    Ref(self_type const& orig) : idx_(orig.idx_), container_(orig.container_) {}
+    Ref(self_type const& orig) : container_(orig.container_), idx_(orig.idx_) {}
     //! Set the index.
     void setIndex(UInt_t& idx) { idx_ = &idx; }
-    //! Set the container to an array.
-    void setContainer(array_type const& c) { container_ = &c; }
-    //! Set the container to a collection.
-    void setContainer(collection_type const& c) { container_ = &c; }
+    //! Set the container.
+    /*!
+      The container must be a derived class of Array<E> or Collection<E>. There is no protection against
+      assigning a wrong type of container.
+    */
+    void setContainer(ContainerBase const*& c) { container_ = &c; }
     //! The arrow operator.
     /*!
       Returns a null pointer if the container is not set or the index points to an invalid location.
@@ -68,7 +65,7 @@ namespace panda {
     */
     self_type& operator=(self_type const&);
     //! Validity check. Both container and idx must be valid, and idx must not be 0xffffffff.
-    bool isValid() const { return container_ && idx_ && (*idx_) < container_->size(); }
+    bool isValid() const { return container_ && *container_ && idx_ && (*idx_) < (*container_)->size(); }
     //! Initializer
     /*!
       Invalidates the index by setting it to 0xffffffff.
@@ -80,10 +77,13 @@ namespace panda {
     */
     UInt_t& idx();
     //! Accessor to container
-    ContainerBase const* container() const { return container_; }
+    /*!
+      Throws a runtime_error if container is not valid.
+    */
+    ContainerBase const* container() const;
 
   private:
-    ContainerBase const* container_{0};
+    ContainerBase const** container_{0};
     UInt_t* idx_{0};
   };
 
@@ -91,20 +91,20 @@ namespace panda {
   E const*
   Ref<E>::operator->() const
   {
-    if (!container_ || !idx_)
+    if (!container_ || !(*container_) || !idx_)
       return 0;
 
-    return &static_cast<E const&>(container_->elemAt(*idx_));
+    return &static_cast<E const&>((*container_)->elemAt(*idx_));
   }
 
   template<class E>
   E const&
   Ref<E>::operator*() const
   {
-    if (!container_ || !idx_)
+    if (!container_ || !(*container_) || !idx_)
       throw std::runtime_error("Dereferencing an invalid Ref");
 
-    return static_cast<E const&>(container_->elemAt(*idx_));
+    return static_cast<E const&>((*container_)->elemAt(*idx_));
   }
   
   template<class E>
@@ -116,11 +116,11 @@ namespace panda {
       idx_ = 0;
     }
 
-    if (!container_ || !idx_)
+    if (!container_ || !(*container_) || !idx_)
       return *this;
 
-    for (unsigned& i(*idx_); i != container_->size(); ++i) {
-      if (&container_->elemAt(i) == _rhs)
+    for (unsigned& i(*idx_); i != (*container_)->size(); ++i) {
+      if (&(*container_)->elemAt(i) == _rhs)
         return *this;
     }
 
@@ -150,6 +150,16 @@ namespace panda {
       throw std::runtime_error("Invalid index ref");
 
     return *idx_;
+  }
+
+  template<class E>
+  ContainerBase const*
+  Ref<E>::container() const
+  {
+    if (!container_)
+      throw std::runtime_error("Invalid container ref");
+
+    return *container_;
   }
 
 }

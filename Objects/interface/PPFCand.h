@@ -66,8 +66,10 @@ namespace panda {
     Float_t& puppiWNoLep;
     Int_t& pftype;
 
-    /* BEGIN CUSTOM */
+    /* BEGIN CUSTOM PPFCand.h.classdef */
     /* END CUSTOM */
+
+    void destructor() override;
 
   protected:
     PPFCand(ArrayBase*);
@@ -78,7 +80,7 @@ namespace panda {
   typedef Ref<PPFCand> PPFCandRef;
   typedef RefVector<PPFCand> PPFCandRefVector;
 
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM PPFCand.h.global */
   /* END CUSTOM */
 
 }

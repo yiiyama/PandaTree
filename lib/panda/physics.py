@@ -204,13 +204,11 @@ class PhysicsObject(Definition, Object):
                 header.writeline('*/')
 
         header.newline()
-        if len(header.custom_blocks) != 0:
-            header.write(header.custom_blocks[0])
-        else:
-            header.writeline('/* BEGIN CUSTOM */')
-            header.writeline('/* END CUSTOM */')
+        header.write_custom_block('{name}.h.classdef'.format(name = self.name))
 
         if not self.is_singlet():
+            header.newline()
+            header.writeline('void destructor() override;')
             header.newline()
             header.indent -= 1
             header.writeline('protected:')
@@ -230,11 +228,7 @@ class PhysicsObject(Definition, Object):
             header.writeline('typedef RefVector<{name}> {name}RefVector;'.format(name = self.name))
             header.newline()
 
-        if len(header.custom_blocks) > 1:
-            header.write(header.custom_blocks[1])
-        else:
-            header.writeline('/* BEGIN CUSTOM */')
-            header.writeline('/* END CUSTOM */')
+        header.write_custom_block('{name}.h.global'.format(name = self.name))
         header.newline()
 
         header.indent -= 1
@@ -444,9 +438,22 @@ class PhysicsObject(Definition, Object):
             src.writeline('{NAMESPACE}::{name}::~{name}()'.format(**subst))
             src.writeline('{')
             src.indent += 1
+            src.writeline('destructor();')
             src.writeline('gStore.free(this);')
             src.indent -= 1
             src.writeline('}')
+
+            src.newline()
+            src.writeline('void')
+            src.writeline('{NAMESPACE}::{name}::destructor()'.format(**subst))
+            src.writeline('{')
+            src.indent += 1
+            src.write_custom_block('{name}.cc.destructor'.format(**subst))
+            src.newline()
+            src.writeline('{parent}::destructor();'.format(**subst))
+            src.indent -= 1
+            src.writeline('}')
+
 
             name_line = 'TString name(gStore.getName(this));'
             methods = [
@@ -468,10 +475,6 @@ class PhysicsObject(Definition, Object):
                 function.write_def(src, context = self.name)
 
         src.newline()
-        if len(src.custom_blocks) != 0:
-            src.write(src.custom_blocks[0])
-        else:
-            src.writeline('/* BEGIN CUSTOM */')
-            src.writeline('/* END CUSTOM */')
+        src.write_custom_block('{name}.cc.global'.format(**subst))
 
         src.close()

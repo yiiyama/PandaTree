@@ -68,21 +68,21 @@ panda::PGenParticle::datastore::resizeVectors_(UInt_t _size)
 panda::PGenParticle::PGenParticle(char const* _name/* = ""*/) :
   PParticleM(new PGenParticleArray(1, _name)),
   pdgid(gStore.getData(this).pdgid[0]),
-  parent(gStore.getData(this).parent_[0])
+  parent(gStore.getData(this).parentContainer_, gStore.getData(this).parent_[0])
 {
 }
 
 panda::PGenParticle::PGenParticle(datastore& _data, UInt_t _idx) :
   PParticleM(_data, _idx),
   pdgid(_data.pdgid[_idx]),
-  parent(_data.parent_[_idx])
+  parent(_data.parentContainer_, _data.parent_[_idx])
 {
 }
 
 panda::PGenParticle::PGenParticle(PGenParticle const& _src) :
   PParticleM(new PGenParticleArray(1, gStore.getName(&_src))),
   pdgid(gStore.getData(this).pdgid[0]),
-  parent(gStore.getData(this).parent_[0])
+  parent(gStore.getData(this).parentContainer_, gStore.getData(this).parent_[0])
 {
   PParticleM::operator=(_src);
 
@@ -93,13 +93,23 @@ panda::PGenParticle::PGenParticle(PGenParticle const& _src) :
 panda::PGenParticle::PGenParticle(ArrayBase* _array) :
   PParticleM(_array),
   pdgid(gStore.getData(this).pdgid[0]),
-  parent(gStore.getData(this).parent_[0])
+  parent(gStore.getData(this).parentContainer_, gStore.getData(this).parent_[0])
 {
 }
 
 panda::PGenParticle::~PGenParticle()
 {
+  destructor();
   gStore.free(this);
+}
+
+void
+panda::PGenParticle::destructor()
+{
+  /* BEGIN CUSTOM PGenParticle.cc.destructor */
+  /* END CUSTOM */
+
+  PParticleM::destructor();
 }
 
 panda::PGenParticle&
@@ -166,5 +176,5 @@ panda::PGenParticle::init()
   parent.init();
 }
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM PGenParticle.cc.global */
 /* END CUSTOM */

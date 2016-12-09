@@ -28,12 +28,14 @@ class RefVectorBranch(RefBranch, GenericBranch):
 
     def write_decl(self, out, context):
         if context == 'datastore':
+            out.write('ContainerBase const* {name}Container_{{0}};'.format(name = self.refname))
             GenericBranch.write_decl(self, out, context)
         else:
             if context == 'Singlet':
                 out.indent -= 1
                 out.writeline('protected:')
                 out.indent += 1
+                out.write('ContainerBase const* {name}Container_{{0}};'.format(name = self.refname))
                 GenericBranch.write_decl(self, out, context)
                 out.indent -= 1
                 out.writeline('public:')
@@ -67,26 +69,27 @@ class RefVectorBranch(RefBranch, GenericBranch):
             return
 
         if context == 'Singlet':
-            lines.append('{name}(*{name}_)'.format(name = self.refname))
+            lines.append('{name}({name}Container_, *{name}_)'.format(name = self.refname))
         elif context == 'ContainerElement':
-            lines.append('{name}((*gStore.getData(this).{name}_)[0])'.format(name = self.refname))
+            lines.append('{name}(gStore.getData(this).{name}Container_, (*gStore.getData(this).{name}_)[0])'.format(name = self.refname))
 
     def init_standard(self, lines, context):
         if self.is_array():
             return
 
         if context == 'ContainerElement':
-            lines.append('{name}((*_data.{name}_)[_idx])'.format(name = self.refname))
+            lines.append('{name}(_data.{name}Container_, (*_data.{name}_)[_idx])'.format(name = self.refname))
 
     def init_copy(self, lines, context):
         if self.is_array(): 
             return
 
         if context == 'Singlet' or context == 'TreeEntry':
+            lines.append('{name}Container_(_src.{name}Container_)')
             Branch.init_copy(lines, context)
             lines.append('{name}(*{name}_)'.format(name = self.refname))
         elif context == 'ContainerElement':
-            lines.append('{name}((*gStore.getData(this).{name}_)[0])'.format(name = self.refname))
+            lines.append('{name}(gStore.getData(this).{name}Container_, (*gStore.getData(this).{name}_)[0])'.format(name = self.refname))
 
     def write_default_ctor(self, out, context):
         if not self.is_array():

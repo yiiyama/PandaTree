@@ -197,5 +197,5 @@ panda::PRecoMET::vCorr(int corr/* = 0*/) const
 }
 
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM PRecoMET.cc.global */
 /* END CUSTOM */

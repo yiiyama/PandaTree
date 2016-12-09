@@ -148,7 +148,7 @@ panda::PElectron::PElectron(char const* _name/* = ""*/) :
   hOverE(gStore.getData(this).hOverE[0]),
   veto(gStore.getData(this).veto[0]),
   matchHLT(gStore.getData(this).matchHLT[0]),
-  superCluster(gStore.getData(this).superCluster_[0])
+  superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
 {
 }
 
@@ -165,7 +165,7 @@ panda::PElectron::PElectron(datastore& _data, UInt_t _idx) :
   hOverE(_data.hOverE[_idx]),
   veto(_data.veto[_idx]),
   matchHLT(_data.matchHLT[_idx]),
-  superCluster(_data.superCluster_[_idx])
+  superCluster(_data.superClusterContainer_, _data.superCluster_[_idx])
 {
 }
 
@@ -182,7 +182,7 @@ panda::PElectron::PElectron(PElectron const& _src) :
   hOverE(gStore.getData(this).hOverE[0]),
   veto(gStore.getData(this).veto[0]),
   matchHLT(gStore.getData(this).matchHLT[0]),
-  superCluster(gStore.getData(this).superCluster_[0])
+  superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
 {
   PLepton::operator=(_src);
 
@@ -213,13 +213,23 @@ panda::PElectron::PElectron(ArrayBase* _array) :
   hOverE(gStore.getData(this).hOverE[0]),
   veto(gStore.getData(this).veto[0]),
   matchHLT(gStore.getData(this).matchHLT[0]),
-  superCluster(gStore.getData(this).superCluster_[0])
+  superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
 {
 }
 
 panda::PElectron::~PElectron()
 {
+  destructor();
   gStore.free(this);
+}
+
+void
+panda::PElectron::destructor()
+{
+  /* BEGIN CUSTOM PElectron.cc.destructor */
+  /* END CUSTOM */
+
+  PLepton::destructor();
 }
 
 panda::PElectron&
@@ -347,5 +357,5 @@ panda::PElectron::init()
 }
 
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM PElectron.cc.global */
 /* END CUSTOM */

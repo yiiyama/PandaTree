@@ -75,5 +75,5 @@ panda::PMET::init()
 }
 
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM PMET.cc.global */
 /* END CUSTOM */

@@ -141,7 +141,7 @@ panda::PFatJet::PFatJet(char const* _name/* = ""*/) :
   htt_mass(gStore.getData(this).htt_mass[0]),
   htt_frec(gStore.getData(this).htt_frec[0]),
   ecfs(gStore.getData(this).ecfs[0]),
-  subjets((*gStore.getData(this).subjets_)[0])
+  subjets(gStore.getData(this).subjetsContainer_, (*gStore.getData(this).subjets_)[0])
 {
 }
 
@@ -157,7 +157,7 @@ panda::PFatJet::PFatJet(datastore& _data, UInt_t _idx) :
   htt_mass(_data.htt_mass[_idx]),
   htt_frec(_data.htt_frec[_idx]),
   ecfs(_data.ecfs[_idx]),
-  subjets((*_data.subjets_)[_idx])
+  subjets(_data.subjetsContainer_, (*_data.subjets_)[_idx])
 {
 }
 
@@ -173,7 +173,7 @@ panda::PFatJet::PFatJet(PFatJet const& _src) :
   htt_mass(gStore.getData(this).htt_mass[0]),
   htt_frec(gStore.getData(this).htt_frec[0]),
   ecfs(gStore.getData(this).ecfs[0]),
-  subjets((*gStore.getData(this).subjets_)[0])
+  subjets(gStore.getData(this).subjetsContainer_, (*gStore.getData(this).subjets_)[0])
 {
   PJet::operator=(_src);
 
@@ -202,13 +202,23 @@ panda::PFatJet::PFatJet(ArrayBase* _array) :
   htt_mass(gStore.getData(this).htt_mass[0]),
   htt_frec(gStore.getData(this).htt_frec[0]),
   ecfs(gStore.getData(this).ecfs[0]),
-  subjets((*gStore.getData(this).subjets_)[0])
+  subjets(gStore.getData(this).subjetsContainer_, (*gStore.getData(this).subjets_)[0])
 {
 }
 
 panda::PFatJet::~PFatJet()
 {
+  destructor();
   gStore.free(this);
+}
+
+void
+panda::PFatJet::destructor()
+{
+  /* BEGIN CUSTOM PFatJet.cc.destructor */
+  /* END CUSTOM */
+
+  PJet::destructor();
 }
 
 panda::PFatJet&
@@ -347,5 +357,5 @@ panda::PFatJet::set_ecf(int o_, int N_, int ib_, float x_)
 }
 
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM PFatJet.cc.global */
 /* END CUSTOM */

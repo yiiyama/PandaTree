@@ -33,11 +33,11 @@ namespace panda {
     Bool_t badTrack{};
     Bool_t badMuonTrack{};
 
-    /* BEGIN CUSTOM */
+    /* BEGIN CUSTOM PMETFilters.h.classdef */
     /* END CUSTOM */
   };
 
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM PMETFilters.h.global */
   /* END CUSTOM */
 
 }

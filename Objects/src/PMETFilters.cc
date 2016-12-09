@@ -123,5 +123,5 @@ panda::PMETFilters::init()
 }
 
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM PMETFilters.cc.global */
 /* END CUSTOM */

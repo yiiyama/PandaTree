@@ -1,3 +1,4 @@
+import re
 from common import *
 
 class FileOutput(object):
@@ -6,7 +7,8 @@ class FileOutput(object):
     """
 
     def __init__(self, fname):
-        self.custom_blocks = []
+        self.custom_blocks = {}
+
         if PRESERVE_CUSTOM:
             try:
                 original = open(fname)
@@ -14,8 +16,9 @@ class FileOutput(object):
                     line = original.readline()
                     if not line:
                         break
-                    
-                    if '/* BEGIN CUSTOM */' not in line:
+                  
+                    matches = re.match('/* BEGIN CUSTOM (.+) */', line.strip())
+                    if matches is None:
                         continue
     
                     block = line
@@ -25,7 +28,7 @@ class FileOutput(object):
                         if not line or '/* END CUSTOM */' in line:
                             break
     
-                    self.custom_blocks.append(block)
+                    self.custom_blocks[matches.group(1)] = block
                 
                 original.close()
             except IOError:
@@ -52,3 +55,10 @@ class FileOutput(object):
             indented_lines.append(('  ' * self.indent) + line)
 
         self._file.write((line_end + '\n').join(indented_lines) + '\n')
+
+    def write_custom_block(self, block_name):
+        try:
+            self.write(self.custom_blocks[block_name])
+        except KeyError:
+            self.writeline('/* BEGIN CUSTOM ' + block_name + ' */')
+            self.writeline('/* END CUSTOM */')

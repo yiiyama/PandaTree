@@ -172,8 +172,8 @@ panda::PJet::PJet(char const* _name/* = ""*/) :
   loose(gStore.getData(this).loose[0]),
   tight(gStore.getData(this).tight[0]),
   monojet(gStore.getData(this).monojet[0]),
-  matchedGenJet(gStore.getData(this).matchedGenJet_[0]),
-  constituents((*gStore.getData(this).constituents_)[0])
+  matchedGenJet(gStore.getData(this).matchedGenJetContainer_, gStore.getData(this).matchedGenJet_[0]),
+  constituents(gStore.getData(this).constituentsContainer_, (*gStore.getData(this).constituents_)[0])
 {
 }
 
@@ -192,8 +192,8 @@ panda::PJet::PJet(datastore& _data, UInt_t _idx) :
   loose(_data.loose[_idx]),
   tight(_data.tight[_idx]),
   monojet(_data.monojet[_idx]),
-  matchedGenJet(_data.matchedGenJet_[_idx]),
-  constituents((*_data.constituents_)[_idx])
+  matchedGenJet(_data.matchedGenJetContainer_, _data.matchedGenJet_[_idx]),
+  constituents(_data.constituentsContainer_, (*_data.constituents_)[_idx])
 {
 }
 
@@ -212,8 +212,8 @@ panda::PJet::PJet(PJet const& _src) :
   loose(gStore.getData(this).loose[0]),
   tight(gStore.getData(this).tight[0]),
   monojet(gStore.getData(this).monojet[0]),
-  matchedGenJet(gStore.getData(this).matchedGenJet_[0]),
-  constituents((*gStore.getData(this).constituents_)[0])
+  matchedGenJet(gStore.getData(this).matchedGenJetContainer_, gStore.getData(this).matchedGenJet_[0]),
+  constituents(gStore.getData(this).constituentsContainer_, (*gStore.getData(this).constituents_)[0])
 {
   PParticleM::operator=(_src);
 
@@ -249,14 +249,24 @@ panda::PJet::PJet(ArrayBase* _array) :
   loose(gStore.getData(this).loose[0]),
   tight(gStore.getData(this).tight[0]),
   monojet(gStore.getData(this).monojet[0]),
-  matchedGenJet(gStore.getData(this).matchedGenJet_[0]),
-  constituents((*gStore.getData(this).constituents_)[0])
+  matchedGenJet(gStore.getData(this).matchedGenJetContainer_, gStore.getData(this).matchedGenJet_[0]),
+  constituents(gStore.getData(this).constituentsContainer_, (*gStore.getData(this).constituents_)[0])
 {
 }
 
 panda::PJet::~PJet()
 {
+  destructor();
   gStore.free(this);
+}
+
+void
+panda::PJet::destructor()
+{
+  /* BEGIN CUSTOM PJet.cc.destructor */
+  /* END CUSTOM */
+
+  PParticleM::destructor();
 }
 
 panda::PJet&
@@ -401,5 +411,5 @@ panda::PJet::init()
   constituents.init();
 }
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM PJet.cc.global */
 /* END CUSTOM */

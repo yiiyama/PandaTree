@@ -61,8 +61,10 @@ namespace panda {
     Float_t& eta;
     Float_t& phi;
 
-    /* BEGIN CUSTOM */
+    /* BEGIN CUSTOM PParticle.h.classdef */
     /* END CUSTOM */
+
+    void destructor() override;
 
   protected:
     PParticle(ArrayBase*);
@@ -73,7 +75,7 @@ namespace panda {
   typedef Ref<PParticle> PParticleRef;
   typedef RefVector<PParticle> PParticleRefVector;
 
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM PParticle.h.global */
   /* END CUSTOM */
 
 }

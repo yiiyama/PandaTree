@@ -36,8 +36,9 @@ namespace panda {
       Bool_t* loose{0};
       Bool_t* tight{0};
       Bool_t* monojet{0};
+      ContainerBase const* matchedGenJetContainer_{0};
       UInt_t* matchedGenJet_{0};
-      std::vector<std::vector<UInt_t>>* constituents_{0};
+ContainerBase const* constituentsContainer_{0};      std::vector<std::vector<UInt_t>>* constituents_{0};
       */
       Float_t* tau1{0};
       Float_t* tau2{0};
@@ -49,7 +50,7 @@ namespace panda {
       Float_t* htt_mass{0};
       Float_t* htt_frec{0};
       Float_t (*ecfs)[3][4][4]{0};
-      std::vector<std::vector<UInt_t>>* subjets_{0};
+ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<UInt_t>>* subjets_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -117,8 +118,10 @@ namespace panda {
     Float_t (&ecfs)[3][4][4];
     RefVector<PJet> subjets;
 
-    /* BEGIN CUSTOM */
+    /* BEGIN CUSTOM PFatJet.h.classdef */
     /* END CUSTOM */
+
+    void destructor() override;
 
   protected:
     PFatJet(ArrayBase*);
@@ -129,7 +132,7 @@ namespace panda {
   typedef Ref<PFatJet> PFatJetRef;
   typedef RefVector<PFatJet> PFatJetRefVector;
 
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM PFatJet.h.global */
   /* END CUSTOM */
 
 }

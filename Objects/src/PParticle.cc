@@ -111,7 +111,17 @@ panda::PParticle::PParticle(ArrayBase* _array) :
 
 panda::PParticle::~PParticle()
 {
+  destructor();
   gStore.free(this);
+}
+
+void
+panda::PParticle::destructor()
+{
+  /* BEGIN CUSTOM PParticle.cc.destructor */
+  /* END CUSTOM */
+
+  ContainerElement::destructor();
 }
 
 panda::PParticle&
@@ -185,5 +195,5 @@ panda::PParticle::init()
 }
 
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM PParticle.cc.global */
 /* END CUSTOM */

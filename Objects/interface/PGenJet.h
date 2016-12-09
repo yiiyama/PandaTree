@@ -60,8 +60,10 @@ namespace panda {
     */
     Int_t& pdgid;
 
-    /* BEGIN CUSTOM */
+    /* BEGIN CUSTOM PGenJet.h.classdef */
     /* END CUSTOM */
+
+    void destructor() override;
 
   protected:
     PGenJet(ArrayBase*);
@@ -72,7 +74,7 @@ namespace panda {
   typedef Ref<PGenJet> PGenJetRef;
   typedef RefVector<PGenJet> PGenJetRefVector;
 
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM PGenJet.h.global */
   /* END CUSTOM */
 
 }

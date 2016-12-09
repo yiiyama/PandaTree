@@ -37,8 +37,9 @@ namespace panda {
       Bool_t* loose{0};
       Bool_t* tight{0};
       Bool_t* monojet{0};
+      ContainerBase const* matchedGenJetContainer_{0};
       UInt_t* matchedGenJet_{0};
-      std::vector<std::vector<UInt_t>>* constituents_{0};
+ContainerBase const* constituentsContainer_{0};      std::vector<std::vector<UInt_t>>* constituents_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -90,8 +91,10 @@ namespace panda {
     Ref<PGenJet> matchedGenJet;
     RefVector<PPFCand> constituents;
 
-    /* BEGIN CUSTOM */
+    /* BEGIN CUSTOM PJet.h.classdef */
     /* END CUSTOM */
+
+    void destructor() override;
 
   protected:
     PJet(ArrayBase*);
@@ -102,7 +105,7 @@ namespace panda {
   typedef Ref<PJet> PJetRef;
   typedef RefVector<PJet> PJetRefVector;
 
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM PJet.h.global */
   /* END CUSTOM */
 
 }

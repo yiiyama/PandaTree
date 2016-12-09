@@ -140,7 +140,7 @@ panda::PLepton::PLepton(char const* _name/* = ""*/) :
   puiso(gStore.getData(this).puiso[0]),
   tauDecay(gStore.getData(this).tauDecay[0]),
   hadDecay(gStore.getData(this).hadDecay[0]),
-  matchedGen(gStore.getData(this).matchedGen_[0])
+  matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
 {
 }
 
@@ -156,7 +156,7 @@ panda::PLepton::PLepton(datastore& _data, UInt_t _idx) :
   puiso(_data.puiso[_idx]),
   tauDecay(_data.tauDecay[_idx]),
   hadDecay(_data.hadDecay[_idx]),
-  matchedGen(_data.matchedGen_[_idx])
+  matchedGen(_data.matchedGenContainer_, _data.matchedGen_[_idx])
 {
 }
 
@@ -172,7 +172,7 @@ panda::PLepton::PLepton(PLepton const& _src) :
   puiso(gStore.getData(this).puiso[0]),
   tauDecay(gStore.getData(this).tauDecay[0]),
   hadDecay(gStore.getData(this).hadDecay[0]),
-  matchedGen(gStore.getData(this).matchedGen_[0])
+  matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
 {
   PParticle::operator=(_src);
 
@@ -201,13 +201,23 @@ panda::PLepton::PLepton(ArrayBase* _array) :
   puiso(gStore.getData(this).puiso[0]),
   tauDecay(gStore.getData(this).tauDecay[0]),
   hadDecay(gStore.getData(this).hadDecay[0]),
-  matchedGen(gStore.getData(this).matchedGen_[0])
+  matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
 {
 }
 
 panda::PLepton::~PLepton()
 {
+  destructor();
   gStore.free(this);
+}
+
+void
+panda::PLepton::destructor()
+{
+  /* BEGIN CUSTOM PLepton.cc.destructor */
+  /* END CUSTOM */
+
+  PParticle::destructor();
 }
 
 panda::PLepton&
@@ -329,5 +339,5 @@ panda::PLepton::init()
 }
 
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM PLepton.cc.global */
 /* END CUSTOM */

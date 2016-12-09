@@ -30,6 +30,7 @@ namespace panda {
       Float_t* puiso{0};
       Bool_t* tauDecay{0};
       Bool_t* hadDecay{0};
+      ContainerBase const* matchedGenContainer_{0};
       UInt_t* matchedGen_{0};
 
       void allocate(UInt_t n) override;
@@ -77,8 +78,10 @@ namespace panda {
     Bool_t& hadDecay;
     Ref<PGenParticle> matchedGen;
 
-    /* BEGIN CUSTOM */
+    /* BEGIN CUSTOM PLepton.h.classdef */
     /* END CUSTOM */
+
+    void destructor() override;
 
   protected:
     PLepton(ArrayBase*);
@@ -89,7 +92,7 @@ namespace panda {
   typedef Ref<PLepton> PLeptonRef;
   typedef RefVector<PLepton> PLeptonRefVector;
 
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM PLepton.h.global */
   /* END CUSTOM */
 
 }

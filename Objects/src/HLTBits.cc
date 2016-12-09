@@ -66,5 +66,5 @@ panda::HLTBits::init()
 }
 
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM HLTBits.cc.global */
 /* END CUSTOM */

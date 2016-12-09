@@ -44,11 +44,11 @@ namespace panda {
     Float_t ptSmearDown{};
     Float_t phiSmearDown{};
 
-    /* BEGIN CUSTOM */
+    /* BEGIN CUSTOM PRecoMET.h.classdef */
     /* END CUSTOM */
   };
 
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM PRecoMET.h.global */
   /* END CUSTOM */
 
 }

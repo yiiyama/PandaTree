@@ -307,8 +307,8 @@ panda::PPhoton::PPhoton(char const* _name/* = ""*/) :
   genIso(gStore.getData(this).genIso[0]),
   matchL1(gStore.getData(this).matchL1[0]),
   matchHLT(gStore.getData(this).matchHLT[0]),
-  superCluster(gStore.getData(this).superCluster_[0]),
-  matchedGen(gStore.getData(this).matchedGen_[0])
+  superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0]),
+  matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
 {
 }
 
@@ -344,8 +344,8 @@ panda::PPhoton::PPhoton(datastore& _data, UInt_t _idx) :
   genIso(_data.genIso[_idx]),
   matchL1(_data.matchL1[_idx]),
   matchHLT(_data.matchHLT[_idx]),
-  superCluster(_data.superCluster_[_idx]),
-  matchedGen(_data.matchedGen_[_idx])
+  superCluster(_data.superClusterContainer_, _data.superCluster_[_idx]),
+  matchedGen(_data.matchedGenContainer_, _data.matchedGen_[_idx])
 {
 }
 
@@ -381,8 +381,8 @@ panda::PPhoton::PPhoton(PPhoton const& _src) :
   genIso(gStore.getData(this).genIso[0]),
   matchL1(gStore.getData(this).matchL1[0]),
   matchHLT(gStore.getData(this).matchHLT[0]),
-  superCluster(gStore.getData(this).superCluster_[0]),
-  matchedGen(gStore.getData(this).matchedGen_[0])
+  superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0]),
+  matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
 {
   PParticle::operator=(_src);
 
@@ -452,14 +452,24 @@ panda::PPhoton::PPhoton(ArrayBase* _array) :
   genIso(gStore.getData(this).genIso[0]),
   matchL1(gStore.getData(this).matchL1[0]),
   matchHLT(gStore.getData(this).matchHLT[0]),
-  superCluster(gStore.getData(this).superCluster_[0]),
-  matchedGen(gStore.getData(this).matchedGen_[0])
+  superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0]),
+  matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
 {
 }
 
 panda::PPhoton::~PPhoton()
 {
+  destructor();
   gStore.free(this);
+}
+
+void
+panda::PPhoton::destructor()
+{
+  /* BEGIN CUSTOM PPhoton.cc.destructor */
+  /* END CUSTOM */
+
+  PParticle::destructor();
 }
 
 panda::PPhoton&
@@ -706,5 +716,5 @@ panda::PPhoton::init()
   matchedGen.init();
 }
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM PPhoton.cc.global */
 /* END CUSTOM */

@@ -31,6 +31,7 @@ namespace panda {
       Float_t* puiso{0};
       Bool_t* tauDecay{0};
       Bool_t* hadDecay{0};
+      ContainerBase const* matchedGenContainer_{0};
       UInt_t* matchedGen_{0};
       */
       Float_t* chisoPh{0};
@@ -44,6 +45,7 @@ namespace panda {
       Float_t* hOverE{0};
       Bool_t* veto{0};
       Bool_t (*matchHLT)[nElectronHLTObjects]{0};
+      ContainerBase const* superClusterContainer_{0};
       UInt_t* superCluster_{0};
 
       void allocate(UInt_t n) override;
@@ -106,8 +108,10 @@ namespace panda {
     Bool_t (&matchHLT)[nElectronHLTObjects];
     Ref<PSuperCluster> superCluster;
 
-    /* BEGIN CUSTOM */
+    /* BEGIN CUSTOM PElectron.h.classdef */
     /* END CUSTOM */
+
+    void destructor() override;
 
   protected:
     PElectron(ArrayBase*);
@@ -118,7 +122,7 @@ namespace panda {
   typedef Ref<PElectron> PElectronRef;
   typedef RefVector<PElectron> PElectronRefVector;
 
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM PElectron.h.global */
   /* END CUSTOM */
 
 }

@@ -157,11 +157,7 @@ for function in functions:
     function.write_decl(header, context = 'global')
     header.newline()
 
-if len(header.custom_blocks) != 0:
-    header.write(header.custom_blocks[0])
-else:
-    header.writeline('/* BEGIN CUSTOM */')
-    header.writeline('/* END CUSTOM */')
+header.write_custom_block('Constants.h.global')
 header.newline()
 
 header.indent -= 1
@@ -185,11 +181,7 @@ for function in functions:
     function.write_def(src, context = 'global')
 
 src.newline()
-if len(src.custom_blocks) != 0:
-    src.write(src.custom_blocks[0])
-else:
-    src.writeline('/* BEGIN CUSTOM */')
-    src.writeline('/* END CUSTOM */')
+src.write_custom_block('Constants.cc.global')
 
 src.close()
 

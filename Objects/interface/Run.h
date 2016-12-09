@@ -25,11 +25,11 @@ namespace panda {
     void adjustCollectionSizes_() override;
 
   public:
-    /* BEGIN CUSTOM */
+    /* BEGIN CUSTOM Run.h.classdef */
     /* END CUSTOM */
   };
 
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM Run.h.global */
   /* END CUSTOM */
 
 }

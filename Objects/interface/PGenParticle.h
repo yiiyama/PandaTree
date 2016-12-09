@@ -23,6 +23,7 @@ namespace panda {
       Float_t* mass{0};
       */
       Int_t* pdgid{0};
+      ContainerBase const* parentContainer_{0};
       UInt_t* parent_{0};
 
       void allocate(UInt_t n) override;
@@ -62,8 +63,10 @@ namespace panda {
     Int_t& pdgid;
     Ref<PGenParticle> parent;
 
-    /* BEGIN CUSTOM */
+    /* BEGIN CUSTOM PGenParticle.h.classdef */
     /* END CUSTOM */
+
+    void destructor() override;
 
   protected:
     PGenParticle(ArrayBase*);
@@ -74,7 +77,7 @@ namespace panda {
   typedef Ref<PGenParticle> PGenParticleRef;
   typedef RefVector<PGenParticle> PGenParticleRefVector;
 
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM PGenParticle.h.global */
   /* END CUSTOM */
 
 }

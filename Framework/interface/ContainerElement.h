@@ -79,6 +79,15 @@ namespace panda {
 
     void setName(char const*) override;
 
+    //! Destructor implementation
+    /*!
+      The actual destructor of the object should be called only if the Element is constructed as a singlet.
+      In the Container environment, the memory allocated for this object is directly deallocated without
+      calling ~(Object). If subclasses need to make some calls at the destruction time of the object, they
+      must be implemented in this function.
+    */
+    virtual void destructor() {}
+
   protected:
     //! Ctor for singlet instantiation
     /*!

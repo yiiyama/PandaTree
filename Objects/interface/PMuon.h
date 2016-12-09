@@ -30,6 +30,7 @@ namespace panda {
       Float_t* puiso{0};
       Bool_t* tauDecay{0};
       Bool_t* hadDecay{0};
+      ContainerBase const* matchedGenContainer_{0};
       UInt_t* matchedGen_{0};
       */
       Bool_t (*matchHLT)[nMuonHLTObjects]{0};
@@ -83,8 +84,10 @@ namespace panda {
     */
     Bool_t (&matchHLT)[nMuonHLTObjects];
 
-    /* BEGIN CUSTOM */
+    /* BEGIN CUSTOM PMuon.h.classdef */
     /* END CUSTOM */
+
+    void destructor() override;
 
   protected:
     PMuon(ArrayBase*);
@@ -95,7 +98,7 @@ namespace panda {
   typedef Ref<PMuon> PMuonRef;
   typedef RefVector<PMuon> PMuonRefVector;
 
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM PMuon.h.global */
   /* END CUSTOM */
 
 }

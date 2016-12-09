@@ -82,22 +82,14 @@ class Tree(Definition, Object):
         header.indent -= 1
         header.writeline('public:')
         header.indent += 1
-        if len(header.custom_blocks) != 0:
-            header.write(header.custom_blocks[0])
-        else:
-            header.writeline('/* BEGIN CUSTOM */')
-            header.writeline('/* END CUSTOM */')
+        header.write_custom_block('{name}.h.classdef'.format(name = self.name))
 
         header.indent -= 1
 
         header.writeline('};')
 
         header.newline()
-        if len(header.custom_blocks) > 1:
-            header.write(header.custom_blocks[1])
-        else:
-            header.writeline('/* BEGIN CUSTOM */')
-            header.writeline('/* END CUSTOM */')
+        header.write_custom_block('{name}.h.global'.format(name = self.name))
 
         header.newline()
 
@@ -124,7 +116,7 @@ class Tree(Definition, Object):
         src.writeline('{')
         src.indent += 1
         for ref in self.references:
-            ref.write_def(src)
+            ref.write_def(src, self.objbranches)
         src.indent -= 1
         src.writeline('}')
         src.newline()
@@ -144,7 +136,7 @@ class Tree(Definition, Object):
             if branch.is_array():
                 branch.write_assign(src, context = 'TreeEntry')
         for ref in self.references:
-            ref.write_def(src)
+            ref.write_def(src, self.objbranches)
         src.indent -= 1
         src.writeline('}')
         src.newline()
@@ -159,7 +151,7 @@ class Tree(Definition, Object):
             src.newline()
         if len(self.references) != 0:
             for ref in self.references:
-                ref.write_def(src)
+                ref.write_def(src, self.objbranches)
             src.newline()
         src.writeline('return *this;')
         src.indent -= 1
@@ -244,11 +236,7 @@ class Tree(Definition, Object):
                 function.write_def(src, context = self.name)
 
         src.newline()
-        if len(src.custom_blocks) != 0:
-            src.write(src.custom_blocks[0])
-        else:
-            src.writeline('/* BEGIN CUSTOM */')
-            src.writeline('/* END CUSTOM */')
+        src.write_custom_block('{name}.cc.global'.format(name = self.name))
 
         src.writeline('/*protected*/')
         src.writeline('void')

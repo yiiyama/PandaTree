@@ -123,7 +123,17 @@ panda::PPFCand::PPFCand(ArrayBase* _array) :
 
 panda::PPFCand::~PPFCand()
 {
+  destructor();
   gStore.free(this);
+}
+
+void
+panda::PPFCand::destructor()
+{
+  /* BEGIN CUSTOM PPFCand.cc.destructor */
+  /* END CUSTOM */
+
+  PParticleM::destructor();
 }
 
 panda::PPFCand&
@@ -202,5 +212,5 @@ panda::PPFCand::init()
   pftype = 0;
 }
 
-/* BEGIN CUSTOM */
+/* BEGIN CUSTOM PPFCand.cc.global */
 /* END CUSTOM */

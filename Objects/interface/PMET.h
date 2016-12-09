@@ -28,11 +28,11 @@ namespace panda {
     Float_t pt{};
     Float_t phi{};
 
-    /* BEGIN CUSTOM */
+    /* BEGIN CUSTOM PMET.h.classdef */
     /* END CUSTOM */
   };
 
-  /* BEGIN CUSTOM */
+  /* BEGIN CUSTOM PMET.h.global */
   /* END CUSTOM */
 
 }
