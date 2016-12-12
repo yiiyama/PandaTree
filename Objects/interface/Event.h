@@ -47,6 +47,7 @@ namespace panda {
     GenJetCollection genJets = GenJetCollection("genJets", 64);
     GenParticleCollection genParticles = GenParticleCollection("genParticles", 128);
     RecoMET met = RecoMET("met");
+    RecoMET puppiMet = RecoMET("puppiMet");
     MET rawMet = MET("rawMet");
     MET caloMet = MET("caloMet");
     MET noMuMet = MET("noMuMet");

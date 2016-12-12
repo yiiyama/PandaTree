@@ -43,6 +43,7 @@ panda::Event::Event(Event const& _src) :
   genJets(_src.genJets),
   genParticles(_src.genParticles),
   met(_src.met),
+  puppiMet(_src.puppiMet),
   rawMet(_src.rawMet),
   caloMet(_src.caloMet),
   noMuMet(_src.noMuMet),
@@ -144,6 +145,7 @@ panda::Event::init()
   genJets.init();
   genParticles.init();
   met.init();
+  puppiMet.init();
   rawMet.init();
   caloMet.init();
   noMuMet.init();
@@ -187,6 +189,7 @@ panda::Event::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const
   genJets.setStatus(_tree, _status, _branches.subList("genJets"));
   genParticles.setStatus(_tree, _status, _branches.subList("genParticles"));
   met.setStatus(_tree, _status, _branches.subList("met"));
+  puppiMet.setStatus(_tree, _status, _branches.subList("puppiMet"));
   rawMet.setStatus(_tree, _status, _branches.subList("rawMet"));
   caloMet.setStatus(_tree, _status, _branches.subList("caloMet"));
   noMuMet.setStatus(_tree, _status, _branches.subList("noMuMet"));
@@ -230,6 +233,7 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
   genJets.setAddress(_tree, _branches.subList("genJets"), _setStatus);
   genParticles.setAddress(_tree, _branches.subList("genParticles"), _setStatus);
   met.setAddress(_tree, _branches.subList("met"), _setStatus);
+  puppiMet.setAddress(_tree, _branches.subList("puppiMet"), _setStatus);
   rawMet.setAddress(_tree, _branches.subList("rawMet"), _setStatus);
   caloMet.setAddress(_tree, _branches.subList("caloMet"), _setStatus);
   noMuMet.setAddress(_tree, _branches.subList("noMuMet"), _setStatus);
@@ -305,6 +309,7 @@ panda::Event::doBook_(TTree& _tree, utils::BranchList const& _branches)
   genJets.book(_tree, _branches.subList("genJets"));
   genParticles.book(_tree, _branches.subList("genParticles"));
   met.book(_tree, _branches.subList("met"));
+  puppiMet.book(_tree, _branches.subList("puppiMet"));
   rawMet.book(_tree, _branches.subList("rawMet"));
   caloMet.book(_tree, _branches.subList("caloMet"));
   noMuMet.book(_tree, _branches.subList("noMuMet"));
@@ -348,6 +353,7 @@ panda::Event::doReleaseTree_(TTree& _tree)
   genJets.releaseTree(_tree);
   genParticles.releaseTree(_tree);
   met.resetAddress(_tree);
+  puppiMet.resetAddress(_tree);
   rawMet.resetAddress(_tree);
   caloMet.resetAddress(_tree);
   noMuMet.resetAddress(_tree);

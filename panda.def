@@ -303,6 +303,7 @@ subjets/MicroJetCollection(64)
 genJets/GenJetCollection(64)
 genParticles/GenParticleCollection(128)
 met/RecoMET
+puppiMet/RecoMET
 rawMet/MET
 caloMet/MET
 noMuMet/MET
