@@ -51,10 +51,10 @@ namespace panda {
     double py() const { return pt * std::sin(phi); }
     double pz() const { return pt * std::sinh(eta); }
     virtual double m() const { return 0.; }
-    double dEta(PParticle const& p) const { return eta - p.eta; }
-    double dPhi(PParticle const& p) const { return TVector2::Phi_mpi_pi(phi - p.phi); }
-    double dR2(PParticle const& p) const { double d1(dEta(p)); double d2(dPhi(p)); return d1 * d1 + d2 * d2; }
-    double dR(PParticle const& p) const { return std::sqrt(dR2(p)); }
+    double dEta(Particle const& p) const { return eta - p.eta; }
+    double dPhi(Particle const& p) const { return TVector2::Phi_mpi_pi(phi - p.phi); }
+    double dR2(Particle const& p) const { double d1(dEta(p)); double d2(dPhi(p)); return d1 * d1 + d2 * d2; }
+    double dR(Particle const& p) const { return std::sqrt(dR2(p)); }
 
     Float_t& pt;
     Float_t& eta;

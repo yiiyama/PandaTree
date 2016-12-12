@@ -18,6 +18,7 @@
 #include "../Objects/interface/RecoMET.h"
 #include "../Objects/interface/METFilters.h"
 #include "../Objects/interface/HLTBits.h"
+#include "../Objects/interface/GenReweight.h"
 #include "../Objects/interface/Event.h"
 #include "../Objects/interface/Run.h"
 
@@ -51,6 +52,7 @@
 #pragma link C++ class panda::RecoMET;
 #pragma link C++ class panda::METFilters;
 #pragma link C++ class panda::HLTBits;
+#pragma link C++ class panda::GenReweight;
 #pragma link C++ class Array<panda::Particle>;
 #pragma link C++ class Collection<panda::Particle>;
 #pragma link C++ class Array<panda::ParticleM>;

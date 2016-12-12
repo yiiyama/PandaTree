@@ -27,6 +27,7 @@ panda::Event::Event() :
 
 panda::Event::Event(Event const& _src) :
   TreeEntry(),
+  genReweight(_src.genReweight),
   pfCandidates(_src.pfCandidates),
   superClusters(_src.superClusters),
   electrons(_src.electrons),
@@ -65,7 +66,6 @@ panda::Event::Event(Event const& _src) :
   rhoCentralCalo(_src.rhoCentralCalo),
   weight(_src.weight)
 {
-  std::memcpy(reweightDW, _src.reweightDW, sizeof(Float_t) * 512);
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedGenContainer_ = &genParticles;
   muons.data.matchedGenContainer_ = &genParticles;
@@ -100,7 +100,6 @@ panda::Event::operator=(Event const& _src)
   rho = _src.rho;
   rhoCentralCalo = _src.rhoCentralCalo;
   weight = _src.weight;
-  std::memcpy(reweightDW, _src.reweightDW, sizeof(Float_t) * 512);
 
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedGenContainer_ = &genParticles;
@@ -129,6 +128,7 @@ panda::Event::operator=(Event const& _src)
 void
 panda::Event::init()
 {
+  genReweight.init();
   pfCandidates.init();
   superClusters.init();
   electrons.init();
@@ -166,13 +166,13 @@ panda::Event::init()
   rho = 0.;
   rhoCentralCalo = 0.;
   weight = 0.;
-  for (auto& p0 : reweightDW) p0 = 0.;
 }
 
 /*protected*/
 void
 panda::Event::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const& _branches)
 {
+  genReweight.setStatus(_tree, _status, _branches.subList("genReweight"));
   pfCandidates.setStatus(_tree, _status, _branches.subList("pfCandidates"));
   superClusters.setStatus(_tree, _status, _branches.subList("superClusters"));
   electrons.setStatus(_tree, _status, _branches.subList("electrons"));
@@ -210,13 +210,13 @@ panda::Event::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const
   utils::setStatus(_tree, "", "rho", _status, _branches);
   utils::setStatus(_tree, "", "rhoCentralCalo", _status, _branches);
   utils::setStatus(_tree, "", "weight", _status, _branches);
-  utils::setStatus(_tree, "", "reweightDW", _status, _branches);
 }
 
 /*protected*/
 void
 panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus)
 {
+  genReweight.setAddress(_tree, _branches.subList("genReweight"), _setStatus);
   pfCandidates.setAddress(_tree, _branches.subList("pfCandidates"), _setStatus);
   superClusters.setAddress(_tree, _branches.subList("superClusters"), _setStatus);
   electrons.setAddress(_tree, _branches.subList("electrons"), _setStatus);
@@ -254,7 +254,6 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
   utils::setAddress(_tree, "", "rho", &rho, _branches, _setStatus);
   utils::setAddress(_tree, "", "rhoCentralCalo", &rhoCentralCalo, _branches, _setStatus);
   utils::setAddress(_tree, "", "weight", &weight, _branches, _setStatus);
-  utils::setAddress(_tree, "", "reweightDW", reweightDW, _branches, _setStatus);
 
   sizeBranches_.clear();
   if (_tree.GetBranchStatus("pfCandidates.size"))
@@ -293,6 +292,7 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
 void
 panda::Event::doBook_(TTree& _tree, utils::BranchList const& _branches)
 {
+  genReweight.book(_tree, _branches.subList("genReweight"));
   pfCandidates.book(_tree, _branches.subList("pfCandidates"));
   superClusters.book(_tree, _branches.subList("superClusters"));
   electrons.book(_tree, _branches.subList("electrons"));
@@ -330,13 +330,13 @@ panda::Event::doBook_(TTree& _tree, utils::BranchList const& _branches)
   utils::book(_tree, "", "rho", "", 'F', &rho, _branches);
   utils::book(_tree, "", "rhoCentralCalo", "", 'F', &rhoCentralCalo, _branches);
   utils::book(_tree, "", "weight", "", 'F', &weight, _branches);
-  utils::book(_tree, "", "reweightDW", "[512]", 'F', reweightDW, _branches);
 }
 
 /*protected*/
 void
 panda::Event::doReleaseTree_(TTree& _tree)
 {
+  genReweight.resetAddress(_tree);
   pfCandidates.releaseTree(_tree);
   superClusters.releaseTree(_tree);
   electrons.releaseTree(_tree);

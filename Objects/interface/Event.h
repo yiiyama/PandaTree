@@ -2,6 +2,7 @@
 #define PandaTree_Objects_Event_h
 #include "../../Framework/interface/TreeEntry.h"
 #include "Constants.h"
+#include "GenReweight.h"
 #include "PFCand.h"
 #include "SuperCluster.h"
 #include "Electron.h"
@@ -31,6 +32,7 @@ namespace panda {
 
     double reweight(UInt_t i) const { return 1. + reweightDW[i]; }
 
+    GenReweight genReweight = GenReweight("genReweight");
     PFCandCollection pfCandidates = PFCandCollection("pfCandidates", 256);
     SuperClusterCollection superClusters = SuperClusterCollection("superClusters", 64);
     ElectronCollection electrons = ElectronCollection("electrons", 32);
@@ -69,7 +71,6 @@ namespace panda {
     Float_t rho{};
     Float_t rhoCentralCalo{};
     Float_t weight{};
-    Float_t reweightDW[512]{};
 
   protected:
     void doSetStatus_(TTree&, Bool_t, utils::BranchList const&) override;
