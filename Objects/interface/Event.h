@@ -2,20 +2,20 @@
 #define PandaTree_Objects_Event_h
 #include "../../Framework/interface/TreeEntry.h"
 #include "Constants.h"
-#include "PPFCand.h"
-#include "PSuperCluster.h"
-#include "PElectron.h"
-#include "PMuon.h"
-#include "PTau.h"
-#include "PPhoton.h"
-#include "PJet.h"
-#include "PFatJet.h"
-#include "PMicroJet.h"
-#include "PGenJet.h"
-#include "PGenParticle.h"
-#include "PRecoMET.h"
-#include "PMET.h"
-#include "PMETFilters.h"
+#include "PFCand.h"
+#include "SuperCluster.h"
+#include "Electron.h"
+#include "Muon.h"
+#include "Tau.h"
+#include "Photon.h"
+#include "Jet.h"
+#include "FatJet.h"
+#include "MicroJet.h"
+#include "GenJet.h"
+#include "GenParticle.h"
+#include "RecoMET.h"
+#include "MET.h"
+#include "METFilters.h"
 #include "HLTBits.h"
 
 namespace panda {
@@ -31,32 +31,32 @@ namespace panda {
 
     double reweight(UInt_t i) const { return 1. + reweightDW[i]; }
 
-    PPFCandCollection pfCandidates = PPFCandCollection("pfCandidates", 256);
-    PSuperClusterCollection superClusters = PSuperClusterCollection("superClusters", 64);
-    PElectronCollection electrons = PElectronCollection("electrons", 32);
-    PMuonCollection muons = PMuonCollection("muons", 32);
-    PTauCollection taus = PTauCollection("taus", 64);
-    PPhotonCollection photons = PPhotonCollection("photons", 32);
-    PJetCollection chsAK4Jets = PJetCollection("chsAK4Jets", 64);
-    PJetCollection puppiAK4Jets = PJetCollection("puppiAK4Jets", 64);
-    PFatJetCollection chsAK8Jets = PFatJetCollection("chsAK8Jets", 8);
-    PFatJetCollection chsCA15Jets = PFatJetCollection("chsCA15Jets", 8);
-    PFatJetCollection puppiAK8Jets = PFatJetCollection("puppiAK8Jets", 8);
-    PFatJetCollection puppiCA15Jets = PFatJetCollection("puppiCA15Jets", 8);
-    PMicroJetCollection subjets = PMicroJetCollection("subjets", 64);
-    PGenJetCollection genJets = PGenJetCollection("genJets", 64);
-    PGenParticleCollection genParticles = PGenParticleCollection("genParticles", 128);
-    PRecoMET met = PRecoMET("met");
-    PMET rawMet = PMET("rawMet");
-    PMET caloMet = PMET("caloMet");
-    PMET noMuMet = PMET("noMuMet");
-    PMET noHFMet = PMET("noHFMet");
-    PMET trkMet = PMET("trkMet");
-    PMET neutralMet = PMET("neutralMet");
-    PMET photonMet = PMET("photonMet");
-    PMET hfMet = PMET("hfMet");
-    PMET genMet = PMET("genMet");
-    PMETFilters metFilters = PMETFilters("metFilters");
+    PFCandCollection pfCandidates = PFCandCollection("pfCandidates", 256);
+    SuperClusterCollection superClusters = SuperClusterCollection("superClusters", 64);
+    ElectronCollection electrons = ElectronCollection("electrons", 32);
+    MuonCollection muons = MuonCollection("muons", 32);
+    TauCollection taus = TauCollection("taus", 64);
+    PhotonCollection photons = PhotonCollection("photons", 32);
+    JetCollection chsAK4Jets = JetCollection("chsAK4Jets", 64);
+    JetCollection puppiAK4Jets = JetCollection("puppiAK4Jets", 64);
+    FatJetCollection chsAK8Jets = FatJetCollection("chsAK8Jets", 8);
+    FatJetCollection chsCA15Jets = FatJetCollection("chsCA15Jets", 8);
+    FatJetCollection puppiAK8Jets = FatJetCollection("puppiAK8Jets", 8);
+    FatJetCollection puppiCA15Jets = FatJetCollection("puppiCA15Jets", 8);
+    MicroJetCollection subjets = MicroJetCollection("subjets", 64);
+    GenJetCollection genJets = GenJetCollection("genJets", 64);
+    GenParticleCollection genParticles = GenParticleCollection("genParticles", 128);
+    RecoMET met = RecoMET("met");
+    MET rawMet = MET("rawMet");
+    MET caloMet = MET("caloMet");
+    MET noMuMet = MET("noMuMet");
+    MET noHFMet = MET("noHFMet");
+    MET trkMet = MET("trkMet");
+    MET neutralMet = MET("neutralMet");
+    MET photonMet = MET("photonMet");
+    MET hfMet = MET("hfMet");
+    MET genMet = MET("genMet");
+    METFilters metFilters = METFilters("metFilters");
     HLTBits triggers = HLTBits("triggers");
 
     UInt_t runNumber{};

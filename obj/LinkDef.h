@@ -1,22 +1,22 @@
 #include "../Framework/interface/Object.h"
 #include "../Framework/interface/Container.h"
-#include "../Objects/interface/PParticle.h"
-#include "../Objects/interface/PParticleM.h"
-#include "../Objects/interface/PGenParticle.h"
-#include "../Objects/interface/PPFCand.h"
-#include "../Objects/interface/PSuperCluster.h"
-#include "../Objects/interface/PLepton.h"
-#include "../Objects/interface/PElectron.h"
-#include "../Objects/interface/PMuon.h"
-#include "../Objects/interface/PTau.h"
-#include "../Objects/interface/PPhoton.h"
-#include "../Objects/interface/PGenJet.h"
-#include "../Objects/interface/PMicroJet.h"
-#include "../Objects/interface/PJet.h"
-#include "../Objects/interface/PFatJet.h"
-#include "../Objects/interface/PMET.h"
-#include "../Objects/interface/PRecoMET.h"
-#include "../Objects/interface/PMETFilters.h"
+#include "../Objects/interface/Particle.h"
+#include "../Objects/interface/ParticleM.h"
+#include "../Objects/interface/GenParticle.h"
+#include "../Objects/interface/PFCand.h"
+#include "../Objects/interface/SuperCluster.h"
+#include "../Objects/interface/Lepton.h"
+#include "../Objects/interface/Electron.h"
+#include "../Objects/interface/Muon.h"
+#include "../Objects/interface/Tau.h"
+#include "../Objects/interface/Photon.h"
+#include "../Objects/interface/GenJet.h"
+#include "../Objects/interface/MicroJet.h"
+#include "../Objects/interface/Jet.h"
+#include "../Objects/interface/FatJet.h"
+#include "../Objects/interface/MET.h"
+#include "../Objects/interface/RecoMET.h"
+#include "../Objects/interface/METFilters.h"
 #include "../Objects/interface/HLTBits.h"
 #include "../Objects/interface/Event.h"
 #include "../Objects/interface/Run.h"
@@ -33,80 +33,80 @@
 #pragma link C++ enum panda::PhotonHLTObject;
 #pragma link C++ enum panda::ElectronHLTObject;
 #pragma link C++ enum panda::MuonHLTObject;
-#pragma link C++ class panda::PParticle;
-#pragma link C++ class panda::PParticleM;
-#pragma link C++ class panda::PGenParticle;
-#pragma link C++ class panda::PPFCand;
-#pragma link C++ class panda::PSuperCluster;
-#pragma link C++ class panda::PLepton;
-#pragma link C++ class panda::PElectron;
-#pragma link C++ class panda::PMuon;
-#pragma link C++ class panda::PTau;
-#pragma link C++ class panda::PPhoton;
-#pragma link C++ class panda::PGenJet;
-#pragma link C++ class panda::PMicroJet;
-#pragma link C++ class panda::PJet;
-#pragma link C++ class panda::PFatJet;
-#pragma link C++ class panda::PMET;
-#pragma link C++ class panda::PRecoMET;
-#pragma link C++ class panda::PMETFilters;
+#pragma link C++ class panda::Particle;
+#pragma link C++ class panda::ParticleM;
+#pragma link C++ class panda::GenParticle;
+#pragma link C++ class panda::PFCand;
+#pragma link C++ class panda::SuperCluster;
+#pragma link C++ class panda::Lepton;
+#pragma link C++ class panda::Electron;
+#pragma link C++ class panda::Muon;
+#pragma link C++ class panda::Tau;
+#pragma link C++ class panda::Photon;
+#pragma link C++ class panda::GenJet;
+#pragma link C++ class panda::MicroJet;
+#pragma link C++ class panda::Jet;
+#pragma link C++ class panda::FatJet;
+#pragma link C++ class panda::MET;
+#pragma link C++ class panda::RecoMET;
+#pragma link C++ class panda::METFilters;
 #pragma link C++ class panda::HLTBits;
-#pragma link C++ class Array<panda::PParticle>;
-#pragma link C++ class Collection<panda::PParticle>;
-#pragma link C++ class Array<panda::PParticleM>;
-#pragma link C++ class Collection<panda::PParticleM>;
-#pragma link C++ class Array<panda::PGenParticle>;
-#pragma link C++ class Collection<panda::PGenParticle>;
-#pragma link C++ class Array<panda::PPFCand>;
-#pragma link C++ class Collection<panda::PPFCand>;
-#pragma link C++ class Array<panda::PSuperCluster>;
-#pragma link C++ class Collection<panda::PSuperCluster>;
-#pragma link C++ class Array<panda::PLepton>;
-#pragma link C++ class Collection<panda::PLepton>;
-#pragma link C++ class Array<panda::PElectron>;
-#pragma link C++ class Collection<panda::PElectron>;
-#pragma link C++ class Array<panda::PMuon>;
-#pragma link C++ class Collection<panda::PMuon>;
-#pragma link C++ class Array<panda::PTau>;
-#pragma link C++ class Collection<panda::PTau>;
-#pragma link C++ class Array<panda::PPhoton>;
-#pragma link C++ class Collection<panda::PPhoton>;
-#pragma link C++ class Array<panda::PGenJet>;
-#pragma link C++ class Collection<panda::PGenJet>;
-#pragma link C++ class Array<panda::PMicroJet>;
-#pragma link C++ class Collection<panda::PMicroJet>;
-#pragma link C++ class Array<panda::PJet>;
-#pragma link C++ class Collection<panda::PJet>;
-#pragma link C++ class Array<panda::PFatJet>;
-#pragma link C++ class Collection<panda::PFatJet>;
-#pragma link C++ typedef panda::PParticleArray;
-#pragma link C++ typedef panda::PParticleCollection;
-#pragma link C++ typedef panda::PParticleMArray;
-#pragma link C++ typedef panda::PParticleMCollection;
-#pragma link C++ typedef panda::PGenParticleArray;
-#pragma link C++ typedef panda::PGenParticleCollection;
-#pragma link C++ typedef panda::PPFCandArray;
-#pragma link C++ typedef panda::PPFCandCollection;
-#pragma link C++ typedef panda::PSuperClusterArray;
-#pragma link C++ typedef panda::PSuperClusterCollection;
-#pragma link C++ typedef panda::PLeptonArray;
-#pragma link C++ typedef panda::PLeptonCollection;
-#pragma link C++ typedef panda::PElectronArray;
-#pragma link C++ typedef panda::PElectronCollection;
-#pragma link C++ typedef panda::PMuonArray;
-#pragma link C++ typedef panda::PMuonCollection;
-#pragma link C++ typedef panda::PTauArray;
-#pragma link C++ typedef panda::PTauCollection;
-#pragma link C++ typedef panda::PPhotonArray;
-#pragma link C++ typedef panda::PPhotonCollection;
-#pragma link C++ typedef panda::PGenJetArray;
-#pragma link C++ typedef panda::PGenJetCollection;
-#pragma link C++ typedef panda::PMicroJetArray;
-#pragma link C++ typedef panda::PMicroJetCollection;
-#pragma link C++ typedef panda::PJetArray;
-#pragma link C++ typedef panda::PJetCollection;
-#pragma link C++ typedef panda::PFatJetArray;
-#pragma link C++ typedef panda::PFatJetCollection;
+#pragma link C++ class Array<panda::Particle>;
+#pragma link C++ class Collection<panda::Particle>;
+#pragma link C++ class Array<panda::ParticleM>;
+#pragma link C++ class Collection<panda::ParticleM>;
+#pragma link C++ class Array<panda::GenParticle>;
+#pragma link C++ class Collection<panda::GenParticle>;
+#pragma link C++ class Array<panda::PFCand>;
+#pragma link C++ class Collection<panda::PFCand>;
+#pragma link C++ class Array<panda::SuperCluster>;
+#pragma link C++ class Collection<panda::SuperCluster>;
+#pragma link C++ class Array<panda::Lepton>;
+#pragma link C++ class Collection<panda::Lepton>;
+#pragma link C++ class Array<panda::Electron>;
+#pragma link C++ class Collection<panda::Electron>;
+#pragma link C++ class Array<panda::Muon>;
+#pragma link C++ class Collection<panda::Muon>;
+#pragma link C++ class Array<panda::Tau>;
+#pragma link C++ class Collection<panda::Tau>;
+#pragma link C++ class Array<panda::Photon>;
+#pragma link C++ class Collection<panda::Photon>;
+#pragma link C++ class Array<panda::GenJet>;
+#pragma link C++ class Collection<panda::GenJet>;
+#pragma link C++ class Array<panda::MicroJet>;
+#pragma link C++ class Collection<panda::MicroJet>;
+#pragma link C++ class Array<panda::Jet>;
+#pragma link C++ class Collection<panda::Jet>;
+#pragma link C++ class Array<panda::FatJet>;
+#pragma link C++ class Collection<panda::FatJet>;
+#pragma link C++ typedef panda::ParticleArray;
+#pragma link C++ typedef panda::ParticleCollection;
+#pragma link C++ typedef panda::ParticleMArray;
+#pragma link C++ typedef panda::ParticleMCollection;
+#pragma link C++ typedef panda::GenParticleArray;
+#pragma link C++ typedef panda::GenParticleCollection;
+#pragma link C++ typedef panda::PFCandArray;
+#pragma link C++ typedef panda::PFCandCollection;
+#pragma link C++ typedef panda::SuperClusterArray;
+#pragma link C++ typedef panda::SuperClusterCollection;
+#pragma link C++ typedef panda::LeptonArray;
+#pragma link C++ typedef panda::LeptonCollection;
+#pragma link C++ typedef panda::ElectronArray;
+#pragma link C++ typedef panda::ElectronCollection;
+#pragma link C++ typedef panda::MuonArray;
+#pragma link C++ typedef panda::MuonCollection;
+#pragma link C++ typedef panda::TauArray;
+#pragma link C++ typedef panda::TauCollection;
+#pragma link C++ typedef panda::PhotonArray;
+#pragma link C++ typedef panda::PhotonCollection;
+#pragma link C++ typedef panda::GenJetArray;
+#pragma link C++ typedef panda::GenJetCollection;
+#pragma link C++ typedef panda::MicroJetArray;
+#pragma link C++ typedef panda::MicroJetCollection;
+#pragma link C++ typedef panda::JetArray;
+#pragma link C++ typedef panda::JetCollection;
+#pragma link C++ typedef panda::FatJetArray;
+#pragma link C++ typedef panda::FatJetCollection;
 #pragma link C++ class panda::Event;
 #pragma link C++ class panda::Run;
 
