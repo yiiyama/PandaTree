@@ -36,7 +36,7 @@ panda::PTau::datastore::deallocate()
 }
 
 void
-panda::PTau::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PTau::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
 {
   PParticleM::datastore::setStatus(_tree, _name, _status, _branches);
 
@@ -50,7 +50,7 @@ panda::PTau::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _st
 }
 
 void
-panda::PTau::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::PTau::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   PParticleM::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
@@ -64,7 +64,7 @@ panda::PTau::datastore::setAddress(TTree& _tree, TString const& _name, utils::Br
 }
 
 void
-panda::PTau::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
+panda::PTau::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _dynamic/* = kTRUE*/)
 {
   PParticleM::datastore::book(_tree, _name, _branches, _dynamic);
 
@@ -189,7 +189,7 @@ panda::PTau::operator=(PTau const& _src)
 }
 
 void
-panda::PTau::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PTau::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
 {
   PParticleM::setStatus(_tree, _status, _branches);
 
@@ -205,7 +205,7 @@ panda::PTau::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _b
 }
 
 void
-panda::PTau::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::PTau::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   PParticleM::setAddress(_tree, _branches, _setStatus);
 
@@ -221,7 +221,7 @@ panda::PTau::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*
 }
 
 void
-panda::PTau::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PTau::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
 {
   PParticleM::book(_tree, _branches);
 

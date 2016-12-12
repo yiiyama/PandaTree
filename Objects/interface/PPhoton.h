@@ -48,7 +48,6 @@ namespace panda {
       Bool_t* highpt{0};
       Bool_t* pixelVeto{0};
       Bool_t* csafeVeto{0};
-      Float_t* genIso{0};
       Bool_t (*matchL1)[nPhotonL1Objects]{0};
       Bool_t (*matchHLT)[nPhotonHLTObjects]{0};
       ContainerBase const* superClusterContainer_{0};
@@ -58,9 +57,9 @@ namespace panda {
 
       void allocate(UInt_t n) override;
       void deallocate() override;
-      void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
-      void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
-      void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
+      void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {}) override;
+      void setAddress(TTree&, TString const&, utils::BranchList const& = {}, Bool_t setStatus = kTRUE) override;
+      void book(TTree&, TString const&, utils::BranchList const& = {}, Bool_t dynamic = kTRUE) override;
       void resetAddress(TTree&, TString const&) override;
       void resizeVectors_(UInt_t) override;
     };
@@ -75,9 +74,9 @@ namespace panda {
     ~PPhoton();
     PPhoton& operator=(PPhoton const&);
 
-    void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
-    void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
-    void book(TTree&, utils::BranchList const& = {"*"}) override;
+    void setStatus(TTree&, Bool_t, utils::BranchList const& = {}) override;
+    void setAddress(TTree&, utils::BranchList const& = {}, Bool_t setStatus = kTRUE) override;
+    void book(TTree&, utils::BranchList const& = {}) override;
     void resetAddress(TTree&) override;
 
     void init() override;
@@ -114,7 +113,6 @@ namespace panda {
     Bool_t& highpt;
     Bool_t& pixelVeto;
     Bool_t& csafeVeto;
-    Float_t& genIso;
     Bool_t (&matchL1)[nPhotonL1Objects];
     Bool_t (&matchHLT)[nPhotonHLTObjects];
     Ref<PSuperCluster> superCluster;

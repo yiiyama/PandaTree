@@ -21,7 +21,7 @@ panda::PGenParticle::datastore::deallocate()
 }
 
 void
-panda::PGenParticle::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PGenParticle::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
 {
   PParticleM::datastore::setStatus(_tree, _name, _status, _branches);
 
@@ -30,7 +30,7 @@ panda::PGenParticle::datastore::setStatus(TTree& _tree, TString const& _name, Bo
 }
 
 void
-panda::PGenParticle::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::PGenParticle::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   PParticleM::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
@@ -39,7 +39,7 @@ panda::PGenParticle::datastore::setAddress(TTree& _tree, TString const& _name, u
 }
 
 void
-panda::PGenParticle::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
+panda::PGenParticle::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _dynamic/* = kTRUE*/)
 {
   PParticleM::datastore::book(_tree, _name, _branches, _dynamic);
 
@@ -124,7 +124,7 @@ panda::PGenParticle::operator=(PGenParticle const& _src)
 }
 
 void
-panda::PGenParticle::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PGenParticle::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
 {
   PParticleM::setStatus(_tree, _status, _branches);
 
@@ -135,7 +135,7 @@ panda::PGenParticle::setStatus(TTree& _tree, Bool_t _status, utils::BranchList c
 }
 
 void
-panda::PGenParticle::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::PGenParticle::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   PParticleM::setAddress(_tree, _branches, _setStatus);
 
@@ -146,7 +146,7 @@ panda::PGenParticle::setAddress(TTree& _tree, utils::BranchList const& _branches
 }
 
 void
-panda::PGenParticle::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PGenParticle::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
 {
   PParticleM::book(_tree, _branches);
 

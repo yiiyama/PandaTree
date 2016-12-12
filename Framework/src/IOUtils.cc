@@ -22,11 +22,21 @@ panda::utils::BranchName::BranchName(char const* _name)
   delete parts;
 }
 
+panda::utils::BranchName::BranchName(std::string const& _name) :
+  BranchName(_name.c_str())
+{
+}
+
 panda::utils::BranchName::operator TString() const
 {
   TString name;
+
+  if (isVeto_)
+    name = "!";
+
   for (unsigned iN(0); iN != size() - 1; ++iN)
     name += (*this)[iN] + ".";
+
   name += back();
 
   return name;
@@ -35,9 +45,21 @@ panda::utils::BranchName::operator TString() const
 TString
 panda::utils::BranchName::fullName(TString const& _objName) const
 {
+
   TString bFullName(*this);
+
+  if (isVeto_) {
+    // remove the leading '!'
+    bFullName = bFullName(1, bFullName.Length());
+  }
+    
   if (_objName.Length() != 0)
     bFullName.Prepend(_objName + ".");
+
+  if (isVeto_) {
+    // and add it to the front
+    bFullName.Prepend("!");
+  }
 
   return bFullName;
 }
@@ -45,28 +67,31 @@ panda::utils::BranchName::fullName(TString const& _objName) const
 bool
 panda::utils::BranchName::match(BranchName const& _rhs) const
 {
+  // case 1. Both names are null. -> no match
   if (size() == 0 || _rhs.size() == 0)
     return false;
 
+  // now match the names word by word
   for (unsigned iP(0); iP != size(); ++iP) {
-    if (iP == _rhs.size()) // this has more sub-branches -> consider as match
+    // case 2. RHS has fewer words, but agreeds up to the last word. -> match
+    if (iP == _rhs.size())
       return true;
 
-    if ((*this)[iP] == "*" || _rhs[iP] == "*" || (*this)[iP] == _rhs[iP])
-      continue;
-
-    return false;
+    // case 3. A word does not agree. -> no match
+    if ((*this)[iP] != "*" && _rhs[iP] != "*" && (*this)[iP] != _rhs[iP])
+      return false;
   }
         
-  // rhs has more sub-branches -> also consider as match
-  // or it's a perfect match
+  // case 4. A perfect match.
+  // case 5. RHS has more words.
+  // -> both considered a match
   return true;
 }
 
 bool
 panda::utils::BranchName::in(BranchList const& _list) const
 {
-  // last match determines
+  // last match determines the result
 
   bool included(false);
   for (auto& bname : _list) {
@@ -76,33 +101,60 @@ panda::utils::BranchName::in(BranchList const& _list) const
   return included;
 }
 
+bool
+panda::utils::BranchName::vetoed(BranchList const& _list) const
+{
+  // last match determines the result
+
+  bool vetoed(false);
+  for (auto& bname : _list) {
+    if (match(bname))
+      vetoed = bname.isVeto();
+  }
+  return vetoed;
+}
+
 panda::utils::BranchList
 panda::utils::BranchList::subList(TString const& _objName) const
 {
   BranchList list;
 
+  // loop over my branch names
   for (auto& b : *this) {
+    // if the first name is not * and not objName, skip
     if (b.size() == 0 || (b[0] != "*" && b[0] != _objName))
       continue;
 
-    list.push_back(b);
+    list.emplace_back(b);
     auto& bname(list.back());
 
+    // if the branch name is just objName, consider it as objName.*
     if (bname.size() == 1)
       bname.emplace_back("*");
+
+    // remove the objName. part
     bname.erase(bname.begin());
   }
 
   return list;
 }
 
+bool
+panda::utils::BranchList::any() const
+{
+  // loop over my branch names
+  for (auto& b : *this) {
+    if (!b.isVeto())
+      return true;
+  }
+
+  return false;
+}
+
 Int_t
-panda::utils::checkStatus(TTree& _tree, TString const& _objName, BranchName const& _bName, Bool_t _status, BranchList const& _bList)
+panda::utils::checkStatus(TTree& _tree, TString const& _objName, BranchName const& _bName, Bool_t _status)
 {
   // we can assume that _bList is a list of terminal branches
-  if (!_bName.in(_bList))
-    return -1;
-
   TString fullName(_bName.fullName(_objName));
 
   if (!_tree.GetBranch(fullName))
@@ -117,9 +169,12 @@ panda::utils::checkStatus(TTree& _tree, TString const& _objName, BranchName cons
 Int_t
 panda::utils::setStatus(TTree& _tree, TString const& _objName, BranchName const& _bName, Bool_t _status, BranchList const& _bList)
 {
+  if (_bName.vetoed(_bList))
+    return -1;
+
   // -1 -> branch does not exist or not in the list; 0 -> status is already set
-  Int_t checkResult(checkStatus(_tree, _objName, _bName, _status, _bList));
-  if (checkResult != 0)
+  Int_t checkResult(checkStatus(_tree, _objName, _bName, _status));
+  if (checkResult != 1)
     return checkResult;
 
   _tree.SetBranchStatus(_bName.fullName(_objName), _status);
@@ -133,12 +188,15 @@ panda::utils::setAddress(TTree& _tree, TString const& _objName, BranchName const
 
   if (_setStatus) {
     returnCode = setStatus(_tree, _objName, _bName, true, _bList);
-    if (returnCode == -1)
+    if (returnCode == -1) // branch does not exist or is vetoed
       return -1;
   }
   else {
-    // -1 -> branch does not exist or not in the list; 0 -> status is false
-    returnCode = checkStatus(_tree, _objName, _bName, false, _bList);
+    if (_bName.vetoed(_bList))
+      return -1;
+
+    // -1 -> branch does not exist; 0 -> status is false
+    returnCode = checkStatus(_tree, _objName, _bName, false);
     if (returnCode != 1)
       return returnCode;
   }
@@ -155,7 +213,7 @@ panda::utils::book(TTree& _tree, TString const& _objName, BranchName const& _bNa
   // size: [electrons.size]
   // lType: F
 
-  if (!_bName.in(_bList))
+  if (_bName.vetoed(_bList))
     return -1;
 
   TString lExpr(_bName + _size);

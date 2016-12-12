@@ -173,7 +173,6 @@ tight/O
 highpt/O
 pixelVeto/O
 csafeVeto/O
-genIso/F
 matchL1[nPhotonL1Objects]/O
 matchHLT[nPhotonHLTObjects]/O
 superCluster/PSuperClusterRef
@@ -212,7 +211,7 @@ tau3SD/F = -1.
 htt_mass/F
 htt_frec/F
 ecfs[3][4][4]/F
-subjets/PJetRefVector
+subjets/PMicroJetRefVector
 double get_ecf(int o_, int N_, int ib_) const
 {
   if (o_<1 || o_>3 || N_<1 || N_>4 || ib_<0 || ib_>3) 

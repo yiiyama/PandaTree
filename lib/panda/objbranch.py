@@ -5,7 +5,7 @@ class ObjBranch(Definition):
     """
     Composite object "branch" definition. Definition file syntax:
     <name>/<type>(|Collection|Array)
-    where <type> can be an object name or ROOT leaf type symbol.
+    where <type> is one of the PhysicsObjects.
     """
 
     def __init__(self, line):

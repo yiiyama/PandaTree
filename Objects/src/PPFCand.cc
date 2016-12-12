@@ -27,7 +27,7 @@ panda::PPFCand::datastore::deallocate()
 }
 
 void
-panda::PPFCand::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PPFCand::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
 {
   PParticleM::datastore::setStatus(_tree, _name, _status, _branches);
 
@@ -38,7 +38,7 @@ panda::PPFCand::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t 
 }
 
 void
-panda::PPFCand::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::PPFCand::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   PParticleM::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
@@ -49,7 +49,7 @@ panda::PPFCand::datastore::setAddress(TTree& _tree, TString const& _name, utils:
 }
 
 void
-panda::PPFCand::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
+panda::PPFCand::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _dynamic/* = kTRUE*/)
 {
   PParticleM::datastore::book(_tree, _name, _branches, _dynamic);
 
@@ -150,7 +150,7 @@ panda::PPFCand::operator=(PPFCand const& _src)
 }
 
 void
-panda::PPFCand::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PPFCand::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
 {
   PParticleM::setStatus(_tree, _status, _branches);
 
@@ -163,7 +163,7 @@ panda::PPFCand::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const&
 }
 
 void
-panda::PPFCand::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::PPFCand::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   PParticleM::setAddress(_tree, _branches, _setStatus);
 
@@ -176,7 +176,7 @@ panda::PPFCand::setAddress(TTree& _tree, utils::BranchList const& _branches/* = 
 }
 
 void
-panda::PPFCand::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PPFCand::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
 {
   PParticleM::book(_tree, _branches);
 

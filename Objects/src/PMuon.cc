@@ -18,7 +18,7 @@ panda::PMuon::datastore::deallocate()
 }
 
 void
-panda::PMuon::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PMuon::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
 {
   PLepton::datastore::setStatus(_tree, _name, _status, _branches);
 
@@ -26,7 +26,7 @@ panda::PMuon::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _s
 }
 
 void
-panda::PMuon::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::PMuon::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   PLepton::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
@@ -34,7 +34,7 @@ panda::PMuon::datastore::setAddress(TTree& _tree, TString const& _name, utils::B
 }
 
 void
-panda::PMuon::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
+panda::PMuon::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _dynamic/* = kTRUE*/)
 {
   PLepton::datastore::book(_tree, _name, _branches, _dynamic);
 
@@ -111,7 +111,7 @@ panda::PMuon::operator=(PMuon const& _src)
 }
 
 void
-panda::PMuon::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PMuon::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
 {
   PLepton::setStatus(_tree, _status, _branches);
 
@@ -121,7 +121,7 @@ panda::PMuon::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _
 }
 
 void
-panda::PMuon::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::PMuon::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   PLepton::setAddress(_tree, _branches, _setStatus);
 
@@ -131,7 +131,7 @@ panda::PMuon::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"
 }
 
 void
-panda::PMuon::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PMuon::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
 {
   PLepton::book(_tree, _branches);
 

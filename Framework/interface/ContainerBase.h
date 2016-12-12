@@ -34,9 +34,21 @@ namespace panda {
     */
     virtual std::vector<UInt_t> sort(Comparison const&) = 0;
 
-    void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"});
-    void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE);
-    void book(TTree&, utils::BranchList const& = {"*"});
+    //! Call SetBranchStatus on each branch of the tree.
+    /*!
+      Any branch that is not explicitly vetoed are included.
+    */
+    void setStatus(TTree&, Bool_t status, utils::BranchList const& = {});
+    //! Call SetBranchAddress on each branch of the tree.
+    /*!
+      Any branch that is not explicitly vetoed are included.
+    */
+    void setAddress(TTree&, utils::BranchList const& = {}, Bool_t setStatus = kTRUE);
+    //! Call Branch() for all objects.
+    /*!
+      Any branch that is not explicitly vetoed are included.
+    */
+    void book(TTree&, utils::BranchList const& = {});
     void releaseTree(TTree&);
 
   protected:

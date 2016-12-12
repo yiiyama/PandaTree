@@ -69,7 +69,7 @@ panda::PRecoMET::operator=(PRecoMET const& _src)
 }
 
 void
-panda::PRecoMET::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PRecoMET::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
 {
   PMET::setStatus(_tree, _status, _branches);
 
@@ -91,7 +91,7 @@ panda::PRecoMET::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const
 }
 
 void
-panda::PRecoMET::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::PRecoMET::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   PMET::setAddress(_tree, _branches, _setStatus);
 
@@ -113,7 +113,7 @@ panda::PRecoMET::setAddress(TTree& _tree, utils::BranchList const& _branches/* =
 }
 
 void
-panda::PRecoMET::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PRecoMET::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
 {
   PMET::book(_tree, _branches);
 

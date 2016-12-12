@@ -51,7 +51,7 @@ panda::PJet::datastore::deallocate()
 }
 
 void
-panda::PJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
 {
   PMicroJet::datastore::setStatus(_tree, _name, _status, _branches);
 
@@ -70,7 +70,7 @@ panda::PJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _st
 }
 
 void
-panda::PJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::PJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   PMicroJet::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
@@ -89,7 +89,7 @@ panda::PJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::Br
 }
 
 void
-panda::PJet::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
+panda::PJet::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _dynamic/* = kTRUE*/)
 {
   PMicroJet::datastore::book(_tree, _name, _branches, _dynamic);
 
@@ -254,7 +254,7 @@ panda::PJet::operator=(PJet const& _src)
 }
 
 void
-panda::PJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
 {
   PMicroJet::setStatus(_tree, _status, _branches);
 
@@ -275,7 +275,7 @@ panda::PJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _b
 }
 
 void
-panda::PJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::PJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   PMicroJet::setAddress(_tree, _branches, _setStatus);
 
@@ -296,7 +296,7 @@ panda::PJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*
 }
 
 void
-panda::PJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PJet::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
 {
   PMicroJet::book(_tree, _branches);
 

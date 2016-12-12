@@ -30,7 +30,7 @@ panda::PMET::operator=(PMET const& _src)
 }
 
 void
-panda::PMET::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PMET::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
 {
   Singlet::setStatus(_tree, _status, _branches);
 
@@ -39,7 +39,7 @@ panda::PMET::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _b
 }
 
 void
-panda::PMET::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::PMET::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Singlet::setAddress(_tree, _branches, _setStatus);
 
@@ -48,7 +48,7 @@ panda::PMET::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*
 }
 
 void
-panda::PMET::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PMET::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
 {
   Singlet::book(_tree, _branches);
 

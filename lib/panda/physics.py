@@ -132,9 +132,9 @@ class PhysicsObject(Definition, Object):
             header.newline()
             header.writeline('void allocate(UInt_t n) override;')
             header.writeline('void deallocate() override;')
-            header.writeline('void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;')
-            header.writeline('void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
-            header.writeline('void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;')
+            header.writeline('void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {}) override;')
+            header.writeline('void setAddress(TTree&, TString const&, utils::BranchList const& = {}, Bool_t setStatus = kTRUE) override;')
+            header.writeline('void book(TTree&, TString const&, utils::BranchList const& = {}, Bool_t dynamic = kTRUE) override;')
             header.writeline('void resetAddress(TTree&, TString const&) override;')
             header.writeline('void resizeVectors_(UInt_t) override;')
 
@@ -162,9 +162,9 @@ class PhysicsObject(Definition, Object):
         header.newline()
 
         # I/O with default name
-        header.writeline('void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;')
-        header.writeline('void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
-        header.writeline('void book(TTree&, utils::BranchList const& = {"*"}) override;')
+        header.writeline('void setStatus(TTree&, Bool_t, utils::BranchList const& = {}) override;')
+        header.writeline('void setAddress(TTree&, utils::BranchList const& = {}, Bool_t setStatus = kTRUE) override;')
+        header.writeline('void book(TTree&, utils::BranchList const& = {}) override;')
         header.writeline('void resetAddress(TTree&) override;')
 
         header.newline()
@@ -343,9 +343,9 @@ class PhysicsObject(Definition, Object):
 
             methods = [
                 ('operator=', '{NAMESPACE}::{name}&'.format(**subst), [('{name} const&'.format(**subst), '_src')], 'write_assign', '*this'),
-                ('setStatus', 'void', [('TTree&', '_tree'), ('Bool_t', '_status'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_status', None),
-                ('setAddress', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
-                ('book', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', None),
+                ('setStatus', 'void', [('TTree&', '_tree'), ('Bool_t', '_status'), ('utils::BranchList const&', '_branches', '{}')], 'write_set_status', None),
+                ('setAddress', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
+                ('book', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{}')], 'write_book', None),
                 ('resetAddress', 'void', [('TTree&', '_tree')], 'write_reset_address', None),
                 ('init', 'void', [], 'write_init', None)
             ]
@@ -360,9 +360,9 @@ class PhysicsObject(Definition, Object):
             methods = [
                 ('allocate', 'void', [('UInt_t', '_nmax')], 'write_allocate', None),
                 ('deallocate', 'void', [], 'write_deallocate', None),
-                ('setStatus', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('Bool_t', '_status'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_status', None),
-                ('setAddress', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
-                ('book', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_dynamic', 'kTRUE')], 'write_book', None, size_lines),
+                ('setStatus', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('Bool_t', '_status'), ('utils::BranchList const&', '_branches', '{}')], 'write_set_status', None),
+                ('setAddress', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
+                ('book', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{}'), ('Bool_t', '_dynamic', 'kTRUE')], 'write_book', None, size_lines),
                 ('resetAddress', 'void', [('TTree&', '_tree'), ('TString const&', '_name')], 'write_reset_address', None),
                 ('resizeVectors_', 'void', [('UInt_t', '_size')], 'write_resize_vectors', None)
             ]
@@ -458,9 +458,9 @@ class PhysicsObject(Definition, Object):
             name_line = 'TString name(gStore.getName(this));'
             methods = [
                 ('operator=', '{NAMESPACE}::{name}&'.format(**subst), [('{name} const&'.format(**subst), '_src')], 'write_assign', '*this'),
-                ('setStatus', 'void', [('TTree&', '_tree'), ('Bool_t', '_status'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_status', None, [name_line]),
-                ('setAddress', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None, [name_line]),
-                ('book', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', None, [name_line]),
+                ('setStatus', 'void', [('TTree&', '_tree'), ('Bool_t', '_status'), ('utils::BranchList const&', '_branches', '{}')], 'write_set_status', None, [name_line]),
+                ('setAddress', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None, [name_line]),
+                ('book', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{}')], 'write_book', None, [name_line]),
                 ('resetAddress', 'void', [('TTree&', '_tree')], 'write_reset_address', None, [name_line]),
                 ('init', 'void', [], 'write_init', None)
             ]

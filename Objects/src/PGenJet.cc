@@ -18,7 +18,7 @@ panda::PGenJet::datastore::deallocate()
 }
 
 void
-panda::PGenJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PGenJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
 {
   PParticleM::datastore::setStatus(_tree, _name, _status, _branches);
 
@@ -26,7 +26,7 @@ panda::PGenJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t 
 }
 
 void
-panda::PGenJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::PGenJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   PParticleM::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
@@ -34,7 +34,7 @@ panda::PGenJet::datastore::setAddress(TTree& _tree, TString const& _name, utils:
 }
 
 void
-panda::PGenJet::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
+panda::PGenJet::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _dynamic/* = kTRUE*/)
 {
   PParticleM::datastore::book(_tree, _name, _branches, _dynamic);
 
@@ -111,7 +111,7 @@ panda::PGenJet::operator=(PGenJet const& _src)
 }
 
 void
-panda::PGenJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PGenJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
 {
   PParticleM::setStatus(_tree, _status, _branches);
 
@@ -121,7 +121,7 @@ panda::PGenJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const&
 }
 
 void
-panda::PGenJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::PGenJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   PParticleM::setAddress(_tree, _branches, _setStatus);
 
@@ -131,7 +131,7 @@ panda::PGenJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = 
 }
 
 void
-panda::PGenJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PGenJet::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
 {
   PParticleM::book(_tree, _branches);
 

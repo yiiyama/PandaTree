@@ -48,7 +48,7 @@ panda::PLepton::datastore::deallocate()
 }
 
 void
-panda::PLepton::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PLepton::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
 {
   PParticle::datastore::setStatus(_tree, _name, _status, _branches);
 
@@ -66,7 +66,7 @@ panda::PLepton::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t 
 }
 
 void
-panda::PLepton::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::PLepton::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   PParticle::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
@@ -84,7 +84,7 @@ panda::PLepton::datastore::setAddress(TTree& _tree, TString const& _name, utils:
 }
 
 void
-panda::PLepton::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
+panda::PLepton::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _dynamic/* = kTRUE*/)
 {
   PParticle::datastore::book(_tree, _name, _branches, _dynamic);
 
@@ -241,7 +241,7 @@ panda::PLepton::operator=(PLepton const& _src)
 }
 
 void
-panda::PLepton::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PLepton::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
 {
   PParticle::setStatus(_tree, _status, _branches);
 
@@ -261,7 +261,7 @@ panda::PLepton::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const&
 }
 
 void
-panda::PLepton::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::PLepton::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   PParticle::setAddress(_tree, _branches, _setStatus);
 
@@ -281,7 +281,7 @@ panda::PLepton::setAddress(TTree& _tree, utils::BranchList const& _branches/* = 
 }
 
 void
-panda::PLepton::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PLepton::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
 {
   PParticle::book(_tree, _branches);
 
