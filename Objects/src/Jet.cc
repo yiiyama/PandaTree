@@ -13,10 +13,12 @@ panda::Jet::datastore::allocate(UInt_t _nmax)
   ptSmearDown = new Float_t[nmax_];
   nhf = new Float_t[nmax_];
   chf = new Float_t[nmax_];
+  puid = new Float_t[nmax_];
   loose = new Bool_t[nmax_];
   tight = new Bool_t[nmax_];
   monojet = new Bool_t[nmax_];
   matchedGenJet_ = new UInt_t[nmax_];
+  constituents_ = new std::vector<std::vector<UInt_t>>(nmax_);
 }
 
 void
@@ -40,6 +42,8 @@ panda::Jet::datastore::deallocate()
   nhf = 0;
   delete [] chf;
   chf = 0;
+  delete [] puid;
+  puid = 0;
   delete [] loose;
   loose = 0;
   delete [] tight;
@@ -48,6 +52,8 @@ panda::Jet::datastore::deallocate()
   monojet = 0;
   delete [] matchedGenJet_;
   matchedGenJet_ = 0;
+  delete constituents_;
+  constituents_ = 0;
 }
 
 void
@@ -63,10 +69,12 @@ panda::Jet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _sta
   utils::setStatus(_tree, _name, "ptSmearDown", _status, _branches);
   utils::setStatus(_tree, _name, "nhf", _status, _branches);
   utils::setStatus(_tree, _name, "chf", _status, _branches);
+  utils::setStatus(_tree, _name, "puid", _status, _branches);
   utils::setStatus(_tree, _name, "loose", _status, _branches);
   utils::setStatus(_tree, _name, "tight", _status, _branches);
   utils::setStatus(_tree, _name, "monojet", _status, _branches);
   utils::setStatus(_tree, _name, "matchedGenJet_", _status, _branches);
+  utils::setStatus(_tree, _name, "constituents_", _status, _branches);
 }
 
 void
@@ -82,10 +90,12 @@ panda::Jet::datastore::setAddress(TTree& _tree, TString const& _name, utils::Bra
   utils::setAddress(_tree, _name, "ptSmearDown", ptSmearDown, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nhf", nhf, _branches, _setStatus);
   utils::setAddress(_tree, _name, "chf", chf, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "puid", puid, _branches, _setStatus);
   utils::setAddress(_tree, _name, "loose", loose, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tight", tight, _branches, _setStatus);
   utils::setAddress(_tree, _name, "monojet", monojet, _branches, _setStatus);
   utils::setAddress(_tree, _name, "matchedGenJet_", matchedGenJet_, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "constituents_", &constituents_, _branches, _setStatus);
 }
 
 void
@@ -103,10 +113,12 @@ panda::Jet::datastore::book(TTree& _tree, TString const& _name, utils::BranchLis
   utils::book(_tree, _name, "ptSmearDown", size, 'F', ptSmearDown, _branches);
   utils::book(_tree, _name, "nhf", size, 'F', nhf, _branches);
   utils::book(_tree, _name, "chf", size, 'F', chf, _branches);
+  utils::book(_tree, _name, "puid", size, 'F', puid, _branches);
   utils::book(_tree, _name, "loose", size, 'O', loose, _branches);
   utils::book(_tree, _name, "tight", size, 'O', tight, _branches);
   utils::book(_tree, _name, "monojet", size, 'O', monojet, _branches);
   utils::book(_tree, _name, "matchedGenJet_", size, 'i', matchedGenJet_, _branches);
+  utils::book(_tree, _name, "constituents_", "std::vector<std::vector<UInt_t>>", &constituents_, _branches);
 }
 
 void
@@ -122,10 +134,12 @@ panda::Jet::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "ptSmearDown");
   utils::resetAddress(_tree, _name, "nhf");
   utils::resetAddress(_tree, _name, "chf");
+  utils::resetAddress(_tree, _name, "puid");
   utils::resetAddress(_tree, _name, "loose");
   utils::resetAddress(_tree, _name, "tight");
   utils::resetAddress(_tree, _name, "monojet");
   utils::resetAddress(_tree, _name, "matchedGenJet_");
+  utils::resetAddress(_tree, _name, "constituents_");
 }
 
 void
@@ -133,6 +147,7 @@ panda::Jet::datastore::resizeVectors_(UInt_t _size)
 {
   MicroJet::datastore::resizeVectors_(_size);
 
+  constituents_->resize(_size);
 }
 
 panda::Jet::Jet(char const* _name/* = ""*/) :
@@ -145,10 +160,12 @@ panda::Jet::Jet(char const* _name/* = ""*/) :
   ptSmearDown(gStore.getData(this).ptSmearDown[0]),
   nhf(gStore.getData(this).nhf[0]),
   chf(gStore.getData(this).chf[0]),
+  puid(gStore.getData(this).puid[0]),
   loose(gStore.getData(this).loose[0]),
   tight(gStore.getData(this).tight[0]),
   monojet(gStore.getData(this).monojet[0]),
-  matchedGenJet(gStore.getData(this).matchedGenJetContainer_, gStore.getData(this).matchedGenJet_[0])
+  matchedGenJet(gStore.getData(this).matchedGenJetContainer_, gStore.getData(this).matchedGenJet_[0]),
+  constituents(gStore.getData(this).constituentsContainer_, (*gStore.getData(this).constituents_)[0])
 {
 }
 
@@ -162,10 +179,12 @@ panda::Jet::Jet(datastore& _data, UInt_t _idx) :
   ptSmearDown(_data.ptSmearDown[_idx]),
   nhf(_data.nhf[_idx]),
   chf(_data.chf[_idx]),
+  puid(_data.puid[_idx]),
   loose(_data.loose[_idx]),
   tight(_data.tight[_idx]),
   monojet(_data.monojet[_idx]),
-  matchedGenJet(_data.matchedGenJetContainer_, _data.matchedGenJet_[_idx])
+  matchedGenJet(_data.matchedGenJetContainer_, _data.matchedGenJet_[_idx]),
+  constituents(_data.constituentsContainer_, (*_data.constituents_)[_idx])
 {
 }
 
@@ -179,10 +198,12 @@ panda::Jet::Jet(Jet const& _src) :
   ptSmearDown(gStore.getData(this).ptSmearDown[0]),
   nhf(gStore.getData(this).nhf[0]),
   chf(gStore.getData(this).chf[0]),
+  puid(gStore.getData(this).puid[0]),
   loose(gStore.getData(this).loose[0]),
   tight(gStore.getData(this).tight[0]),
   monojet(gStore.getData(this).monojet[0]),
-  matchedGenJet(gStore.getData(this).matchedGenJetContainer_, gStore.getData(this).matchedGenJet_[0])
+  matchedGenJet(gStore.getData(this).matchedGenJetContainer_, gStore.getData(this).matchedGenJet_[0]),
+  constituents(gStore.getData(this).constituentsContainer_, (*gStore.getData(this).constituents_)[0])
 {
   MicroJet::operator=(_src);
 
@@ -194,10 +215,12 @@ panda::Jet::Jet(Jet const& _src) :
   ptSmearDown = _src.ptSmearDown;
   nhf = _src.nhf;
   chf = _src.chf;
+  puid = _src.puid;
   loose = _src.loose;
   tight = _src.tight;
   monojet = _src.monojet;
   matchedGenJet = _src.matchedGenJet;
+  constituents = _src.constituents;
 }
 
 panda::Jet::Jet(ArrayBase* _array) :
@@ -210,10 +233,12 @@ panda::Jet::Jet(ArrayBase* _array) :
   ptSmearDown(gStore.getData(this).ptSmearDown[0]),
   nhf(gStore.getData(this).nhf[0]),
   chf(gStore.getData(this).chf[0]),
+  puid(gStore.getData(this).puid[0]),
   loose(gStore.getData(this).loose[0]),
   tight(gStore.getData(this).tight[0]),
   monojet(gStore.getData(this).monojet[0]),
-  matchedGenJet(gStore.getData(this).matchedGenJetContainer_, gStore.getData(this).matchedGenJet_[0])
+  matchedGenJet(gStore.getData(this).matchedGenJetContainer_, gStore.getData(this).matchedGenJet_[0]),
+  constituents(gStore.getData(this).constituentsContainer_, (*gStore.getData(this).constituents_)[0])
 {
 }
 
@@ -245,10 +270,12 @@ panda::Jet::operator=(Jet const& _src)
   ptSmearDown = _src.ptSmearDown;
   nhf = _src.nhf;
   chf = _src.chf;
+  puid = _src.puid;
   loose = _src.loose;
   tight = _src.tight;
   monojet = _src.monojet;
   matchedGenJet = _src.matchedGenJet;
+  constituents = _src.constituents;
 
   return *this;
 }
@@ -268,10 +295,12 @@ panda::Jet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _br
   utils::setStatus(_tree, name, "ptSmearDown", _status, _branches);
   utils::setStatus(_tree, name, "nhf", _status, _branches);
   utils::setStatus(_tree, name, "chf", _status, _branches);
+  utils::setStatus(_tree, name, "puid", _status, _branches);
   utils::setStatus(_tree, name, "loose", _status, _branches);
   utils::setStatus(_tree, name, "tight", _status, _branches);
   utils::setStatus(_tree, name, "monojet", _status, _branches);
   utils::setStatus(_tree, name, "matchedGenJet_", _status, _branches);
+  utils::setStatus(_tree, name, "constituents_", _status, _branches);
 }
 
 void
@@ -289,10 +318,12 @@ panda::Jet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/
   utils::setAddress(_tree, name, "ptSmearDown", &ptSmearDown, _branches, _setStatus);
   utils::setAddress(_tree, name, "nhf", &nhf, _branches, _setStatus);
   utils::setAddress(_tree, name, "chf", &chf, _branches, _setStatus);
+  utils::setAddress(_tree, name, "puid", &puid, _branches, _setStatus);
   utils::setAddress(_tree, name, "loose", &loose, _branches, _setStatus);
   utils::setAddress(_tree, name, "tight", &tight, _branches, _setStatus);
   utils::setAddress(_tree, name, "monojet", &monojet, _branches, _setStatus);
   utils::setAddress(_tree, name, "matchedGenJet_", gStore.getData(this).matchedGenJet_, _branches, true);
+  utils::setAddress(_tree, name, "constituents_", &constituents.indices(), _branches, true);
 }
 
 void
@@ -310,10 +341,12 @@ panda::Jet::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
   utils::book(_tree, name, "ptSmearDown", "", 'F', &ptSmearDown, _branches);
   utils::book(_tree, name, "nhf", "", 'F', &nhf, _branches);
   utils::book(_tree, name, "chf", "", 'F', &chf, _branches);
+  utils::book(_tree, name, "puid", "", 'F', &puid, _branches);
   utils::book(_tree, name, "loose", "", 'O', &loose, _branches);
   utils::book(_tree, name, "tight", "", 'O', &tight, _branches);
   utils::book(_tree, name, "monojet", "", 'O', &monojet, _branches);
   utils::book(_tree, name, "matchedGenJet_", "", 'i', gStore.getData(this).matchedGenJet_, _branches);
+  utils::book(_tree, name, "constituents_", "std::vector<UInt_t>", &constituents.indices(), _branches);
 }
 
 void
@@ -331,10 +364,12 @@ panda::Jet::resetAddress(TTree& _tree)
   utils::resetAddress(_tree, name, "ptSmearDown");
   utils::resetAddress(_tree, name, "nhf");
   utils::resetAddress(_tree, name, "chf");
+  utils::resetAddress(_tree, name, "puid");
   utils::resetAddress(_tree, name, "loose");
   utils::resetAddress(_tree, name, "tight");
   utils::resetAddress(_tree, name, "monojet");
   utils::resetAddress(_tree, name, "matchedGenJet_");
+  utils::resetAddress(_tree, name, "constituents_");
 }
 
 void
@@ -350,10 +385,12 @@ panda::Jet::init()
   ptSmearDown = 0.;
   nhf = 0.;
   chf = 0.;
+  puid = 0.;
   loose = false;
   tight = false;
   monojet = false;
   matchedGenJet.init();
+  constituents.init();
 }
 
 /* BEGIN CUSTOM Jet.cc.global */

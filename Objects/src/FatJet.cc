@@ -99,7 +99,7 @@ panda::FatJet::datastore::book(TTree& _tree, TString const& _name, utils::Branch
   utils::book(_tree, _name, "tau3SD", size, 'F', tau3SD, _branches);
   utils::book(_tree, _name, "htt_mass", size, 'F', htt_mass, _branches);
   utils::book(_tree, _name, "htt_frec", size, 'F', htt_frec, _branches);
-  utils::book(_tree, _name, "ecfs", size + "[3][4][4]", 'F', ecfs, _branches);
+  utils::book(_tree, _name, "ecfs", size + TString::Format("[3][4][4]"), 'F', ecfs, _branches);
   utils::book(_tree, _name, "subjets_", "std::vector<std::vector<UInt_t>>", &subjets_, _branches);
 }
 
@@ -297,7 +297,7 @@ panda::FatJet::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
   utils::book(_tree, name, "tau3SD", "", 'F', &tau3SD, _branches);
   utils::book(_tree, name, "htt_mass", "", 'F', &htt_mass, _branches);
   utils::book(_tree, name, "htt_frec", "", 'F', &htt_frec, _branches);
-  utils::book(_tree, name, "ecfs", "[3][4][4]", 'F', ecfs, _branches);
+  utils::book(_tree, name, "ecfs", TString::Format("[3][4][4]"), 'F', ecfs, _branches);
   utils::book(_tree, name, "subjets_", "std::vector<UInt_t>", &subjets.indices(), _branches);
 }
 

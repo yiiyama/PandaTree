@@ -112,7 +112,23 @@ class Branch(Definition):
         out.writeline('utils::setAddress(_tree, {namevar}, "{name}", {ptr}, _branches, _setStatus);'.format(namevar = namevar, name = self.name, ptr = ptr))
 
     def write_book(self, out, context):
-        size_str = '"{arrdef}"'.format(arrdef = self.arrdef_text())
+        if self.is_array():
+            # form an arrdef_text, where numeric literals are in quotes but the constants are in the code
+            size_str = 'TString::Format("'
+            args = []
+            for a in self.arrdef:
+                try:
+                    size_str += '[' + str(int(a)) + ']'
+                except ValueError:
+                    size_str += '[%d]'
+                    args.append(a)
+    
+            size_str += '"'
+            if len(args):
+                size_str += ', ' + ', '.join(args)
+            size_str += ')'
+        else:
+            size_str = '"{arrdef}"'.format(arrdef = self.arrdef_text())
 
         if context == 'datastore':
             namevar = '_name'

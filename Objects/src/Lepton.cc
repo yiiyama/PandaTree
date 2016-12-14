@@ -13,8 +13,6 @@ panda::Lepton::datastore::allocate(UInt_t _nmax)
   nhiso = new Float_t[nmax_];
   phoiso = new Float_t[nmax_];
   puiso = new Float_t[nmax_];
-  tauDecay = new Bool_t[nmax_];
-  hadDecay = new Bool_t[nmax_];
   matchedGen_ = new UInt_t[nmax_];
 }
 
@@ -39,10 +37,6 @@ panda::Lepton::datastore::deallocate()
   phoiso = 0;
   delete [] puiso;
   puiso = 0;
-  delete [] tauDecay;
-  tauDecay = 0;
-  delete [] hadDecay;
-  hadDecay = 0;
   delete [] matchedGen_;
   matchedGen_ = 0;
 }
@@ -60,8 +54,6 @@ panda::Lepton::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _
   utils::setStatus(_tree, _name, "nhiso", _status, _branches);
   utils::setStatus(_tree, _name, "phoiso", _status, _branches);
   utils::setStatus(_tree, _name, "puiso", _status, _branches);
-  utils::setStatus(_tree, _name, "tauDecay", _status, _branches);
-  utils::setStatus(_tree, _name, "hadDecay", _status, _branches);
   utils::setStatus(_tree, _name, "matchedGen_", _status, _branches);
 }
 
@@ -78,8 +70,6 @@ panda::Lepton::datastore::setAddress(TTree& _tree, TString const& _name, utils::
   utils::setAddress(_tree, _name, "nhiso", nhiso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "phoiso", phoiso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "puiso", puiso, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "tauDecay", tauDecay, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "hadDecay", hadDecay, _branches, _setStatus);
   utils::setAddress(_tree, _name, "matchedGen_", matchedGen_, _branches, _setStatus);
 }
 
@@ -98,8 +88,6 @@ panda::Lepton::datastore::book(TTree& _tree, TString const& _name, utils::Branch
   utils::book(_tree, _name, "nhiso", size, 'F', nhiso, _branches);
   utils::book(_tree, _name, "phoiso", size, 'F', phoiso, _branches);
   utils::book(_tree, _name, "puiso", size, 'F', puiso, _branches);
-  utils::book(_tree, _name, "tauDecay", size, 'O', tauDecay, _branches);
-  utils::book(_tree, _name, "hadDecay", size, 'O', hadDecay, _branches);
   utils::book(_tree, _name, "matchedGen_", size, 'i', matchedGen_, _branches);
 }
 
@@ -116,8 +104,6 @@ panda::Lepton::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "nhiso");
   utils::resetAddress(_tree, _name, "phoiso");
   utils::resetAddress(_tree, _name, "puiso");
-  utils::resetAddress(_tree, _name, "tauDecay");
-  utils::resetAddress(_tree, _name, "hadDecay");
   utils::resetAddress(_tree, _name, "matchedGen_");
 }
 
@@ -138,8 +124,6 @@ panda::Lepton::Lepton(char const* _name/* = ""*/) :
   nhiso(gStore.getData(this).nhiso[0]),
   phoiso(gStore.getData(this).phoiso[0]),
   puiso(gStore.getData(this).puiso[0]),
-  tauDecay(gStore.getData(this).tauDecay[0]),
-  hadDecay(gStore.getData(this).hadDecay[0]),
   matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
 {
 }
@@ -154,8 +138,6 @@ panda::Lepton::Lepton(datastore& _data, UInt_t _idx) :
   nhiso(_data.nhiso[_idx]),
   phoiso(_data.phoiso[_idx]),
   puiso(_data.puiso[_idx]),
-  tauDecay(_data.tauDecay[_idx]),
-  hadDecay(_data.hadDecay[_idx]),
   matchedGen(_data.matchedGenContainer_, _data.matchedGen_[_idx])
 {
 }
@@ -170,8 +152,6 @@ panda::Lepton::Lepton(Lepton const& _src) :
   nhiso(gStore.getData(this).nhiso[0]),
   phoiso(gStore.getData(this).phoiso[0]),
   puiso(gStore.getData(this).puiso[0]),
-  tauDecay(gStore.getData(this).tauDecay[0]),
-  hadDecay(gStore.getData(this).hadDecay[0]),
   matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
 {
   Particle::operator=(_src);
@@ -184,8 +164,6 @@ panda::Lepton::Lepton(Lepton const& _src) :
   nhiso = _src.nhiso;
   phoiso = _src.phoiso;
   puiso = _src.puiso;
-  tauDecay = _src.tauDecay;
-  hadDecay = _src.hadDecay;
   matchedGen = _src.matchedGen;
 }
 
@@ -199,8 +177,6 @@ panda::Lepton::Lepton(ArrayBase* _array) :
   nhiso(gStore.getData(this).nhiso[0]),
   phoiso(gStore.getData(this).phoiso[0]),
   puiso(gStore.getData(this).puiso[0]),
-  tauDecay(gStore.getData(this).tauDecay[0]),
-  hadDecay(gStore.getData(this).hadDecay[0]),
   matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
 {
 }
@@ -233,8 +209,6 @@ panda::Lepton::operator=(Lepton const& _src)
   nhiso = _src.nhiso;
   phoiso = _src.phoiso;
   puiso = _src.puiso;
-  tauDecay = _src.tauDecay;
-  hadDecay = _src.hadDecay;
   matchedGen = _src.matchedGen;
 
   return *this;
@@ -255,8 +229,6 @@ panda::Lepton::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& 
   utils::setStatus(_tree, name, "nhiso", _status, _branches);
   utils::setStatus(_tree, name, "phoiso", _status, _branches);
   utils::setStatus(_tree, name, "puiso", _status, _branches);
-  utils::setStatus(_tree, name, "tauDecay", _status, _branches);
-  utils::setStatus(_tree, name, "hadDecay", _status, _branches);
   utils::setStatus(_tree, name, "matchedGen_", _status, _branches);
 }
 
@@ -275,8 +247,6 @@ panda::Lepton::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {
   utils::setAddress(_tree, name, "nhiso", &nhiso, _branches, _setStatus);
   utils::setAddress(_tree, name, "phoiso", &phoiso, _branches, _setStatus);
   utils::setAddress(_tree, name, "puiso", &puiso, _branches, _setStatus);
-  utils::setAddress(_tree, name, "tauDecay", &tauDecay, _branches, _setStatus);
-  utils::setAddress(_tree, name, "hadDecay", &hadDecay, _branches, _setStatus);
   utils::setAddress(_tree, name, "matchedGen_", gStore.getData(this).matchedGen_, _branches, true);
 }
 
@@ -295,8 +265,6 @@ panda::Lepton::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
   utils::book(_tree, name, "nhiso", "", 'F', &nhiso, _branches);
   utils::book(_tree, name, "phoiso", "", 'F', &phoiso, _branches);
   utils::book(_tree, name, "puiso", "", 'F', &puiso, _branches);
-  utils::book(_tree, name, "tauDecay", "", 'O', &tauDecay, _branches);
-  utils::book(_tree, name, "hadDecay", "", 'O', &hadDecay, _branches);
   utils::book(_tree, name, "matchedGen_", "", 'i', gStore.getData(this).matchedGen_, _branches);
 }
 
@@ -315,8 +283,6 @@ panda::Lepton::resetAddress(TTree& _tree)
   utils::resetAddress(_tree, name, "nhiso");
   utils::resetAddress(_tree, name, "phoiso");
   utils::resetAddress(_tree, name, "puiso");
-  utils::resetAddress(_tree, name, "tauDecay");
-  utils::resetAddress(_tree, name, "hadDecay");
   utils::resetAddress(_tree, name, "matchedGen_");
 }
 
@@ -333,8 +299,6 @@ panda::Lepton::init()
   nhiso = 0.;
   phoiso = 0.;
   puiso = 0.;
-  tauDecay = false;
-  hadDecay = false;
   matchedGen.init();
 }
 

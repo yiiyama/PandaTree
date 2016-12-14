@@ -21,7 +21,6 @@ namespace panda {
       Float_t* eta{0};
       Float_t* phi{0};
       */
-      Float_t* scRawPt{0};
       Float_t* chiso{0};
       Float_t* chisoWorst{0};
       Float_t* nhiso{0};
@@ -33,6 +32,7 @@ namespace panda {
       Float_t* mipEnergy{0};
       Float_t* e33{0};
       Float_t* e4{0};
+      Float_t* eseed{0};
       Float_t* emax{0};
       Float_t* e2nd{0};
       Float_t* r9{0};
@@ -40,16 +40,13 @@ namespace panda {
       Float_t* phiWidth{0};
       Float_t* time{0};
       Float_t* timeSpan{0};
-      Float_t* genMatchDR{0};
-      Bool_t* isEB{0};
       Bool_t* loose{0};
       Bool_t* medium{0};
       Bool_t* tight{0};
       Bool_t* highpt{0};
       Bool_t* pixelVeto{0};
       Bool_t* csafeVeto{0};
-      Bool_t (*matchL1)[nPhotonL1Objects]{0};
-      Bool_t (*matchHLT)[nPhotonHLTObjects]{0};
+      Bool_t (*triggerMatch)[nPhotonTriggerObjects]{0};
       ContainerBase const* superClusterContainer_{0};
       UInt_t* superCluster_{0};
       ContainerBase const* matchedGenContainer_{0};
@@ -86,7 +83,6 @@ namespace panda {
     Float_t& eta;
     Float_t& phi;
     */
-    Float_t& scRawPt;
     Float_t& chiso;
     Float_t& chisoWorst;
     Float_t& nhiso;
@@ -98,6 +94,7 @@ namespace panda {
     Float_t& mipEnergy;
     Float_t& e33;
     Float_t& e4;
+    Float_t& eseed;
     Float_t& emax;
     Float_t& e2nd;
     Float_t& r9;
@@ -105,16 +102,13 @@ namespace panda {
     Float_t& phiWidth;
     Float_t& time;
     Float_t& timeSpan;
-    Float_t& genMatchDR;
-    Bool_t& isEB;
     Bool_t& loose;
     Bool_t& medium;
     Bool_t& tight;
     Bool_t& highpt;
     Bool_t& pixelVeto;
     Bool_t& csafeVeto;
-    Bool_t (&matchL1)[nPhotonL1Objects];
-    Bool_t (&matchHLT)[nPhotonHLTObjects];
+    Bool_t (&triggerMatch)[nPhotonTriggerObjects];
     Ref<SuperCluster> superCluster;
     Ref<GenParticle> matchedGen;
 

@@ -55,6 +55,7 @@ namespace panda {
     double dPhi(Particle const& p) const { return TVector2::Phi_mpi_pi(phi - p.phi); }
     double dR2(Particle const& p) const { double d1(dEta(p)); double d2(dPhi(p)); return d1 * d1 + d2 * d2; }
     double dR(Particle const& p) const { return std::sqrt(dR2(p)); }
+    virtual void setXYZE(double px, double py, double pz, double);
 
     Float_t& pt;
     Float_t& eta;

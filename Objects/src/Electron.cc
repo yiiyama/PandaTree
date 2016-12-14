@@ -13,9 +13,10 @@ panda::Electron::datastore::allocate(UInt_t _nmax)
   isoPUOffset = new Float_t[nmax_];
   sieie = new Float_t[nmax_];
   sipip = new Float_t[nmax_];
+  eseed = new Float_t[nmax_];
   hOverE = new Float_t[nmax_];
   veto = new Bool_t[nmax_];
-  matchHLT = new Bool_t[nmax_][nElectronHLTObjects];
+  triggerMatch = new Bool_t[nmax_][nElectronTriggerObjects];
   superCluster_ = new UInt_t[nmax_];
 }
 
@@ -40,12 +41,14 @@ panda::Electron::datastore::deallocate()
   sieie = 0;
   delete [] sipip;
   sipip = 0;
+  delete [] eseed;
+  eseed = 0;
   delete [] hOverE;
   hOverE = 0;
   delete [] veto;
   veto = 0;
-  delete [] matchHLT;
-  matchHLT = 0;
+  delete [] triggerMatch;
+  triggerMatch = 0;
   delete [] superCluster_;
   superCluster_ = 0;
 }
@@ -63,9 +66,10 @@ panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t
   utils::setStatus(_tree, _name, "isoPUOffset", _status, _branches);
   utils::setStatus(_tree, _name, "sieie", _status, _branches);
   utils::setStatus(_tree, _name, "sipip", _status, _branches);
+  utils::setStatus(_tree, _name, "eseed", _status, _branches);
   utils::setStatus(_tree, _name, "hOverE", _status, _branches);
   utils::setStatus(_tree, _name, "veto", _status, _branches);
-  utils::setStatus(_tree, _name, "matchHLT", _status, _branches);
+  utils::setStatus(_tree, _name, "triggerMatch", _status, _branches);
   utils::setStatus(_tree, _name, "superCluster_", _status, _branches);
 }
 
@@ -82,9 +86,10 @@ panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils
   utils::setAddress(_tree, _name, "isoPUOffset", isoPUOffset, _branches, _setStatus);
   utils::setAddress(_tree, _name, "sieie", sieie, _branches, _setStatus);
   utils::setAddress(_tree, _name, "sipip", sipip, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "eseed", eseed, _branches, _setStatus);
   utils::setAddress(_tree, _name, "hOverE", hOverE, _branches, _setStatus);
   utils::setAddress(_tree, _name, "veto", veto, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "matchHLT", matchHLT, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "triggerMatch", triggerMatch, _branches, _setStatus);
   utils::setAddress(_tree, _name, "superCluster_", superCluster_, _branches, _setStatus);
 }
 
@@ -103,9 +108,10 @@ panda::Electron::datastore::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "isoPUOffset", size, 'F', isoPUOffset, _branches);
   utils::book(_tree, _name, "sieie", size, 'F', sieie, _branches);
   utils::book(_tree, _name, "sipip", size, 'F', sipip, _branches);
+  utils::book(_tree, _name, "eseed", size, 'F', eseed, _branches);
   utils::book(_tree, _name, "hOverE", size, 'F', hOverE, _branches);
   utils::book(_tree, _name, "veto", size, 'O', veto, _branches);
-  utils::book(_tree, _name, "matchHLT", size + "[nElectronHLTObjects]", 'O', matchHLT, _branches);
+  utils::book(_tree, _name, "triggerMatch", size + TString::Format("[%d]", nElectronTriggerObjects), 'O', triggerMatch, _branches);
   utils::book(_tree, _name, "superCluster_", size, 'i', superCluster_, _branches);
 }
 
@@ -122,9 +128,10 @@ panda::Electron::datastore::resetAddress(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "isoPUOffset");
   utils::resetAddress(_tree, _name, "sieie");
   utils::resetAddress(_tree, _name, "sipip");
+  utils::resetAddress(_tree, _name, "eseed");
   utils::resetAddress(_tree, _name, "hOverE");
   utils::resetAddress(_tree, _name, "veto");
-  utils::resetAddress(_tree, _name, "matchHLT");
+  utils::resetAddress(_tree, _name, "triggerMatch");
   utils::resetAddress(_tree, _name, "superCluster_");
 }
 
@@ -145,9 +152,10 @@ panda::Electron::Electron(char const* _name/* = ""*/) :
   isoPUOffset(gStore.getData(this).isoPUOffset[0]),
   sieie(gStore.getData(this).sieie[0]),
   sipip(gStore.getData(this).sipip[0]),
+  eseed(gStore.getData(this).eseed[0]),
   hOverE(gStore.getData(this).hOverE[0]),
   veto(gStore.getData(this).veto[0]),
-  matchHLT(gStore.getData(this).matchHLT[0]),
+  triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
 {
 }
@@ -162,9 +170,10 @@ panda::Electron::Electron(datastore& _data, UInt_t _idx) :
   isoPUOffset(_data.isoPUOffset[_idx]),
   sieie(_data.sieie[_idx]),
   sipip(_data.sipip[_idx]),
+  eseed(_data.eseed[_idx]),
   hOverE(_data.hOverE[_idx]),
   veto(_data.veto[_idx]),
-  matchHLT(_data.matchHLT[_idx]),
+  triggerMatch(_data.triggerMatch[_idx]),
   superCluster(_data.superClusterContainer_, _data.superCluster_[_idx])
 {
 }
@@ -179,9 +188,10 @@ panda::Electron::Electron(Electron const& _src) :
   isoPUOffset(gStore.getData(this).isoPUOffset[0]),
   sieie(gStore.getData(this).sieie[0]),
   sipip(gStore.getData(this).sipip[0]),
+  eseed(gStore.getData(this).eseed[0]),
   hOverE(gStore.getData(this).hOverE[0]),
   veto(gStore.getData(this).veto[0]),
-  matchHLT(gStore.getData(this).matchHLT[0]),
+  triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
 {
   Lepton::operator=(_src);
@@ -194,9 +204,10 @@ panda::Electron::Electron(Electron const& _src) :
   isoPUOffset = _src.isoPUOffset;
   sieie = _src.sieie;
   sipip = _src.sipip;
+  eseed = _src.eseed;
   hOverE = _src.hOverE;
   veto = _src.veto;
-  std::memcpy(matchHLT, _src.matchHLT, sizeof(Bool_t) * nElectronHLTObjects);
+  std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nElectronTriggerObjects);
   superCluster = _src.superCluster;
 }
 
@@ -210,9 +221,10 @@ panda::Electron::Electron(ArrayBase* _array) :
   isoPUOffset(gStore.getData(this).isoPUOffset[0]),
   sieie(gStore.getData(this).sieie[0]),
   sipip(gStore.getData(this).sipip[0]),
+  eseed(gStore.getData(this).eseed[0]),
   hOverE(gStore.getData(this).hOverE[0]),
   veto(gStore.getData(this).veto[0]),
-  matchHLT(gStore.getData(this).matchHLT[0]),
+  triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
 {
 }
@@ -245,9 +257,10 @@ panda::Electron::operator=(Electron const& _src)
   isoPUOffset = _src.isoPUOffset;
   sieie = _src.sieie;
   sipip = _src.sipip;
+  eseed = _src.eseed;
   hOverE = _src.hOverE;
   veto = _src.veto;
-  std::memcpy(matchHLT, _src.matchHLT, sizeof(Bool_t) * nElectronHLTObjects);
+  std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nElectronTriggerObjects);
   superCluster = _src.superCluster;
 
   return *this;
@@ -268,9 +281,10 @@ panda::Electron::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const
   utils::setStatus(_tree, name, "isoPUOffset", _status, _branches);
   utils::setStatus(_tree, name, "sieie", _status, _branches);
   utils::setStatus(_tree, name, "sipip", _status, _branches);
+  utils::setStatus(_tree, name, "eseed", _status, _branches);
   utils::setStatus(_tree, name, "hOverE", _status, _branches);
   utils::setStatus(_tree, name, "veto", _status, _branches);
-  utils::setStatus(_tree, name, "matchHLT", _status, _branches);
+  utils::setStatus(_tree, name, "triggerMatch", _status, _branches);
   utils::setStatus(_tree, name, "superCluster_", _status, _branches);
 }
 
@@ -289,9 +303,10 @@ panda::Electron::setAddress(TTree& _tree, utils::BranchList const& _branches/* =
   utils::setAddress(_tree, name, "isoPUOffset", &isoPUOffset, _branches, _setStatus);
   utils::setAddress(_tree, name, "sieie", &sieie, _branches, _setStatus);
   utils::setAddress(_tree, name, "sipip", &sipip, _branches, _setStatus);
+  utils::setAddress(_tree, name, "eseed", &eseed, _branches, _setStatus);
   utils::setAddress(_tree, name, "hOverE", &hOverE, _branches, _setStatus);
   utils::setAddress(_tree, name, "veto", &veto, _branches, _setStatus);
-  utils::setAddress(_tree, name, "matchHLT", matchHLT, _branches, _setStatus);
+  utils::setAddress(_tree, name, "triggerMatch", triggerMatch, _branches, _setStatus);
   utils::setAddress(_tree, name, "superCluster_", gStore.getData(this).superCluster_, _branches, true);
 }
 
@@ -310,9 +325,10 @@ panda::Electron::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
   utils::book(_tree, name, "isoPUOffset", "", 'F', &isoPUOffset, _branches);
   utils::book(_tree, name, "sieie", "", 'F', &sieie, _branches);
   utils::book(_tree, name, "sipip", "", 'F', &sipip, _branches);
+  utils::book(_tree, name, "eseed", "", 'F', &eseed, _branches);
   utils::book(_tree, name, "hOverE", "", 'F', &hOverE, _branches);
   utils::book(_tree, name, "veto", "", 'O', &veto, _branches);
-  utils::book(_tree, name, "matchHLT", "[nElectronHLTObjects]", 'O', matchHLT, _branches);
+  utils::book(_tree, name, "triggerMatch", TString::Format("[%d]", nElectronTriggerObjects), 'O', triggerMatch, _branches);
   utils::book(_tree, name, "superCluster_", "", 'i', gStore.getData(this).superCluster_, _branches);
 }
 
@@ -331,9 +347,10 @@ panda::Electron::resetAddress(TTree& _tree)
   utils::resetAddress(_tree, name, "isoPUOffset");
   utils::resetAddress(_tree, name, "sieie");
   utils::resetAddress(_tree, name, "sipip");
+  utils::resetAddress(_tree, name, "eseed");
   utils::resetAddress(_tree, name, "hOverE");
   utils::resetAddress(_tree, name, "veto");
-  utils::resetAddress(_tree, name, "matchHLT");
+  utils::resetAddress(_tree, name, "triggerMatch");
   utils::resetAddress(_tree, name, "superCluster_");
 }
 
@@ -350,9 +367,10 @@ panda::Electron::init()
   isoPUOffset = 0.;
   sieie = 0.;
   sipip = 0.;
+  eseed = 0.;
   hOverE = 0.;
   veto = false;
-  for (auto& p0 : matchHLT) p0 = false;
+  for (auto& p0 : triggerMatch) p0 = false;
   superCluster.init();
 }
 

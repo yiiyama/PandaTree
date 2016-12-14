@@ -26,7 +26,6 @@ namespace panda {
       /* MicroJet
       Float_t* csv{0};
       Float_t* qgl{0};
-ContainerBase const* constituentsContainer_{0};      std::vector<std::vector<UInt_t>>* constituents_{0};
       */
       /* Jet
       Float_t* rawPt{0};
@@ -37,11 +36,13 @@ ContainerBase const* constituentsContainer_{0};      std::vector<std::vector<UIn
       Float_t* ptSmearDown{0};
       Float_t* nhf{0};
       Float_t* chf{0};
+      Float_t* puid{0};
       Bool_t* loose{0};
       Bool_t* tight{0};
       Bool_t* monojet{0};
       ContainerBase const* matchedGenJetContainer_{0};
       UInt_t* matchedGenJet_{0};
+ContainerBase const* constituentsContainer_{0};      std::vector<std::vector<UInt_t>>* constituents_{0};
       */
       Float_t* tau1{0};
       Float_t* tau2{0};
@@ -95,7 +96,6 @@ ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<UInt_t>>
     /* MicroJet
     Float_t& csv;
     Float_t& qgl;
-    RefVector<PFCand> constituents;
     */
     /* Jet
     Float_t& rawPt;
@@ -106,10 +106,12 @@ ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<UInt_t>>
     Float_t& ptSmearDown;
     Float_t& nhf;
     Float_t& chf;
+    Float_t& puid;
     Bool_t& loose;
     Bool_t& tight;
     Bool_t& monojet;
     Ref<GenJet> matchedGenJet;
+    RefVector<PFCand> constituents;
     */
     Float_t& tau1;
     Float_t& tau2;

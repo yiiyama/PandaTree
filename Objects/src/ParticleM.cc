@@ -158,6 +158,16 @@ panda::ParticleM::init()
   mass = 0.;
 }
 
+void
+panda::ParticleM::setXYZE(double px, double py, double pz, double e)
+{
+  pt = std::sqrt(px * px + py * py);
+  double p(std::sqrt(px * px + py * py + pz * pz));
+  eta = 0.5 * std::log((p + pz) / (p - pz));
+  phi = std::atan2(py, px);
+  mass = std::sqrt(e * e - p * p);
+}
+
 
 /* BEGIN CUSTOM ParticleM.cc.global */
 /* END CUSTOM */

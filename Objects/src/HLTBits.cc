@@ -46,7 +46,7 @@ panda::HLTBits::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
 {
   Singlet::book(_tree, _branches);
 
-  utils::book(_tree, name_, "words", "[16]", 'i', words, _branches);
+  utils::book(_tree, name_, "words", TString::Format("[16]"), 'i', words, _branches);
 }
 
 void

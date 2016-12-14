@@ -14,10 +14,12 @@
 #include "MicroJet.h"
 #include "GenJet.h"
 #include "GenParticle.h"
-#include "RecoMET.h"
-#include "MET.h"
-#include "METFilters.h"
+#include "Parton.h"
+#include "RecoMet.h"
+#include "Met.h"
+#include "MetFilters.h"
 #include "HLTBits.h"
+#include "Recoil.h"
 
 namespace panda {
 
@@ -29,8 +31,6 @@ namespace panda {
     Event& operator=(Event const&);
 
     void init() override;
-
-    double reweight(UInt_t i) const { return 1. + reweightDW[i]; }
 
     GenReweight genReweight = GenReweight("genReweight");
     PFCandCollection pfCandidates = PFCandCollection("pfCandidates", 256);
@@ -48,19 +48,21 @@ namespace panda {
     MicroJetCollection subjets = MicroJetCollection("subjets", 64);
     GenJetCollection genJets = GenJetCollection("genJets", 64);
     GenParticleCollection genParticles = GenParticleCollection("genParticles", 128);
-    RecoMET met = RecoMET("met");
-    RecoMET puppiMet = RecoMET("puppiMet");
-    MET rawMet = MET("rawMet");
-    MET caloMet = MET("caloMet");
-    MET noMuMet = MET("noMuMet");
-    MET noHFMet = MET("noHFMet");
-    MET trkMet = MET("trkMet");
-    MET neutralMet = MET("neutralMet");
-    MET photonMet = MET("photonMet");
-    MET hfMet = MET("hfMet");
-    MET genMet = MET("genMet");
-    METFilters metFilters = METFilters("metFilters");
+    PartonCollection partons = PartonCollection("partons", 8);
+    RecoMet met = RecoMet("met");
+    RecoMet puppiMet = RecoMet("puppiMet");
+    Met rawMet = Met("rawMet");
+    Met caloMet = Met("caloMet");
+    Met noMuMet = Met("noMuMet");
+    Met noHFMet = Met("noHFMet");
+    Met trkMet = Met("trkMet");
+    Met neutralMet = Met("neutralMet");
+    Met photonMet = Met("photonMet");
+    Met hfMet = Met("hfMet");
+    Met genMet = Met("genMet");
+    MetFilters metFilters = MetFilters("metFilters");
     HLTBits triggers = HLTBits("triggers");
+    Recoil recoil = Recoil("recoil");
 
     UInt_t runNumber{};
     UInt_t lumiNumber{};

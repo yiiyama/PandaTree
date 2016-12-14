@@ -3,6 +3,7 @@
 #include "../Objects/interface/Particle.h"
 #include "../Objects/interface/ParticleM.h"
 #include "../Objects/interface/GenParticle.h"
+#include "../Objects/interface/Parton.h"
 #include "../Objects/interface/PFCand.h"
 #include "../Objects/interface/SuperCluster.h"
 #include "../Objects/interface/Lepton.h"
@@ -14,11 +15,12 @@
 #include "../Objects/interface/MicroJet.h"
 #include "../Objects/interface/Jet.h"
 #include "../Objects/interface/FatJet.h"
-#include "../Objects/interface/MET.h"
-#include "../Objects/interface/RecoMET.h"
-#include "../Objects/interface/METFilters.h"
+#include "../Objects/interface/Met.h"
+#include "../Objects/interface/RecoMet.h"
+#include "../Objects/interface/MetFilters.h"
 #include "../Objects/interface/HLTBits.h"
 #include "../Objects/interface/GenReweight.h"
+#include "../Objects/interface/Recoil.h"
 #include "../Objects/interface/Event.h"
 #include "../Objects/interface/Run.h"
 
@@ -30,13 +32,13 @@
 #pragma link C++ nestedtypedef;
 #pragma link C++ namespace panda;
 
-#pragma link C++ enum panda::PhotonL1Object;
-#pragma link C++ enum panda::PhotonHLTObject;
-#pragma link C++ enum panda::ElectronHLTObject;
-#pragma link C++ enum panda::MuonHLTObject;
+#pragma link C++ enum panda::PhotonTriggerObject;
+#pragma link C++ enum panda::ElectronTriggerObject;
+#pragma link C++ enum panda::MuonTriggerObject;
 #pragma link C++ class panda::Particle;
 #pragma link C++ class panda::ParticleM;
 #pragma link C++ class panda::GenParticle;
+#pragma link C++ class panda::Parton;
 #pragma link C++ class panda::PFCand;
 #pragma link C++ class panda::SuperCluster;
 #pragma link C++ class panda::Lepton;
@@ -48,17 +50,20 @@
 #pragma link C++ class panda::MicroJet;
 #pragma link C++ class panda::Jet;
 #pragma link C++ class panda::FatJet;
-#pragma link C++ class panda::MET;
-#pragma link C++ class panda::RecoMET;
-#pragma link C++ class panda::METFilters;
+#pragma link C++ class panda::Met;
+#pragma link C++ class panda::RecoMet;
+#pragma link C++ class panda::MetFilters;
 #pragma link C++ class panda::HLTBits;
 #pragma link C++ class panda::GenReweight;
+#pragma link C++ class panda::Recoil;
 #pragma link C++ class Array<panda::Particle>;
 #pragma link C++ class Collection<panda::Particle>;
 #pragma link C++ class Array<panda::ParticleM>;
 #pragma link C++ class Collection<panda::ParticleM>;
 #pragma link C++ class Array<panda::GenParticle>;
 #pragma link C++ class Collection<panda::GenParticle>;
+#pragma link C++ class Array<panda::Parton>;
+#pragma link C++ class Collection<panda::Parton>;
 #pragma link C++ class Array<panda::PFCand>;
 #pragma link C++ class Collection<panda::PFCand>;
 #pragma link C++ class Array<panda::SuperCluster>;
@@ -87,6 +92,8 @@
 #pragma link C++ typedef panda::ParticleMCollection;
 #pragma link C++ typedef panda::GenParticleArray;
 #pragma link C++ typedef panda::GenParticleCollection;
+#pragma link C++ typedef panda::PartonArray;
+#pragma link C++ typedef panda::PartonCollection;
 #pragma link C++ typedef panda::PFCandArray;
 #pragma link C++ typedef panda::PFCandCollection;
 #pragma link C++ typedef panda::SuperClusterArray;

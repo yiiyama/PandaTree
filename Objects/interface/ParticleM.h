@@ -48,6 +48,7 @@ namespace panda {
     void init() override;
 
     double m() const override { return mass; }
+    void setXYZE(double px, double py, double pz, double e) override;
 
     /* Particle
     Float_t& pt;

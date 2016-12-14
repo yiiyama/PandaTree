@@ -1,5 +1,5 @@
-#ifndef PandaTree_Objects_GenReweight_h
-#define PandaTree_Objects_GenReweight_h
+#ifndef PandaTree_Objects_Met_h
+#define PandaTree_Objects_Met_h
 #include "Constants.h"
 #include "../../Framework/interface/Singlet.h"
 #include "../../Framework/interface/Container.h"
@@ -8,12 +8,12 @@
 
 namespace panda {
 
-  class GenReweight : public Singlet {
+  class Met : public Singlet {
   public:
-    GenReweight(char const* name = "");
-    GenReweight(GenReweight const&);
-    ~GenReweight();
-    GenReweight& operator=(GenReweight const&);
+    Met(char const* name = "");
+    Met(Met const&);
+    ~Met();
+    Met& operator=(Met const&);
 
     void setStatus(TTree&, Bool_t, utils::BranchList const& = {}) override;
     void setAddress(TTree&, utils::BranchList const& = {}, Bool_t setStatus = kTRUE) override;
@@ -22,20 +22,17 @@ namespace panda {
 
     void init() override;
 
-    Float_t r1f2DW{};
-    Float_t r1f5DW{};
-    Float_t r2f1DW{};
-    Float_t r2f2DW{};
-    Float_t r5f1DW{};
-    Float_t r5f5DW{};
-    Float_t pdfDW{};
-    Float_t genParam[128]{};
+    virtual TVector2 v() const { TVector2 vec; vec.SetMagPhi(pt, phi); return vec; }
+    void setXY(double x, double y) { pt = std::sqrt(x * x + y * y); phi = std::atan2(y, x); }
 
-    /* BEGIN CUSTOM GenReweight.h.classdef */
+    Float_t pt{};
+    Float_t phi{};
+
+    /* BEGIN CUSTOM Met.h.classdef */
     /* END CUSTOM */
   };
 
-  /* BEGIN CUSTOM GenReweight.h.global */
+  /* BEGIN CUSTOM Met.h.global */
   /* END CUSTOM */
 
 }

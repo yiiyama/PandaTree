@@ -5,7 +5,7 @@ panda::Muon::datastore::allocate(UInt_t _nmax)
 {
   Lepton::datastore::allocate(_nmax);
 
-  matchHLT = new Bool_t[nmax_][nMuonHLTObjects];
+  triggerMatch = new Bool_t[nmax_][nMuonTriggerObjects];
 }
 
 void
@@ -13,8 +13,8 @@ panda::Muon::datastore::deallocate()
 {
   Lepton::datastore::deallocate();
 
-  delete [] matchHLT;
-  matchHLT = 0;
+  delete [] triggerMatch;
+  triggerMatch = 0;
 }
 
 void
@@ -22,7 +22,7 @@ panda::Muon::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _st
 {
   Lepton::datastore::setStatus(_tree, _name, _status, _branches);
 
-  utils::setStatus(_tree, _name, "matchHLT", _status, _branches);
+  utils::setStatus(_tree, _name, "triggerMatch", _status, _branches);
 }
 
 void
@@ -30,7 +30,7 @@ panda::Muon::datastore::setAddress(TTree& _tree, TString const& _name, utils::Br
 {
   Lepton::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
-  utils::setAddress(_tree, _name, "matchHLT", matchHLT, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "triggerMatch", triggerMatch, _branches, _setStatus);
 }
 
 void
@@ -40,7 +40,7 @@ panda::Muon::datastore::book(TTree& _tree, TString const& _name, utils::BranchLi
 
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
-  utils::book(_tree, _name, "matchHLT", size + "[nMuonHLTObjects]", 'O', matchHLT, _branches);
+  utils::book(_tree, _name, "triggerMatch", size + TString::Format("[%d]", nMuonTriggerObjects), 'O', triggerMatch, _branches);
 }
 
 void
@@ -48,7 +48,7 @@ panda::Muon::datastore::resetAddress(TTree& _tree, TString const& _name)
 {
   Lepton::datastore::resetAddress(_tree, _name);
 
-  utils::resetAddress(_tree, _name, "matchHLT");
+  utils::resetAddress(_tree, _name, "triggerMatch");
 }
 
 void
@@ -60,28 +60,28 @@ panda::Muon::datastore::resizeVectors_(UInt_t _size)
 
 panda::Muon::Muon(char const* _name/* = ""*/) :
   Lepton(new MuonArray(1, _name)),
-  matchHLT(gStore.getData(this).matchHLT[0])
+  triggerMatch(gStore.getData(this).triggerMatch[0])
 {
 }
 
 panda::Muon::Muon(datastore& _data, UInt_t _idx) :
   Lepton(_data, _idx),
-  matchHLT(_data.matchHLT[_idx])
+  triggerMatch(_data.triggerMatch[_idx])
 {
 }
 
 panda::Muon::Muon(Muon const& _src) :
   Lepton(new MuonArray(1, gStore.getName(&_src))),
-  matchHLT(gStore.getData(this).matchHLT[0])
+  triggerMatch(gStore.getData(this).triggerMatch[0])
 {
   Lepton::operator=(_src);
 
-  std::memcpy(matchHLT, _src.matchHLT, sizeof(Bool_t) * nMuonHLTObjects);
+  std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nMuonTriggerObjects);
 }
 
 panda::Muon::Muon(ArrayBase* _array) :
   Lepton(_array),
-  matchHLT(gStore.getData(this).matchHLT[0])
+  triggerMatch(gStore.getData(this).triggerMatch[0])
 {
 }
 
@@ -105,7 +105,7 @@ panda::Muon::operator=(Muon const& _src)
 {
   Lepton::operator=(_src);
 
-  std::memcpy(matchHLT, _src.matchHLT, sizeof(Bool_t) * nMuonHLTObjects);
+  std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nMuonTriggerObjects);
 
   return *this;
 }
@@ -117,7 +117,7 @@ panda::Muon::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _b
 
   TString name(gStore.getName(this));
 
-  utils::setStatus(_tree, name, "matchHLT", _status, _branches);
+  utils::setStatus(_tree, name, "triggerMatch", _status, _branches);
 }
 
 void
@@ -127,7 +127,7 @@ panda::Muon::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*
 
   TString name(gStore.getName(this));
 
-  utils::setAddress(_tree, name, "matchHLT", matchHLT, _branches, _setStatus);
+  utils::setAddress(_tree, name, "triggerMatch", triggerMatch, _branches, _setStatus);
 }
 
 void
@@ -137,7 +137,7 @@ panda::Muon::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
 
   TString name(gStore.getName(this));
 
-  utils::book(_tree, name, "matchHLT", "[nMuonHLTObjects]", 'O', matchHLT, _branches);
+  utils::book(_tree, name, "triggerMatch", TString::Format("[%d]", nMuonTriggerObjects), 'O', triggerMatch, _branches);
 }
 
 void
@@ -147,7 +147,7 @@ panda::Muon::resetAddress(TTree& _tree)
 
   TString name(gStore.getName(this));
 
-  utils::resetAddress(_tree, name, "matchHLT");
+  utils::resetAddress(_tree, name, "triggerMatch");
 }
 
 void
@@ -155,7 +155,7 @@ panda::Muon::init()
 {
   Lepton::init();
 
-  for (auto& p0 : matchHLT) p0 = false;
+  for (auto& p0 : triggerMatch) p0 = false;
 }
 
 

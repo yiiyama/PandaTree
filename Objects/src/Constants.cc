@@ -1,30 +1,12 @@
 #include "../interface/Constants.h"
 
-TString panda::PhotonL1ObjectName[] = {
+TString panda::PhotonTriggerObjectName[] = {
   "fSEG34IorSEG40",
   "fSEG40IorSJet200",
   "fSEG34IorSEG40IorSJet200",
   "fSEG24",
   "fSEG30",
-  "fSEG40"
-};
-
-TTree*
-panda::makePhotonL1ObjectTree()
-{
-  auto* tree(new TTree("PhotonL1Object", "PhotonL1Object"));
-  TString* name(new TString);
-  tree->Branch("name", "TString", &name);
-  for (auto&& n : PhotonL1ObjectName) {
-    *name = n;
-    tree->Fill();
-  }
-  tree->ResetBranchAddresses();
-  delete name;
-  return tree;
-}
-
-TString panda::PhotonHLTObjectName[] = {
+  "fSEG40",
   "fPh120",
   "fPh135",
   "fPh165HE10",
@@ -38,12 +20,12 @@ TString panda::PhotonHLTObjectName[] = {
 };
 
 TTree*
-panda::makePhotonHLTObjectTree()
+panda::makePhotonTriggerObjectTree()
 {
-  auto* tree(new TTree("PhotonHLTObject", "PhotonHLTObject"));
+  auto* tree(new TTree("PhotonTriggerObject", "PhotonTriggerObject"));
   TString* name(new TString);
   tree->Branch("name", "TString", &name);
-  for (auto&& n : PhotonHLTObjectName) {
+  for (auto&& n : PhotonTriggerObjectName) {
     *name = n;
     tree->Fill();
   }
@@ -52,7 +34,7 @@ panda::makePhotonHLTObjectTree()
   return tree;
 }
 
-TString panda::ElectronHLTObjectName[] = {
+TString panda::ElectronTriggerObjectName[] = {
   "fEl23Loose",
   "fEl27Loose",
   "fEl120Ph",
@@ -68,12 +50,12 @@ TString panda::ElectronHLTObjectName[] = {
 };
 
 TTree*
-panda::makeElectronHLTObjectTree()
+panda::makeElectronTriggerObjectTree()
 {
-  auto* tree(new TTree("ElectronHLTObject", "ElectronHLTObject"));
+  auto* tree(new TTree("ElectronTriggerObject", "ElectronTriggerObject"));
   TString* name(new TString);
   tree->Branch("name", "TString", &name);
-  for (auto&& n : ElectronHLTObjectName) {
+  for (auto&& n : ElectronTriggerObjectName) {
     *name = n;
     tree->Fill();
   }
@@ -82,7 +64,7 @@ panda::makeElectronHLTObjectTree()
   return tree;
 }
 
-TString panda::MuonHLTObjectName[] = {
+TString panda::MuonTriggerObjectName[] = {
   "fMu20",
   "fMuTrk20",
   "fMu24",
@@ -90,12 +72,12 @@ TString panda::MuonHLTObjectName[] = {
 };
 
 TTree*
-panda::makeMuonHLTObjectTree()
+panda::makeMuonTriggerObjectTree()
 {
-  auto* tree(new TTree("MuonHLTObject", "MuonHLTObject"));
+  auto* tree(new TTree("MuonTriggerObject", "MuonTriggerObject"));
   TString* name(new TString);
   tree->Branch("name", "TString", &name);
-  for (auto&& n : MuonHLTObjectName) {
+  for (auto&& n : MuonTriggerObjectName) {
     *name = n;
     tree->Fill();
   }

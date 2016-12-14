@@ -1,5 +1,5 @@
-#ifndef PandaTree_Objects_GenParticle_h
-#define PandaTree_Objects_GenParticle_h
+#ifndef PandaTree_Objects_Parton_h
+#define PandaTree_Objects_Parton_h
 #include "Constants.h"
 #include "ParticleM.h"
 #include "../../Framework/interface/Container.h"
@@ -8,7 +8,7 @@
 
 namespace panda {
 
-  class GenParticle : public ParticleM {
+  class Parton : public ParticleM {
   public:
     struct datastore : public ParticleM::datastore {
       datastore() : ParticleM::datastore() {}
@@ -23,9 +23,6 @@ namespace panda {
       Float_t* mass{0};
       */
       UInt_t* pdgid{0};
-      UShort_t* statusFlags{0};
-      ContainerBase const* parentContainer_{0};
-      UInt_t* parent_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -37,14 +34,14 @@ namespace panda {
     };
 
     typedef ParticleM base_type;
-    typedef Array<GenParticle> array_type;
-    typedef Collection<GenParticle> collection_type;
+    typedef Array<Parton> array_type;
+    typedef Collection<Parton> collection_type;
 
-    GenParticle(char const* name = "");
-    GenParticle(GenParticle const&);
-    GenParticle(datastore&, UInt_t idx);
-    ~GenParticle();
-    GenParticle& operator=(GenParticle const&);
+    Parton(char const* name = "");
+    Parton(Parton const&);
+    Parton(datastore&, UInt_t idx);
+    ~Parton();
+    Parton& operator=(Parton const&);
 
     void setStatus(TTree&, Bool_t, utils::BranchList const& = {}) override;
     void setAddress(TTree&, utils::BranchList const& = {}, Bool_t setStatus = kTRUE) override;
@@ -62,24 +59,22 @@ namespace panda {
     Float_t& mass;
     */
     UInt_t& pdgid;
-    UShort_t& statusFlags;
-    Ref<GenParticle> parent;
 
-    /* BEGIN CUSTOM GenParticle.h.classdef */
+    /* BEGIN CUSTOM Parton.h.classdef */
     /* END CUSTOM */
 
     void destructor() override;
 
   protected:
-    GenParticle(ArrayBase*);
+    Parton(ArrayBase*);
   };
 
-  typedef GenParticle::array_type GenParticleArray;
-  typedef GenParticle::collection_type GenParticleCollection;
-  typedef Ref<GenParticle> GenParticleRef;
-  typedef RefVector<GenParticle> GenParticleRefVector;
+  typedef Parton::array_type PartonArray;
+  typedef Parton::collection_type PartonCollection;
+  typedef Ref<Parton> PartonRef;
+  typedef RefVector<Parton> PartonRefVector;
 
-  /* BEGIN CUSTOM GenParticle.h.global */
+  /* BEGIN CUSTOM Parton.h.global */
   /* END CUSTOM */
 
 }

@@ -6,6 +6,7 @@
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
 #include "GenJet.h"
+#include "PFCand.h"
 
 namespace panda {
 
@@ -26,7 +27,6 @@ namespace panda {
       /* MicroJet
       Float_t* csv{0};
       Float_t* qgl{0};
-ContainerBase const* constituentsContainer_{0};      std::vector<std::vector<UInt_t>>* constituents_{0};
       */
       Float_t* rawPt{0};
       Float_t* ptCorrUp{0};
@@ -36,11 +36,13 @@ ContainerBase const* constituentsContainer_{0};      std::vector<std::vector<UIn
       Float_t* ptSmearDown{0};
       Float_t* nhf{0};
       Float_t* chf{0};
+      Float_t* puid{0};
       Bool_t* loose{0};
       Bool_t* tight{0};
       Bool_t* monojet{0};
       ContainerBase const* matchedGenJetContainer_{0};
       UInt_t* matchedGenJet_{0};
+ContainerBase const* constituentsContainer_{0};      std::vector<std::vector<UInt_t>>* constituents_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -79,7 +81,6 @@ ContainerBase const* constituentsContainer_{0};      std::vector<std::vector<UIn
     /* MicroJet
     Float_t& csv;
     Float_t& qgl;
-    RefVector<PFCand> constituents;
     */
     Float_t& rawPt;
     Float_t& ptCorrUp;
@@ -89,10 +90,12 @@ ContainerBase const* constituentsContainer_{0};      std::vector<std::vector<UIn
     Float_t& ptSmearDown;
     Float_t& nhf;
     Float_t& chf;
+    Float_t& puid;
     Bool_t& loose;
     Bool_t& tight;
     Bool_t& monojet;
     Ref<GenJet> matchedGenJet;
+    RefVector<PFCand> constituents;
 
     /* BEGIN CUSTOM Jet.h.classdef */
     /* END CUSTOM */

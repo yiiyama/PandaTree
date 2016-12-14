@@ -6,7 +6,6 @@ panda::Tau::datastore::allocate(UInt_t _nmax)
   ParticleM::datastore::allocate(_nmax);
 
   q = new Short_t[nmax_];
-  baseline = new Bool_t[nmax_];
   decayMode = new Bool_t[nmax_];
   decayModeNew = new Bool_t[nmax_];
   iso = new Float_t[nmax_];
@@ -21,8 +20,6 @@ panda::Tau::datastore::deallocate()
 
   delete [] q;
   q = 0;
-  delete [] baseline;
-  baseline = 0;
   delete [] decayMode;
   decayMode = 0;
   delete [] decayModeNew;
@@ -41,7 +38,6 @@ panda::Tau::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _sta
   ParticleM::datastore::setStatus(_tree, _name, _status, _branches);
 
   utils::setStatus(_tree, _name, "q", _status, _branches);
-  utils::setStatus(_tree, _name, "baseline", _status, _branches);
   utils::setStatus(_tree, _name, "decayMode", _status, _branches);
   utils::setStatus(_tree, _name, "decayModeNew", _status, _branches);
   utils::setStatus(_tree, _name, "iso", _status, _branches);
@@ -55,7 +51,6 @@ panda::Tau::datastore::setAddress(TTree& _tree, TString const& _name, utils::Bra
   ParticleM::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
   utils::setAddress(_tree, _name, "q", q, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "baseline", baseline, _branches, _setStatus);
   utils::setAddress(_tree, _name, "decayMode", decayMode, _branches, _setStatus);
   utils::setAddress(_tree, _name, "decayModeNew", decayModeNew, _branches, _setStatus);
   utils::setAddress(_tree, _name, "iso", iso, _branches, _setStatus);
@@ -71,7 +66,6 @@ panda::Tau::datastore::book(TTree& _tree, TString const& _name, utils::BranchLis
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
   utils::book(_tree, _name, "q", size, 'S', q, _branches);
-  utils::book(_tree, _name, "baseline", size, 'O', baseline, _branches);
   utils::book(_tree, _name, "decayMode", size, 'O', decayMode, _branches);
   utils::book(_tree, _name, "decayModeNew", size, 'O', decayModeNew, _branches);
   utils::book(_tree, _name, "iso", size, 'F', iso, _branches);
@@ -85,7 +79,6 @@ panda::Tau::datastore::resetAddress(TTree& _tree, TString const& _name)
   ParticleM::datastore::resetAddress(_tree, _name);
 
   utils::resetAddress(_tree, _name, "q");
-  utils::resetAddress(_tree, _name, "baseline");
   utils::resetAddress(_tree, _name, "decayMode");
   utils::resetAddress(_tree, _name, "decayModeNew");
   utils::resetAddress(_tree, _name, "iso");
@@ -103,7 +96,6 @@ panda::Tau::datastore::resizeVectors_(UInt_t _size)
 panda::Tau::Tau(char const* _name/* = ""*/) :
   ParticleM(new TauArray(1, _name)),
   q(gStore.getData(this).q[0]),
-  baseline(gStore.getData(this).baseline[0]),
   decayMode(gStore.getData(this).decayMode[0]),
   decayModeNew(gStore.getData(this).decayModeNew[0]),
   iso(gStore.getData(this).iso[0]),
@@ -115,7 +107,6 @@ panda::Tau::Tau(char const* _name/* = ""*/) :
 panda::Tau::Tau(datastore& _data, UInt_t _idx) :
   ParticleM(_data, _idx),
   q(_data.q[_idx]),
-  baseline(_data.baseline[_idx]),
   decayMode(_data.decayMode[_idx]),
   decayModeNew(_data.decayModeNew[_idx]),
   iso(_data.iso[_idx]),
@@ -127,7 +118,6 @@ panda::Tau::Tau(datastore& _data, UInt_t _idx) :
 panda::Tau::Tau(Tau const& _src) :
   ParticleM(new TauArray(1, gStore.getName(&_src))),
   q(gStore.getData(this).q[0]),
-  baseline(gStore.getData(this).baseline[0]),
   decayMode(gStore.getData(this).decayMode[0]),
   decayModeNew(gStore.getData(this).decayModeNew[0]),
   iso(gStore.getData(this).iso[0]),
@@ -137,7 +127,6 @@ panda::Tau::Tau(Tau const& _src) :
   ParticleM::operator=(_src);
 
   q = _src.q;
-  baseline = _src.baseline;
   decayMode = _src.decayMode;
   decayModeNew = _src.decayModeNew;
   iso = _src.iso;
@@ -148,7 +137,6 @@ panda::Tau::Tau(Tau const& _src) :
 panda::Tau::Tau(ArrayBase* _array) :
   ParticleM(_array),
   q(gStore.getData(this).q[0]),
-  baseline(gStore.getData(this).baseline[0]),
   decayMode(gStore.getData(this).decayMode[0]),
   decayModeNew(gStore.getData(this).decayModeNew[0]),
   iso(gStore.getData(this).iso[0]),
@@ -178,7 +166,6 @@ panda::Tau::operator=(Tau const& _src)
   ParticleM::operator=(_src);
 
   q = _src.q;
-  baseline = _src.baseline;
   decayMode = _src.decayMode;
   decayModeNew = _src.decayModeNew;
   iso = _src.iso;
@@ -196,7 +183,6 @@ panda::Tau::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _br
   TString name(gStore.getName(this));
 
   utils::setStatus(_tree, name, "q", _status, _branches);
-  utils::setStatus(_tree, name, "baseline", _status, _branches);
   utils::setStatus(_tree, name, "decayMode", _status, _branches);
   utils::setStatus(_tree, name, "decayModeNew", _status, _branches);
   utils::setStatus(_tree, name, "iso", _status, _branches);
@@ -212,7 +198,6 @@ panda::Tau::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/
   TString name(gStore.getName(this));
 
   utils::setAddress(_tree, name, "q", &q, _branches, _setStatus);
-  utils::setAddress(_tree, name, "baseline", &baseline, _branches, _setStatus);
   utils::setAddress(_tree, name, "decayMode", &decayMode, _branches, _setStatus);
   utils::setAddress(_tree, name, "decayModeNew", &decayModeNew, _branches, _setStatus);
   utils::setAddress(_tree, name, "iso", &iso, _branches, _setStatus);
@@ -228,7 +213,6 @@ panda::Tau::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
   TString name(gStore.getName(this));
 
   utils::book(_tree, name, "q", "", 'S', &q, _branches);
-  utils::book(_tree, name, "baseline", "", 'O', &baseline, _branches);
   utils::book(_tree, name, "decayMode", "", 'O', &decayMode, _branches);
   utils::book(_tree, name, "decayModeNew", "", 'O', &decayModeNew, _branches);
   utils::book(_tree, name, "iso", "", 'F', &iso, _branches);
@@ -244,7 +228,6 @@ panda::Tau::resetAddress(TTree& _tree)
   TString name(gStore.getName(this));
 
   utils::resetAddress(_tree, name, "q");
-  utils::resetAddress(_tree, name, "baseline");
   utils::resetAddress(_tree, name, "decayMode");
   utils::resetAddress(_tree, name, "decayModeNew");
   utils::resetAddress(_tree, name, "iso");
@@ -258,7 +241,6 @@ panda::Tau::init()
   ParticleM::init();
 
   q = 0;
-  baseline = false;
   decayMode = false;
   decayModeNew = false;
   iso = 0.;

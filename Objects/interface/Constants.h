@@ -11,20 +11,13 @@
 
 namespace panda {
 
-  enum PhotonL1Object {
+  enum PhotonTriggerObject {
     fSEG34IorSEG40,
     fSEG40IorSJet200,
     fSEG34IorSEG40IorSJet200,
     fSEG24,
     fSEG30,
     fSEG40,
-    nPhotonL1Objects
-  };
-
-  extern TString PhotonL1ObjectName[nPhotonL1Objects];
-  TTree* makePhotonL1ObjectTree();
-
-  enum PhotonHLTObject {
     fPh120,
     fPh135,
     fPh165HE10,
@@ -35,13 +28,13 @@ namespace panda {
     fPh75EBR9Iso,
     fPh90EBR9Iso,
     fPh120EBR9Iso,
-    nPhotonHLTObjects
+    nPhotonTriggerObjects
   };
 
-  extern TString PhotonHLTObjectName[nPhotonHLTObjects];
-  TTree* makePhotonHLTObjectTree();
+  extern TString PhotonTriggerObjectName[nPhotonTriggerObjects];
+  TTree* makePhotonTriggerObjectTree();
 
-  enum ElectronHLTObject {
+  enum ElectronTriggerObject {
     fEl23Loose,
     fEl27Loose,
     fEl120Ph,
@@ -54,29 +47,24 @@ namespace panda {
     fEl75EBR9IsoPh,
     fEl90EBR9IsoPh,
     fEl120EBR9IsoPh,
-    nElectronHLTObjects
+    nElectronTriggerObjects
   };
 
-  extern TString ElectronHLTObjectName[nElectronHLTObjects];
-  TTree* makeElectronHLTObjectTree();
+  extern TString ElectronTriggerObjectName[nElectronTriggerObjects];
+  TTree* makeElectronTriggerObjectTree();
 
-  enum MuonHLTObject {
+  enum MuonTriggerObject {
     fMu20,
     fMuTrk20,
     fMu24,
     fMu27,
-    nMuonHLTObjects
+    nMuonTriggerObjects
   };
 
-  extern TString MuonHLTObjectName[nMuonHLTObjects];
-  TTree* makeMuonHLTObjectTree();
-
-  unsigned const nMaxHLTObjects(nElectronHLTObjects);
+  extern TString MuonTriggerObjectName[nMuonTriggerObjects];
+  TTree* makeMuonTriggerObjectTree();
 
   enum Assertions {
-    AST0 = sizeof(char[(nMaxHLTObjects >= nPhotonHLTObjects) ? 1 : -1]),
-    AST1 = sizeof(char[(nMaxHLTObjects >= nElectronHLTObjects) ? 1 : -1]),
-    AST2 = sizeof(char[(nMaxHLTObjects >= nMuonHLTObjects) ? 1 : -1]),
     nAssertionss
   };
   /* BEGIN CUSTOM Constants.h.global */

@@ -28,12 +28,10 @@ namespace panda {
       Float_t* nhiso{0};
       Float_t* phoiso{0};
       Float_t* puiso{0};
-      Bool_t* tauDecay{0};
-      Bool_t* hadDecay{0};
       ContainerBase const* matchedGenContainer_{0};
       UInt_t* matchedGen_{0};
       */
-      Bool_t (*matchHLT)[nMuonHLTObjects]{0};
+      Bool_t (*triggerMatch)[nMuonTriggerObjects]{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -78,11 +76,9 @@ namespace panda {
     Float_t& nhiso;
     Float_t& phoiso;
     Float_t& puiso;
-    Bool_t& tauDecay;
-    Bool_t& hadDecay;
     Ref<GenParticle> matchedGen;
     */
-    Bool_t (&matchHLT)[nMuonHLTObjects];
+    Bool_t (&triggerMatch)[nMuonTriggerObjects];
 
     /* BEGIN CUSTOM Muon.h.classdef */
     /* END CUSTOM */

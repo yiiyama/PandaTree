@@ -194,6 +194,15 @@ panda::Particle::init()
   phi = 0.;
 }
 
+void
+panda::Particle::setXYZE(double px, double py, double pz, double)
+{
+  pt = std::sqrt(px * px + py * py);
+  double p(std::sqrt(px * px + py * py + pz * pz));
+  eta = 0.5 * std::log((p + pz) / (p - pz));
+  phi = std::atan2(py, px);
+}
+
 
 /* BEGIN CUSTOM Particle.cc.global */
 /* END CUSTOM */

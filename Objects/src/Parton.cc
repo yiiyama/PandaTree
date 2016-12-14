@@ -1,15 +1,15 @@
-#include "../interface/GenJet.h"
+#include "../interface/Parton.h"
 
 void
-panda::GenJet::datastore::allocate(UInt_t _nmax)
+panda::Parton::datastore::allocate(UInt_t _nmax)
 {
   ParticleM::datastore::allocate(_nmax);
 
-  pdgid = new UShort_t[nmax_];
+  pdgid = new UInt_t[nmax_];
 }
 
 void
-panda::GenJet::datastore::deallocate()
+panda::Parton::datastore::deallocate()
 {
   ParticleM::datastore::deallocate();
 
@@ -18,7 +18,7 @@ panda::GenJet::datastore::deallocate()
 }
 
 void
-panda::GenJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::Parton::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
 {
   ParticleM::datastore::setStatus(_tree, _name, _status, _branches);
 
@@ -26,7 +26,7 @@ panda::GenJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _
 }
 
 void
-panda::GenJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::Parton::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   ParticleM::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
@@ -34,17 +34,17 @@ panda::GenJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::
 }
 
 void
-panda::GenJet::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _dynamic/* = kTRUE*/)
+panda::Parton::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _dynamic/* = kTRUE*/)
 {
   ParticleM::datastore::book(_tree, _name, _branches, _dynamic);
 
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
-  utils::book(_tree, _name, "pdgid", size, 's', pdgid, _branches);
+  utils::book(_tree, _name, "pdgid", size, 'i', pdgid, _branches);
 }
 
 void
-panda::GenJet::datastore::resetAddress(TTree& _tree, TString const& _name)
+panda::Parton::datastore::resetAddress(TTree& _tree, TString const& _name)
 {
   ParticleM::datastore::resetAddress(_tree, _name);
 
@@ -52,26 +52,26 @@ panda::GenJet::datastore::resetAddress(TTree& _tree, TString const& _name)
 }
 
 void
-panda::GenJet::datastore::resizeVectors_(UInt_t _size)
+panda::Parton::datastore::resizeVectors_(UInt_t _size)
 {
   ParticleM::datastore::resizeVectors_(_size);
 
 }
 
-panda::GenJet::GenJet(char const* _name/* = ""*/) :
-  ParticleM(new GenJetArray(1, _name)),
+panda::Parton::Parton(char const* _name/* = ""*/) :
+  ParticleM(new PartonArray(1, _name)),
   pdgid(gStore.getData(this).pdgid[0])
 {
 }
 
-panda::GenJet::GenJet(datastore& _data, UInt_t _idx) :
+panda::Parton::Parton(datastore& _data, UInt_t _idx) :
   ParticleM(_data, _idx),
   pdgid(_data.pdgid[_idx])
 {
 }
 
-panda::GenJet::GenJet(GenJet const& _src) :
-  ParticleM(new GenJetArray(1, gStore.getName(&_src))),
+panda::Parton::Parton(Parton const& _src) :
+  ParticleM(new PartonArray(1, gStore.getName(&_src))),
   pdgid(gStore.getData(this).pdgid[0])
 {
   ParticleM::operator=(_src);
@@ -79,29 +79,29 @@ panda::GenJet::GenJet(GenJet const& _src) :
   pdgid = _src.pdgid;
 }
 
-panda::GenJet::GenJet(ArrayBase* _array) :
+panda::Parton::Parton(ArrayBase* _array) :
   ParticleM(_array),
   pdgid(gStore.getData(this).pdgid[0])
 {
 }
 
-panda::GenJet::~GenJet()
+panda::Parton::~Parton()
 {
   destructor();
   gStore.free(this);
 }
 
 void
-panda::GenJet::destructor()
+panda::Parton::destructor()
 {
-  /* BEGIN CUSTOM GenJet.cc.destructor */
+  /* BEGIN CUSTOM Parton.cc.destructor */
   /* END CUSTOM */
 
   ParticleM::destructor();
 }
 
-panda::GenJet&
-panda::GenJet::operator=(GenJet const& _src)
+panda::Parton&
+panda::Parton::operator=(Parton const& _src)
 {
   ParticleM::operator=(_src);
 
@@ -111,7 +111,7 @@ panda::GenJet::operator=(GenJet const& _src)
 }
 
 void
-panda::GenJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::Parton::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
 {
   ParticleM::setStatus(_tree, _status, _branches);
 
@@ -121,7 +121,7 @@ panda::GenJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& 
 }
 
 void
-panda::GenJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::Parton::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   ParticleM::setAddress(_tree, _branches, _setStatus);
 
@@ -131,17 +131,17 @@ panda::GenJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {
 }
 
 void
-panda::GenJet::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
+panda::Parton::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
 {
   ParticleM::book(_tree, _branches);
 
   TString name(gStore.getName(this));
 
-  utils::book(_tree, name, "pdgid", "", 's', &pdgid, _branches);
+  utils::book(_tree, name, "pdgid", "", 'i', &pdgid, _branches);
 }
 
 void
-panda::GenJet::resetAddress(TTree& _tree)
+panda::Parton::resetAddress(TTree& _tree)
 {
   ParticleM::resetAddress(_tree);
 
@@ -151,12 +151,12 @@ panda::GenJet::resetAddress(TTree& _tree)
 }
 
 void
-panda::GenJet::init()
+panda::Parton::init()
 {
   ParticleM::init();
 
   pdgid = 0;
 }
 
-/* BEGIN CUSTOM GenJet.cc.global */
+/* BEGIN CUSTOM Parton.cc.global */
 /* END CUSTOM */

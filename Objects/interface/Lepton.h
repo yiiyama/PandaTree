@@ -28,8 +28,6 @@ namespace panda {
       Float_t* nhiso{0};
       Float_t* phoiso{0};
       Float_t* puiso{0};
-      Bool_t* tauDecay{0};
-      Bool_t* hadDecay{0};
       ContainerBase const* matchedGenContainer_{0};
       UInt_t* matchedGen_{0};
 
@@ -74,8 +72,6 @@ namespace panda {
     Float_t& nhiso;
     Float_t& phoiso;
     Float_t& puiso;
-    Bool_t& tauDecay;
-    Bool_t& hadDecay;
     Ref<GenParticle> matchedGen;
 
     /* BEGIN CUSTOM Lepton.h.classdef */

@@ -22,7 +22,7 @@ namespace panda {
       /* ParticleM
       Float_t* mass{0};
       */
-      Int_t* pdgid{0};
+      UShort_t* pdgid{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -58,7 +58,7 @@ namespace panda {
     /* ParticleM
     Float_t& mass;
     */
-    Int_t& pdgid;
+    UShort_t& pdgid;
 
     /* BEGIN CUSTOM GenJet.h.classdef */
     /* END CUSTOM */

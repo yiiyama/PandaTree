@@ -29,8 +29,6 @@ namespace panda {
       Float_t* nhiso{0};
       Float_t* phoiso{0};
       Float_t* puiso{0};
-      Bool_t* tauDecay{0};
-      Bool_t* hadDecay{0};
       ContainerBase const* matchedGenContainer_{0};
       UInt_t* matchedGen_{0};
       */
@@ -42,9 +40,10 @@ namespace panda {
       Float_t* isoPUOffset{0};
       Float_t* sieie{0};
       Float_t* sipip{0};
+      Float_t* eseed{0};
       Float_t* hOverE{0};
       Bool_t* veto{0};
-      Bool_t (*matchHLT)[nElectronHLTObjects]{0};
+      Bool_t (*triggerMatch)[nElectronTriggerObjects]{0};
       ContainerBase const* superClusterContainer_{0};
       UInt_t* superCluster_{0};
 
@@ -91,8 +90,6 @@ namespace panda {
     Float_t& nhiso;
     Float_t& phoiso;
     Float_t& puiso;
-    Bool_t& tauDecay;
-    Bool_t& hadDecay;
     Ref<GenParticle> matchedGen;
     */
     Float_t& chisoPh;
@@ -103,9 +100,10 @@ namespace panda {
     Float_t& isoPUOffset;
     Float_t& sieie;
     Float_t& sipip;
+    Float_t& eseed;
     Float_t& hOverE;
     Bool_t& veto;
-    Bool_t (&matchHLT)[nElectronHLTObjects];
+    Bool_t (&triggerMatch)[nElectronTriggerObjects];
     Ref<SuperCluster> superCluster;
 
     /* BEGIN CUSTOM Electron.h.classdef */

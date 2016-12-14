@@ -22,7 +22,6 @@ panda::Event::Event() :
   puppiAK8Jets.data.subjetsContainer_ = &subjets;
   puppiCA15Jets.data.constituentsContainer_ = &pfCandidates;
   puppiCA15Jets.data.subjetsContainer_ = &subjets;
-  subjets.data.constituentsContainer_ = &pfCandidates;
 }
 
 panda::Event::Event(Event const& _src) :
@@ -43,6 +42,7 @@ panda::Event::Event(Event const& _src) :
   subjets(_src.subjets),
   genJets(_src.genJets),
   genParticles(_src.genParticles),
+  partons(_src.partons),
   met(_src.met),
   puppiMet(_src.puppiMet),
   rawMet(_src.rawMet),
@@ -56,6 +56,7 @@ panda::Event::Event(Event const& _src) :
   genMet(_src.genMet),
   metFilters(_src.metFilters),
   triggers(_src.triggers),
+  recoil(_src.recoil),
   runNumber(_src.runNumber),
   lumiNumber(_src.lumiNumber),
   eventNumber(_src.eventNumber),
@@ -85,7 +86,6 @@ panda::Event::Event(Event const& _src) :
   puppiAK8Jets.data.subjetsContainer_ = &subjets;
   puppiCA15Jets.data.constituentsContainer_ = &pfCandidates;
   puppiCA15Jets.data.subjetsContainer_ = &subjets;
-  subjets.data.constituentsContainer_ = &pfCandidates;
 }
 
 panda::Event&
@@ -120,7 +120,6 @@ panda::Event::operator=(Event const& _src)
   puppiAK8Jets.data.subjetsContainer_ = &subjets;
   puppiCA15Jets.data.constituentsContainer_ = &pfCandidates;
   puppiCA15Jets.data.subjetsContainer_ = &subjets;
-  subjets.data.constituentsContainer_ = &pfCandidates;
 
   return *this;
 }
@@ -144,6 +143,7 @@ panda::Event::init()
   subjets.init();
   genJets.init();
   genParticles.init();
+  partons.init();
   met.init();
   puppiMet.init();
   rawMet.init();
@@ -157,6 +157,7 @@ panda::Event::init()
   genMet.init();
   metFilters.init();
   triggers.init();
+  recoil.init();
   runNumber = 0;
   lumiNumber = 0;
   eventNumber = 0;
@@ -188,6 +189,7 @@ panda::Event::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const
   subjets.setStatus(_tree, _status, _branches.subList("subjets"));
   genJets.setStatus(_tree, _status, _branches.subList("genJets"));
   genParticles.setStatus(_tree, _status, _branches.subList("genParticles"));
+  partons.setStatus(_tree, _status, _branches.subList("partons"));
   met.setStatus(_tree, _status, _branches.subList("met"));
   puppiMet.setStatus(_tree, _status, _branches.subList("puppiMet"));
   rawMet.setStatus(_tree, _status, _branches.subList("rawMet"));
@@ -201,6 +203,7 @@ panda::Event::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const
   genMet.setStatus(_tree, _status, _branches.subList("genMet"));
   metFilters.setStatus(_tree, _status, _branches.subList("metFilters"));
   triggers.setStatus(_tree, _status, _branches.subList("triggers"));
+  recoil.setStatus(_tree, _status, _branches.subList("recoil"));
   utils::setStatus(_tree, "", "runNumber", _status, _branches);
   utils::setStatus(_tree, "", "lumiNumber", _status, _branches);
   utils::setStatus(_tree, "", "eventNumber", _status, _branches);
@@ -232,6 +235,7 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
   subjets.setAddress(_tree, _branches.subList("subjets"), _setStatus);
   genJets.setAddress(_tree, _branches.subList("genJets"), _setStatus);
   genParticles.setAddress(_tree, _branches.subList("genParticles"), _setStatus);
+  partons.setAddress(_tree, _branches.subList("partons"), _setStatus);
   met.setAddress(_tree, _branches.subList("met"), _setStatus);
   puppiMet.setAddress(_tree, _branches.subList("puppiMet"), _setStatus);
   rawMet.setAddress(_tree, _branches.subList("rawMet"), _setStatus);
@@ -245,6 +249,7 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
   genMet.setAddress(_tree, _branches.subList("genMet"), _setStatus);
   metFilters.setAddress(_tree, _branches.subList("metFilters"), _setStatus);
   triggers.setAddress(_tree, _branches.subList("triggers"), _setStatus);
+  recoil.setAddress(_tree, _branches.subList("recoil"), _setStatus);
   utils::setAddress(_tree, "", "runNumber", &runNumber, _branches, _setStatus);
   utils::setAddress(_tree, "", "lumiNumber", &lumiNumber, _branches, _setStatus);
   utils::setAddress(_tree, "", "eventNumber", &eventNumber, _branches, _setStatus);
@@ -286,6 +291,8 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
     sizeBranches_.push_back(_tree.GetBranch("genJets.size"));
   if (_tree.GetBranchStatus("genParticles.size"))
     sizeBranches_.push_back(_tree.GetBranch("genParticles.size"));
+  if (_tree.GetBranchStatus("partons.size"))
+    sizeBranches_.push_back(_tree.GetBranch("partons.size"));
 }
 
 /*protected*/
@@ -308,6 +315,7 @@ panda::Event::doBook_(TTree& _tree, utils::BranchList const& _branches)
   subjets.book(_tree, _branches.subList("subjets"));
   genJets.book(_tree, _branches.subList("genJets"));
   genParticles.book(_tree, _branches.subList("genParticles"));
+  partons.book(_tree, _branches.subList("partons"));
   met.book(_tree, _branches.subList("met"));
   puppiMet.book(_tree, _branches.subList("puppiMet"));
   rawMet.book(_tree, _branches.subList("rawMet"));
@@ -321,6 +329,7 @@ panda::Event::doBook_(TTree& _tree, utils::BranchList const& _branches)
   genMet.book(_tree, _branches.subList("genMet"));
   metFilters.book(_tree, _branches.subList("metFilters"));
   triggers.book(_tree, _branches.subList("triggers"));
+  recoil.book(_tree, _branches.subList("recoil"));
   utils::book(_tree, "", "runNumber", "", 'i', &runNumber, _branches);
   utils::book(_tree, "", "lumiNumber", "", 'i', &lumiNumber, _branches);
   utils::book(_tree, "", "eventNumber", "", 'i', &eventNumber, _branches);
@@ -352,6 +361,7 @@ panda::Event::doReleaseTree_(TTree& _tree)
   subjets.releaseTree(_tree);
   genJets.releaseTree(_tree);
   genParticles.releaseTree(_tree);
+  partons.releaseTree(_tree);
   met.resetAddress(_tree);
   puppiMet.resetAddress(_tree);
   rawMet.resetAddress(_tree);
@@ -365,8 +375,8 @@ panda::Event::doReleaseTree_(TTree& _tree)
   genMet.resetAddress(_tree);
   metFilters.resetAddress(_tree);
   triggers.resetAddress(_tree);
+  recoil.resetAddress(_tree);
 }
-
 
 
 /* BEGIN CUSTOM Event.cc.global */
@@ -390,5 +400,6 @@ panda::Event::adjustCollectionSizes_()
   subjets.resize(subjets.size());
   genJets.resize(genJets.size());
   genParticles.resize(genParticles.size());
+  partons.resize(partons.size());
 }
 

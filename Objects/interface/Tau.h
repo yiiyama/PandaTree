@@ -24,7 +24,6 @@ namespace panda {
       Float_t* mass{0};
       */
       Short_t* q{0};
-      Bool_t* baseline{0};
       Bool_t* decayMode{0};
       Bool_t* decayModeNew{0};
       Float_t* iso{0};
@@ -67,7 +66,6 @@ namespace panda {
     Float_t& mass;
     */
     Short_t& q;
-    Bool_t& baseline;
     Bool_t& decayMode;
     Bool_t& decayModeNew;
     Float_t& iso;
