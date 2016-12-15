@@ -243,12 +243,6 @@ ptUnclUp/F
 phiUnclUp/F
 ptUnclDown/F
 phiUnclDown/F
-ptSmear/F
-phiSmear/F
-ptSmearUp/F
-phiSmearUp/F
-ptSmearDown/F
-phiSmearDown/F
 virtual TVector2 vCorr(int corr = 0) const
 {
   if (corr == 0)
