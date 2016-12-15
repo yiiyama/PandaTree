@@ -29,7 +29,7 @@ namespace panda {
       Float_t* phoiso{0};
       Float_t* puiso{0};
       ContainerBase const* matchedGenContainer_{0};
-      UInt_t* matchedGen_{0};
+      Int_t* matchedGen_{0};
       */
       Bool_t (*triggerMatch)[nMuonTriggerObjects]{0};
 

@@ -31,11 +31,11 @@ namespace panda {
       The container must be a derived class of Array<E> or Collection<E>. There is no protection against
       assigning a wrong type of container.
     */
-    Ref(ContainerBase const*& c, UInt_t& idx) : container_(&c), idx_(&idx) {}
+    Ref(ContainerBase const*& c, Int_t& idx) : container_(&c), idx_(&idx) {}
     //! Copy constructor.
     Ref(self_type const& orig) : container_(orig.container_), idx_(orig.idx_) {}
     //! Set the index.
-    void setIndex(UInt_t& idx) { idx_ = &idx; }
+    void setIndex(Int_t& idx) { idx_ = &idx; }
     //! Set the container.
     /*!
       The container must be a derived class of Array<E> or Collection<E>. There is no protection against
@@ -75,7 +75,7 @@ namespace panda {
     /*!
       Throws a runtime_error if idx is not valid.
     */
-    UInt_t& idx();
+    Int_t& idx();
     //! Accessor to container
     /*!
       Throws a runtime_error if container is not valid.
@@ -84,14 +84,14 @@ namespace panda {
 
   private:
     ContainerBase const** container_{0};
-    UInt_t* idx_{0};
+    Int_t* idx_{0};
   };
 
   template<class E>
   E const*
   Ref<E>::operator->() const
   {
-    if (!container_ || !(*container_) || !idx_)
+    if (!container_ || !(*container_) || !idx_ || (*idx_) < 0)
       return 0;
 
     return &static_cast<E const&>((*container_)->elemAt(*idx_));
@@ -101,7 +101,7 @@ namespace panda {
   E const&
   Ref<E>::operator*() const
   {
-    if (!container_ || !(*container_) || !idx_)
+    if (!container_ || !(*container_) || !idx_ || (*idx_) < 0)
       throw std::runtime_error("Dereferencing an invalid Ref");
 
     return static_cast<E const&>((*container_)->elemAt(*idx_));
@@ -119,7 +119,7 @@ namespace panda {
     if (!container_ || !(*container_) || !idx_)
       return *this;
 
-    for ((*idx_) = 0; (*idx_) != (*container_)->size(); ++(*idx_)) {
+    for ((*idx_) = 0; (*idx_) != Int_t((*container_)->size()); ++(*idx_)) {
       if (&(*container_)->elemAt(*idx_) == _rhs)
         return *this;
     }
@@ -143,7 +143,7 @@ namespace panda {
   }
 
   template<class E>
-  UInt_t&
+  Int_t&
   Ref<E>::idx()
   {
     if (!idx_)

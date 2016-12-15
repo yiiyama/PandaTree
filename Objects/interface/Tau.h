@@ -29,7 +29,7 @@ namespace panda {
       Float_t* iso{0};
       Float_t* isoDeltaBetaCorr{0};
       ContainerBase const* matchedGenContainer_{0};
-      UInt_t* matchedGen_{0};
+      Int_t* matchedGen_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;

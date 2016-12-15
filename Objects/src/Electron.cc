@@ -17,7 +17,7 @@ panda::Electron::datastore::allocate(UInt_t _nmax)
   hOverE = new Float_t[nmax_];
   veto = new Bool_t[nmax_];
   triggerMatch = new Bool_t[nmax_][nElectronTriggerObjects];
-  superCluster_ = new UInt_t[nmax_];
+  superCluster_ = new Int_t[nmax_];
 }
 
 void
@@ -112,7 +112,7 @@ panda::Electron::datastore::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "hOverE", size, 'F', hOverE, _branches);
   utils::book(_tree, _name, "veto", size, 'O', veto, _branches);
   utils::book(_tree, _name, "triggerMatch", size + TString::Format("[%d]", nElectronTriggerObjects), 'O', triggerMatch, _branches);
-  utils::book(_tree, _name, "superCluster_", size, 'i', superCluster_, _branches);
+  utils::book(_tree, _name, "superCluster_", size, 'I', superCluster_, _branches);
 }
 
 void
@@ -329,7 +329,7 @@ panda::Electron::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
   utils::book(_tree, name, "hOverE", "", 'F', &hOverE, _branches);
   utils::book(_tree, name, "veto", "", 'O', &veto, _branches);
   utils::book(_tree, name, "triggerMatch", TString::Format("[%d]", nElectronTriggerObjects), 'O', triggerMatch, _branches);
-  utils::book(_tree, name, "superCluster_", "", 'i', gStore.getData(this).superCluster_, _branches);
+  utils::book(_tree, name, "superCluster_", "", 'I', gStore.getData(this).superCluster_, _branches);
 }
 
 void

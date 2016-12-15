@@ -20,7 +20,7 @@ namespace panda {
   public:
     typedef RefVector<E> self_type;
     typedef E value_type;
-    typedef std::vector<UInt_t> Indices;
+    typedef std::vector<Int_t> Indices;
 
     //! Default constructor.
     RefVector() {}
@@ -124,12 +124,14 @@ namespace panda {
     if (!container_ || !(*container_) || !indices_)
       throw std::runtime_error("Cannot push to an invalid RefVector");
 
-    for (unsigned idx(0); idx != (*container_)->size(); ++idx) {
+    for (UInt_t idx(0); idx != (*container_)->size(); ++idx) {
       if (&(*container_)->elemAt(idx) == &_obj) {
-        indices_->push_back(idx);
+        indices_->push_back(Int_t(idx));
         return;
       }
     }
+
+    throw std::runtime_error("Pushing an object not in referenced collection");
   }
   
   template<class E>
@@ -146,7 +148,7 @@ namespace panda {
   }
 
   template<class E>
-  std::vector<UInt_t>*&
+  std::vector<Int_t>*&
   RefVector<E>::indices()
   {
     if (!indices_)

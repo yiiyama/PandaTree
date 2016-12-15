@@ -15,7 +15,7 @@ panda::FatJet::datastore::allocate(UInt_t _nmax)
   htt_mass = new Float_t[nmax_];
   htt_frec = new Float_t[nmax_];
   ecfs = new Float_t[nmax_][3][4][4];
-  subjets_ = new std::vector<std::vector<UInt_t>>(nmax_);
+  subjets_ = new std::vector<std::vector<Int_t>>(nmax_);
 }
 
 void
@@ -100,7 +100,7 @@ panda::FatJet::datastore::book(TTree& _tree, TString const& _name, utils::Branch
   utils::book(_tree, _name, "htt_mass", size, 'F', htt_mass, _branches);
   utils::book(_tree, _name, "htt_frec", size, 'F', htt_frec, _branches);
   utils::book(_tree, _name, "ecfs", size + TString::Format("[3][4][4]"), 'F', ecfs, _branches);
-  utils::book(_tree, _name, "subjets_", "std::vector<std::vector<UInt_t>>", &subjets_, _branches);
+  utils::book(_tree, _name, "subjets_", "std::vector<std::vector<Int_t>>", &subjets_, _branches);
 }
 
 void
@@ -298,7 +298,7 @@ panda::FatJet::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
   utils::book(_tree, name, "htt_mass", "", 'F', &htt_mass, _branches);
   utils::book(_tree, name, "htt_frec", "", 'F', &htt_frec, _branches);
   utils::book(_tree, name, "ecfs", TString::Format("[3][4][4]"), 'F', ecfs, _branches);
-  utils::book(_tree, name, "subjets_", "std::vector<UInt_t>", &subjets.indices(), _branches);
+  utils::book(_tree, name, "subjets_", "std::vector<Int_t>", &subjets.indices(), _branches);
 }
 
 void

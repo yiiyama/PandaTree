@@ -41,8 +41,8 @@ namespace panda {
       Bool_t* tight{0};
       Bool_t* monojet{0};
       ContainerBase const* matchedGenJetContainer_{0};
-      UInt_t* matchedGenJet_{0};
-ContainerBase const* constituentsContainer_{0};      std::vector<std::vector<UInt_t>>* constituents_{0};
+      Int_t* matchedGenJet_{0};
+ContainerBase const* constituentsContainer_{0};      std::vector<std::vector<Int_t>>* constituents_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;

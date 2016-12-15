@@ -10,7 +10,7 @@ panda::Tau::datastore::allocate(UInt_t _nmax)
   decayModeNew = new Bool_t[nmax_];
   iso = new Float_t[nmax_];
   isoDeltaBetaCorr = new Float_t[nmax_];
-  matchedGen_ = new UInt_t[nmax_];
+  matchedGen_ = new Int_t[nmax_];
 }
 
 void
@@ -70,7 +70,7 @@ panda::Tau::datastore::book(TTree& _tree, TString const& _name, utils::BranchLis
   utils::book(_tree, _name, "decayModeNew", size, 'O', decayModeNew, _branches);
   utils::book(_tree, _name, "iso", size, 'F', iso, _branches);
   utils::book(_tree, _name, "isoDeltaBetaCorr", size, 'F', isoDeltaBetaCorr, _branches);
-  utils::book(_tree, _name, "matchedGen_", size, 'i', matchedGen_, _branches);
+  utils::book(_tree, _name, "matchedGen_", size, 'I', matchedGen_, _branches);
 }
 
 void
@@ -217,7 +217,7 @@ panda::Tau::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
   utils::book(_tree, name, "decayModeNew", "", 'O', &decayModeNew, _branches);
   utils::book(_tree, name, "iso", "", 'F', &iso, _branches);
   utils::book(_tree, name, "isoDeltaBetaCorr", "", 'F', &isoDeltaBetaCorr, _branches);
-  utils::book(_tree, name, "matchedGen_", "", 'i', gStore.getData(this).matchedGen_, _branches);
+  utils::book(_tree, name, "matchedGen_", "", 'I', gStore.getData(this).matchedGen_, _branches);
 }
 
 void

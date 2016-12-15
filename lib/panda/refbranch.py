@@ -23,7 +23,7 @@ class RefBranch(Branch):
             raise RuntimeError('Cannot create reference to single object ' + objdef.name)
 
         # create a branch for the index with name {name}_
-        Branch.__init__(self, '{name}_{arrdef}/i = -1'.format(name = self.refname, arrdef = arrdef, type = self.objname))
+        Branch.__init__(self, '{name}_{arrdef}/I = -1'.format(name = self.refname, arrdef = arrdef, type = self.objname))
 
     def write_decl(self, out, context):
         if context == 'datastore':

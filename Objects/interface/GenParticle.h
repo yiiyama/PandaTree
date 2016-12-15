@@ -25,7 +25,7 @@ namespace panda {
       Int_t* pdgid{0};
       UShort_t* statusFlags{0};
       ContainerBase const* parentContainer_{0};
-      UInt_t* parent_{0};
+      Int_t* parent_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;

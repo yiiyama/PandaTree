@@ -7,7 +7,7 @@ panda::GenParticle::datastore::allocate(UInt_t _nmax)
 
   pdgid = new Int_t[nmax_];
   statusFlags = new UShort_t[nmax_];
-  parent_ = new UInt_t[nmax_];
+  parent_ = new Int_t[nmax_];
 }
 
 void
@@ -52,7 +52,7 @@ panda::GenParticle::datastore::book(TTree& _tree, TString const& _name, utils::B
 
   utils::book(_tree, _name, "pdgid", size, 'I', pdgid, _branches);
   utils::book(_tree, _name, "statusFlags", size, 's', statusFlags, _branches);
-  utils::book(_tree, _name, "parent_", size, 'i', parent_, _branches);
+  utils::book(_tree, _name, "parent_", size, 'I', parent_, _branches);
 }
 
 void
@@ -169,7 +169,7 @@ panda::GenParticle::book(TTree& _tree, utils::BranchList const& _branches/* = {}
 
   utils::book(_tree, name, "pdgid", "", 'I', &pdgid, _branches);
   utils::book(_tree, name, "statusFlags", "", 's', &statusFlags, _branches);
-  utils::book(_tree, name, "parent_", "", 'i', gStore.getData(this).parent_, _branches);
+  utils::book(_tree, name, "parent_", "", 'I', gStore.getData(this).parent_, _branches);
 }
 
 void
