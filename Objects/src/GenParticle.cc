@@ -5,7 +5,7 @@ panda::GenParticle::datastore::allocate(UInt_t _nmax)
 {
   ParticleM::datastore::allocate(_nmax);
 
-  pdgid = new UInt_t[nmax_];
+  pdgid = new Int_t[nmax_];
   statusFlags = new UShort_t[nmax_];
   parent_ = new UInt_t[nmax_];
 }
@@ -50,7 +50,7 @@ panda::GenParticle::datastore::book(TTree& _tree, TString const& _name, utils::B
 
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
-  utils::book(_tree, _name, "pdgid", size, 'i', pdgid, _branches);
+  utils::book(_tree, _name, "pdgid", size, 'I', pdgid, _branches);
   utils::book(_tree, _name, "statusFlags", size, 's', statusFlags, _branches);
   utils::book(_tree, _name, "parent_", size, 'i', parent_, _branches);
 }
@@ -167,7 +167,7 @@ panda::GenParticle::book(TTree& _tree, utils::BranchList const& _branches/* = {}
 
   TString name(gStore.getName(this));
 
-  utils::book(_tree, name, "pdgid", "", 'i', &pdgid, _branches);
+  utils::book(_tree, name, "pdgid", "", 'I', &pdgid, _branches);
   utils::book(_tree, name, "statusFlags", "", 's', &statusFlags, _branches);
   utils::book(_tree, name, "parent_", "", 'i', gStore.getData(this).parent_, _branches);
 }

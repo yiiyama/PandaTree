@@ -22,7 +22,7 @@ namespace panda {
       /* ParticleM
       Float_t* mass{0};
       */
-      UInt_t* pdgid{0};
+      Int_t* pdgid{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -58,7 +58,7 @@ namespace panda {
     /* ParticleM
     Float_t& mass;
     */
-    UInt_t& pdgid;
+    Int_t& pdgid;
 
     /* BEGIN CUSTOM Parton.h.classdef */
     /* END CUSTOM */

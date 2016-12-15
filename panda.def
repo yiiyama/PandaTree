@@ -86,12 +86,12 @@ void setXYZE(double px, double py, double pz, double e) override
 }
 
 [GenParticle>ParticleM]
-pdgid/i
+pdgid/I
 statusFlags/s
 parent/GenParticleRef
 
 [Parton>ParticleM]
-pdgid/i
+pdgid/I
 
 [PFCand>ParticleM]
 q/S

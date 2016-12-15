@@ -22,7 +22,7 @@ namespace panda {
       /* ParticleM
       Float_t* mass{0};
       */
-      UInt_t* pdgid{0};
+      Int_t* pdgid{0};
       UShort_t* statusFlags{0};
       ContainerBase const* parentContainer_{0};
       UInt_t* parent_{0};
@@ -61,7 +61,7 @@ namespace panda {
     /* ParticleM
     Float_t& mass;
     */
-    UInt_t& pdgid;
+    Int_t& pdgid;
     UShort_t& statusFlags;
     Ref<GenParticle> parent;
 
