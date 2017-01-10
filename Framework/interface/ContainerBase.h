@@ -50,6 +50,14 @@ namespace panda {
     */
     void book(TTree&, utils::BranchList const& = {});
     void releaseTree(TTree&);
+    /*!
+      Run a look-ahead of the entry to determine e.g. collection resize
+    */
+    void prepareGetEntry(Long64_t);
+    /*!
+      Called when using the container as a standalone input
+    */
+    Int_t getEntry(Long64_t);
 
   protected:
     ContainerBase(char const* name, UInt_t unitSize) : name_(name), unitSize_(unitSize) {}
@@ -62,6 +70,7 @@ namespace panda {
     virtual void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) = 0;
     virtual void doBook_(TTree&, utils::BranchList const&) = 0;
     virtual void doResetAddress_(TTree&) = 0;
+    virtual void doPrepareGetEntry_(Long64_t) = 0;
 
     void updateAddress_();
 

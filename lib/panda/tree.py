@@ -76,7 +76,7 @@ class Tree(Definition, Object):
         header.writeline('void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;')
         header.writeline('void doBook_(TTree&, utils::BranchList const&) override;')
         header.writeline('void doReleaseTree_(TTree&) override;')
-        header.writeline('void adjustCollectionSizes_() override;')
+        header.writeline('void doPrepareGetEntry_(Long64_t) override;')
 
         header.newline()
         header.indent -= 1
@@ -193,15 +193,6 @@ class Tree(Definition, Object):
         for branch in self.branches:
             branch.write_set_address(src, context = 'TreeEntry')
 
-        src.newline()
-        src.writeline('sizeBranches_.clear();')
-        for objbranch in self.objbranches:
-            if objbranch.conttype == 'Collection':
-                src.writeline('if (_tree.GetBranchStatus("{name}.size"))'.format(name = objbranch.name))
-                src.indent += 1
-                src.writeline('sizeBranches_.push_back(_tree.GetBranch("{name}.size"));'.format(name = objbranch.name))
-                src.indent -= 1
-
         src.indent -= 1
         src.writeline('}')
         src.newline()
@@ -240,12 +231,12 @@ class Tree(Definition, Object):
 
         src.writeline('/*protected*/')
         src.writeline('void')
-        src.writeline('{NAMESPACE}::{name}::adjustCollectionSizes_()'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{NAMESPACE}::{name}::doPrepareGetEntry_(Long64_t _iEntry)'.format(NAMESPACE = NAMESPACE, name = self.name))
         src.writeline('{')
         src.indent += 1
         for objbranch in self.objbranches:
             if objbranch.conttype == 'Collection':
-                src.writeline('{name}.resize({name}.size());'.format(name = objbranch.name))
+                src.writeline('{name}.prepareGetEntry(_iEntry);'.format(name = objbranch.name))
         src.indent -= 1
         src.writeline('}')
         src.newline()

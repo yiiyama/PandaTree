@@ -30,10 +30,9 @@ namespace panda {
     virtual void doSetAddress_(TTree& tree, utils::BranchList const&, Bool_t setStatus) = 0;
     virtual void doBook_(TTree&, utils::BranchList const&) = 0;
     virtual void doReleaseTree_(TTree&) = 0;
-    virtual void adjustCollectionSizes_() = 0;
+    virtual void doPrepareGetEntry_(Long64_t) = 0;
 
     TTree* input_{0}; // set by setAddress
-    std::vector<TBranch*> sizeBranches_{}; // branches in the input tree for object sizes
     std::vector<TTree*> outputs_{};
   };
 

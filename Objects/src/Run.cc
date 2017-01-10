@@ -42,8 +42,6 @@ panda::Run::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool
 {
   utils::setAddress(_tree, "", "run", &run, _branches, _setStatus);
   utils::setAddress(_tree, "", "hltMenu", &hltMenu, _branches, _setStatus);
-
-  sizeBranches_.clear();
 }
 
 /*protected*/
@@ -65,7 +63,7 @@ panda::Run::doReleaseTree_(TTree& _tree)
 /* END CUSTOM */
 /*protected*/
 void
-panda::Run::adjustCollectionSizes_()
+panda::Run::doPrepareGetEntry_(Long64_t _iEntry)
 {
 }
 

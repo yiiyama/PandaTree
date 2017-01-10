@@ -259,40 +259,6 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
   utils::setAddress(_tree, "", "rho", &rho, _branches, _setStatus);
   utils::setAddress(_tree, "", "rhoCentralCalo", &rhoCentralCalo, _branches, _setStatus);
   utils::setAddress(_tree, "", "weight", &weight, _branches, _setStatus);
-
-  sizeBranches_.clear();
-  if (_tree.GetBranchStatus("pfCandidates.size"))
-    sizeBranches_.push_back(_tree.GetBranch("pfCandidates.size"));
-  if (_tree.GetBranchStatus("superClusters.size"))
-    sizeBranches_.push_back(_tree.GetBranch("superClusters.size"));
-  if (_tree.GetBranchStatus("electrons.size"))
-    sizeBranches_.push_back(_tree.GetBranch("electrons.size"));
-  if (_tree.GetBranchStatus("muons.size"))
-    sizeBranches_.push_back(_tree.GetBranch("muons.size"));
-  if (_tree.GetBranchStatus("taus.size"))
-    sizeBranches_.push_back(_tree.GetBranch("taus.size"));
-  if (_tree.GetBranchStatus("photons.size"))
-    sizeBranches_.push_back(_tree.GetBranch("photons.size"));
-  if (_tree.GetBranchStatus("chsAK4Jets.size"))
-    sizeBranches_.push_back(_tree.GetBranch("chsAK4Jets.size"));
-  if (_tree.GetBranchStatus("puppiAK4Jets.size"))
-    sizeBranches_.push_back(_tree.GetBranch("puppiAK4Jets.size"));
-  if (_tree.GetBranchStatus("chsAK8Jets.size"))
-    sizeBranches_.push_back(_tree.GetBranch("chsAK8Jets.size"));
-  if (_tree.GetBranchStatus("chsCA15Jets.size"))
-    sizeBranches_.push_back(_tree.GetBranch("chsCA15Jets.size"));
-  if (_tree.GetBranchStatus("puppiAK8Jets.size"))
-    sizeBranches_.push_back(_tree.GetBranch("puppiAK8Jets.size"));
-  if (_tree.GetBranchStatus("puppiCA15Jets.size"))
-    sizeBranches_.push_back(_tree.GetBranch("puppiCA15Jets.size"));
-  if (_tree.GetBranchStatus("subjets.size"))
-    sizeBranches_.push_back(_tree.GetBranch("subjets.size"));
-  if (_tree.GetBranchStatus("genJets.size"))
-    sizeBranches_.push_back(_tree.GetBranch("genJets.size"));
-  if (_tree.GetBranchStatus("genParticles.size"))
-    sizeBranches_.push_back(_tree.GetBranch("genParticles.size"));
-  if (_tree.GetBranchStatus("partons.size"))
-    sizeBranches_.push_back(_tree.GetBranch("partons.size"));
 }
 
 /*protected*/
@@ -383,23 +349,23 @@ panda::Event::doReleaseTree_(TTree& _tree)
 /* END CUSTOM */
 /*protected*/
 void
-panda::Event::adjustCollectionSizes_()
+panda::Event::doPrepareGetEntry_(Long64_t _iEntry)
 {
-  pfCandidates.resize(pfCandidates.size());
-  superClusters.resize(superClusters.size());
-  electrons.resize(electrons.size());
-  muons.resize(muons.size());
-  taus.resize(taus.size());
-  photons.resize(photons.size());
-  chsAK4Jets.resize(chsAK4Jets.size());
-  puppiAK4Jets.resize(puppiAK4Jets.size());
-  chsAK8Jets.resize(chsAK8Jets.size());
-  chsCA15Jets.resize(chsCA15Jets.size());
-  puppiAK8Jets.resize(puppiAK8Jets.size());
-  puppiCA15Jets.resize(puppiCA15Jets.size());
-  subjets.resize(subjets.size());
-  genJets.resize(genJets.size());
-  genParticles.resize(genParticles.size());
-  partons.resize(partons.size());
+  pfCandidates.prepareGetEntry(_iEntry);
+  superClusters.prepareGetEntry(_iEntry);
+  electrons.prepareGetEntry(_iEntry);
+  muons.prepareGetEntry(_iEntry);
+  taus.prepareGetEntry(_iEntry);
+  photons.prepareGetEntry(_iEntry);
+  chsAK4Jets.prepareGetEntry(_iEntry);
+  puppiAK4Jets.prepareGetEntry(_iEntry);
+  chsAK8Jets.prepareGetEntry(_iEntry);
+  chsCA15Jets.prepareGetEntry(_iEntry);
+  puppiAK8Jets.prepareGetEntry(_iEntry);
+  puppiCA15Jets.prepareGetEntry(_iEntry);
+  subjets.prepareGetEntry(_iEntry);
+  genJets.prepareGetEntry(_iEntry);
+  genParticles.prepareGetEntry(_iEntry);
+  partons.prepareGetEntry(_iEntry);
 }
 

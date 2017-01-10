@@ -47,10 +47,8 @@ panda::TreeEntry::getEntry(Long64_t _entry)
   if (!input_)
     return -1;
 
-  for (auto* b : sizeBranches_)
-    b->GetEntry(_entry);
-
-  adjustCollectionSizes_();
+  // call prepareGetEntry on collections
+  doPrepareGetEntry_(_entry);
 
   return input_->GetEntry(_entry);
 }

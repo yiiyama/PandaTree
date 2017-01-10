@@ -4,6 +4,29 @@
 #include <stdexcept>
 
 void
+panda::ContainerBase::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+{
+  doSetStatus_(_tree, _status, _branches);
+}
+
+void
+panda::ContainerBase::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+{
+  doSetAddress_(_tree, _branches, _setStatus);
+  input_ = &_tree;
+}
+
+void
+panda::ContainerBase::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
+{
+  if (std::find(outputs_.begin(), outputs_.end(), &_tree) != outputs_.end())
+    throw std::runtime_error("ContainerBase::book tree branch already booked");
+
+  doBook_(_tree, _branches);
+  outputs_.push_back(&_tree);
+}
+
+void
 panda::ContainerBase::releaseTree(TTree& _tree)
 {
   bool found(false);
@@ -30,26 +53,16 @@ panda::ContainerBase::releaseTree(TTree& _tree)
 }
 
 void
-panda::ContainerBase::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::ContainerBase::prepareGetEntry(Long64_t _iEntry)
 {
-  doSetStatus_(_tree, _status, _branches);
+  doPrepareGetEntry_(_iEntry);
 }
 
-void
-panda::ContainerBase::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+Int_t
+panda::ContainerBase::getEntry(Long64_t _iEntry)
 {
-  doSetAddress_(_tree, _branches, _setStatus);
-  input_ = &_tree;
-}
-
-void
-panda::ContainerBase::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
-{
-  if (std::find(outputs_.begin(), outputs_.end(), &_tree) != outputs_.end())
-    throw std::runtime_error("ContainerBase::book tree branch already booked");
-
-  doBook_(_tree, _branches);
-  outputs_.push_back(&_tree);
+  doPrepareGetEntry_(_iEntry);
+  return input_->GetEntry(_iEntry);
 }
 
 /*protected*/

@@ -79,7 +79,7 @@ namespace panda {
     void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;
     void doBook_(TTree&, utils::BranchList const&) override;
     void doReleaseTree_(TTree&) override;
-    void adjustCollectionSizes_() override;
+    void doPrepareGetEntry_(Long64_t) override;
 
   public:
     /* BEGIN CUSTOM Event.h.classdef */

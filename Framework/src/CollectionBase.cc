@@ -16,7 +16,7 @@ panda::CollectionBase::resize(UInt_t _size)
   getData().resizeVectors_(_size);
 }
 
-/*private*/
+/*protected*/
 void
 panda::CollectionBase::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const& _branches)
 {
@@ -31,18 +31,20 @@ panda::CollectionBase::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchL
   getData().setStatus(_tree, name_, _status, _branches);
 }
 
-/*private*/
+/*protected*/
 void
 panda::CollectionBase::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus)
 {
-  Int_t sizeStatus(utils::setAddress(_tree, name_, "size", &size_, {"size"}, _setStatus));
+  Int_t sizeStatus(utils::setAddress(_tree, name_, "size", &sizeIn_, {"size"}, _setStatus));
   if (sizeStatus == -1 || (!_setStatus && sizeStatus == 0))
     return;
+
+  sizeInBranch_ = _tree.GetBranch(name_ + ".size");
   
   getData().setAddress(_tree, name_, _branches, _setStatus);
 }
 
-/*private*/
+/*protected*/
 void
 panda::CollectionBase::doBook_(TTree& _tree, utils::BranchList const& _branches)
 {
@@ -52,13 +54,23 @@ panda::CollectionBase::doBook_(TTree& _tree, utils::BranchList const& _branches)
   getData().book(_tree, name_, _branches, true);
 }
 
-/*private*/
+/*protected*/
 void
 panda::CollectionBase::doResetAddress_(TTree& _tree)
 {
-  auto* branch(_tree.GetBranch(name_ + ".size"));
-  if (branch)
-    branch->ResetAddress();
+  if (sizeInBranch_)
+    sizeInBranch_->ResetAddress();
+  sizeInBranch_ = 0;
 
   getData().resetAddress(_tree, name_);
+}
+
+/*protected*/
+void
+panda::CollectionBase::doPrepareGetEntry_(Long64_t _iEntry)
+{
+  if (sizeInBranch_)
+    sizeInBranch_->GetEntry(_iEntry);
+
+  resize(sizeIn_);
 }
