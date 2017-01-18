@@ -169,7 +169,7 @@ panda::utils::checkStatus(TTree& _tree, TString const& _objName, BranchName cons
 Int_t
 panda::utils::setStatus(TTree& _tree, TString const& _objName, BranchName const& _bName, Bool_t _status, BranchList const& _bList)
 {
-  if (_bName.vetoed(_bList))
+  if (!_bName.in(_bList))
     return -1;
 
   // -1 -> branch does not exist or not in the list; 0 -> status is already set
@@ -192,7 +192,7 @@ panda::utils::setAddress(TTree& _tree, TString const& _objName, BranchName const
       return -1;
   }
   else {
-    if (_bName.vetoed(_bList))
+    if (!_bName.in(_bList))
       return -1;
 
     // -1 -> branch does not exist; 0 -> status is false
@@ -213,7 +213,7 @@ panda::utils::book(TTree& _tree, TString const& _objName, BranchName const& _bNa
   // size: [electrons.size]
   // lType: F
 
-  if (_bName.vetoed(_bList))
+  if (!_bName.in(_bList))
     return -1;
 
   TString lExpr(_bName + _size);
