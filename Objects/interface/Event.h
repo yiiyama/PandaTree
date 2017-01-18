@@ -33,7 +33,7 @@ namespace panda {
     void init() override;
 
     GenReweight genReweight = GenReweight("genReweight");
-    PFCandCollection pfCandidates = PFCandCollection("pfCandidates", 256);
+    PFCandCollection pfCandidates = PFCandCollection("pfCandidates", 2048);
     SuperClusterCollection superClusters = SuperClusterCollection("superClusters", 64);
     ElectronCollection electrons = ElectronCollection("electrons", 32);
     MuonCollection muons = MuonCollection("muons", 32);

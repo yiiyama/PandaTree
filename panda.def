@@ -300,7 +300,7 @@ rho/F
 rhoCentralCalo/F
 weight/F
 genReweight/GenReweight
-pfCandidates/PFCandCollection(256)
+pfCandidates/PFCandCollection(2048)
 superClusters/SuperClusterCollection(64)
 electrons/ElectronCollection(32)
 muons/MuonCollection(32)
