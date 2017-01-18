@@ -26,7 +26,7 @@ panda::HLTBits::operator=(HLTBits const& _src)
 }
 
 void
-panda::HLTBits::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::HLTBits::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Singlet::setStatus(_tree, _status, _branches);
 
@@ -34,7 +34,7 @@ panda::HLTBits::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const&
 }
 
 void
-panda::HLTBits::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::HLTBits::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Singlet::setAddress(_tree, _branches, _setStatus);
 
@@ -42,7 +42,7 @@ panda::HLTBits::setAddress(TTree& _tree, utils::BranchList const& _branches/* = 
 }
 
 void
-panda::HLTBits::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
+panda::HLTBits::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Singlet::book(_tree, _branches);
 

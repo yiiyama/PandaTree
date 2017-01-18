@@ -18,7 +18,7 @@ panda::GenJet::datastore::deallocate()
 }
 
 void
-panda::GenJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::GenJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ParticleM::datastore::setStatus(_tree, _name, _status, _branches);
 
@@ -26,7 +26,7 @@ panda::GenJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _
 }
 
 void
-panda::GenJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::GenJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   ParticleM::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
@@ -34,7 +34,7 @@ panda::GenJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::
 }
 
 void
-panda::GenJet::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _dynamic/* = kTRUE*/)
+panda::GenJet::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
 {
   ParticleM::datastore::book(_tree, _name, _branches, _dynamic);
 
@@ -111,7 +111,7 @@ panda::GenJet::operator=(GenJet const& _src)
 }
 
 void
-panda::GenJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::GenJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ParticleM::setStatus(_tree, _status, _branches);
 
@@ -121,7 +121,7 @@ panda::GenJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& 
 }
 
 void
-panda::GenJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::GenJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   ParticleM::setAddress(_tree, _branches, _setStatus);
 
@@ -131,7 +131,7 @@ panda::GenJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {
 }
 
 void
-panda::GenJet::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
+panda::GenJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ParticleM::book(_tree, _branches);
 

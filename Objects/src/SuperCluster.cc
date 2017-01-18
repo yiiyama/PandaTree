@@ -24,7 +24,7 @@ panda::SuperCluster::datastore::deallocate()
 }
 
 void
-panda::SuperCluster::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::SuperCluster::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ContainerElement::datastore::setStatus(_tree, _name, _status, _branches);
 
@@ -34,7 +34,7 @@ panda::SuperCluster::datastore::setStatus(TTree& _tree, TString const& _name, Bo
 }
 
 void
-panda::SuperCluster::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::SuperCluster::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   ContainerElement::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
@@ -44,7 +44,7 @@ panda::SuperCluster::datastore::setAddress(TTree& _tree, TString const& _name, u
 }
 
 void
-panda::SuperCluster::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _dynamic/* = kTRUE*/)
+panda::SuperCluster::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
 {
   ContainerElement::datastore::book(_tree, _name, _branches, _dynamic);
 
@@ -137,7 +137,7 @@ panda::SuperCluster::operator=(SuperCluster const& _src)
 }
 
 void
-panda::SuperCluster::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::SuperCluster::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ContainerElement::setStatus(_tree, _status, _branches);
 
@@ -149,7 +149,7 @@ panda::SuperCluster::setStatus(TTree& _tree, Bool_t _status, utils::BranchList c
 }
 
 void
-panda::SuperCluster::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::SuperCluster::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   ContainerElement::setAddress(_tree, _branches, _setStatus);
 
@@ -161,7 +161,7 @@ panda::SuperCluster::setAddress(TTree& _tree, utils::BranchList const& _branches
 }
 
 void
-panda::SuperCluster::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
+panda::SuperCluster::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ContainerElement::book(_tree, _branches);
 

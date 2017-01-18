@@ -54,7 +54,7 @@ panda::Electron::datastore::deallocate()
 }
 
 void
-panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Lepton::datastore::setStatus(_tree, _name, _status, _branches);
 
@@ -74,7 +74,7 @@ panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t
 }
 
 void
-panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Lepton::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
@@ -94,7 +94,7 @@ panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils
 }
 
 void
-panda::Electron::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _dynamic/* = kTRUE*/)
+panda::Electron::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
 {
   Lepton::datastore::book(_tree, _name, _branches, _dynamic);
 
@@ -267,7 +267,7 @@ panda::Electron::operator=(Electron const& _src)
 }
 
 void
-panda::Electron::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::Electron::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Lepton::setStatus(_tree, _status, _branches);
 
@@ -289,7 +289,7 @@ panda::Electron::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const
 }
 
 void
-panda::Electron::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::Electron::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Lepton::setAddress(_tree, _branches, _setStatus);
 
@@ -311,7 +311,7 @@ panda::Electron::setAddress(TTree& _tree, utils::BranchList const& _branches/* =
 }
 
 void
-panda::Electron::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
+panda::Electron::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Lepton::book(_tree, _branches);
 

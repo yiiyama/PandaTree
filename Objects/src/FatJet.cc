@@ -48,7 +48,7 @@ panda::FatJet::datastore::deallocate()
 }
 
 void
-panda::FatJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::FatJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Jet::datastore::setStatus(_tree, _name, _status, _branches);
 
@@ -66,7 +66,7 @@ panda::FatJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _
 }
 
 void
-panda::FatJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::FatJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Jet::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
@@ -84,7 +84,7 @@ panda::FatJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::
 }
 
 void
-panda::FatJet::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _dynamic/* = kTRUE*/)
+panda::FatJet::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
 {
   Jet::datastore::book(_tree, _name, _branches, _dynamic);
 
@@ -242,7 +242,7 @@ panda::FatJet::operator=(FatJet const& _src)
 }
 
 void
-panda::FatJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::FatJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Jet::setStatus(_tree, _status, _branches);
 
@@ -262,7 +262,7 @@ panda::FatJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& 
 }
 
 void
-panda::FatJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::FatJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Jet::setAddress(_tree, _branches, _setStatus);
 
@@ -282,7 +282,7 @@ panda::FatJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {
 }
 
 void
-panda::FatJet::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
+panda::FatJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Jet::book(_tree, _branches);
 

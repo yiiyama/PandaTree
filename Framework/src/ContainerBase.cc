@@ -4,20 +4,20 @@
 #include <stdexcept>
 
 void
-panda::ContainerBase::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::ContainerBase::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   doSetStatus_(_tree, _status, _branches);
 }
 
 void
-panda::ContainerBase::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::ContainerBase::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   doSetAddress_(_tree, _branches, _setStatus);
   input_ = &_tree;
 }
 
 void
-panda::ContainerBase::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
+panda::ContainerBase::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   if (std::find(outputs_.begin(), outputs_.end(), &_tree) != outputs_.end())
     throw std::runtime_error("ContainerBase::book tree branch already booked");

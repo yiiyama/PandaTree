@@ -47,7 +47,7 @@ panda::GenReweight::operator=(GenReweight const& _src)
 }
 
 void
-panda::GenReweight::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::GenReweight::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Singlet::setStatus(_tree, _status, _branches);
 
@@ -62,7 +62,7 @@ panda::GenReweight::setStatus(TTree& _tree, Bool_t _status, utils::BranchList co
 }
 
 void
-panda::GenReweight::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::GenReweight::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Singlet::setAddress(_tree, _branches, _setStatus);
 
@@ -77,7 +77,7 @@ panda::GenReweight::setAddress(TTree& _tree, utils::BranchList const& _branches/
 }
 
 void
-panda::GenReweight::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
+panda::GenReweight::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Singlet::book(_tree, _branches);
 

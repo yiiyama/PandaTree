@@ -47,9 +47,9 @@ namespace panda {
 
       virtual void allocate(UInt_t n) { nmax_ = n; }
       virtual void deallocate() {}
-      virtual void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {}) {}
-      virtual void setAddress(TTree&, TString const&, utils::BranchList const& = {}, Bool_t setStatus = kTRUE) {}
-      virtual void book(TTree&, TString const&, utils::BranchList const& = {}, Bool_t dynamic = kTRUE) {}
+      virtual void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) {}
+      virtual void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) {}
+      virtual void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) {}
       virtual void resetAddress(TTree&, TString const&) {}
 
       UInt_t nmax() const { return nmax_; }

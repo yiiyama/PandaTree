@@ -24,7 +24,7 @@ panda::Particle::datastore::deallocate()
 }
 
 void
-panda::Particle::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::Particle::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ContainerElement::datastore::setStatus(_tree, _name, _status, _branches);
 
@@ -34,7 +34,7 @@ panda::Particle::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t
 }
 
 void
-panda::Particle::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::Particle::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   ContainerElement::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
@@ -44,7 +44,7 @@ panda::Particle::datastore::setAddress(TTree& _tree, TString const& _name, utils
 }
 
 void
-panda::Particle::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _dynamic/* = kTRUE*/)
+panda::Particle::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
 {
   ContainerElement::datastore::book(_tree, _name, _branches, _dynamic);
 
@@ -137,7 +137,7 @@ panda::Particle::operator=(Particle const& _src)
 }
 
 void
-panda::Particle::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::Particle::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ContainerElement::setStatus(_tree, _status, _branches);
 
@@ -149,7 +149,7 @@ panda::Particle::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const
 }
 
 void
-panda::Particle::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::Particle::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   ContainerElement::setAddress(_tree, _branches, _setStatus);
 
@@ -161,7 +161,7 @@ panda::Particle::setAddress(TTree& _tree, utils::BranchList const& _branches/* =
 }
 
 void
-panda::Particle::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
+panda::Particle::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ContainerElement::book(_tree, _branches);
 

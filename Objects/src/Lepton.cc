@@ -42,7 +42,7 @@ panda::Lepton::datastore::deallocate()
 }
 
 void
-panda::Lepton::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::Lepton::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Particle::datastore::setStatus(_tree, _name, _status, _branches);
 
@@ -58,7 +58,7 @@ panda::Lepton::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _
 }
 
 void
-panda::Lepton::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::Lepton::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Particle::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
@@ -74,7 +74,7 @@ panda::Lepton::datastore::setAddress(TTree& _tree, TString const& _name, utils::
 }
 
 void
-panda::Lepton::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _dynamic/* = kTRUE*/)
+panda::Lepton::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
 {
   Particle::datastore::book(_tree, _name, _branches, _dynamic);
 
@@ -215,7 +215,7 @@ panda::Lepton::operator=(Lepton const& _src)
 }
 
 void
-panda::Lepton::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::Lepton::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Particle::setStatus(_tree, _status, _branches);
 
@@ -233,7 +233,7 @@ panda::Lepton::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& 
 }
 
 void
-panda::Lepton::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::Lepton::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Particle::setAddress(_tree, _branches, _setStatus);
 
@@ -251,7 +251,7 @@ panda::Lepton::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {
 }
 
 void
-panda::Lepton::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
+panda::Lepton::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Particle::book(_tree, _branches);
 

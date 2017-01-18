@@ -301,6 +301,7 @@ namespace panda {
       allocate_(_nmax);
 
       // copy old values
+      // max_() = CollectionBase::size_ still has the old value
       for (UInt_t iP(0); iP != max_(); ++iP)
         (*this)[iP] = tmpArray[iP];
 

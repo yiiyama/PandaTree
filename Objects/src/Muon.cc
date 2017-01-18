@@ -18,7 +18,7 @@ panda::Muon::datastore::deallocate()
 }
 
 void
-panda::Muon::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::Muon::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Lepton::datastore::setStatus(_tree, _name, _status, _branches);
 
@@ -26,7 +26,7 @@ panda::Muon::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _st
 }
 
 void
-panda::Muon::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::Muon::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Lepton::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
@@ -34,7 +34,7 @@ panda::Muon::datastore::setAddress(TTree& _tree, TString const& _name, utils::Br
 }
 
 void
-panda::Muon::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _dynamic/* = kTRUE*/)
+panda::Muon::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
 {
   Lepton::datastore::book(_tree, _name, _branches, _dynamic);
 
@@ -111,7 +111,7 @@ panda::Muon::operator=(Muon const& _src)
 }
 
 void
-panda::Muon::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::Muon::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Lepton::setStatus(_tree, _status, _branches);
 
@@ -121,7 +121,7 @@ panda::Muon::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _b
 }
 
 void
-panda::Muon::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::Muon::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Lepton::setAddress(_tree, _branches, _setStatus);
 
@@ -131,7 +131,7 @@ panda::Muon::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*
 }
 
 void
-panda::Muon::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
+panda::Muon::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Lepton::book(_tree, _branches);
 

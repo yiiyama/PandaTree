@@ -30,7 +30,7 @@ panda::Recoil::operator=(Recoil const& _src)
 }
 
 void
-panda::Recoil::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::Recoil::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Singlet::setStatus(_tree, _status, _branches);
 
@@ -39,7 +39,7 @@ panda::Recoil::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& 
 }
 
 void
-panda::Recoil::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::Recoil::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Singlet::setAddress(_tree, _branches, _setStatus);
 
@@ -48,7 +48,7 @@ panda::Recoil::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {
 }
 
 void
-panda::Recoil::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
+panda::Recoil::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Singlet::book(_tree, _branches);
 

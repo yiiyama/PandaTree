@@ -51,7 +51,7 @@ panda::RecoMet::operator=(RecoMet const& _src)
 }
 
 void
-panda::RecoMet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::RecoMet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Met::setStatus(_tree, _status, _branches);
 
@@ -67,7 +67,7 @@ panda::RecoMet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const&
 }
 
 void
-panda::RecoMet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::RecoMet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Met::setAddress(_tree, _branches, _setStatus);
 
@@ -83,7 +83,7 @@ panda::RecoMet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = 
 }
 
 void
-panda::RecoMet::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
+panda::RecoMet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Met::book(_tree, _branches);
 

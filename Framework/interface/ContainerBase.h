@@ -38,17 +38,17 @@ namespace panda {
     /*!
       Any branch that is not explicitly vetoed are included.
     */
-    void setStatus(TTree&, Bool_t status, utils::BranchList const& = {});
+    void setStatus(TTree&, Bool_t status, utils::BranchList const& = {"*"});
     //! Call SetBranchAddress on each branch of the tree.
     /*!
       Any branch that is not explicitly vetoed are included.
     */
-    void setAddress(TTree&, utils::BranchList const& = {}, Bool_t setStatus = kTRUE);
+    void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE);
     //! Call Branch() for all objects.
     /*!
       Any branch that is not explicitly vetoed are included.
     */
-    void book(TTree&, utils::BranchList const& = {});
+    void book(TTree&, utils::BranchList const& = {"*"});
     void releaseTree(TTree&);
     /*!
       Run a look-ahead of the entry to determine e.g. collection resize

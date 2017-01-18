@@ -23,11 +23,11 @@ namespace panda {
     Object& operator=(Object const&) { return *this; }
 
     //! Set status of branches with names that correspond to the variables of this object.
-    virtual void setStatus(TTree&, Bool_t enabled, utils::BranchList const& = {}) {}
+    virtual void setStatus(TTree&, Bool_t enabled, utils::BranchList const& = {"*"}) {}
     //! Set address for the branches to the variables of this object.
-    virtual void setAddress(TTree&, utils::BranchList const& = {}, Bool_t setStatus = kTRUE) {}
+    virtual void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) {}
     //! Book new branches to the tree corresponding to the variables of this object.
-    virtual void book(TTree&, utils::BranchList const& = {}) {}
+    virtual void book(TTree&, utils::BranchList const& = {"*"}) {}
     //! Reset the branch pointer to unlink the branch from this object.
     virtual void resetAddress(TTree&) {}
 

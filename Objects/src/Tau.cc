@@ -33,7 +33,7 @@ panda::Tau::datastore::deallocate()
 }
 
 void
-panda::Tau::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::Tau::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ParticleM::datastore::setStatus(_tree, _name, _status, _branches);
 
@@ -46,7 +46,7 @@ panda::Tau::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _sta
 }
 
 void
-panda::Tau::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::Tau::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   ParticleM::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
@@ -59,7 +59,7 @@ panda::Tau::datastore::setAddress(TTree& _tree, TString const& _name, utils::Bra
 }
 
 void
-panda::Tau::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _dynamic/* = kTRUE*/)
+panda::Tau::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
 {
   ParticleM::datastore::book(_tree, _name, _branches, _dynamic);
 
@@ -176,7 +176,7 @@ panda::Tau::operator=(Tau const& _src)
 }
 
 void
-panda::Tau::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::Tau::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ParticleM::setStatus(_tree, _status, _branches);
 
@@ -191,7 +191,7 @@ panda::Tau::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _br
 }
 
 void
-panda::Tau::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::Tau::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   ParticleM::setAddress(_tree, _branches, _setStatus);
 
@@ -206,7 +206,7 @@ panda::Tau::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/
 }
 
 void
-panda::Tau::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
+panda::Tau::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ParticleM::book(_tree, _branches);
 

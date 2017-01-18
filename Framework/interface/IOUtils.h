@@ -44,7 +44,7 @@ namespace panda {
       //! Is the name included and vetoed?
       /*!
         Does not take the veto on this object into account. Simply asks the question
-        "is the name in the given list and not vetoed in the list?"
+        "is the name in the given list and vetoed in the list?"
       */
       bool vetoed(BranchList const&) const;
 
@@ -54,7 +54,7 @@ namespace panda {
 
     //! List of branch names
     /*!
-      Basically a vector of BranchNames with a handy function.
+      Basically a vector of BranchNames with a few facilities.
     */
     class BranchList : public std::vector<BranchName> {
     public:
@@ -66,9 +66,39 @@ namespace panda {
       bool any() const;
     };
 
-    Int_t checkStatus(TTree&, TString const& objName, BranchName const& bName, Bool_t status);
+    //! Check status of a branch
+    /*!
+      Return values:
+      -1 branch does not exist
+      0  status is current
+      1  status is different
+    */
+    Int_t checkStatus(TTree&, TString const& fullName, Bool_t status);
+    //! Set status of a branch
+    /*!
+      Return values:
+      -2 branch is not in given list
+      -1 branch does not exist
+      0  status is already set
+      1  status is changed
+    */
     Int_t setStatus(TTree&, TString const& objName, BranchName const& bName, Bool_t status, BranchList const&);
+    //! Set address
+    /*!
+      Return values:
+      -2 branch is not in given list
+      -1 branch does not exist
+      0  status is false and address is not set
+      1  status is true and address is set
+    */
     Int_t setAddress(TTree&, TString const& objName, BranchName const& bName, void* bPtr, BranchList const&, Bool_t setStatus);
+    //! Book the branch
+    /*!
+      Return values:
+      -2 branch is not in given list
+      1  branch is booked
+      Throws in case of double-booking
+    */
     Int_t book(TTree&, TString const& objName, BranchName const& bName, TString const& size, char lType, void* bPtr, BranchList const&);
     Int_t resetAddress(TTree&, TString const& objName, BranchName const& bName);
 

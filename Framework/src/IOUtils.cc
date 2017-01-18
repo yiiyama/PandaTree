@@ -1,5 +1,7 @@
 #include "../interface/IOUtils.h"
 
+#include <stdexcept>
+
 panda::utils::BranchName::BranchName(BranchName const& _src) :
   std::vector<TString>(_src),
   isVeto_(_src.isVeto_)
@@ -45,20 +47,20 @@ panda::utils::BranchName::operator TString() const
 TString
 panda::utils::BranchName::fullName(TString const& _objName) const
 {
-
   TString bFullName(*this);
 
-  if (isVeto_) {
-    // remove the leading '!'
-    bFullName = bFullName(1, bFullName.Length());
-  }
+  if (_objName.Length() != 0) {
+    if (isVeto_) {
+      // remove the leading '!'
+      bFullName = bFullName(1, bFullName.Length());
+    }
     
-  if (_objName.Length() != 0)
     bFullName.Prepend(_objName + ".");
 
-  if (isVeto_) {
-    // and add it to the front
-    bFullName.Prepend("!");
+    if (isVeto_) {
+      // and add it to the front
+      bFullName.Prepend("!");
+    }
   }
 
   return bFullName;
@@ -152,15 +154,12 @@ panda::utils::BranchList::any() const
 }
 
 Int_t
-panda::utils::checkStatus(TTree& _tree, TString const& _objName, BranchName const& _bName, Bool_t _status)
+panda::utils::checkStatus(TTree& _tree, TString const& _fullName, Bool_t _status)
 {
-  // we can assume that _bList is a list of terminal branches
-  TString fullName(_bName.fullName(_objName));
-
-  if (!_tree.GetBranch(fullName))
+  if (!_tree.GetBranch(_fullName))
     return -1;
 
-  if (_tree.GetBranchStatus(fullName) == _status)
+  if (_tree.GetBranchStatus(_fullName) == _status)
     return 0;
   else
     return 1;
@@ -170,14 +169,16 @@ Int_t
 panda::utils::setStatus(TTree& _tree, TString const& _objName, BranchName const& _bName, Bool_t _status, BranchList const& _bList)
 {
   if (!_bName.in(_bList))
-    return -1;
+    return -2;
 
-  // -1 -> branch does not exist or not in the list; 0 -> status is already set
-  Int_t checkResult(checkStatus(_tree, _objName, _bName, _status));
-  if (checkResult != 1)
-    return checkResult;
+  TString fullName(_bName.fullName(_objName));
 
-  _tree.SetBranchStatus(_bName.fullName(_objName), _status);
+  // -1 -> branch does not exist; 0 -> status is already set; 1 -> status is different
+  Int_t returnCode(checkStatus(_tree, fullName, _status));
+  if (returnCode != 1)
+    return returnCode;
+
+  _tree.SetBranchStatus(fullName, _status);
   return 1;
 }
 
@@ -186,23 +187,25 @@ panda::utils::setAddress(TTree& _tree, TString const& _objName, BranchName const
 {
   Int_t returnCode(0);
 
+  TString fullName(_bName.fullName(_objName));
+
   if (_setStatus) {
     returnCode = setStatus(_tree, _objName, _bName, true, _bList);
-    if (returnCode == -1) // branch does not exist or is vetoed
-      return -1;
+    if (returnCode < 0) // branch does not exist or is not in the list (includes vetoed case)
+      return returnCode;
   }
   else {
     if (!_bName.in(_bList))
-      return -1;
+      return -2;
 
-    // -1 -> branch does not exist; 0 -> status is false
-    returnCode = checkStatus(_tree, _objName, _bName, false);
+    // -1 -> branch does not exist; 0 -> status is false; 1 -> status is true
+    returnCode = checkStatus(_tree, fullName, false);
     if (returnCode != 1)
       return returnCode;
   }
 
-  _tree.SetBranchAddress(_bName.fullName(_objName), _bPtr);
-  return returnCode;
+  _tree.SetBranchAddress(fullName, _bPtr);
+  return 1;
 }
 
 Int_t 
@@ -214,7 +217,11 @@ panda::utils::book(TTree& _tree, TString const& _objName, BranchName const& _bNa
   // lType: F
 
   if (!_bName.in(_bList))
-    return -1;
+    return -2;
+
+  TString fullName(_bName.fullName(_objName));
+  if (_tree.GetBranch(fullName))
+    throw std::runtime_error(("Branch " + fullName + " booked twice").Data());
 
   TString lExpr(_bName + _size);
 
@@ -223,7 +230,7 @@ panda::utils::book(TTree& _tree, TString const& _objName, BranchName const& _bNa
 
   _tree.Branch(_bName.fullName(_objName), _bPtr, lExpr);
 
-  return 0;
+  return 1;
 }
 
 Int_t 

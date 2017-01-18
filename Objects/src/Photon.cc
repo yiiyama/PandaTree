@@ -99,7 +99,7 @@ panda::Photon::datastore::deallocate()
 }
 
 void
-panda::Photon::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::Photon::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Particle::datastore::setStatus(_tree, _name, _status, _branches);
 
@@ -134,7 +134,7 @@ panda::Photon::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _
 }
 
 void
-panda::Photon::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::Photon::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Particle::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
@@ -169,7 +169,7 @@ panda::Photon::datastore::setAddress(TTree& _tree, TString const& _name, utils::
 }
 
 void
-panda::Photon::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {}*/, Bool_t _dynamic/* = kTRUE*/)
+panda::Photon::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
 {
   Particle::datastore::book(_tree, _name, _branches, _dynamic);
 
@@ -462,7 +462,7 @@ panda::Photon::operator=(Photon const& _src)
 }
 
 void
-panda::Photon::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::Photon::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Particle::setStatus(_tree, _status, _branches);
 
@@ -499,7 +499,7 @@ panda::Photon::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& 
 }
 
 void
-panda::Photon::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::Photon::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Particle::setAddress(_tree, _branches, _setStatus);
 
@@ -536,7 +536,7 @@ panda::Photon::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {
 }
 
 void
-panda::Photon::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
+panda::Photon::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Particle::book(_tree, _branches);
 

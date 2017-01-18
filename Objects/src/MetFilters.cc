@@ -45,7 +45,7 @@ panda::MetFilters::operator=(MetFilters const& _src)
 }
 
 void
-panda::MetFilters::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {}*/)
+panda::MetFilters::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Singlet::setStatus(_tree, _status, _branches);
 
@@ -59,7 +59,7 @@ panda::MetFilters::setStatus(TTree& _tree, Bool_t _status, utils::BranchList con
 }
 
 void
-panda::MetFilters::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {}*/, Bool_t _setStatus/* = kTRUE*/)
+panda::MetFilters::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Singlet::setAddress(_tree, _branches, _setStatus);
 
@@ -73,7 +73,7 @@ panda::MetFilters::setAddress(TTree& _tree, utils::BranchList const& _branches/*
 }
 
 void
-panda::MetFilters::book(TTree& _tree, utils::BranchList const& _branches/* = {}*/)
+panda::MetFilters::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Singlet::book(_tree, _branches);
 
