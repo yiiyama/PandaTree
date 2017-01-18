@@ -33,13 +33,20 @@ panda::CollectionBase::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchL
 
 /*protected*/
 void
-panda::CollectionBase::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus)
+panda::CollectionBase::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus, Bool_t _asInput/* = kTRUE*/)
 {
-  Int_t sizeStatus(utils::setAddress(_tree, name_, "size", &sizeIn_, {"size"}, _setStatus));
-  if (sizeStatus == -1 || (!_setStatus && sizeStatus == 0))
-    return;
+  if (_asInput) {
+    Int_t sizeStatus(utils::setAddress(_tree, name_, "size", &sizeIn_, {"size"}, _setStatus));
+    if (sizeStatus != 1)
+      return;
 
-  sizeInBranch_ = _tree.GetBranch(name_ + ".size");
+    sizeInBranch_ = _tree.GetBranch(name_ + ".size");
+  }
+  else {
+    Int_t sizeStatus(utils::setAddress(_tree, name_, "size", &size_, {"size"}, _setStatus));
+    if (sizeStatus != 1)
+      return;
+  }
   
   getData().setAddress(_tree, name_, _branches, _setStatus);
 }
@@ -48,8 +55,10 @@ panda::CollectionBase::doSetAddress_(TTree& _tree, utils::BranchList const& _bra
 void
 panda::CollectionBase::doBook_(TTree& _tree, utils::BranchList const& _branches)
 {
-  if (!utils::BranchName("size").vetoed(_branches) || _branches.any())
-    _tree.Branch(name_ + ".size", &size_, "size/i");
+  if (!_branches.any())
+    return;
+
+  _tree.Branch(name_ + ".size", &size_, "size/i");
 
   getData().book(_tree, name_, _branches, true);
 }

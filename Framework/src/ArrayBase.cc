@@ -16,7 +16,7 @@ panda::ArrayBase::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList c
 
 /*protected*/
 void
-panda::ArrayBase::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus)
+panda::ArrayBase::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus, Bool_t/* = kTRUE*/)
 {
   getData().setAddress(_tree, name_, _branches, _setStatus);
 }

@@ -72,5 +72,5 @@ panda::ContainerBase::updateAddress_()
   if (input_)
     doSetAddress_(*input_, {"*"}, false);
   for (auto* tree : outputs_)
-    doSetAddress_(*tree, {"*"}, false);
+    doSetAddress_(*tree, {"*"}, false, false);
 }

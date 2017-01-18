@@ -67,7 +67,7 @@ namespace panda {
     virtual void reallocate_(UInt_t) = 0;
 
     virtual void doSetStatus_(TTree&, Bool_t, utils::BranchList const&) = 0;
-    virtual void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) = 0;
+    virtual void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus, Bool_t asInput = kTRUE) = 0;
     virtual void doBook_(TTree&, utils::BranchList const&) = 0;
     virtual void doResetAddress_(TTree&) = 0;
     virtual void doPrepareGetEntry_(Long64_t) = 0;
