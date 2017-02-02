@@ -24,8 +24,10 @@ namespace panda {
 
     void set(unsigned iB) { words[iB / 32] |= (1 << (iB % 32)); }
     bool pass(unsigned iB) const { return ((words[iB / 32] >> (iB % 32)) & 1) != 0; }
+    unsigned size() const { return size_; }
 
     UInt_t words[16]{};
+    UInt_t size_{};
 
     /* BEGIN CUSTOM HLTBits.h.classdef */
     /* END CUSTOM */

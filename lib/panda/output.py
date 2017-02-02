@@ -17,7 +17,7 @@ class FileOutput(object):
                     if not line:
                         break
                   
-                    matches = re.match('/* BEGIN CUSTOM (.+) */', line.strip())
+                    matches = re.match('/\* BEGIN CUSTOM (.+) \*/', line.strip())
                     if matches is None:
                         continue
     

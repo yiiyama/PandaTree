@@ -346,6 +346,149 @@ panda::Event::doReleaseTree_(TTree& _tree)
 
 
 /* BEGIN CUSTOM Event.cc.global */
+
+#include "TFile.h"
+#include "TKey.h"
+#include <iostream>
+
+UInt_t
+panda::Event::registerTrigger(char const* _path)
+{
+  TString path(_path);
+  path += "_v";
+  registeredTriggers_.push_back(path);
+
+  // need to update the input
+  runCache_.treeNumber = -1;
+
+  return registeredTriggers_.size() - 1;
+}
+
+Bool_t
+panda::Event::triggerFired(UInt_t _token) const
+{
+  if (_token >= registeredTriggers_.size())
+    return false;
+
+  if (initRun_()) {
+    UInt_t idx(runCache_.triggerIndicesStore[runCache_.menuId][_token]);
+    if (idx >= triggers.size())
+      return false;
+
+    return triggers.pass(idx);
+  }
+
+  return false;
+}
+
+char const*
+panda::Event::triggerMenu() const
+{
+  if (initRun_())
+    return runCache_.triggerMenuNames[runCache_.menuId];
+
+  return "";
+}
+
+Bool_t
+panda::Event::initRun_() const
+{
+  if (!input_)
+    return false;
+
+  bool newRun(runNumber != runCache_.runNumber);
+
+  if (input_->GetTreeNumber() != runCache_.treeNumber) {
+    // reading a new input file - refresh all cache
+    
+    runCache_.treeNumber = input_->GetTreeNumber();
+
+    // clear out the cache
+    runCache_.triggerMenuNames.clear();
+    runCache_.triggerIndicesStore.clear();
+    runCache_.runToMenuIdMap.clear();
+
+    auto* inputFile(input_->GetCurrentFile());
+    if (!inputFile)
+      return false;
+
+    // read out runs and hlt trees (using GetKey to create a "fresh" object - Get can fetch an in-memory object that may already be in use)
+    auto* key(inputFile->GetKey("runs"));
+    if (!key) {
+      std::cerr << "File " << inputFile->GetName() << " does not have a run tree" << std::endl;
+      throw std::runtime_error("InputError");
+    }
+    auto* runTree(static_cast<TTree*>(key->ReadObj()));
+
+    // now read and save the run - menu index mapping
+    unsigned run(0);
+    unsigned hltMenu(0);
+    runTree->SetBranchAddress("run", &run);
+    runTree->SetBranchAddress("hltMenu", &hltMenu);
+
+    long iEntry(0);
+    while (runTree->GetEntry(iEntry++) > 0)
+      runCache_.runToMenuIdMap.emplace(run, hltMenu);
+
+    delete runTree;
+
+    key = inputFile->GetKey("hlt");
+    if (!key) {
+      std::cerr << "File " << inputFile->GetName() << " does not have an hlt tree" << std::endl;
+      return false;
+    }
+    auto* hltTree(static_cast<TTree*>(key->ReadObj()));
+
+    auto* menu(new TString);
+    auto* paths(new std::vector<TString>);
+    hltTree->SetBranchAddress("menu", &menu);
+    hltTree->SetBranchAddress("paths", &paths);
+
+    iEntry = 0;
+    while (hltTree->GetEntry(iEntry++) > 0) {
+      runCache_.triggerMenuNames.push_back(*menu);
+
+      runCache_.triggerIndicesStore.emplace_back();
+      auto& indices(runCache_.triggerIndicesStore.back());
+
+      // for each registered path, find the matching trigger in the given menu
+      for (auto& path : registeredTriggers_) {
+        unsigned iT(0);
+        for (; iT != paths->size(); ++iT) {
+          if ((*paths)[iT].BeginsWith(path)) {
+            indices.push_back(iT);
+            break;
+          }
+        }
+        if (iT == paths->size())
+          indices.push_back(-1);
+      }
+    }
+
+    delete hltTree;
+    delete menu;
+    delete paths;
+
+    // always treat file boundary as a run boundary
+    newRun = true;
+  }
+
+  if (newRun) {
+    runCache_.runNumber = runNumber;
+
+    // find the menu id corresponding to the run
+    auto idxItr(runCache_.runToMenuIdMap.find(runNumber));
+    if (idxItr == runCache_.runToMenuIdMap.end()) {
+      std::cerr << "Run " << runNumber << " not found in the run tree" << std::endl;
+      throw std::runtime_error("InputError");
+    }
+
+    runCache_.menuId = idxItr->second;
+  }
+
+  return true;
+}
+
 /* END CUSTOM */
 /*protected*/
 void
