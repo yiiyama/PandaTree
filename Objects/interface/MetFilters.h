@@ -10,17 +10,13 @@ namespace panda {
 
   class MetFilters : public Singlet {
   public:
+    typedef Singlet base_type;
+
     MetFilters(char const* name = "");
     MetFilters(MetFilters const&);
     ~MetFilters();
     MetFilters& operator=(MetFilters const&);
 
-    void setStatus(TTree&, utils::BranchList const& = {"*"}) override;
-    UInt_t setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
-    UInt_t book(TTree&, utils::BranchList const& = {"*"}) override;
-    void releaseTree(TTree&) override;
-
-    void init() override;
 
     virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !badTrack && !badMuonTrack; }
 
@@ -34,11 +30,18 @@ namespace panda {
 
     /* BEGIN CUSTOM MetFilters.h.classdef */
     /* END CUSTOM */
-  };
+
+  protected:
+    void doSetStatus_(TTree&, utils::BranchList const&) override;
+    void doSetAddress_(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
+    void doBook_(TTree&, utils::BranchList const& = {"*"}) override;
+    void doReleaseTree_(TTree&) override;
+    void doInit_() override;
+    };
 
   /* BEGIN CUSTOM MetFilters.h.global */
   /* END CUSTOM */
 
-}
+  }
 
-#endif
+  #endif

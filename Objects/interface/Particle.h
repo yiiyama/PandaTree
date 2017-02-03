@@ -1,17 +1,17 @@
 #ifndef PandaTree_Objects_Particle_h
 #define PandaTree_Objects_Particle_h
 #include "Constants.h"
-#include "../../Framework/interface/ContainerElement.h"
+#include "../../Framework/interface/Element.h"
 #include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
 
 namespace panda {
 
-  class Particle : public ContainerElement {
+  class Particle : public Element {
   public:
-    struct datastore : public ContainerElement::datastore {
-      datastore() : ContainerElement::datastore() {}
+    struct datastore : public Element::datastore {
+      datastore() : Element::datastore() {}
       ~datastore() { deallocate(); }
 
       Float_t* pt{0};
@@ -20,16 +20,17 @@ namespace panda {
 
       void allocate(UInt_t n) override;
       void deallocate() override;
-      void setStatus(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+      void setStatus(TTree&, TString const&, utils::BranchList const&) override;
       void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
-      void resetAddress(TTree&, TString const&) override;
+      void releaseTree(TTree&, TString const&) override;
       void resizeVectors_(UInt_t) override;
     };
 
-    typedef ContainerElement base_type;
     typedef Array<Particle> array_type;
     typedef Collection<Particle> collection_type;
+
+    typedef Element base_type;
 
     Particle(char const* name = "");
     Particle(Particle const&);
@@ -37,12 +38,6 @@ namespace panda {
     ~Particle();
     Particle& operator=(Particle const&);
 
-    void setStatus(TTree&, utils::BranchList const& = {"*"}) override;
-    UInt_t setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
-    UInt_t book(TTree&, utils::BranchList const& = {"*"}) override;
-    void releaseTree(TTree&) override;
-
-    void init() override;
 
     TLorentzVector p4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt, eta, phi, m()); return p4; }
     double e() const { return std::sqrt(std::pow(pt * std::cosh(eta), 2.) + m() * m()); }
@@ -68,16 +63,22 @@ namespace panda {
 
   protected:
     Particle(ArrayBase*);
-  };
 
-  typedef Particle::array_type ParticleArray;
-  typedef Particle::collection_type ParticleCollection;
-  typedef Ref<Particle> ParticleRef;
-  typedef RefVector<Particle> ParticleRefVector;
+    void doSetStatus_(TTree&, TString const&, utils::BranchList const&) override;
+    void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
+    void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+    void doReleaseTree_(TTree&, TString const&) override;
+    void doInit_() override;
+    };
+
+    typedef Particle::array_type ParticleArray;
+    typedef Particle::collection_type ParticleCollection;
+    typedef Ref<Particle> ParticleRef;
+    typedef RefVector<Particle> ParticleRefVector;
 
   /* BEGIN CUSTOM Particle.h.global */
   /* END CUSTOM */
 
-}
+  }
 
-#endif
+  #endif

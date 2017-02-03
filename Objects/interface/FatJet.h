@@ -58,16 +58,17 @@ ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<Int_t>>*
 
       void allocate(UInt_t n) override;
       void deallocate() override;
-      void setStatus(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+      void setStatus(TTree&, TString const&, utils::BranchList const&) override;
       void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
-      void resetAddress(TTree&, TString const&) override;
+      void releaseTree(TTree&, TString const&) override;
       void resizeVectors_(UInt_t) override;
     };
 
-    typedef Jet base_type;
     typedef Array<FatJet> array_type;
     typedef Collection<FatJet> collection_type;
+
+    typedef Jet base_type;
 
     FatJet(char const* name = "");
     FatJet(FatJet const&);
@@ -75,12 +76,6 @@ ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<Int_t>>*
     ~FatJet();
     FatJet& operator=(FatJet const&);
 
-    void setStatus(TTree&, utils::BranchList const& = {"*"}) override;
-    UInt_t setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
-    UInt_t book(TTree&, utils::BranchList const& = {"*"}) override;
-    void releaseTree(TTree&) override;
-
-    void init() override;
 
     double get_ecf(int o_, int N_, int ib_) const;
     bool set_ecf(int o_, int N_, int ib_, float x_);
@@ -132,16 +127,22 @@ ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<Int_t>>*
 
   protected:
     FatJet(ArrayBase*);
-  };
 
-  typedef FatJet::array_type FatJetArray;
-  typedef FatJet::collection_type FatJetCollection;
-  typedef Ref<FatJet> FatJetRef;
-  typedef RefVector<FatJet> FatJetRefVector;
+    void doSetStatus_(TTree&, TString const&, utils::BranchList const&) override;
+    void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
+    void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+    void doReleaseTree_(TTree&, TString const&) override;
+    void doInit_() override;
+    };
+
+    typedef FatJet::array_type FatJetArray;
+    typedef FatJet::collection_type FatJetCollection;
+    typedef Ref<FatJet> FatJetRef;
+    typedef RefVector<FatJet> FatJetRefVector;
 
   /* BEGIN CUSTOM FatJet.h.global */
   /* END CUSTOM */
 
-}
+  }
 
-#endif
+  #endif

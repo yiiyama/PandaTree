@@ -35,16 +35,17 @@ namespace panda {
 
       void allocate(UInt_t n) override;
       void deallocate() override;
-      void setStatus(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+      void setStatus(TTree&, TString const&, utils::BranchList const&) override;
       void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
-      void resetAddress(TTree&, TString const&) override;
+      void releaseTree(TTree&, TString const&) override;
       void resizeVectors_(UInt_t) override;
     };
 
-    typedef Lepton base_type;
     typedef Array<Muon> array_type;
     typedef Collection<Muon> collection_type;
+
+    typedef Lepton base_type;
 
     Muon(char const* name = "");
     Muon(Muon const&);
@@ -52,12 +53,6 @@ namespace panda {
     ~Muon();
     Muon& operator=(Muon const&);
 
-    void setStatus(TTree&, utils::BranchList const& = {"*"}) override;
-    UInt_t setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
-    UInt_t book(TTree&, utils::BranchList const& = {"*"}) override;
-    void releaseTree(TTree&) override;
-
-    void init() override;
 
     double m() const override { return 1.05658e-2; }
     double combiso() const override { return chiso + std::max(nhiso + phoiso - 0.5 * puiso, 0.); }
@@ -87,16 +82,22 @@ namespace panda {
 
   protected:
     Muon(ArrayBase*);
-  };
 
-  typedef Muon::array_type MuonArray;
-  typedef Muon::collection_type MuonCollection;
-  typedef Ref<Muon> MuonRef;
-  typedef RefVector<Muon> MuonRefVector;
+    void doSetStatus_(TTree&, TString const&, utils::BranchList const&) override;
+    void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
+    void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+    void doReleaseTree_(TTree&, TString const&) override;
+    void doInit_() override;
+    };
+
+    typedef Muon::array_type MuonArray;
+    typedef Muon::collection_type MuonCollection;
+    typedef Ref<Muon> MuonRef;
+    typedef RefVector<Muon> MuonRefVector;
 
   /* BEGIN CUSTOM Muon.h.global */
   /* END CUSTOM */
 
-}
+  }
 
-#endif
+  #endif

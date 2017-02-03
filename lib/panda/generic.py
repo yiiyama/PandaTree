@@ -51,7 +51,7 @@ class GenericBranch(Branch):
             out.writeline('std::vector<{type}>* {name}{{0}};'.format(type = self.type, name = self.name))
         elif context == 'Singlet' or context == 'TreeEntry':
             out.writeline('{type}* {name}{{0}};'.format(type = self.type, name = self.name, arrdef = self.arrdef_text()))
-        elif context == 'ContainerElement':
+        elif context == 'Element':
             out.writeline('{type}* {name};'.format(type = self.type, name = self.name))
 
     def write_allocate(self, out, context):
@@ -68,7 +68,7 @@ class GenericBranch(Branch):
             namevar = '_name'
         elif context == 'Singlet':
             namevar = 'name_'
-        elif context == 'ContainerElement':
+        elif context == 'Element':
             namevar = 'name'
         elif context == 'TreeEntry':
             namevar = '""'
@@ -80,7 +80,7 @@ class GenericBranch(Branch):
             namevar = '_name'
         elif context == 'Singlet':
             namevar = 'name_'
-        elif context == 'ContainerElement':
+        elif context == 'Element':
             namevar = 'name'
         elif context == 'TreeEntry':
             namevar = '""'
@@ -96,19 +96,19 @@ class GenericBranch(Branch):
         out.writeline('{name}->resize(_size);'.format(name = self.name))
 
     def init_default(self, lines, context):
-        if context == 'ContainerElement':
+        if context == 'Element':
             lines.append('{name}(&(*gStore.getData(this).{name})[0])'.format(name = self.name))
         else:
             lines.append('{name}(new {type}({init}))'.format(name = self.name, type = self.type, init = self.init))
 
     def init_standard(self, lines, context):
-        if context == 'ContainerElement':
+        if context == 'Element':
             lines.append('{name}(&(*_data.{name})[_idx])'.format(name = self.name))
 
     def init_copy(self, lines, context):
         if context == 'Singlet' or context == 'TreeEntry':
             lines.append('{name}(new {type}{{*_src.{name}}})'.format(name = self.name, type = self.type))
-        elif context == 'ContainerElement':
+        elif context == 'Element':
             lines.append('{name}(&(*gStore.getData(this).{name})[0])'.format(name = self.name))
 
     def write_assign(self, out, context):

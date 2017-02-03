@@ -35,7 +35,7 @@ class PhysicsObject(Definition, Object):
             self.parent = 'Singlet'
             self._singlet = True
         else:
-            self.parent = 'ContainerElement'
+            self.parent = 'Element'
             self._singlet = False
 
         # if >parent is present, update the parent class name
@@ -69,8 +69,8 @@ class PhysicsObject(Definition, Object):
         header.writeline('#include "Constants.h"')
 
         included = ['#include "{name}.h"'.format(name = self.name)]
-        if self.parent == 'ContainerElement':
-            header.writeline('#include "../../Framework/interface/ContainerElement.h"')
+        if self.parent == 'Element':
+            header.writeline('#include "../../Framework/interface/Element.h"')
         elif self.parent == 'Singlet':
             header.writeline('#include "../../Framework/interface/Singlet.h"')
         else:
@@ -132,20 +132,22 @@ class PhysicsObject(Definition, Object):
             header.newline()
             header.writeline('void allocate(UInt_t n) override;')
             header.writeline('void deallocate() override;')
-            header.writeline('void setStatus(TTree&, TString const&, utils::BranchList const& = {"*"}) override;')
+            header.writeline('void setStatus(TTree&, TString const&, utils::BranchList const&) override;')
             header.writeline('void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
             header.writeline('void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;')
-            header.writeline('void resetAddress(TTree&, TString const&) override;')
+            header.writeline('void releaseTree(TTree&, TString const&) override;')
             header.writeline('void resizeVectors_(UInt_t) override;')
 
             header.indent -= 1
             header.writeline('};')
             header.newline()
 
-            header.writeline('typedef {parent} base_type;'.format(parent = self.parent))
             header.writeline('typedef Array<{name}> array_type;'.format(name = self.name, parent = self.parent))
             header.writeline('typedef Collection<{name}> collection_type;'.format(name = self.name, parent = self.parent))
             header.newline()
+
+        header.writeline('typedef {parent} base_type;'.format(parent = self.parent))
+        header.newline()
 
         # "boilerplate" functions (default ctor for non-SINGLE objects are pretty nontrivial though)
         header.writeline('{name}(char const* name = "");'.format(name = self.name)) # default constructor
@@ -161,15 +163,6 @@ class PhysicsObject(Definition, Object):
 
         header.newline()
 
-        # I/O with default name
-        header.writeline('void setStatus(TTree&, utils::BranchList const& = {"*"}) override;')
-        header.writeline('UInt_t setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
-        header.writeline('UInt_t book(TTree&, utils::BranchList const& = {"*"}) override;')
-        header.writeline('void releaseTree(TTree&) override;')
-
-        header.newline()
-        header.writeline('void init() override;')
-
         if len(self.constants) != 0:
             header.newline()
             for constant in self.constants:
@@ -183,7 +176,7 @@ class PhysicsObject(Definition, Object):
         if self.is_singlet():
             context = 'Singlet'
         else:
-            context = 'ContainerElement'
+            context = 'Element'
 
         newline = False
         for ancestor in inheritance:
@@ -206,7 +199,17 @@ class PhysicsObject(Definition, Object):
         header.newline()
         header.write_custom_block('{name}.h.classdef'.format(name = self.name))
 
-        if not self.is_singlet():
+        if self.is_singlet():
+            header.newline()
+            header.indent -= 1
+            header.writeline('protected:')
+            header.indent += 1
+            header.writeline('void doSetStatus_(TTree&, utils::BranchList const&) override;')
+            header.writeline('void doSetAddress_(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
+            header.writeline('void doBook_(TTree&, utils::BranchList const& = {"*"}) override;')
+            header.writeline('void doReleaseTree_(TTree&) override;')
+            header.writeline('void doInit_() override;')
+        else:
             header.newline()
             header.writeline('void destructor() override;')
             header.newline()
@@ -214,8 +217,12 @@ class PhysicsObject(Definition, Object):
             header.writeline('protected:')
             header.indent += 1
             header.writeline('{name}(ArrayBase*);'.format(name = self.name))
-
-        header.indent -= 1
+            header.newline()
+            header.writeline('void doSetStatus_(TTree&, TString const&, utils::BranchList const&) override;')
+            header.writeline('void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
+            header.writeline('void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;')
+            header.writeline('void doReleaseTree_(TTree&, TString const&) override;')
+            header.writeline('void doInit_() override;')
 
         header.writeline('};')
 
@@ -343,11 +350,11 @@ class PhysicsObject(Definition, Object):
 
             methods = [
                 ('operator=', '{NAMESPACE}::{name}&'.format(**subst), [('{name} const&'.format(**subst), '_src')], 'write_assign', '*this'),
-                ('setStatus', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_status', None),
-                ('setAddress', 'UInt_t', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', '-1'),
-                ('book', 'UInt_t', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', '-1'),
-                ('releaseTree', 'void', [('TTree&', '_tree')], 'write_reset_address', None),
-                ('init', 'void', [], 'write_init', None)
+                ('doSetStatus_', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches')], 'write_set_status', None),
+                ('doSetAddress_', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
+                ('doBook_', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', None),
+                ('doReleaseTree_', 'void', [('TTree&', '_tree')], 'write_release_tree', None),
+                ('doInit_', 'void', [], 'write_init', None)
             ]
 
             for method in methods:
@@ -360,10 +367,10 @@ class PhysicsObject(Definition, Object):
             methods = [
                 ('allocate', 'void', [('UInt_t', '_nmax')], 'write_allocate', None),
                 ('deallocate', 'void', [], 'write_deallocate', None),
-                ('setStatus', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_status', None),
+                ('setStatus', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches')], 'write_set_status', None),
                 ('setAddress', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
                 ('book', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_dynamic', 'kTRUE')], 'write_book', None, size_lines),
-                ('resetAddress', 'void', [('TTree&', '_tree'), ('TString const&', '_name')], 'write_reset_address', None),
+                ('releaseTree', 'void', [('TTree&', '_tree'), ('TString const&', '_name')], 'write_release_tree', None),
                 ('resizeVectors_', 'void', [('UInt_t', '_size')], 'write_resize_vectors', None)
             ]
 
@@ -376,13 +383,13 @@ class PhysicsObject(Definition, Object):
             src.indent += 1
             initializers = ['{parent}(new {name}Array(1, _name))'.format(**subst)]
             for branch in self.branches:
-                branch.init_default(initializers, context = 'ContainerElement')
+                branch.init_default(initializers, context = 'Element')
             src.writelines(initializers, ',')
             src.indent -= 1
             src.writeline('{')
             src.indent += 1
             for branch in self.branches:
-                branch.write_default_ctor(src, context = 'ContainerElement')
+                branch.write_default_ctor(src, context = 'Element')
             src.indent -= 1
             src.writeline('}')
 
@@ -391,13 +398,13 @@ class PhysicsObject(Definition, Object):
             src.indent += 1
             initializers = ['{parent}(_data, _idx)'.format(**subst)]
             for branch in self.branches:
-                branch.init_standard(initializers, context = 'ContainerElement')
+                branch.init_standard(initializers, context = 'Element')
             src.writelines(initializers, ',')
             src.indent -= 1
             src.writeline('{')
             src.indent += 1
             for branch in self.branches:
-                branch.write_standard_ctor(src, context = 'ContainerElement')
+                branch.write_standard_ctor(src, context = 'Element')
             src.indent -= 1
             src.writeline('}')
 
@@ -406,7 +413,7 @@ class PhysicsObject(Definition, Object):
             src.indent += 1
             initializers = ['{parent}(new {name}Array(1, gStore.getName(&_src)))'.format(**subst)]
             for branch in self.branches:
-                branch.init_copy(initializers, context = 'ContainerElement')
+                branch.init_copy(initializers, context = 'Element')
             src.writelines(initializers, ',')
             src.indent -= 1
             src.writeline('{')
@@ -415,7 +422,7 @@ class PhysicsObject(Definition, Object):
             if len(self.branches) != 0:
                 src.newline()
                 for branch in self.branches:
-                    branch.write_copy_ctor(src, context = 'ContainerElement')
+                    branch.write_copy_ctor(src, context = 'Element')
             src.indent -= 1
             src.writeline('}')
 
@@ -424,13 +431,13 @@ class PhysicsObject(Definition, Object):
             src.indent += 1
             initializers = ['{parent}(_array)'.format(**subst)]
             for branch in self.branches:
-                branch.init_default(initializers, context = 'ContainerElement')
+                branch.init_default(initializers, context = 'Element')
             src.writelines(initializers, ',')
             src.indent -= 1
             src.writeline('{')
             src.indent += 1
             for branch in self.branches:
-                branch.write_default_ctor(src, context = 'ContainerElement')
+                branch.write_default_ctor(src, context = 'Element')
             src.indent -= 1
             src.writeline('}')
 
@@ -455,19 +462,18 @@ class PhysicsObject(Definition, Object):
             src.writeline('}')
 
 
-            name_line = 'TString name(gStore.getName(this));'
             methods = [
                 ('operator=', '{NAMESPACE}::{name}&'.format(**subst), [('{name} const&'.format(**subst), '_src')], 'write_assign', '*this'),
-                ('setStatus', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_set_status', None, [name_line]),
-                ('setAddress', 'UInt_t', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', '-1', [name_line]),
-                ('book', 'UInt_t', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', '-1', [name_line]),
-                ('releaseTree', 'void', [('TTree&', '_tree')], 'write_reset_address', None, [name_line]),
-                ('init', 'void', [], 'write_init', None)
+                ('doSetStatus_', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches')], 'write_set_status', None),
+                ('doSetAddress_', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
+                ('doBook_', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', None),
+                ('doReleaseTree_', 'void', [('TTree&', '_tree'), ('TString const&', '_name')], 'write_release_tree', None),
+                ('doInit_', 'void', [], 'write_init', None)
             ]
 
             for method in methods:
                 src.newline()
-                self._write_method(src, 'ContainerElement', method)
+                self._write_method(src, 'Element', method)
 
         if len(self.functions):
             src.newline()

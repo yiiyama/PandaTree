@@ -3,7 +3,7 @@
 void
 panda::SuperCluster::datastore::allocate(UInt_t _nmax)
 {
-  ContainerElement::datastore::allocate(_nmax);
+  Element::datastore::allocate(_nmax);
 
   rawPt = new Float_t[nmax_];
   eta = new Float_t[nmax_];
@@ -13,7 +13,7 @@ panda::SuperCluster::datastore::allocate(UInt_t _nmax)
 void
 panda::SuperCluster::datastore::deallocate()
 {
-  ContainerElement::datastore::deallocate();
+  Element::datastore::deallocate();
 
   delete [] rawPt;
   rawPt = 0;
@@ -24,9 +24,9 @@ panda::SuperCluster::datastore::deallocate()
 }
 
 void
-panda::SuperCluster::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::SuperCluster::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  ContainerElement::datastore::setStatus(_tree, _name, _branches);
+  Element::datastore::setStatus(_tree, _name, _branches);
 
   utils::setStatus(_tree, _name, "rawPt", _branches);
   utils::setStatus(_tree, _name, "eta", _branches);
@@ -36,7 +36,7 @@ panda::SuperCluster::datastore::setStatus(TTree& _tree, TString const& _name, ut
 void
 panda::SuperCluster::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  ContainerElement::datastore::setAddress(_tree, _name, _branches, _setStatus);
+  Element::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
   utils::setAddress(_tree, _name, "rawPt", rawPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "eta", eta, _branches, _setStatus);
@@ -46,7 +46,7 @@ panda::SuperCluster::datastore::setAddress(TTree& _tree, TString const& _name, u
 void
 panda::SuperCluster::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
 {
-  ContainerElement::datastore::book(_tree, _name, _branches, _dynamic);
+  Element::datastore::book(_tree, _name, _branches, _dynamic);
 
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
@@ -56,9 +56,9 @@ panda::SuperCluster::datastore::book(TTree& _tree, TString const& _name, utils::
 }
 
 void
-panda::SuperCluster::datastore::resetAddress(TTree& _tree, TString const& _name)
+panda::SuperCluster::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
-  ContainerElement::datastore::resetAddress(_tree, _name);
+  Element::datastore::releaseTree(_tree, _name);
 
   utils::resetAddress(_tree, _name, "rawPt");
   utils::resetAddress(_tree, _name, "eta");
@@ -68,12 +68,12 @@ panda::SuperCluster::datastore::resetAddress(TTree& _tree, TString const& _name)
 void
 panda::SuperCluster::datastore::resizeVectors_(UInt_t _size)
 {
-  ContainerElement::datastore::resizeVectors_(_size);
+  Element::datastore::resizeVectors_(_size);
 
 }
 
 panda::SuperCluster::SuperCluster(char const* _name/* = ""*/) :
-  ContainerElement(new SuperClusterArray(1, _name)),
+  Element(new SuperClusterArray(1, _name)),
   rawPt(gStore.getData(this).rawPt[0]),
   eta(gStore.getData(this).eta[0]),
   phi(gStore.getData(this).phi[0])
@@ -81,7 +81,7 @@ panda::SuperCluster::SuperCluster(char const* _name/* = ""*/) :
 }
 
 panda::SuperCluster::SuperCluster(datastore& _data, UInt_t _idx) :
-  ContainerElement(_data, _idx),
+  Element(_data, _idx),
   rawPt(_data.rawPt[_idx]),
   eta(_data.eta[_idx]),
   phi(_data.phi[_idx])
@@ -89,12 +89,12 @@ panda::SuperCluster::SuperCluster(datastore& _data, UInt_t _idx) :
 }
 
 panda::SuperCluster::SuperCluster(SuperCluster const& _src) :
-  ContainerElement(new SuperClusterArray(1, gStore.getName(&_src))),
+  Element(new SuperClusterArray(1, gStore.getName(&_src))),
   rawPt(gStore.getData(this).rawPt[0]),
   eta(gStore.getData(this).eta[0]),
   phi(gStore.getData(this).phi[0])
 {
-  ContainerElement::operator=(_src);
+  Element::operator=(_src);
 
   rawPt = _src.rawPt;
   eta = _src.eta;
@@ -102,7 +102,7 @@ panda::SuperCluster::SuperCluster(SuperCluster const& _src) :
 }
 
 panda::SuperCluster::SuperCluster(ArrayBase* _array) :
-  ContainerElement(_array),
+  Element(_array),
   rawPt(gStore.getData(this).rawPt[0]),
   eta(gStore.getData(this).eta[0]),
   phi(gStore.getData(this).phi[0])
@@ -121,13 +121,13 @@ panda::SuperCluster::destructor()
   /* BEGIN CUSTOM SuperCluster.cc.destructor */
   /* END CUSTOM */
 
-  ContainerElement::destructor();
+  Element::destructor();
 }
 
 panda::SuperCluster&
 panda::SuperCluster::operator=(SuperCluster const& _src)
 {
-  ContainerElement::operator=(_src);
+  Element::operator=(_src);
 
   rawPt = _src.rawPt;
   eta = _src.eta;
@@ -137,61 +137,49 @@ panda::SuperCluster::operator=(SuperCluster const& _src)
 }
 
 void
-panda::SuperCluster::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::SuperCluster::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  ContainerElement::setStatus(_tree, _branches);
+  Element::doSetStatus_(_tree, _name, _branches);
 
-  TString name(gStore.getName(this));
-
-  utils::setStatus(_tree, name, "rawPt", _branches);
-  utils::setStatus(_tree, name, "eta", _branches);
-  utils::setStatus(_tree, name, "phi", _branches);
-}
-
-UInt_t
-panda::SuperCluster::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  ContainerElement::setAddress(_tree, _branches, _setStatus);
-
-  TString name(gStore.getName(this));
-
-  utils::setAddress(_tree, name, "rawPt", &rawPt, _branches, _setStatus);
-  utils::setAddress(_tree, name, "eta", &eta, _branches, _setStatus);
-  utils::setAddress(_tree, name, "phi", &phi, _branches, _setStatus);
-
-  return -1;
-}
-
-UInt_t
-panda::SuperCluster::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
-{
-  ContainerElement::book(_tree, _branches);
-
-  TString name(gStore.getName(this));
-
-  utils::book(_tree, name, "rawPt", "", 'F', &rawPt, _branches);
-  utils::book(_tree, name, "eta", "", 'F', &eta, _branches);
-  utils::book(_tree, name, "phi", "", 'F', &phi, _branches);
-
-  return -1;
+  utils::setStatus(_tree, _name, "rawPt", _branches);
+  utils::setStatus(_tree, _name, "eta", _branches);
+  utils::setStatus(_tree, _name, "phi", _branches);
 }
 
 void
-panda::SuperCluster::releaseTree(TTree& _tree)
+panda::SuperCluster::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  ContainerElement::releaseTree(_tree);
+  Element::doSetAddress_(_tree, _name, _branches, _setStatus);
 
-  TString name(gStore.getName(this));
-
-  utils::resetAddress(_tree, name, "rawPt");
-  utils::resetAddress(_tree, name, "eta");
-  utils::resetAddress(_tree, name, "phi");
+  utils::setAddress(_tree, _name, "rawPt", &rawPt, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "eta", &eta, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "phi", &phi, _branches, _setStatus);
 }
 
 void
-panda::SuperCluster::init()
+panda::SuperCluster::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  ContainerElement::init();
+  Element::doBook_(_tree, _name, _branches);
+
+  utils::book(_tree, _name, "rawPt", "", 'F', &rawPt, _branches);
+  utils::book(_tree, _name, "eta", "", 'F', &eta, _branches);
+  utils::book(_tree, _name, "phi", "", 'F', &phi, _branches);
+}
+
+void
+panda::SuperCluster::doReleaseTree_(TTree& _tree, TString const& _name)
+{
+  Element::doReleaseTree_(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "rawPt");
+  utils::resetAddress(_tree, _name, "eta");
+  utils::resetAddress(_tree, _name, "phi");
+}
+
+void
+panda::SuperCluster::doInit_()
+{
+  Element::doInit_();
 
   rawPt = 0.;
   eta = 0.;

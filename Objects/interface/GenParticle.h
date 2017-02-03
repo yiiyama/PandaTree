@@ -29,16 +29,17 @@ namespace panda {
 
       void allocate(UInt_t n) override;
       void deallocate() override;
-      void setStatus(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+      void setStatus(TTree&, TString const&, utils::BranchList const&) override;
       void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
-      void resetAddress(TTree&, TString const&) override;
+      void releaseTree(TTree&, TString const&) override;
       void resizeVectors_(UInt_t) override;
     };
 
-    typedef ParticleM base_type;
     typedef Array<GenParticle> array_type;
     typedef Collection<GenParticle> collection_type;
+
+    typedef ParticleM base_type;
 
     GenParticle(char const* name = "");
     GenParticle(GenParticle const&);
@@ -46,12 +47,6 @@ namespace panda {
     ~GenParticle();
     GenParticle& operator=(GenParticle const&);
 
-    void setStatus(TTree&, utils::BranchList const& = {"*"}) override;
-    UInt_t setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
-    UInt_t book(TTree&, utils::BranchList const& = {"*"}) override;
-    void releaseTree(TTree&) override;
-
-    void init() override;
 
     /* Particle
     Float_t& pt;
@@ -72,16 +67,22 @@ namespace panda {
 
   protected:
     GenParticle(ArrayBase*);
-  };
 
-  typedef GenParticle::array_type GenParticleArray;
-  typedef GenParticle::collection_type GenParticleCollection;
-  typedef Ref<GenParticle> GenParticleRef;
-  typedef RefVector<GenParticle> GenParticleRefVector;
+    void doSetStatus_(TTree&, TString const&, utils::BranchList const&) override;
+    void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
+    void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+    void doReleaseTree_(TTree&, TString const&) override;
+    void doInit_() override;
+    };
+
+    typedef GenParticle::array_type GenParticleArray;
+    typedef GenParticle::collection_type GenParticleCollection;
+    typedef Ref<GenParticle> GenParticleRef;
+    typedef RefVector<GenParticle> GenParticleRefVector;
 
   /* BEGIN CUSTOM GenParticle.h.global */
   /* END CUSTOM */
 
-}
+  }
 
-#endif
+  #endif

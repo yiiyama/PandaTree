@@ -48,7 +48,7 @@ panda::FatJet::datastore::deallocate()
 }
 
 void
-panda::FatJet::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::FatJet::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
   Jet::datastore::setStatus(_tree, _name, _branches);
 
@@ -104,9 +104,9 @@ panda::FatJet::datastore::book(TTree& _tree, TString const& _name, utils::Branch
 }
 
 void
-panda::FatJet::datastore::resetAddress(TTree& _tree, TString const& _name)
+panda::FatJet::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
-  Jet::datastore::resetAddress(_tree, _name);
+  Jet::datastore::releaseTree(_tree, _name);
 
   utils::resetAddress(_tree, _name, "tau1");
   utils::resetAddress(_tree, _name, "tau2");
@@ -242,93 +242,81 @@ panda::FatJet::operator=(FatJet const& _src)
 }
 
 void
-panda::FatJet::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::FatJet::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  Jet::setStatus(_tree, _branches);
+  Jet::doSetStatus_(_tree, _name, _branches);
 
-  TString name(gStore.getName(this));
-
-  utils::setStatus(_tree, name, "tau1", _branches);
-  utils::setStatus(_tree, name, "tau2", _branches);
-  utils::setStatus(_tree, name, "tau3", _branches);
-  utils::setStatus(_tree, name, "mSD", _branches);
-  utils::setStatus(_tree, name, "tau1SD", _branches);
-  utils::setStatus(_tree, name, "tau2SD", _branches);
-  utils::setStatus(_tree, name, "tau3SD", _branches);
-  utils::setStatus(_tree, name, "htt_mass", _branches);
-  utils::setStatus(_tree, name, "htt_frec", _branches);
-  utils::setStatus(_tree, name, "ecfs", _branches);
-  utils::setStatus(_tree, name, "subjets_", _branches);
-}
-
-UInt_t
-panda::FatJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  Jet::setAddress(_tree, _branches, _setStatus);
-
-  TString name(gStore.getName(this));
-
-  utils::setAddress(_tree, name, "tau1", &tau1, _branches, _setStatus);
-  utils::setAddress(_tree, name, "tau2", &tau2, _branches, _setStatus);
-  utils::setAddress(_tree, name, "tau3", &tau3, _branches, _setStatus);
-  utils::setAddress(_tree, name, "mSD", &mSD, _branches, _setStatus);
-  utils::setAddress(_tree, name, "tau1SD", &tau1SD, _branches, _setStatus);
-  utils::setAddress(_tree, name, "tau2SD", &tau2SD, _branches, _setStatus);
-  utils::setAddress(_tree, name, "tau3SD", &tau3SD, _branches, _setStatus);
-  utils::setAddress(_tree, name, "htt_mass", &htt_mass, _branches, _setStatus);
-  utils::setAddress(_tree, name, "htt_frec", &htt_frec, _branches, _setStatus);
-  utils::setAddress(_tree, name, "ecfs", ecfs, _branches, _setStatus);
-  utils::setAddress(_tree, name, "subjets_", &subjets.indices(), _branches, true);
-
-  return -1;
-}
-
-UInt_t
-panda::FatJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
-{
-  Jet::book(_tree, _branches);
-
-  TString name(gStore.getName(this));
-
-  utils::book(_tree, name, "tau1", "", 'F', &tau1, _branches);
-  utils::book(_tree, name, "tau2", "", 'F', &tau2, _branches);
-  utils::book(_tree, name, "tau3", "", 'F', &tau3, _branches);
-  utils::book(_tree, name, "mSD", "", 'F', &mSD, _branches);
-  utils::book(_tree, name, "tau1SD", "", 'F', &tau1SD, _branches);
-  utils::book(_tree, name, "tau2SD", "", 'F', &tau2SD, _branches);
-  utils::book(_tree, name, "tau3SD", "", 'F', &tau3SD, _branches);
-  utils::book(_tree, name, "htt_mass", "", 'F', &htt_mass, _branches);
-  utils::book(_tree, name, "htt_frec", "", 'F', &htt_frec, _branches);
-  utils::book(_tree, name, "ecfs", TString::Format("[3][4][4]"), 'F', ecfs, _branches);
-  utils::book(_tree, name, "subjets_", "std::vector<Int_t>", &subjets.indices(), _branches);
-
-  return -1;
+  utils::setStatus(_tree, _name, "tau1", _branches);
+  utils::setStatus(_tree, _name, "tau2", _branches);
+  utils::setStatus(_tree, _name, "tau3", _branches);
+  utils::setStatus(_tree, _name, "mSD", _branches);
+  utils::setStatus(_tree, _name, "tau1SD", _branches);
+  utils::setStatus(_tree, _name, "tau2SD", _branches);
+  utils::setStatus(_tree, _name, "tau3SD", _branches);
+  utils::setStatus(_tree, _name, "htt_mass", _branches);
+  utils::setStatus(_tree, _name, "htt_frec", _branches);
+  utils::setStatus(_tree, _name, "ecfs", _branches);
+  utils::setStatus(_tree, _name, "subjets_", _branches);
 }
 
 void
-panda::FatJet::releaseTree(TTree& _tree)
+panda::FatJet::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Jet::releaseTree(_tree);
+  Jet::doSetAddress_(_tree, _name, _branches, _setStatus);
 
-  TString name(gStore.getName(this));
-
-  utils::resetAddress(_tree, name, "tau1");
-  utils::resetAddress(_tree, name, "tau2");
-  utils::resetAddress(_tree, name, "tau3");
-  utils::resetAddress(_tree, name, "mSD");
-  utils::resetAddress(_tree, name, "tau1SD");
-  utils::resetAddress(_tree, name, "tau2SD");
-  utils::resetAddress(_tree, name, "tau3SD");
-  utils::resetAddress(_tree, name, "htt_mass");
-  utils::resetAddress(_tree, name, "htt_frec");
-  utils::resetAddress(_tree, name, "ecfs");
-  utils::resetAddress(_tree, name, "subjets_");
+  utils::setAddress(_tree, _name, "tau1", &tau1, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "tau2", &tau2, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "tau3", &tau3, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "mSD", &mSD, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "tau1SD", &tau1SD, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "tau2SD", &tau2SD, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "tau3SD", &tau3SD, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "htt_mass", &htt_mass, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "htt_frec", &htt_frec, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "ecfs", ecfs, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "subjets_", &subjets.indices(), _branches, true);
 }
 
 void
-panda::FatJet::init()
+panda::FatJet::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Jet::init();
+  Jet::doBook_(_tree, _name, _branches);
+
+  utils::book(_tree, _name, "tau1", "", 'F', &tau1, _branches);
+  utils::book(_tree, _name, "tau2", "", 'F', &tau2, _branches);
+  utils::book(_tree, _name, "tau3", "", 'F', &tau3, _branches);
+  utils::book(_tree, _name, "mSD", "", 'F', &mSD, _branches);
+  utils::book(_tree, _name, "tau1SD", "", 'F', &tau1SD, _branches);
+  utils::book(_tree, _name, "tau2SD", "", 'F', &tau2SD, _branches);
+  utils::book(_tree, _name, "tau3SD", "", 'F', &tau3SD, _branches);
+  utils::book(_tree, _name, "htt_mass", "", 'F', &htt_mass, _branches);
+  utils::book(_tree, _name, "htt_frec", "", 'F', &htt_frec, _branches);
+  utils::book(_tree, _name, "ecfs", TString::Format("[3][4][4]"), 'F', ecfs, _branches);
+  utils::book(_tree, _name, "subjets_", "std::vector<Int_t>", &subjets.indices(), _branches);
+}
+
+void
+panda::FatJet::doReleaseTree_(TTree& _tree, TString const& _name)
+{
+  Jet::doReleaseTree_(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "tau1");
+  utils::resetAddress(_tree, _name, "tau2");
+  utils::resetAddress(_tree, _name, "tau3");
+  utils::resetAddress(_tree, _name, "mSD");
+  utils::resetAddress(_tree, _name, "tau1SD");
+  utils::resetAddress(_tree, _name, "tau2SD");
+  utils::resetAddress(_tree, _name, "tau3SD");
+  utils::resetAddress(_tree, _name, "htt_mass");
+  utils::resetAddress(_tree, _name, "htt_frec");
+  utils::resetAddress(_tree, _name, "ecfs");
+  utils::resetAddress(_tree, _name, "subjets_");
+}
+
+void
+panda::FatJet::doInit_()
+{
+  Jet::doInit_();
 
   tau1 = 0.;
   tau2 = 0.;

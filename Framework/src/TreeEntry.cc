@@ -28,7 +28,7 @@ panda::TreeEntry::setAddress(TTree& _tree, utils::BranchList const& _branches/* 
   return inputs_.size() - 1;
 }
 
-UInt_t
+void
 panda::TreeEntry::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   if (std::find(outputs_.begin(), outputs_.end(), &_tree) != outputs_.end())
@@ -39,8 +39,6 @@ panda::TreeEntry::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"
 
   doBook_(_tree, _branches);
   outputs_.push_back(&_tree);
-
-  return outputs_.size() - 1;
 }
 
 void
@@ -63,6 +61,15 @@ panda::TreeEntry::releaseTree(TTree& _tree)
     obj->releaseTree(_tree);
 
   doReleaseTree_(_tree);
+}
+
+void
+panda::TreeEntry::init()
+{
+  for (auto* obj : objects_)
+    obj->init();
+
+  doInit_();
 }
 
 Int_t

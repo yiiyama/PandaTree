@@ -18,7 +18,7 @@ panda::ParticleM::datastore::deallocate()
 }
 
 void
-panda::ParticleM::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::ParticleM::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
   Particle::datastore::setStatus(_tree, _name, _branches);
 
@@ -44,9 +44,9 @@ panda::ParticleM::datastore::book(TTree& _tree, TString const& _name, utils::Bra
 }
 
 void
-panda::ParticleM::datastore::resetAddress(TTree& _tree, TString const& _name)
+panda::ParticleM::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
-  Particle::datastore::resetAddress(_tree, _name);
+  Particle::datastore::releaseTree(_tree, _name);
 
   utils::resetAddress(_tree, _name, "mass");
 }
@@ -111,53 +111,41 @@ panda::ParticleM::operator=(ParticleM const& _src)
 }
 
 void
-panda::ParticleM::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::ParticleM::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  Particle::setStatus(_tree, _branches);
+  Particle::doSetStatus_(_tree, _name, _branches);
 
-  TString name(gStore.getName(this));
-
-  utils::setStatus(_tree, name, "mass", _branches);
-}
-
-UInt_t
-panda::ParticleM::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  Particle::setAddress(_tree, _branches, _setStatus);
-
-  TString name(gStore.getName(this));
-
-  utils::setAddress(_tree, name, "mass", &mass, _branches, _setStatus);
-
-  return -1;
-}
-
-UInt_t
-panda::ParticleM::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
-{
-  Particle::book(_tree, _branches);
-
-  TString name(gStore.getName(this));
-
-  utils::book(_tree, name, "mass", "", 'F', &mass, _branches);
-
-  return -1;
+  utils::setStatus(_tree, _name, "mass", _branches);
 }
 
 void
-panda::ParticleM::releaseTree(TTree& _tree)
+panda::ParticleM::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Particle::releaseTree(_tree);
+  Particle::doSetAddress_(_tree, _name, _branches, _setStatus);
 
-  TString name(gStore.getName(this));
-
-  utils::resetAddress(_tree, name, "mass");
+  utils::setAddress(_tree, _name, "mass", &mass, _branches, _setStatus);
 }
 
 void
-panda::ParticleM::init()
+panda::ParticleM::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Particle::init();
+  Particle::doBook_(_tree, _name, _branches);
+
+  utils::book(_tree, _name, "mass", "", 'F', &mass, _branches);
+}
+
+void
+panda::ParticleM::doReleaseTree_(TTree& _tree, TString const& _name)
+{
+  Particle::doReleaseTree_(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "mass");
+}
+
+void
+panda::ParticleM::doInit_()
+{
+  Particle::doInit_();
 
   mass = 0.;
 }

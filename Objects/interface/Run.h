@@ -12,8 +12,6 @@ namespace panda {
     ~Run() {}
     Run& operator=(Run const&);
 
-    void init() override;
-
     UInt_t runNumber{};
     UInt_t hltMenu{};
 
@@ -22,6 +20,7 @@ namespace panda {
     void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;
     void doBook_(TTree&, utils::BranchList const&) override;
     void doReleaseTree_(TTree&) override;
+    void doInit_() override;
 
   public:
     /* BEGIN CUSTOM Run.h.classdef */

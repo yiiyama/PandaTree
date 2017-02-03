@@ -16,7 +16,7 @@ panda::ArrayBase::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 
 /*protected*/
 void
-panda::ArrayBase::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus, Bool_t/* = kTRUE*/)
+panda::ArrayBase::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus, Bool_t)
 {
   getData().setAddress(_tree, name_, _branches, _setStatus);
 }
@@ -30,7 +30,7 @@ panda::ArrayBase::doBook_(TTree& _tree, utils::BranchList const& _branches)
 
 /*protected*/
 void
-panda::ArrayBase::doResetAddress_(TTree& _tree)
+panda::ArrayBase::doReleaseTree_(TTree& _tree)
 {
-  getData().resetAddress(_tree, name_);
+  getData().releaseTree(_tree, name_);
 }

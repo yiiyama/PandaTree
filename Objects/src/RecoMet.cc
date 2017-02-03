@@ -51,9 +51,9 @@ panda::RecoMet::operator=(RecoMet const& _src)
 }
 
 void
-panda::RecoMet::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::RecoMet::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 {
-  Met::setStatus(_tree, _branches);
+  Met::doSetStatus_(_tree, _branches);
 
   utils::setStatus(_tree, name_, "sumETRaw", _branches);
   utils::setStatus(_tree, name_, "ptCorrUp", _branches);
@@ -66,10 +66,10 @@ panda::RecoMet::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {
   utils::setStatus(_tree, name_, "phiUnclDown", _branches);
 }
 
-UInt_t
-panda::RecoMet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+void
+panda::RecoMet::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Met::setAddress(_tree, _branches, _setStatus);
+  Met::doSetAddress_(_tree, _branches, _setStatus);
 
   utils::setAddress(_tree, name_, "sumETRaw", &sumETRaw, _branches, _setStatus);
   utils::setAddress(_tree, name_, "ptCorrUp", &ptCorrUp, _branches, _setStatus);
@@ -80,14 +80,12 @@ panda::RecoMet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = 
   utils::setAddress(_tree, name_, "phiUnclUp", &phiUnclUp, _branches, _setStatus);
   utils::setAddress(_tree, name_, "ptUnclDown", &ptUnclDown, _branches, _setStatus);
   utils::setAddress(_tree, name_, "phiUnclDown", &phiUnclDown, _branches, _setStatus);
-
-  return -1;
 }
 
-UInt_t
-panda::RecoMet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+void
+panda::RecoMet::doBook_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Met::book(_tree, _branches);
+  Met::doBook_(_tree, _branches);
 
   utils::book(_tree, name_, "sumETRaw", "", 'F', &sumETRaw, _branches);
   utils::book(_tree, name_, "ptCorrUp", "", 'F', &ptCorrUp, _branches);
@@ -98,14 +96,12 @@ panda::RecoMet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*
   utils::book(_tree, name_, "phiUnclUp", "", 'F', &phiUnclUp, _branches);
   utils::book(_tree, name_, "ptUnclDown", "", 'F', &ptUnclDown, _branches);
   utils::book(_tree, name_, "phiUnclDown", "", 'F', &phiUnclDown, _branches);
-
-  return -1;
 }
 
 void
-panda::RecoMet::releaseTree(TTree& _tree)
+panda::RecoMet::doReleaseTree_(TTree& _tree)
 {
-  Met::releaseTree(_tree);
+  Met::doReleaseTree_(_tree);
 
   utils::resetAddress(_tree, name_, "sumETRaw");
   utils::resetAddress(_tree, name_, "ptCorrUp");
@@ -119,9 +115,9 @@ panda::RecoMet::releaseTree(TTree& _tree)
 }
 
 void
-panda::RecoMet::init()
+panda::RecoMet::doInit_()
 {
-  Met::init();
+  Met::doInit_();
 
   sumETRaw = 0.;
   ptCorrUp = 0.;

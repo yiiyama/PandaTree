@@ -12,13 +12,13 @@ panda::ContainerBase::setStatus(TTree& _tree, utils::BranchList const& _branches
 UInt_t
 panda::ContainerBase::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  doSetAddress_(_tree, _branches, _setStatus);
+  doSetAddress_(_tree, _branches, _setStatus, true);
   inputs_.push_back(&_tree);
 
   return inputs_.size() - 1;
 }
 
-UInt_t
+void
 panda::ContainerBase::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   if (std::find(outputs_.begin(), outputs_.end(), &_tree) != outputs_.end())
@@ -26,8 +26,6 @@ panda::ContainerBase::book(TTree& _tree, utils::BranchList const& _branches/* = 
 
   doBook_(_tree, _branches);
   outputs_.push_back(&_tree);
-
-  return outputs_.size() - 1;
 }
 
 void
@@ -43,7 +41,7 @@ panda::ContainerBase::releaseTree(TTree& _tree)
       t = 0;
   }
 
-  doResetAddress_(_tree);
+  doReleaseTree_(_tree);
 }
 
 Int_t
@@ -58,7 +56,7 @@ panda::ContainerBase::updateAddress_()
 {
   for (auto* tree : inputs_) {
     if (tree)
-      doSetAddress_(*tree, {"*"}, false);
+      doSetAddress_(*tree, {"*"}, false, true);
   }
   for (auto* tree : outputs_) {
     if (tree)

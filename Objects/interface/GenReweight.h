@@ -10,17 +10,13 @@ namespace panda {
 
   class GenReweight : public Singlet {
   public:
+    typedef Singlet base_type;
+
     GenReweight(char const* name = "");
     GenReweight(GenReweight const&);
     ~GenReweight();
     GenReweight& operator=(GenReweight const&);
 
-    void setStatus(TTree&, utils::BranchList const& = {"*"}) override;
-    UInt_t setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
-    UInt_t book(TTree&, utils::BranchList const& = {"*"}) override;
-    void releaseTree(TTree&) override;
-
-    void init() override;
 
     Float_t r1f2DW{};
     Float_t r1f5DW{};
@@ -33,11 +29,18 @@ namespace panda {
 
     /* BEGIN CUSTOM GenReweight.h.classdef */
     /* END CUSTOM */
-  };
+
+  protected:
+    void doSetStatus_(TTree&, utils::BranchList const&) override;
+    void doSetAddress_(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
+    void doBook_(TTree&, utils::BranchList const& = {"*"}) override;
+    void doReleaseTree_(TTree&) override;
+    void doInit_() override;
+    };
 
   /* BEGIN CUSTOM GenReweight.h.global */
   /* END CUSTOM */
 
-}
+  }
 
-#endif
+  #endif

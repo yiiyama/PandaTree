@@ -4,7 +4,7 @@
 //! Object base class.
 /*!
   Object is the base of all panda types. Its mere function is to define the interfaces of derived classes.
-  Four different types of classes inherit from Object. ContainerElement is the base class of objects that
+  Four different types of classes inherit from Object. Element is the base class of objects that
   are elements of containers (Array = fixed size and Collection = dynamic size). Singlet is the base class
   of all objects that are not in containers. The containers themselves also inherit from Object. The fourth
   derived class is TreeEntry, which represents one full entry in a TTree (e.g. Event).
@@ -23,18 +23,39 @@ namespace panda {
     virtual ~Object() {}
     Object& operator=(Object const&) { return *this; }
 
-    //! Set status of branches with names that correspond to the variables of this object.
+    //! Set status of branches to true (matching branch) or false (vetoed branch)
+    /*!
+     * Sets the status of the branch to true (branch is in the list) or false (branch is vetoed in the list).
+     * Branches not mentioned in the branch list are untouched.
+     *
+     * \param blist   List of branches. The status of a branch is set to true (false) if BranchName::in(blist) (BranchName::vetoed(blist)) evaluates to true for the branch.
+    */
     virtual void setStatus(TTree&, utils::BranchList const&) {}
-    //! Set address for the branches to the variables of this object.
+
+    //! Bind the tree branches to the elements of this object.
+    /*!
+     * \param blist      List of branches to bind. Vetoed or unmentioned branches are not bound.
+     * \param setStatus  If true, set the status of the branch to true before binding.
+     * \return Token (serial number) of the input tree (dummy value for non-containers)
+    */
     virtual UInt_t setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) { return -1; }
-    //! Book new branches to the tree corresponding to the variables of this object.
-    virtual UInt_t book(TTree&, utils::BranchList const& = {"*"}) { return -1; }
-    //! Reset the branch pointer to unlink the branch from this object.
+
+    //! Book new branches bound to this object on the tree.
+    /*!
+     * \param blist      List of branches to book. Vetoed or unmentioned branches are not booked.
+    */
+    virtual void book(TTree&, utils::BranchList const& = {"*"}) {}
+
+    //! Unbind the tree.
     virtual void releaseTree(TTree&) {}
-    //! Reset object state
+
+    //! Reset the object state.
     virtual void init() {}
 
+    //! Name of this object.
     virtual char const* getName() const { return ""; }
+
+    //! Set object name.
     virtual void setName(char const*) {}
   };
 

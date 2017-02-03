@@ -33,7 +33,7 @@ panda::Tau::datastore::deallocate()
 }
 
 void
-panda::Tau::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::Tau::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
   ParticleM::datastore::setStatus(_tree, _name, _branches);
 
@@ -74,9 +74,9 @@ panda::Tau::datastore::book(TTree& _tree, TString const& _name, utils::BranchLis
 }
 
 void
-panda::Tau::datastore::resetAddress(TTree& _tree, TString const& _name)
+panda::Tau::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
-  ParticleM::datastore::resetAddress(_tree, _name);
+  ParticleM::datastore::releaseTree(_tree, _name);
 
   utils::resetAddress(_tree, _name, "q");
   utils::resetAddress(_tree, _name, "decayMode");
@@ -176,73 +176,61 @@ panda::Tau::operator=(Tau const& _src)
 }
 
 void
-panda::Tau::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::Tau::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  ParticleM::setStatus(_tree, _branches);
+  ParticleM::doSetStatus_(_tree, _name, _branches);
 
-  TString name(gStore.getName(this));
-
-  utils::setStatus(_tree, name, "q", _branches);
-  utils::setStatus(_tree, name, "decayMode", _branches);
-  utils::setStatus(_tree, name, "decayModeNew", _branches);
-  utils::setStatus(_tree, name, "iso", _branches);
-  utils::setStatus(_tree, name, "isoDeltaBetaCorr", _branches);
-  utils::setStatus(_tree, name, "matchedGen_", _branches);
-}
-
-UInt_t
-panda::Tau::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  ParticleM::setAddress(_tree, _branches, _setStatus);
-
-  TString name(gStore.getName(this));
-
-  utils::setAddress(_tree, name, "q", &q, _branches, _setStatus);
-  utils::setAddress(_tree, name, "decayMode", &decayMode, _branches, _setStatus);
-  utils::setAddress(_tree, name, "decayModeNew", &decayModeNew, _branches, _setStatus);
-  utils::setAddress(_tree, name, "iso", &iso, _branches, _setStatus);
-  utils::setAddress(_tree, name, "isoDeltaBetaCorr", &isoDeltaBetaCorr, _branches, _setStatus);
-  utils::setAddress(_tree, name, "matchedGen_", gStore.getData(this).matchedGen_, _branches, true);
-
-  return -1;
-}
-
-UInt_t
-panda::Tau::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
-{
-  ParticleM::book(_tree, _branches);
-
-  TString name(gStore.getName(this));
-
-  utils::book(_tree, name, "q", "", 'S', &q, _branches);
-  utils::book(_tree, name, "decayMode", "", 'O', &decayMode, _branches);
-  utils::book(_tree, name, "decayModeNew", "", 'O', &decayModeNew, _branches);
-  utils::book(_tree, name, "iso", "", 'F', &iso, _branches);
-  utils::book(_tree, name, "isoDeltaBetaCorr", "", 'F', &isoDeltaBetaCorr, _branches);
-  utils::book(_tree, name, "matchedGen_", "", 'I', gStore.getData(this).matchedGen_, _branches);
-
-  return -1;
+  utils::setStatus(_tree, _name, "q", _branches);
+  utils::setStatus(_tree, _name, "decayMode", _branches);
+  utils::setStatus(_tree, _name, "decayModeNew", _branches);
+  utils::setStatus(_tree, _name, "iso", _branches);
+  utils::setStatus(_tree, _name, "isoDeltaBetaCorr", _branches);
+  utils::setStatus(_tree, _name, "matchedGen_", _branches);
 }
 
 void
-panda::Tau::releaseTree(TTree& _tree)
+panda::Tau::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  ParticleM::releaseTree(_tree);
+  ParticleM::doSetAddress_(_tree, _name, _branches, _setStatus);
 
-  TString name(gStore.getName(this));
-
-  utils::resetAddress(_tree, name, "q");
-  utils::resetAddress(_tree, name, "decayMode");
-  utils::resetAddress(_tree, name, "decayModeNew");
-  utils::resetAddress(_tree, name, "iso");
-  utils::resetAddress(_tree, name, "isoDeltaBetaCorr");
-  utils::resetAddress(_tree, name, "matchedGen_");
+  utils::setAddress(_tree, _name, "q", &q, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "decayMode", &decayMode, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "decayModeNew", &decayModeNew, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "iso", &iso, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "isoDeltaBetaCorr", &isoDeltaBetaCorr, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "matchedGen_", gStore.getData(this).matchedGen_, _branches, true);
 }
 
 void
-panda::Tau::init()
+panda::Tau::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  ParticleM::init();
+  ParticleM::doBook_(_tree, _name, _branches);
+
+  utils::book(_tree, _name, "q", "", 'S', &q, _branches);
+  utils::book(_tree, _name, "decayMode", "", 'O', &decayMode, _branches);
+  utils::book(_tree, _name, "decayModeNew", "", 'O', &decayModeNew, _branches);
+  utils::book(_tree, _name, "iso", "", 'F', &iso, _branches);
+  utils::book(_tree, _name, "isoDeltaBetaCorr", "", 'F', &isoDeltaBetaCorr, _branches);
+  utils::book(_tree, _name, "matchedGen_", "", 'I', gStore.getData(this).matchedGen_, _branches);
+}
+
+void
+panda::Tau::doReleaseTree_(TTree& _tree, TString const& _name)
+{
+  ParticleM::doReleaseTree_(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "q");
+  utils::resetAddress(_tree, _name, "decayMode");
+  utils::resetAddress(_tree, _name, "decayModeNew");
+  utils::resetAddress(_tree, _name, "iso");
+  utils::resetAddress(_tree, _name, "isoDeltaBetaCorr");
+  utils::resetAddress(_tree, _name, "matchedGen_");
+}
+
+void
+panda::Tau::doInit_()
+{
+  ParticleM::doInit_();
 
   q = 0;
   decayMode = false;

@@ -30,49 +30,45 @@ panda::Recoil::operator=(Recoil const& _src)
 }
 
 void
-panda::Recoil::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::Recoil::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 {
-  Singlet::setStatus(_tree, _branches);
+  Singlet::doSetStatus_(_tree, _branches);
 
   utils::setStatus(_tree, name_, "categories", _branches);
   utils::setStatus(_tree, name_, "max", _branches);
 }
 
-UInt_t
-panda::Recoil::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+void
+panda::Recoil::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Singlet::setAddress(_tree, _branches, _setStatus);
+  Singlet::doSetAddress_(_tree, _branches, _setStatus);
 
   utils::setAddress(_tree, name_, "categories", &categories, _branches, _setStatus);
   utils::setAddress(_tree, name_, "max", &max, _branches, _setStatus);
-
-  return -1;
-}
-
-UInt_t
-panda::Recoil::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
-{
-  Singlet::book(_tree, _branches);
-
-  utils::book(_tree, name_, "categories", "", 'i', &categories, _branches);
-  utils::book(_tree, name_, "max", "", 'F', &max, _branches);
-
-  return -1;
 }
 
 void
-panda::Recoil::releaseTree(TTree& _tree)
+panda::Recoil::doBook_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Singlet::releaseTree(_tree);
+  Singlet::doBook_(_tree, _branches);
+
+  utils::book(_tree, name_, "categories", "", 'i', &categories, _branches);
+  utils::book(_tree, name_, "max", "", 'F', &max, _branches);
+}
+
+void
+panda::Recoil::doReleaseTree_(TTree& _tree)
+{
+  Singlet::doReleaseTree_(_tree);
 
   utils::resetAddress(_tree, name_, "categories");
   utils::resetAddress(_tree, name_, "max");
 }
 
 void
-panda::Recoil::init()
+panda::Recoil::doInit_()
 {
-  Singlet::init();
+  Singlet::doInit_();
 
   categories = 0;
   max = 0.;

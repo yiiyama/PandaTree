@@ -67,7 +67,7 @@ class Branch(Definition):
                 out.writeline('{type}* {name}{{0}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text()))
         elif context == 'Singlet' or context == 'TreeEntry':
             out.writeline('{type} {name}{arrdef}{{{init}}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text(), init = self.init))
-        elif context == 'ContainerElement':
+        elif context == 'Element':
             if self.is_array():
                 out.writeline('{type} (&{name}){arrdef};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text()))
             else:
@@ -87,8 +87,8 @@ class Branch(Definition):
             namevar = '_name'
         elif context == 'Singlet':
             namevar = 'name_'
-        elif context == 'ContainerElement':
-            namevar = 'name'
+        elif context == 'Element':
+            namevar = '_name'
         elif context == 'TreeEntry':
             namevar = '""'
 
@@ -99,8 +99,8 @@ class Branch(Definition):
             namevar = '_name'
         elif context == 'Singlet':
             namevar = 'name_'
-        elif context == 'ContainerElement':
-            namevar = 'name'
+        elif context == 'Element':
+            namevar = '_name'
         elif context == 'TreeEntry':
             namevar = '""'
 
@@ -138,8 +138,8 @@ class Branch(Definition):
                 size_str = 'size'
         elif context == 'Singlet':
             namevar = 'name_'
-        elif context == 'ContainerElement':
-            namevar = 'name'
+        elif context == 'Element':
+            namevar = '_name'
         elif context == 'TreeEntry':
             namevar = '""'
 
@@ -150,13 +150,13 @@ class Branch(Definition):
 
         out.writeline('utils::book(_tree, {namevar}, "{name}", {size}, \'{type}\', {ptr}, _branches);'.format(namevar = namevar, name = self.name, size = size_str, type = self.type, ptr = ptr))
 
-    def write_reset_address(self, out, context):
+    def write_release_tree(self, out, context):
         if context == 'datastore':
             namevar = '_name'
         elif context == 'Singlet':
             namevar = 'name_'
-        elif context == 'ContainerElement':
-            namevar = 'name'
+        elif context == 'Element':
+            namevar = '_name'
         elif context == 'TreeEntry':
             namevar = '""'
 
@@ -166,18 +166,18 @@ class Branch(Definition):
         pass
 
     def init_default(self, lines, context):
-        if context == 'ContainerElement':
+        if context == 'Element':
             lines.append('{name}(gStore.getData(this).{name}[0])'.format(name = self.name))
 
     def init_standard(self, lines, context):
-        if context == 'ContainerElement':
+        if context == 'Element':
             lines.append('{name}(_data.{name}[_idx])'.format(name = self.name))
 
     def init_copy(self, lines, context):
         if context == 'Singlet' or context == 'TreeEntry':
             if not self.is_array():
                 lines.append('{name}(_src.{name})'.format(name = self.name))
-        elif context == 'ContainerElement':
+        elif context == 'Element':
             lines.append('{name}(gStore.getData(this).{name}[0])'.format(name = self.name))
 
     def write_default_ctor(self, out, context):

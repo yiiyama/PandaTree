@@ -57,7 +57,7 @@ panda::CollectionBase::doSetStatus_(TTree& _tree, utils::BranchList const& _bran
 
 /*protected*/
 void
-panda::CollectionBase::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus, Bool_t _asInput/* = kTRUE*/)
+panda::CollectionBase::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus, Bool_t _asInput)
 {
   if (_asInput) {
     auto* branch(_tree.GetBranch(name_ + ".size"));
@@ -94,7 +94,7 @@ panda::CollectionBase::doBook_(TTree& _tree, utils::BranchList const& _branches)
 
 /*protected*/
 void
-panda::CollectionBase::doResetAddress_(TTree& _tree)
+panda::CollectionBase::doReleaseTree_(TTree& _tree)
 {
   auto* branch(_tree.GetBranch(name_ + ".size"));
   if (!branch)
@@ -108,5 +108,5 @@ panda::CollectionBase::doResetAddress_(TTree& _tree)
     }
   }
 
-  getData().resetAddress(_tree, name_);
+  getData().releaseTree(_tree, name_);
 }

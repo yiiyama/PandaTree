@@ -10,28 +10,31 @@ namespace panda {
 
   class Recoil : public Singlet {
   public:
+    typedef Singlet base_type;
+
     Recoil(char const* name = "");
     Recoil(Recoil const&);
     ~Recoil();
     Recoil& operator=(Recoil const&);
 
-    void setStatus(TTree&, utils::BranchList const& = {"*"}) override;
-    UInt_t setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
-    UInt_t book(TTree&, utils::BranchList const& = {"*"}) override;
-    void releaseTree(TTree&) override;
-
-    void init() override;
 
     UInt_t categories{};
     Float_t max{};
 
     /* BEGIN CUSTOM Recoil.h.classdef */
     /* END CUSTOM */
-  };
+
+  protected:
+    void doSetStatus_(TTree&, utils::BranchList const&) override;
+    void doSetAddress_(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
+    void doBook_(TTree&, utils::BranchList const& = {"*"}) override;
+    void doReleaseTree_(TTree&) override;
+    void doInit_() override;
+    };
 
   /* BEGIN CUSTOM Recoil.h.global */
   /* END CUSTOM */
 
-}
+  }
 
-#endif
+  #endif

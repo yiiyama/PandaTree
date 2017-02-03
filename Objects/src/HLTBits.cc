@@ -29,49 +29,45 @@ panda::HLTBits::operator=(HLTBits const& _src)
 }
 
 void
-panda::HLTBits::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::HLTBits::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 {
-  Singlet::setStatus(_tree, _branches);
+  Singlet::doSetStatus_(_tree, _branches);
 
   utils::setStatus(_tree, name_, "words", _branches);
   utils::setStatus(_tree, name_, "size_", _branches);
 }
 
-UInt_t
-panda::HLTBits::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+void
+panda::HLTBits::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Singlet::setAddress(_tree, _branches, _setStatus);
+  Singlet::doSetAddress_(_tree, _branches, _setStatus);
 
   utils::setAddress(_tree, name_, "words", words, _branches, _setStatus);
   utils::setAddress(_tree, name_, "size_", &size_, _branches, _setStatus);
-
-  return -1;
-}
-
-UInt_t
-panda::HLTBits::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
-{
-  Singlet::book(_tree, _branches);
-
-  utils::book(_tree, name_, "words", TString::Format("[16]"), 'i', words, _branches);
-  utils::book(_tree, name_, "size_", "", 'i', &size_, _branches);
-
-  return -1;
 }
 
 void
-panda::HLTBits::releaseTree(TTree& _tree)
+panda::HLTBits::doBook_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Singlet::releaseTree(_tree);
+  Singlet::doBook_(_tree, _branches);
+
+  utils::book(_tree, name_, "words", TString::Format("[16]"), 'i', words, _branches);
+  utils::book(_tree, name_, "size_", "", 'i', &size_, _branches);
+}
+
+void
+panda::HLTBits::doReleaseTree_(TTree& _tree)
+{
+  Singlet::doReleaseTree_(_tree);
 
   utils::resetAddress(_tree, name_, "words");
   utils::resetAddress(_tree, name_, "size_");
 }
 
 void
-panda::HLTBits::init()
+panda::HLTBits::doInit_()
 {
-  Singlet::init();
+  Singlet::doInit_();
 
   for (auto& p0 : words) p0 = 0;
   size_ = 512;

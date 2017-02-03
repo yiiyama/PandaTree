@@ -30,49 +30,45 @@ panda::Met::operator=(Met const& _src)
 }
 
 void
-panda::Met::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::Met::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 {
-  Singlet::setStatus(_tree, _branches);
+  Singlet::doSetStatus_(_tree, _branches);
 
   utils::setStatus(_tree, name_, "pt", _branches);
   utils::setStatus(_tree, name_, "phi", _branches);
 }
 
-UInt_t
-panda::Met::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
+void
+panda::Met::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Singlet::setAddress(_tree, _branches, _setStatus);
+  Singlet::doSetAddress_(_tree, _branches, _setStatus);
 
   utils::setAddress(_tree, name_, "pt", &pt, _branches, _setStatus);
   utils::setAddress(_tree, name_, "phi", &phi, _branches, _setStatus);
-
-  return -1;
-}
-
-UInt_t
-panda::Met::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
-{
-  Singlet::book(_tree, _branches);
-
-  utils::book(_tree, name_, "pt", "", 'F', &pt, _branches);
-  utils::book(_tree, name_, "phi", "", 'F', &phi, _branches);
-
-  return -1;
 }
 
 void
-panda::Met::releaseTree(TTree& _tree)
+panda::Met::doBook_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Singlet::releaseTree(_tree);
+  Singlet::doBook_(_tree, _branches);
+
+  utils::book(_tree, name_, "pt", "", 'F', &pt, _branches);
+  utils::book(_tree, name_, "phi", "", 'F', &phi, _branches);
+}
+
+void
+panda::Met::doReleaseTree_(TTree& _tree)
+{
+  Singlet::doReleaseTree_(_tree);
 
   utils::resetAddress(_tree, name_, "pt");
   utils::resetAddress(_tree, name_, "phi");
 }
 
 void
-panda::Met::init()
+panda::Met::doInit_()
 {
-  Singlet::init();
+  Singlet::doInit_();
 
   pt = 0.;
   phi = 0.;

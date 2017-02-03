@@ -30,8 +30,6 @@ namespace panda {
     ~Event() {}
     Event& operator=(Event const&);
 
-    void init() override;
-
     GenReweight genReweight = GenReweight("genReweight");
     PFCandCollection pfCandidates = PFCandCollection("pfCandidates", 2048);
     SuperClusterCollection superClusters = SuperClusterCollection("superClusters", 64);
@@ -79,6 +77,7 @@ namespace panda {
     void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;
     void doBook_(TTree&, utils::BranchList const&) override;
     void doReleaseTree_(TTree&) override;
+    void doInit_() override;
 
   public:
     /* BEGIN CUSTOM Event.h.classdef */

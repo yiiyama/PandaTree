@@ -27,16 +27,17 @@ namespace panda {
 
       void allocate(UInt_t n) override;
       void deallocate() override;
-      void setStatus(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+      void setStatus(TTree&, TString const&, utils::BranchList const&) override;
       void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
-      void resetAddress(TTree&, TString const&) override;
+      void releaseTree(TTree&, TString const&) override;
       void resizeVectors_(UInt_t) override;
     };
 
-    typedef ParticleM base_type;
     typedef Array<MicroJet> array_type;
     typedef Collection<MicroJet> collection_type;
+
+    typedef ParticleM base_type;
 
     MicroJet(char const* name = "");
     MicroJet(MicroJet const&);
@@ -44,12 +45,6 @@ namespace panda {
     ~MicroJet();
     MicroJet& operator=(MicroJet const&);
 
-    void setStatus(TTree&, utils::BranchList const& = {"*"}) override;
-    UInt_t setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
-    UInt_t book(TTree&, utils::BranchList const& = {"*"}) override;
-    void releaseTree(TTree&) override;
-
-    void init() override;
 
     /* Particle
     Float_t& pt;
@@ -69,16 +64,22 @@ namespace panda {
 
   protected:
     MicroJet(ArrayBase*);
-  };
 
-  typedef MicroJet::array_type MicroJetArray;
-  typedef MicroJet::collection_type MicroJetCollection;
-  typedef Ref<MicroJet> MicroJetRef;
-  typedef RefVector<MicroJet> MicroJetRefVector;
+    void doSetStatus_(TTree&, TString const&, utils::BranchList const&) override;
+    void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
+    void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+    void doReleaseTree_(TTree&, TString const&) override;
+    void doInit_() override;
+    };
+
+    typedef MicroJet::array_type MicroJetArray;
+    typedef MicroJet::collection_type MicroJetCollection;
+    typedef Ref<MicroJet> MicroJetRef;
+    typedef RefVector<MicroJet> MicroJetRefVector;
 
   /* BEGIN CUSTOM MicroJet.h.global */
   /* END CUSTOM */
 
-}
+  }
 
-#endif
+  #endif

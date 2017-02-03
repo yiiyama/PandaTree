@@ -21,13 +21,6 @@ panda::Run::operator=(Run const& _src)
   return *this;
 }
 
-void
-panda::Run::init()
-{
-  runNumber = 0;
-  hltMenu = 0;
-}
-
 /*protected*/
 void
 panda::Run::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
@@ -58,6 +51,13 @@ panda::Run::doReleaseTree_(TTree& _tree)
 {
   utils::resetAddress(_tree, "", "runNumber");
   utils::resetAddress(_tree, "", "hltMenu");
+}
+
+void
+panda::Run::doInit_()
+{
+  runNumber = 0;
+  hltMenu = 0;
 }
 
 

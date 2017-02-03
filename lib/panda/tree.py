@@ -50,9 +50,6 @@ class Tree(Definition, Object):
         header.writeline('~{name}() {{}}'.format(name = self.name)) # destructor
         header.writeline('{name}& operator=({name} const&);'.format(name = self.name)) # assignment operator
 
-        header.newline()
-        header.writeline('void init() override;')
-
         if len(self.functions) != 0:
             header.newline()
             for function in self.functions:
@@ -76,6 +73,7 @@ class Tree(Definition, Object):
         header.writeline('void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;')
         header.writeline('void doBook_(TTree&, utils::BranchList const&) override;')
         header.writeline('void doReleaseTree_(TTree&) override;')
+        header.writeline('void doInit_() override;')
 
         header.newline()
         header.indent -= 1
@@ -157,18 +155,6 @@ class Tree(Definition, Object):
         src.writeline('}')
         src.newline()
 
-        src.writeline('void')
-        src.writeline('{NAMESPACE}::{name}::init()'.format(NAMESPACE = NAMESPACE, name = self.name))
-        src.writeline('{')
-        src.indent += 1
-        for objbranch in self.objbranches:
-            objbranch.write_init(src)
-        for branch in self.branches:
-            branch.write_init(src, context = 'TreeEntry')
-        src.indent -= 1
-        src.writeline('}')
-        src.newline()
-
         src.writeline('/*protected*/')
         src.writeline('void')
         src.writeline('{NAMESPACE}::{name}::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)'.format(NAMESPACE = NAMESPACE, name = self.name))
@@ -209,7 +195,17 @@ class Tree(Definition, Object):
         src.writeline('{')
         src.indent += 1
         for branch in self.branches:
-            branch.write_reset_address(src, context = 'TreeEntry')
+            branch.write_release_tree(src, context = 'TreeEntry')
+        src.indent -= 1
+        src.writeline('}')
+        src.newline()
+
+        src.writeline('void')
+        src.writeline('{NAMESPACE}::{name}::doInit_()'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{')
+        src.indent += 1
+        for branch in self.branches:
+            branch.write_init(src, context = 'TreeEntry')
         src.indent -= 1
         src.writeline('}')
         src.newline()

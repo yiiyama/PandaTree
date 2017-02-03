@@ -10,17 +10,13 @@ namespace panda {
 
   class HLTBits : public Singlet {
   public:
+    typedef Singlet base_type;
+
     HLTBits(char const* name = "");
     HLTBits(HLTBits const&);
     ~HLTBits();
     HLTBits& operator=(HLTBits const&);
 
-    void setStatus(TTree&, utils::BranchList const& = {"*"}) override;
-    UInt_t setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
-    UInt_t book(TTree&, utils::BranchList const& = {"*"}) override;
-    void releaseTree(TTree&) override;
-
-    void init() override;
 
     void set(unsigned iB) { words[iB / 32] |= (1 << (iB % 32)); }
     bool pass(unsigned iB) const { return ((words[iB / 32] >> (iB % 32)) & 1) != 0; }
@@ -31,11 +27,18 @@ namespace panda {
 
     /* BEGIN CUSTOM HLTBits.h.classdef */
     /* END CUSTOM */
-  };
+
+  protected:
+    void doSetStatus_(TTree&, utils::BranchList const&) override;
+    void doSetAddress_(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
+    void doBook_(TTree&, utils::BranchList const& = {"*"}) override;
+    void doReleaseTree_(TTree&) override;
+    void doInit_() override;
+    };
 
   /* BEGIN CUSTOM HLTBits.h.global */
   /* END CUSTOM */
 
-}
+  }
 
-#endif
+  #endif

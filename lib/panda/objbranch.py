@@ -57,10 +57,7 @@ class ObjBranch(Definition):
         out.writeline('{name}.book(_tree, _branches.subList("{name}"));'.format(name = self.name))
 
     def write_release_tree(self, out):
-        if self.conttype == '':
-            out.writeline('{name}.resetAddress(_tree);'.format(name = self.name))
-        else:
-            out.writeline('{name}.releaseTree(_tree);'.format(name = self.name))
+        out.writeline('{name}.releaseTree(_tree);'.format(name = self.name))
 
     def cpyctor(self):
         return '{name}(_src.{name})'.format(name = self.name)

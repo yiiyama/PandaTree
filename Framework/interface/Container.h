@@ -78,10 +78,10 @@ namespace panda {
     template<Bool_t T = FIXED>
     typename std::enable_if<!T, reference>::type create_back();
 
-    ContainerElement::datastore& getData() override { return data; }
-    ContainerElement::datastore const& getData() const override { return data; }
-    ContainerElement& elemAt(UInt_t idx) override { return at(idx); }
-    ContainerElement const& elemAt(UInt_t idx) const override { return at(idx); }
+    Element::datastore& getData() override { return data; }
+    Element::datastore const& getData() const override { return data; }
+    Element& elemAt(UInt_t idx) override { return at(idx); }
+    Element const& elemAt(UInt_t idx) const override { return at(idx); }
 
     std::vector<UInt_t> sort(ContainerBase::Comparison const&) override;
 

@@ -46,14 +46,14 @@ class RefBranch(Branch):
                 out.writeline('Ref<{type}> {name};'.format(type = self.objname, name = self.refname))
 
     def write_set_address(self, out, context):
-        if context == 'ContainerElement':
-            out.writeline('utils::setAddress(_tree, name, "{name}", gStore.getData(this).{name}, _branches, true);'.format(name = self.name))
+        if context == 'Element':
+            out.writeline('utils::setAddress(_tree, _name, "{name}", gStore.getData(this).{name}, _branches, true);'.format(name = self.name))
         else:
             Branch.write_set_address(self, out, context)
 
     def write_book(self, out, context):
-        if context == 'ContainerElement':
-            out.writeline('utils::book(_tree, name, "{name}", "{arrdef}", \'{type}\', gStore.getData(this).{name}, _branches);'.format(name = self.name, arrdef = self.arrdef_text(), type = self.type, refname = self.refname))
+        if context == 'Element':
+            out.writeline('utils::book(_tree, _name, "{name}", "{arrdef}", \'{type}\', gStore.getData(this).{name}, _branches);'.format(name = self.name, arrdef = self.arrdef_text(), type = self.type, refname = self.refname))
         else:
             Branch.write_book(self, out, context)
 
@@ -63,14 +63,14 @@ class RefBranch(Branch):
 
         if context == 'Singlet':
             lines.append('{name}({name}Container_, {name}_)'.format(name = self.refname))
-        elif context == 'ContainerElement':
+        elif context == 'Element':
             lines.append('{name}(gStore.getData(this).{name}Container_, gStore.getData(this).{name}_[0])'.format(name = self.refname))
 
     def init_standard(self, lines, context):
         if self.is_array():
             return
 
-        if context == 'ContainerElement':
+        if context == 'Element':
             lines.append('{name}(_data.{name}Container_, _data.{name}_[_idx])'.format(name = self.refname))
 
     def init_copy(self, lines, context):
@@ -81,7 +81,7 @@ class RefBranch(Branch):
             lines.append('{name}Container_(_src.{name}Container_)')
             Branch.init_copy(lines, context)
             lines.append('{name}({name}Container_, {name}_)'.format(name = self.refname))
-        elif context == 'ContainerElement':
+        elif context == 'Element':
             lines.append('{name}(gStore.getData(this).{name}Container_, gStore.getData(this).{name}_[0])'.format(name = self.refname))
 
     def write_default_ctor(self, out, context):

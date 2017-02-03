@@ -18,7 +18,7 @@ panda::Muon::datastore::deallocate()
 }
 
 void
-panda::Muon::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::Muon::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
   Lepton::datastore::setStatus(_tree, _name, _branches);
 
@@ -44,9 +44,9 @@ panda::Muon::datastore::book(TTree& _tree, TString const& _name, utils::BranchLi
 }
 
 void
-panda::Muon::datastore::resetAddress(TTree& _tree, TString const& _name)
+panda::Muon::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
-  Lepton::datastore::resetAddress(_tree, _name);
+  Lepton::datastore::releaseTree(_tree, _name);
 
   utils::resetAddress(_tree, _name, "triggerMatch");
 }
@@ -111,53 +111,41 @@ panda::Muon::operator=(Muon const& _src)
 }
 
 void
-panda::Muon::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::Muon::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  Lepton::setStatus(_tree, _branches);
+  Lepton::doSetStatus_(_tree, _name, _branches);
 
-  TString name(gStore.getName(this));
-
-  utils::setStatus(_tree, name, "triggerMatch", _branches);
-}
-
-UInt_t
-panda::Muon::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  Lepton::setAddress(_tree, _branches, _setStatus);
-
-  TString name(gStore.getName(this));
-
-  utils::setAddress(_tree, name, "triggerMatch", triggerMatch, _branches, _setStatus);
-
-  return -1;
-}
-
-UInt_t
-panda::Muon::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
-{
-  Lepton::book(_tree, _branches);
-
-  TString name(gStore.getName(this));
-
-  utils::book(_tree, name, "triggerMatch", TString::Format("[%d]", nMuonTriggerObjects), 'O', triggerMatch, _branches);
-
-  return -1;
+  utils::setStatus(_tree, _name, "triggerMatch", _branches);
 }
 
 void
-panda::Muon::releaseTree(TTree& _tree)
+panda::Muon::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Lepton::releaseTree(_tree);
+  Lepton::doSetAddress_(_tree, _name, _branches, _setStatus);
 
-  TString name(gStore.getName(this));
-
-  utils::resetAddress(_tree, name, "triggerMatch");
+  utils::setAddress(_tree, _name, "triggerMatch", triggerMatch, _branches, _setStatus);
 }
 
 void
-panda::Muon::init()
+panda::Muon::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Lepton::init();
+  Lepton::doBook_(_tree, _name, _branches);
+
+  utils::book(_tree, _name, "triggerMatch", TString::Format("[%d]", nMuonTriggerObjects), 'O', triggerMatch, _branches);
+}
+
+void
+panda::Muon::doReleaseTree_(TTree& _tree, TString const& _name)
+{
+  Lepton::doReleaseTree_(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "triggerMatch");
+}
+
+void
+panda::Muon::doInit_()
+{
+  Lepton::doInit_();
 
   for (auto& p0 : triggerMatch) p0 = false;
 }

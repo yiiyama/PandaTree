@@ -1,16 +1,16 @@
-#ifndef PandaTree_Framework_ContainerElement_h
-#define PandaTree_Framework_ContainerElement_h
+#ifndef PandaTree_Framework_Element_h
+#define PandaTree_Framework_Element_h
 
 //! Base class for elements of containers.
 /*!
-  ContainerElement is the base class of objects that are elements of containers (Array = fixed size and Collection = dynamic size).
-  All deriving class of ContainerElement must have a subclass named datastore (which derives from ContainerElement::datastore) where
+  Element is the base class of objects that are elements of containers (Array = fixed size and Collection = dynamic size).
+  All deriving class of Element must have a subclass named datastore (which derives from Element::datastore) where
   arrays of plain-old-data types and vectors of objects are held. This big chunk of memory is in turn owned by a Container, which
-  also holds an array of ContainerElements. Individual "data members" of a ContainerElement-derived class are references to the
+  also holds an array of Elements. Individual "data members" of a Element-derived class are references to the
   elements of their associated datastore, linked by the Container.
-  By construction, the standard usage of the ContainerElement object is therefore to define a container first and to fetch from it
-  as an element. However, it is also possible to use a ContainerElement class as a singlet. This operation is rather expensive as
-  every singlet instantiation of a ContainerElement will create a one-element Array in memory in the back end.
+  By construction, the standard usage of the Element object is therefore to define a container first and to fetch from it
+  as an element. However, it is also possible to use a Element class as a singlet. This operation is rather expensive as
+  every singlet instantiation of a Element will create a one-element Array in memory in the back end.
 */
 
 #include "Object.h"
@@ -28,7 +28,7 @@ namespace panda {
   class ArrayBase;
   class CollectionBase;
 
-  class ContainerElement : public Object {
+  class Element : public Object {
   public:
     /*!
       Actual arrays and vectors written to the tree are members of datastore. For example, given a tree with branches
@@ -50,7 +50,7 @@ namespace panda {
       virtual void setStatus(TTree&, TString const&, utils::BranchList const&) {}
       virtual void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) {}
       virtual void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) {}
-      virtual void resetAddress(TTree&, TString const&) {}
+      virtual void releaseTree(TTree&, TString const&) {}
 
       UInt_t nmax() const { return nmax_; }
 
@@ -68,17 +68,22 @@ namespace panda {
     typedef CollectionBase collection_type;
 
     //! Standard constructor.
-    ContainerElement(datastore&, UInt_t) {}
+    Element(datastore&, UInt_t) {}
     //! Copy constructor.
     /*!
       Copy construction is similar to default-construction, and involves a creation of a one-element Array.
     */
-    ContainerElement(ContainerElement const& src) : Object(src) {}
-    ~ContainerElement() {}
-    ContainerElement& operator=(ContainerElement const&) { return *this; }
+    Element(Element const& src) : Object(src) {}
+    ~Element() {}
+    Element& operator=(Element const&) { return *this; }
 
-    char const* getName() const override;
-    void setName(char const*) override;
+    void setStatus(TTree&, utils::BranchList const& blist) final;
+    UInt_t setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
+    void book(TTree&, utils::BranchList const& blist = {"*"}) final;
+    void releaseTree(TTree&) final;
+    void init() final { doInit_(); }
+    char const* getName() const final;
+    void setName(char const*) final;
 
     //! Destructor implementation
     /*!
@@ -96,25 +101,31 @@ namespace panda {
       and set its references to the element of the array. This array is controlled by a global StoreManager
       instance.
     */
-    ContainerElement(ArrayBase*);
+    Element(ArrayBase*);
+
+    virtual void doSetStatus_(TTree&, TString const&, utils::BranchList const&) {}
+    virtual void doSetAddress_(TTree&, TString const&, utils::BranchList const&, Bool_t setStatus) {}
+    virtual void doBook_(TTree&, TString const&, utils::BranchList const&) {}
+    virtual void doReleaseTree_(TTree&, TString const&) {}
+    virtual void doInit_() {}
 
   private:
     //! Hidden default constructor.
-    ContainerElement() {}
+    Element() {}
   };
 
   namespace utils {
 
     class StoreManager {
     public:
-      void add(ContainerElement const* obj, ArrayBase* array) { store_.emplace(obj, array); }
-      ArrayBase& getArray(ContainerElement const* obj) const { return *store_.at(obj); }
+      void add(Element const* obj, ArrayBase* array) { store_.emplace(obj, array); }
+      ArrayBase& getArray(Element const* obj) const { return *store_.at(obj); }
       template<class O> typename O::datastore& getData(O const*) const;
-      char const* getName(ContainerElement const*) const;
-      void free(ContainerElement const*);
+      char const* getName(Element const*) const;
+      void free(Element const*);
 
     private:
-      std::map<ContainerElement const*, ArrayBase*> store_{};
+      std::map<Element const*, ArrayBase*> store_{};
     };
 
     template<class O>

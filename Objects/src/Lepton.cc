@@ -42,7 +42,7 @@ panda::Lepton::datastore::deallocate()
 }
 
 void
-panda::Lepton::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::Lepton::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
   Particle::datastore::setStatus(_tree, _name, _branches);
 
@@ -92,9 +92,9 @@ panda::Lepton::datastore::book(TTree& _tree, TString const& _name, utils::Branch
 }
 
 void
-panda::Lepton::datastore::resetAddress(TTree& _tree, TString const& _name)
+panda::Lepton::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
-  Particle::datastore::resetAddress(_tree, _name);
+  Particle::datastore::releaseTree(_tree, _name);
 
   utils::resetAddress(_tree, _name, "q");
   utils::resetAddress(_tree, _name, "loose");
@@ -215,85 +215,73 @@ panda::Lepton::operator=(Lepton const& _src)
 }
 
 void
-panda::Lepton::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::Lepton::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  Particle::setStatus(_tree, _branches);
+  Particle::doSetStatus_(_tree, _name, _branches);
 
-  TString name(gStore.getName(this));
-
-  utils::setStatus(_tree, name, "q", _branches);
-  utils::setStatus(_tree, name, "loose", _branches);
-  utils::setStatus(_tree, name, "medium", _branches);
-  utils::setStatus(_tree, name, "tight", _branches);
-  utils::setStatus(_tree, name, "chiso", _branches);
-  utils::setStatus(_tree, name, "nhiso", _branches);
-  utils::setStatus(_tree, name, "phoiso", _branches);
-  utils::setStatus(_tree, name, "puiso", _branches);
-  utils::setStatus(_tree, name, "matchedGen_", _branches);
-}
-
-UInt_t
-panda::Lepton::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  Particle::setAddress(_tree, _branches, _setStatus);
-
-  TString name(gStore.getName(this));
-
-  utils::setAddress(_tree, name, "q", &q, _branches, _setStatus);
-  utils::setAddress(_tree, name, "loose", &loose, _branches, _setStatus);
-  utils::setAddress(_tree, name, "medium", &medium, _branches, _setStatus);
-  utils::setAddress(_tree, name, "tight", &tight, _branches, _setStatus);
-  utils::setAddress(_tree, name, "chiso", &chiso, _branches, _setStatus);
-  utils::setAddress(_tree, name, "nhiso", &nhiso, _branches, _setStatus);
-  utils::setAddress(_tree, name, "phoiso", &phoiso, _branches, _setStatus);
-  utils::setAddress(_tree, name, "puiso", &puiso, _branches, _setStatus);
-  utils::setAddress(_tree, name, "matchedGen_", gStore.getData(this).matchedGen_, _branches, true);
-
-  return -1;
-}
-
-UInt_t
-panda::Lepton::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
-{
-  Particle::book(_tree, _branches);
-
-  TString name(gStore.getName(this));
-
-  utils::book(_tree, name, "q", "", 'S', &q, _branches);
-  utils::book(_tree, name, "loose", "", 'O', &loose, _branches);
-  utils::book(_tree, name, "medium", "", 'O', &medium, _branches);
-  utils::book(_tree, name, "tight", "", 'O', &tight, _branches);
-  utils::book(_tree, name, "chiso", "", 'F', &chiso, _branches);
-  utils::book(_tree, name, "nhiso", "", 'F', &nhiso, _branches);
-  utils::book(_tree, name, "phoiso", "", 'F', &phoiso, _branches);
-  utils::book(_tree, name, "puiso", "", 'F', &puiso, _branches);
-  utils::book(_tree, name, "matchedGen_", "", 'I', gStore.getData(this).matchedGen_, _branches);
-
-  return -1;
+  utils::setStatus(_tree, _name, "q", _branches);
+  utils::setStatus(_tree, _name, "loose", _branches);
+  utils::setStatus(_tree, _name, "medium", _branches);
+  utils::setStatus(_tree, _name, "tight", _branches);
+  utils::setStatus(_tree, _name, "chiso", _branches);
+  utils::setStatus(_tree, _name, "nhiso", _branches);
+  utils::setStatus(_tree, _name, "phoiso", _branches);
+  utils::setStatus(_tree, _name, "puiso", _branches);
+  utils::setStatus(_tree, _name, "matchedGen_", _branches);
 }
 
 void
-panda::Lepton::releaseTree(TTree& _tree)
+panda::Lepton::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Particle::releaseTree(_tree);
+  Particle::doSetAddress_(_tree, _name, _branches, _setStatus);
 
-  TString name(gStore.getName(this));
-
-  utils::resetAddress(_tree, name, "q");
-  utils::resetAddress(_tree, name, "loose");
-  utils::resetAddress(_tree, name, "medium");
-  utils::resetAddress(_tree, name, "tight");
-  utils::resetAddress(_tree, name, "chiso");
-  utils::resetAddress(_tree, name, "nhiso");
-  utils::resetAddress(_tree, name, "phoiso");
-  utils::resetAddress(_tree, name, "puiso");
-  utils::resetAddress(_tree, name, "matchedGen_");
+  utils::setAddress(_tree, _name, "q", &q, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "loose", &loose, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "medium", &medium, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "tight", &tight, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "chiso", &chiso, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "nhiso", &nhiso, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "phoiso", &phoiso, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "puiso", &puiso, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "matchedGen_", gStore.getData(this).matchedGen_, _branches, true);
 }
 
 void
-panda::Lepton::init()
+panda::Lepton::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Particle::init();
+  Particle::doBook_(_tree, _name, _branches);
+
+  utils::book(_tree, _name, "q", "", 'S', &q, _branches);
+  utils::book(_tree, _name, "loose", "", 'O', &loose, _branches);
+  utils::book(_tree, _name, "medium", "", 'O', &medium, _branches);
+  utils::book(_tree, _name, "tight", "", 'O', &tight, _branches);
+  utils::book(_tree, _name, "chiso", "", 'F', &chiso, _branches);
+  utils::book(_tree, _name, "nhiso", "", 'F', &nhiso, _branches);
+  utils::book(_tree, _name, "phoiso", "", 'F', &phoiso, _branches);
+  utils::book(_tree, _name, "puiso", "", 'F', &puiso, _branches);
+  utils::book(_tree, _name, "matchedGen_", "", 'I', gStore.getData(this).matchedGen_, _branches);
+}
+
+void
+panda::Lepton::doReleaseTree_(TTree& _tree, TString const& _name)
+{
+  Particle::doReleaseTree_(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "q");
+  utils::resetAddress(_tree, _name, "loose");
+  utils::resetAddress(_tree, _name, "medium");
+  utils::resetAddress(_tree, _name, "tight");
+  utils::resetAddress(_tree, _name, "chiso");
+  utils::resetAddress(_tree, _name, "nhiso");
+  utils::resetAddress(_tree, _name, "phoiso");
+  utils::resetAddress(_tree, _name, "puiso");
+  utils::resetAddress(_tree, _name, "matchedGen_");
+}
+
+void
+panda::Lepton::doInit_()
+{
+  Particle::doInit_();
 
   q = 0;
   loose = false;

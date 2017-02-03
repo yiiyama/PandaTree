@@ -47,20 +47,20 @@ class RefVectorBranch(RefBranch, GenericBranch):
                 out.writeline('RefVector<{type}> {name};'.format(type = self.objname, name = self.refname))
 
     def write_set_address(self, out, context):
-        if context == 'ContainerElement':
+        if context == 'Element':
             # address of the indices vector of the first refvector (if this is an array of refvectors) is the address of the array<vector<unsigned>, N>
             # very ugly but should work
             subscript = ''.join('[0]' for a in self.arrdef)
-            out.writeline('utils::setAddress(_tree, name, "{name}", &{refname}{subscript}.indices(), _branches, true);'.format(name = self.name, refname = self.refname, subscript = subscript))
+            out.writeline('utils::setAddress(_tree, _name, "{name}", &{refname}{subscript}.indices(), _branches, true);'.format(name = self.name, refname = self.refname, subscript = subscript))
         else:
             GenericBranch.write_set_address(self, out, context)
 
     def write_book(self, out, context):
-        if context == 'ContainerElement':
+        if context == 'Element':
             # address of the indices vector of the first refvector (if this is an array of refvectors) is the address of the array<vector<unsigned>, N>
             # very ugly but should work
             subscript = ''.join('[0]' for a in self.arrdef)
-            out.writeline('utils::book(_tree, name, "{name}", "{type}", &{refname}{subscript}.indices(), _branches);'.format(name = self.name, type = self.type, refname = self.refname, subscript = subscript))
+            out.writeline('utils::book(_tree, _name, "{name}", "{type}", &{refname}{subscript}.indices(), _branches);'.format(name = self.name, type = self.type, refname = self.refname, subscript = subscript))
         else:
             GenericBranch.write_book(self, out, context)
 
@@ -70,14 +70,14 @@ class RefVectorBranch(RefBranch, GenericBranch):
 
         if context == 'Singlet':
             lines.append('{name}({name}Container_, *{name}_)'.format(name = self.refname))
-        elif context == 'ContainerElement':
+        elif context == 'Element':
             lines.append('{name}(gStore.getData(this).{name}Container_, (*gStore.getData(this).{name}_)[0])'.format(name = self.refname))
 
     def init_standard(self, lines, context):
         if self.is_array():
             return
 
-        if context == 'ContainerElement':
+        if context == 'Element':
             lines.append('{name}(_data.{name}Container_, (*_data.{name}_)[_idx])'.format(name = self.refname))
 
     def init_copy(self, lines, context):
@@ -88,7 +88,7 @@ class RefVectorBranch(RefBranch, GenericBranch):
             lines.append('{name}Container_(_src.{name}Container_)')
             Branch.init_copy(lines, context)
             lines.append('{name}(*{name}_)'.format(name = self.refname))
-        elif context == 'ContainerElement':
+        elif context == 'Element':
             lines.append('{name}(gStore.getData(this).{name}Container_, (*gStore.getData(this).{name}_)[0])'.format(name = self.refname))
 
     def write_default_ctor(self, out, context):

@@ -27,7 +27,7 @@ panda::PFCand::datastore::deallocate()
 }
 
 void
-panda::PFCand::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PFCand::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
   ParticleM::datastore::setStatus(_tree, _name, _branches);
 
@@ -62,9 +62,9 @@ panda::PFCand::datastore::book(TTree& _tree, TString const& _name, utils::Branch
 }
 
 void
-panda::PFCand::datastore::resetAddress(TTree& _tree, TString const& _name)
+panda::PFCand::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
-  ParticleM::datastore::resetAddress(_tree, _name);
+  ParticleM::datastore::releaseTree(_tree, _name);
 
   utils::resetAddress(_tree, _name, "q");
   utils::resetAddress(_tree, _name, "puppiW");
@@ -150,65 +150,53 @@ panda::PFCand::operator=(PFCand const& _src)
 }
 
 void
-panda::PFCand::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PFCand::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  ParticleM::setStatus(_tree, _branches);
+  ParticleM::doSetStatus_(_tree, _name, _branches);
 
-  TString name(gStore.getName(this));
-
-  utils::setStatus(_tree, name, "q", _branches);
-  utils::setStatus(_tree, name, "puppiW", _branches);
-  utils::setStatus(_tree, name, "puppiWNoLep", _branches);
-  utils::setStatus(_tree, name, "pftype", _branches);
-}
-
-UInt_t
-panda::PFCand::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  ParticleM::setAddress(_tree, _branches, _setStatus);
-
-  TString name(gStore.getName(this));
-
-  utils::setAddress(_tree, name, "q", &q, _branches, _setStatus);
-  utils::setAddress(_tree, name, "puppiW", &puppiW, _branches, _setStatus);
-  utils::setAddress(_tree, name, "puppiWNoLep", &puppiWNoLep, _branches, _setStatus);
-  utils::setAddress(_tree, name, "pftype", &pftype, _branches, _setStatus);
-
-  return -1;
-}
-
-UInt_t
-panda::PFCand::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
-{
-  ParticleM::book(_tree, _branches);
-
-  TString name(gStore.getName(this));
-
-  utils::book(_tree, name, "q", "", 'S', &q, _branches);
-  utils::book(_tree, name, "puppiW", "", 'F', &puppiW, _branches);
-  utils::book(_tree, name, "puppiWNoLep", "", 'F', &puppiWNoLep, _branches);
-  utils::book(_tree, name, "pftype", "", 'I', &pftype, _branches);
-
-  return -1;
+  utils::setStatus(_tree, _name, "q", _branches);
+  utils::setStatus(_tree, _name, "puppiW", _branches);
+  utils::setStatus(_tree, _name, "puppiWNoLep", _branches);
+  utils::setStatus(_tree, _name, "pftype", _branches);
 }
 
 void
-panda::PFCand::releaseTree(TTree& _tree)
+panda::PFCand::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  ParticleM::releaseTree(_tree);
+  ParticleM::doSetAddress_(_tree, _name, _branches, _setStatus);
 
-  TString name(gStore.getName(this));
-
-  utils::resetAddress(_tree, name, "q");
-  utils::resetAddress(_tree, name, "puppiW");
-  utils::resetAddress(_tree, name, "puppiWNoLep");
-  utils::resetAddress(_tree, name, "pftype");
+  utils::setAddress(_tree, _name, "q", &q, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "puppiW", &puppiW, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "puppiWNoLep", &puppiWNoLep, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "pftype", &pftype, _branches, _setStatus);
 }
 
 void
-panda::PFCand::init()
+panda::PFCand::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  ParticleM::init();
+  ParticleM::doBook_(_tree, _name, _branches);
+
+  utils::book(_tree, _name, "q", "", 'S', &q, _branches);
+  utils::book(_tree, _name, "puppiW", "", 'F', &puppiW, _branches);
+  utils::book(_tree, _name, "puppiWNoLep", "", 'F', &puppiWNoLep, _branches);
+  utils::book(_tree, _name, "pftype", "", 'I', &pftype, _branches);
+}
+
+void
+panda::PFCand::doReleaseTree_(TTree& _tree, TString const& _name)
+{
+  ParticleM::doReleaseTree_(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "q");
+  utils::resetAddress(_tree, _name, "puppiW");
+  utils::resetAddress(_tree, _name, "puppiWNoLep");
+  utils::resetAddress(_tree, _name, "pftype");
+}
+
+void
+panda::PFCand::doInit_()
+{
+  ParticleM::doInit_();
 
   q = 0;
   puppiW = 0.;

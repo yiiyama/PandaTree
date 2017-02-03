@@ -15,18 +15,19 @@ namespace panda {
     ArrayBase(ArrayBase const& src) : ContainerBase(src) {}
     ~ArrayBase() {}
 
-    //! Return the (fixed) size of this array.
-    UInt_t size() const override { return getData().nmax(); }
+    void init() final;
 
-    void init() override;
+    //! Return the (fixed) size of this array.
+    UInt_t size() const final { return getData().nmax(); }
 
   protected:
     ArrayBase(char const* name, UInt_t unitSize, Bool_t dummy) : ContainerBase(name, unitSize) {}
 
-    void doSetStatus_(TTree&, utils::BranchList const&) override;
-    void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus, Bool_t asInput = kTRUE) override;
-    void doBook_(TTree&, utils::BranchList const&) override;
-    void doResetAddress_(TTree&) override;
+  private:
+    void doSetStatus_(TTree&, utils::BranchList const&) final;
+    void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus, Bool_t asInput) final;
+    void doBook_(TTree&, utils::BranchList const&) final;
+    void doReleaseTree_(TTree&) final;
   };
 
 }

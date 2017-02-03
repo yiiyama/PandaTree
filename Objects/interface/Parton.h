@@ -26,16 +26,17 @@ namespace panda {
 
       void allocate(UInt_t n) override;
       void deallocate() override;
-      void setStatus(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+      void setStatus(TTree&, TString const&, utils::BranchList const&) override;
       void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
-      void resetAddress(TTree&, TString const&) override;
+      void releaseTree(TTree&, TString const&) override;
       void resizeVectors_(UInt_t) override;
     };
 
-    typedef ParticleM base_type;
     typedef Array<Parton> array_type;
     typedef Collection<Parton> collection_type;
+
+    typedef ParticleM base_type;
 
     Parton(char const* name = "");
     Parton(Parton const&);
@@ -43,12 +44,6 @@ namespace panda {
     ~Parton();
     Parton& operator=(Parton const&);
 
-    void setStatus(TTree&, utils::BranchList const& = {"*"}) override;
-    UInt_t setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
-    UInt_t book(TTree&, utils::BranchList const& = {"*"}) override;
-    void releaseTree(TTree&) override;
-
-    void init() override;
 
     /* Particle
     Float_t& pt;
@@ -67,16 +62,22 @@ namespace panda {
 
   protected:
     Parton(ArrayBase*);
-  };
 
-  typedef Parton::array_type PartonArray;
-  typedef Parton::collection_type PartonCollection;
-  typedef Ref<Parton> PartonRef;
-  typedef RefVector<Parton> PartonRefVector;
+    void doSetStatus_(TTree&, TString const&, utils::BranchList const&) override;
+    void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
+    void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+    void doReleaseTree_(TTree&, TString const&) override;
+    void doInit_() override;
+    };
+
+    typedef Parton::array_type PartonArray;
+    typedef Parton::collection_type PartonCollection;
+    typedef Ref<Parton> PartonRef;
+    typedef RefVector<Parton> PartonRefVector;
 
   /* BEGIN CUSTOM Parton.h.global */
   /* END CUSTOM */
 
-}
+  }
 
-#endif
+  #endif

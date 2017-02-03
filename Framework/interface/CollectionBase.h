@@ -18,10 +18,10 @@ namespace panda {
     CollectionBase(CollectionBase const& src) : ContainerBase(src), size_(src.size_) {}
     ~CollectionBase() {}
 
+    void init() final { clear(); }
+
     //! Return the current size of the container.
     UInt_t size() const override { return size_; }
-
-    void init() override { clear(); }
 
     //! Resize the container.
     /*!
@@ -38,17 +38,18 @@ namespace panda {
     */
     void prepareGetEntry(Long64_t, UInt_t treeIdx = 0);
 
-    Int_t getEntry(Long64_t, UInt_t = 0) override;
+    Int_t getEntry(Long64_t, UInt_t = 0) final;
 
   protected:
     CollectionBase(char const* name, UInt_t unitSize, Bool_t dummy) : ContainerBase(name, unitSize) {}
 
-    void doSetStatus_(TTree&, utils::BranchList const&) override;
-    void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus, Bool_t asInput = kTRUE) override;
-    void doBook_(TTree&, utils::BranchList const&) override;
-    void doResetAddress_(TTree&) override;
-
     UInt_t size_{0};
+
+  private:
+    void doSetStatus_(TTree&, utils::BranchList const&) override;
+    void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus, Bool_t asInput) override;
+    void doBook_(TTree&, utils::BranchList const&) override;
+    void doReleaseTree_(TTree&) override;
 
     //! Size information lookahead
     /*!

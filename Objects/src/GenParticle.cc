@@ -24,7 +24,7 @@ panda::GenParticle::datastore::deallocate()
 }
 
 void
-panda::GenParticle::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
+panda::GenParticle::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
   ParticleM::datastore::setStatus(_tree, _name, _branches);
 
@@ -56,9 +56,9 @@ panda::GenParticle::datastore::book(TTree& _tree, TString const& _name, utils::B
 }
 
 void
-panda::GenParticle::datastore::resetAddress(TTree& _tree, TString const& _name)
+panda::GenParticle::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
-  ParticleM::datastore::resetAddress(_tree, _name);
+  ParticleM::datastore::releaseTree(_tree, _name);
 
   utils::resetAddress(_tree, _name, "pdgid");
   utils::resetAddress(_tree, _name, "statusFlags");
@@ -137,61 +137,49 @@ panda::GenParticle::operator=(GenParticle const& _src)
 }
 
 void
-panda::GenParticle::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
+panda::GenParticle::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  ParticleM::setStatus(_tree, _branches);
+  ParticleM::doSetStatus_(_tree, _name, _branches);
 
-  TString name(gStore.getName(this));
-
-  utils::setStatus(_tree, name, "pdgid", _branches);
-  utils::setStatus(_tree, name, "statusFlags", _branches);
-  utils::setStatus(_tree, name, "parent_", _branches);
-}
-
-UInt_t
-panda::GenParticle::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  ParticleM::setAddress(_tree, _branches, _setStatus);
-
-  TString name(gStore.getName(this));
-
-  utils::setAddress(_tree, name, "pdgid", &pdgid, _branches, _setStatus);
-  utils::setAddress(_tree, name, "statusFlags", &statusFlags, _branches, _setStatus);
-  utils::setAddress(_tree, name, "parent_", gStore.getData(this).parent_, _branches, true);
-
-  return -1;
-}
-
-UInt_t
-panda::GenParticle::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
-{
-  ParticleM::book(_tree, _branches);
-
-  TString name(gStore.getName(this));
-
-  utils::book(_tree, name, "pdgid", "", 'I', &pdgid, _branches);
-  utils::book(_tree, name, "statusFlags", "", 's', &statusFlags, _branches);
-  utils::book(_tree, name, "parent_", "", 'I', gStore.getData(this).parent_, _branches);
-
-  return -1;
+  utils::setStatus(_tree, _name, "pdgid", _branches);
+  utils::setStatus(_tree, _name, "statusFlags", _branches);
+  utils::setStatus(_tree, _name, "parent_", _branches);
 }
 
 void
-panda::GenParticle::releaseTree(TTree& _tree)
+panda::GenParticle::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  ParticleM::releaseTree(_tree);
+  ParticleM::doSetAddress_(_tree, _name, _branches, _setStatus);
 
-  TString name(gStore.getName(this));
-
-  utils::resetAddress(_tree, name, "pdgid");
-  utils::resetAddress(_tree, name, "statusFlags");
-  utils::resetAddress(_tree, name, "parent_");
+  utils::setAddress(_tree, _name, "pdgid", &pdgid, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "statusFlags", &statusFlags, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "parent_", gStore.getData(this).parent_, _branches, true);
 }
 
 void
-panda::GenParticle::init()
+panda::GenParticle::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  ParticleM::init();
+  ParticleM::doBook_(_tree, _name, _branches);
+
+  utils::book(_tree, _name, "pdgid", "", 'I', &pdgid, _branches);
+  utils::book(_tree, _name, "statusFlags", "", 's', &statusFlags, _branches);
+  utils::book(_tree, _name, "parent_", "", 'I', gStore.getData(this).parent_, _branches);
+}
+
+void
+panda::GenParticle::doReleaseTree_(TTree& _tree, TString const& _name)
+{
+  ParticleM::doReleaseTree_(_tree, _name);
+
+  utils::resetAddress(_tree, _name, "pdgid");
+  utils::resetAddress(_tree, _name, "statusFlags");
+  utils::resetAddress(_tree, _name, "parent_");
+}
+
+void
+panda::GenParticle::doInit_()
+{
+  ParticleM::doInit_();
 
   pdgid = 0;
   statusFlags = 0;

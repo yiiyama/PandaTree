@@ -10,17 +10,13 @@ namespace panda {
 
   class RecoMet : public Met {
   public:
+    typedef Met base_type;
+
     RecoMet(char const* name = "");
     RecoMet(RecoMet const&);
     ~RecoMet();
     RecoMet& operator=(RecoMet const&);
 
-    void setStatus(TTree&, utils::BranchList const& = {"*"}) override;
-    UInt_t setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
-    UInt_t book(TTree&, utils::BranchList const& = {"*"}) override;
-    void releaseTree(TTree&) override;
-
-    void init() override;
 
     virtual TVector2 vCorr(int corr = 0) const;
 
@@ -40,11 +36,18 @@ namespace panda {
 
     /* BEGIN CUSTOM RecoMet.h.classdef */
     /* END CUSTOM */
-  };
+
+  protected:
+    void doSetStatus_(TTree&, utils::BranchList const&) override;
+    void doSetAddress_(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
+    void doBook_(TTree&, utils::BranchList const& = {"*"}) override;
+    void doReleaseTree_(TTree&) override;
+    void doInit_() override;
+    };
 
   /* BEGIN CUSTOM RecoMet.h.global */
   /* END CUSTOM */
 
-}
+  }
 
-#endif
+  #endif

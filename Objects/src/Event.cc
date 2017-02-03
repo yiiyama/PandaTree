@@ -124,51 +124,6 @@ panda::Event::operator=(Event const& _src)
   return *this;
 }
 
-void
-panda::Event::init()
-{
-  genReweight.init();
-  pfCandidates.init();
-  superClusters.init();
-  electrons.init();
-  muons.init();
-  taus.init();
-  photons.init();
-  chsAK4Jets.init();
-  puppiAK4Jets.init();
-  chsAK8Jets.init();
-  chsCA15Jets.init();
-  puppiAK8Jets.init();
-  puppiCA15Jets.init();
-  subjets.init();
-  genJets.init();
-  genParticles.init();
-  partons.init();
-  met.init();
-  puppiMet.init();
-  rawMet.init();
-  caloMet.init();
-  noMuMet.init();
-  noHFMet.init();
-  trkMet.init();
-  neutralMet.init();
-  photonMet.init();
-  hfMet.init();
-  genMet.init();
-  metFilters.init();
-  triggers.init();
-  recoil.init();
-  runNumber = 0;
-  lumiNumber = 0;
-  eventNumber = 0;
-  isData = false;
-  npv = 0;
-  npvTrue = 0;
-  rho = 0.;
-  rhoCentralCalo = 0.;
-  weight = 0.;
-}
-
 /*protected*/
 void
 panda::Event::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
@@ -227,6 +182,20 @@ panda::Event::doReleaseTree_(TTree& _tree)
   utils::resetAddress(_tree, "", "rho");
   utils::resetAddress(_tree, "", "rhoCentralCalo");
   utils::resetAddress(_tree, "", "weight");
+}
+
+void
+panda::Event::doInit_()
+{
+  runNumber = 0;
+  lumiNumber = 0;
+  eventNumber = 0;
+  isData = false;
+  npv = 0;
+  npvTrue = 0;
+  rho = 0.;
+  rhoCentralCalo = 0.;
+  weight = 0.;
 }
 
 

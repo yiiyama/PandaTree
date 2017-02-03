@@ -1,17 +1,17 @@
 #ifndef PandaTree_Objects_SuperCluster_h
 #define PandaTree_Objects_SuperCluster_h
 #include "Constants.h"
-#include "../../Framework/interface/ContainerElement.h"
+#include "../../Framework/interface/Element.h"
 #include "../../Framework/interface/Container.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
 
 namespace panda {
 
-  class SuperCluster : public ContainerElement {
+  class SuperCluster : public Element {
   public:
-    struct datastore : public ContainerElement::datastore {
-      datastore() : ContainerElement::datastore() {}
+    struct datastore : public Element::datastore {
+      datastore() : Element::datastore() {}
       ~datastore() { deallocate(); }
 
       Float_t* rawPt{0};
@@ -20,16 +20,17 @@ namespace panda {
 
       void allocate(UInt_t n) override;
       void deallocate() override;
-      void setStatus(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+      void setStatus(TTree&, TString const&, utils::BranchList const&) override;
       void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
-      void resetAddress(TTree&, TString const&) override;
+      void releaseTree(TTree&, TString const&) override;
       void resizeVectors_(UInt_t) override;
     };
 
-    typedef ContainerElement base_type;
     typedef Array<SuperCluster> array_type;
     typedef Collection<SuperCluster> collection_type;
+
+    typedef Element base_type;
 
     SuperCluster(char const* name = "");
     SuperCluster(SuperCluster const&);
@@ -37,12 +38,6 @@ namespace panda {
     ~SuperCluster();
     SuperCluster& operator=(SuperCluster const&);
 
-    void setStatus(TTree&, utils::BranchList const& = {"*"}) override;
-    UInt_t setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
-    UInt_t book(TTree&, utils::BranchList const& = {"*"}) override;
-    void releaseTree(TTree&) override;
-
-    void init() override;
 
     Float_t& rawPt;
     Float_t& eta;
@@ -55,16 +50,22 @@ namespace panda {
 
   protected:
     SuperCluster(ArrayBase*);
-  };
 
-  typedef SuperCluster::array_type SuperClusterArray;
-  typedef SuperCluster::collection_type SuperClusterCollection;
-  typedef Ref<SuperCluster> SuperClusterRef;
-  typedef RefVector<SuperCluster> SuperClusterRefVector;
+    void doSetStatus_(TTree&, TString const&, utils::BranchList const&) override;
+    void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
+    void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
+    void doReleaseTree_(TTree&, TString const&) override;
+    void doInit_() override;
+    };
+
+    typedef SuperCluster::array_type SuperClusterArray;
+    typedef SuperCluster::collection_type SuperClusterCollection;
+    typedef Ref<SuperCluster> SuperClusterRef;
+    typedef RefVector<SuperCluster> SuperClusterRefVector;
 
   /* BEGIN CUSTOM SuperCluster.h.global */
   /* END CUSTOM */
 
-}
+  }
 
-#endif
+  #endif
