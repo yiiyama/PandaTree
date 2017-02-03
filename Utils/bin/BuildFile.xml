@@ -1,0 +1,4 @@
+<use name="PandaTree/Utils"/>
+<environment>
+  <bin file="padd.cc"></bin>
+</environment>
