@@ -18,11 +18,11 @@ panda::GenJet::datastore::deallocate()
 }
 
 void
-panda::GenJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::GenJet::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  ParticleM::datastore::setStatus(_tree, _name, _status, _branches);
+  ParticleM::datastore::setStatus(_tree, _name, _branches);
 
-  utils::setStatus(_tree, _name, "pdgid", _status, _branches);
+  utils::setStatus(_tree, _name, "pdgid", _branches);
 }
 
 void
@@ -111,16 +111,16 @@ panda::GenJet::operator=(GenJet const& _src)
 }
 
 void
-panda::GenJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::GenJet::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  ParticleM::setStatus(_tree, _status, _branches);
+  ParticleM::setStatus(_tree, _branches);
 
   TString name(gStore.getName(this));
 
-  utils::setStatus(_tree, name, "pdgid", _status, _branches);
+  utils::setStatus(_tree, name, "pdgid", _branches);
 }
 
-void
+UInt_t
 panda::GenJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   ParticleM::setAddress(_tree, _branches, _setStatus);
@@ -128,9 +128,11 @@ panda::GenJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {
   TString name(gStore.getName(this));
 
   utils::setAddress(_tree, name, "pdgid", &pdgid, _branches, _setStatus);
+
+  return -1;
 }
 
-void
+UInt_t
 panda::GenJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ParticleM::book(_tree, _branches);
@@ -138,12 +140,14 @@ panda::GenJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/
   TString name(gStore.getName(this));
 
   utils::book(_tree, name, "pdgid", "", 's', &pdgid, _branches);
+
+  return -1;
 }
 
 void
-panda::GenJet::resetAddress(TTree& _tree)
+panda::GenJet::releaseTree(TTree& _tree)
 {
-  ParticleM::resetAddress(_tree);
+  ParticleM::releaseTree(_tree);
 
   TString name(gStore.getName(this));
 

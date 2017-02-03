@@ -9,9 +9,9 @@ panda::ArrayBase::init()
 
 /*protected*/
 void
-panda::ArrayBase::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const& _branches)
+panda::ArrayBase::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 {
-  getData().setStatus(_tree, name_, _status, _branches);
+  getData().setStatus(_tree, name_, _branches);
 }
 
 /*protected*/

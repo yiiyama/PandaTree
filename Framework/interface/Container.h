@@ -12,6 +12,12 @@
 
 namespace panda {
 
+  //! Template class for all container implementations. Inherits from base_type::array_type or base_type::collection_type of the element class.
+  /*!
+   * For a physics object class E that inherits from B, Panda containers inherit as
+   * Object <- ContainerBase <- ArrayBase <- Container<B, true>=Array<B> <- Container<E, true>=Array<E>
+   * Object <- ContainerBase <- CollectionBase <- Container<B, false>=Collection<B> <- Container<E, false>=Collection<E>
+   */
   template<class E, Bool_t FIXED>
   class Container : public std::conditional<FIXED, typename E::base_type::array_type, typename E::base_type::collection_type>::type {
   public:

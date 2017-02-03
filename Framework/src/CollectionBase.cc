@@ -11,24 +11,48 @@ panda::CollectionBase::resize(UInt_t _size)
 
     reallocate_(nmax);
   }
-  
+
+  unsigned oldSize(size_);
+
   size_ = _size;
   getData().resizeVectors_(_size);
+
+  for (unsigned iE(oldSize); iE < size_; ++iE)
+    elemAt(iE).init();
+}
+
+void
+panda::CollectionBase::prepareGetEntry(Long64_t _iEntry, UInt_t _treeIdx)
+{
+  if (_treeIdx >= inputs_.size() || !inputs_[_treeIdx])
+    return;
+
+  sizeIn_[_treeIdx].first->GetEntry(_iEntry);
+  resize(sizeIn_[_treeIdx].second);
+}
+
+Int_t
+panda::CollectionBase::getEntry(Long64_t _iEntry, UInt_t _treeIdx)
+{
+  prepareGetEntry(_iEntry, _treeIdx);
+
+  return ContainerBase::getEntry(_iEntry, _treeIdx);
 }
 
 /*protected*/
 void
-panda::CollectionBase::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const& _branches)
+panda::CollectionBase::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 {
   if (!_tree.GetBranch(name_ + ".size"))
     return;
 
-  // If status is true -> turn size true
   // If explicitly instructed to turn off size -> turn size false
-  if (_status || utils::BranchName("size").in(_branches))
-    _tree.SetBranchStatus(name_ + ".size", _status);
+  if (utils::BranchName("size").vetoed(_branches))
+    _tree.SetBranchStatus(name_ + ".size", false);
+  else
+    _tree.SetBranchStatus(name_ + ".size", true);
 
-  getData().setStatus(_tree, name_, _status, _branches);
+  getData().setStatus(_tree, name_, _branches);
 }
 
 /*protected*/
@@ -36,11 +60,16 @@ void
 panda::CollectionBase::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus, Bool_t _asInput/* = kTRUE*/)
 {
   if (_asInput) {
-    Int_t sizeStatus(utils::setAddress(_tree, name_, "size", &sizeIn_, {"size"}, _setStatus));
-    if (sizeStatus != 1)
+    auto* branch(_tree.GetBranch(name_ + ".size"));
+    if (!branch)
       return;
 
-    sizeInBranch_ = _tree.GetBranch(name_ + ".size");
+    sizeIn_.emplace_back(branch, 0);
+    auto& sz(sizeIn_.back());
+
+    Int_t sizeStatus(utils::setAddress(_tree, name_, "size", &sz.second, {"size"}, _setStatus));
+    if (sizeStatus != 1)
+      return;
   }
   else {
     Int_t sizeStatus(utils::setAddress(_tree, name_, "size", &size_, {"size"}, _setStatus));
@@ -67,19 +96,17 @@ panda::CollectionBase::doBook_(TTree& _tree, utils::BranchList const& _branches)
 void
 panda::CollectionBase::doResetAddress_(TTree& _tree)
 {
-  if (sizeInBranch_)
-    sizeInBranch_->ResetAddress();
-  sizeInBranch_ = 0;
+  auto* branch(_tree.GetBranch(name_ + ".size"));
+  if (!branch)
+    return;
+
+  for (auto& sz : sizeIn_) {
+    if (sz.first == branch) {
+      branch->ResetAddress();
+      sz.first = 0;
+      break;
+    }
+  }
 
   getData().resetAddress(_tree, name_);
-}
-
-/*protected*/
-void
-panda::CollectionBase::doPrepareGetEntry_(Long64_t _iEntry)
-{
-  if (sizeInBranch_)
-    sizeInBranch_->GetEntry(_iEntry);
-
-  resize(sizeIn_);
 }

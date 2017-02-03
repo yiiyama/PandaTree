@@ -166,19 +166,24 @@ panda::utils::checkStatus(TTree& _tree, TString const& _fullName, Bool_t _status
 }
 
 Int_t
-panda::utils::setStatus(TTree& _tree, TString const& _objName, BranchName const& _bName, Bool_t _status, BranchList const& _bList)
+panda::utils::setStatus(TTree& _tree, TString const& _objName, BranchName const& _bName, BranchList const& _bList)
 {
-  if (!_bName.in(_bList))
+  bool status;
+  if (_bName.in(_bList))
+    status = true;
+  else if (_bName.vetoed(_bList))
+    status = false;
+  else
     return -2;
 
   TString fullName(_bName.fullName(_objName));
 
   // -1 -> branch does not exist; 0 -> status is already set; 1 -> status is different
-  Int_t returnCode(checkStatus(_tree, fullName, _status));
+  Int_t returnCode(checkStatus(_tree, fullName, status));
   if (returnCode != 1)
     return returnCode;
 
-  _tree.SetBranchStatus(fullName, _status);
+  _tree.SetBranchStatus(fullName, status);
   return 1;
 }
 
@@ -190,7 +195,7 @@ panda::utils::setAddress(TTree& _tree, TString const& _objName, BranchName const
   TString fullName(_bName.fullName(_objName));
 
   if (_setStatus) {
-    returnCode = setStatus(_tree, _objName, _bName, true, _bList);
+    returnCode = setStatus(_tree, _objName, _bName, _bList);
     if (returnCode < 0) // branch does not exist or is not in the list (includes vetoed case)
       return returnCode;
   }

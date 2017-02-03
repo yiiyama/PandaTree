@@ -21,12 +21,12 @@ panda::MicroJet::datastore::deallocate()
 }
 
 void
-panda::MicroJet::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::MicroJet::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  ParticleM::datastore::setStatus(_tree, _name, _status, _branches);
+  ParticleM::datastore::setStatus(_tree, _name, _branches);
 
-  utils::setStatus(_tree, _name, "csv", _status, _branches);
-  utils::setStatus(_tree, _name, "qgl", _status, _branches);
+  utils::setStatus(_tree, _name, "csv", _branches);
+  utils::setStatus(_tree, _name, "qgl", _branches);
 }
 
 void
@@ -124,17 +124,17 @@ panda::MicroJet::operator=(MicroJet const& _src)
 }
 
 void
-panda::MicroJet::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::MicroJet::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  ParticleM::setStatus(_tree, _status, _branches);
+  ParticleM::setStatus(_tree, _branches);
 
   TString name(gStore.getName(this));
 
-  utils::setStatus(_tree, name, "csv", _status, _branches);
-  utils::setStatus(_tree, name, "qgl", _status, _branches);
+  utils::setStatus(_tree, name, "csv", _branches);
+  utils::setStatus(_tree, name, "qgl", _branches);
 }
 
-void
+UInt_t
 panda::MicroJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   ParticleM::setAddress(_tree, _branches, _setStatus);
@@ -143,9 +143,11 @@ panda::MicroJet::setAddress(TTree& _tree, utils::BranchList const& _branches/* =
 
   utils::setAddress(_tree, name, "csv", &csv, _branches, _setStatus);
   utils::setAddress(_tree, name, "qgl", &qgl, _branches, _setStatus);
+
+  return -1;
 }
 
-void
+UInt_t
 panda::MicroJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ParticleM::book(_tree, _branches);
@@ -154,12 +156,14 @@ panda::MicroJet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}
 
   utils::book(_tree, name, "csv", "", 'F', &csv, _branches);
   utils::book(_tree, name, "qgl", "", 'F', &qgl, _branches);
+
+  return -1;
 }
 
 void
-panda::MicroJet::resetAddress(TTree& _tree)
+panda::MicroJet::releaseTree(TTree& _tree)
 {
-  ParticleM::resetAddress(_tree);
+  ParticleM::releaseTree(_tree);
 
   TString name(gStore.getName(this));
 

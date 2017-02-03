@@ -51,10 +51,10 @@ panda::FileMerger::addInput(char const* _path)
 }
 
 void
-panda::FileMerger::selectBranches(utils::BranchList const& _branchList, Bool_t _applyOnRead/* = kFALSE*/)
+panda::FileMerger::selectBranches(utils::BranchList const& _blist, Bool_t _onRead/* = kFALSE*/)
 {
-  branchList_ = _branchList;
-  applyBranchListOnRead_ = _applyOnRead;
+  branchList_ = _blist;
+  applyBranchListOnRead_ = _onRead;
 }
 
 void

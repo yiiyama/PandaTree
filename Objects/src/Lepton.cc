@@ -42,19 +42,19 @@ panda::Lepton::datastore::deallocate()
 }
 
 void
-panda::Lepton::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::Lepton::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Particle::datastore::setStatus(_tree, _name, _status, _branches);
+  Particle::datastore::setStatus(_tree, _name, _branches);
 
-  utils::setStatus(_tree, _name, "q", _status, _branches);
-  utils::setStatus(_tree, _name, "loose", _status, _branches);
-  utils::setStatus(_tree, _name, "medium", _status, _branches);
-  utils::setStatus(_tree, _name, "tight", _status, _branches);
-  utils::setStatus(_tree, _name, "chiso", _status, _branches);
-  utils::setStatus(_tree, _name, "nhiso", _status, _branches);
-  utils::setStatus(_tree, _name, "phoiso", _status, _branches);
-  utils::setStatus(_tree, _name, "puiso", _status, _branches);
-  utils::setStatus(_tree, _name, "matchedGen_", _status, _branches);
+  utils::setStatus(_tree, _name, "q", _branches);
+  utils::setStatus(_tree, _name, "loose", _branches);
+  utils::setStatus(_tree, _name, "medium", _branches);
+  utils::setStatus(_tree, _name, "tight", _branches);
+  utils::setStatus(_tree, _name, "chiso", _branches);
+  utils::setStatus(_tree, _name, "nhiso", _branches);
+  utils::setStatus(_tree, _name, "phoiso", _branches);
+  utils::setStatus(_tree, _name, "puiso", _branches);
+  utils::setStatus(_tree, _name, "matchedGen_", _branches);
 }
 
 void
@@ -215,24 +215,24 @@ panda::Lepton::operator=(Lepton const& _src)
 }
 
 void
-panda::Lepton::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::Lepton::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Particle::setStatus(_tree, _status, _branches);
+  Particle::setStatus(_tree, _branches);
 
   TString name(gStore.getName(this));
 
-  utils::setStatus(_tree, name, "q", _status, _branches);
-  utils::setStatus(_tree, name, "loose", _status, _branches);
-  utils::setStatus(_tree, name, "medium", _status, _branches);
-  utils::setStatus(_tree, name, "tight", _status, _branches);
-  utils::setStatus(_tree, name, "chiso", _status, _branches);
-  utils::setStatus(_tree, name, "nhiso", _status, _branches);
-  utils::setStatus(_tree, name, "phoiso", _status, _branches);
-  utils::setStatus(_tree, name, "puiso", _status, _branches);
-  utils::setStatus(_tree, name, "matchedGen_", _status, _branches);
+  utils::setStatus(_tree, name, "q", _branches);
+  utils::setStatus(_tree, name, "loose", _branches);
+  utils::setStatus(_tree, name, "medium", _branches);
+  utils::setStatus(_tree, name, "tight", _branches);
+  utils::setStatus(_tree, name, "chiso", _branches);
+  utils::setStatus(_tree, name, "nhiso", _branches);
+  utils::setStatus(_tree, name, "phoiso", _branches);
+  utils::setStatus(_tree, name, "puiso", _branches);
+  utils::setStatus(_tree, name, "matchedGen_", _branches);
 }
 
-void
+UInt_t
 panda::Lepton::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Particle::setAddress(_tree, _branches, _setStatus);
@@ -248,9 +248,11 @@ panda::Lepton::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {
   utils::setAddress(_tree, name, "phoiso", &phoiso, _branches, _setStatus);
   utils::setAddress(_tree, name, "puiso", &puiso, _branches, _setStatus);
   utils::setAddress(_tree, name, "matchedGen_", gStore.getData(this).matchedGen_, _branches, true);
+
+  return -1;
 }
 
-void
+UInt_t
 panda::Lepton::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Particle::book(_tree, _branches);
@@ -266,12 +268,14 @@ panda::Lepton::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/
   utils::book(_tree, name, "phoiso", "", 'F', &phoiso, _branches);
   utils::book(_tree, name, "puiso", "", 'F', &puiso, _branches);
   utils::book(_tree, name, "matchedGen_", "", 'I', gStore.getData(this).matchedGen_, _branches);
+
+  return -1;
 }
 
 void
-panda::Lepton::resetAddress(TTree& _tree)
+panda::Lepton::releaseTree(TTree& _tree)
 {
-  Particle::resetAddress(_tree);
+  Particle::releaseTree(_tree);
 
   TString name(gStore.getName(this));
 

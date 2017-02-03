@@ -13,46 +13,40 @@ namespace panda {
   class Event;
   class Run;
 
-  /**
-   * \brief Merge multiple panda files with optional skimming, slimming, and editing.
-   */
+  //! Merge multiple panda files with optional skimming, slimming, and editing.
   class FileMerger {
   public:
     FileMerger() {}
     ~FileMerger() {}
 
-    /**
-     * \brief Add input paths.
-     *
-     * @path  Path to input panda files. Wildcard allowed.
+    //! Add input paths.
+    /*!
+     * \param path  Path to input panda files. Wildcard allowed.
      */
     void addInput(char const* path);
 
-    /**
-     * \brief Select branches to write.
-     *
-     * @branchList    Branch list (see BranchList syntax in README).
-     * @applyOnRead Apply the branch list on input (default false)
+    //! Select branches to write.
+    /*!
+     * \param blist    Branch list (see BranchList syntax in README).
+     * \param onRead   Apply the branch list on input (default false)
      */
-    void selectBranches(utils::BranchList const& branchList, Bool_t applyOnRead = kFALSE);
+    void selectBranches(utils::BranchList const& blist, Bool_t onRead = kFALSE);
 
-    /**
-     * \brief Run the merger.
-     *
-     * @outPath Output file name.
-     * @nEvents The number of events to process (default -1 = process all).
+    //! Run the merger.
+    /*!
+     * \param outPath   Output file name.
+     * \param nEvents   The number of events to process (default -1 = process all).
      */
     void merge(char const* outPath, long nEvents = -1);
 
     typedef std::function<Bool_t(panda::Event&)> SkimFunction;
 
-    /**
-     * \brief Introduce a skim.
-     *
+    //! Introduce a skim.
+    /*!
      * SkimFunction is any callable object (functions or classes with operator())
      * that can take panda::Event& as an argument and return a bool.
      *
-     * @skim Skim function.
+     * \param skim   Skim function.
      */
     void setSkim(SkimFunction const& skim) { skimFunction_ = skim; }
 

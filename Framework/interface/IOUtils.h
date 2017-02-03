@@ -37,13 +37,13 @@ namespace panda {
       bool match(BranchName const&) const;
       //! Is the name included and not vetoed?
       /*!
-        Does not take the veto on this object into account. Simply asks the question
+        Does not take the veto on the parent object into account. Simply asks the question
         "is the name in the given list and not vetoed in the list?"
       */
       bool in(BranchList const&) const;
       //! Is the name included and vetoed?
       /*!
-        Does not take the veto on this object into account. Simply asks the question
+        Does not take the veto on the parent object into account. Simply asks the question
         "is the name in the given list and vetoed in the list?"
       */
       bool vetoed(BranchList const&) const;
@@ -82,7 +82,7 @@ namespace panda {
       0  status is already set
       1  status is changed
     */
-    Int_t setStatus(TTree&, TString const& objName, BranchName const& bName, Bool_t status, BranchList const&);
+    Int_t setStatus(TTree&, TString const& objName, BranchName const& bName, BranchList const&);
     //! Set address
     /*!
       Return values:

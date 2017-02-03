@@ -72,11 +72,10 @@ class Tree(Definition, Object):
         header.indent -= 1
         header.writeline('protected:')
         header.indent += 1
-        header.writeline('void doSetStatus_(TTree&, Bool_t, utils::BranchList const&) override;')
+        header.writeline('void doSetStatus_(TTree&, utils::BranchList const&) override;')
         header.writeline('void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;')
         header.writeline('void doBook_(TTree&, utils::BranchList const&) override;')
         header.writeline('void doReleaseTree_(TTree&) override;')
-        header.writeline('void doPrepareGetEntry_(Long64_t) override;')
 
         header.newline()
         header.indent -= 1
@@ -111,7 +110,7 @@ class Tree(Definition, Object):
 
         src.writeline('{NAMESPACE}::{name}::{name}() :'.format(NAMESPACE = NAMESPACE, name = self.name))
         src.indent += 1
-        src.writeline('TreeEntry()')
+        src.writeline('TreeEntry("{name}")'.format(name = self.name))
         src.indent -= 1
         src.writeline('{')
         src.indent += 1
@@ -123,7 +122,7 @@ class Tree(Definition, Object):
 
         src.writeline('{NAMESPACE}::{name}::{name}({name} const& _src) :'.format(NAMESPACE = NAMESPACE, name = self.name))
         src.indent += 1
-        initializers = ['TreeEntry()']
+        initializers = ['TreeEntry(_src.getName())']
         for objbranch in self.objbranches:
             initializers.append(objbranch.cpyctor())
         for branch in self.branches:
@@ -172,11 +171,9 @@ class Tree(Definition, Object):
 
         src.writeline('/*protected*/')
         src.writeline('void')
-        src.writeline('{NAMESPACE}::{name}::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const& _branches)'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{NAMESPACE}::{name}::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)'.format(NAMESPACE = NAMESPACE, name = self.name))
         src.writeline('{')
         src.indent += 1
-        for objbranch in self.objbranches:
-            objbranch.write_set_status(src)
         for branch in self.branches:
             branch.write_set_status(src, context = 'TreeEntry')
         src.indent -= 1
@@ -188,8 +185,6 @@ class Tree(Definition, Object):
         src.writeline('{NAMESPACE}::{name}::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus)'.format(NAMESPACE = NAMESPACE, name = self.name))
         src.writeline('{')
         src.indent += 1
-        for objbranch in self.objbranches:
-            objbranch.write_set_address(src)
         for branch in self.branches:
             branch.write_set_address(src, context = 'TreeEntry')
 
@@ -202,8 +197,6 @@ class Tree(Definition, Object):
         src.writeline('{NAMESPACE}::{name}::doBook_(TTree& _tree, utils::BranchList const& _branches)'.format(NAMESPACE = NAMESPACE, name = self.name))
         src.writeline('{')
         src.indent += 1
-        for objbranch in self.objbranches:
-            objbranch.write_book(src)
         for branch in self.branches:
             branch.write_book(src, context = 'TreeEntry')
         src.indent -= 1
@@ -215,8 +208,8 @@ class Tree(Definition, Object):
         src.writeline('{NAMESPACE}::{name}::doReleaseTree_(TTree& _tree)'.format(NAMESPACE = NAMESPACE, name = self.name))
         src.writeline('{')
         src.indent += 1
-        for objbranch in self.objbranches:
-            objbranch.write_release_tree(src)
+        for branch in self.branches:
+            branch.write_reset_address(src, context = 'TreeEntry')
         src.indent -= 1
         src.writeline('}')
         src.newline()
@@ -228,17 +221,5 @@ class Tree(Definition, Object):
 
         src.newline()
         src.write_custom_block('{name}.cc.global'.format(name = self.name))
-
-        src.writeline('/*protected*/')
-        src.writeline('void')
-        src.writeline('{NAMESPACE}::{name}::doPrepareGetEntry_(Long64_t _iEntry)'.format(NAMESPACE = NAMESPACE, name = self.name))
-        src.writeline('{')
-        src.indent += 1
-        for objbranch in self.objbranches:
-            if objbranch.conttype == 'Collection':
-                src.writeline('{name}.prepareGetEntry(_iEntry);'.format(name = objbranch.name))
-        src.indent -= 1
-        src.writeline('}')
-        src.newline()
 
         src.close()

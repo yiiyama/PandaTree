@@ -19,6 +19,7 @@ namespace panda {
     ~Singlet() {}
     Singlet& operator=(Singlet const& _src) { name_ = _src.name_; return *this; }
 
+    char const* getName() const override { return name_; }
     void setName(char const* n) override { name_ = n; }
 
   protected:

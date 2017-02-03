@@ -1,12 +1,12 @@
 #include "../interface/Run.h"
 
 panda::Run::Run() :
-  TreeEntry()
+  TreeEntry("Run")
 {
 }
 
 panda::Run::Run(Run const& _src) :
-  TreeEntry(),
+  TreeEntry(_src.getName()),
   runNumber(_src.runNumber),
   hltMenu(_src.hltMenu)
 {
@@ -30,10 +30,10 @@ panda::Run::init()
 
 /*protected*/
 void
-panda::Run::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const& _branches)
+panda::Run::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 {
-  utils::setStatus(_tree, "", "runNumber", _status, _branches);
-  utils::setStatus(_tree, "", "hltMenu", _status, _branches);
+  utils::setStatus(_tree, "", "runNumber", _branches);
+  utils::setStatus(_tree, "", "hltMenu", _branches);
 }
 
 /*protected*/
@@ -56,14 +56,10 @@ panda::Run::doBook_(TTree& _tree, utils::BranchList const& _branches)
 void
 panda::Run::doReleaseTree_(TTree& _tree)
 {
+  utils::resetAddress(_tree, "", "runNumber");
+  utils::resetAddress(_tree, "", "hltMenu");
 }
 
 
 /* BEGIN CUSTOM Run.cc.global */
 /* END CUSTOM */
-/*protected*/
-void
-panda::Run::doPrepareGetEntry_(Long64_t _iEntry)
-{
-}
-

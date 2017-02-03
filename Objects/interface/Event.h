@@ -75,54 +75,47 @@ namespace panda {
     Float_t weight{};
 
   protected:
-    void doSetStatus_(TTree&, Bool_t, utils::BranchList const&) override;
+    void doSetStatus_(TTree&, utils::BranchList const&) override;
     void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;
     void doBook_(TTree&, utils::BranchList const&) override;
     void doReleaseTree_(TTree&) override;
-    void doPrepareGetEntry_(Long64_t) override;
 
   public:
     /* BEGIN CUSTOM Event.h.classdef */
 
-    /**
-     * \brief Use to declare a trigger path to be used in the analysis. Returns a token for the path.
-     *
+    //! Use to declare a trigger path to be used in the analysis. Returns a token for the path.
+    /*!
      * Call this function before the event loop for each trigger you will be using. The return value
      * is an integer unique to the path, and can be passed to triggerFired() in the event loop to retrieve
      * the trigger decision of the event.
      *
-     * @param path  HLT path
+     * \param path   HLT path
      */
     UInt_t registerTrigger(char const* path);
 
-    /**
-     * \brief Trigger decision of the event.
+    //! Trigger decision of the event.
+    /*!
+     * Pass the trigger token returned by registerTrigger().
      *
-     * Pass the trigger token retrieved from registerTrigger().
-     *
-     * @param path  HLT path
+     * \param token   Token returned by registerTrigger()
      */
     Bool_t triggerFired(UInt_t token) const;
 
-    /**
-     * \brief Current trigger menu name.
-     */
+    //! Current trigger menu name.
     char const* triggerMenu() const;
 
   private:
-    std::vector<TString> registeredTriggers_{}; /**< List of registered paths */
+    std::vector<TString> registeredTriggers_{}; /*!< List of registered paths */
 
-    /**
-     * \brief Check if run or input boundary was crossed and update trigger information.
-     */
+    //! Check if run or input boundary has been crossed and update trigger information.
     Bool_t initRun_() const;
 
     mutable struct {
       UInt_t runNumber{0};
       Int_t treeNumber{-1};
       UInt_t menuId{0};
-      std::vector<TString> triggerMenuNames{}; /**< List of menu names*/
-      std::vector<std::vector<UInt_t>> triggerIndicesStore{}; /**< List of index lists*/
+      std::vector<TString> triggerMenuNames{}; /*!< List of menu names*/
+      std::vector<std::vector<UInt_t>> triggerIndicesStore{}; /*!< List of index lists*/
       std::map<UInt_t, UInt_t> runToMenuIdMap{}; 
     } runCache_{};
 

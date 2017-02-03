@@ -18,11 +18,11 @@ panda::Muon::datastore::deallocate()
 }
 
 void
-panda::Muon::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::Muon::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Lepton::datastore::setStatus(_tree, _name, _status, _branches);
+  Lepton::datastore::setStatus(_tree, _name, _branches);
 
-  utils::setStatus(_tree, _name, "triggerMatch", _status, _branches);
+  utils::setStatus(_tree, _name, "triggerMatch", _branches);
 }
 
 void
@@ -111,16 +111,16 @@ panda::Muon::operator=(Muon const& _src)
 }
 
 void
-panda::Muon::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::Muon::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Lepton::setStatus(_tree, _status, _branches);
+  Lepton::setStatus(_tree, _branches);
 
   TString name(gStore.getName(this));
 
-  utils::setStatus(_tree, name, "triggerMatch", _status, _branches);
+  utils::setStatus(_tree, name, "triggerMatch", _branches);
 }
 
-void
+UInt_t
 panda::Muon::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Lepton::setAddress(_tree, _branches, _setStatus);
@@ -128,9 +128,11 @@ panda::Muon::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*
   TString name(gStore.getName(this));
 
   utils::setAddress(_tree, name, "triggerMatch", triggerMatch, _branches, _setStatus);
+
+  return -1;
 }
 
-void
+UInt_t
 panda::Muon::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Lepton::book(_tree, _branches);
@@ -138,12 +140,14 @@ panda::Muon::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
   TString name(gStore.getName(this));
 
   utils::book(_tree, name, "triggerMatch", TString::Format("[%d]", nMuonTriggerObjects), 'O', triggerMatch, _branches);
+
+  return -1;
 }
 
 void
-panda::Muon::resetAddress(TTree& _tree)
+panda::Muon::releaseTree(TTree& _tree)
 {
-  Lepton::resetAddress(_tree);
+  Lepton::releaseTree(_tree);
 
   TString name(gStore.getName(this));
 

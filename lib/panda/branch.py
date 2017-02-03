@@ -92,7 +92,7 @@ class Branch(Definition):
         elif context == 'TreeEntry':
             namevar = '""'
 
-        out.writeline('utils::setStatus(_tree, {namevar}, "{name}", _status, _branches);'.format(namevar = namevar, name = self.name))
+        out.writeline('utils::setStatus(_tree, {namevar}, "{name}", _branches);'.format(namevar = namevar, name = self.name))
 
     def write_set_address(self, out, context):
         if context == 'datastore':

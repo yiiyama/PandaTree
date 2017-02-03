@@ -4,19 +4,21 @@
 #include <stdexcept>
 
 void
-panda::ContainerBase::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::ContainerBase::setStatus(TTree& _tree, utils::BranchList const& _branches)
 {
-  doSetStatus_(_tree, _status, _branches);
+  doSetStatus_(_tree, _branches);
 }
 
-void
+UInt_t
 panda::ContainerBase::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   doSetAddress_(_tree, _branches, _setStatus);
-  input_ = &_tree;
+  inputs_.push_back(&_tree);
+
+  return inputs_.size() - 1;
 }
 
-void
+UInt_t
 panda::ContainerBase::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   if (std::find(outputs_.begin(), outputs_.end(), &_tree) != outputs_.end())
@@ -24,53 +26,42 @@ panda::ContainerBase::book(TTree& _tree, utils::BranchList const& _branches/* = 
 
   doBook_(_tree, _branches);
   outputs_.push_back(&_tree);
+
+  return outputs_.size() - 1;
 }
 
 void
 panda::ContainerBase::releaseTree(TTree& _tree)
 {
-  bool found(false);
-
-  if (&_tree == input_) {
-    input_ = 0;
-    found = true;
+  for (auto*& t : inputs_) {
+    if (t == &_tree)
+      t = 0;
   }
 
-  if (!found) {
-    for (auto itr(outputs_.begin()); itr != outputs_.end(); ++itr) {
-      if (*itr == &_tree) {
-        outputs_.erase(itr);
-        found = true;
-        break;
-      }
-    }
+  for (auto*& t : outputs_) {
+    if (t == &_tree)
+      t = 0;
   }
-
-  if (!found)
-    return;
 
   doResetAddress_(_tree);
 }
 
-void
-panda::ContainerBase::prepareGetEntry(Long64_t _iEntry)
-{
-  doPrepareGetEntry_(_iEntry);
-}
-
 Int_t
-panda::ContainerBase::getEntry(Long64_t _iEntry)
+panda::ContainerBase::getEntry(Long64_t _iEntry, UInt_t _treeIdx/* = 0*/)
 {
-  doPrepareGetEntry_(_iEntry);
-  return input_->GetEntry(_iEntry);
+  return inputs_[_treeIdx]->GetEntry(_iEntry);
 }
 
 /*protected*/
 void
 panda::ContainerBase::updateAddress_()
 {
-  if (input_)
-    doSetAddress_(*input_, {"*"}, false);
-  for (auto* tree : outputs_)
-    doSetAddress_(*tree, {"*"}, false, false);
+  for (auto* tree : inputs_) {
+    if (tree)
+      doSetAddress_(*tree, {"*"}, false);
+  }
+  for (auto* tree : outputs_) {
+    if (tree)
+      doSetAddress_(*tree, {"*"}, false, false);
+  }
 }

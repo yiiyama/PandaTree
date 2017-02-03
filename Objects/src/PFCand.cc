@@ -27,14 +27,14 @@ panda::PFCand::datastore::deallocate()
 }
 
 void
-panda::PFCand::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PFCand::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  ParticleM::datastore::setStatus(_tree, _name, _status, _branches);
+  ParticleM::datastore::setStatus(_tree, _name, _branches);
 
-  utils::setStatus(_tree, _name, "q", _status, _branches);
-  utils::setStatus(_tree, _name, "puppiW", _status, _branches);
-  utils::setStatus(_tree, _name, "puppiWNoLep", _status, _branches);
-  utils::setStatus(_tree, _name, "pftype", _status, _branches);
+  utils::setStatus(_tree, _name, "q", _branches);
+  utils::setStatus(_tree, _name, "puppiW", _branches);
+  utils::setStatus(_tree, _name, "puppiWNoLep", _branches);
+  utils::setStatus(_tree, _name, "pftype", _branches);
 }
 
 void
@@ -150,19 +150,19 @@ panda::PFCand::operator=(PFCand const& _src)
 }
 
 void
-panda::PFCand::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::PFCand::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  ParticleM::setStatus(_tree, _status, _branches);
+  ParticleM::setStatus(_tree, _branches);
 
   TString name(gStore.getName(this));
 
-  utils::setStatus(_tree, name, "q", _status, _branches);
-  utils::setStatus(_tree, name, "puppiW", _status, _branches);
-  utils::setStatus(_tree, name, "puppiWNoLep", _status, _branches);
-  utils::setStatus(_tree, name, "pftype", _status, _branches);
+  utils::setStatus(_tree, name, "q", _branches);
+  utils::setStatus(_tree, name, "puppiW", _branches);
+  utils::setStatus(_tree, name, "puppiWNoLep", _branches);
+  utils::setStatus(_tree, name, "pftype", _branches);
 }
 
-void
+UInt_t
 panda::PFCand::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   ParticleM::setAddress(_tree, _branches, _setStatus);
@@ -173,9 +173,11 @@ panda::PFCand::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {
   utils::setAddress(_tree, name, "puppiW", &puppiW, _branches, _setStatus);
   utils::setAddress(_tree, name, "puppiWNoLep", &puppiWNoLep, _branches, _setStatus);
   utils::setAddress(_tree, name, "pftype", &pftype, _branches, _setStatus);
+
+  return -1;
 }
 
-void
+UInt_t
 panda::PFCand::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ParticleM::book(_tree, _branches);
@@ -186,12 +188,14 @@ panda::PFCand::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/
   utils::book(_tree, name, "puppiW", "", 'F', &puppiW, _branches);
   utils::book(_tree, name, "puppiWNoLep", "", 'F', &puppiWNoLep, _branches);
   utils::book(_tree, name, "pftype", "", 'I', &pftype, _branches);
+
+  return -1;
 }
 
 void
-panda::PFCand::resetAddress(TTree& _tree)
+panda::PFCand::releaseTree(TTree& _tree)
 {
-  ParticleM::resetAddress(_tree);
+  ParticleM::releaseTree(_tree);
 
   TString name(gStore.getName(this));
 

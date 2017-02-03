@@ -48,7 +48,7 @@ class ObjBranch(Definition):
             out.writeline('{objname}{type} {name} = {objname}{type}("{name}");'.format(objname = self.objname, type = self.conttype, name = self.name))
 
     def write_set_status(self, out):
-        out.writeline('{name}.setStatus(_tree, _status, _branches.subList("{name}"));'.format(name = self.name))
+        out.writeline('{name}.setStatus(_tree, _branches.subList("{name}"));'.format(name = self.name))
 
     def write_set_address(self, out):
         out.writeline('{name}.setAddress(_tree, _branches.subList("{name}"), _setStatus);'.format(name = self.name))

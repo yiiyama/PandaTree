@@ -99,38 +99,38 @@ panda::Photon::datastore::deallocate()
 }
 
 void
-panda::Photon::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::Photon::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Particle::datastore::setStatus(_tree, _name, _status, _branches);
+  Particle::datastore::setStatus(_tree, _name, _branches);
 
-  utils::setStatus(_tree, _name, "chiso", _status, _branches);
-  utils::setStatus(_tree, _name, "chisoWorst", _status, _branches);
-  utils::setStatus(_tree, _name, "nhiso", _status, _branches);
-  utils::setStatus(_tree, _name, "phoiso", _status, _branches);
-  utils::setStatus(_tree, _name, "sieie", _status, _branches);
-  utils::setStatus(_tree, _name, "sipip", _status, _branches);
-  utils::setStatus(_tree, _name, "hOverE", _status, _branches);
-  utils::setStatus(_tree, _name, "geniso", _status, _branches);
-  utils::setStatus(_tree, _name, "mipEnergy", _status, _branches);
-  utils::setStatus(_tree, _name, "e33", _status, _branches);
-  utils::setStatus(_tree, _name, "e4", _status, _branches);
-  utils::setStatus(_tree, _name, "eseed", _status, _branches);
-  utils::setStatus(_tree, _name, "emax", _status, _branches);
-  utils::setStatus(_tree, _name, "e2nd", _status, _branches);
-  utils::setStatus(_tree, _name, "r9", _status, _branches);
-  utils::setStatus(_tree, _name, "etaWidth", _status, _branches);
-  utils::setStatus(_tree, _name, "phiWidth", _status, _branches);
-  utils::setStatus(_tree, _name, "time", _status, _branches);
-  utils::setStatus(_tree, _name, "timeSpan", _status, _branches);
-  utils::setStatus(_tree, _name, "loose", _status, _branches);
-  utils::setStatus(_tree, _name, "medium", _status, _branches);
-  utils::setStatus(_tree, _name, "tight", _status, _branches);
-  utils::setStatus(_tree, _name, "highpt", _status, _branches);
-  utils::setStatus(_tree, _name, "pixelVeto", _status, _branches);
-  utils::setStatus(_tree, _name, "csafeVeto", _status, _branches);
-  utils::setStatus(_tree, _name, "triggerMatch", _status, _branches);
-  utils::setStatus(_tree, _name, "superCluster_", _status, _branches);
-  utils::setStatus(_tree, _name, "matchedGen_", _status, _branches);
+  utils::setStatus(_tree, _name, "chiso", _branches);
+  utils::setStatus(_tree, _name, "chisoWorst", _branches);
+  utils::setStatus(_tree, _name, "nhiso", _branches);
+  utils::setStatus(_tree, _name, "phoiso", _branches);
+  utils::setStatus(_tree, _name, "sieie", _branches);
+  utils::setStatus(_tree, _name, "sipip", _branches);
+  utils::setStatus(_tree, _name, "hOverE", _branches);
+  utils::setStatus(_tree, _name, "geniso", _branches);
+  utils::setStatus(_tree, _name, "mipEnergy", _branches);
+  utils::setStatus(_tree, _name, "e33", _branches);
+  utils::setStatus(_tree, _name, "e4", _branches);
+  utils::setStatus(_tree, _name, "eseed", _branches);
+  utils::setStatus(_tree, _name, "emax", _branches);
+  utils::setStatus(_tree, _name, "e2nd", _branches);
+  utils::setStatus(_tree, _name, "r9", _branches);
+  utils::setStatus(_tree, _name, "etaWidth", _branches);
+  utils::setStatus(_tree, _name, "phiWidth", _branches);
+  utils::setStatus(_tree, _name, "time", _branches);
+  utils::setStatus(_tree, _name, "timeSpan", _branches);
+  utils::setStatus(_tree, _name, "loose", _branches);
+  utils::setStatus(_tree, _name, "medium", _branches);
+  utils::setStatus(_tree, _name, "tight", _branches);
+  utils::setStatus(_tree, _name, "highpt", _branches);
+  utils::setStatus(_tree, _name, "pixelVeto", _branches);
+  utils::setStatus(_tree, _name, "csafeVeto", _branches);
+  utils::setStatus(_tree, _name, "triggerMatch", _branches);
+  utils::setStatus(_tree, _name, "superCluster_", _branches);
+  utils::setStatus(_tree, _name, "matchedGen_", _branches);
 }
 
 void
@@ -462,43 +462,43 @@ panda::Photon::operator=(Photon const& _src)
 }
 
 void
-panda::Photon::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::Photon::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Particle::setStatus(_tree, _status, _branches);
+  Particle::setStatus(_tree, _branches);
 
   TString name(gStore.getName(this));
 
-  utils::setStatus(_tree, name, "chiso", _status, _branches);
-  utils::setStatus(_tree, name, "chisoWorst", _status, _branches);
-  utils::setStatus(_tree, name, "nhiso", _status, _branches);
-  utils::setStatus(_tree, name, "phoiso", _status, _branches);
-  utils::setStatus(_tree, name, "sieie", _status, _branches);
-  utils::setStatus(_tree, name, "sipip", _status, _branches);
-  utils::setStatus(_tree, name, "hOverE", _status, _branches);
-  utils::setStatus(_tree, name, "geniso", _status, _branches);
-  utils::setStatus(_tree, name, "mipEnergy", _status, _branches);
-  utils::setStatus(_tree, name, "e33", _status, _branches);
-  utils::setStatus(_tree, name, "e4", _status, _branches);
-  utils::setStatus(_tree, name, "eseed", _status, _branches);
-  utils::setStatus(_tree, name, "emax", _status, _branches);
-  utils::setStatus(_tree, name, "e2nd", _status, _branches);
-  utils::setStatus(_tree, name, "r9", _status, _branches);
-  utils::setStatus(_tree, name, "etaWidth", _status, _branches);
-  utils::setStatus(_tree, name, "phiWidth", _status, _branches);
-  utils::setStatus(_tree, name, "time", _status, _branches);
-  utils::setStatus(_tree, name, "timeSpan", _status, _branches);
-  utils::setStatus(_tree, name, "loose", _status, _branches);
-  utils::setStatus(_tree, name, "medium", _status, _branches);
-  utils::setStatus(_tree, name, "tight", _status, _branches);
-  utils::setStatus(_tree, name, "highpt", _status, _branches);
-  utils::setStatus(_tree, name, "pixelVeto", _status, _branches);
-  utils::setStatus(_tree, name, "csafeVeto", _status, _branches);
-  utils::setStatus(_tree, name, "triggerMatch", _status, _branches);
-  utils::setStatus(_tree, name, "superCluster_", _status, _branches);
-  utils::setStatus(_tree, name, "matchedGen_", _status, _branches);
+  utils::setStatus(_tree, name, "chiso", _branches);
+  utils::setStatus(_tree, name, "chisoWorst", _branches);
+  utils::setStatus(_tree, name, "nhiso", _branches);
+  utils::setStatus(_tree, name, "phoiso", _branches);
+  utils::setStatus(_tree, name, "sieie", _branches);
+  utils::setStatus(_tree, name, "sipip", _branches);
+  utils::setStatus(_tree, name, "hOverE", _branches);
+  utils::setStatus(_tree, name, "geniso", _branches);
+  utils::setStatus(_tree, name, "mipEnergy", _branches);
+  utils::setStatus(_tree, name, "e33", _branches);
+  utils::setStatus(_tree, name, "e4", _branches);
+  utils::setStatus(_tree, name, "eseed", _branches);
+  utils::setStatus(_tree, name, "emax", _branches);
+  utils::setStatus(_tree, name, "e2nd", _branches);
+  utils::setStatus(_tree, name, "r9", _branches);
+  utils::setStatus(_tree, name, "etaWidth", _branches);
+  utils::setStatus(_tree, name, "phiWidth", _branches);
+  utils::setStatus(_tree, name, "time", _branches);
+  utils::setStatus(_tree, name, "timeSpan", _branches);
+  utils::setStatus(_tree, name, "loose", _branches);
+  utils::setStatus(_tree, name, "medium", _branches);
+  utils::setStatus(_tree, name, "tight", _branches);
+  utils::setStatus(_tree, name, "highpt", _branches);
+  utils::setStatus(_tree, name, "pixelVeto", _branches);
+  utils::setStatus(_tree, name, "csafeVeto", _branches);
+  utils::setStatus(_tree, name, "triggerMatch", _branches);
+  utils::setStatus(_tree, name, "superCluster_", _branches);
+  utils::setStatus(_tree, name, "matchedGen_", _branches);
 }
 
-void
+UInt_t
 panda::Photon::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Particle::setAddress(_tree, _branches, _setStatus);
@@ -533,9 +533,11 @@ panda::Photon::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {
   utils::setAddress(_tree, name, "triggerMatch", triggerMatch, _branches, _setStatus);
   utils::setAddress(_tree, name, "superCluster_", gStore.getData(this).superCluster_, _branches, true);
   utils::setAddress(_tree, name, "matchedGen_", gStore.getData(this).matchedGen_, _branches, true);
+
+  return -1;
 }
 
-void
+UInt_t
 panda::Photon::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Particle::book(_tree, _branches);
@@ -570,12 +572,14 @@ panda::Photon::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/
   utils::book(_tree, name, "triggerMatch", TString::Format("[%d]", nPhotonTriggerObjects), 'O', triggerMatch, _branches);
   utils::book(_tree, name, "superCluster_", "", 'I', gStore.getData(this).superCluster_, _branches);
   utils::book(_tree, name, "matchedGen_", "", 'I', gStore.getData(this).matchedGen_, _branches);
+
+  return -1;
 }
 
 void
-panda::Photon::resetAddress(TTree& _tree)
+panda::Photon::releaseTree(TTree& _tree)
 {
-  Particle::resetAddress(_tree);
+  Particle::releaseTree(_tree);
 
   TString name(gStore.getName(this));
 

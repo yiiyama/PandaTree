@@ -29,7 +29,7 @@ namespace panda {
 
       void allocate(UInt_t n) override;
       void deallocate() override;
-      void setStatus(TTree&, TString const&, Bool_t, utils::BranchList const& = {"*"}) override;
+      void setStatus(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
       void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
       void resetAddress(TTree&, TString const&) override;
@@ -46,10 +46,10 @@ namespace panda {
     ~PFCand();
     PFCand& operator=(PFCand const&);
 
-    void setStatus(TTree&, Bool_t, utils::BranchList const& = {"*"}) override;
-    void setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
-    void book(TTree&, utils::BranchList const& = {"*"}) override;
-    void resetAddress(TTree&) override;
+    void setStatus(TTree&, utils::BranchList const& = {"*"}) override;
+    UInt_t setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
+    UInt_t book(TTree&, utils::BranchList const& = {"*"}) override;
+    void releaseTree(TTree&) override;
 
     void init() override;
 

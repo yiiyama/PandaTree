@@ -54,23 +54,23 @@ panda::Electron::datastore::deallocate()
 }
 
 void
-panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Lepton::datastore::setStatus(_tree, _name, _status, _branches);
+  Lepton::datastore::setStatus(_tree, _name, _branches);
 
-  utils::setStatus(_tree, _name, "chisoPh", _status, _branches);
-  utils::setStatus(_tree, _name, "nhisoPh", _status, _branches);
-  utils::setStatus(_tree, _name, "phisoPh", _status, _branches);
-  utils::setStatus(_tree, _name, "ecaliso", _status, _branches);
-  utils::setStatus(_tree, _name, "hcaliso", _status, _branches);
-  utils::setStatus(_tree, _name, "isoPUOffset", _status, _branches);
-  utils::setStatus(_tree, _name, "sieie", _status, _branches);
-  utils::setStatus(_tree, _name, "sipip", _status, _branches);
-  utils::setStatus(_tree, _name, "eseed", _status, _branches);
-  utils::setStatus(_tree, _name, "hOverE", _status, _branches);
-  utils::setStatus(_tree, _name, "veto", _status, _branches);
-  utils::setStatus(_tree, _name, "triggerMatch", _status, _branches);
-  utils::setStatus(_tree, _name, "superCluster_", _status, _branches);
+  utils::setStatus(_tree, _name, "chisoPh", _branches);
+  utils::setStatus(_tree, _name, "nhisoPh", _branches);
+  utils::setStatus(_tree, _name, "phisoPh", _branches);
+  utils::setStatus(_tree, _name, "ecaliso", _branches);
+  utils::setStatus(_tree, _name, "hcaliso", _branches);
+  utils::setStatus(_tree, _name, "isoPUOffset", _branches);
+  utils::setStatus(_tree, _name, "sieie", _branches);
+  utils::setStatus(_tree, _name, "sipip", _branches);
+  utils::setStatus(_tree, _name, "eseed", _branches);
+  utils::setStatus(_tree, _name, "hOverE", _branches);
+  utils::setStatus(_tree, _name, "veto", _branches);
+  utils::setStatus(_tree, _name, "triggerMatch", _branches);
+  utils::setStatus(_tree, _name, "superCluster_", _branches);
 }
 
 void
@@ -267,28 +267,28 @@ panda::Electron::operator=(Electron const& _src)
 }
 
 void
-panda::Electron::setStatus(TTree& _tree, Bool_t _status, utils::BranchList const& _branches/* = {"*"}*/)
+panda::Electron::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Lepton::setStatus(_tree, _status, _branches);
+  Lepton::setStatus(_tree, _branches);
 
   TString name(gStore.getName(this));
 
-  utils::setStatus(_tree, name, "chisoPh", _status, _branches);
-  utils::setStatus(_tree, name, "nhisoPh", _status, _branches);
-  utils::setStatus(_tree, name, "phisoPh", _status, _branches);
-  utils::setStatus(_tree, name, "ecaliso", _status, _branches);
-  utils::setStatus(_tree, name, "hcaliso", _status, _branches);
-  utils::setStatus(_tree, name, "isoPUOffset", _status, _branches);
-  utils::setStatus(_tree, name, "sieie", _status, _branches);
-  utils::setStatus(_tree, name, "sipip", _status, _branches);
-  utils::setStatus(_tree, name, "eseed", _status, _branches);
-  utils::setStatus(_tree, name, "hOverE", _status, _branches);
-  utils::setStatus(_tree, name, "veto", _status, _branches);
-  utils::setStatus(_tree, name, "triggerMatch", _status, _branches);
-  utils::setStatus(_tree, name, "superCluster_", _status, _branches);
+  utils::setStatus(_tree, name, "chisoPh", _branches);
+  utils::setStatus(_tree, name, "nhisoPh", _branches);
+  utils::setStatus(_tree, name, "phisoPh", _branches);
+  utils::setStatus(_tree, name, "ecaliso", _branches);
+  utils::setStatus(_tree, name, "hcaliso", _branches);
+  utils::setStatus(_tree, name, "isoPUOffset", _branches);
+  utils::setStatus(_tree, name, "sieie", _branches);
+  utils::setStatus(_tree, name, "sipip", _branches);
+  utils::setStatus(_tree, name, "eseed", _branches);
+  utils::setStatus(_tree, name, "hOverE", _branches);
+  utils::setStatus(_tree, name, "veto", _branches);
+  utils::setStatus(_tree, name, "triggerMatch", _branches);
+  utils::setStatus(_tree, name, "superCluster_", _branches);
 }
 
-void
+UInt_t
 panda::Electron::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   Lepton::setAddress(_tree, _branches, _setStatus);
@@ -308,9 +308,11 @@ panda::Electron::setAddress(TTree& _tree, utils::BranchList const& _branches/* =
   utils::setAddress(_tree, name, "veto", &veto, _branches, _setStatus);
   utils::setAddress(_tree, name, "triggerMatch", triggerMatch, _branches, _setStatus);
   utils::setAddress(_tree, name, "superCluster_", gStore.getData(this).superCluster_, _branches, true);
+
+  return -1;
 }
 
-void
+UInt_t
 panda::Electron::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Lepton::book(_tree, _branches);
@@ -330,12 +332,14 @@ panda::Electron::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}
   utils::book(_tree, name, "veto", "", 'O', &veto, _branches);
   utils::book(_tree, name, "triggerMatch", TString::Format("[%d]", nElectronTriggerObjects), 'O', triggerMatch, _branches);
   utils::book(_tree, name, "superCluster_", "", 'I', gStore.getData(this).superCluster_, _branches);
+
+  return -1;
 }
 
 void
-panda::Electron::resetAddress(TTree& _tree)
+panda::Electron::releaseTree(TTree& _tree)
 {
-  Lepton::resetAddress(_tree);
+  Lepton::releaseTree(_tree);
 
   TString name(gStore.getName(this));
 

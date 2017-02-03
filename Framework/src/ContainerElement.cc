@@ -11,6 +11,12 @@ panda::ContainerElement::ContainerElement(ArrayBase* _array)
   gStore.add(this, _array);
 }
 
+char const*
+panda::ContainerElement::getName() const
+{
+  return gStore.getName(this);
+}
+
 void
 panda::ContainerElement::setName(char const* _name)
 {

@@ -18,11 +18,10 @@ namespace panda {
     UInt_t hltMenu{};
 
   protected:
-    void doSetStatus_(TTree&, Bool_t, utils::BranchList const&) override;
+    void doSetStatus_(TTree&, utils::BranchList const&) override;
     void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;
     void doBook_(TTree&, utils::BranchList const&) override;
     void doReleaseTree_(TTree&) override;
-    void doPrepareGetEntry_(Long64_t) override;
 
   public:
     /* BEGIN CUSTOM Run.h.classdef */
