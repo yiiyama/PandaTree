@@ -3,6 +3,9 @@
 panda::Event::Event() :
   TreeEntry("Event")
 {
+  objects_ = {&genReweight, &pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsCA15Jets, &puppiAK8Jets, &puppiCA15Jets, &subjets, &genJets, &genParticles, &partons, &met, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metFilters, &triggers, &recoil};
+  collections_ = {&pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsCA15Jets, &puppiAK8Jets, &puppiCA15Jets, &subjets, &genJets, &genParticles, &partons};
+
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedGenContainer_ = &genParticles;
   muons.data.matchedGenContainer_ = &genParticles;
@@ -67,6 +70,9 @@ panda::Event::Event(Event const& _src) :
   rhoCentralCalo(_src.rhoCentralCalo),
   weight(_src.weight)
 {
+  objects_ = {&genReweight, &pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsCA15Jets, &puppiAK8Jets, &puppiCA15Jets, &subjets, &genJets, &genParticles, &partons, &met, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metFilters, &triggers, &recoil};
+  collections_ = {&pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsCA15Jets, &puppiAK8Jets, &puppiCA15Jets, &subjets, &genJets, &genParticles, &partons};
+
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedGenContainer_ = &genParticles;
   muons.data.matchedGenContainer_ = &genParticles;
@@ -100,6 +106,38 @@ panda::Event::operator=(Event const& _src)
   rho = _src.rho;
   rhoCentralCalo = _src.rhoCentralCalo;
   weight = _src.weight;
+
+  genReweight = _src.genReweight;
+  pfCandidates = _src.pfCandidates;
+  superClusters = _src.superClusters;
+  electrons = _src.electrons;
+  muons = _src.muons;
+  taus = _src.taus;
+  photons = _src.photons;
+  chsAK4Jets = _src.chsAK4Jets;
+  puppiAK4Jets = _src.puppiAK4Jets;
+  chsAK8Jets = _src.chsAK8Jets;
+  chsCA15Jets = _src.chsCA15Jets;
+  puppiAK8Jets = _src.puppiAK8Jets;
+  puppiCA15Jets = _src.puppiCA15Jets;
+  subjets = _src.subjets;
+  genJets = _src.genJets;
+  genParticles = _src.genParticles;
+  partons = _src.partons;
+  met = _src.met;
+  puppiMet = _src.puppiMet;
+  rawMet = _src.rawMet;
+  caloMet = _src.caloMet;
+  noMuMet = _src.noMuMet;
+  noHFMet = _src.noHFMet;
+  trkMet = _src.trkMet;
+  neutralMet = _src.neutralMet;
+  photonMet = _src.photonMet;
+  hfMet = _src.hfMet;
+  genMet = _src.genMet;
+  metFilters = _src.metFilters;
+  triggers = _src.triggers;
+  recoil = _src.recoil;
 
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedGenContainer_ = &genParticles;

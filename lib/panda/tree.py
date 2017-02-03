@@ -112,6 +112,11 @@ class Tree(Definition, Object):
         src.indent -= 1
         src.writeline('{')
         src.indent += 1
+        if len(self.objbranches) != 0:
+            src.writeline('objects_ = {' + ', '.join(['&{name}'.format(name = b.name) for b in self.objbranches]) + '};')
+            src.writeline('collections_ = {' + ', '.join(['&{name}'.format(name = b.name) for b in self.objbranches if b.conttype == 'Collection']) + '};')
+            src.newline()
+            
         for ref in self.references:
             ref.write_def(src, self.objbranches)
         src.indent -= 1
@@ -129,6 +134,10 @@ class Tree(Definition, Object):
         src.indent -= 1
         src.writeline('{')
         src.indent += 1
+        if len(self.objbranches) != 0:
+            src.writeline('objects_ = {' + ', '.join(['&{name}'.format(name = b.name) for b in self.objbranches]) + '};')
+            src.writeline('collections_ = {' + ', '.join(['&{name}'.format(name = b.name) for b in self.objbranches if b.conttype == 'Collection']) + '};')
+            src.newline()
         for branch in self.branches:
             if branch.is_array():
                 branch.write_assign(src, context = 'TreeEntry')
@@ -145,6 +154,10 @@ class Tree(Definition, Object):
         if len(self.branches) != 0:
             for branch in self.branches:
                 branch.write_assign(src, context = 'TreeEntry')
+            src.newline()
+        if len(self.objbranches) != 0:
+            for objbranch in self.objbranches:
+                objbranch.write_assign(src)
             src.newline()
         if len(self.references) != 0:
             for ref in self.references:
