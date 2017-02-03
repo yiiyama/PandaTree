@@ -272,7 +272,7 @@ virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDe
 
 [HLTBits:SINGLE]
 words[16]/i
-size_/i
+size_/i = 512
 void set(unsigned iB) { words[iB / 32] |= (1 << (iB % 32)); }
 bool pass(unsigned iB) const { return ((words[iB / 32] >> (iB % 32)) & 1) != 0; }
 unsigned size() const { return size_; }
@@ -353,5 +353,5 @@ puppiCA15Jets.constituents->pfCandidates
 puppiCA15Jets.subjets->subjets
 
 {Run}
-run/i
+runNumber/i
 hltMenu/i

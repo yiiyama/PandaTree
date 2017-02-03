@@ -27,7 +27,7 @@ namespace panda {
     unsigned size() const { return size_; }
 
     UInt_t words[16]{};
-    UInt_t size_{};
+    UInt_t size_{512};
 
     /* BEGIN CUSTOM HLTBits.h.classdef */
     /* END CUSTOM */

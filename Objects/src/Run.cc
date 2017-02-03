@@ -7,7 +7,7 @@ panda::Run::Run() :
 
 panda::Run::Run(Run const& _src) :
   TreeEntry(),
-  run(_src.run),
+  runNumber(_src.runNumber),
   hltMenu(_src.hltMenu)
 {
 }
@@ -15,7 +15,7 @@ panda::Run::Run(Run const& _src) :
 panda::Run&
 panda::Run::operator=(Run const& _src)
 {
-  run = _src.run;
+  runNumber = _src.runNumber;
   hltMenu = _src.hltMenu;
 
   return *this;
@@ -24,7 +24,7 @@ panda::Run::operator=(Run const& _src)
 void
 panda::Run::init()
 {
-  run = 0;
+  runNumber = 0;
   hltMenu = 0;
 }
 
@@ -32,7 +32,7 @@ panda::Run::init()
 void
 panda::Run::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const& _branches)
 {
-  utils::setStatus(_tree, "", "run", _status, _branches);
+  utils::setStatus(_tree, "", "runNumber", _status, _branches);
   utils::setStatus(_tree, "", "hltMenu", _status, _branches);
 }
 
@@ -40,7 +40,7 @@ panda::Run::doSetStatus_(TTree& _tree, Bool_t _status, utils::BranchList const& 
 void
 panda::Run::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus)
 {
-  utils::setAddress(_tree, "", "run", &run, _branches, _setStatus);
+  utils::setAddress(_tree, "", "runNumber", &runNumber, _branches, _setStatus);
   utils::setAddress(_tree, "", "hltMenu", &hltMenu, _branches, _setStatus);
 }
 
@@ -48,7 +48,7 @@ panda::Run::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool
 void
 panda::Run::doBook_(TTree& _tree, utils::BranchList const& _branches)
 {
-  utils::book(_tree, "", "run", "", 'i', &run, _branches);
+  utils::book(_tree, "", "runNumber", "", 'i', &runNumber, _branches);
   utils::book(_tree, "", "hltMenu", "", 'i', &hltMenu, _branches);
 }
 

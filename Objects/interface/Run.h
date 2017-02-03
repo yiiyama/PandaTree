@@ -14,7 +14,7 @@ namespace panda {
 
     void init() override;
 
-    UInt_t run{};
+    UInt_t runNumber{};
     UInt_t hltMenu{};
 
   protected:

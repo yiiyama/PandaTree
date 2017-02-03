@@ -70,7 +70,7 @@ panda::HLTBits::init()
   Singlet::init();
 
   for (auto& p0 : words) p0 = 0;
-  size_ = 0;
+  size_ = 512;
 }
 
 
