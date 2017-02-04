@@ -44,12 +44,6 @@ panda::ContainerBase::releaseTree(TTree& _tree)
   doReleaseTree_(_tree);
 }
 
-Int_t
-panda::ContainerBase::getEntry(Long64_t _iEntry, UInt_t _treeIdx/* = 0*/)
-{
-  return inputs_[_treeIdx]->GetEntry(_iEntry);
-}
-
 /*protected*/
 void
 panda::ContainerBase::updateAddress_()

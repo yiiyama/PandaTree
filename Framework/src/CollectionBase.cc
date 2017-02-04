@@ -1,6 +1,14 @@
 #include "../interface/CollectionBase.h"
 #include "../interface/IOUtils.h"
 
+Int_t
+panda::CollectionBase::getEntry(Long64_t _iEntry, UInt_t _treeIdx)
+{
+  prepareGetEntry(_iEntry, _treeIdx);
+
+  return ContainerBase::getEntry(_iEntry, _treeIdx);
+}
+
 void
 panda::CollectionBase::resize(UInt_t _size)
 {
@@ -29,14 +37,6 @@ panda::CollectionBase::prepareGetEntry(Long64_t _iEntry, UInt_t _treeIdx)
 
   sizeIn_[_treeIdx].first->GetEntry(_iEntry);
   resize(sizeIn_[_treeIdx].second);
-}
-
-Int_t
-panda::CollectionBase::getEntry(Long64_t _iEntry, UInt_t _treeIdx)
-{
-  prepareGetEntry(_iEntry, _treeIdx);
-
-  return ContainerBase::getEntry(_iEntry, _treeIdx);
 }
 
 /*protected*/

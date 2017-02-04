@@ -20,19 +20,12 @@ namespace panda {
     void setStatus(TTree&, utils::BranchList const& blist) final;
     UInt_t setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
     void book(TTree&, utils::BranchList const& blist = {"*"}) final;
+    Int_t getEntry(Long64_t entry, UInt_t treeIdx = 0) final;
+    TTree* getInput(UInt_t treeIdx = 0) const final { return inputs_.at(treeIdx); }
     void releaseTree(TTree&) final;
     void init() final;
     char const* getName() const final { return name_; }
     void setName(char const* name) final { name_ = name; }
-    
-    //! Read an entry from the input tree.
-    /*!
-     * \param entry     Entry number
-     * \param treeIdx   Serial number of the input tree (default 0).
-     */
-    Int_t getEntry(Long64_t entry, UInt_t treeIdx = 0);
-
-    TTree* getInput(UInt_t treeIdx = 0) const { return inputs_.at(treeIdx); }
 
   protected:
     virtual void doSetStatus_(TTree&, utils::BranchList const&) {}

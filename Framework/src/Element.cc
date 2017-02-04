@@ -32,15 +32,22 @@ panda::Element::setStatus(TTree& _tree, utils::BranchList const& _branches/* = {
 UInt_t
 panda::Element::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  doSetAddress_(_tree, gStore.getName(this), _branches, _setStatus);
+  auto& arr(gStore.getArray(this));
+  doSetAddress_(_tree, arr.getName(), _branches, _setStatus);
 
-  return -1;
+  return arr.addInput_(_tree);
 }
 
 void
 panda::Element::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   doBook_(_tree, gStore.getName(this), _branches);
+}
+
+TTree*
+panda::Element::getInput(UInt_t treeIdx/* = 0*/) const
+{
+  return gStore.getArray(this).getInput(treeIdx);
 }
 
 void

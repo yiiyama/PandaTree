@@ -10,35 +10,39 @@ namespace panda {
 
   //! Base class for dynamic-size containers.
   /*!
-    Panda containers can be fixed-size (Array) or dynamic-size (Collection). Dynaic-size containers
-    are similar to std::vectors.
+   * Panda containers can be fixed-size (Array) or dynamic-size (Collection). Dynaic-size containers
+   * are similar to std::vectors.
    */
   class CollectionBase : public ContainerBase {
   public:
     CollectionBase(CollectionBase const& src) : ContainerBase(src), size_(src.size_) {}
     ~CollectionBase() {}
 
+    Int_t getEntry(Long64_t entry, UInt_t = 0) final;
     void init() final { clear(); }
-
-    //! Return the current size of the container.
-    UInt_t size() const override { return size_; }
+    UInt_t size() const final { return size_; }
 
     //! Resize the container.
     /*!
-      If expanding, init() is invoked on all new elements.
-
-      \param size   New collection size.
-    */
+     * If expanding, init() is invoked on all new elements.
+     *
+     * \param size   New collection size.
+     */
     void resize(UInt_t size);
 
+    //! Clear the container (set size = 0)
     void clear() { size_ = 0; getData().resizeVectors_(0); }
 
+    //! Run a look-ahead of the entry to determine the collection resize.
     /*!
-      Run a look-ahead of the entry to determine the collection resize
-    */
-    void prepareGetEntry(Long64_t, UInt_t treeIdx = 0);
-
-    Int_t getEntry(Long64_t, UInt_t = 0) final;
+     * To read a collection of N objects, we must have more than N slots allocated in memory.
+     * Since ROOT cannot automatically take care of resizing the array, we need to load the "size"
+     * branch first and reallocate memory if necessary.
+     *
+     * \param entry   Entry number in the input tree.
+     * \param treeIdx Input tree ID (as returned by setAddress).
+     */
+    void prepareGetEntry(Long64_t entry, UInt_t treeIdx = 0);
 
   protected:
     CollectionBase(char const* name, UInt_t unitSize, Bool_t dummy) : ContainerBase(name, unitSize) {}

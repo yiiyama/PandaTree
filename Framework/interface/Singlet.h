@@ -1,17 +1,18 @@
 #ifndef PandaTree_Framework_Singlet_h
 #define PandaTree_Framework_Singlet_h
 
-//! Base class for singlet objects.
-/*!
-  Singlet objects are owners of its data, in contrast to Element.
-*/
-
 #include "Object.h"
 
 #include "TString.h"
 
+#include <vector>
+
 namespace panda {
 
+  //! Base class for singlet objects.
+  /*!
+    Singlet objects are owners of their data, in contrast to Element.
+  */
   class Singlet : public Object {
   public:
     Singlet(char const* name = "") : Object(), name_(name) {}
@@ -22,6 +23,7 @@ namespace panda {
     void setStatus(TTree&, utils::BranchList const& blist) final;
     UInt_t setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
     void book(TTree&, utils::BranchList const& blist = {"*"}) final;
+    TTree* getInput(UInt_t treeIdx = 0) const final { return inputs_.at(treeIdx); }
     void releaseTree(TTree&) final;
     void init() final { doInit_(); }
     char const* getName() const final { return name_; }
@@ -35,6 +37,7 @@ namespace panda {
     virtual void doInit_() {}
 
     TString name_{};
+    std::vector<TTree*> inputs_{};
   };
 
 }

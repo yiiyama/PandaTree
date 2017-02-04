@@ -23,6 +23,7 @@ namespace panda {
     void setStatus(TTree&, utils::BranchList const& blist) final;
     UInt_t setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
     void book(TTree&, utils::BranchList const& blist = {"*"}) final;
+    TTree* getInput(UInt_t treeIdx = 0) const final { return inputs_.at(treeIdx); }
     void releaseTree(TTree&) final;
     char const* getName() const final { return name_; }
     void setName(char const* name) final { name_ = name; }
@@ -41,11 +42,6 @@ namespace panda {
      * \param fct   A function that takes two Elements and returns true if the first element should come before the second in the sorted list.
     */
     virtual std::vector<UInt_t> sort(Comparison const& fct) = 0;
-
-    /*!
-      Called when using the container as a standalone input
-    */
-    virtual Int_t getEntry(Long64_t, UInt_t = 0);
 
   protected:
     ContainerBase(char const* name, UInt_t unitSize) : name_(name), unitSize_(unitSize) {}

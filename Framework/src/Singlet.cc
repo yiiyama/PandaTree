@@ -10,8 +10,9 @@ UInt_t
 panda::Singlet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   doSetAddress_(_tree, _branches, _setStatus);
+  inputs_.push_back(&_tree);
 
-  return -1;
+  return inputs_.size() - 1;
 }
 
 void

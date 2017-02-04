@@ -34,3 +34,11 @@ panda::ArrayBase::doReleaseTree_(TTree& _tree)
 {
   getData().releaseTree(_tree, name_);
 }
+
+/*private*/
+UInt_t
+panda::ArrayBase::addInput_(TTree& _tree)
+{
+  inputs_.push_back(&_tree);
+  return inputs_.size() - 1;
+}
