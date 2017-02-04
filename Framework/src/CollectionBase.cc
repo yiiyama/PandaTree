@@ -32,7 +32,7 @@ panda::CollectionBase::resize(UInt_t _size)
 void
 panda::CollectionBase::prepareGetEntry(Long64_t _iEntry, UInt_t _treeIdx)
 {
-  if (_treeIdx >= inputs_.size() || !inputs_[_treeIdx])
+  if (_treeIdx >= inputs_.size() || !inputs_[_treeIdx] || !sizeIn_[_treeIdx].first)
     return;
 
   sizeIn_[_treeIdx].first->GetEntry(_iEntry);
@@ -61,10 +61,11 @@ panda::CollectionBase::doSetAddress_(TTree& _tree, utils::BranchList const& _bra
 {
   if (_asInput) {
     auto* branch(_tree.GetBranch(name_ + ".size"));
+    sizeIn_.emplace_back(branch, 0);
+
     if (!branch)
       return;
 
-    sizeIn_.emplace_back(branch, 0);
     auto& sz(sizeIn_.back());
 
     Int_t sizeStatus(utils::setAddress(_tree, name_, "size", &sz.second, {"size"}, _setStatus));

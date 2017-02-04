@@ -17,7 +17,8 @@ namespace panda {
    */
   class ContainerBase : public Object {
   public:
-    ContainerBase(ContainerBase const& src) : name_(src.name_), unitSize_(src.unitSize_) {}
+    ContainerBase() {}
+    ContainerBase(ContainerBase const& src) : Object(), name_(src.name_), unitSize_(src.unitSize_) {}
     virtual ~ContainerBase() {}
 
     void setStatus(TTree&, utils::BranchList const& blist) final;
@@ -51,8 +52,8 @@ namespace panda {
     virtual void doBook_(TTree&, utils::BranchList const&) = 0;
     virtual void doReleaseTree_(TTree&) = 0;
 
-    TString name_;
-    UInt_t const unitSize_;
+    TString name_{""};
+    UInt_t const unitSize_{0};
     Char_t* array_{0};
     std::vector<TTree*> inputs_{};
   };
