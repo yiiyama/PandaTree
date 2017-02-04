@@ -11,8 +11,8 @@ namespace panda {
 
   //! Base class for singlet objects.
   /*!
-    Singlet objects are owners of their data, in contrast to Element.
-  */
+   * Singlet objects are owners of their data, in contrast to Element.
+   */
   class Singlet : public Object {
   public:
     Singlet(char const* name = "") : Object(), name_(name) {}

@@ -6,6 +6,7 @@
 namespace panda {
   namespace utils {
 
+    //! Iterator class for containers.
     template<class C, bool is_const>
     class Iterator {
       typedef C container_type;

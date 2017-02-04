@@ -2,7 +2,8 @@
 #define PandaTree_Objects_Jet_h
 #include "Constants.h"
 #include "MicroJet.h"
-#include "../../Framework/interface/Container.h"
+#include "../../Framework/interface/Array.h"
+#include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
 #include "GenJet.h"

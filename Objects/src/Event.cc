@@ -285,22 +285,24 @@ panda::Event::triggerMenu() const
 Bool_t
 panda::Event::initRun_() const
 {
-  if (!currentInput_)
+  if (currentInputIdx_ > inputs_.size())
     return false;
+
+  auto* input(inputs_[currentInputIdx_]);
 
   bool newRun(runNumber != runCache_.runNumber);
 
-  if (currentInput_->GetTreeNumber() != runCache_.treeNumber) {
+  if (input->GetTreeNumber() != runCache_.treeNumber) {
     // reading a new input file - refresh all cache
     
-    runCache_.treeNumber = currentInput_->GetTreeNumber();
+    runCache_.treeNumber = input->GetTreeNumber();
 
     // clear out the cache
     runCache_.triggerMenuNames.clear();
     runCache_.triggerIndicesStore.clear();
     runCache_.runToMenuIdMap.clear();
 
-    auto* inputFile(currentInput_->GetCurrentFile());
+    auto* inputFile(input->GetCurrentFile());
     if (!inputFile)
       return false;
 

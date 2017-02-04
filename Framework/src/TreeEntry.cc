@@ -31,28 +31,19 @@ panda::TreeEntry::setAddress(TTree& _tree, utils::BranchList const& _branches/* 
 void
 panda::TreeEntry::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  if (std::find(outputs_.begin(), outputs_.end(), &_tree) != outputs_.end())
-    throw std::runtime_error("TreeEntry::book tree branch already booked");
-
   for (auto* obj : objects_)
     obj->book(_tree, _branches.subList(obj->getName()));
 
   doBook_(_tree, _branches);
-  outputs_.push_back(&_tree);
 }
 
 void
 panda::TreeEntry::releaseTree(TTree& _tree)
 {
-  for (auto*& tree : inputs_) {
-    if (tree == &_tree) {
-      tree = 0;
-      if (currentInput_ == tree)
-        currentInput_ = 0;
-    }
-  }
+  if (inputs_[currentInputIdx_] == &_tree)
+    currentInputIdx_ = -1;
 
-  for (auto*& tree : outputs_) {
+  for (auto*& tree : inputs_) {
     if (tree == &_tree)
       tree = 0;
   }
@@ -78,11 +69,11 @@ panda::TreeEntry::getEntry(Long64_t _entry, UInt_t _treeIdx/* = 0*/)
   if (_treeIdx >= inputs_.size() || !inputs_[_treeIdx])
     return -1;
 
-  currentInput_ = inputs_[_treeIdx];
+  currentInputIdx_ = _treeIdx;
 
   // call prepareGetEntry on collections
   for (unsigned iC(0); iC != collections_.size(); ++iC)
     collections_[iC]->prepareGetEntry(_entry, collInputTokens_[_treeIdx][iC]);
 
-  return currentInput_->GetEntry(_entry);
+  return inputs_[_treeIdx]->GetEntry(_entry);
 }

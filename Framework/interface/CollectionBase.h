@@ -25,7 +25,8 @@ namespace panda {
     //! Resize the container.
     /*!
      * If expanding, init() is invoked on all new elements.
-     *
+     * If the new size is greater than nmax, data will be reallocated, making all references invalid.
+     * 
      * \param size   New collection size.
      */
     void resize(UInt_t size);
@@ -47,13 +48,15 @@ namespace panda {
   protected:
     CollectionBase(char const* name, UInt_t unitSize, Bool_t dummy) : ContainerBase(name, unitSize) {}
 
-    UInt_t size_{0};
+    void doSetStatus_(TTree&, utils::BranchList const&) final;
+    void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus, Bool_t asInput) final;
+    void doBook_(TTree&, utils::BranchList const&) final;
+    void doReleaseTree_(TTree&) final;
 
-  private:
-    void doSetStatus_(TTree&, utils::BranchList const&) override;
-    void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus, Bool_t asInput) override;
-    void doBook_(TTree&, utils::BranchList const&) override;
-    void doReleaseTree_(TTree&) override;
+    virtual void reallocate_(UInt_t) = 0;
+
+    //! Collection size
+    UInt_t size_{0};
 
     //! Size information lookahead
     /*!
@@ -61,6 +64,12 @@ namespace panda {
      * For each input tree, we keep the branch for size and its bound integer.
      */
     std::vector<std::pair<TBranch*, UInt_t>> sizeIn_{};
+
+    //! List of bound outputs
+    /*!
+     * When resize & reallocation happens, we need to update the addresses at the output trees too.
+     */
+    std::vector<TTree*> outputs_{};
   };
 
 }

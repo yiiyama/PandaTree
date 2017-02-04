@@ -46,22 +46,15 @@ namespace panda {
   protected:
     ContainerBase(char const* name, UInt_t unitSize) : name_(name), unitSize_(unitSize) {}
 
-    virtual void allocate_(UInt_t) = 0;
-    virtual void deallocate_() = 0;
-    virtual void reallocate_(UInt_t) = 0;
-
     virtual void doSetStatus_(TTree&, utils::BranchList const&) = 0;
     virtual void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus, Bool_t asInput) = 0;
     virtual void doBook_(TTree&, utils::BranchList const&) = 0;
     virtual void doReleaseTree_(TTree&) = 0;
 
-    void updateAddress_();
-
     TString name_;
     UInt_t const unitSize_;
     Char_t* array_{0};
     std::vector<TTree*> inputs_{};
-    std::vector<TTree*> outputs_{};
   };
 
 }

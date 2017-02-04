@@ -79,7 +79,8 @@ class PhysicsObject(Definition, Object):
                 header.writeline(stmt)
                 included.append(stmt)
 
-        header.writeline('#include "../../Framework/interface/Container.h"')
+        header.writeline('#include "../../Framework/interface/Array.h"')
+        header.writeline('#include "../../Framework/interface/Collection.h"')
         header.writeline('#include "../../Framework/interface/Ref.h"')
         header.writeline('#include "../../Framework/interface/RefVector.h"')
 

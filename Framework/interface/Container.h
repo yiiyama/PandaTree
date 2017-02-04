@@ -177,7 +177,7 @@ namespace panda {
       throw std::runtime_error((ContainerBase::name_ + "::copy incompatible array").Data());
 
     if (_src.getData().nmax() != getData().nmax())
-      reallocate_(_src.getData().nmax());
+      throw std::runtime_error((ContainerBase::name_ + "::copy array size does not match").Data());
     
     for (UInt_t iP(0); iP != max_(); ++iP)
       (*this)[iP] = _src[iP];
@@ -285,38 +285,32 @@ namespace panda {
     _data.deallocate();
   }
 
+
   /*protected*/
   template<class E, Bool_t FIXED>
-  void
+  template<Bool_t T/* = FIXED*/>
+  typename std::enable_if<!T>::type
   Container<E, FIXED>::reallocate_(UInt_t _nmax)
   {
-    if (FIXED) {
-      // Straight deallocation - container pointers of Ref branches are lost
-      // No problem as long as this is only called right before a copy operation
-      deallocate_();
-      allocate_(_nmax);
-    }
-    else {
-      // keep the copy of the pointers temporarily
-      // tmpStore is not directly used but is linked from tmpArray
-      // tmpStore is itself a bunch of pointers (no values are copied here)
-      auto tmpStore(data);
-      auto* tmpArray(reinterpret_cast<value_type*>(ContainerBase::array_));
+    // keep the copy of the pointers temporarily
+    // tmpStore is not directly used but is linked from tmpArray
+    // tmpStore is itself a bunch of pointers (no values are copied here)
+    auto tmpStore(data);
+    auto* tmpArray(reinterpret_cast<value_type*>(ContainerBase::array_));
 
-      // allocate new space
-      allocate_(_nmax);
+    // allocate new space
+    allocate_(_nmax);
 
-      // copy old values
-      // max_() = CollectionBase::size_ still has the old value
-      for (UInt_t iP(0); iP != max_(); ++iP)
-        (*this)[iP] = tmpArray[iP];
+    // copy old values
+    // max_() = CollectionBase::size_ still has the old value
+    for (UInt_t iP(0); iP != max_(); ++iP)
+      (*this)[iP] = tmpArray[iP];
 
-      // deallocate old space
-      deallocate_(tmpArray, tmpStore);
-    }
+    // deallocate old space
+    deallocate_(tmpArray, tmpStore);
 
     // update input and output pointers
-    ContainerBase::updateAddress_();
+    CollectionBase::updateAddress_();
   }
 
   template<class E>

@@ -1,12 +1,6 @@
 #ifndef PandaTree_Framework_RefVector_h
 #define PandaTree_Framework_RefVector_h
 
-//! A vector of references to elements in a container.
-/*!
-  The vector version of Ref, where the container is shared between the elements (individual refs).
-  A vector of index integers, instead of a single integer, is written to the tree.
-*/
-
 #include "ContainerBase.h"
 #include "Ref.h"
 
@@ -15,6 +9,11 @@
 
 namespace panda {
 
+  //! A vector of references to elements in a container.
+  /*!
+   * The vector version of Ref, where the container is shared between the elements (individual refs).
+   * A vector of index integers, instead of a single integer, is written to the tree.
+   */
   template<class E>
   class RefVector {
   public:
@@ -26,9 +25,9 @@ namespace panda {
     RefVector() {}
     //! Standard constructor.
     /*!
-      The container must be a derived class of Array<E> or Collection<E>. There is no protection against
-      assigning a wrong type of container.
-    */
+     * The container must be a derived class of Array<E> or Collection<E>. There is no protection against
+     * assigning a wrong type of container.
+     */
     RefVector(ContainerBase const*& c, Indices& indices) : container_(&c), indices_(&indices) {}
     //! Copy constructor.
     RefVector(self_type const& orig) : container_(orig.container_), indices_(orig.indices_) {}
@@ -36,9 +35,9 @@ namespace panda {
     void setIndices(Indices& indices) { indices_ = &indices; }
     //! Set the container (an Array or a Collection).
     /*!
-      The container must be a derived class of Array<E> or Collection<E>. There is no protection against
-      assigning a wrong type of container.
-    */
+     * The container must be a derived class of Array<E> or Collection<E>. There is no protection against
+     * assigning a wrong type of container.
+     */
     void setContainer(ContainerBase const*& c) { container_ = &c; }
     //! Element (ref) accessor.
     Ref<value_type> at(UInt_t) const;
@@ -48,31 +47,31 @@ namespace panda {
     self_type& operator=(self_type const&);
     //! Setter function
     /*!
-      Pass a value_type object after the container is set.
-      If the object is found in the collector, pushes the index value.
-    */
+     * Pass a value_type object after the container is set.
+     * If the object is found in the collector, pushes the index value.
+     */
     void push_back(value_type const&);
     //! Setter function
     /*!
-      Pushes back a ref if the container is common.
-    */
+     * Pushes back a ref if the container is common.
+     */
     void push_back(Ref<E> const&);
     //! Clear operation.
     void clear() { if (indices_) indices_->clear(); }
     //! Initializer
     /*!
-      Invalidates the index by setting it to 0xffffffff.
-    */
+     * Invalidates the index by setting it to 0xffffffff.
+     */
     void init() { clear(); }
     //! Accessor to indices
     /*!
-      Throws a runtime_error if indices is NULL.
-    */
+     * Throws a runtime_error if indices is NULL.
+     */
     Indices*& indices();
     //! Accessor to container
     /*!
-      Throws a runtime_error if container is not valid.
-    */
+     * Throws a runtime_error if container is not valid.
+     */
     ContainerBase const* container() const;
 
   private:

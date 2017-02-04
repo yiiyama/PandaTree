@@ -1,23 +1,21 @@
 #ifndef PandaTree_Framework_Ref_h
 #define PandaTree_Framework_Ref_h
 
-//! A reference to an element in a container.
-/*!
-  A Ref consists of a pointer reference to a collection and an integer that acts as the index to the element referred to.
-  The references are supplied by the holder of the Ref during construction. At read time, the holder of the
-  Ref is responsible for instructing the Ref to point to a specific index in the given collection. At write time,
-  the Ref can be passed a pointer to the element to point to, using the operator=. The Ref object will find the
-  proper index internally.
-  The class has pointer-like operators (-> and *) to make the implementation details transparent to users.
-*/
-
 #include "ContainerBase.h"
 
 #include <stdexcept>
-#include <type_traits>
 
 namespace panda {
 
+  //! A reference to an element in a container.
+  /*!
+   * A Ref consists of a pointer reference to a collection and an integer that acts as the index to the element referred to.
+   * The references are supplied by the holder of the Ref during construction. At read time, the holder of the
+   * Ref is responsible for instructing the Ref to point to a specific index in the given collection. At write time,
+   * the Ref can be passed a pointer to the element to point to, using the operator=. The Ref object will find the
+   * proper index internally.
+   * The class has pointer-like operators (-> and *) to make the implementation details transparent to users.
+   */
   template<class E>
   class Ref {
   public:
@@ -28,9 +26,9 @@ namespace panda {
     Ref() {}
     //! Standard constructor.
     /*!
-      The container must be a derived class of Array<E> or Collection<E>. There is no protection against
-      assigning a wrong type of container.
-    */
+     * The container must be a derived class of Array<E> or Collection<E>. There is no protection against
+     * assigning a wrong type of container.
+     */
     Ref(ContainerBase const*& c, Int_t& idx) : container_(&c), idx_(&idx) {}
     //! Copy constructor.
     Ref(self_type const& orig) : container_(orig.container_), idx_(orig.idx_) {}
@@ -38,48 +36,48 @@ namespace panda {
     void setIndex(Int_t& idx) { idx_ = &idx; }
     //! Set the container.
     /*!
-      The container must be a derived class of Array<E> or Collection<E>. There is no protection against
-      assigning a wrong type of container.
-    */
+     * The container must be a derived class of Array<E> or Collection<E>. There is no protection against
+     * assigning a wrong type of container.
+     */
     void setContainer(ContainerBase const*& c) { container_ = &c; }
     //! The arrow operator.
     /*!
-      Returns a null pointer if the container is not set or the index points to an invalid location.
-    */
+     * Returns a null pointer if the container is not set or the index points to an invalid location.
+     */
     value_type const* operator->() const;
     //! The dereference operator.
     /*!
-      Throws an invalid_argument exception if the reference is invalid.
-    */
+     * Throws an invalid_argument exception if the reference is invalid.
+     */
     value_type const& operator*() const;
     //! Setter function
     /*!
-      Pass a pointer to a value_type object on the right hand side after the container is set.
-      If the object is found in the collector, sets the index value.
-    */
+     * Pass a pointer to a value_type object on the right hand side after the container is set.
+     * If the object is found in the collector, sets the index value.
+     */
     self_type& operator=(value_type const*);
     //! Copy assignment
     /*!
-      idx is copied by value. Change in the right-hand-side index value after the assignment
-      is not reflected to the left-hand-side index.
-    */
+     * idx is copied by value. Change in the right-hand-side index value after the assignment
+     * is not reflected to the left-hand-side index.
+     */
     self_type& operator=(self_type const&);
     //! Validity check. Both container and idx must be valid, and idx must not be 0xffffffff.
     bool isValid() const { return container_ && *container_ && idx_ && (*idx_) < (*container_)->size(); }
     //! Initializer
     /*!
-      Invalidates the index by setting it to 0xffffffff.
-    */
+     * Invalidates the index by setting it to 0xffffffff.
+     */
     void init() { if (idx_) (*idx_) = -1; }
     //! Accessor to idx
     /*!
-      Throws a runtime_error if idx is not valid.
-    */
+     * Throws a runtime_error if idx is not valid.
+     */
     Int_t& idx();
     //! Accessor to container
     /*!
-      Throws a runtime_error if container is not valid.
-    */
+     * Throws a runtime_error if container is not valid.
+     */
     ContainerBase const* container() const;
 
   private:
