@@ -33,6 +33,18 @@ panda::GenParticle::datastore::setStatus(TTree& _tree, TString const& _name, uti
   utils::setStatus(_tree, _name, "parent_", _branches);
 }
 
+panda::utils::BranchList
+panda::GenParticle::datastore::getStatus(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(ParticleM::datastore::getStatus(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "pdgid"));
+  blist.push_back(utils::getStatus(_tree, _name, "statusFlags"));
+  blist.push_back(utils::getStatus(_tree, _name, "parent_"));
+
+  return blist;
+}
+
 void
 panda::GenParticle::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -144,6 +156,18 @@ panda::GenParticle::doSetStatus_(TTree& _tree, TString const& _name, utils::Bran
   utils::setStatus(_tree, _name, "pdgid", _branches);
   utils::setStatus(_tree, _name, "statusFlags", _branches);
   utils::setStatus(_tree, _name, "parent_", _branches);
+}
+
+panda::utils::BranchList
+panda::GenParticle::doGetStatus_(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(ParticleM::doGetStatus_(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "pdgid"));
+  blist.push_back(utils::getStatus(_tree, _name, "statusFlags"));
+  blist.push_back(utils::getStatus(_tree, _name, "parent_"));
+
+  return blist;
 }
 
 void

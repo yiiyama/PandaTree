@@ -51,10 +51,10 @@ panda::FileMerger::addInput(char const* _path)
 }
 
 void
-panda::FileMerger::selectBranches(utils::BranchList const& _blist, Bool_t _onRead/* = kFALSE*/)
+panda::FileMerger::selectBranches(utils::BranchList const& _blist, Bool_t _onRead/* = kFALSE*/, TreeType _ttype/* = kEvent*/)
 {
-  branchList_ = _blist;
-  applyBranchListOnRead_ = _onRead;
+  branchList_[_ttype] = _blist;
+  applyBranchListOnRead_[_ttype] = _onRead;
 }
 
 void
@@ -69,6 +69,7 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
   // we save the first occurence (file index, entry number) and read them out later
   // (currently Run only has the run number and HLT index, so this is a total overkill)
   std::map<UInt_t, std::pair<unsigned, long>> runSources{};
+  utils::BranchList runBranches;
   std::map<UInt_t, unsigned> runToMenuMap{};
   std::vector<TString> hltMenuList{};
   std::vector<std::vector<TString>> hltPathsList{};
@@ -120,14 +121,17 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
         delete obj;
       }
 
+      auto blist(event.getStatus(*inEventTree));
+      blist += branchList_[kEvent];
+
       outputFile->cd();
       outEventTree = new TTree("events", "Events");
-      event.book(*outEventTree, branchList_);
+      event.book(*outEventTree, blist);
     }
 
     // fill events
-    if (applyBranchListOnRead_)
-      event.setAddress(*inEventTree, branchList_);
+    if (applyBranchListOnRead_[kEvent])
+      event.setAddress(*inEventTree, branchList_[kEvent]);
     else
       event.setAddress(*inEventTree);
 
@@ -151,7 +155,16 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
       // collect HLT and run info
 
       panda::Run run;
-      run.setAddress(*inRunTree);
+
+      if (runBranches.size() == 0) {
+        runBranches = run.getStatus(*inRunTree);
+        runBranches += branchList_[kRun];
+      }
+
+      if (applyBranchListOnRead_[kRun])
+        run.setAddress(*inRunTree, branchList_[kRun]);
+      else
+        run.setAddress(*inRunTree);
 
       auto* inHLTTree(static_cast<TTree*>(source->Get("hlt")));
       TString* hltMenu(0);
@@ -218,7 +231,7 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
     TTree* outRunTree(new TTree("runs", "Runs"));
 
     panda::Run run;
-    run.book(*outRunTree);
+    run.book(*outRunTree, runBranches);
 
     for (auto& runSource : runSources) {
       auto* source(TFile::Open(paths_[runSource.second.first]));

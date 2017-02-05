@@ -60,6 +60,7 @@ ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<Int_t>>*
       void allocate(UInt_t n) override;
       void deallocate() override;
       void setStatus(TTree&, TString const&, utils::BranchList const&) override;
+      utils::BranchList getStatus(TTree&, TString const&) const override;
       void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
       void releaseTree(TTree&, TString const&) override;
@@ -130,6 +131,7 @@ ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<Int_t>>*
     FatJet(ArrayBase*);
 
     void doSetStatus_(TTree&, TString const&, utils::BranchList const&) override;
+    utils::BranchList doGetStatus_(TTree&, TString const&) const override;
     void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doReleaseTree_(TTree&, TString const&) override;

@@ -57,6 +57,24 @@ panda::Lepton::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
   utils::setStatus(_tree, _name, "matchedGen_", _branches);
 }
 
+panda::utils::BranchList
+panda::Lepton::datastore::getStatus(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(Particle::datastore::getStatus(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "q"));
+  blist.push_back(utils::getStatus(_tree, _name, "loose"));
+  blist.push_back(utils::getStatus(_tree, _name, "medium"));
+  blist.push_back(utils::getStatus(_tree, _name, "tight"));
+  blist.push_back(utils::getStatus(_tree, _name, "chiso"));
+  blist.push_back(utils::getStatus(_tree, _name, "nhiso"));
+  blist.push_back(utils::getStatus(_tree, _name, "phoiso"));
+  blist.push_back(utils::getStatus(_tree, _name, "puiso"));
+  blist.push_back(utils::getStatus(_tree, _name, "matchedGen_"));
+
+  return blist;
+}
+
 void
 panda::Lepton::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -228,6 +246,24 @@ panda::Lepton::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchLis
   utils::setStatus(_tree, _name, "phoiso", _branches);
   utils::setStatus(_tree, _name, "puiso", _branches);
   utils::setStatus(_tree, _name, "matchedGen_", _branches);
+}
+
+panda::utils::BranchList
+panda::Lepton::doGetStatus_(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(Particle::doGetStatus_(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "q"));
+  blist.push_back(utils::getStatus(_tree, _name, "loose"));
+  blist.push_back(utils::getStatus(_tree, _name, "medium"));
+  blist.push_back(utils::getStatus(_tree, _name, "tight"));
+  blist.push_back(utils::getStatus(_tree, _name, "chiso"));
+  blist.push_back(utils::getStatus(_tree, _name, "nhiso"));
+  blist.push_back(utils::getStatus(_tree, _name, "phoiso"));
+  blist.push_back(utils::getStatus(_tree, _name, "puiso"));
+  blist.push_back(utils::getStatus(_tree, _name, "matchedGen_"));
+
+  return blist;
 }
 
 void

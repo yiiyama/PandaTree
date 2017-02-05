@@ -25,6 +25,16 @@ panda::Muon::datastore::setStatus(TTree& _tree, TString const& _name, utils::Bra
   utils::setStatus(_tree, _name, "triggerMatch", _branches);
 }
 
+panda::utils::BranchList
+panda::Muon::datastore::getStatus(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(Lepton::datastore::getStatus(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "triggerMatch"));
+
+  return blist;
+}
+
 void
 panda::Muon::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -116,6 +126,16 @@ panda::Muon::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList 
   Lepton::doSetStatus_(_tree, _name, _branches);
 
   utils::setStatus(_tree, _name, "triggerMatch", _branches);
+}
+
+panda::utils::BranchList
+panda::Muon::doGetStatus_(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(Lepton::doGetStatus_(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "triggerMatch"));
+
+  return blist;
 }
 
 void

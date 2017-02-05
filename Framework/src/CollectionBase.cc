@@ -41,6 +41,20 @@ panda::CollectionBase::prepareGetEntry(Long64_t _iEntry, UInt_t _treeIdx)
 
 /*protected*/
 void
+panda::CollectionBase::resetAddress_()
+{
+  for (auto* tree : inputs_) {
+    if (tree)
+      doSetAddress_(*tree, {"*"}, false, true);
+  }
+  for (auto* tree : outputs_) {
+    if (tree)
+      doSetAddress_(*tree, {"*"}, false, false);
+  }
+}
+
+/*private*/
+void
 panda::CollectionBase::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 {
   if (!_tree.GetBranch(name_ + ".size"))
@@ -55,7 +69,23 @@ panda::CollectionBase::doSetStatus_(TTree& _tree, utils::BranchList const& _bran
   getData().setStatus(_tree, name_, _branches);
 }
 
-/*protected*/
+/*private*/
+panda::utils::BranchList
+panda::CollectionBase::doGetStatus_(TTree& _tree) const
+{
+  utils::BranchList blist;
+
+  if (_tree.GetBranch(name_ + ".size") && _tree.GetBranchStatus(name_ + ".size"))
+    blist.emplace_back(name_ + ".size");
+  else
+    blist.emplace_back("!" + name_ + ".size");
+
+  blist += getData().getStatus(_tree, name_);
+
+  return blist;
+}
+
+/*private*/
 void
 panda::CollectionBase::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus, Bool_t _asInput)
 {
@@ -81,7 +111,7 @@ panda::CollectionBase::doSetAddress_(TTree& _tree, utils::BranchList const& _bra
   getData().setAddress(_tree, name_, _branches, _setStatus);
 }
 
-/*protected*/
+/*private*/
 void
 panda::CollectionBase::doBook_(TTree& _tree, utils::BranchList const& _branches)
 {
@@ -93,7 +123,7 @@ panda::CollectionBase::doBook_(TTree& _tree, utils::BranchList const& _branches)
   getData().book(_tree, name_, _branches, true);
 }
 
-/*protected*/
+/*private*/
 void
 panda::CollectionBase::doReleaseTree_(TTree& _tree)
 {

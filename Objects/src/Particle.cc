@@ -33,6 +33,18 @@ panda::Particle::datastore::setStatus(TTree& _tree, TString const& _name, utils:
   utils::setStatus(_tree, _name, "phi", _branches);
 }
 
+panda::utils::BranchList
+panda::Particle::datastore::getStatus(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(Element::datastore::getStatus(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "pt"));
+  blist.push_back(utils::getStatus(_tree, _name, "eta"));
+  blist.push_back(utils::getStatus(_tree, _name, "phi"));
+
+  return blist;
+}
+
 void
 panda::Particle::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -127,8 +139,6 @@ panda::Particle::destructor()
 panda::Particle&
 panda::Particle::operator=(Particle const& _src)
 {
-  Element::operator=(_src);
-
   pt = _src.pt;
   eta = _src.eta;
   phi = _src.phi;
@@ -139,18 +149,26 @@ panda::Particle::operator=(Particle const& _src)
 void
 panda::Particle::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  Element::doSetStatus_(_tree, _name, _branches);
-
   utils::setStatus(_tree, _name, "pt", _branches);
   utils::setStatus(_tree, _name, "eta", _branches);
   utils::setStatus(_tree, _name, "phi", _branches);
 }
 
+panda::utils::BranchList
+panda::Particle::doGetStatus_(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist;
+
+  blist.push_back(utils::getStatus(_tree, _name, "pt"));
+  blist.push_back(utils::getStatus(_tree, _name, "eta"));
+  blist.push_back(utils::getStatus(_tree, _name, "phi"));
+
+  return blist;
+}
+
 void
 panda::Particle::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Element::doSetAddress_(_tree, _name, _branches, _setStatus);
-
   utils::setAddress(_tree, _name, "pt", &pt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "eta", &eta, _branches, _setStatus);
   utils::setAddress(_tree, _name, "phi", &phi, _branches, _setStatus);
@@ -159,8 +177,6 @@ panda::Particle::doSetAddress_(TTree& _tree, TString const& _name, utils::Branch
 void
 panda::Particle::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Element::doBook_(_tree, _name, _branches);
-
   utils::book(_tree, _name, "pt", "", 'F', &pt, _branches);
   utils::book(_tree, _name, "eta", "", 'F', &eta, _branches);
   utils::book(_tree, _name, "phi", "", 'F', &phi, _branches);
@@ -169,8 +185,6 @@ panda::Particle::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
 void
 panda::Particle::doReleaseTree_(TTree& _tree, TString const& _name)
 {
-  Element::doReleaseTree_(_tree, _name);
-
   utils::resetAddress(_tree, _name, "pt");
   utils::resetAddress(_tree, _name, "eta");
   utils::resetAddress(_tree, _name, "phi");
@@ -179,8 +193,6 @@ panda::Particle::doReleaseTree_(TTree& _tree, TString const& _name)
 void
 panda::Particle::doInit_()
 {
-  Element::doInit_();
-
   pt = 0.;
   eta = 0.;
   phi = 0.;

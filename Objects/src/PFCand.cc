@@ -37,6 +37,19 @@ panda::PFCand::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
   utils::setStatus(_tree, _name, "pftype", _branches);
 }
 
+panda::utils::BranchList
+panda::PFCand::datastore::getStatus(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(ParticleM::datastore::getStatus(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "q"));
+  blist.push_back(utils::getStatus(_tree, _name, "puppiW"));
+  blist.push_back(utils::getStatus(_tree, _name, "puppiWNoLep"));
+  blist.push_back(utils::getStatus(_tree, _name, "pftype"));
+
+  return blist;
+}
+
 void
 panda::PFCand::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -158,6 +171,19 @@ panda::PFCand::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchLis
   utils::setStatus(_tree, _name, "puppiW", _branches);
   utils::setStatus(_tree, _name, "puppiWNoLep", _branches);
   utils::setStatus(_tree, _name, "pftype", _branches);
+}
+
+panda::utils::BranchList
+panda::PFCand::doGetStatus_(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(ParticleM::doGetStatus_(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "q"));
+  blist.push_back(utils::getStatus(_tree, _name, "puppiW"));
+  blist.push_back(utils::getStatus(_tree, _name, "puppiWNoLep"));
+  blist.push_back(utils::getStatus(_tree, _name, "pftype"));
+
+  return blist;
 }
 
 void

@@ -94,6 +94,18 @@ class Branch(Definition):
 
         out.writeline('utils::setStatus(_tree, {namevar}, "{name}", _branches);'.format(namevar = namevar, name = self.name))
 
+    def write_get_status(self, out, context):
+        if context == 'datastore':
+            namevar = '_name'
+        elif context == 'Singlet':
+            namevar = 'name_'
+        elif context == 'Element':
+            namevar = '_name'
+        elif context == 'TreeEntry':
+            namevar = '""'
+
+        out.writeline('blist.push_back(utils::getStatus(_tree, {namevar}, "{name}"));'.format(namevar = namevar, name = self.name))
+
     def write_set_address(self, out, context):
         if context == 'datastore':
             namevar = '_name'

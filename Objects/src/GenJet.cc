@@ -25,6 +25,16 @@ panda::GenJet::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
   utils::setStatus(_tree, _name, "pdgid", _branches);
 }
 
+panda::utils::BranchList
+panda::GenJet::datastore::getStatus(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(ParticleM::datastore::getStatus(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "pdgid"));
+
+  return blist;
+}
+
 void
 panda::GenJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -116,6 +126,16 @@ panda::GenJet::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchLis
   ParticleM::doSetStatus_(_tree, _name, _branches);
 
   utils::setStatus(_tree, _name, "pdgid", _branches);
+}
+
+panda::utils::BranchList
+panda::GenJet::doGetStatus_(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(ParticleM::doGetStatus_(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "pdgid"));
+
+  return blist;
 }
 
 void

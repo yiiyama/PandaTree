@@ -31,6 +31,9 @@ namespace panda {
     */
     virtual void setStatus(TTree&, utils::BranchList const&) {}
 
+    //! Get status of branches in the tree
+    virtual utils::BranchList getStatus(TTree&) const { return utils::BranchList(); }
+
     //! Bind the tree branches to the elements of this object.
     /*!
      * \param blist      List of branches to bind. Vetoed or unmentioned branches are not bound.

@@ -178,6 +178,24 @@ panda::Event::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 }
 
 /*protected*/
+panda::utils::BranchList
+panda::Event::doGetStatus_(TTree& _tree) const
+{
+  utils::BranchList blist;
+
+  blist.push_back(utils::getStatus(_tree, "", "runNumber"));
+  blist.push_back(utils::getStatus(_tree, "", "lumiNumber"));
+  blist.push_back(utils::getStatus(_tree, "", "eventNumber"));
+  blist.push_back(utils::getStatus(_tree, "", "isData"));
+  blist.push_back(utils::getStatus(_tree, "", "npv"));
+  blist.push_back(utils::getStatus(_tree, "", "npvTrue"));
+  blist.push_back(utils::getStatus(_tree, "", "rho"));
+  blist.push_back(utils::getStatus(_tree, "", "rhoCentralCalo"));
+  blist.push_back(utils::getStatus(_tree, "", "weight"));
+  return blist;
+}
+
+/*protected*/
 void
 panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus)
 {

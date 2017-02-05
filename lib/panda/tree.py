@@ -70,6 +70,7 @@ class Tree(Definition, Object):
         header.writeline('protected:')
         header.indent += 1
         header.writeline('void doSetStatus_(TTree&, utils::BranchList const&) override;')
+        header.writeline('utils::BranchList doGetStatus_(TTree&) const override;')
         header.writeline('void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;')
         header.writeline('void doBook_(TTree&, utils::BranchList const&) override;')
         header.writeline('void doReleaseTree_(TTree&) override;')
@@ -175,6 +176,20 @@ class Tree(Definition, Object):
         src.indent += 1
         for branch in self.branches:
             branch.write_set_status(src, context = 'TreeEntry')
+        src.indent -= 1
+        src.writeline('}')
+        src.newline()
+
+        src.writeline('/*protected*/')
+        src.writeline('panda::utils::BranchList')
+        src.writeline('{NAMESPACE}::{name}::doGetStatus_(TTree& _tree) const'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{')
+        src.indent += 1
+        src.writeline('utils::BranchList blist;')
+        src.newline()
+        for branch in self.branches:
+            branch.write_get_status(src, context = 'TreeEntry')
+        src.writeline('return blist;')
         src.indent -= 1
         src.writeline('}')
         src.newline()

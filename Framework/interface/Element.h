@@ -43,6 +43,7 @@ namespace panda {
       virtual void allocate(UInt_t n) { nmax_ = n; }
       virtual void deallocate() {}
       virtual void setStatus(TTree&, TString const&, utils::BranchList const&) {}
+      virtual utils::BranchList getStatus(TTree&, TString const&) const { return utils::BranchList(); }
       virtual void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) {}
       virtual void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) {}
       virtual void releaseTree(TTree&, TString const&) {}
@@ -73,6 +74,7 @@ namespace panda {
     Element& operator=(Element const&) { return *this; }
 
     void setStatus(TTree&, utils::BranchList const& blist) final;
+    utils::BranchList getStatus(TTree&) const final;
     UInt_t setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
     void book(TTree&, utils::BranchList const& blist = {"*"}) final;
     TTree* getInput(UInt_t treeIdx = 0) const final;
@@ -99,11 +101,12 @@ namespace panda {
      */
     Element(ArrayBase*);
 
-    virtual void doSetStatus_(TTree&, TString const&, utils::BranchList const&) {}
-    virtual void doSetAddress_(TTree&, TString const&, utils::BranchList const&, Bool_t setStatus) {}
-    virtual void doBook_(TTree&, TString const&, utils::BranchList const&) {}
-    virtual void doReleaseTree_(TTree&, TString const&) {}
-    virtual void doInit_() {}
+    virtual void doSetStatus_(TTree&, TString const&, utils::BranchList const&) = 0;
+    virtual utils::BranchList doGetStatus_(TTree&, TString const&) const = 0;
+    virtual void doSetAddress_(TTree&, TString const&, utils::BranchList const&, Bool_t setStatus) = 0;
+    virtual void doBook_(TTree&, TString const&, utils::BranchList const&) = 0;
+    virtual void doReleaseTree_(TTree&, TString const&) = 0;
+    virtual void doInit_() = 0;
 
   private:
     //! Hidden default constructor.

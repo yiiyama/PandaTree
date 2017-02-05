@@ -31,8 +31,6 @@ panda::MetFilters::~MetFilters()
 panda::MetFilters&
 panda::MetFilters::operator=(MetFilters const& _src)
 {
-  Singlet::operator=(_src);
-
   globalHalo16 = _src.globalHalo16;
   hbhe = _src.hbhe;
   hbheIso = _src.hbheIso;
@@ -47,8 +45,6 @@ panda::MetFilters::operator=(MetFilters const& _src)
 void
 panda::MetFilters::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 {
-  Singlet::doSetStatus_(_tree, _branches);
-
   utils::setStatus(_tree, name_, "globalHalo16", _branches);
   utils::setStatus(_tree, name_, "hbhe", _branches);
   utils::setStatus(_tree, name_, "hbheIso", _branches);
@@ -58,11 +54,25 @@ panda::MetFilters::doSetStatus_(TTree& _tree, utils::BranchList const& _branches
   utils::setStatus(_tree, name_, "badMuonTrack", _branches);
 }
 
+panda::utils::BranchList
+panda::MetFilters::doGetStatus_(TTree& _tree) const
+{
+  utils::BranchList blist;
+
+  blist.push_back(utils::getStatus(_tree, name_, "globalHalo16"));
+  blist.push_back(utils::getStatus(_tree, name_, "hbhe"));
+  blist.push_back(utils::getStatus(_tree, name_, "hbheIso"));
+  blist.push_back(utils::getStatus(_tree, name_, "ecalDeadCell"));
+  blist.push_back(utils::getStatus(_tree, name_, "badsc"));
+  blist.push_back(utils::getStatus(_tree, name_, "badTrack"));
+  blist.push_back(utils::getStatus(_tree, name_, "badMuonTrack"));
+
+  return blist;
+}
+
 void
 panda::MetFilters::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Singlet::doSetAddress_(_tree, _branches, _setStatus);
-
   utils::setAddress(_tree, name_, "globalHalo16", &globalHalo16, _branches, _setStatus);
   utils::setAddress(_tree, name_, "hbhe", &hbhe, _branches, _setStatus);
   utils::setAddress(_tree, name_, "hbheIso", &hbheIso, _branches, _setStatus);
@@ -75,8 +85,6 @@ panda::MetFilters::doSetAddress_(TTree& _tree, utils::BranchList const& _branche
 void
 panda::MetFilters::doBook_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Singlet::doBook_(_tree, _branches);
-
   utils::book(_tree, name_, "globalHalo16", "", 'O', &globalHalo16, _branches);
   utils::book(_tree, name_, "hbhe", "", 'O', &hbhe, _branches);
   utils::book(_tree, name_, "hbheIso", "", 'O', &hbheIso, _branches);
@@ -89,8 +97,6 @@ panda::MetFilters::doBook_(TTree& _tree, utils::BranchList const& _branches/* = 
 void
 panda::MetFilters::doReleaseTree_(TTree& _tree)
 {
-  Singlet::doReleaseTree_(_tree);
-
   utils::resetAddress(_tree, name_, "globalHalo16");
   utils::resetAddress(_tree, name_, "hbhe");
   utils::resetAddress(_tree, name_, "hbheIso");
@@ -103,8 +109,6 @@ panda::MetFilters::doReleaseTree_(TTree& _tree)
 void
 panda::MetFilters::doInit_()
 {
-  Singlet::doInit_();
-
   globalHalo16 = false;
   hbhe = false;
   hbheIso = false;

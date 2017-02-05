@@ -21,6 +21,7 @@ namespace panda {
     Singlet& operator=(Singlet const& _src) { name_ = _src.name_; return *this; }
 
     void setStatus(TTree&, utils::BranchList const& blist) final;
+    utils::BranchList getStatus(TTree&) const final;
     UInt_t setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
     void book(TTree&, utils::BranchList const& blist = {"*"}) final;
     TTree* getInput(UInt_t treeIdx = 0) const final { return inputs_.at(treeIdx); }
@@ -30,11 +31,12 @@ namespace panda {
     void setName(char const* n) final { name_ = n; }
 
   protected:
-    virtual void doSetStatus_(TTree&, utils::BranchList const&) {}
-    virtual void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) {}
-    virtual void doBook_(TTree&, utils::BranchList const&) {}
-    virtual void doReleaseTree_(TTree&) {}
-    virtual void doInit_() {}
+    virtual void doSetStatus_(TTree&, utils::BranchList const&) = 0;
+    virtual utils::BranchList doGetStatus_(TTree&) const = 0;
+    virtual void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) = 0;
+    virtual void doBook_(TTree&, utils::BranchList const&) = 0;
+    virtual void doReleaseTree_(TTree&) = 0;
+    virtual void doInit_() = 0;
 
     TString name_{};
     std::vector<TTree*> inputs_{};

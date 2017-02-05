@@ -16,6 +16,12 @@ namespace panda {
   //! Merge multiple panda files with optional skimming, slimming, and editing.
   class FileMerger {
   public:
+    enum TreeType {
+      kEvent,
+      kRun,
+      nTreeTypes
+    };
+
     FileMerger() {}
     ~FileMerger() {}
 
@@ -27,10 +33,13 @@ namespace panda {
 
     //! Select branches to write.
     /*!
+     * By default, branches in the input trees are copied.
+     *
      * \param blist    Branch list (see BranchList syntax in README).
      * \param onRead   Apply the branch list on input (default false)
+     * \param treeType Tree to apply the selection
      */
-    void selectBranches(utils::BranchList const& blist, Bool_t onRead = kFALSE);
+    void selectBranches(utils::BranchList const& blist, Bool_t onRead = kFALSE, TreeType treeType = kEvent);
 
     //! Run the merger.
     /*!
@@ -52,8 +61,8 @@ namespace panda {
 
   private:
     std::vector<TString> paths_{};
-    utils::BranchList branchList_{{"*"}};
-    Bool_t applyBranchListOnRead_{kFALSE};
+    utils::BranchList branchList_[nTreeTypes]{};
+    Bool_t applyBranchListOnRead_[nTreeTypes]{};
     SkimFunction skimFunction_{};
   };
 

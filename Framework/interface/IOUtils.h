@@ -64,6 +64,8 @@ namespace panda {
       BranchList subList(TString const& objName) const;
       //! Returns true if any of the branch in the list is not vetoed.
       bool any() const;
+      //! Extend the list
+      BranchList& operator+=(BranchList const&);
     };
 
     //! Check status of a branch
@@ -74,7 +76,7 @@ namespace panda {
      * 1  status is different
      */
     Int_t checkStatus(TTree&, TString const& fullName, Bool_t status);
-    //! Set status of a branch
+    //! Set the status of a branch
     /*!
      * Return values:
      * -2 branch is not in given list
@@ -83,6 +85,11 @@ namespace panda {
      * 1  status is changed
      */
     Int_t setStatus(TTree&, TString const& objName, BranchName const& bName, BranchList const&);
+    //! Get the status of a branch
+    /*!
+     * Returned branch name is vetoed if the branch does not exist or is not enabled.
+     */
+    BranchName getStatus(TTree&, TString const& objName, BranchName const& bName);
     //! Set address
     /*!
      * Return values:

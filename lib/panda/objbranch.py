@@ -50,6 +50,9 @@ class ObjBranch(Definition):
     def write_set_status(self, out):
         out.writeline('{name}.setStatus(_tree, _branches.subList("{name}"));'.format(name = self.name))
 
+    def write_get_status(self, out):
+        out.writeline('blist += {name}.getStatus(_tree);'.format(name = self.name))
+
     def write_set_address(self, out):
         out.writeline('{name}.setAddress(_tree, _branches.subList("{name}"), _setStatus);'.format(name = self.name))
 

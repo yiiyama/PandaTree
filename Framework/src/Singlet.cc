@@ -6,6 +6,12 @@ panda::Singlet::setStatus(TTree& _tree, utils::BranchList const& _branches)
   doSetStatus_(_tree, _branches);
 }
 
+panda::utils::BranchList
+panda::Singlet::getStatus(TTree& _tree) const
+{
+  return doGetStatus_(_tree);
+}
+
 UInt_t
 panda::Singlet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {

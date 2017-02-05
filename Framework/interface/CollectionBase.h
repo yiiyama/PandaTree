@@ -48,12 +48,15 @@ namespace panda {
   protected:
     CollectionBase(char const* name, UInt_t unitSize, Bool_t dummy) : ContainerBase(name, unitSize) {}
 
+    void resetAddress_();
+    virtual void reallocate_(UInt_t) = 0;
+
+  private:
     void doSetStatus_(TTree&, utils::BranchList const&) final;
+    utils::BranchList doGetStatus_(TTree&) const final;
     void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus, Bool_t asInput) final;
     void doBook_(TTree&, utils::BranchList const&) final;
     void doReleaseTree_(TTree&) final;
-
-    virtual void reallocate_(UInt_t) = 0;
 
     //! Collection size
     UInt_t size_{0};

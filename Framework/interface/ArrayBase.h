@@ -25,6 +25,7 @@ namespace panda {
 
   private:
     void doSetStatus_(TTree&, utils::BranchList const&) final;
+    utils::BranchList doGetStatus_(TTree&) const final;
     void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus, Bool_t asInput) final;
     void doBook_(TTree&, utils::BranchList const&) final;
     void doReleaseTree_(TTree&) final;

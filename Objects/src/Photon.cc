@@ -133,6 +133,43 @@ panda::Photon::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
   utils::setStatus(_tree, _name, "matchedGen_", _branches);
 }
 
+panda::utils::BranchList
+panda::Photon::datastore::getStatus(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(Particle::datastore::getStatus(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "chiso"));
+  blist.push_back(utils::getStatus(_tree, _name, "chisoWorst"));
+  blist.push_back(utils::getStatus(_tree, _name, "nhiso"));
+  blist.push_back(utils::getStatus(_tree, _name, "phoiso"));
+  blist.push_back(utils::getStatus(_tree, _name, "sieie"));
+  blist.push_back(utils::getStatus(_tree, _name, "sipip"));
+  blist.push_back(utils::getStatus(_tree, _name, "hOverE"));
+  blist.push_back(utils::getStatus(_tree, _name, "geniso"));
+  blist.push_back(utils::getStatus(_tree, _name, "mipEnergy"));
+  blist.push_back(utils::getStatus(_tree, _name, "e33"));
+  blist.push_back(utils::getStatus(_tree, _name, "e4"));
+  blist.push_back(utils::getStatus(_tree, _name, "eseed"));
+  blist.push_back(utils::getStatus(_tree, _name, "emax"));
+  blist.push_back(utils::getStatus(_tree, _name, "e2nd"));
+  blist.push_back(utils::getStatus(_tree, _name, "r9"));
+  blist.push_back(utils::getStatus(_tree, _name, "etaWidth"));
+  blist.push_back(utils::getStatus(_tree, _name, "phiWidth"));
+  blist.push_back(utils::getStatus(_tree, _name, "time"));
+  blist.push_back(utils::getStatus(_tree, _name, "timeSpan"));
+  blist.push_back(utils::getStatus(_tree, _name, "loose"));
+  blist.push_back(utils::getStatus(_tree, _name, "medium"));
+  blist.push_back(utils::getStatus(_tree, _name, "tight"));
+  blist.push_back(utils::getStatus(_tree, _name, "highpt"));
+  blist.push_back(utils::getStatus(_tree, _name, "pixelVeto"));
+  blist.push_back(utils::getStatus(_tree, _name, "csafeVeto"));
+  blist.push_back(utils::getStatus(_tree, _name, "triggerMatch"));
+  blist.push_back(utils::getStatus(_tree, _name, "superCluster_"));
+  blist.push_back(utils::getStatus(_tree, _name, "matchedGen_"));
+
+  return blist;
+}
+
 void
 panda::Photon::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -494,6 +531,43 @@ panda::Photon::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchLis
   utils::setStatus(_tree, _name, "triggerMatch", _branches);
   utils::setStatus(_tree, _name, "superCluster_", _branches);
   utils::setStatus(_tree, _name, "matchedGen_", _branches);
+}
+
+panda::utils::BranchList
+panda::Photon::doGetStatus_(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(Particle::doGetStatus_(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "chiso"));
+  blist.push_back(utils::getStatus(_tree, _name, "chisoWorst"));
+  blist.push_back(utils::getStatus(_tree, _name, "nhiso"));
+  blist.push_back(utils::getStatus(_tree, _name, "phoiso"));
+  blist.push_back(utils::getStatus(_tree, _name, "sieie"));
+  blist.push_back(utils::getStatus(_tree, _name, "sipip"));
+  blist.push_back(utils::getStatus(_tree, _name, "hOverE"));
+  blist.push_back(utils::getStatus(_tree, _name, "geniso"));
+  blist.push_back(utils::getStatus(_tree, _name, "mipEnergy"));
+  blist.push_back(utils::getStatus(_tree, _name, "e33"));
+  blist.push_back(utils::getStatus(_tree, _name, "e4"));
+  blist.push_back(utils::getStatus(_tree, _name, "eseed"));
+  blist.push_back(utils::getStatus(_tree, _name, "emax"));
+  blist.push_back(utils::getStatus(_tree, _name, "e2nd"));
+  blist.push_back(utils::getStatus(_tree, _name, "r9"));
+  blist.push_back(utils::getStatus(_tree, _name, "etaWidth"));
+  blist.push_back(utils::getStatus(_tree, _name, "phiWidth"));
+  blist.push_back(utils::getStatus(_tree, _name, "time"));
+  blist.push_back(utils::getStatus(_tree, _name, "timeSpan"));
+  blist.push_back(utils::getStatus(_tree, _name, "loose"));
+  blist.push_back(utils::getStatus(_tree, _name, "medium"));
+  blist.push_back(utils::getStatus(_tree, _name, "tight"));
+  blist.push_back(utils::getStatus(_tree, _name, "highpt"));
+  blist.push_back(utils::getStatus(_tree, _name, "pixelVeto"));
+  blist.push_back(utils::getStatus(_tree, _name, "csafeVeto"));
+  blist.push_back(utils::getStatus(_tree, _name, "triggerMatch"));
+  blist.push_back(utils::getStatus(_tree, _name, "superCluster_"));
+  blist.push_back(utils::getStatus(_tree, _name, "matchedGen_"));
+
+  return blist;
 }
 
 void

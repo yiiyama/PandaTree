@@ -65,6 +65,26 @@ panda::FatJet::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
   utils::setStatus(_tree, _name, "subjets_", _branches);
 }
 
+panda::utils::BranchList
+panda::FatJet::datastore::getStatus(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(Jet::datastore::getStatus(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "tau1"));
+  blist.push_back(utils::getStatus(_tree, _name, "tau2"));
+  blist.push_back(utils::getStatus(_tree, _name, "tau3"));
+  blist.push_back(utils::getStatus(_tree, _name, "mSD"));
+  blist.push_back(utils::getStatus(_tree, _name, "tau1SD"));
+  blist.push_back(utils::getStatus(_tree, _name, "tau2SD"));
+  blist.push_back(utils::getStatus(_tree, _name, "tau3SD"));
+  blist.push_back(utils::getStatus(_tree, _name, "htt_mass"));
+  blist.push_back(utils::getStatus(_tree, _name, "htt_frec"));
+  blist.push_back(utils::getStatus(_tree, _name, "ecfs"));
+  blist.push_back(utils::getStatus(_tree, _name, "subjets_"));
+
+  return blist;
+}
+
 void
 panda::FatJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -257,6 +277,26 @@ panda::FatJet::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchLis
   utils::setStatus(_tree, _name, "htt_frec", _branches);
   utils::setStatus(_tree, _name, "ecfs", _branches);
   utils::setStatus(_tree, _name, "subjets_", _branches);
+}
+
+panda::utils::BranchList
+panda::FatJet::doGetStatus_(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(Jet::doGetStatus_(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "tau1"));
+  blist.push_back(utils::getStatus(_tree, _name, "tau2"));
+  blist.push_back(utils::getStatus(_tree, _name, "tau3"));
+  blist.push_back(utils::getStatus(_tree, _name, "mSD"));
+  blist.push_back(utils::getStatus(_tree, _name, "tau1SD"));
+  blist.push_back(utils::getStatus(_tree, _name, "tau2SD"));
+  blist.push_back(utils::getStatus(_tree, _name, "tau3SD"));
+  blist.push_back(utils::getStatus(_tree, _name, "htt_mass"));
+  blist.push_back(utils::getStatus(_tree, _name, "htt_frec"));
+  blist.push_back(utils::getStatus(_tree, _name, "ecfs"));
+  blist.push_back(utils::getStatus(_tree, _name, "subjets_"));
+
+  return blist;
 }
 
 void

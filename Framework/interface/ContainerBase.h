@@ -22,6 +22,7 @@ namespace panda {
     virtual ~ContainerBase() {}
 
     void setStatus(TTree&, utils::BranchList const& blist) final;
+    utils::BranchList getStatus(TTree&) const final;
     UInt_t setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
     void book(TTree&, utils::BranchList const& blist = {"*"}) final;
     TTree* getInput(UInt_t treeIdx = 0) const final { return inputs_.at(treeIdx); }
@@ -48,6 +49,7 @@ namespace panda {
     ContainerBase(char const* name, UInt_t unitSize) : name_(name), unitSize_(unitSize) {}
 
     virtual void doSetStatus_(TTree&, utils::BranchList const&) = 0;
+    virtual utils::BranchList doGetStatus_(TTree&) const = 0;
     virtual void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus, Bool_t asInput) = 0;
     virtual void doBook_(TTree&, utils::BranchList const&) = 0;
     virtual void doReleaseTree_(TTree&) = 0;

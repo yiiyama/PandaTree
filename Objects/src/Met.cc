@@ -21,8 +21,6 @@ panda::Met::~Met()
 panda::Met&
 panda::Met::operator=(Met const& _src)
 {
-  Singlet::operator=(_src);
-
   pt = _src.pt;
   phi = _src.phi;
 
@@ -32,17 +30,24 @@ panda::Met::operator=(Met const& _src)
 void
 panda::Met::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 {
-  Singlet::doSetStatus_(_tree, _branches);
-
   utils::setStatus(_tree, name_, "pt", _branches);
   utils::setStatus(_tree, name_, "phi", _branches);
+}
+
+panda::utils::BranchList
+panda::Met::doGetStatus_(TTree& _tree) const
+{
+  utils::BranchList blist;
+
+  blist.push_back(utils::getStatus(_tree, name_, "pt"));
+  blist.push_back(utils::getStatus(_tree, name_, "phi"));
+
+  return blist;
 }
 
 void
 panda::Met::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Singlet::doSetAddress_(_tree, _branches, _setStatus);
-
   utils::setAddress(_tree, name_, "pt", &pt, _branches, _setStatus);
   utils::setAddress(_tree, name_, "phi", &phi, _branches, _setStatus);
 }
@@ -50,8 +55,6 @@ panda::Met::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {
 void
 panda::Met::doBook_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Singlet::doBook_(_tree, _branches);
-
   utils::book(_tree, name_, "pt", "", 'F', &pt, _branches);
   utils::book(_tree, name_, "phi", "", 'F', &phi, _branches);
 }
@@ -59,8 +62,6 @@ panda::Met::doBook_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/
 void
 panda::Met::doReleaseTree_(TTree& _tree)
 {
-  Singlet::doReleaseTree_(_tree);
-
   utils::resetAddress(_tree, name_, "pt");
   utils::resetAddress(_tree, name_, "phi");
 }
@@ -68,8 +69,6 @@ panda::Met::doReleaseTree_(TTree& _tree)
 void
 panda::Met::doInit_()
 {
-  Singlet::doInit_();
-
   pt = 0.;
   phi = 0.;
 }

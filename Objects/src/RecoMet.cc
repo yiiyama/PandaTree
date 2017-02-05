@@ -66,6 +66,24 @@ panda::RecoMet::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
   utils::setStatus(_tree, name_, "phiUnclDown", _branches);
 }
 
+panda::utils::BranchList
+panda::RecoMet::doGetStatus_(TTree& _tree) const
+{
+  utils::BranchList blist(Met::doGetStatus_(_tree));
+
+  blist.push_back(utils::getStatus(_tree, name_, "sumETRaw"));
+  blist.push_back(utils::getStatus(_tree, name_, "ptCorrUp"));
+  blist.push_back(utils::getStatus(_tree, name_, "phiCorrUp"));
+  blist.push_back(utils::getStatus(_tree, name_, "ptCorrDown"));
+  blist.push_back(utils::getStatus(_tree, name_, "phiCorrDown"));
+  blist.push_back(utils::getStatus(_tree, name_, "ptUnclUp"));
+  blist.push_back(utils::getStatus(_tree, name_, "phiUnclUp"));
+  blist.push_back(utils::getStatus(_tree, name_, "ptUnclDown"));
+  blist.push_back(utils::getStatus(_tree, name_, "phiUnclDown"));
+
+  return blist;
+}
+
 void
 panda::RecoMet::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {

@@ -153,6 +153,13 @@ panda::utils::BranchList::any() const
   return false;
 }
 
+panda::utils::BranchList&
+panda::utils::BranchList::operator+=(BranchList const& _rhs)
+{
+  insert(end(), _rhs.begin(), _rhs.end());
+  return *this;
+}
+
 Int_t
 panda::utils::checkStatus(TTree& _tree, TString const& _fullName, Bool_t _status)
 {
@@ -185,6 +192,19 @@ panda::utils::setStatus(TTree& _tree, TString const& _objName, BranchName const&
 
   _tree.SetBranchStatus(fullName, status);
   return 1;
+}
+
+panda::utils::BranchName
+panda::utils::getStatus(TTree& _tree, TString const& _objName, BranchName const& _bName)
+{
+  TString fullName(_bName.fullName(_objName));
+
+  // -1 -> branch does not exist; 0 -> status is already set; 1 -> status is different
+  Int_t returnCode(checkStatus(_tree, fullName, true));
+  if (returnCode == 0)
+    return BranchName(fullName);
+  else
+    return BranchName("!" + fullName);
 }
 
 Int_t

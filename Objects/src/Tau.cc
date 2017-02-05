@@ -45,6 +45,21 @@ panda::Tau::datastore::setStatus(TTree& _tree, TString const& _name, utils::Bran
   utils::setStatus(_tree, _name, "matchedGen_", _branches);
 }
 
+panda::utils::BranchList
+panda::Tau::datastore::getStatus(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(ParticleM::datastore::getStatus(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "q"));
+  blist.push_back(utils::getStatus(_tree, _name, "decayMode"));
+  blist.push_back(utils::getStatus(_tree, _name, "decayModeNew"));
+  blist.push_back(utils::getStatus(_tree, _name, "iso"));
+  blist.push_back(utils::getStatus(_tree, _name, "isoDeltaBetaCorr"));
+  blist.push_back(utils::getStatus(_tree, _name, "matchedGen_"));
+
+  return blist;
+}
+
 void
 panda::Tau::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -186,6 +201,21 @@ panda::Tau::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList c
   utils::setStatus(_tree, _name, "iso", _branches);
   utils::setStatus(_tree, _name, "isoDeltaBetaCorr", _branches);
   utils::setStatus(_tree, _name, "matchedGen_", _branches);
+}
+
+panda::utils::BranchList
+panda::Tau::doGetStatus_(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(ParticleM::doGetStatus_(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "q"));
+  blist.push_back(utils::getStatus(_tree, _name, "decayMode"));
+  blist.push_back(utils::getStatus(_tree, _name, "decayModeNew"));
+  blist.push_back(utils::getStatus(_tree, _name, "iso"));
+  blist.push_back(utils::getStatus(_tree, _name, "isoDeltaBetaCorr"));
+  blist.push_back(utils::getStatus(_tree, _name, "matchedGen_"));
+
+  return blist;
 }
 
 void

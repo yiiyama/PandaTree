@@ -33,6 +33,18 @@ panda::SuperCluster::datastore::setStatus(TTree& _tree, TString const& _name, ut
   utils::setStatus(_tree, _name, "phi", _branches);
 }
 
+panda::utils::BranchList
+panda::SuperCluster::datastore::getStatus(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(Element::datastore::getStatus(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "rawPt"));
+  blist.push_back(utils::getStatus(_tree, _name, "eta"));
+  blist.push_back(utils::getStatus(_tree, _name, "phi"));
+
+  return blist;
+}
+
 void
 panda::SuperCluster::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -127,8 +139,6 @@ panda::SuperCluster::destructor()
 panda::SuperCluster&
 panda::SuperCluster::operator=(SuperCluster const& _src)
 {
-  Element::operator=(_src);
-
   rawPt = _src.rawPt;
   eta = _src.eta;
   phi = _src.phi;
@@ -139,18 +149,26 @@ panda::SuperCluster::operator=(SuperCluster const& _src)
 void
 panda::SuperCluster::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  Element::doSetStatus_(_tree, _name, _branches);
-
   utils::setStatus(_tree, _name, "rawPt", _branches);
   utils::setStatus(_tree, _name, "eta", _branches);
   utils::setStatus(_tree, _name, "phi", _branches);
 }
 
+panda::utils::BranchList
+panda::SuperCluster::doGetStatus_(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist;
+
+  blist.push_back(utils::getStatus(_tree, _name, "rawPt"));
+  blist.push_back(utils::getStatus(_tree, _name, "eta"));
+  blist.push_back(utils::getStatus(_tree, _name, "phi"));
+
+  return blist;
+}
+
 void
 panda::SuperCluster::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Element::doSetAddress_(_tree, _name, _branches, _setStatus);
-
   utils::setAddress(_tree, _name, "rawPt", &rawPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "eta", &eta, _branches, _setStatus);
   utils::setAddress(_tree, _name, "phi", &phi, _branches, _setStatus);
@@ -159,8 +177,6 @@ panda::SuperCluster::doSetAddress_(TTree& _tree, TString const& _name, utils::Br
 void
 panda::SuperCluster::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Element::doBook_(_tree, _name, _branches);
-
   utils::book(_tree, _name, "rawPt", "", 'F', &rawPt, _branches);
   utils::book(_tree, _name, "eta", "", 'F', &eta, _branches);
   utils::book(_tree, _name, "phi", "", 'F', &phi, _branches);
@@ -169,8 +185,6 @@ panda::SuperCluster::doBook_(TTree& _tree, TString const& _name, utils::BranchLi
 void
 panda::SuperCluster::doReleaseTree_(TTree& _tree, TString const& _name)
 {
-  Element::doReleaseTree_(_tree, _name);
-
   utils::resetAddress(_tree, _name, "rawPt");
   utils::resetAddress(_tree, _name, "eta");
   utils::resetAddress(_tree, _name, "phi");
@@ -179,8 +193,6 @@ panda::SuperCluster::doReleaseTree_(TTree& _tree, TString const& _name)
 void
 panda::SuperCluster::doInit_()
 {
-  Element::doInit_();
-
   rawPt = 0.;
   eta = 0.;
   phi = 0.;

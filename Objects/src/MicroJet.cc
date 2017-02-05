@@ -29,6 +29,17 @@ panda::MicroJet::datastore::setStatus(TTree& _tree, TString const& _name, utils:
   utils::setStatus(_tree, _name, "qgl", _branches);
 }
 
+panda::utils::BranchList
+panda::MicroJet::datastore::getStatus(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(ParticleM::datastore::getStatus(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "csv"));
+  blist.push_back(utils::getStatus(_tree, _name, "qgl"));
+
+  return blist;
+}
+
 void
 panda::MicroJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -130,6 +141,17 @@ panda::MicroJet::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchL
 
   utils::setStatus(_tree, _name, "csv", _branches);
   utils::setStatus(_tree, _name, "qgl", _branches);
+}
+
+panda::utils::BranchList
+panda::MicroJet::doGetStatus_(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(ParticleM::doGetStatus_(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "csv"));
+  blist.push_back(utils::getStatus(_tree, _name, "qgl"));
+
+  return blist;
 }
 
 void

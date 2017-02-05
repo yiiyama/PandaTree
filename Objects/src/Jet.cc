@@ -77,6 +77,29 @@ panda::Jet::datastore::setStatus(TTree& _tree, TString const& _name, utils::Bran
   utils::setStatus(_tree, _name, "constituents_", _branches);
 }
 
+panda::utils::BranchList
+panda::Jet::datastore::getStatus(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(MicroJet::datastore::getStatus(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "rawPt"));
+  blist.push_back(utils::getStatus(_tree, _name, "ptCorrUp"));
+  blist.push_back(utils::getStatus(_tree, _name, "ptCorrDown"));
+  blist.push_back(utils::getStatus(_tree, _name, "ptSmear"));
+  blist.push_back(utils::getStatus(_tree, _name, "ptSmearUp"));
+  blist.push_back(utils::getStatus(_tree, _name, "ptSmearDown"));
+  blist.push_back(utils::getStatus(_tree, _name, "nhf"));
+  blist.push_back(utils::getStatus(_tree, _name, "chf"));
+  blist.push_back(utils::getStatus(_tree, _name, "puid"));
+  blist.push_back(utils::getStatus(_tree, _name, "loose"));
+  blist.push_back(utils::getStatus(_tree, _name, "tight"));
+  blist.push_back(utils::getStatus(_tree, _name, "monojet"));
+  blist.push_back(utils::getStatus(_tree, _name, "matchedGenJet_"));
+  blist.push_back(utils::getStatus(_tree, _name, "constituents_"));
+
+  return blist;
+}
+
 void
 panda::Jet::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -299,6 +322,29 @@ panda::Jet::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList c
   utils::setStatus(_tree, _name, "monojet", _branches);
   utils::setStatus(_tree, _name, "matchedGenJet_", _branches);
   utils::setStatus(_tree, _name, "constituents_", _branches);
+}
+
+panda::utils::BranchList
+panda::Jet::doGetStatus_(TTree& _tree, TString const& _name) const
+{
+  utils::BranchList blist(MicroJet::doGetStatus_(_tree, _name));
+
+  blist.push_back(utils::getStatus(_tree, _name, "rawPt"));
+  blist.push_back(utils::getStatus(_tree, _name, "ptCorrUp"));
+  blist.push_back(utils::getStatus(_tree, _name, "ptCorrDown"));
+  blist.push_back(utils::getStatus(_tree, _name, "ptSmear"));
+  blist.push_back(utils::getStatus(_tree, _name, "ptSmearUp"));
+  blist.push_back(utils::getStatus(_tree, _name, "ptSmearDown"));
+  blist.push_back(utils::getStatus(_tree, _name, "nhf"));
+  blist.push_back(utils::getStatus(_tree, _name, "chf"));
+  blist.push_back(utils::getStatus(_tree, _name, "puid"));
+  blist.push_back(utils::getStatus(_tree, _name, "loose"));
+  blist.push_back(utils::getStatus(_tree, _name, "tight"));
+  blist.push_back(utils::getStatus(_tree, _name, "monojet"));
+  blist.push_back(utils::getStatus(_tree, _name, "matchedGenJet_"));
+  blist.push_back(utils::getStatus(_tree, _name, "constituents_"));
+
+  return blist;
 }
 
 void

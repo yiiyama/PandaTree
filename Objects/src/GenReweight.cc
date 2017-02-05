@@ -32,8 +32,6 @@ panda::GenReweight::~GenReweight()
 panda::GenReweight&
 panda::GenReweight::operator=(GenReweight const& _src)
 {
-  Singlet::operator=(_src);
-
   r1f2DW = _src.r1f2DW;
   r1f5DW = _src.r1f5DW;
   r2f1DW = _src.r2f1DW;
@@ -49,8 +47,6 @@ panda::GenReweight::operator=(GenReweight const& _src)
 void
 panda::GenReweight::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 {
-  Singlet::doSetStatus_(_tree, _branches);
-
   utils::setStatus(_tree, name_, "r1f2DW", _branches);
   utils::setStatus(_tree, name_, "r1f5DW", _branches);
   utils::setStatus(_tree, name_, "r2f1DW", _branches);
@@ -61,11 +57,26 @@ panda::GenReweight::doSetStatus_(TTree& _tree, utils::BranchList const& _branche
   utils::setStatus(_tree, name_, "genParam", _branches);
 }
 
+panda::utils::BranchList
+panda::GenReweight::doGetStatus_(TTree& _tree) const
+{
+  utils::BranchList blist;
+
+  blist.push_back(utils::getStatus(_tree, name_, "r1f2DW"));
+  blist.push_back(utils::getStatus(_tree, name_, "r1f5DW"));
+  blist.push_back(utils::getStatus(_tree, name_, "r2f1DW"));
+  blist.push_back(utils::getStatus(_tree, name_, "r2f2DW"));
+  blist.push_back(utils::getStatus(_tree, name_, "r5f1DW"));
+  blist.push_back(utils::getStatus(_tree, name_, "r5f5DW"));
+  blist.push_back(utils::getStatus(_tree, name_, "pdfDW"));
+  blist.push_back(utils::getStatus(_tree, name_, "genParam"));
+
+  return blist;
+}
+
 void
 panda::GenReweight::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Singlet::doSetAddress_(_tree, _branches, _setStatus);
-
   utils::setAddress(_tree, name_, "r1f2DW", &r1f2DW, _branches, _setStatus);
   utils::setAddress(_tree, name_, "r1f5DW", &r1f5DW, _branches, _setStatus);
   utils::setAddress(_tree, name_, "r2f1DW", &r2f1DW, _branches, _setStatus);
@@ -79,8 +90,6 @@ panda::GenReweight::doSetAddress_(TTree& _tree, utils::BranchList const& _branch
 void
 panda::GenReweight::doBook_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Singlet::doBook_(_tree, _branches);
-
   utils::book(_tree, name_, "r1f2DW", "", 'F', &r1f2DW, _branches);
   utils::book(_tree, name_, "r1f5DW", "", 'F', &r1f5DW, _branches);
   utils::book(_tree, name_, "r2f1DW", "", 'F', &r2f1DW, _branches);
@@ -94,8 +103,6 @@ panda::GenReweight::doBook_(TTree& _tree, utils::BranchList const& _branches/* =
 void
 panda::GenReweight::doReleaseTree_(TTree& _tree)
 {
-  Singlet::doReleaseTree_(_tree);
-
   utils::resetAddress(_tree, name_, "r1f2DW");
   utils::resetAddress(_tree, name_, "r1f5DW");
   utils::resetAddress(_tree, name_, "r2f1DW");
@@ -109,8 +116,6 @@ panda::GenReweight::doReleaseTree_(TTree& _tree)
 void
 panda::GenReweight::doInit_()
 {
-  Singlet::doInit_();
-
   r1f2DW = 0.;
   r1f5DW = 0.;
   r2f1DW = 0.;
