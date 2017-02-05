@@ -1,0 +1,15 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir=LR;
+  Node1 [label="panda::utils::Iterator::shiftPtr_",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="panda::utils::Iterator::operator++",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1utils_1_1Iterator.html#a4eb53779fe25646b72d1cbe9cab3c724"];
+  Node1 -> Node3 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="panda::utils::Iterator::operator+=",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1utils_1_1Iterator.html#a0ddae9be72f0c2644c2c2d72ee0ae51b"];
+  Node1 -> Node4 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="panda::utils::Iterator::operator--",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1utils_1_1Iterator.html#a96e8ebf69342e0036f7197fdbc9ed775"];
+  Node1 -> Node5 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="panda::utils::Iterator::operator-=",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1utils_1_1Iterator.html#a6cde570ecd522b49d39c8aca8aa8c9c7"];
+}

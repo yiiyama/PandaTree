@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$namespacepanda_1_1utils.html#a8928c2bd486eae6103c33618c6eb4e80" title="Get the status of a branch." alt="" coords="628,32,780,61"/>
+<area shape="rect" id="node9" href="$structpanda_1_1Particle_1_1datastore.html#a09e5a80068f06d0d2118c2596258b8e3" title="panda::Particle::datastore::getStatus" alt="" coords="301,84,536,113"/>
+<area shape="rect" id="node5" href="$namespacepanda_1_1utils.html#aafa411773a4b0ee829d99e6e5a0abdcd" title="Check status of a branch." alt="" coords="904,5,1075,35"/>
+<area shape="rect" id="node7" href="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412" title="Prepend the branch name with &lt;objName.&gt;." alt="" coords="873,59,1105,88"/>
+<area shape="rect" id="node12" href="$structpanda_1_1Element_1_1datastore.html#a9f9eb1f7611bc73f10a010a149d17a15" title="panda::Element::datastore::getStatus" alt="" coords="585,85,823,115"/>
+</map>

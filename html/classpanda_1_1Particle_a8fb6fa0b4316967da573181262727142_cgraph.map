@@ -1,0 +1,6 @@
+<map id="panda::Particle::releaseTree" name="panda::Particle::releaseTree">
+<area shape="rect" id="node2" href="$classpanda_1_1Object.html#aaf58438092b42a89b838ce12c6a23833" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="242,5,425,33"/>
+<area shape="rect" id="node3" href="$classpanda_1_1utils_1_1StoreManager.html#a6f30ec459d951e84a1196b7e2ffdcf49" title="panda::utils::StoreManager\l::getName" alt="" coords="243,57,424,101"/>
+<area shape="rect" id="node4" href="$namespacepanda_1_1utils.html#a82a8530e64fbdf917cf9b8659065f98b" title="panda::utils::resetAddress" alt="" coords="246,125,421,153"/>
+<area shape="rect" id="node5" href="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412" title="Prepend the branch name with &lt;objName.&gt;. " alt="" coords="473,117,648,161"/>
+</map>

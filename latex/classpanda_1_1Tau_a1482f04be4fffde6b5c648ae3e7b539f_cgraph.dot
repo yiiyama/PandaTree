@@ -1,0 +1,14 @@
+digraph "panda::Tau::operator="
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="panda::Tau::operator=",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="panda::ParticleM::operator=",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1ParticleM.html#a37f7be4e1150b6080b47b005af730af5"];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="panda::Particle::operator=",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Particle.html#a8c4fabfceb39b746b0e68a7389e662c4"];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="panda::ContainerElement\l::operator=",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1ContainerElement.html#ae8ba59e4cb5d7c1d491fc87c9360f039"];
+}

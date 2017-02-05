@@ -1,0 +1,410 @@
+\hypertarget{classpanda_1_1Event}{
+\section{panda::Event Class Reference}
+\label{classpanda_1_1Event}\index{panda::Event@{panda::Event}}
+}
+
+
+{\ttfamily \#include $<$Event.h$>$}Inheritance diagram for panda::Event:Collaboration diagram for panda::Event:\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1Event_afa0708d0da41a890950b73745b679c8f}{Event} ()
+\item 
+\hyperlink{classpanda_1_1Event_ab444c3beac70a3b85dbb86134cc8456a}{Event} (\hyperlink{classpanda_1_1Event}{Event} const \&)
+\item 
+\hyperlink{classpanda_1_1Event_a7519b814d0f3d3beb8c68aca49e14d61}{$\sim$Event} ()
+\item 
+\hyperlink{classpanda_1_1Event}{Event} \& \hyperlink{classpanda_1_1Event_a8b69d2507d829f979c498807a14cd4a6}{operator=} (\hyperlink{classpanda_1_1Event}{Event} const \&)
+\item 
+UInt\_\-t \hyperlink{classpanda_1_1Event_aa677c9bdbd32efd3652269efbfa9b659}{registerTrigger} (char const $\ast$path)
+\begin{DoxyCompactList}\small\item\em Use to declare a trigger path to be used in the analysis. Returns a token for the path. \item\end{DoxyCompactList}\item 
+Bool\_\-t \hyperlink{classpanda_1_1Event_acd59c2cd1de4db37626f6b6f9a371a63}{triggerFired} (UInt\_\-t token) const 
+\begin{DoxyCompactList}\small\item\em Trigger decision of the event. \item\end{DoxyCompactList}\item 
+char const $\ast$ \hyperlink{classpanda_1_1Event_ad091ad7fd273c9d22469cea19e97d136}{triggerMenu} () const 
+\begin{DoxyCompactList}\small\item\em Current trigger menu name. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1GenReweight}{GenReweight} \hyperlink{classpanda_1_1Event_a30a3ce250e37a21cf8d280a728f45a9c}{genReweight} = \hyperlink{classpanda_1_1GenReweight}{GenReweight}(\char`\"{}genReweight\char`\"{})
+\item 
+\hyperlink{classpanda_1_1Collection}{PFCandCollection} \hyperlink{classpanda_1_1Event_a04384fcc6ea7375bdd7282f60030ae64}{pfCandidates} = \hyperlink{classpanda_1_1Collection}{PFCandCollection}(\char`\"{}pfCandidates\char`\"{}, 2048)
+\item 
+\hyperlink{classpanda_1_1Collection}{SuperClusterCollection} \hyperlink{classpanda_1_1Event_acb055eafe92e83b064dcbbba7140495f}{superClusters} = \hyperlink{classpanda_1_1Collection}{SuperClusterCollection}(\char`\"{}superClusters\char`\"{}, 64)
+\item 
+\hyperlink{classpanda_1_1Collection}{ElectronCollection} \hyperlink{classpanda_1_1Event_ae032ee07dd410e6ce3579e7e530c65f7}{electrons} = \hyperlink{classpanda_1_1Collection}{ElectronCollection}(\char`\"{}electrons\char`\"{}, 32)
+\item 
+\hyperlink{classpanda_1_1Collection}{MuonCollection} \hyperlink{classpanda_1_1Event_a1b49b3f3ef0dacbd407e5d473a5c014f}{muons} = \hyperlink{classpanda_1_1Collection}{MuonCollection}(\char`\"{}muons\char`\"{}, 32)
+\item 
+\hyperlink{classpanda_1_1Collection}{TauCollection} \hyperlink{classpanda_1_1Event_a40e09c3f99a6e0207d60413940ae1876}{taus} = \hyperlink{classpanda_1_1Collection}{TauCollection}(\char`\"{}taus\char`\"{}, 64)
+\item 
+\hyperlink{classpanda_1_1Collection}{PhotonCollection} \hyperlink{classpanda_1_1Event_a42e6ea0ac65285f9d35d47db092765c5}{photons} = \hyperlink{classpanda_1_1Collection}{PhotonCollection}(\char`\"{}photons\char`\"{}, 32)
+\item 
+\hyperlink{classpanda_1_1Collection}{JetCollection} \hyperlink{classpanda_1_1Event_a822814d60c0df55807b04a1489fc3783}{chsAK4Jets} = \hyperlink{classpanda_1_1Collection}{JetCollection}(\char`\"{}chsAK4Jets\char`\"{}, 64)
+\item 
+\hyperlink{classpanda_1_1Collection}{JetCollection} \hyperlink{classpanda_1_1Event_a95bbfc1588846edef19aa3eb3480deff}{puppiAK4Jets} = \hyperlink{classpanda_1_1Collection}{JetCollection}(\char`\"{}puppiAK4Jets\char`\"{}, 64)
+\item 
+\hyperlink{classpanda_1_1Collection}{FatJetCollection} \hyperlink{classpanda_1_1Event_a5887b3707f5bb76d2cda32c7e42d83f5}{chsAK8Jets} = \hyperlink{classpanda_1_1Collection}{FatJetCollection}(\char`\"{}chsAK8Jets\char`\"{}, 8)
+\item 
+\hyperlink{classpanda_1_1Collection}{FatJetCollection} \hyperlink{classpanda_1_1Event_af49dd838ad102b13582e62cb63241262}{chsCA15Jets} = \hyperlink{classpanda_1_1Collection}{FatJetCollection}(\char`\"{}chsCA15Jets\char`\"{}, 8)
+\item 
+\hyperlink{classpanda_1_1Collection}{FatJetCollection} \hyperlink{classpanda_1_1Event_a91c57207214b8717ad431863fc9ecfa2}{puppiAK8Jets} = \hyperlink{classpanda_1_1Collection}{FatJetCollection}(\char`\"{}puppiAK8Jets\char`\"{}, 8)
+\item 
+\hyperlink{classpanda_1_1Collection}{FatJetCollection} \hyperlink{classpanda_1_1Event_ad8c6b6c76a6993c8534468bac18dac25}{puppiCA15Jets} = \hyperlink{classpanda_1_1Collection}{FatJetCollection}(\char`\"{}puppiCA15Jets\char`\"{}, 8)
+\item 
+\hyperlink{classpanda_1_1Collection}{MicroJetCollection} \hyperlink{classpanda_1_1Event_a1e2ae9be493032383891406a863ef205}{subjets} = \hyperlink{classpanda_1_1Collection}{MicroJetCollection}(\char`\"{}subjets\char`\"{}, 64)
+\item 
+\hyperlink{classpanda_1_1Collection}{GenJetCollection} \hyperlink{classpanda_1_1Event_ae3a54af82a3cdb9e752c4b94cbf5fb48}{genJets} = \hyperlink{classpanda_1_1Collection}{GenJetCollection}(\char`\"{}genJets\char`\"{}, 64)
+\item 
+\hyperlink{classpanda_1_1Collection}{GenParticleCollection} \hyperlink{classpanda_1_1Event_ab586e3c06b59b23f2d2869a7e5d28648}{genParticles} = \hyperlink{classpanda_1_1Collection}{GenParticleCollection}(\char`\"{}genParticles\char`\"{}, 128)
+\item 
+\hyperlink{classpanda_1_1Collection}{PartonCollection} \hyperlink{classpanda_1_1Event_a55b3657dc273e8cec935272856474440}{partons} = \hyperlink{classpanda_1_1Collection}{PartonCollection}(\char`\"{}partons\char`\"{}, 8)
+\item 
+\hyperlink{classpanda_1_1RecoMet}{RecoMet} \hyperlink{classpanda_1_1Event_a11d22b206ec84054ea9eb095026ed551}{met} = \hyperlink{classpanda_1_1RecoMet}{RecoMet}(\char`\"{}met\char`\"{})
+\item 
+\hyperlink{classpanda_1_1RecoMet}{RecoMet} \hyperlink{classpanda_1_1Event_a3bbffdefa6d28927466053f51a1cbae3}{puppiMet} = \hyperlink{classpanda_1_1RecoMet}{RecoMet}(\char`\"{}puppiMet\char`\"{})
+\item 
+\hyperlink{classpanda_1_1Met}{Met} \hyperlink{classpanda_1_1Event_a860a1e91138f7c8763664d174f2d5e8c}{rawMet} = \hyperlink{classpanda_1_1Met}{Met}(\char`\"{}rawMet\char`\"{})
+\item 
+\hyperlink{classpanda_1_1Met}{Met} \hyperlink{classpanda_1_1Event_a15d30ed2e140f6f5bb8fd5a96737f129}{caloMet} = \hyperlink{classpanda_1_1Met}{Met}(\char`\"{}caloMet\char`\"{})
+\item 
+\hyperlink{classpanda_1_1Met}{Met} \hyperlink{classpanda_1_1Event_a6b92c63f4fe3a3b7025884f3693c415f}{noMuMet} = \hyperlink{classpanda_1_1Met}{Met}(\char`\"{}noMuMet\char`\"{})
+\item 
+\hyperlink{classpanda_1_1Met}{Met} \hyperlink{classpanda_1_1Event_aef6c4ad7a43f8bba87e0ed0c9cf38fbe}{noHFMet} = \hyperlink{classpanda_1_1Met}{Met}(\char`\"{}noHFMet\char`\"{})
+\item 
+\hyperlink{classpanda_1_1Met}{Met} \hyperlink{classpanda_1_1Event_a4fb679e95824515627bc4665b39ba7f2}{trkMet} = \hyperlink{classpanda_1_1Met}{Met}(\char`\"{}trkMet\char`\"{})
+\item 
+\hyperlink{classpanda_1_1Met}{Met} \hyperlink{classpanda_1_1Event_a122944fe3d7433466f448a37274752fa}{neutralMet} = \hyperlink{classpanda_1_1Met}{Met}(\char`\"{}neutralMet\char`\"{})
+\item 
+\hyperlink{classpanda_1_1Met}{Met} \hyperlink{classpanda_1_1Event_ad7826ab4d968d82a8390ef07b6a3f63d}{photonMet} = \hyperlink{classpanda_1_1Met}{Met}(\char`\"{}photonMet\char`\"{})
+\item 
+\hyperlink{classpanda_1_1Met}{Met} \hyperlink{classpanda_1_1Event_acc4184933eb9ecfa7e7f9bcd2d8fff1a}{hfMet} = \hyperlink{classpanda_1_1Met}{Met}(\char`\"{}hfMet\char`\"{})
+\item 
+\hyperlink{classpanda_1_1Met}{Met} \hyperlink{classpanda_1_1Event_a2a2b92638c18227eac196b49b45f93dd}{genMet} = \hyperlink{classpanda_1_1Met}{Met}(\char`\"{}genMet\char`\"{})
+\item 
+\hyperlink{classpanda_1_1MetFilters}{MetFilters} \hyperlink{classpanda_1_1Event_a45127567818ae586be29240c817cbe37}{metFilters} = \hyperlink{classpanda_1_1MetFilters}{MetFilters}(\char`\"{}metFilters\char`\"{})
+\item 
+\hyperlink{classpanda_1_1HLTBits}{HLTBits} \hyperlink{classpanda_1_1Event_ab9d5a4256dc7589d57ea44924e961162}{triggers} = \hyperlink{classpanda_1_1HLTBits}{HLTBits}(\char`\"{}triggers\char`\"{})
+\item 
+\hyperlink{classpanda_1_1Recoil}{Recoil} \hyperlink{classpanda_1_1Event_a8a6a46e16c3efe1f5a73d105228927f8}{recoil} = \hyperlink{classpanda_1_1Recoil}{Recoil}(\char`\"{}recoil\char`\"{})
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classpanda_1_1Event_a714f9999480dd623a883560e62717d85}{doSetStatus\_\-} (TTree \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&) override
+\item 
+\hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} \hyperlink{classpanda_1_1Event_a1bd8a01f111c4e14a921a560caef6821}{doGetStatus\_\-} (TTree \&) const override
+\item 
+void \hyperlink{classpanda_1_1Event_abe96424e8e74474e69a0f7bee8b6d38e}{doSetAddress\_\-} (TTree \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&, Bool\_\-t setStatus) override
+\item 
+void \hyperlink{classpanda_1_1Event_a3c20f40e1f37f947a5e977c38c53febb}{doBook\_\-} (TTree \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&) override
+\item 
+void \hyperlink{classpanda_1_1Event_a63ef383a11be99bbf46771468557c89a}{doReleaseTree\_\-} (TTree \&) override
+\item 
+void \hyperlink{classpanda_1_1Event_a7907201dc93916ed71696bc276793c80}{doInit\_\-} () override
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Bool\_\-t \hyperlink{classpanda_1_1Event_af555a708697c8a69575d69d6800ae458}{initRun\_\-} () const 
+\begin{DoxyCompactList}\small\item\em Check if run or input boundary has been crossed and update trigger information. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\} \hyperlink{classpanda_1_1Event_a5ed40e8ab1d0bfcabb64fa24f4eebeb6}{runCache\_}\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classpanda_1_1Event_afa0708d0da41a890950b73745b679c8f}{
+\index{panda::Event@{panda::Event}!Event@{Event}}
+\index{Event@{Event}!panda::Event@{panda::Event}}
+\subsubsection[{Event}]{\setlength{\rightskip}{0pt plus 5cm}panda::Event::Event ()}}
+\label{classpanda_1_1Event_afa0708d0da41a890950b73745b679c8f}
+\hypertarget{classpanda_1_1Event_ab444c3beac70a3b85dbb86134cc8456a}{
+\index{panda::Event@{panda::Event}!Event@{Event}}
+\index{Event@{Event}!panda::Event@{panda::Event}}
+\subsubsection[{Event}]{\setlength{\rightskip}{0pt plus 5cm}panda::Event::Event ({\bf Event} const \& {\em \_\-src})}}
+\label{classpanda_1_1Event_ab444c3beac70a3b85dbb86134cc8456a}
+\hypertarget{classpanda_1_1Event_a7519b814d0f3d3beb8c68aca49e14d61}{
+\index{panda::Event@{panda::Event}!$\sim$Event@{$\sim$Event}}
+\index{$\sim$Event@{$\sim$Event}!panda::Event@{panda::Event}}
+\subsubsection[{$\sim$Event}]{\setlength{\rightskip}{0pt plus 5cm}panda::Event::$\sim$Event ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Event_a7519b814d0f3d3beb8c68aca49e14d61}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classpanda_1_1Event_a3c20f40e1f37f947a5e977c38c53febb}{
+\index{panda::Event@{panda::Event}!doBook\_\-@{doBook\_\-}}
+\index{doBook\_\-@{doBook\_\-}!panda::Event@{panda::Event}}
+\subsubsection[{doBook\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Event::doBook\_\- (TTree \& {\em \_\-tree}, \/  {\bf utils::BranchList} const \& {\em \_\-branches})\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Event_a3c20f40e1f37f947a5e977c38c53febb}
+
+
+Implements \hyperlink{classpanda_1_1TreeEntry_a62e77d9db1eec7032b1e31e5edc78a10}{panda::TreeEntry}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Event_a1bd8a01f111c4e14a921a560caef6821}{
+\index{panda::Event@{panda::Event}!doGetStatus\_\-@{doGetStatus\_\-}}
+\index{doGetStatus\_\-@{doGetStatus\_\-}!panda::Event@{panda::Event}}
+\subsubsection[{doGetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::utils::BranchList} panda::Event::doGetStatus\_\- (TTree \& {\em \_\-tree}) const\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Event_a1bd8a01f111c4e14a921a560caef6821}
+
+
+Implements \hyperlink{classpanda_1_1TreeEntry_a649d4a6f2719b68d54c6a7505f5f3105}{panda::TreeEntry}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Event_a7907201dc93916ed71696bc276793c80}{
+\index{panda::Event@{panda::Event}!doInit\_\-@{doInit\_\-}}
+\index{doInit\_\-@{doInit\_\-}!panda::Event@{panda::Event}}
+\subsubsection[{doInit\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Event::doInit\_\- ()\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Event_a7907201dc93916ed71696bc276793c80}
+
+
+Implements \hyperlink{classpanda_1_1TreeEntry_ab78cd4dfd6c017222db541580983fb65}{panda::TreeEntry}.\hypertarget{classpanda_1_1Event_a63ef383a11be99bbf46771468557c89a}{
+\index{panda::Event@{panda::Event}!doReleaseTree\_\-@{doReleaseTree\_\-}}
+\index{doReleaseTree\_\-@{doReleaseTree\_\-}!panda::Event@{panda::Event}}
+\subsubsection[{doReleaseTree\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Event::doReleaseTree\_\- (TTree \& {\em \_\-tree})\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Event_a63ef383a11be99bbf46771468557c89a}
+
+
+Implements \hyperlink{classpanda_1_1TreeEntry_a44e70436de0dc8088885895ea0011a2d}{panda::TreeEntry}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Event_abe96424e8e74474e69a0f7bee8b6d38e}{
+\index{panda::Event@{panda::Event}!doSetAddress\_\-@{doSetAddress\_\-}}
+\index{doSetAddress\_\-@{doSetAddress\_\-}!panda::Event@{panda::Event}}
+\subsubsection[{doSetAddress\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Event::doSetAddress\_\- (TTree \& {\em \_\-tree}, \/  {\bf utils::BranchList} const \& {\em \_\-branches}, \/  Bool\_\-t {\em setStatus})\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Event_abe96424e8e74474e69a0f7bee8b6d38e}
+
+
+Implements \hyperlink{classpanda_1_1TreeEntry_abdb184144bf5a4ca8b0fdb6d06c5d4c1}{panda::TreeEntry}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Event_a714f9999480dd623a883560e62717d85}{
+\index{panda::Event@{panda::Event}!doSetStatus\_\-@{doSetStatus\_\-}}
+\index{doSetStatus\_\-@{doSetStatus\_\-}!panda::Event@{panda::Event}}
+\subsubsection[{doSetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Event::doSetStatus\_\- (TTree \& {\em \_\-tree}, \/  {\bf utils::BranchList} const \& {\em \_\-branches})\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Event_a714f9999480dd623a883560e62717d85}
+
+
+Implements \hyperlink{classpanda_1_1TreeEntry_a8c17222accba71d53b73ad6e2c3276a2}{panda::TreeEntry}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Event_af555a708697c8a69575d69d6800ae458}{
+\index{panda::Event@{panda::Event}!initRun\_\-@{initRun\_\-}}
+\index{initRun\_\-@{initRun\_\-}!panda::Event@{panda::Event}}
+\subsubsection[{initRun\_\-}]{\setlength{\rightskip}{0pt plus 5cm}Bool\_\-t panda::Event::initRun\_\- () const\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classpanda_1_1Event_af555a708697c8a69575d69d6800ae458}
+
+
+Check if run or input boundary has been crossed and update trigger information. List of registered paths 
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Event_a8b69d2507d829f979c498807a14cd4a6}{
+\index{panda::Event@{panda::Event}!operator=@{operator=}}
+\index{operator=@{operator=}!panda::Event@{panda::Event}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::Event} \& panda::Event::operator= ({\bf Event} const \& {\em \_\-src})}}
+\label{classpanda_1_1Event_a8b69d2507d829f979c498807a14cd4a6}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Object_a083629646c455db50ea99b994aac3b7b}{panda::Object}.\hypertarget{classpanda_1_1Event_aa677c9bdbd32efd3652269efbfa9b659}{
+\index{panda::Event@{panda::Event}!registerTrigger@{registerTrigger}}
+\index{registerTrigger@{registerTrigger}!panda::Event@{panda::Event}}
+\subsubsection[{registerTrigger}]{\setlength{\rightskip}{0pt plus 5cm}UInt\_\-t panda::Event::registerTrigger (char const $\ast$ {\em path})}}
+\label{classpanda_1_1Event_aa677c9bdbd32efd3652269efbfa9b659}
+
+
+Use to declare a trigger path to be used in the analysis. Returns a token for the path. Call this \hyperlink{namespacepanda_1_1function}{function} before the event loop for each trigger you will be using. The return value is an integer unique to the path, and can be passed to \hyperlink{classpanda_1_1Event_acd59c2cd1de4db37626f6b6f9a371a63}{triggerFired()} in the event loop to retrieve the trigger decision of the event.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em path}]HLT path \end{DoxyParams}
+\hypertarget{classpanda_1_1Event_acd59c2cd1de4db37626f6b6f9a371a63}{
+\index{panda::Event@{panda::Event}!triggerFired@{triggerFired}}
+\index{triggerFired@{triggerFired}!panda::Event@{panda::Event}}
+\subsubsection[{triggerFired}]{\setlength{\rightskip}{0pt plus 5cm}Bool\_\-t panda::Event::triggerFired (UInt\_\-t {\em token}) const}}
+\label{classpanda_1_1Event_acd59c2cd1de4db37626f6b6f9a371a63}
+
+
+Trigger decision of the event. Pass the trigger token returned by \hyperlink{classpanda_1_1Event_aa677c9bdbd32efd3652269efbfa9b659}{registerTrigger()}.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em token}]Token returned by \hyperlink{classpanda_1_1Event_aa677c9bdbd32efd3652269efbfa9b659}{registerTrigger()} \end{DoxyParams}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Event_ad091ad7fd273c9d22469cea19e97d136}{
+\index{panda::Event@{panda::Event}!triggerMenu@{triggerMenu}}
+\index{triggerMenu@{triggerMenu}!panda::Event@{panda::Event}}
+\subsubsection[{triggerMenu}]{\setlength{\rightskip}{0pt plus 5cm}char const $\ast$ panda::Event::triggerMenu () const}}
+\label{classpanda_1_1Event_ad091ad7fd273c9d22469cea19e97d136}
+
+
+Current trigger menu name. 
+
+Here is the call graph for this function:
+
+\subsection{Member Data Documentation}
+\hypertarget{classpanda_1_1Event_a15d30ed2e140f6f5bb8fd5a96737f129}{
+\index{panda::Event@{panda::Event}!caloMet@{caloMet}}
+\index{caloMet@{caloMet}!panda::Event@{panda::Event}}
+\subsubsection[{caloMet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Met} {\bf panda::Event::caloMet} = {\bf Met}(\char`\"{}caloMet\char`\"{})}}
+\label{classpanda_1_1Event_a15d30ed2e140f6f5bb8fd5a96737f129}
+\hypertarget{classpanda_1_1Event_a822814d60c0df55807b04a1489fc3783}{
+\index{panda::Event@{panda::Event}!chsAK4Jets@{chsAK4Jets}}
+\index{chsAK4Jets@{chsAK4Jets}!panda::Event@{panda::Event}}
+\subsubsection[{chsAK4Jets}]{\setlength{\rightskip}{0pt plus 5cm}{\bf JetCollection} {\bf panda::Event::chsAK4Jets} = {\bf JetCollection}(\char`\"{}chsAK4Jets\char`\"{}, 64)}}
+\label{classpanda_1_1Event_a822814d60c0df55807b04a1489fc3783}
+\hypertarget{classpanda_1_1Event_a5887b3707f5bb76d2cda32c7e42d83f5}{
+\index{panda::Event@{panda::Event}!chsAK8Jets@{chsAK8Jets}}
+\index{chsAK8Jets@{chsAK8Jets}!panda::Event@{panda::Event}}
+\subsubsection[{chsAK8Jets}]{\setlength{\rightskip}{0pt plus 5cm}{\bf FatJetCollection} {\bf panda::Event::chsAK8Jets} = {\bf FatJetCollection}(\char`\"{}chsAK8Jets\char`\"{}, 8)}}
+\label{classpanda_1_1Event_a5887b3707f5bb76d2cda32c7e42d83f5}
+\hypertarget{classpanda_1_1Event_af49dd838ad102b13582e62cb63241262}{
+\index{panda::Event@{panda::Event}!chsCA15Jets@{chsCA15Jets}}
+\index{chsCA15Jets@{chsCA15Jets}!panda::Event@{panda::Event}}
+\subsubsection[{chsCA15Jets}]{\setlength{\rightskip}{0pt plus 5cm}{\bf FatJetCollection} {\bf panda::Event::chsCA15Jets} = {\bf FatJetCollection}(\char`\"{}chsCA15Jets\char`\"{}, 8)}}
+\label{classpanda_1_1Event_af49dd838ad102b13582e62cb63241262}
+\hypertarget{classpanda_1_1Event_ae032ee07dd410e6ce3579e7e530c65f7}{
+\index{panda::Event@{panda::Event}!electrons@{electrons}}
+\index{electrons@{electrons}!panda::Event@{panda::Event}}
+\subsubsection[{electrons}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ElectronCollection} {\bf panda::Event::electrons} = {\bf ElectronCollection}(\char`\"{}electrons\char`\"{}, 32)}}
+\label{classpanda_1_1Event_ae032ee07dd410e6ce3579e7e530c65f7}
+\hypertarget{classpanda_1_1Event_ae3a54af82a3cdb9e752c4b94cbf5fb48}{
+\index{panda::Event@{panda::Event}!genJets@{genJets}}
+\index{genJets@{genJets}!panda::Event@{panda::Event}}
+\subsubsection[{genJets}]{\setlength{\rightskip}{0pt plus 5cm}{\bf GenJetCollection} {\bf panda::Event::genJets} = {\bf GenJetCollection}(\char`\"{}genJets\char`\"{}, 64)}}
+\label{classpanda_1_1Event_ae3a54af82a3cdb9e752c4b94cbf5fb48}
+\hypertarget{classpanda_1_1Event_a2a2b92638c18227eac196b49b45f93dd}{
+\index{panda::Event@{panda::Event}!genMet@{genMet}}
+\index{genMet@{genMet}!panda::Event@{panda::Event}}
+\subsubsection[{genMet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Met} {\bf panda::Event::genMet} = {\bf Met}(\char`\"{}genMet\char`\"{})}}
+\label{classpanda_1_1Event_a2a2b92638c18227eac196b49b45f93dd}
+\hypertarget{classpanda_1_1Event_ab586e3c06b59b23f2d2869a7e5d28648}{
+\index{panda::Event@{panda::Event}!genParticles@{genParticles}}
+\index{genParticles@{genParticles}!panda::Event@{panda::Event}}
+\subsubsection[{genParticles}]{\setlength{\rightskip}{0pt plus 5cm}{\bf GenParticleCollection} {\bf panda::Event::genParticles} = {\bf GenParticleCollection}(\char`\"{}genParticles\char`\"{}, 128)}}
+\label{classpanda_1_1Event_ab586e3c06b59b23f2d2869a7e5d28648}
+\hypertarget{classpanda_1_1Event_a30a3ce250e37a21cf8d280a728f45a9c}{
+\index{panda::Event@{panda::Event}!genReweight@{genReweight}}
+\index{genReweight@{genReweight}!panda::Event@{panda::Event}}
+\subsubsection[{genReweight}]{\setlength{\rightskip}{0pt plus 5cm}{\bf GenReweight} {\bf panda::Event::genReweight} = {\bf GenReweight}(\char`\"{}genReweight\char`\"{})}}
+\label{classpanda_1_1Event_a30a3ce250e37a21cf8d280a728f45a9c}
+\hypertarget{classpanda_1_1Event_acc4184933eb9ecfa7e7f9bcd2d8fff1a}{
+\index{panda::Event@{panda::Event}!hfMet@{hfMet}}
+\index{hfMet@{hfMet}!panda::Event@{panda::Event}}
+\subsubsection[{hfMet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Met} {\bf panda::Event::hfMet} = {\bf Met}(\char`\"{}hfMet\char`\"{})}}
+\label{classpanda_1_1Event_acc4184933eb9ecfa7e7f9bcd2d8fff1a}
+\hypertarget{classpanda_1_1Event_a11d22b206ec84054ea9eb095026ed551}{
+\index{panda::Event@{panda::Event}!met@{met}}
+\index{met@{met}!panda::Event@{panda::Event}}
+\subsubsection[{met}]{\setlength{\rightskip}{0pt plus 5cm}{\bf RecoMet} {\bf panda::Event::met} = {\bf RecoMet}(\char`\"{}met\char`\"{})}}
+\label{classpanda_1_1Event_a11d22b206ec84054ea9eb095026ed551}
+\hypertarget{classpanda_1_1Event_a45127567818ae586be29240c817cbe37}{
+\index{panda::Event@{panda::Event}!metFilters@{metFilters}}
+\index{metFilters@{metFilters}!panda::Event@{panda::Event}}
+\subsubsection[{metFilters}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MetFilters} {\bf panda::Event::metFilters} = {\bf MetFilters}(\char`\"{}metFilters\char`\"{})}}
+\label{classpanda_1_1Event_a45127567818ae586be29240c817cbe37}
+\hypertarget{classpanda_1_1Event_a1b49b3f3ef0dacbd407e5d473a5c014f}{
+\index{panda::Event@{panda::Event}!muons@{muons}}
+\index{muons@{muons}!panda::Event@{panda::Event}}
+\subsubsection[{muons}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MuonCollection} {\bf panda::Event::muons} = {\bf MuonCollection}(\char`\"{}muons\char`\"{}, 32)}}
+\label{classpanda_1_1Event_a1b49b3f3ef0dacbd407e5d473a5c014f}
+\hypertarget{classpanda_1_1Event_a122944fe3d7433466f448a37274752fa}{
+\index{panda::Event@{panda::Event}!neutralMet@{neutralMet}}
+\index{neutralMet@{neutralMet}!panda::Event@{panda::Event}}
+\subsubsection[{neutralMet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Met} {\bf panda::Event::neutralMet} = {\bf Met}(\char`\"{}neutralMet\char`\"{})}}
+\label{classpanda_1_1Event_a122944fe3d7433466f448a37274752fa}
+\hypertarget{classpanda_1_1Event_aef6c4ad7a43f8bba87e0ed0c9cf38fbe}{
+\index{panda::Event@{panda::Event}!noHFMet@{noHFMet}}
+\index{noHFMet@{noHFMet}!panda::Event@{panda::Event}}
+\subsubsection[{noHFMet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Met} {\bf panda::Event::noHFMet} = {\bf Met}(\char`\"{}noHFMet\char`\"{})}}
+\label{classpanda_1_1Event_aef6c4ad7a43f8bba87e0ed0c9cf38fbe}
+\hypertarget{classpanda_1_1Event_a6b92c63f4fe3a3b7025884f3693c415f}{
+\index{panda::Event@{panda::Event}!noMuMet@{noMuMet}}
+\index{noMuMet@{noMuMet}!panda::Event@{panda::Event}}
+\subsubsection[{noMuMet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Met} {\bf panda::Event::noMuMet} = {\bf Met}(\char`\"{}noMuMet\char`\"{})}}
+\label{classpanda_1_1Event_a6b92c63f4fe3a3b7025884f3693c415f}
+\hypertarget{classpanda_1_1Event_a55b3657dc273e8cec935272856474440}{
+\index{panda::Event@{panda::Event}!partons@{partons}}
+\index{partons@{partons}!panda::Event@{panda::Event}}
+\subsubsection[{partons}]{\setlength{\rightskip}{0pt plus 5cm}{\bf PartonCollection} {\bf panda::Event::partons} = {\bf PartonCollection}(\char`\"{}partons\char`\"{}, 8)}}
+\label{classpanda_1_1Event_a55b3657dc273e8cec935272856474440}
+\hypertarget{classpanda_1_1Event_a04384fcc6ea7375bdd7282f60030ae64}{
+\index{panda::Event@{panda::Event}!pfCandidates@{pfCandidates}}
+\index{pfCandidates@{pfCandidates}!panda::Event@{panda::Event}}
+\subsubsection[{pfCandidates}]{\setlength{\rightskip}{0pt plus 5cm}{\bf PFCandCollection} {\bf panda::Event::pfCandidates} = {\bf PFCandCollection}(\char`\"{}pfCandidates\char`\"{}, 2048)}}
+\label{classpanda_1_1Event_a04384fcc6ea7375bdd7282f60030ae64}
+\hypertarget{classpanda_1_1Event_ad7826ab4d968d82a8390ef07b6a3f63d}{
+\index{panda::Event@{panda::Event}!photonMet@{photonMet}}
+\index{photonMet@{photonMet}!panda::Event@{panda::Event}}
+\subsubsection[{photonMet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Met} {\bf panda::Event::photonMet} = {\bf Met}(\char`\"{}photonMet\char`\"{})}}
+\label{classpanda_1_1Event_ad7826ab4d968d82a8390ef07b6a3f63d}
+\hypertarget{classpanda_1_1Event_a42e6ea0ac65285f9d35d47db092765c5}{
+\index{panda::Event@{panda::Event}!photons@{photons}}
+\index{photons@{photons}!panda::Event@{panda::Event}}
+\subsubsection[{photons}]{\setlength{\rightskip}{0pt plus 5cm}{\bf PhotonCollection} {\bf panda::Event::photons} = {\bf PhotonCollection}(\char`\"{}photons\char`\"{}, 32)}}
+\label{classpanda_1_1Event_a42e6ea0ac65285f9d35d47db092765c5}
+\hypertarget{classpanda_1_1Event_a95bbfc1588846edef19aa3eb3480deff}{
+\index{panda::Event@{panda::Event}!puppiAK4Jets@{puppiAK4Jets}}
+\index{puppiAK4Jets@{puppiAK4Jets}!panda::Event@{panda::Event}}
+\subsubsection[{puppiAK4Jets}]{\setlength{\rightskip}{0pt plus 5cm}{\bf JetCollection} {\bf panda::Event::puppiAK4Jets} = {\bf JetCollection}(\char`\"{}puppiAK4Jets\char`\"{}, 64)}}
+\label{classpanda_1_1Event_a95bbfc1588846edef19aa3eb3480deff}
+\hypertarget{classpanda_1_1Event_a91c57207214b8717ad431863fc9ecfa2}{
+\index{panda::Event@{panda::Event}!puppiAK8Jets@{puppiAK8Jets}}
+\index{puppiAK8Jets@{puppiAK8Jets}!panda::Event@{panda::Event}}
+\subsubsection[{puppiAK8Jets}]{\setlength{\rightskip}{0pt plus 5cm}{\bf FatJetCollection} {\bf panda::Event::puppiAK8Jets} = {\bf FatJetCollection}(\char`\"{}puppiAK8Jets\char`\"{}, 8)}}
+\label{classpanda_1_1Event_a91c57207214b8717ad431863fc9ecfa2}
+\hypertarget{classpanda_1_1Event_ad8c6b6c76a6993c8534468bac18dac25}{
+\index{panda::Event@{panda::Event}!puppiCA15Jets@{puppiCA15Jets}}
+\index{puppiCA15Jets@{puppiCA15Jets}!panda::Event@{panda::Event}}
+\subsubsection[{puppiCA15Jets}]{\setlength{\rightskip}{0pt plus 5cm}{\bf FatJetCollection} {\bf panda::Event::puppiCA15Jets} = {\bf FatJetCollection}(\char`\"{}puppiCA15Jets\char`\"{}, 8)}}
+\label{classpanda_1_1Event_ad8c6b6c76a6993c8534468bac18dac25}
+\hypertarget{classpanda_1_1Event_a3bbffdefa6d28927466053f51a1cbae3}{
+\index{panda::Event@{panda::Event}!puppiMet@{puppiMet}}
+\index{puppiMet@{puppiMet}!panda::Event@{panda::Event}}
+\subsubsection[{puppiMet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf RecoMet} {\bf panda::Event::puppiMet} = {\bf RecoMet}(\char`\"{}puppiMet\char`\"{})}}
+\label{classpanda_1_1Event_a3bbffdefa6d28927466053f51a1cbae3}
+\hypertarget{classpanda_1_1Event_a860a1e91138f7c8763664d174f2d5e8c}{
+\index{panda::Event@{panda::Event}!rawMet@{rawMet}}
+\index{rawMet@{rawMet}!panda::Event@{panda::Event}}
+\subsubsection[{rawMet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Met} {\bf panda::Event::rawMet} = {\bf Met}(\char`\"{}rawMet\char`\"{})}}
+\label{classpanda_1_1Event_a860a1e91138f7c8763664d174f2d5e8c}
+\hypertarget{classpanda_1_1Event_a8a6a46e16c3efe1f5a73d105228927f8}{
+\index{panda::Event@{panda::Event}!recoil@{recoil}}
+\index{recoil@{recoil}!panda::Event@{panda::Event}}
+\subsubsection[{recoil}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Recoil} {\bf panda::Event::recoil} = {\bf Recoil}(\char`\"{}recoil\char`\"{})}}
+\label{classpanda_1_1Event_a8a6a46e16c3efe1f5a73d105228927f8}
+\hypertarget{classpanda_1_1Event_a5ed40e8ab1d0bfcabb64fa24f4eebeb6}{
+\index{panda::Event@{panda::Event}!runCache\_\-@{runCache\_\-}}
+\index{runCache\_\-@{runCache\_\-}!panda::Event@{panda::Event}}
+\subsubsection[{runCache\_\-}]{\setlength{\rightskip}{0pt plus 5cm}struct \{ ... \}   {\bf panda::Event::runCache\_\-}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classpanda_1_1Event_a5ed40e8ab1d0bfcabb64fa24f4eebeb6}
+\hypertarget{classpanda_1_1Event_a1e2ae9be493032383891406a863ef205}{
+\index{panda::Event@{panda::Event}!subjets@{subjets}}
+\index{subjets@{subjets}!panda::Event@{panda::Event}}
+\subsubsection[{subjets}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MicroJetCollection} {\bf panda::Event::subjets} = {\bf MicroJetCollection}(\char`\"{}subjets\char`\"{}, 64)}}
+\label{classpanda_1_1Event_a1e2ae9be493032383891406a863ef205}
+\hypertarget{classpanda_1_1Event_acb055eafe92e83b064dcbbba7140495f}{
+\index{panda::Event@{panda::Event}!superClusters@{superClusters}}
+\index{superClusters@{superClusters}!panda::Event@{panda::Event}}
+\subsubsection[{superClusters}]{\setlength{\rightskip}{0pt plus 5cm}{\bf SuperClusterCollection} {\bf panda::Event::superClusters} = {\bf SuperClusterCollection}(\char`\"{}superClusters\char`\"{}, 64)}}
+\label{classpanda_1_1Event_acb055eafe92e83b064dcbbba7140495f}
+\hypertarget{classpanda_1_1Event_a40e09c3f99a6e0207d60413940ae1876}{
+\index{panda::Event@{panda::Event}!taus@{taus}}
+\index{taus@{taus}!panda::Event@{panda::Event}}
+\subsubsection[{taus}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TauCollection} {\bf panda::Event::taus} = {\bf TauCollection}(\char`\"{}taus\char`\"{}, 64)}}
+\label{classpanda_1_1Event_a40e09c3f99a6e0207d60413940ae1876}
+\hypertarget{classpanda_1_1Event_ab9d5a4256dc7589d57ea44924e961162}{
+\index{panda::Event@{panda::Event}!triggers@{triggers}}
+\index{triggers@{triggers}!panda::Event@{panda::Event}}
+\subsubsection[{triggers}]{\setlength{\rightskip}{0pt plus 5cm}{\bf HLTBits} {\bf panda::Event::triggers} = {\bf HLTBits}(\char`\"{}triggers\char`\"{})}}
+\label{classpanda_1_1Event_ab9d5a4256dc7589d57ea44924e961162}
+\hypertarget{classpanda_1_1Event_a4fb679e95824515627bc4665b39ba7f2}{
+\index{panda::Event@{panda::Event}!trkMet@{trkMet}}
+\index{trkMet@{trkMet}!panda::Event@{panda::Event}}
+\subsubsection[{trkMet}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Met} {\bf panda::Event::trkMet} = {\bf Met}(\char`\"{}trkMet\char`\"{})}}
+\label{classpanda_1_1Event_a4fb679e95824515627bc4665b39ba7f2}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Objects/interface/\hyperlink{Event_8h}{Event.h}\item 
+Objects/src/\hyperlink{Event_8cc}{Event.cc}\end{DoxyCompactItemize}

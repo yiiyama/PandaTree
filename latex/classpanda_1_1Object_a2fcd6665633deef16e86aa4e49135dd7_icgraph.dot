@@ -1,0 +1,50 @@
+digraph "panda::Object::book"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="panda::Object::book",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="panda::GenReweight\l::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1GenReweight.html#a1954e0eca16ff2540a5136e266f70626",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="panda::HLTBits::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1HLTBits.html#a0ff2d398553ab592232fc0d9eb89a0e0",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="panda::Met::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Met.html#aca05a4a18ca9ff84de5761e081169fd3",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="panda::RecoMet::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1RecoMet.html#a3930c94d8aa8e2c46d87d7d55625f1fb",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="panda::MetFilters::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1MetFilters.html#afa8d93edaa81edb2f746de3e62fc6303",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="panda::Particle::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Particle.html#aaf351374f253978216b4a893a1766a64",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="panda::Lepton::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Lepton.html#a4be584d13f41f6c922d6fe58056ec25d",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="panda::Electron::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Electron.html#a77a28ebcf6778febcd82ae81cbf7d74c",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node8 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node10 [label="panda::Muon::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Muon.html#a24dbbfcffa726e1594dcccd1db34fe5f",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node7 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node11 [label="panda::ParticleM::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1ParticleM.html#acb4f53549465b6799cc02899a1a579eb",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node11 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node12 [label="panda::GenJet::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1GenJet.html#a0ca47c595bf1dce791d3c06c75f3fbaf",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node11 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node13 [label="panda::GenParticle\l::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1GenParticle.html#a748bcf33806985c71d40c09e564e46ba",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node11 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node14 [label="panda::MicroJet::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1MicroJet.html#a6d1f2d8a49162e3abdebd7647df6131e",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node14 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node15 [label="panda::Jet::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Jet.html#af047a1a3e21716a28f9a1deaa9d43123",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node15 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node16 [label="panda::FatJet::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1FatJet.html#a733475668d0bd2a7dd5030909e87305c",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node11 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node17 [label="panda::Parton::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Parton.html#aaffc6b5ba36cc920e48cc00cac8eb65e",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node11 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node18 [label="panda::PFCand::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1PFCand.html#ae77bd179a738d0e61895dc5e5182a45f",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node11 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node19 [label="panda::Tau::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Tau.html#a4f31bfd77bced4bc2935e1cb2ddce5e7",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node7 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node20 [label="panda::Photon::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Photon.html#af824c1f835d0c088bf82614984ab34ee",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node1 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node21 [label="panda::Recoil::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Recoil.html#a82d484c82f00822053131eed5dbe9644",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node1 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node22 [label="panda::SuperCluster\l::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1SuperCluster.html#a9a140039f4cfbbb734b6983a757659b1",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+}

@@ -1,0 +1,5 @@
+<map id="panda::CollectionBase::init" name="panda::CollectionBase::init">
+<area shape="rect" id="node2" href="$classpanda_1_1CollectionBase.html#a5820623424a01aa34f3988ead2612576" title="panda::CollectionBase\l::clear" alt="" coords="208,40,363,84"/>
+<area shape="rect" id="node3" href="$classpanda_1_1ContainerBase.html#a14b14c940d7c8b0ce870c7df333e18a7" title="panda::ContainerBase\l::getData" alt="" coords="424,5,578,49"/>
+<area shape="rect" id="node4" href="$structpanda_1_1ContainerElement_1_1datastore.html#ac050bf7055f0c53b4aff4234e2de6e20" title="Override when there are vector members. " alt="" coords="411,73,591,117"/>
+</map>

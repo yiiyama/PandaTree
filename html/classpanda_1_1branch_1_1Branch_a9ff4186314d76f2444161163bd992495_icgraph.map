@@ -1,0 +1,21 @@
+<map id="panda.branch.Branch.is_array" name="panda.branch.Branch.is_array">
+<area shape="rect" id="node2" href="$classpanda_1_1branch_1_1Branch.html#a11ce0de77040f41593ece6dce3137489" title="panda.branch.Branch.write_decl" alt="" coords="234,5,446,33"/>
+<area shape="rect" id="node3" href="$classpanda_1_1branch_1_1Branch.html#a7c6a68a476970534c23c265a0b56fa56" title="panda.branch.Branch.write\l_set_address" alt="" coords="250,57,430,101"/>
+<area shape="rect" id="node4" href="$classpanda_1_1branch_1_1Branch.html#acd04edc5835a827e5aec0ffa1b15b6d0" title="panda.branch.Branch.write_book" alt="" coords="231,125,448,153"/>
+<area shape="rect" id="node5" href="$classpanda_1_1branch_1_1Branch.html#a27249566fe1cd5b1e05366243a6d7de3" title="panda.branch.Branch.init_copy" alt="" coords="237,177,442,205"/>
+<area shape="rect" id="node6" href="$classpanda_1_1branch_1_1Branch.html#a9dd12cb55cc7f97e717290693e7fb371" title="panda.branch.Branch.write\l_assign" alt="" coords="250,281,430,325"/>
+<area shape="rect" id="node7" href="$classpanda_1_1refbranch_1_1RefBranch.html#aab6abb2a47955638050a1e0f2798f5f6" title="panda.refbranch.RefBranch.write\l_copy_ctor" alt="" coords="512,235,729,279"/>
+<area shape="rect" id="node8" href="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#a4a579a4942e4357945946c354ff21b45" title="panda.refvbranch.RefVector\lBranch.write_copy_ctor" alt="" coords="527,316,715,360"/>
+<area shape="rect" id="node9" href="$classpanda_1_1refbranch_1_1RefBranch.html#a3287a514343dbae3d50e9578e7c6bb5e" title="panda.refbranch.RefBranch.write_decl" alt="" coords="215,401,464,429"/>
+<area shape="rect" id="node10" href="$classpanda_1_1refbranch_1_1RefBranch.html#a4edcbb0da3190709f84b750e66ca5e88" title="panda.refbranch.RefBranch.init\l_default" alt="" coords="237,453,443,497"/>
+<area shape="rect" id="node11" href="$classpanda_1_1refbranch_1_1RefBranch.html#ace72ad601d85c1c58ab249cafb3bd640" title="panda.refbranch.RefBranch.init\l_standard" alt="" coords="237,521,443,565"/>
+<area shape="rect" id="node12" href="$classpanda_1_1refbranch_1_1RefBranch.html#a72e8747ec09cb749e8dac7ad3bfd2243" title="panda.refbranch.RefBranch.init_copy" alt="" coords="219,589,461,617"/>
+<area shape="rect" id="node13" href="$classpanda_1_1refbranch_1_1RefBranch.html#a6ffa2957a631301713d3a09a7c342d19" title="panda.refbranch.RefBranch.write\l_default_ctor" alt="" coords="231,641,448,685"/>
+<area shape="rect" id="node14" href="$classpanda_1_1refbranch_1_1RefBranch.html#ad061e9eb8e6ed82ccacfbd5359a41ba5" title="panda.refbranch.RefBranch.write\l_standard_ctor" alt="" coords="231,709,448,753"/>
+<area shape="rect" id="node15" href="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#a1ee9513bd0963fdfab24f8e0520ca07a" title="panda.refvbranch.RefVector\lBranch.write_decl" alt="" coords="246,777,434,821"/>
+<area shape="rect" id="node16" href="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#a38cc93cb3d19d614c3ba2af7c8f6d11b" title="panda.refvbranch.RefVector\lBranch.init_default" alt="" coords="246,845,434,889"/>
+<area shape="rect" id="node17" href="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#a44f049ff3e4c2cb5b2f5bb8cbd813e39" title="panda.refvbranch.RefVector\lBranch.init_standard" alt="" coords="246,913,434,957"/>
+<area shape="rect" id="node18" href="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#abe8cf3a90e89c7f1e32a2c3e14dffb56" title="panda.refvbranch.RefVector\lBranch.init_copy" alt="" coords="246,981,434,1025"/>
+<area shape="rect" id="node19" href="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#a5d343d755a1486484bbb164fbdf9ac4c" title="panda.refvbranch.RefVector\lBranch.write_default_ctor" alt="" coords="246,1049,434,1093"/>
+<area shape="rect" id="node20" href="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#a762962588e6b21736201ba01b0c9434f" title="panda.refvbranch.RefVector\lBranch.write_standard_ctor" alt="" coords="246,1117,434,1161"/>
+</map>

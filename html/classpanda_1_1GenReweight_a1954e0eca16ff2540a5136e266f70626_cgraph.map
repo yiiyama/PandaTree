@@ -1,0 +1,6 @@
+<map id="panda::GenReweight::book" name="panda::GenReweight::book">
+<area shape="rect" id="node2" href="$classpanda_1_1Object.html#a2fcd6665633deef16e86aa4e49135dd7" title="Book new branches to the tree corresponding to the variables of this object. " alt="" coords="200,5,341,33"/>
+<area shape="rect" id="node3" href="$namespacepanda_1_1utils.html#aaa6c7cd5892388e6ffdf713b11abf793" title="Book the branch. " alt="" coords="207,57,333,85"/>
+<area shape="rect" id="node4" href="$classpanda_1_1utils_1_1BranchName.html#a6cc8a6df7c5b12a0221fd49773cca6a7" title="Is the name included and not vetoed? " alt="" coords="389,27,581,55"/>
+<area shape="rect" id="node5" href="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412" title="Prepend the branch name with &lt;objName.&gt;. " alt="" coords="397,79,572,123"/>
+</map>

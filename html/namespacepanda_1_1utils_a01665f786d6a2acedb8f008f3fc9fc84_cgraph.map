@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$namespacepanda_1_1utils.html#aafa411773a4b0ee829d99e6e5a0abdcd" title="Check status of a branch." alt="" coords="240,5,411,35"/>
+<area shape="rect" id="node5" href="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412" title="Prepend the branch name with &lt;objName.&gt;." alt="" coords="209,59,441,88"/>
+<area shape="rect" id="node7" href="$classpanda_1_1utils_1_1BranchName.html#a6cc8a6df7c5b12a0221fd49773cca6a7" title="Is the name included and not vetoed?" alt="" coords="231,112,420,141"/>
+<area shape="rect" id="node11" href="$classpanda_1_1utils_1_1BranchName.html#ae3332329bf2afae5ed8e7c35e5d77ffa" title="Is the name included and vetoed?" alt="" coords="216,165,435,195"/>
+<area shape="rect" id="node9" href="$classpanda_1_1utils_1_1BranchName.html#ae67f0ec0a51cd28fe78c8e539aa9f95e" title="Does the name match with the given name?" alt="" coords="492,139,708,168"/>
+</map>

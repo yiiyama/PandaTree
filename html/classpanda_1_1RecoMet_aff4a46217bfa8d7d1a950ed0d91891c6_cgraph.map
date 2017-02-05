@@ -1,0 +1,6 @@
+<map id="panda::RecoMet::releaseTree" name="panda::RecoMet::releaseTree">
+<area shape="rect" id="node2" href="$classpanda_1_1Met.html#a89cb9ce10002cb2238b875a7ce4bf293" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="251,5,418,33"/>
+<area shape="rect" id="node4" href="$namespacepanda_1_1utils.html#a82a8530e64fbdf917cf9b8659065f98b" title="panda::utils::resetAddress" alt="" coords="469,57,645,85"/>
+<area shape="rect" id="node3" href="$classpanda_1_1Object.html#aaf58438092b42a89b838ce12c6a23833" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="466,5,648,33"/>
+<area shape="rect" id="node5" href="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412" title="Prepend the branch name with &lt;objName.&gt;. " alt="" coords="696,49,871,93"/>
+</map>

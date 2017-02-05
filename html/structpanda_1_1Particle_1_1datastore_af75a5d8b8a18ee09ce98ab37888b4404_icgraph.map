@@ -1,0 +1,15 @@
+<map id="panda::Particle::datastore::book" name="panda::Particle::datastore::book">
+<area shape="rect" id="node2" href="$structpanda_1_1Lepton_1_1datastore.html#ab6cf5ada9f43228301c6bd97b9b6238a" title="panda::Lepton::datastore\l::book" alt="" coords="234,73,404,117"/>
+<area shape="rect" id="node5" href="$structpanda_1_1ParticleM_1_1datastore.html#ae2eb76ca042d8b3e899c027ee07b5860" title="panda::ParticleM::datastore\l::book" alt="" coords="227,277,411,321"/>
+<area shape="rect" id="node14" href="$structpanda_1_1Photon_1_1datastore.html#aecd0493c1cce6f3cbcb0e0d797f83719" title="panda::Photon::datastore\l::book" alt="" coords="233,345,404,389"/>
+<area shape="rect" id="node3" href="$structpanda_1_1Electron_1_1datastore.html#aa22730e40dda69219e7dac203220dcae" title="panda::Electron::datastore\l::book" alt="" coords="460,5,637,49"/>
+<area shape="rect" id="node4" href="$structpanda_1_1Muon_1_1datastore.html#ae3244041804870c1792c7ad3cd96ee53" title="panda::Muon::datastore\l::book" alt="" coords="467,73,630,117"/>
+<area shape="rect" id="node6" href="$structpanda_1_1GenJet_1_1datastore.html#abfe95213671131d88149b11bbe4a0f45" title="panda::GenJet::datastore\l::book" alt="" coords="463,141,634,185"/>
+<area shape="rect" id="node7" href="$structpanda_1_1GenParticle_1_1datastore.html#a115b560e4e4ecfa3d7c0a2fbbcafe5b9" title="panda::GenParticle\l::datastore::book" alt="" coords="481,209,616,253"/>
+<area shape="rect" id="node8" href="$structpanda_1_1MicroJet_1_1datastore.html#a1a17e11396756ae30ac63c834cbe5976" title="panda::MicroJet::datastore\l::book" alt="" coords="459,277,638,321"/>
+<area shape="rect" id="node11" href="$structpanda_1_1Parton_1_1datastore.html#ae8dc1e83cadb773ac9c7a3f14dea85b3" title="panda::Parton::datastore\l::book" alt="" coords="464,345,633,389"/>
+<area shape="rect" id="node12" href="$structpanda_1_1PFCand_1_1datastore.html#a7714d44e5c6b0017ab72d596c83b474b" title="panda::PFCand::datastore\l::book" alt="" coords="460,413,637,457"/>
+<area shape="rect" id="node13" href="$structpanda_1_1Tau_1_1datastore.html#a835217578e10605f669fd448a0e6531c" title="panda::Tau::datastore\l::book" alt="" coords="473,481,624,525"/>
+<area shape="rect" id="node9" href="$structpanda_1_1Jet_1_1datastore.html#a6b3a8bbeb4fa9c002c5eebbd97962095" title="panda::Jet::datastore\l::book" alt="" coords="686,277,833,321"/>
+<area shape="rect" id="node10" href="$structpanda_1_1FatJet_1_1datastore.html#abc4532c13b6be8b1feaf70e3504f5f59" title="panda::FatJet::datastore\l::book" alt="" coords="881,277,1046,321"/>
+</map>

@@ -1,0 +1,17 @@
+<map id="panda::ContainerElement::datastore" name="panda::ContainerElement::datastore">
+<area shape="rect" id="node2" href="$structpanda_1_1Particle_1_1datastore.html" title="panda::Particle::datastore" alt="" coords="226,229,399,257"/>
+<area shape="rect" id="node16" href="$structpanda_1_1SuperCluster_1_1datastore.html" title="panda::SuperCluster\l::datastore" alt="" coords="241,281,384,325"/>
+<area shape="rect" id="node3" href="$structpanda_1_1Lepton_1_1datastore.html" title="panda::Lepton::datastore" alt="" coords="454,57,624,85"/>
+<area shape="rect" id="node6" href="$structpanda_1_1ParticleM_1_1datastore.html" title="panda::ParticleM::datastore" alt="" coords="447,229,631,257"/>
+<area shape="rect" id="node15" href="$structpanda_1_1Photon_1_1datastore.html" title="panda::Photon::datastore" alt="" coords="454,281,625,309"/>
+<area shape="rect" id="node4" href="$structpanda_1_1Electron_1_1datastore.html" title="panda::Electron::datastore" alt="" coords="680,5,858,33"/>
+<area shape="rect" id="node5" href="$structpanda_1_1Muon_1_1datastore.html" title="panda::Muon::datastore" alt="" coords="688,57,850,85"/>
+<area shape="rect" id="node7" href="$structpanda_1_1GenJet_1_1datastore.html" title="panda::GenJet::datastore" alt="" coords="683,109,855,137"/>
+<area shape="rect" id="node8" href="$structpanda_1_1GenParticle_1_1datastore.html" title="panda::GenParticle\l::datastore" alt="" coords="701,161,837,205"/>
+<area shape="rect" id="node9" href="$structpanda_1_1MicroJet_1_1datastore.html" title="panda::MicroJet::datastore" alt="" coords="679,229,859,257"/>
+<area shape="rect" id="node12" href="$structpanda_1_1Parton_1_1datastore.html" title="panda::Parton::datastore" alt="" coords="685,281,853,309"/>
+<area shape="rect" id="node13" href="$structpanda_1_1PFCand_1_1datastore.html" title="panda::PFCand::datastore" alt="" coords="680,333,858,361"/>
+<area shape="rect" id="node14" href="$structpanda_1_1Tau_1_1datastore.html" title="panda::Tau::datastore" alt="" coords="693,385,845,413"/>
+<area shape="rect" id="node10" href="$structpanda_1_1Jet_1_1datastore.html" title="panda::Jet::datastore" alt="" coords="907,229,1053,257"/>
+<area shape="rect" id="node11" href="$structpanda_1_1FatJet_1_1datastore.html" title="panda::FatJet::datastore" alt="" coords="1101,229,1267,257"/>
+</map>

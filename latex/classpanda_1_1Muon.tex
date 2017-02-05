@@ -1,0 +1,216 @@
+\hypertarget{classpanda_1_1Muon}{
+\section{panda::Muon Class Reference}
+\label{classpanda_1_1Muon}\index{panda::Muon@{panda::Muon}}
+}
+
+
+{\ttfamily \#include $<$Muon.h$>$}Inheritance diagram for panda::Muon:Collaboration diagram for panda::Muon:\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpanda_1_1Muon_1_1datastore}{datastore}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classpanda_1_1Array}{Array}$<$ \hyperlink{classpanda_1_1Muon}{Muon} $>$ \hyperlink{classpanda_1_1Muon_a03903de481ebc3c6db1d7d979ba99691}{array\_\-type}
+\item 
+typedef \hyperlink{classpanda_1_1Collection}{Collection}$<$ \hyperlink{classpanda_1_1Muon}{Muon} $>$ \hyperlink{classpanda_1_1Muon_a74e005c403745217b3e67bd6709ccea3}{collection\_\-type}
+\item 
+typedef \hyperlink{classpanda_1_1Lepton}{Lepton} \hyperlink{classpanda_1_1Muon_a071b288ec091c14f1fe42db77ef7821e}{base\_\-type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1Muon_abbf14d500569593961806573acc254ea}{Muon} (char const $\ast$name=\char`\"{}\char`\"{})
+\item 
+\hyperlink{classpanda_1_1Muon_a250098913ac74eef61f952c1925c8c16}{Muon} (\hyperlink{classpanda_1_1Muon}{Muon} const \&)
+\item 
+\hyperlink{classpanda_1_1Muon_ae0f7f7985ce4cdd6031178bf136fd7f3}{Muon} (\hyperlink{structpanda_1_1Element_1_1datastore}{datastore} \&, UInt\_\-t idx)
+\item 
+\hyperlink{classpanda_1_1Muon_a018a7d87e4d8b9226182c8e668fa081f}{$\sim$Muon} ()
+\item 
+\hyperlink{classpanda_1_1Muon}{Muon} \& \hyperlink{classpanda_1_1Muon_a2f91424e93572f9efd189884d95efaf6}{operator=} (\hyperlink{classpanda_1_1Muon}{Muon} const \&)
+\item 
+double \hyperlink{classpanda_1_1Muon_ac5fc1640178d5b0d00dd3eefa6fd44fb}{m} () const override
+\item 
+double \hyperlink{classpanda_1_1Muon_a3eb5df88e49b5510c00a6f02ce61def0}{combiso} () const override
+\item 
+void \hyperlink{classpanda_1_1Muon_aa982002bedb53cacab127270c53e54e8}{destructor} () override
+\begin{DoxyCompactList}\small\item\em Destructor implementation. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Bool\_\-t(\& \hyperlink{classpanda_1_1Muon_a30e551a04615de2f3d634cf7314f60ea}{triggerMatch} )\mbox{[}nMuonTriggerObjects\mbox{]}
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1Muon_a704600bf4a1fa7c7208730cd339d1680}{Muon} (\hyperlink{classpanda_1_1ArrayBase}{ArrayBase} $\ast$)
+\item 
+void \hyperlink{classpanda_1_1Muon_a5a1c65b72491bc9df325bc182568e40c}{doSetStatus\_\-} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&) override
+\item 
+\hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} \hyperlink{classpanda_1_1Muon_af2331a81be13a07cc0202a6d107b0685}{doGetStatus\_\-} (TTree \&, TString const \&) const override
+\item 
+void \hyperlink{classpanda_1_1Muon_a7488d95aaa9e9a79bda6d90b8967a52b}{doSetAddress\_\-} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}, Bool\_\-t setStatus=kTRUE) override
+\item 
+void \hyperlink{classpanda_1_1Muon_af27e42e8f6276dcbcf61ac742b17a4cd}{doBook\_\-} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}) override
+\item 
+void \hyperlink{classpanda_1_1Muon_ab6aedf6cd1f1714f4cd3b315cee18c8d}{doReleaseTree\_\-} (TTree \&, TString const \&) override
+\item 
+void \hyperlink{classpanda_1_1Muon_a50a228225667669a6fa827d426740e70}{doInit\_\-} () override
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classpanda_1_1Muon_a03903de481ebc3c6db1d7d979ba99691}{
+\index{panda::Muon@{panda::Muon}!array\_\-type@{array\_\-type}}
+\index{array\_\-type@{array\_\-type}!panda::Muon@{panda::Muon}}
+\subsubsection[{array\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Array}$<${\bf Muon}$>$ {\bf panda::Muon::array\_\-type}}}
+\label{classpanda_1_1Muon_a03903de481ebc3c6db1d7d979ba99691}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_ad9bce760734162cd7166b034515fe1fe}{panda::Lepton}.\hypertarget{classpanda_1_1Muon_a071b288ec091c14f1fe42db77ef7821e}{
+\index{panda::Muon@{panda::Muon}!base\_\-type@{base\_\-type}}
+\index{base\_\-type@{base\_\-type}!panda::Muon@{panda::Muon}}
+\subsubsection[{base\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Lepton} {\bf panda::Muon::base\_\-type}}}
+\label{classpanda_1_1Muon_a071b288ec091c14f1fe42db77ef7821e}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_ab8f2fc84ff093d5200d1905677d15578}{panda::Lepton}.\hypertarget{classpanda_1_1Muon_a74e005c403745217b3e67bd6709ccea3}{
+\index{panda::Muon@{panda::Muon}!collection\_\-type@{collection\_\-type}}
+\index{collection\_\-type@{collection\_\-type}!panda::Muon@{panda::Muon}}
+\subsubsection[{collection\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Collection}$<${\bf Muon}$>$ {\bf panda::Muon::collection\_\-type}}}
+\label{classpanda_1_1Muon_a74e005c403745217b3e67bd6709ccea3}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_acba098c3047ecbfa9c1ad6c88a3ba95f}{panda::Lepton}.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classpanda_1_1Muon_abbf14d500569593961806573acc254ea}{
+\index{panda::Muon@{panda::Muon}!Muon@{Muon}}
+\index{Muon@{Muon}!panda::Muon@{panda::Muon}}
+\subsubsection[{Muon}]{\setlength{\rightskip}{0pt plus 5cm}panda::Muon::Muon (char const $\ast$ {\em name} = {\ttfamily \char`\"{}\char`\"{}})}}
+\label{classpanda_1_1Muon_abbf14d500569593961806573acc254ea}
+\hypertarget{classpanda_1_1Muon_a250098913ac74eef61f952c1925c8c16}{
+\index{panda::Muon@{panda::Muon}!Muon@{Muon}}
+\index{Muon@{Muon}!panda::Muon@{panda::Muon}}
+\subsubsection[{Muon}]{\setlength{\rightskip}{0pt plus 5cm}panda::Muon::Muon ({\bf Muon} const \& {\em \_\-src})}}
+\label{classpanda_1_1Muon_a250098913ac74eef61f952c1925c8c16}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Muon_ae0f7f7985ce4cdd6031178bf136fd7f3}{
+\index{panda::Muon@{panda::Muon}!Muon@{Muon}}
+\index{Muon@{Muon}!panda::Muon@{panda::Muon}}
+\subsubsection[{Muon}]{\setlength{\rightskip}{0pt plus 5cm}panda::Muon::Muon ({\bf datastore} \& {\em \_\-data}, \/  UInt\_\-t {\em idx})}}
+\label{classpanda_1_1Muon_ae0f7f7985ce4cdd6031178bf136fd7f3}
+\hypertarget{classpanda_1_1Muon_a018a7d87e4d8b9226182c8e668fa081f}{
+\index{panda::Muon@{panda::Muon}!$\sim$Muon@{$\sim$Muon}}
+\index{$\sim$Muon@{$\sim$Muon}!panda::Muon@{panda::Muon}}
+\subsubsection[{$\sim$Muon}]{\setlength{\rightskip}{0pt plus 5cm}panda::Muon::$\sim$Muon ()}}
+\label{classpanda_1_1Muon_a018a7d87e4d8b9226182c8e668fa081f}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Muon_a704600bf4a1fa7c7208730cd339d1680}{
+\index{panda::Muon@{panda::Muon}!Muon@{Muon}}
+\index{Muon@{Muon}!panda::Muon@{panda::Muon}}
+\subsubsection[{Muon}]{\setlength{\rightskip}{0pt plus 5cm}panda::Muon::Muon ({\bf ArrayBase} $\ast$ {\em \_\-array})\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classpanda_1_1Muon_a704600bf4a1fa7c7208730cd339d1680}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classpanda_1_1Muon_a3eb5df88e49b5510c00a6f02ce61def0}{
+\index{panda::Muon@{panda::Muon}!combiso@{combiso}}
+\index{combiso@{combiso}!panda::Muon@{panda::Muon}}
+\subsubsection[{combiso}]{\setlength{\rightskip}{0pt plus 5cm}double panda::Muon::combiso () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, override, virtual\mbox{]}}}}
+\label{classpanda_1_1Muon_a3eb5df88e49b5510c00a6f02ce61def0}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_a13fd748ab9e1b76e5cc8391723cc5ea7}{panda::Lepton}.\hypertarget{classpanda_1_1Muon_aa982002bedb53cacab127270c53e54e8}{
+\index{panda::Muon@{panda::Muon}!destructor@{destructor}}
+\index{destructor@{destructor}!panda::Muon@{panda::Muon}}
+\subsubsection[{destructor}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Muon::destructor ()\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{classpanda_1_1Muon_aa982002bedb53cacab127270c53e54e8}
+
+
+Destructor implementation. The actual destructor of the object should be called only if the \hyperlink{classpanda_1_1Element}{Element} is constructed as a singlet. In the Container environment, the memory allocated for this object is directly deallocated without calling $\sim$(\hyperlink{classpanda_1_1Object}{Object}). If subclasses need to make some calls at the destruction time of the object, they must be implemented in this \hyperlink{namespacepanda_1_1function}{function}. 
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_af8bb4d531bdddbf51f479f7eb0dae175}{panda::Lepton}.
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Muon_af27e42e8f6276dcbcf61ac742b17a4cd}{
+\index{panda::Muon@{panda::Muon}!doBook\_\-@{doBook\_\-}}
+\index{doBook\_\-@{doBook\_\-}!panda::Muon@{panda::Muon}}
+\subsubsection[{doBook\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Muon::doBook\_\- (TTree \&, \/  TString const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected\mbox{]}}}}
+\label{classpanda_1_1Muon_af27e42e8f6276dcbcf61ac742b17a4cd}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_af9d74c974117a26f53e60da918cb84ba}{panda::Lepton}.\hypertarget{classpanda_1_1Muon_af2331a81be13a07cc0202a6d107b0685}{
+\index{panda::Muon@{panda::Muon}!doGetStatus\_\-@{doGetStatus\_\-}}
+\index{doGetStatus\_\-@{doGetStatus\_\-}!panda::Muon@{panda::Muon}}
+\subsubsection[{doGetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::utils::BranchList} panda::Muon::doGetStatus\_\- (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name}) const\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Muon_af2331a81be13a07cc0202a6d107b0685}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_a90a170df4cd09d324964da724bcc5428}{panda::Lepton}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Muon_a50a228225667669a6fa827d426740e70}{
+\index{panda::Muon@{panda::Muon}!doInit\_\-@{doInit\_\-}}
+\index{doInit\_\-@{doInit\_\-}!panda::Muon@{panda::Muon}}
+\subsubsection[{doInit\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Muon::doInit\_\- ()\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Muon_a50a228225667669a6fa827d426740e70}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_af764ff1ea6dfb16072d6c9de3b935129}{panda::Lepton}.\hypertarget{classpanda_1_1Muon_ab6aedf6cd1f1714f4cd3b315cee18c8d}{
+\index{panda::Muon@{panda::Muon}!doReleaseTree\_\-@{doReleaseTree\_\-}}
+\index{doReleaseTree\_\-@{doReleaseTree\_\-}!panda::Muon@{panda::Muon}}
+\subsubsection[{doReleaseTree\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Muon::doReleaseTree\_\- (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name})\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Muon_ab6aedf6cd1f1714f4cd3b315cee18c8d}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_ae0f913947dcc9e3827de846e7b885280}{panda::Lepton}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Muon_a7488d95aaa9e9a79bda6d90b8967a52b}{
+\index{panda::Muon@{panda::Muon}!doSetAddress\_\-@{doSetAddress\_\-}}
+\index{doSetAddress\_\-@{doSetAddress\_\-}!panda::Muon@{panda::Muon}}
+\subsubsection[{doSetAddress\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Muon::doSetAddress\_\- (TTree \&, \/  TString const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected\mbox{]}}}}
+\label{classpanda_1_1Muon_a7488d95aaa9e9a79bda6d90b8967a52b}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_a2d46b07ce93bec008954f222c6860ff9}{panda::Lepton}.\hypertarget{classpanda_1_1Muon_a5a1c65b72491bc9df325bc182568e40c}{
+\index{panda::Muon@{panda::Muon}!doSetStatus\_\-@{doSetStatus\_\-}}
+\index{doSetStatus\_\-@{doSetStatus\_\-}!panda::Muon@{panda::Muon}}
+\subsubsection[{doSetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Muon::doSetStatus\_\- (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name}, \/  {\bf utils::BranchList} const \& {\em \_\-branches})\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Muon_a5a1c65b72491bc9df325bc182568e40c}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_a2d3b49322244947c933645bbdb44bf88}{panda::Lepton}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Muon_ac5fc1640178d5b0d00dd3eefa6fd44fb}{
+\index{panda::Muon@{panda::Muon}!m@{m}}
+\index{m@{m}!panda::Muon@{panda::Muon}}
+\subsubsection[{m}]{\setlength{\rightskip}{0pt plus 5cm}double panda::Muon::m () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, override, virtual\mbox{]}}}}
+\label{classpanda_1_1Muon_ac5fc1640178d5b0d00dd3eefa6fd44fb}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Particle_aa793c05fc1334ed462e18c794339eebf}{panda::Particle}.\hypertarget{classpanda_1_1Muon_a2f91424e93572f9efd189884d95efaf6}{
+\index{panda::Muon@{panda::Muon}!operator=@{operator=}}
+\index{operator=@{operator=}!panda::Muon@{panda::Muon}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::Muon} \& panda::Muon::operator= ({\bf Muon} const \& {\em \_\-src})}}
+\label{classpanda_1_1Muon_a2f91424e93572f9efd189884d95efaf6}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_a24b1cd552930db2af2734d3acbb27257}{panda::Lepton}.
+
+Here is the caller graph for this function:
+
+\subsection{Member Data Documentation}
+\hypertarget{classpanda_1_1Muon_a30e551a04615de2f3d634cf7314f60ea}{
+\index{panda::Muon@{panda::Muon}!triggerMatch@{triggerMatch}}
+\index{triggerMatch@{triggerMatch}!panda::Muon@{panda::Muon}}
+\subsubsection[{triggerMatch}]{\setlength{\rightskip}{0pt plus 5cm}Bool\_\-t(\& {\bf panda::Muon::triggerMatch})\mbox{[}nMuonTriggerObjects\mbox{]}}}
+\label{classpanda_1_1Muon_a30e551a04615de2f3d634cf7314f60ea}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Objects/interface/\hyperlink{Muon_8h}{Muon.h}\item 
+Objects/src/\hyperlink{Muon_8cc}{Muon.cc}\end{DoxyCompactItemize}

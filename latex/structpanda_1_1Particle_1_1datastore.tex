@@ -1,0 +1,143 @@
+\hypertarget{structpanda_1_1Particle_1_1datastore}{
+\section{panda::Particle::datastore Struct Reference}
+\label{structpanda_1_1Particle_1_1datastore}\index{panda::Particle::datastore@{panda::Particle::datastore}}
+}
+
+
+{\ttfamily \#include $<$Particle.h$>$}Inheritance diagram for panda::Particle::datastore:Collaboration diagram for panda::Particle::datastore:\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structpanda_1_1Particle_1_1datastore_a6e59a47437e52ced2f9605926e0de284}{datastore} ()
+\item 
+\hyperlink{structpanda_1_1Particle_1_1datastore_afb2d9f4926afbfa8e0f15f0d8d98094a}{$\sim$datastore} ()
+\item 
+void \hyperlink{structpanda_1_1Particle_1_1datastore_aab4009a97b5f3cc30eaf61cd7dbf2e3d}{allocate} (UInt\_\-t n) override
+\item 
+void \hyperlink{structpanda_1_1Particle_1_1datastore_ad741e5ab6ebeb9ca897ba9472d0dea36}{deallocate} () override
+\item 
+void \hyperlink{structpanda_1_1Particle_1_1datastore_a82fcd5398687827418d8bdcbfc16d661}{setStatus} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&) override
+\item 
+\hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} \hyperlink{structpanda_1_1Particle_1_1datastore_a09e5a80068f06d0d2118c2596258b8e3}{getStatus} (TTree \&, TString const \&) const override
+\item 
+void \hyperlink{structpanda_1_1Particle_1_1datastore_a3e4a1f8d223d8378ef2b92a6d4ccd2b0}{setAddress} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}, Bool\_\-t setStatus=kTRUE) override
+\item 
+void \hyperlink{structpanda_1_1Particle_1_1datastore_af75a5d8b8a18ee09ce98ab37888b4404}{book} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}, Bool\_\-t dynamic=kTRUE) override
+\item 
+void \hyperlink{structpanda_1_1Particle_1_1datastore_a9fa2653f0e8b59a5cbc752beaf6b7a57}{releaseTree} (TTree \&, TString const \&) override
+\item 
+void \hyperlink{structpanda_1_1Particle_1_1datastore_aef7e06dbd8399f7de3215aa895907c5f}{resizeVectors\_\-} (UInt\_\-t) override
+\begin{DoxyCompactList}\small\item\em Override when there are vector members. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{structpanda_1_1Particle_1_1datastore_a6e59a47437e52ced2f9605926e0de284}{
+\index{panda::Particle::datastore@{panda::Particle::datastore}!datastore@{datastore}}
+\index{datastore@{datastore}!panda::Particle::datastore@{panda::Particle::datastore}}
+\subsubsection[{datastore}]{\setlength{\rightskip}{0pt plus 5cm}panda::Particle::datastore::datastore ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{structpanda_1_1Particle_1_1datastore_a6e59a47437e52ced2f9605926e0de284}
+
+
+Reimplemented from \hyperlink{structpanda_1_1Element_1_1datastore_a19506caec8d63f38674506dbb8283495}{panda::Element::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_a2be5528c91b18d47c8c277a4f21ca899}{panda::Electron::datastore}, \hyperlink{structpanda_1_1FatJet_1_1datastore_a9705a085f7cb1355b03cbfff4f580dbf}{panda::FatJet::datastore}, \hyperlink{structpanda_1_1GenJet_1_1datastore_ad0ca5d1b0381eb65489787ba810fa69a}{panda::GenJet::datastore}, \hyperlink{structpanda_1_1GenParticle_1_1datastore_ad1aab7880b9699f04e712abc69799953}{panda::GenParticle::datastore}, \hyperlink{structpanda_1_1Jet_1_1datastore_ae927a2e58d5ac6418b839d01dac0bd37}{panda::Jet::datastore}, \hyperlink{structpanda_1_1Lepton_1_1datastore_adf84bb1f833eb50c3c73d81af211496e}{panda::Lepton::datastore}, \hyperlink{structpanda_1_1MicroJet_1_1datastore_adac05a4e9f5487a0932162ad3781f8aa}{panda::MicroJet::datastore}, \hyperlink{structpanda_1_1Muon_1_1datastore_a85904b7d723e3e95abf0901bbf3db103}{panda::Muon::datastore}, \hyperlink{structpanda_1_1ParticleM_1_1datastore_acc9af307e2c4fee9bc5d9bbb37ad6124}{panda::ParticleM::datastore}, \hyperlink{structpanda_1_1Parton_1_1datastore_aa447f1603ab6cfdf50e6406d1ef00819}{panda::Parton::datastore}, \hyperlink{structpanda_1_1PFCand_1_1datastore_a43d1760f6d3b403fea68a112cca0b2a7}{panda::PFCand::datastore}, \hyperlink{structpanda_1_1Photon_1_1datastore_aaaad2d7371a41dbeff49ca7689cf5b08}{panda::Photon::datastore}, and \hyperlink{structpanda_1_1Tau_1_1datastore_a48102b990097fe44c912c4a155786846}{panda::Tau::datastore}.\hypertarget{structpanda_1_1Particle_1_1datastore_afb2d9f4926afbfa8e0f15f0d8d98094a}{
+\index{panda::Particle::datastore@{panda::Particle::datastore}!$\sim$datastore@{$\sim$datastore}}
+\index{$\sim$datastore@{$\sim$datastore}!panda::Particle::datastore@{panda::Particle::datastore}}
+\subsubsection[{$\sim$datastore}]{\setlength{\rightskip}{0pt plus 5cm}panda::Particle::datastore::$\sim$datastore ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{structpanda_1_1Particle_1_1datastore_afb2d9f4926afbfa8e0f15f0d8d98094a}
+
+
+Reimplemented from \hyperlink{structpanda_1_1Element_1_1datastore_a14bdbf5fcb0c5553c70d43de0cffd090}{panda::Element::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_af9dfc2f8a0fca924c40cc0d488f6bb02}{panda::Electron::datastore}, \hyperlink{structpanda_1_1FatJet_1_1datastore_ab30c9e78310606976935325a55cb10e6}{panda::FatJet::datastore}, \hyperlink{structpanda_1_1GenJet_1_1datastore_aee5add4c9f162350865cec47c322dec0}{panda::GenJet::datastore}, \hyperlink{structpanda_1_1GenParticle_1_1datastore_af04b1b2c05d433c8020d5250db10d7d9}{panda::GenParticle::datastore}, \hyperlink{structpanda_1_1Jet_1_1datastore_a70fb643b535f39f676287fe34d603e01}{panda::Jet::datastore}, \hyperlink{structpanda_1_1Lepton_1_1datastore_aded63fdccd7551ae16f99adbd29afb82}{panda::Lepton::datastore}, \hyperlink{structpanda_1_1MicroJet_1_1datastore_a35979d6037e5229b018a32e3d0700360}{panda::MicroJet::datastore}, \hyperlink{structpanda_1_1Muon_1_1datastore_a399cd7ed5610fc6c99ac1d3365ddc354}{panda::Muon::datastore}, \hyperlink{structpanda_1_1ParticleM_1_1datastore_ae068980c20730bc8565d2f7ea701bc5e}{panda::ParticleM::datastore}, \hyperlink{structpanda_1_1Parton_1_1datastore_aa1e55feb33f97040c324d9ba93126dba}{panda::Parton::datastore}, \hyperlink{structpanda_1_1PFCand_1_1datastore_af62f03093f0dd1177468df953265e198}{panda::PFCand::datastore}, \hyperlink{structpanda_1_1Photon_1_1datastore_a7282a7c7cc04a9350041a59e9ecba5b5}{panda::Photon::datastore}, and \hyperlink{structpanda_1_1Tau_1_1datastore_a1cacb9f88f221d242a5e80ba7959c27b}{panda::Tau::datastore}.
+
+Here is the call graph for this function:
+
+\subsection{Member Function Documentation}
+\hypertarget{structpanda_1_1Particle_1_1datastore_aab4009a97b5f3cc30eaf61cd7dbf2e3d}{
+\index{panda::Particle::datastore@{panda::Particle::datastore}!allocate@{allocate}}
+\index{allocate@{allocate}!panda::Particle::datastore@{panda::Particle::datastore}}
+\subsubsection[{allocate}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Particle::datastore::allocate (UInt\_\-t {\em n})\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1Particle_1_1datastore_aab4009a97b5f3cc30eaf61cd7dbf2e3d}
+
+
+Reimplemented from \hyperlink{structpanda_1_1Element_1_1datastore_a0397350c92ee5cbf2d16cf66fc701afa}{panda::Element::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_a3e84b684132c59a589f7a041cae61507}{panda::Electron::datastore}, \hyperlink{structpanda_1_1FatJet_1_1datastore_a5df5d3f7ed3b3d1d70f99dcb6a9c25e4}{panda::FatJet::datastore}, \hyperlink{structpanda_1_1GenJet_1_1datastore_a8b05278d242cae6efa7c1cc2ed929d6a}{panda::GenJet::datastore}, \hyperlink{structpanda_1_1GenParticle_1_1datastore_a431a6d40dc4affce7107d9368d2932a9}{panda::GenParticle::datastore}, \hyperlink{structpanda_1_1Jet_1_1datastore_a899f59963d18c2c13019d9ed27eb7745}{panda::Jet::datastore}, \hyperlink{structpanda_1_1Lepton_1_1datastore_a109ac02caed6e0a69a1b00248d80500e}{panda::Lepton::datastore}, \hyperlink{structpanda_1_1MicroJet_1_1datastore_a09aae2ebbbda55c6616b6a693f43bb66}{panda::MicroJet::datastore}, \hyperlink{structpanda_1_1Muon_1_1datastore_a6845ee992e7f6f23a4f159b97411bfc6}{panda::Muon::datastore}, \hyperlink{structpanda_1_1ParticleM_1_1datastore_aafc17a88cf8425ff45a00b5fd2eb5751}{panda::ParticleM::datastore}, \hyperlink{structpanda_1_1Parton_1_1datastore_ab13044f2228c663b73a6e24f0967a445}{panda::Parton::datastore}, \hyperlink{structpanda_1_1PFCand_1_1datastore_af5aef7147e657b4f1b4125f3dae0dc39}{panda::PFCand::datastore}, \hyperlink{structpanda_1_1Photon_1_1datastore_aafdc384cc9e57f60b6acecb3ad82fdb2}{panda::Photon::datastore}, and \hyperlink{structpanda_1_1Tau_1_1datastore_a6f817076ea4ed71fc8b66c70a834b39d}{panda::Tau::datastore}.\hypertarget{structpanda_1_1Particle_1_1datastore_af75a5d8b8a18ee09ce98ab37888b4404}{
+\index{panda::Particle::datastore@{panda::Particle::datastore}!book@{book}}
+\index{book@{book}!panda::Particle::datastore@{panda::Particle::datastore}}
+\subsubsection[{book}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Particle::datastore::book (TTree \&, \/  TString const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1Particle_1_1datastore_af75a5d8b8a18ee09ce98ab37888b4404}
+
+
+Reimplemented from \hyperlink{structpanda_1_1Element_1_1datastore_a2e677f904aee6a53452674b83bea49e4}{panda::Element::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_aa22730e40dda69219e7dac203220dcae}{panda::Electron::datastore}, \hyperlink{structpanda_1_1FatJet_1_1datastore_abc4532c13b6be8b1feaf70e3504f5f59}{panda::FatJet::datastore}, \hyperlink{structpanda_1_1GenJet_1_1datastore_abfe95213671131d88149b11bbe4a0f45}{panda::GenJet::datastore}, \hyperlink{structpanda_1_1GenParticle_1_1datastore_a115b560e4e4ecfa3d7c0a2fbbcafe5b9}{panda::GenParticle::datastore}, \hyperlink{structpanda_1_1Jet_1_1datastore_a6b3a8bbeb4fa9c002c5eebbd97962095}{panda::Jet::datastore}, \hyperlink{structpanda_1_1Lepton_1_1datastore_ab6cf5ada9f43228301c6bd97b9b6238a}{panda::Lepton::datastore}, \hyperlink{structpanda_1_1MicroJet_1_1datastore_a1a17e11396756ae30ac63c834cbe5976}{panda::MicroJet::datastore}, \hyperlink{structpanda_1_1Muon_1_1datastore_ae3244041804870c1792c7ad3cd96ee53}{panda::Muon::datastore}, \hyperlink{structpanda_1_1ParticleM_1_1datastore_ae2eb76ca042d8b3e899c027ee07b5860}{panda::ParticleM::datastore}, \hyperlink{structpanda_1_1Parton_1_1datastore_ae8dc1e83cadb773ac9c7a3f14dea85b3}{panda::Parton::datastore}, \hyperlink{structpanda_1_1PFCand_1_1datastore_a7714d44e5c6b0017ab72d596c83b474b}{panda::PFCand::datastore}, \hyperlink{structpanda_1_1Photon_1_1datastore_aecd0493c1cce6f3cbcb0e0d797f83719}{panda::Photon::datastore}, and \hyperlink{structpanda_1_1Tau_1_1datastore_a835217578e10605f669fd448a0e6531c}{panda::Tau::datastore}.\hypertarget{structpanda_1_1Particle_1_1datastore_ad741e5ab6ebeb9ca897ba9472d0dea36}{
+\index{panda::Particle::datastore@{panda::Particle::datastore}!deallocate@{deallocate}}
+\index{deallocate@{deallocate}!panda::Particle::datastore@{panda::Particle::datastore}}
+\subsubsection[{deallocate}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Particle::datastore::deallocate ()\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1Particle_1_1datastore_ad741e5ab6ebeb9ca897ba9472d0dea36}
+
+
+Reimplemented from \hyperlink{structpanda_1_1Element_1_1datastore_aa9b2ee3eacdde38bd77108485678ac86}{panda::Element::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_a82e74b804ecc9c1a138d5c3fcd6ef3a3}{panda::Electron::datastore}, \hyperlink{structpanda_1_1FatJet_1_1datastore_ae981e60d6fc142e3bbb4730a8a856fa7}{panda::FatJet::datastore}, \hyperlink{structpanda_1_1GenJet_1_1datastore_a2b1e39eb4f994f496aa013aaf82998c4}{panda::GenJet::datastore}, \hyperlink{structpanda_1_1GenParticle_1_1datastore_afe415117bf9f06e163aff5e341c9ef00}{panda::GenParticle::datastore}, \hyperlink{structpanda_1_1Jet_1_1datastore_a606415eee51c1a38fc0613f3b2946d1e}{panda::Jet::datastore}, \hyperlink{structpanda_1_1Lepton_1_1datastore_a527515ee96020a4aaef41d9de157c131}{panda::Lepton::datastore}, \hyperlink{structpanda_1_1MicroJet_1_1datastore_a03473e3dcba5abe73c123ce2c1d3292c}{panda::MicroJet::datastore}, \hyperlink{structpanda_1_1Muon_1_1datastore_aed9de75b6fb1e71671aa8a5b00862ace}{panda::Muon::datastore}, \hyperlink{structpanda_1_1ParticleM_1_1datastore_a85c4ce11f1d7c6944a525ad2488880aa}{panda::ParticleM::datastore}, \hyperlink{structpanda_1_1Parton_1_1datastore_a37d5d064962d581ebccadf6a683b9dc6}{panda::Parton::datastore}, \hyperlink{structpanda_1_1PFCand_1_1datastore_ac7084e2d45811f6909e8c65c20941107}{panda::PFCand::datastore}, \hyperlink{structpanda_1_1Photon_1_1datastore_a255374780b23e06a1fd24235847c77de}{panda::Photon::datastore}, and \hyperlink{structpanda_1_1Tau_1_1datastore_af651d3ae362a4a6d99b1bff788accca3}{panda::Tau::datastore}.
+
+Here is the caller graph for this function:\hypertarget{structpanda_1_1Particle_1_1datastore_a09e5a80068f06d0d2118c2596258b8e3}{
+\index{panda::Particle::datastore@{panda::Particle::datastore}!getStatus@{getStatus}}
+\index{getStatus@{getStatus}!panda::Particle::datastore@{panda::Particle::datastore}}
+\subsubsection[{getStatus}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::utils::BranchList} panda::Particle::datastore::getStatus (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name}) const\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1Particle_1_1datastore_a09e5a80068f06d0d2118c2596258b8e3}
+
+
+Reimplemented from \hyperlink{structpanda_1_1Element_1_1datastore_a9f9eb1f7611bc73f10a010a149d17a15}{panda::Element::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_aca8cd939bbe2edf7b152348364b1ac4c}{panda::Electron::datastore}, \hyperlink{structpanda_1_1FatJet_1_1datastore_a83669574414333b1656878e0ec09c345}{panda::FatJet::datastore}, \hyperlink{structpanda_1_1GenJet_1_1datastore_a38a95477762b562ae4a6f2487e2c26ff}{panda::GenJet::datastore}, \hyperlink{structpanda_1_1GenParticle_1_1datastore_af83451f0c94efe8daeb7769571e81aef}{panda::GenParticle::datastore}, \hyperlink{structpanda_1_1Jet_1_1datastore_ac3a9ecd013ec5d5bf94f71ff013e5491}{panda::Jet::datastore}, \hyperlink{structpanda_1_1Lepton_1_1datastore_a44602d14a45e9a23ffdb02f9dfa7e018}{panda::Lepton::datastore}, \hyperlink{structpanda_1_1MicroJet_1_1datastore_ae893cdc52ad9ae8ffc8a8cea1cac1377}{panda::MicroJet::datastore}, \hyperlink{structpanda_1_1Muon_1_1datastore_aa1c3edc46b6ca55e9b77634cdd0e6684}{panda::Muon::datastore}, \hyperlink{structpanda_1_1ParticleM_1_1datastore_a4069b8cdca5715ed6faf0a7907ea8386}{panda::ParticleM::datastore}, \hyperlink{structpanda_1_1Parton_1_1datastore_af82916b07ec783b268c2491cd5b374be}{panda::Parton::datastore}, \hyperlink{structpanda_1_1PFCand_1_1datastore_a117b3a740a7d57118a35816456118685}{panda::PFCand::datastore}, \hyperlink{structpanda_1_1Photon_1_1datastore_a3a0f1b3be1d8cfa4bb5d6a5a6a48997d}{panda::Photon::datastore}, and \hyperlink{structpanda_1_1Tau_1_1datastore_af6634c2974f07bafef20c5a49dfd4050}{panda::Tau::datastore}.
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{structpanda_1_1Particle_1_1datastore_a9fa2653f0e8b59a5cbc752beaf6b7a57}{
+\index{panda::Particle::datastore@{panda::Particle::datastore}!releaseTree@{releaseTree}}
+\index{releaseTree@{releaseTree}!panda::Particle::datastore@{panda::Particle::datastore}}
+\subsubsection[{releaseTree}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Particle::datastore::releaseTree (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name})\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1Particle_1_1datastore_a9fa2653f0e8b59a5cbc752beaf6b7a57}
+
+
+Reimplemented from \hyperlink{structpanda_1_1Element_1_1datastore_a7acb1440122c336e94738695ca5a11bd}{panda::Element::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_acd47db6bdd5b2308f4f1b02a9b1bd97f}{panda::Electron::datastore}, \hyperlink{structpanda_1_1FatJet_1_1datastore_a8dd1a45fedb7d5ec627601b23f0dc2d5}{panda::FatJet::datastore}, \hyperlink{structpanda_1_1GenJet_1_1datastore_aea7b516e513fbdf5cc2c6f67d0ae3dba}{panda::GenJet::datastore}, \hyperlink{structpanda_1_1GenParticle_1_1datastore_a7c4f6ca82174720a87fa2371f40000d7}{panda::GenParticle::datastore}, \hyperlink{structpanda_1_1Jet_1_1datastore_ae6ac289071c894912c7a60cdd224509f}{panda::Jet::datastore}, \hyperlink{structpanda_1_1Lepton_1_1datastore_a3288e551dbce7062e6f2e4e88f1a6a40}{panda::Lepton::datastore}, \hyperlink{structpanda_1_1MicroJet_1_1datastore_a9722ed3783e57fb5e55307d72ebddb15}{panda::MicroJet::datastore}, \hyperlink{structpanda_1_1Muon_1_1datastore_ac48b5f3d5fb73f9e54f0f810d11f8010}{panda::Muon::datastore}, \hyperlink{structpanda_1_1ParticleM_1_1datastore_ad6986990fa55f1c6ca4e92db28486922}{panda::ParticleM::datastore}, \hyperlink{structpanda_1_1Parton_1_1datastore_affc6fef2d7648b73182dbb91d5043b36}{panda::Parton::datastore}, \hyperlink{structpanda_1_1PFCand_1_1datastore_a9fc7ec497f046c098b89eb04ee508174}{panda::PFCand::datastore}, \hyperlink{structpanda_1_1Photon_1_1datastore_a05f8dcdf1df8a1e105ca3167c2ab94e2}{panda::Photon::datastore}, and \hyperlink{structpanda_1_1Tau_1_1datastore_ad3b1c3b063d8091225a37315a6dfb998}{panda::Tau::datastore}.
+
+Here is the call graph for this function:\hypertarget{structpanda_1_1Particle_1_1datastore_aef7e06dbd8399f7de3215aa895907c5f}{
+\index{panda::Particle::datastore@{panda::Particle::datastore}!resizeVectors\_\-@{resizeVectors\_\-}}
+\index{resizeVectors\_\-@{resizeVectors\_\-}!panda::Particle::datastore@{panda::Particle::datastore}}
+\subsubsection[{resizeVectors\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Particle::datastore::resizeVectors\_\- (UInt\_\-t)\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1Particle_1_1datastore_aef7e06dbd8399f7de3215aa895907c5f}
+
+
+Override when there are vector members. This method should only be used from Collections 
+
+Reimplemented from \hyperlink{structpanda_1_1Element_1_1datastore_a4696a188a70355c43a5482f895433230}{panda::Element::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_a8f0e7ee31635f5cf7482c86b732877a2}{panda::Electron::datastore}, \hyperlink{structpanda_1_1FatJet_1_1datastore_ac707315048c1fe184534202259fbdda9}{panda::FatJet::datastore}, \hyperlink{structpanda_1_1GenJet_1_1datastore_a6b6d0feb6fe978115c45180cccb7497b}{panda::GenJet::datastore}, \hyperlink{structpanda_1_1GenParticle_1_1datastore_a28a604490b71305ae71b9671e3ea0bdf}{panda::GenParticle::datastore}, \hyperlink{structpanda_1_1Jet_1_1datastore_a8de9fbcd55c17f7d3d022088f6ded487}{panda::Jet::datastore}, \hyperlink{structpanda_1_1Lepton_1_1datastore_ae0167ad568d7b57d6e11b1775cd790c7}{panda::Lepton::datastore}, \hyperlink{structpanda_1_1MicroJet_1_1datastore_a9570f85bfad7f55e239670d0f364cb8b}{panda::MicroJet::datastore}, \hyperlink{structpanda_1_1Muon_1_1datastore_a77544efc70e6058bc86a09dc6a13f483}{panda::Muon::datastore}, \hyperlink{structpanda_1_1ParticleM_1_1datastore_a6dd61d4a8f70e81a1638757a5edbc7ed}{panda::ParticleM::datastore}, \hyperlink{structpanda_1_1Parton_1_1datastore_a85ed8f023c9fddb6ada93150e4d03c22}{panda::Parton::datastore}, \hyperlink{structpanda_1_1PFCand_1_1datastore_a3e3acf6cc81f4ebe16220a7931b3bb2d}{panda::PFCand::datastore}, \hyperlink{structpanda_1_1Photon_1_1datastore_a819de9f7590bca725315d2b6432b0f6a}{panda::Photon::datastore}, and \hyperlink{structpanda_1_1Tau_1_1datastore_a1dce455474842a78eb6a7ab7b3271f3a}{panda::Tau::datastore}.\hypertarget{structpanda_1_1Particle_1_1datastore_a3e4a1f8d223d8378ef2b92a6d4ccd2b0}{
+\index{panda::Particle::datastore@{panda::Particle::datastore}!setAddress@{setAddress}}
+\index{setAddress@{setAddress}!panda::Particle::datastore@{panda::Particle::datastore}}
+\subsubsection[{setAddress}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Particle::datastore::setAddress (TTree \&, \/  TString const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1Particle_1_1datastore_a3e4a1f8d223d8378ef2b92a6d4ccd2b0}
+
+
+Reimplemented from \hyperlink{structpanda_1_1Element_1_1datastore_a1b81da47e4af670a88db7d1d7fbd0875}{panda::Element::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_a71a4b440953afe1b0252d462753b74f1}{panda::Electron::datastore}, \hyperlink{structpanda_1_1FatJet_1_1datastore_a0064ba6151edcef6eb9d4c5b6a9fdcf7}{panda::FatJet::datastore}, \hyperlink{structpanda_1_1GenJet_1_1datastore_a7afa28bd4468d7ecb3c4c086d46ee6cf}{panda::GenJet::datastore}, \hyperlink{structpanda_1_1GenParticle_1_1datastore_ae55290c7499a0b5c80309462637d9e73}{panda::GenParticle::datastore}, \hyperlink{structpanda_1_1Jet_1_1datastore_aba38557e272994b9913ffbe323892d7d}{panda::Jet::datastore}, \hyperlink{structpanda_1_1Lepton_1_1datastore_a01bc67f154130787caab05786b3169c6}{panda::Lepton::datastore}, \hyperlink{structpanda_1_1MicroJet_1_1datastore_a475b19becb4a39eb0248e8b9c785feb3}{panda::MicroJet::datastore}, \hyperlink{structpanda_1_1Muon_1_1datastore_a04e66e2ffe68566cbba217d5682c8288}{panda::Muon::datastore}, \hyperlink{structpanda_1_1ParticleM_1_1datastore_ab9f9e7afb145c12941baa10892ed1811}{panda::ParticleM::datastore}, \hyperlink{structpanda_1_1Parton_1_1datastore_a2348c36dbc9d5f769fac19fcb9582e5a}{panda::Parton::datastore}, \hyperlink{structpanda_1_1PFCand_1_1datastore_a9f79eb8960ad6be9157ed49ec37f4258}{panda::PFCand::datastore}, \hyperlink{structpanda_1_1Photon_1_1datastore_a42cc43286a630dcffc73652309aa8990}{panda::Photon::datastore}, and \hyperlink{structpanda_1_1Tau_1_1datastore_a4cbb512cb1da538b968aa7bfea700f2b}{panda::Tau::datastore}.\hypertarget{structpanda_1_1Particle_1_1datastore_a82fcd5398687827418d8bdcbfc16d661}{
+\index{panda::Particle::datastore@{panda::Particle::datastore}!setStatus@{setStatus}}
+\index{setStatus@{setStatus}!panda::Particle::datastore@{panda::Particle::datastore}}
+\subsubsection[{setStatus}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Particle::datastore::setStatus (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name}, \/  {\bf utils::BranchList} const \& {\em \_\-branches})\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1Particle_1_1datastore_a82fcd5398687827418d8bdcbfc16d661}
+
+
+Reimplemented from \hyperlink{structpanda_1_1Element_1_1datastore_a8e57a201b92f26a481f2d549e39273e9}{panda::Element::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_af2c384514f539bcc78e55284b7eb3b67}{panda::Electron::datastore}, \hyperlink{structpanda_1_1FatJet_1_1datastore_a7c0b79a4a6e7875278841d4bc8a7deba}{panda::FatJet::datastore}, \hyperlink{structpanda_1_1GenJet_1_1datastore_a7b9f67fdc168e7a372a9430c2b9866e3}{panda::GenJet::datastore}, \hyperlink{structpanda_1_1GenParticle_1_1datastore_ae4c5f9b8868d49879bba872aeb7b1027}{panda::GenParticle::datastore}, \hyperlink{structpanda_1_1Jet_1_1datastore_ae5a3ebcab7eefec1efc08e4f714ce2ad}{panda::Jet::datastore}, \hyperlink{structpanda_1_1Lepton_1_1datastore_a0a158cefd0f32a98625eb5736c414b01}{panda::Lepton::datastore}, \hyperlink{structpanda_1_1MicroJet_1_1datastore_a5dad86e6e7ed7f7ee5ffb793bb81cbbe}{panda::MicroJet::datastore}, \hyperlink{structpanda_1_1Muon_1_1datastore_a930f982ca62e2c7ceeb62dfcd5e03db9}{panda::Muon::datastore}, \hyperlink{structpanda_1_1ParticleM_1_1datastore_a0329bec2c84d16ff16e15824890e7a86}{panda::ParticleM::datastore}, \hyperlink{structpanda_1_1Parton_1_1datastore_a923a18c356315d4083798fe11bb2c942}{panda::Parton::datastore}, \hyperlink{structpanda_1_1PFCand_1_1datastore_a7efac265d60666c7ce27d78adbbf0fbb}{panda::PFCand::datastore}, \hyperlink{structpanda_1_1Photon_1_1datastore_a809ca2b31f632a8503ee2dc839be55ed}{panda::Photon::datastore}, and \hyperlink{structpanda_1_1Tau_1_1datastore_a528e0b260c39c11862f8631cf9e1743e}{panda::Tau::datastore}.
+
+The documentation for this struct was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Objects/interface/\hyperlink{Particle_8h}{Particle.h}\item 
+Objects/src/\hyperlink{Particle_8cc}{Particle.cc}\end{DoxyCompactItemize}

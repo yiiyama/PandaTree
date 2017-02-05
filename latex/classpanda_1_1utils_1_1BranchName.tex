@@ -1,0 +1,121 @@
+\hypertarget{classpanda_1_1utils_1_1BranchName}{
+\section{panda::utils::BranchName Class Reference}
+\label{classpanda_1_1utils_1_1BranchName}\index{panda::utils::BranchName@{panda::utils::BranchName}}
+}
+
+
+Tokenized \hyperlink{namespacepanda_1_1branch}{branch} name.  
+
+
+{\ttfamily \#include $<$IOUtils.h$>$}\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1utils_1_1BranchName_a3d8fc79b18dd73ecea8371172636645a}{BranchName} ()
+\item 
+\hyperlink{classpanda_1_1utils_1_1BranchName_a4ff9e5c6eb5053ff32fcb84d672988fa}{BranchName} (\hyperlink{classpanda_1_1utils_1_1BranchName}{BranchName} const \&)
+\item 
+\hyperlink{classpanda_1_1utils_1_1BranchName_ad3b6e846348eb19a2c4ff2bb371b3525}{BranchName} (char const $\ast$)
+\item 
+\hyperlink{classpanda_1_1utils_1_1BranchName_a8a4d8f841d091b236e16059cc6458d28}{BranchName} (std::string const \&)
+\item 
+\hyperlink{classpanda_1_1utils_1_1BranchName_a0de7e4b015a2ab797d121b12ba4b30bc}{operator TString} () const 
+\begin{DoxyCompactList}\small\item\em Concatenate the words with '.'. \item\end{DoxyCompactList}\item 
+TString \hyperlink{classpanda_1_1utils_1_1BranchName_a13958ff4a9d554d2c057c600b4f70412}{fullName} (TString const \&objName) const 
+\begin{DoxyCompactList}\small\item\em Prepend the \hyperlink{namespacepanda_1_1branch}{branch} name with $<$objName.$>$. \item\end{DoxyCompactList}\item 
+bool \hyperlink{classpanda_1_1utils_1_1BranchName_a7de81c2b318b47f8062ac9096a2640fc}{isVeto} () const 
+\begin{DoxyCompactList}\small\item\em Did the name start with a '!'? \item\end{DoxyCompactList}\item 
+bool \hyperlink{classpanda_1_1utils_1_1BranchName_ae67f0ec0a51cd28fe78c8e539aa9f95e}{match} (\hyperlink{classpanda_1_1utils_1_1BranchName}{BranchName} const \&) const 
+\begin{DoxyCompactList}\small\item\em Does the name match with the given name? \item\end{DoxyCompactList}\item 
+bool \hyperlink{classpanda_1_1utils_1_1BranchName_a6cc8a6df7c5b12a0221fd49773cca6a7}{in} (\hyperlink{classpanda_1_1utils_1_1BranchList}{BranchList} const \&) const 
+\begin{DoxyCompactList}\small\item\em Is the name included and not vetoed? \item\end{DoxyCompactList}\item 
+bool \hyperlink{classpanda_1_1utils_1_1BranchName_ae3332329bf2afae5ed8e7c35e5d77ffa}{vetoed} (\hyperlink{classpanda_1_1utils_1_1BranchList}{BranchList} const \&) const 
+\begin{DoxyCompactList}\small\item\em Is the name included and vetoed? \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Tokenized \hyperlink{namespacepanda_1_1branch}{branch} name. Represents a \hyperlink{namespacepanda_1_1branch}{branch} name given in formats like muons.pt by a vector \{\char`\"{}muons\char`\"{}, \char`\"{}pt\char`\"{}\}. The name can be preceded by '!' to indicate a veto for the \hyperlink{namespacepanda_1_1branch}{branch}. Wild card ($\ast$) is also allowed, and will match to either one section of the name or to the entire remainder. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classpanda_1_1utils_1_1BranchName_a3d8fc79b18dd73ecea8371172636645a}{
+\index{panda::utils::BranchName@{panda::utils::BranchName}!BranchName@{BranchName}}
+\index{BranchName@{BranchName}!panda::utils::BranchName@{panda::utils::BranchName}}
+\subsubsection[{BranchName}]{\setlength{\rightskip}{0pt plus 5cm}panda::utils::BranchName::BranchName ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1utils_1_1BranchName_a3d8fc79b18dd73ecea8371172636645a}
+\hypertarget{classpanda_1_1utils_1_1BranchName_a4ff9e5c6eb5053ff32fcb84d672988fa}{
+\index{panda::utils::BranchName@{panda::utils::BranchName}!BranchName@{BranchName}}
+\index{BranchName@{BranchName}!panda::utils::BranchName@{panda::utils::BranchName}}
+\subsubsection[{BranchName}]{\setlength{\rightskip}{0pt plus 5cm}panda::utils::BranchName::BranchName ({\bf BranchName} const \& {\em \_\-src})}}
+\label{classpanda_1_1utils_1_1BranchName_a4ff9e5c6eb5053ff32fcb84d672988fa}
+\hypertarget{classpanda_1_1utils_1_1BranchName_ad3b6e846348eb19a2c4ff2bb371b3525}{
+\index{panda::utils::BranchName@{panda::utils::BranchName}!BranchName@{BranchName}}
+\index{BranchName@{BranchName}!panda::utils::BranchName@{panda::utils::BranchName}}
+\subsubsection[{BranchName}]{\setlength{\rightskip}{0pt plus 5cm}panda::utils::BranchName::BranchName (char const $\ast$ {\em \_\-name})}}
+\label{classpanda_1_1utils_1_1BranchName_ad3b6e846348eb19a2c4ff2bb371b3525}
+\hypertarget{classpanda_1_1utils_1_1BranchName_a8a4d8f841d091b236e16059cc6458d28}{
+\index{panda::utils::BranchName@{panda::utils::BranchName}!BranchName@{BranchName}}
+\index{BranchName@{BranchName}!panda::utils::BranchName@{panda::utils::BranchName}}
+\subsubsection[{BranchName}]{\setlength{\rightskip}{0pt plus 5cm}panda::utils::BranchName::BranchName (std::string const \& {\em \_\-name})}}
+\label{classpanda_1_1utils_1_1BranchName_a8a4d8f841d091b236e16059cc6458d28}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classpanda_1_1utils_1_1BranchName_a13958ff4a9d554d2c057c600b4f70412}{
+\index{panda::utils::BranchName@{panda::utils::BranchName}!fullName@{fullName}}
+\index{fullName@{fullName}!panda::utils::BranchName@{panda::utils::BranchName}}
+\subsubsection[{fullName}]{\setlength{\rightskip}{0pt plus 5cm}TString panda::utils::BranchName::fullName (TString const \& {\em objName}) const}}
+\label{classpanda_1_1utils_1_1BranchName_a13958ff4a9d554d2c057c600b4f70412}
+
+
+Prepend the \hyperlink{namespacepanda_1_1branch}{branch} name with $<$objName.$>$. 
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1utils_1_1BranchName_a6cc8a6df7c5b12a0221fd49773cca6a7}{
+\index{panda::utils::BranchName@{panda::utils::BranchName}!in@{in}}
+\index{in@{in}!panda::utils::BranchName@{panda::utils::BranchName}}
+\subsubsection[{in}]{\setlength{\rightskip}{0pt plus 5cm}bool panda::utils::BranchName::in ({\bf BranchList} const \& {\em \_\-list}) const}}
+\label{classpanda_1_1utils_1_1BranchName_a6cc8a6df7c5b12a0221fd49773cca6a7}
+
+
+Is the name included and not vetoed? Does not take the veto on the parent object into account. Simply asks the question \char`\"{}is the name in the given list and not vetoed in the list?\char`\"{} 
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1utils_1_1BranchName_a7de81c2b318b47f8062ac9096a2640fc}{
+\index{panda::utils::BranchName@{panda::utils::BranchName}!isVeto@{isVeto}}
+\index{isVeto@{isVeto}!panda::utils::BranchName@{panda::utils::BranchName}}
+\subsubsection[{isVeto}]{\setlength{\rightskip}{0pt plus 5cm}bool panda::utils::BranchName::isVeto () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1utils_1_1BranchName_a7de81c2b318b47f8062ac9096a2640fc}
+
+
+Did the name start with a '!'? \hypertarget{classpanda_1_1utils_1_1BranchName_ae67f0ec0a51cd28fe78c8e539aa9f95e}{
+\index{panda::utils::BranchName@{panda::utils::BranchName}!match@{match}}
+\index{match@{match}!panda::utils::BranchName@{panda::utils::BranchName}}
+\subsubsection[{match}]{\setlength{\rightskip}{0pt plus 5cm}bool panda::utils::BranchName::match ({\bf BranchName} const \& {\em \_\-rhs}) const}}
+\label{classpanda_1_1utils_1_1BranchName_ae67f0ec0a51cd28fe78c8e539aa9f95e}
+
+
+Does the name match with the given name? Only considers the name part and not the veto-\/ness. 
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1utils_1_1BranchName_a0de7e4b015a2ab797d121b12ba4b30bc}{
+\index{panda::utils::BranchName@{panda::utils::BranchName}!operator TString@{operator TString}}
+\index{operator TString@{operator TString}!panda::utils::BranchName@{panda::utils::BranchName}}
+\subsubsection[{operator TString}]{\setlength{\rightskip}{0pt plus 5cm}panda::utils::BranchName::operator TString () const}}
+\label{classpanda_1_1utils_1_1BranchName_a0de7e4b015a2ab797d121b12ba4b30bc}
+
+
+Concatenate the words with '.'. \hypertarget{classpanda_1_1utils_1_1BranchName_ae3332329bf2afae5ed8e7c35e5d77ffa}{
+\index{panda::utils::BranchName@{panda::utils::BranchName}!vetoed@{vetoed}}
+\index{vetoed@{vetoed}!panda::utils::BranchName@{panda::utils::BranchName}}
+\subsubsection[{vetoed}]{\setlength{\rightskip}{0pt plus 5cm}bool panda::utils::BranchName::vetoed ({\bf BranchList} const \& {\em \_\-list}) const}}
+\label{classpanda_1_1utils_1_1BranchName_ae3332329bf2afae5ed8e7c35e5d77ffa}
+
+
+Is the name included and vetoed? Does not take the veto on the parent object into account. Simply asks the question \char`\"{}is the name in the given list and vetoed in the list?\char`\"{} 
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Framework/interface/\hyperlink{IOUtils_8h}{IOUtils.h}\item 
+Framework/src/\hyperlink{IOUtils_8cc}{IOUtils.cc}\end{DoxyCompactItemize}

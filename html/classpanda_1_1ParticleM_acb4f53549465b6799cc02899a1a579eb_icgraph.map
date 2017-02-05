@@ -1,0 +1,10 @@
+<map id="panda::ParticleM::book" name="panda::ParticleM::book">
+<area shape="rect" id="node2" href="$classpanda_1_1GenJet.html#a0ca47c595bf1dce791d3c06c75f3fbaf" title="Book new branches to the tree corresponding to the variables of this object. " alt="" coords="215,5,360,33"/>
+<area shape="rect" id="node3" href="$classpanda_1_1GenParticle.html#a748bcf33806985c71d40c09e564e46ba" title="Book new branches to the tree corresponding to the variables of this object. " alt="" coords="220,57,355,101"/>
+<area shape="rect" id="node4" href="$classpanda_1_1MicroJet.html#a6d1f2d8a49162e3abdebd7647df6131e" title="Book new branches to the tree corresponding to the variables of this object. " alt="" coords="211,125,363,153"/>
+<area shape="rect" id="node7" href="$classpanda_1_1Parton.html#aaffc6b5ba36cc920e48cc00cac8eb65e" title="Book new branches to the tree corresponding to the variables of this object. " alt="" coords="217,177,358,205"/>
+<area shape="rect" id="node8" href="$classpanda_1_1PFCand.html#ae77bd179a738d0e61895dc5e5182a45f" title="Book new branches to the tree corresponding to the variables of this object. " alt="" coords="212,229,363,257"/>
+<area shape="rect" id="node9" href="$classpanda_1_1Tau.html#a4f31bfd77bced4bc2935e1cb2ddce5e7" title="Book new branches to the tree corresponding to the variables of this object. " alt="" coords="225,281,350,309"/>
+<area shape="rect" id="node5" href="$classpanda_1_1Jet.html#af047a1a3e21716a28f9a1deaa9d43123" title="Book new branches to the tree corresponding to the variables of this object. " alt="" coords="411,125,531,153"/>
+<area shape="rect" id="node6" href="$classpanda_1_1FatJet.html#a733475668d0bd2a7dd5030909e87305c" title="Book new branches to the tree corresponding to the variables of this object. " alt="" coords="579,125,719,153"/>
+</map>

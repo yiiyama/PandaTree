@@ -1,0 +1,10 @@
+<map id="panda::ParticleM::datastore::resetAddress" name="panda::ParticleM::datastore::resetAddress">
+<area shape="rect" id="node2" href="$structpanda_1_1GenJet_1_1datastore.html#a474a24f5349360f411dc9618da04541f" title="panda::GenJet::datastore\l::resetAddress" alt="" coords="241,5,413,49"/>
+<area shape="rect" id="node3" href="$structpanda_1_1GenParticle_1_1datastore.html#a560f90c85950a4f2d29a1f0c630344fe" title="panda::GenParticle\l::datastore::resetAddress" alt="" coords="242,73,412,117"/>
+<area shape="rect" id="node4" href="$structpanda_1_1MicroJet_1_1datastore.html#a1e01e1fb6d728a2497fc29a9fef3c79e" title="panda::MicroJet::datastore\l::resetAddress" alt="" coords="238,141,417,185"/>
+<area shape="rect" id="node7" href="$structpanda_1_1Parton_1_1datastore.html#a00923f3224a5d7f0e2e25a09f31dfdcc" title="panda::Parton::datastore\l::resetAddress" alt="" coords="243,209,411,253"/>
+<area shape="rect" id="node8" href="$structpanda_1_1PFCand_1_1datastore.html#a18b5e8b5d46702c368d7c93193c63a0f" title="panda::PFCand::datastore\l::resetAddress" alt="" coords="238,277,416,321"/>
+<area shape="rect" id="node9" href="$structpanda_1_1Tau_1_1datastore.html#a85bbdd238ef17a2765c4b51e267af67b" title="panda::Tau::datastore\l::resetAddress" alt="" coords="251,345,403,389"/>
+<area shape="rect" id="node5" href="$structpanda_1_1Jet_1_1datastore.html#a665fb876fb18c28c2828555baaa9ed7c" title="panda::Jet::datastore\l::resetAddress" alt="" coords="465,141,611,185"/>
+<area shape="rect" id="node6" href="$structpanda_1_1FatJet_1_1datastore.html#a64adfe00b81cf90551047cde4cce6c1f" title="panda::FatJet::datastore\l::resetAddress" alt="" coords="659,141,825,185"/>
+</map>

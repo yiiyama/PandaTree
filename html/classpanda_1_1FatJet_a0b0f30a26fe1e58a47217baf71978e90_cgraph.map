@@ -1,0 +1,13 @@
+<map id="panda::FatJet::setStatus" name="panda::FatJet::setStatus">
+<area shape="rect" id="node2" href="$classpanda_1_1Jet.html#afa2e8a9a09a34cddb5ce810c8b5a964a" title="Set status of branches with names that correspond to the variables of this object. " alt="" coords="219,195,366,223"/>
+<area shape="rect" id="node7" href="$classpanda_1_1utils_1_1StoreManager.html#a6f30ec459d951e84a1196b7e2ffdcf49" title="panda::utils::StoreManager\l::getName" alt="" coords="1094,85,1276,129"/>
+<area shape="rect" id="node8" href="$namespacepanda_1_1utils.html#a01665f786d6a2acedb8f008f3fc9fc84" title="Set status of a branch. " alt="" coords="1109,298,1261,326"/>
+<area shape="rect" id="node3" href="$classpanda_1_1MicroJet.html#a55b434c84ffd0e71a8d6e96c29cbe57a" title="Set status of branches with names that correspond to the variables of this object. " alt="" coords="414,195,593,223"/>
+<area shape="rect" id="node4" href="$classpanda_1_1ParticleM.html#a3154bba2f00a8165994caa8ef55473bf" title="Set status of branches with names that correspond to the variables of this object. " alt="" coords="641,195,825,223"/>
+<area shape="rect" id="node5" href="$classpanda_1_1Particle.html#a114feb26e7ed0b5fac53646fca93964e" title="Set status of branches with names that correspond to the variables of this object. " alt="" coords="873,195,1046,223"/>
+<area shape="rect" id="node6" href="$classpanda_1_1Object.html#a282e820b1ad431db22ca4d4dd20b55e0" title="Set status of branches with names that correspond to the variables of this object. " alt="" coords="1102,195,1269,223"/>
+<area shape="rect" id="node9" href="$classpanda_1_1utils_1_1BranchName.html#a6cc8a6df7c5b12a0221fd49773cca6a7" title="Is the name included and not vetoed? " alt="" coords="1324,203,1516,231"/>
+<area shape="rect" id="node10" href="$classpanda_1_1utils_1_1BranchName.html#ae3332329bf2afae5ed8e7c35e5d77ffa" title="Is the name included and vetoed? " alt="" coords="1333,255,1507,299"/>
+<area shape="rect" id="node11" href="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412" title="Prepend the branch name with &lt;objName.&gt;. " alt="" coords="1333,323,1507,367"/>
+<area shape="rect" id="node12" href="$namespacepanda_1_1utils.html#aafa411773a4b0ee829d99e6e5a0abdcd" title="Check status of a branch. " alt="" coords="1335,391,1505,419"/>
+</map>

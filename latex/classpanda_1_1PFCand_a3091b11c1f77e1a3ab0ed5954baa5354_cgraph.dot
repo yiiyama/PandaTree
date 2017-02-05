@@ -1,0 +1,13 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir=LR;
+  Node1 [label="panda::PFCand::puppiNoLepP4",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="panda::ParticleM::m",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1ParticleM.html#a3285647972bb49a26897e300f990b902"];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="panda::Particle::p4",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Particle.html#aab2f22a57738ea3b2d3226e72c150a99"];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="panda::Particle::m",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Particle.html#aa793c05fc1334ed462e18c794339eebf"];
+}

@@ -1,0 +1,20 @@
+digraph "panda.refbranch.RefBranch._write_ref_set"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="panda.refbranch.RefBranch.\l_write_ref_set",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="panda.refbranch.RefBranch.write\l_default_ctor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refbranch_1_1RefBranch.html#a6ffa2957a631301713d3a09a7c342d19"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="panda.refbranch.RefBranch.write\l_standard_ctor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refbranch_1_1RefBranch.html#ad061e9eb8e6ed82ccacfbd5359a41ba5"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="panda.refbranch.RefBranch.write\l_copy_ctor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refbranch_1_1RefBranch.html#aab6abb2a47955638050a1e0f2798f5f6"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="panda.refvbranch.RefVector\lBranch.write_default_ctor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#a5d343d755a1486484bbb164fbdf9ac4c"];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="panda.refvbranch.RefVector\lBranch.write_standard_ctor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#a762962588e6b21736201ba01b0c9434f"];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="panda.refvbranch.RefVector\lBranch.write_copy_ctor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#a4a579a4942e4357945946c354ff21b45"];
+}

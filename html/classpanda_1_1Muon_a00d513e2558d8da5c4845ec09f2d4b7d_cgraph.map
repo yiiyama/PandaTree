@@ -1,0 +1,8 @@
+<map id="panda::Muon::releaseTree" name="panda::Muon::releaseTree">
+<area shape="rect" id="node2" href="$classpanda_1_1Lepton.html#a6c7aa6fc6916d294290b96cfa5ee5585" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="231,73,416,101"/>
+<area shape="rect" id="node5" href="$classpanda_1_1utils_1_1StoreManager.html#a6f30ec459d951e84a1196b7e2ffdcf49" title="panda::utils::StoreManager\l::getName" alt="" coords="702,5,883,49"/>
+<area shape="rect" id="node6" href="$namespacepanda_1_1utils.html#a82a8530e64fbdf917cf9b8659065f98b" title="panda::utils::resetAddress" alt="" coords="705,125,880,153"/>
+<area shape="rect" id="node3" href="$classpanda_1_1Particle.html#a8fb6fa0b4316967da573181262727142" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="464,73,653,101"/>
+<area shape="rect" id="node4" href="$classpanda_1_1Object.html#aaf58438092b42a89b838ce12c6a23833" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="701,73,884,101"/>
+<area shape="rect" id="node7" href="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412" title="Prepend the branch name with &lt;objName.&gt;. " alt="" coords="932,117,1106,161"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classpanda_1_1Collection.html#a9a3c9aa1d2ba874da225156c9103b3fe" title="Element accessor with range check." alt="" coords="267,5,408,35"/>
+<area shape="rect" id="node7" href="$classpanda_1_1Collection.html#aa4035dd7ed5695992a3f0340feede2c8" title="Reference to the last element." alt="" coords="259,59,416,88"/>
+<area shape="rect" id="node9" href="$classpanda_1_1Collection.html#a76d29ff9b6366c3a39f2aa06ac6b0604" title="Create an element at the end of the collection and return a reference." alt="" coords="483,84,685,113"/>
+<area shape="rect" id="node11" href="$classpanda_1_1Collection.html#ad194c8ae8355ce5ba6c04518a223cde1" title="Copy the array contents." alt="" coords="259,163,416,192"/>
+<area shape="rect" id="node18" href="$classpanda_1_1Collection.html#ab0c911f9b8ea2734f2f255ab2b65cd8f" title="Return an iterator pointing to the end of the array (invalid address)." alt="" coords="261,216,413,245"/>
+<area shape="rect" id="node20" href="$classpanda_1_1Collection.html#a801b74a80bdd197bdfe08a06112bdcee" title="Append an element to the back and resize by 1." alt="" coords="487,283,681,312"/>
+<area shape="rect" id="node22" href="$classpanda_1_1Collection.html#a2187bdc5efe30684f1e9f4db4fe4fb2e" title="panda::Collection::reallocate_" alt="" coords="240,320,435,349"/>
+<area shape="rect" id="node25" href="$classpanda_1_1Collection.html#a10c98d854734dc7d8063eca3ca6e01ad" title="panda::Collection::sort" alt="" coords="261,373,413,403"/>
+<area shape="rect" id="node5" href="$classpanda_1_1Collection.html#add5ee7e7d1969880a3f00de700425d67" title="panda::Collection::elemAt" alt="" coords="499,5,669,35"/>
+<area shape="rect" id="node13" href="$classpanda_1_1Collection.html#a065b038d41d0437ddacdab9f22f6d397" title="panda::Collection::Collection" alt="" coords="489,151,679,180"/>
+<area shape="rect" id="node15" href="$classpanda_1_1Collection.html#af2065fa6ed20c1fe1dd54b33f83e7778" title="panda::Collection::operator=" alt="" coords="491,204,677,233"/>
+</map>

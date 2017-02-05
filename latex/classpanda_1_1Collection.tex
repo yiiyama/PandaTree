@@ -1,0 +1,408 @@
+\hypertarget{classpanda_1_1Collection}{
+\section{panda::Collection$<$ E $>$ Class Template Reference}
+\label{classpanda_1_1Collection}\index{panda::Collection@{panda::Collection}}
+}
+
+
+Template class for dynamic-\/size container implementations. Inherits from base\_\-type::collection\_\-type of the element class.  
+
+
+{\ttfamily \#include $<$Collection.h$>$}\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classpanda_1_1Collection}{Collection}$<$ E $>$ \hyperlink{classpanda_1_1Collection_a0e17bbfa4853912ae5e3d1fdff2299e2}{self\_\-type}
+\item 
+typedef E::base\_\-type::collection\_\-type \hyperlink{classpanda_1_1Collection_a21feac1cf85f41783beabc65abd54611}{base\_\-type}
+\item 
+typedef E \hyperlink{classpanda_1_1Collection_a9df859281619e6213192b6f7af902d76}{value\_\-type}
+\item 
+typedef \hyperlink{classpanda_1_1Collection_a9df859281619e6213192b6f7af902d76}{value\_\-type} \& \hyperlink{classpanda_1_1Collection_a908a535fcc02ad985ac9eb974f02546f}{reference}
+\item 
+typedef \hyperlink{classpanda_1_1Collection_a9df859281619e6213192b6f7af902d76}{value\_\-type} const \& \hyperlink{classpanda_1_1Collection_a0b74becc406f47de15442c670ae70caf}{const\_\-reference}
+\item 
+typedef \hyperlink{classpanda_1_1Collection_a9df859281619e6213192b6f7af902d76}{value\_\-type} $\ast$ \hyperlink{classpanda_1_1Collection_ab3c725349a6a4adb0c0d9258d86d60fe}{pointer}
+\item 
+typedef \hyperlink{classpanda_1_1Collection_a9df859281619e6213192b6f7af902d76}{value\_\-type} const $\ast$ \hyperlink{classpanda_1_1Collection_ab1e92c77768c1794f4493560b91612e0}{const\_\-pointer}
+\item 
+typedef \hyperlink{classpanda_1_1utils_1_1Iterator}{utils::Iterator}$<$ \hyperlink{classpanda_1_1Collection}{self\_\-type}, false $>$ \hyperlink{classpanda_1_1Collection_af5db8970e7a032f09aa723c91ebf2e84}{iterator}
+\item 
+typedef \hyperlink{classpanda_1_1utils_1_1Iterator}{utils::Iterator}$<$ \hyperlink{classpanda_1_1Collection}{self\_\-type}, true $>$ \hyperlink{classpanda_1_1Collection_acc749ab7812ec93b3cdf4096e4320e17}{const\_\-iterator}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1Collection_a12046f6682c2934a208f3535d44ae56f}{Collection} (char const $\ast$name=\char`\"{}\char`\"{}, UInt\_\-t initialMax=64)
+\item 
+\hyperlink{classpanda_1_1Collection_a065b038d41d0437ddacdab9f22f6d397}{Collection} (\hyperlink{classpanda_1_1Collection}{self\_\-type} const \&src)
+\item 
+\hyperlink{classpanda_1_1Collection_a4fbdded1eb81d5781265ff4cc9f6197a}{$\sim$Collection} ()
+\item 
+\hyperlink{classpanda_1_1Collection}{self\_\-type} \& \hyperlink{classpanda_1_1Collection_af2065fa6ed20c1fe1dd54b33f83e7778}{operator=} (\hyperlink{classpanda_1_1Collection}{self\_\-type} const \&rhs)
+\item 
+\hyperlink{classpanda_1_1Collection_a908a535fcc02ad985ac9eb974f02546f}{reference} \hyperlink{classpanda_1_1Collection_a9a3c9aa1d2ba874da225156c9103b3fe}{at} (UInt\_\-t idx)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classpanda_1_1Element}{Element} accessor with range check. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Collection_a0b74becc406f47de15442c670ae70caf}{const\_\-reference} \hyperlink{classpanda_1_1Collection_a39187584e51bc0f3cb2b4dd59f71dfa4}{at} (UInt\_\-t idx) const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{classpanda_1_1Element}{Element} accessor with range check. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Collection_a908a535fcc02ad985ac9eb974f02546f}{reference} \hyperlink{classpanda_1_1Collection_a418aee57adfa79bf4db3ea1e7def58c4}{operator\mbox{[}$\,$\mbox{]}} (UInt\_\-t)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classpanda_1_1Element}{Element} accessor with no range check. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Collection_a0b74becc406f47de15442c670ae70caf}{const\_\-reference} \hyperlink{classpanda_1_1Collection_acc5f2873f1e8d2def48a5f0ed17a56e0}{operator\mbox{[}$\,$\mbox{]}} (UInt\_\-t) const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{classpanda_1_1Element}{Element} accessor with no range check. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1utils_1_1Iterator}{iterator} \hyperlink{classpanda_1_1Collection_a353e28bfcd4afe0d3cf9f949bffe21dc}{begin} ()
+\begin{DoxyCompactList}\small\item\em Return an iterator pointing to the first element. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1utils_1_1Iterator}{const\_\-iterator} \hyperlink{classpanda_1_1Collection_adfb529320065335b26ad488ab58e30e4}{begin} () const 
+\begin{DoxyCompactList}\small\item\em Return an iterator pointing to the first element. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1utils_1_1Iterator}{iterator} \hyperlink{classpanda_1_1Collection_ab0c911f9b8ea2734f2f255ab2b65cd8f}{end} ()
+\begin{DoxyCompactList}\small\item\em Return an iterator pointing to the end of the array (invalid address). \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1utils_1_1Iterator}{const\_\-iterator} \hyperlink{classpanda_1_1Collection_a476ee3bc2ac965600622a57e39ea1c58}{end} () const 
+\begin{DoxyCompactList}\small\item\em Return an iterator pointing to the end of the array (invalid address). \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Collection_a908a535fcc02ad985ac9eb974f02546f}{reference} \hyperlink{classpanda_1_1Collection_a13746b6da09a9db21c7adbc9125862b5}{front} ()
+\begin{DoxyCompactList}\small\item\em Reference to the first element. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Collection_a0b74becc406f47de15442c670ae70caf}{const\_\-reference} \hyperlink{classpanda_1_1Collection_a39ebd4f13c72ae9f8e7133b7f9f4a3a5}{front} () const 
+\begin{DoxyCompactList}\small\item\em Reference to the first element. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Collection_a908a535fcc02ad985ac9eb974f02546f}{reference} \hyperlink{classpanda_1_1Collection_aa4035dd7ed5695992a3f0340feede2c8}{back} ()
+\begin{DoxyCompactList}\small\item\em Reference to the last element. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Collection_a0b74becc406f47de15442c670ae70caf}{const\_\-reference} \hyperlink{classpanda_1_1Collection_ae59b76d15bd761ecc824edf4222b76c7}{back} () const 
+\begin{DoxyCompactList}\small\item\em Reference to the last element. \item\end{DoxyCompactList}\item 
+void \hyperlink{classpanda_1_1Collection_ad194c8ae8355ce5ba6c04518a223cde1}{copy} (\hyperlink{classpanda_1_1Collection}{self\_\-type} const \&)
+\begin{DoxyCompactList}\small\item\em Copy the array contents. \item\end{DoxyCompactList}\item 
+void \hyperlink{classpanda_1_1Collection_a801b74a80bdd197bdfe08a06112bdcee}{push\_\-back} (\hyperlink{classpanda_1_1Collection_a0b74becc406f47de15442c670ae70caf}{const\_\-reference})
+\begin{DoxyCompactList}\small\item\em Append an element to the back and resize by 1. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Collection_a908a535fcc02ad985ac9eb974f02546f}{reference} \hyperlink{classpanda_1_1Collection_a76d29ff9b6366c3a39f2aa06ac6b0604}{create\_\-back} ()
+\begin{DoxyCompactList}\small\item\em Create an element at the end of the collection and return a \hyperlink{namespacepanda_1_1reference}{reference}. \item\end{DoxyCompactList}\item 
+\hyperlink{structpanda_1_1Element_1_1datastore}{Element::datastore} \& \hyperlink{classpanda_1_1Collection_a262ac9c1180f647b0140e53fe0e5d5d6}{getData} () override
+\item 
+\hyperlink{structpanda_1_1Element_1_1datastore}{Element::datastore} const \& \hyperlink{classpanda_1_1Collection_ab27df679acedc97ee31d230dd630cccf}{getData} () const override
+\item 
+\hyperlink{classpanda_1_1Element}{Element} \& \hyperlink{classpanda_1_1Collection_add5ee7e7d1969880a3f00de700425d67}{elemAt} (UInt\_\-t idx) override
+\item 
+\hyperlink{classpanda_1_1Element}{Element} const \& \hyperlink{classpanda_1_1Collection_a2d634c66148b760ddd2779ff559d6511}{elemAt} (UInt\_\-t idx) const override
+\item 
+std::vector$<$ UInt\_\-t $>$ \hyperlink{classpanda_1_1Collection_a10c98d854734dc7d8063eca3ca6e01ad}{sort} (\hyperlink{classpanda_1_1ContainerBase_a5269fda4f420b52d6ed9c0dac548559e}{ContainerBase::Comparison} const \&) override
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1Collection_aba5674236155e6763257004ca1fa1a26}{Collection} (char const $\ast$name, UInt\_\-t unitSize, Bool\_\-t dummy)
+\item 
+void \hyperlink{classpanda_1_1Collection_a2187bdc5efe30684f1e9f4db4fe4fb2e}{reallocate\_\-} (UInt\_\-t) override
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1Collection_a9df859281619e6213192b6f7af902d76}{value\_\-type} $\ast$ \hyperlink{classpanda_1_1Collection_a24157825ebc9add7825e51ba47f1bd97}{addr\_\-} () const 
+\item 
+\hyperlink{classpanda_1_1Collection_a9df859281619e6213192b6f7af902d76}{value\_\-type} const $\ast$ \hyperlink{classpanda_1_1Collection_a15e865455a9275efe83ca65f1a96b3e9}{const\_\-addr\_\-} () const 
+\item 
+void \hyperlink{classpanda_1_1Collection_af6d52087e85607c91a6bd6400185442a}{allocate\_\-} (UInt\_\-t)
+\end{DoxyCompactItemize}
+\subsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classpanda_1_1Collection_a74432be483a033e44ee2c7860487b20c}{deallocate\_\-} (\hyperlink{classpanda_1_1Collection_a9df859281619e6213192b6f7af902d76}{value\_\-type} $\ast$addr, typename value\_\-type::datastore \&)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class E$>$ class panda::Collection$<$ E $>$}
+
+Template class for dynamic-\/size container implementations. Inherits from base\_\-type::collection\_\-type of the element class. For a \hyperlink{namespacepanda_1_1physics}{physics} object class E that inherits from B, Panda containers inherit as \hyperlink{classpanda_1_1Object}{Object} $<$-\/ \hyperlink{classpanda_1_1ContainerBase}{ContainerBase} $<$-\/ \hyperlink{classpanda_1_1ArrayBase}{ArrayBase} $<$-\/ \hyperlink{classpanda_1_1Array}{Array}{\bfseries  $<$-\/ Array$<$E$>$ \hyperlink{classpanda_1_1Object}{Object} $<$-\/ \hyperlink{classpanda_1_1ContainerBase}{ContainerBase} $<$-\/ \hyperlink{classpanda_1_1CollectionBase}{CollectionBase} $<$-\/ \hyperlink{classpanda_1_1Collection}{Collection}{\bfseries  $<$-\/ Collection$<$E$>$ }}
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classpanda_1_1Collection_a21feac1cf85f41783beabc65abd54611}{
+\index{panda::Collection@{panda::Collection}!base\_\-type@{base\_\-type}}
+\index{base\_\-type@{base\_\-type}!panda::Collection@{panda::Collection}}
+\subsubsection[{base\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef E::base\_\-type::collection\_\-type {\bf panda::Collection}$<$ E $>$::{\bf base\_\-type}}}
+\label{classpanda_1_1Collection_a21feac1cf85f41783beabc65abd54611}
+\hypertarget{classpanda_1_1Collection_acc749ab7812ec93b3cdf4096e4320e17}{
+\index{panda::Collection@{panda::Collection}!const\_\-iterator@{const\_\-iterator}}
+\index{const\_\-iterator@{const\_\-iterator}!panda::Collection@{panda::Collection}}
+\subsubsection[{const\_\-iterator}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef {\bf utils::Iterator}$<${\bf self\_\-type}, true$>$ {\bf panda::Collection}$<$ E $>$::{\bf const\_\-iterator}}}
+\label{classpanda_1_1Collection_acc749ab7812ec93b3cdf4096e4320e17}
+\hypertarget{classpanda_1_1Collection_ab1e92c77768c1794f4493560b91612e0}{
+\index{panda::Collection@{panda::Collection}!const\_\-pointer@{const\_\-pointer}}
+\index{const\_\-pointer@{const\_\-pointer}!panda::Collection@{panda::Collection}}
+\subsubsection[{const\_\-pointer}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef {\bf value\_\-type} const$\ast$ {\bf panda::Collection}$<$ E $>$::{\bf const\_\-pointer}}}
+\label{classpanda_1_1Collection_ab1e92c77768c1794f4493560b91612e0}
+\hypertarget{classpanda_1_1Collection_a0b74becc406f47de15442c670ae70caf}{
+\index{panda::Collection@{panda::Collection}!const\_\-reference@{const\_\-reference}}
+\index{const\_\-reference@{const\_\-reference}!panda::Collection@{panda::Collection}}
+\subsubsection[{const\_\-reference}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef {\bf value\_\-type} const\& {\bf panda::Collection}$<$ E $>$::{\bf const\_\-reference}}}
+\label{classpanda_1_1Collection_a0b74becc406f47de15442c670ae70caf}
+\hypertarget{classpanda_1_1Collection_af5db8970e7a032f09aa723c91ebf2e84}{
+\index{panda::Collection@{panda::Collection}!iterator@{iterator}}
+\index{iterator@{iterator}!panda::Collection@{panda::Collection}}
+\subsubsection[{iterator}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef {\bf utils::Iterator}$<${\bf self\_\-type}, false$>$ {\bf panda::Collection}$<$ E $>$::{\bf iterator}}}
+\label{classpanda_1_1Collection_af5db8970e7a032f09aa723c91ebf2e84}
+\hypertarget{classpanda_1_1Collection_ab3c725349a6a4adb0c0d9258d86d60fe}{
+\index{panda::Collection@{panda::Collection}!pointer@{pointer}}
+\index{pointer@{pointer}!panda::Collection@{panda::Collection}}
+\subsubsection[{pointer}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef {\bf value\_\-type}$\ast$ {\bf panda::Collection}$<$ E $>$::{\bf pointer}}}
+\label{classpanda_1_1Collection_ab3c725349a6a4adb0c0d9258d86d60fe}
+\hypertarget{classpanda_1_1Collection_a908a535fcc02ad985ac9eb974f02546f}{
+\index{panda::Collection@{panda::Collection}!reference@{reference}}
+\index{reference@{reference}!panda::Collection@{panda::Collection}}
+\subsubsection[{reference}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef {\bf value\_\-type}\& {\bf panda::Collection}$<$ E $>$::{\bf reference}}}
+\label{classpanda_1_1Collection_a908a535fcc02ad985ac9eb974f02546f}
+\hypertarget{classpanda_1_1Collection_a0e17bbfa4853912ae5e3d1fdff2299e2}{
+\index{panda::Collection@{panda::Collection}!self\_\-type@{self\_\-type}}
+\index{self\_\-type@{self\_\-type}!panda::Collection@{panda::Collection}}
+\subsubsection[{self\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef {\bf Collection}$<$E$>$ {\bf panda::Collection}$<$ E $>$::{\bf self\_\-type}}}
+\label{classpanda_1_1Collection_a0e17bbfa4853912ae5e3d1fdff2299e2}
+\hypertarget{classpanda_1_1Collection_a9df859281619e6213192b6f7af902d76}{
+\index{panda::Collection@{panda::Collection}!value\_\-type@{value\_\-type}}
+\index{value\_\-type@{value\_\-type}!panda::Collection@{panda::Collection}}
+\subsubsection[{value\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef E {\bf panda::Collection}$<$ E $>$::{\bf value\_\-type}}}
+\label{classpanda_1_1Collection_a9df859281619e6213192b6f7af902d76}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classpanda_1_1Collection_a12046f6682c2934a208f3535d44ae56f}{
+\index{panda::Collection@{panda::Collection}!Collection@{Collection}}
+\index{Collection@{Collection}!panda::Collection@{panda::Collection}}
+\subsubsection[{Collection}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf panda::Collection}$<$ E $>$::{\bf Collection} (char const $\ast$ {\em name} = {\ttfamily \char`\"{}\char`\"{}}, \/  UInt\_\-t {\em initialMax} = {\ttfamily 64})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_a12046f6682c2934a208f3535d44ae56f}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Collection_a065b038d41d0437ddacdab9f22f6d397}{
+\index{panda::Collection@{panda::Collection}!Collection@{Collection}}
+\index{Collection@{Collection}!panda::Collection@{panda::Collection}}
+\subsubsection[{Collection}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf panda::Collection}$<$ E $>$::{\bf Collection} ({\bf self\_\-type} const \& {\em src})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_a065b038d41d0437ddacdab9f22f6d397}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Collection_a4fbdded1eb81d5781265ff4cc9f6197a}{
+\index{panda::Collection@{panda::Collection}!$\sim$Collection@{$\sim$Collection}}
+\index{$\sim$Collection@{$\sim$Collection}!panda::Collection@{panda::Collection}}
+\subsubsection[{$\sim$Collection}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ {\bf panda::Collection}$<$ E $>$::$\sim${\bf Collection} ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_a4fbdded1eb81d5781265ff4cc9f6197a}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Collection_aba5674236155e6763257004ca1fa1a26}{
+\index{panda::Collection@{panda::Collection}!Collection@{Collection}}
+\index{Collection@{Collection}!panda::Collection@{panda::Collection}}
+\subsubsection[{Collection}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf panda::Collection}$<$ E $>$::{\bf Collection} (char const $\ast$ {\em name}, \/  UInt\_\-t {\em unitSize}, \/  Bool\_\-t {\em dummy})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected\mbox{]}}}}
+\label{classpanda_1_1Collection_aba5674236155e6763257004ca1fa1a26}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classpanda_1_1Collection_a24157825ebc9add7825e51ba47f1bd97}{
+\index{panda::Collection@{panda::Collection}!addr\_\-@{addr\_\-}}
+\index{addr\_\-@{addr\_\-}!panda::Collection@{panda::Collection}}
+\subsubsection[{addr\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf value\_\-type}$\ast$ {\bf panda::Collection}$<$ E $>$::addr\_\- () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classpanda_1_1Collection_a24157825ebc9add7825e51ba47f1bd97}
+
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Collection_af6d52087e85607c91a6bd6400185442a}{
+\index{panda::Collection@{panda::Collection}!allocate\_\-@{allocate\_\-}}
+\index{allocate\_\-@{allocate\_\-}!panda::Collection@{panda::Collection}}
+\subsubsection[{allocate\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ void {\bf panda::Collection}$<$ E $>$::allocate\_\- (UInt\_\-t {\em \_\-nmax})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classpanda_1_1Collection_af6d52087e85607c91a6bd6400185442a}
+
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Collection_a39187584e51bc0f3cb2b4dd59f71dfa4}{
+\index{panda::Collection@{panda::Collection}!at@{at}}
+\index{at@{at}!panda::Collection@{panda::Collection}}
+\subsubsection[{at}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ {\bf Collection}$<$ E $>$::{\bf const\_\-reference} {\bf panda::Collection}$<$ E $>$::at (UInt\_\-t {\em idx}) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_a39187584e51bc0f3cb2b4dd59f71dfa4}
+
+
+\hyperlink{classpanda_1_1Element}{Element} accessor with range check. 
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Collection_a9a3c9aa1d2ba874da225156c9103b3fe}{
+\index{panda::Collection@{panda::Collection}!at@{at}}
+\index{at@{at}!panda::Collection@{panda::Collection}}
+\subsubsection[{at}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ {\bf Collection}$<$ E $>$::{\bf reference} {\bf panda::Collection}$<$ E $>$::at (UInt\_\-t {\em idx})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_a9a3c9aa1d2ba874da225156c9103b3fe}
+
+
+\hyperlink{classpanda_1_1Element}{Element} accessor with range check. 
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Collection_ae59b76d15bd761ecc824edf4222b76c7}{
+\index{panda::Collection@{panda::Collection}!back@{back}}
+\index{back@{back}!panda::Collection@{panda::Collection}}
+\subsubsection[{back}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf const\_\-reference} {\bf panda::Collection}$<$ E $>$::back () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_ae59b76d15bd761ecc824edf4222b76c7}
+
+
+Reference to the last element. 
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Collection_aa4035dd7ed5695992a3f0340feede2c8}{
+\index{panda::Collection@{panda::Collection}!back@{back}}
+\index{back@{back}!panda::Collection@{panda::Collection}}
+\subsubsection[{back}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf reference} {\bf panda::Collection}$<$ E $>$::back ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_aa4035dd7ed5695992a3f0340feede2c8}
+
+
+Reference to the last element. 
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Collection_adfb529320065335b26ad488ab58e30e4}{
+\index{panda::Collection@{panda::Collection}!begin@{begin}}
+\index{begin@{begin}!panda::Collection@{panda::Collection}}
+\subsubsection[{begin}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf const\_\-iterator} {\bf panda::Collection}$<$ E $>$::begin () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_adfb529320065335b26ad488ab58e30e4}
+
+
+Return an iterator pointing to the first element. 
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Collection_a353e28bfcd4afe0d3cf9f949bffe21dc}{
+\index{panda::Collection@{panda::Collection}!begin@{begin}}
+\index{begin@{begin}!panda::Collection@{panda::Collection}}
+\subsubsection[{begin}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf iterator} {\bf panda::Collection}$<$ E $>$::begin ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_a353e28bfcd4afe0d3cf9f949bffe21dc}
+
+
+Return an iterator pointing to the first element. 
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Collection_a15e865455a9275efe83ca65f1a96b3e9}{
+\index{panda::Collection@{panda::Collection}!const\_\-addr\_\-@{const\_\-addr\_\-}}
+\index{const\_\-addr\_\-@{const\_\-addr\_\-}!panda::Collection@{panda::Collection}}
+\subsubsection[{const\_\-addr\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf value\_\-type} const$\ast$ {\bf panda::Collection}$<$ E $>$::const\_\-addr\_\- () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classpanda_1_1Collection_a15e865455a9275efe83ca65f1a96b3e9}
+
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Collection_ad194c8ae8355ce5ba6c04518a223cde1}{
+\index{panda::Collection@{panda::Collection}!copy@{copy}}
+\index{copy@{copy}!panda::Collection@{panda::Collection}}
+\subsubsection[{copy}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ void {\bf panda::Collection}$<$ E $>$::copy ({\bf self\_\-type} const \& {\em \_\-src})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_ad194c8ae8355ce5ba6c04518a223cde1}
+
+
+Copy the array contents. If the new size is greater than nmax, data will be reallocated, making all references invalid. 
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Collection_a76d29ff9b6366c3a39f2aa06ac6b0604}{
+\index{panda::Collection@{panda::Collection}!create\_\-back@{create\_\-back}}
+\index{create\_\-back@{create\_\-back}!panda::Collection@{panda::Collection}}
+\subsubsection[{create\_\-back}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ {\bf panda::Collection}$<$ E $>$::{\bf reference} {\bf panda::Collection}$<$ E $>$::create\_\-back ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_a76d29ff9b6366c3a39f2aa06ac6b0604}
+
+
+Create an element at the end of the collection and return a \hyperlink{namespacepanda_1_1reference}{reference}. If the new size is greater than nmax, data will be reallocated, making all references invalid. 
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Collection_a74432be483a033e44ee2c7860487b20c}{
+\index{panda::Collection@{panda::Collection}!deallocate\_\-@{deallocate\_\-}}
+\index{deallocate\_\-@{deallocate\_\-}!panda::Collection@{panda::Collection}}
+\subsubsection[{deallocate\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ void {\bf panda::Collection}$<$ E $>$::deallocate\_\- ({\bf value\_\-type} $\ast$ {\em addr}, \/  typename value\_\-type::datastore \& {\em \_\-data})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static, private\mbox{]}}}}
+\label{classpanda_1_1Collection_a74432be483a033e44ee2c7860487b20c}
+
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Collection_a2d634c66148b760ddd2779ff559d6511}{
+\index{panda::Collection@{panda::Collection}!elemAt@{elemAt}}
+\index{elemAt@{elemAt}!panda::Collection@{panda::Collection}}
+\subsubsection[{elemAt}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf Element} const\& {\bf panda::Collection}$<$ E $>$::elemAt (UInt\_\-t {\em idx}) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, override\mbox{]}}}}
+\label{classpanda_1_1Collection_a2d634c66148b760ddd2779ff559d6511}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Collection_add5ee7e7d1969880a3f00de700425d67}{
+\index{panda::Collection@{panda::Collection}!elemAt@{elemAt}}
+\index{elemAt@{elemAt}!panda::Collection@{panda::Collection}}
+\subsubsection[{elemAt}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf Element}\& {\bf panda::Collection}$<$ E $>$::elemAt (UInt\_\-t {\em idx})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, override\mbox{]}}}}
+\label{classpanda_1_1Collection_add5ee7e7d1969880a3f00de700425d67}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Collection_a476ee3bc2ac965600622a57e39ea1c58}{
+\index{panda::Collection@{panda::Collection}!end@{end}}
+\index{end@{end}!panda::Collection@{panda::Collection}}
+\subsubsection[{end}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf const\_\-iterator} {\bf panda::Collection}$<$ E $>$::end () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_a476ee3bc2ac965600622a57e39ea1c58}
+
+
+Return an iterator pointing to the end of the array (invalid address). 
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Collection_ab0c911f9b8ea2734f2f255ab2b65cd8f}{
+\index{panda::Collection@{panda::Collection}!end@{end}}
+\index{end@{end}!panda::Collection@{panda::Collection}}
+\subsubsection[{end}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf iterator} {\bf panda::Collection}$<$ E $>$::end ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_ab0c911f9b8ea2734f2f255ab2b65cd8f}
+
+
+Return an iterator pointing to the end of the array (invalid address). 
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Collection_a39ebd4f13c72ae9f8e7133b7f9f4a3a5}{
+\index{panda::Collection@{panda::Collection}!front@{front}}
+\index{front@{front}!panda::Collection@{panda::Collection}}
+\subsubsection[{front}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf const\_\-reference} {\bf panda::Collection}$<$ E $>$::front () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_a39ebd4f13c72ae9f8e7133b7f9f4a3a5}
+
+
+Reference to the first element. 
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Collection_a13746b6da09a9db21c7adbc9125862b5}{
+\index{panda::Collection@{panda::Collection}!front@{front}}
+\index{front@{front}!panda::Collection@{panda::Collection}}
+\subsubsection[{front}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf reference} {\bf panda::Collection}$<$ E $>$::front ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_a13746b6da09a9db21c7adbc9125862b5}
+
+
+Reference to the first element. 
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Collection_ab27df679acedc97ee31d230dd630cccf}{
+\index{panda::Collection@{panda::Collection}!getData@{getData}}
+\index{getData@{getData}!panda::Collection@{panda::Collection}}
+\subsubsection[{getData}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf Element::datastore} const\& {\bf panda::Collection}$<$ E $>$::getData () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, override\mbox{]}}}}
+\label{classpanda_1_1Collection_ab27df679acedc97ee31d230dd630cccf}
+\hypertarget{classpanda_1_1Collection_a262ac9c1180f647b0140e53fe0e5d5d6}{
+\index{panda::Collection@{panda::Collection}!getData@{getData}}
+\index{getData@{getData}!panda::Collection@{panda::Collection}}
+\subsubsection[{getData}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf Element::datastore}\& {\bf panda::Collection}$<$ E $>$::getData ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, override\mbox{]}}}}
+\label{classpanda_1_1Collection_a262ac9c1180f647b0140e53fe0e5d5d6}
+\hypertarget{classpanda_1_1Collection_af2065fa6ed20c1fe1dd54b33f83e7778}{
+\index{panda::Collection@{panda::Collection}!operator=@{operator=}}
+\index{operator=@{operator=}!panda::Collection@{panda::Collection}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf self\_\-type}\& {\bf panda::Collection}$<$ E $>$::operator= ({\bf self\_\-type} const \& {\em rhs})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_af2065fa6ed20c1fe1dd54b33f83e7778}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Collection_acc5f2873f1e8d2def48a5f0ed17a56e0}{
+\index{panda::Collection@{panda::Collection}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!panda::Collection@{panda::Collection}}
+\subsubsection[{operator[]}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ {\bf Collection}$<$ E $>$::{\bf const\_\-reference} {\bf panda::Collection}$<$ E $>$::operator\mbox{[}$\,$\mbox{]} (UInt\_\-t {\em \_\-idx}) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_acc5f2873f1e8d2def48a5f0ed17a56e0}
+
+
+\hyperlink{classpanda_1_1Element}{Element} accessor with no range check. \hypertarget{classpanda_1_1Collection_a418aee57adfa79bf4db3ea1e7def58c4}{
+\index{panda::Collection@{panda::Collection}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!panda::Collection@{panda::Collection}}
+\subsubsection[{operator[]}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ {\bf Collection}$<$ E $>$::{\bf reference} {\bf panda::Collection}$<$ E $>$::operator\mbox{[}$\,$\mbox{]} (UInt\_\-t {\em \_\-idx})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_a418aee57adfa79bf4db3ea1e7def58c4}
+
+
+\hyperlink{classpanda_1_1Element}{Element} accessor with no range check. 
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Collection_a801b74a80bdd197bdfe08a06112bdcee}{
+\index{panda::Collection@{panda::Collection}!push\_\-back@{push\_\-back}}
+\index{push\_\-back@{push\_\-back}!panda::Collection@{panda::Collection}}
+\subsubsection[{push\_\-back}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ void {\bf panda::Collection}$<$ E $>$::push\_\-back ({\bf const\_\-reference} {\em \_\-elem})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Collection_a801b74a80bdd197bdfe08a06112bdcee}
+
+
+Append an element to the back and resize by 1. If the new size is greater than nmax, data will be reallocated, making all references invalid. 
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Collection_a2187bdc5efe30684f1e9f4db4fe4fb2e}{
+\index{panda::Collection@{panda::Collection}!reallocate\_\-@{reallocate\_\-}}
+\index{reallocate\_\-@{reallocate\_\-}!panda::Collection@{panda::Collection}}
+\subsubsection[{reallocate\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ void {\bf panda::Collection}$<$ E $>$::reallocate\_\- (UInt\_\-t {\em \_\-nmax})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, override, protected\mbox{]}}}}
+\label{classpanda_1_1Collection_a2187bdc5efe30684f1e9f4db4fe4fb2e}
+
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Collection_a10c98d854734dc7d8063eca3ca6e01ad}{
+\index{panda::Collection@{panda::Collection}!sort@{sort}}
+\index{sort@{sort}!panda::Collection@{panda::Collection}}
+\subsubsection[{sort}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ std::vector$<$ UInt\_\-t $>$ {\bf panda::Collection}$<$ E $>$::sort ({\bf ContainerBase::Comparison} const \& {\em \_\-c})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, override\mbox{]}}}}
+\label{classpanda_1_1Collection_a10c98d854734dc7d8063eca3ca6e01ad}
+
+
+Here is the call graph for this function:
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+Framework/interface/\hyperlink{Collection_8h}{Collection.h}\end{DoxyCompactItemize}

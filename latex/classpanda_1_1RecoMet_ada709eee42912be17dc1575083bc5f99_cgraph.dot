@@ -1,0 +1,11 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir=LR;
+  Node1 [label="panda::RecoMet::doSetStatus_",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="panda::Singlet::setStatus",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Singlet.html#a7b38d2165f30ed45922939a806708602",tooltip="Set status of branches to true (matching branch) or false (vetoed branch)."];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="panda::Singlet::doSetStatus_",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Singlet.html#a660799e379f7949f3b8e2d74f6e1ddb2"];
+}

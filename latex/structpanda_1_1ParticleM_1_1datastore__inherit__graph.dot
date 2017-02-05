@@ -1,0 +1,27 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir=LR;
+  Node1 [label="panda::ParticleM::datastore",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node2 -> Node1 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="panda::Particle::datastore",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structpanda_1_1Particle_1_1datastore.html"];
+  Node3 -> Node2 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="panda::Element::datastore",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structpanda_1_1Element_1_1datastore.html"];
+  Node1 -> Node4 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="panda::GenJet::datastore",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structpanda_1_1GenJet_1_1datastore.html"];
+  Node1 -> Node5 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="panda::GenParticle::datastore",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structpanda_1_1GenParticle_1_1datastore.html"];
+  Node1 -> Node6 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="panda::MicroJet::datastore",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structpanda_1_1MicroJet_1_1datastore.html"];
+  Node6 -> Node7 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="panda::Jet::datastore",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structpanda_1_1Jet_1_1datastore.html"];
+  Node7 -> Node8 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="panda::FatJet::datastore",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structpanda_1_1FatJet_1_1datastore.html"];
+  Node1 -> Node9 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="panda::Parton::datastore",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structpanda_1_1Parton_1_1datastore.html"];
+  Node1 -> Node10 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node10 [label="panda::PFCand::datastore",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structpanda_1_1PFCand_1_1datastore.html"];
+  Node1 -> Node11 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node11 [label="panda::Tau::datastore",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structpanda_1_1Tau_1_1datastore.html"];
+}

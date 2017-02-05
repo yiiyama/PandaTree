@@ -1,0 +1,22 @@
+<map id="panda::ContainerElement::datastore::resizeVectors_" name="panda::ContainerElement::datastore::resizeVectors_">
+<area shape="rect" id="node2" href="$classpanda_1_1CollectionBase.html#a5820623424a01aa34f3988ead2612576" title="panda::CollectionBase\l::clear" alt="" coords="246,24,401,68"/>
+<area shape="rect" id="node4" href="$classpanda_1_1CollectionBase.html#a3ec014ac2da87bb755afbea0822621cc" title="Resize the container. " alt="" coords="246,113,401,157"/>
+<area shape="rect" id="node7" href="$structpanda_1_1Particle_1_1datastore.html#aef7e06dbd8399f7de3215aa895907c5f" title="Override when there are vector members. " alt="" coords="237,181,410,225"/>
+<area shape="rect" id="node21" href="$structpanda_1_1SuperCluster_1_1datastore.html#a8ca840d594bb0fd1168615b0ae11988f" title="Override when there are vector members. " alt="" coords="233,249,413,293"/>
+<area shape="rect" id="node3" href="$classpanda_1_1CollectionBase.html#a5d7caaf03fa968bd6c9dad5b6ffe4687" title="Reset object state. " alt="" coords="486,5,640,49"/>
+<area shape="rect" id="node5" href="$classpanda_1_1Container.html#a05e9a487429721164541511d87a9783d" title="panda::Container::copy" alt="" coords="483,73,643,101"/>
+<area shape="rect" id="node6" href="$classpanda_1_1Container.html#a9603d59e46e21b048714a9760964b536" title="panda::Container::create_back" alt="" coords="461,125,665,153"/>
+<area shape="rect" id="node8" href="$structpanda_1_1Lepton_1_1datastore.html#ae0167ad568d7b57d6e11b1775cd790c7" title="Override when there are vector members. " alt="" coords="478,177,648,221"/>
+<area shape="rect" id="node11" href="$structpanda_1_1ParticleM_1_1datastore.html#a6dd61d4a8f70e81a1638757a5edbc7ed" title="Override when there are vector members. " alt="" coords="471,313,655,357"/>
+<area shape="rect" id="node20" href="$structpanda_1_1Photon_1_1datastore.html#a819de9f7590bca725315d2b6432b0f6a" title="Override when there are vector members. " alt="" coords="477,381,648,425"/>
+<area shape="rect" id="node9" href="$structpanda_1_1Electron_1_1datastore.html#a8f0e7ee31635f5cf7482c86b732877a2" title="Override when there are vector members. " alt="" coords="714,75,892,119"/>
+<area shape="rect" id="node10" href="$structpanda_1_1Muon_1_1datastore.html#a77544efc70e6058bc86a09dc6a13f483" title="Override when there are vector members. " alt="" coords="722,143,884,187"/>
+<area shape="rect" id="node12" href="$structpanda_1_1GenJet_1_1datastore.html#a6b6d0feb6fe978115c45180cccb7497b" title="Override when there are vector members. " alt="" coords="717,211,889,255"/>
+<area shape="rect" id="node13" href="$structpanda_1_1GenParticle_1_1datastore.html#a28a604490b71305ae71b9671e3ea0bdf" title="Override when there are vector members. " alt="" coords="713,279,893,323"/>
+<area shape="rect" id="node14" href="$structpanda_1_1MicroJet_1_1datastore.html#a9570f85bfad7f55e239670d0f364cb8b" title="Override when there are vector members. " alt="" coords="713,347,892,391"/>
+<area shape="rect" id="node17" href="$structpanda_1_1Parton_1_1datastore.html#a85ed8f023c9fddb6ada93150e4d03c22" title="Override when there are vector members. " alt="" coords="719,415,887,459"/>
+<area shape="rect" id="node18" href="$structpanda_1_1PFCand_1_1datastore.html#a3e3acf6cc81f4ebe16220a7931b3bb2d" title="Override when there are vector members. " alt="" coords="714,483,892,527"/>
+<area shape="rect" id="node19" href="$structpanda_1_1Tau_1_1datastore.html#a1dce455474842a78eb6a7ab7b3271f3a" title="Override when there are vector members. " alt="" coords="727,551,879,595"/>
+<area shape="rect" id="node15" href="$structpanda_1_1Jet_1_1datastore.html#a8de9fbcd55c17f7d3d022088f6ded487" title="Override when there are vector members. " alt="" coords="941,347,1087,391"/>
+<area shape="rect" id="node16" href="$structpanda_1_1FatJet_1_1datastore.html#ac707315048c1fe184534202259fbdda9" title="Override when there are vector members. " alt="" coords="1135,347,1301,391"/>
+</map>

@@ -1,0 +1,284 @@
+\hypertarget{classpanda_1_1FatJet}{
+\section{panda::FatJet Class Reference}
+\label{classpanda_1_1FatJet}\index{panda::FatJet@{panda::FatJet}}
+}
+
+
+{\ttfamily \#include $<$FatJet.h$>$}Inheritance diagram for panda::FatJet:Collaboration diagram for panda::FatJet:\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpanda_1_1FatJet_1_1datastore}{datastore}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classpanda_1_1Array}{Array}$<$ \hyperlink{classpanda_1_1FatJet}{FatJet} $>$ \hyperlink{classpanda_1_1FatJet_af8c5781a44a91eb012c01dde2a710039}{array\_\-type}
+\item 
+typedef \hyperlink{classpanda_1_1Collection}{Collection}$<$ \hyperlink{classpanda_1_1FatJet}{FatJet} $>$ \hyperlink{classpanda_1_1FatJet_a2740a440685d1d581f92bcedbf1a6f9e}{collection\_\-type}
+\item 
+typedef \hyperlink{classpanda_1_1Jet}{Jet} \hyperlink{classpanda_1_1FatJet_ab06dcce3d9c117c93a036c87fb441795}{base\_\-type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1FatJet_adeb3e4e2777a209439d038a353ec0ba6}{FatJet} (char const $\ast$name=\char`\"{}\char`\"{})
+\item 
+\hyperlink{classpanda_1_1FatJet_ab92df78ab1a2192c18c8d846966bf6d9}{FatJet} (\hyperlink{classpanda_1_1FatJet}{FatJet} const \&)
+\item 
+\hyperlink{classpanda_1_1FatJet_ad420844ffe922af3258fdae0a09c85d4}{FatJet} (\hyperlink{structpanda_1_1Element_1_1datastore}{datastore} \&, UInt\_\-t idx)
+\item 
+\hyperlink{classpanda_1_1FatJet_a268ffcd09f28943adc44a71ee61a7066}{$\sim$FatJet} ()
+\item 
+\hyperlink{classpanda_1_1FatJet}{FatJet} \& \hyperlink{classpanda_1_1FatJet_a20e4f6ca23c2a9a603c33e7f023337fe}{operator=} (\hyperlink{classpanda_1_1FatJet}{FatJet} const \&)
+\item 
+double \hyperlink{classpanda_1_1FatJet_ae0171384ac0c2ca7083aae114bf99bf8}{get\_\-ecf} (int o\_\-, int N\_\-, int ib\_\-) const 
+\item 
+bool \hyperlink{classpanda_1_1FatJet_a3ec88bad0a620bf747ee3d7a954754a1}{set\_\-ecf} (int o\_\-, int N\_\-, int ib\_\-, float x\_\-)
+\item 
+void \hyperlink{classpanda_1_1FatJet_a421049d4b4315facb5bda39746f1a38b}{destructor} () override
+\begin{DoxyCompactList}\small\item\em Destructor implementation. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1FatJet_aa6746a89ca7d85ba576e0dd3a50d9254}{tau1}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1FatJet_ac66ad6c1ad774b8ed4ae3ac2059fee31}{tau2}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1FatJet_a0d1f8250b2e71beda36cd248550ff6cf}{tau3}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1FatJet_a7c462ec73f49ac541b4597d3942236a7}{mSD}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1FatJet_aa7b7e69b9382e5762895173d11c78426}{tau1SD}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1FatJet_a4e2222a027fb5afc507570ed9844358a}{tau2SD}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1FatJet_a611cd125d9a3584ca036b9284540ef4a}{tau3SD}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1FatJet_aeb5265d526d4d970f2c49d98f8e5f418}{htt\_\-mass}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1FatJet_a9237481670015ed3793e4729fd337662}{htt\_\-frec}
+\item 
+Float\_\-t(\& \hyperlink{classpanda_1_1FatJet_ab4fca3ce4af63d1b8ef1a450ec945668}{ecfs} )\mbox{[}3\mbox{]}\mbox{[}4\mbox{]}\mbox{[}4\mbox{]}
+\item 
+\hyperlink{classpanda_1_1RefVector}{RefVector}$<$ \hyperlink{classpanda_1_1MicroJet}{MicroJet} $>$ \hyperlink{classpanda_1_1FatJet_af34aeaf274c73856e950a21450dec129}{subjets}
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1FatJet_a1b07ce37adb0afee46d0b0f76410db5b}{FatJet} (\hyperlink{classpanda_1_1ArrayBase}{ArrayBase} $\ast$)
+\item 
+void \hyperlink{classpanda_1_1FatJet_ad63603b0bd69d4e3b6173a194b3e6829}{doSetStatus\_\-} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&) override
+\item 
+\hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} \hyperlink{classpanda_1_1FatJet_a96835f1d5e56985c033cc73029dccef0}{doGetStatus\_\-} (TTree \&, TString const \&) const override
+\item 
+void \hyperlink{classpanda_1_1FatJet_a3f92ff4d7d7bb8f83fa43e4ef20bc036}{doSetAddress\_\-} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}, Bool\_\-t setStatus=kTRUE) override
+\item 
+void \hyperlink{classpanda_1_1FatJet_a32dbcd6e7cf31c79aed92220c43daed7}{doBook\_\-} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}) override
+\item 
+void \hyperlink{classpanda_1_1FatJet_a8a4681a9c643494786d131103f281aa8}{doReleaseTree\_\-} (TTree \&, TString const \&) override
+\item 
+void \hyperlink{classpanda_1_1FatJet_aae0c0b4e50cf6aae1d6c12b31d8585d9}{doInit\_\-} () override
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classpanda_1_1FatJet_af8c5781a44a91eb012c01dde2a710039}{
+\index{panda::FatJet@{panda::FatJet}!array\_\-type@{array\_\-type}}
+\index{array\_\-type@{array\_\-type}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{array\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Array}$<${\bf FatJet}$>$ {\bf panda::FatJet::array\_\-type}}}
+\label{classpanda_1_1FatJet_af8c5781a44a91eb012c01dde2a710039}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Jet_a02ed819ca5ca46b0b3b212dbd56bce57}{panda::Jet}.\hypertarget{classpanda_1_1FatJet_ab06dcce3d9c117c93a036c87fb441795}{
+\index{panda::FatJet@{panda::FatJet}!base\_\-type@{base\_\-type}}
+\index{base\_\-type@{base\_\-type}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{base\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Jet} {\bf panda::FatJet::base\_\-type}}}
+\label{classpanda_1_1FatJet_ab06dcce3d9c117c93a036c87fb441795}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Jet_a4fbfc283916dbd345b13a61396b878cf}{panda::Jet}.\hypertarget{classpanda_1_1FatJet_a2740a440685d1d581f92bcedbf1a6f9e}{
+\index{panda::FatJet@{panda::FatJet}!collection\_\-type@{collection\_\-type}}
+\index{collection\_\-type@{collection\_\-type}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{collection\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Collection}$<${\bf FatJet}$>$ {\bf panda::FatJet::collection\_\-type}}}
+\label{classpanda_1_1FatJet_a2740a440685d1d581f92bcedbf1a6f9e}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Jet_abc4f1b55581c1f9a65d14ca360458c40}{panda::Jet}.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classpanda_1_1FatJet_adeb3e4e2777a209439d038a353ec0ba6}{
+\index{panda::FatJet@{panda::FatJet}!FatJet@{FatJet}}
+\index{FatJet@{FatJet}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{FatJet}]{\setlength{\rightskip}{0pt plus 5cm}panda::FatJet::FatJet (char const $\ast$ {\em name} = {\ttfamily \char`\"{}\char`\"{}})}}
+\label{classpanda_1_1FatJet_adeb3e4e2777a209439d038a353ec0ba6}
+\hypertarget{classpanda_1_1FatJet_ab92df78ab1a2192c18c8d846966bf6d9}{
+\index{panda::FatJet@{panda::FatJet}!FatJet@{FatJet}}
+\index{FatJet@{FatJet}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{FatJet}]{\setlength{\rightskip}{0pt plus 5cm}panda::FatJet::FatJet ({\bf FatJet} const \& {\em \_\-src})}}
+\label{classpanda_1_1FatJet_ab92df78ab1a2192c18c8d846966bf6d9}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1FatJet_ad420844ffe922af3258fdae0a09c85d4}{
+\index{panda::FatJet@{panda::FatJet}!FatJet@{FatJet}}
+\index{FatJet@{FatJet}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{FatJet}]{\setlength{\rightskip}{0pt plus 5cm}panda::FatJet::FatJet ({\bf datastore} \& {\em \_\-data}, \/  UInt\_\-t {\em idx})}}
+\label{classpanda_1_1FatJet_ad420844ffe922af3258fdae0a09c85d4}
+\hypertarget{classpanda_1_1FatJet_a268ffcd09f28943adc44a71ee61a7066}{
+\index{panda::FatJet@{panda::FatJet}!$\sim$FatJet@{$\sim$FatJet}}
+\index{$\sim$FatJet@{$\sim$FatJet}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{$\sim$FatJet}]{\setlength{\rightskip}{0pt plus 5cm}panda::FatJet::$\sim$FatJet ()}}
+\label{classpanda_1_1FatJet_a268ffcd09f28943adc44a71ee61a7066}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1FatJet_a1b07ce37adb0afee46d0b0f76410db5b}{
+\index{panda::FatJet@{panda::FatJet}!FatJet@{FatJet}}
+\index{FatJet@{FatJet}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{FatJet}]{\setlength{\rightskip}{0pt plus 5cm}panda::FatJet::FatJet ({\bf ArrayBase} $\ast$ {\em \_\-array})\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classpanda_1_1FatJet_a1b07ce37adb0afee46d0b0f76410db5b}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classpanda_1_1FatJet_a421049d4b4315facb5bda39746f1a38b}{
+\index{panda::FatJet@{panda::FatJet}!destructor@{destructor}}
+\index{destructor@{destructor}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{destructor}]{\setlength{\rightskip}{0pt plus 5cm}void panda::FatJet::destructor ()\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{classpanda_1_1FatJet_a421049d4b4315facb5bda39746f1a38b}
+
+
+Destructor implementation. The actual destructor of the object should be called only if the \hyperlink{classpanda_1_1Element}{Element} is constructed as a singlet. In the Container environment, the memory allocated for this object is directly deallocated without calling $\sim$(\hyperlink{classpanda_1_1Object}{Object}). If subclasses need to make some calls at the destruction time of the object, they must be implemented in this \hyperlink{namespacepanda_1_1function}{function}. 
+
+Reimplemented from \hyperlink{classpanda_1_1Jet_adbd430a93e346588348e1eebaa90c42a}{panda::Jet}.
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1FatJet_a32dbcd6e7cf31c79aed92220c43daed7}{
+\index{panda::FatJet@{panda::FatJet}!doBook\_\-@{doBook\_\-}}
+\index{doBook\_\-@{doBook\_\-}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{doBook\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::FatJet::doBook\_\- (TTree \&, \/  TString const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected\mbox{]}}}}
+\label{classpanda_1_1FatJet_a32dbcd6e7cf31c79aed92220c43daed7}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Jet_a9f7d21237e7933ee156f5edea6a27696}{panda::Jet}.\hypertarget{classpanda_1_1FatJet_a96835f1d5e56985c033cc73029dccef0}{
+\index{panda::FatJet@{panda::FatJet}!doGetStatus\_\-@{doGetStatus\_\-}}
+\index{doGetStatus\_\-@{doGetStatus\_\-}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{doGetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::utils::BranchList} panda::FatJet::doGetStatus\_\- (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name}) const\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1FatJet_a96835f1d5e56985c033cc73029dccef0}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Jet_a4ecbac39b42fe464f6346711aed38aba}{panda::Jet}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1FatJet_aae0c0b4e50cf6aae1d6c12b31d8585d9}{
+\index{panda::FatJet@{panda::FatJet}!doInit\_\-@{doInit\_\-}}
+\index{doInit\_\-@{doInit\_\-}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{doInit\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::FatJet::doInit\_\- ()\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1FatJet_aae0c0b4e50cf6aae1d6c12b31d8585d9}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Jet_ac8801b9ee9b645f4d0a24aa34accb414}{panda::Jet}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1FatJet_a8a4681a9c643494786d131103f281aa8}{
+\index{panda::FatJet@{panda::FatJet}!doReleaseTree\_\-@{doReleaseTree\_\-}}
+\index{doReleaseTree\_\-@{doReleaseTree\_\-}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{doReleaseTree\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::FatJet::doReleaseTree\_\- (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name})\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1FatJet_a8a4681a9c643494786d131103f281aa8}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Jet_a3bc50ef589095a1bae03b1f4bbf74077}{panda::Jet}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1FatJet_a3f92ff4d7d7bb8f83fa43e4ef20bc036}{
+\index{panda::FatJet@{panda::FatJet}!doSetAddress\_\-@{doSetAddress\_\-}}
+\index{doSetAddress\_\-@{doSetAddress\_\-}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{doSetAddress\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::FatJet::doSetAddress\_\- (TTree \&, \/  TString const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected\mbox{]}}}}
+\label{classpanda_1_1FatJet_a3f92ff4d7d7bb8f83fa43e4ef20bc036}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Jet_a4e59030d68ca3a27fb72f0c0976bdb27}{panda::Jet}.\hypertarget{classpanda_1_1FatJet_ad63603b0bd69d4e3b6173a194b3e6829}{
+\index{panda::FatJet@{panda::FatJet}!doSetStatus\_\-@{doSetStatus\_\-}}
+\index{doSetStatus\_\-@{doSetStatus\_\-}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{doSetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::FatJet::doSetStatus\_\- (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name}, \/  {\bf utils::BranchList} const \& {\em \_\-branches})\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1FatJet_ad63603b0bd69d4e3b6173a194b3e6829}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Jet_a494d27c6c2b773f5849996944cf46eb2}{panda::Jet}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1FatJet_ae0171384ac0c2ca7083aae114bf99bf8}{
+\index{panda::FatJet@{panda::FatJet}!get\_\-ecf@{get\_\-ecf}}
+\index{get\_\-ecf@{get\_\-ecf}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{get\_\-ecf}]{\setlength{\rightskip}{0pt plus 5cm}double panda::FatJet::get\_\-ecf (int {\em o\_\-}, \/  int {\em N\_\-}, \/  int {\em ib\_\-}) const}}
+\label{classpanda_1_1FatJet_ae0171384ac0c2ca7083aae114bf99bf8}
+\hypertarget{classpanda_1_1FatJet_a20e4f6ca23c2a9a603c33e7f023337fe}{
+\index{panda::FatJet@{panda::FatJet}!operator=@{operator=}}
+\index{operator=@{operator=}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::FatJet} \& panda::FatJet::operator= ({\bf FatJet} const \& {\em \_\-src})}}
+\label{classpanda_1_1FatJet_a20e4f6ca23c2a9a603c33e7f023337fe}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Jet_a06509e069beffe7d5fa12a5450254e6a}{panda::Jet}.
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1FatJet_a3ec88bad0a620bf747ee3d7a954754a1}{
+\index{panda::FatJet@{panda::FatJet}!set\_\-ecf@{set\_\-ecf}}
+\index{set\_\-ecf@{set\_\-ecf}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{set\_\-ecf}]{\setlength{\rightskip}{0pt plus 5cm}bool panda::FatJet::set\_\-ecf (int {\em o\_\-}, \/  int {\em N\_\-}, \/  int {\em ib\_\-}, \/  float {\em x\_\-})}}
+\label{classpanda_1_1FatJet_a3ec88bad0a620bf747ee3d7a954754a1}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classpanda_1_1FatJet_ab4fca3ce4af63d1b8ef1a450ec945668}{
+\index{panda::FatJet@{panda::FatJet}!ecfs@{ecfs}}
+\index{ecfs@{ecfs}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{ecfs}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t(\& {\bf panda::FatJet::ecfs})\mbox{[}3\mbox{]}\mbox{[}4\mbox{]}\mbox{[}4\mbox{]}}}
+\label{classpanda_1_1FatJet_ab4fca3ce4af63d1b8ef1a450ec945668}
+\hypertarget{classpanda_1_1FatJet_a9237481670015ed3793e4729fd337662}{
+\index{panda::FatJet@{panda::FatJet}!htt\_\-frec@{htt\_\-frec}}
+\index{htt\_\-frec@{htt\_\-frec}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{htt\_\-frec}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::FatJet::htt\_\-frec}}}
+\label{classpanda_1_1FatJet_a9237481670015ed3793e4729fd337662}
+\hypertarget{classpanda_1_1FatJet_aeb5265d526d4d970f2c49d98f8e5f418}{
+\index{panda::FatJet@{panda::FatJet}!htt\_\-mass@{htt\_\-mass}}
+\index{htt\_\-mass@{htt\_\-mass}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{htt\_\-mass}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::FatJet::htt\_\-mass}}}
+\label{classpanda_1_1FatJet_aeb5265d526d4d970f2c49d98f8e5f418}
+\hypertarget{classpanda_1_1FatJet_a7c462ec73f49ac541b4597d3942236a7}{
+\index{panda::FatJet@{panda::FatJet}!mSD@{mSD}}
+\index{mSD@{mSD}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{mSD}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::FatJet::mSD}}}
+\label{classpanda_1_1FatJet_a7c462ec73f49ac541b4597d3942236a7}
+\hypertarget{classpanda_1_1FatJet_af34aeaf274c73856e950a21450dec129}{
+\index{panda::FatJet@{panda::FatJet}!subjets@{subjets}}
+\index{subjets@{subjets}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{subjets}]{\setlength{\rightskip}{0pt plus 5cm}{\bf RefVector}$<${\bf MicroJet}$>$ {\bf panda::FatJet::subjets}}}
+\label{classpanda_1_1FatJet_af34aeaf274c73856e950a21450dec129}
+\hypertarget{classpanda_1_1FatJet_aa6746a89ca7d85ba576e0dd3a50d9254}{
+\index{panda::FatJet@{panda::FatJet}!tau1@{tau1}}
+\index{tau1@{tau1}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{tau1}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::FatJet::tau1}}}
+\label{classpanda_1_1FatJet_aa6746a89ca7d85ba576e0dd3a50d9254}
+\hypertarget{classpanda_1_1FatJet_aa7b7e69b9382e5762895173d11c78426}{
+\index{panda::FatJet@{panda::FatJet}!tau1SD@{tau1SD}}
+\index{tau1SD@{tau1SD}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{tau1SD}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::FatJet::tau1SD}}}
+\label{classpanda_1_1FatJet_aa7b7e69b9382e5762895173d11c78426}
+\hypertarget{classpanda_1_1FatJet_ac66ad6c1ad774b8ed4ae3ac2059fee31}{
+\index{panda::FatJet@{panda::FatJet}!tau2@{tau2}}
+\index{tau2@{tau2}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{tau2}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::FatJet::tau2}}}
+\label{classpanda_1_1FatJet_ac66ad6c1ad774b8ed4ae3ac2059fee31}
+\hypertarget{classpanda_1_1FatJet_a4e2222a027fb5afc507570ed9844358a}{
+\index{panda::FatJet@{panda::FatJet}!tau2SD@{tau2SD}}
+\index{tau2SD@{tau2SD}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{tau2SD}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::FatJet::tau2SD}}}
+\label{classpanda_1_1FatJet_a4e2222a027fb5afc507570ed9844358a}
+\hypertarget{classpanda_1_1FatJet_a0d1f8250b2e71beda36cd248550ff6cf}{
+\index{panda::FatJet@{panda::FatJet}!tau3@{tau3}}
+\index{tau3@{tau3}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{tau3}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::FatJet::tau3}}}
+\label{classpanda_1_1FatJet_a0d1f8250b2e71beda36cd248550ff6cf}
+\hypertarget{classpanda_1_1FatJet_a611cd125d9a3584ca036b9284540ef4a}{
+\index{panda::FatJet@{panda::FatJet}!tau3SD@{tau3SD}}
+\index{tau3SD@{tau3SD}!panda::FatJet@{panda::FatJet}}
+\subsubsection[{tau3SD}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::FatJet::tau3SD}}}
+\label{classpanda_1_1FatJet_a611cd125d9a3584ca036b9284540ef4a}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Objects/interface/\hyperlink{FatJet_8h}{FatJet.h}\item 
+Objects/src/\hyperlink{FatJet_8cc}{FatJet.cc}\end{DoxyCompactItemize}

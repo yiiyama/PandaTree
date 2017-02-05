@@ -1,0 +1,340 @@
+\hypertarget{classpanda_1_1Particle}{
+\section{panda::Particle Class Reference}
+\label{classpanda_1_1Particle}\index{panda::Particle@{panda::Particle}}
+}
+
+
+{\ttfamily \#include $<$Particle.h$>$}Inheritance diagram for panda::Particle:Collaboration diagram for panda::Particle:\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpanda_1_1Particle_1_1datastore}{datastore}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classpanda_1_1Array}{Array}$<$ \hyperlink{classpanda_1_1Particle}{Particle} $>$ \hyperlink{classpanda_1_1Particle_ac7774202a46a6e99815ebbda009cdeff}{array\_\-type}
+\item 
+typedef \hyperlink{classpanda_1_1Collection}{Collection}$<$ \hyperlink{classpanda_1_1Particle}{Particle} $>$ \hyperlink{classpanda_1_1Particle_a5c7d779f6db770bcc94cfe63c42b59d2}{collection\_\-type}
+\item 
+typedef \hyperlink{classpanda_1_1Element}{Element} \hyperlink{classpanda_1_1Particle_a0055c0e7a7015a0446f6c4f8e6f1d469}{base\_\-type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1Particle_a1e3d569b53827f47d15e104e06cca44f}{Particle} (char const $\ast$name=\char`\"{}\char`\"{})
+\item 
+\hyperlink{classpanda_1_1Particle_a1b85ffd9b05ca143d4ed762747fb2b50}{Particle} (\hyperlink{classpanda_1_1Particle}{Particle} const \&)
+\item 
+\hyperlink{classpanda_1_1Particle_aeca877b586da802e045c6ed2121240b5}{Particle} (\hyperlink{structpanda_1_1Element_1_1datastore}{datastore} \&, UInt\_\-t idx)
+\item 
+\hyperlink{classpanda_1_1Particle_a83e4d1aa75d0c1a125d0b6669bd28db5}{$\sim$Particle} ()
+\item 
+\hyperlink{classpanda_1_1Particle}{Particle} \& \hyperlink{classpanda_1_1Particle_a8c4fabfceb39b746b0e68a7389e662c4}{operator=} (\hyperlink{classpanda_1_1Particle}{Particle} const \&)
+\item 
+TLorentzVector \hyperlink{classpanda_1_1Particle_aab2f22a57738ea3b2d3226e72c150a99}{p4} () const 
+\item 
+double \hyperlink{classpanda_1_1Particle_a7e352dd288ae0065303e5adc1ff3ba69}{e} () const 
+\item 
+double \hyperlink{classpanda_1_1Particle_a581eab76794352c5908ef3e8e6d36a95}{p} () const 
+\item 
+double \hyperlink{classpanda_1_1Particle_a1df59522ef74ec3c533c328aea7f433d}{px} () const 
+\item 
+double \hyperlink{classpanda_1_1Particle_a6e8d9ffa8dc261f7b67b6e0c75ba8143}{py} () const 
+\item 
+double \hyperlink{classpanda_1_1Particle_adeb8bce6ddfe5429f3db5f0d6ee6e9b0}{pz} () const 
+\item 
+virtual double \hyperlink{classpanda_1_1Particle_aa793c05fc1334ed462e18c794339eebf}{m} () const 
+\item 
+double \hyperlink{classpanda_1_1Particle_a7216a6a830a5231aef8ebc7d57018699}{dEta} (\hyperlink{classpanda_1_1Particle}{Particle} const \&p) const 
+\item 
+double \hyperlink{classpanda_1_1Particle_ad58d76aa3509890401e7075d36d605b2}{dPhi} (\hyperlink{classpanda_1_1Particle}{Particle} const \&p) const 
+\item 
+double \hyperlink{classpanda_1_1Particle_a31b515f8bcd6d64227ec24dd4b9682c3}{dR2} (\hyperlink{classpanda_1_1Particle}{Particle} const \&p) const 
+\item 
+double \hyperlink{classpanda_1_1Particle_adbc50bce85d9da56699bbd7d9ab1e4bf}{dR} (\hyperlink{classpanda_1_1Particle}{Particle} const \&p) const 
+\item 
+virtual void \hyperlink{classpanda_1_1Particle_adc7a78ac2476aac1648ae81f70e17211}{setXYZE} (double px, double py, double pz, double)
+\item 
+void \hyperlink{classpanda_1_1Particle_ad1a5f606b804ac2ec5d7e391aba6bda6}{destructor} () override
+\begin{DoxyCompactList}\small\item\em Destructor implementation. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1Particle_a9b74430c3c732132e01e6e215a6b3dd0}{pt}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1Particle_a57287d1410aa744cfb39a067bf4b44b7}{eta}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1Particle_acc1b5ccbda5824dcf754a6a4856c44da}{phi}
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1Particle_a747e6df4d01f0af02a5bafe5d7e66340}{Particle} (\hyperlink{classpanda_1_1ArrayBase}{ArrayBase} $\ast$)
+\item 
+void \hyperlink{classpanda_1_1Particle_aa30d821beea5e8f3d83580baf162a014}{doSetStatus\_\-} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&) override
+\item 
+\hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} \hyperlink{classpanda_1_1Particle_a7dcbf68bc3e74fdef1e3f3c620fb019a}{doGetStatus\_\-} (TTree \&, TString const \&) const override
+\item 
+void \hyperlink{classpanda_1_1Particle_a96e604e87ef1bc5931b4cd3da447b084}{doSetAddress\_\-} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}, Bool\_\-t setStatus=kTRUE) override
+\item 
+void \hyperlink{classpanda_1_1Particle_a3dab1e8430ed2e287ecd8fdbbdcf3c7e}{doBook\_\-} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}) override
+\item 
+void \hyperlink{classpanda_1_1Particle_aff400fb217d44df886826a4ac1f4ca9b}{doReleaseTree\_\-} (TTree \&, TString const \&) override
+\item 
+void \hyperlink{classpanda_1_1Particle_a3c8e5de4513c492b0bad74e5ba551775}{doInit\_\-} () override
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classpanda_1_1Particle_ac7774202a46a6e99815ebbda009cdeff}{
+\index{panda::Particle@{panda::Particle}!array\_\-type@{array\_\-type}}
+\index{array\_\-type@{array\_\-type}!panda::Particle@{panda::Particle}}
+\subsubsection[{array\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Array}$<${\bf Particle}$>$ {\bf panda::Particle::array\_\-type}}}
+\label{classpanda_1_1Particle_ac7774202a46a6e99815ebbda009cdeff}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Element_ab2756a177602f7ab426c4e5d5dbb3b68}{panda::Element}.
+
+Reimplemented in \hyperlink{classpanda_1_1Electron_a7bfeb05c19bc521a2e12e1704cc16958}{panda::Electron}, \hyperlink{classpanda_1_1FatJet_af8c5781a44a91eb012c01dde2a710039}{panda::FatJet}, \hyperlink{classpanda_1_1GenJet_a732a43640504ffa4b44865f9eb422f74}{panda::GenJet}, \hyperlink{classpanda_1_1GenParticle_acacbe638e5f065cfe0d3bc8ca5ecd5ee}{panda::GenParticle}, \hyperlink{classpanda_1_1Jet_a02ed819ca5ca46b0b3b212dbd56bce57}{panda::Jet}, \hyperlink{classpanda_1_1Lepton_ad9bce760734162cd7166b034515fe1fe}{panda::Lepton}, \hyperlink{classpanda_1_1MicroJet_ac1892a7cfd937c8967fce27bcff9cdc7}{panda::MicroJet}, \hyperlink{classpanda_1_1Muon_a03903de481ebc3c6db1d7d979ba99691}{panda::Muon}, \hyperlink{classpanda_1_1ParticleM_a1ba36e35f5cd6a26decfbaa815678d2a}{panda::ParticleM}, \hyperlink{classpanda_1_1Parton_a779a461ff7aa46eda35c663576532b02}{panda::Parton}, \hyperlink{classpanda_1_1PFCand_aea303dd18044eafc5ea0953e22f2f095}{panda::PFCand}, \hyperlink{classpanda_1_1Photon_aae6023205ea85eb74f4870f012b302ce}{panda::Photon}, and \hyperlink{classpanda_1_1Tau_a74a1cb1b70bdd2212670492156eecc50}{panda::Tau}.\hypertarget{classpanda_1_1Particle_a0055c0e7a7015a0446f6c4f8e6f1d469}{
+\index{panda::Particle@{panda::Particle}!base\_\-type@{base\_\-type}}
+\index{base\_\-type@{base\_\-type}!panda::Particle@{panda::Particle}}
+\subsubsection[{base\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Element} {\bf panda::Particle::base\_\-type}}}
+\label{classpanda_1_1Particle_a0055c0e7a7015a0446f6c4f8e6f1d469}
+
+
+Reimplemented in \hyperlink{classpanda_1_1Electron_a0fdcdc003b2db72940f10d648b3833a6}{panda::Electron}, \hyperlink{classpanda_1_1FatJet_ab06dcce3d9c117c93a036c87fb441795}{panda::FatJet}, \hyperlink{classpanda_1_1GenJet_acec2fc5754d9d9da9805cbdaff566ee4}{panda::GenJet}, \hyperlink{classpanda_1_1GenParticle_ab81b9a915960640d959816ecbf1397ec}{panda::GenParticle}, \hyperlink{classpanda_1_1Jet_a4fbfc283916dbd345b13a61396b878cf}{panda::Jet}, \hyperlink{classpanda_1_1Lepton_ab8f2fc84ff093d5200d1905677d15578}{panda::Lepton}, \hyperlink{classpanda_1_1MicroJet_a2d604c4fa862edcde48e188002052ece}{panda::MicroJet}, \hyperlink{classpanda_1_1Muon_a071b288ec091c14f1fe42db77ef7821e}{panda::Muon}, \hyperlink{classpanda_1_1ParticleM_a134d640b78531bc47ddb19ba490de07d}{panda::ParticleM}, \hyperlink{classpanda_1_1Parton_a4a5dd86c3661af38dced3271214551c4}{panda::Parton}, \hyperlink{classpanda_1_1PFCand_a2c9c280056db9b280276ec15926e7043}{panda::PFCand}, \hyperlink{classpanda_1_1Photon_a462a23e58af84e7c0eec1442206ccf04}{panda::Photon}, and \hyperlink{classpanda_1_1Tau_aeeec56f6b40c4aa834d50e298430fdb4}{panda::Tau}.\hypertarget{classpanda_1_1Particle_a5c7d779f6db770bcc94cfe63c42b59d2}{
+\index{panda::Particle@{panda::Particle}!collection\_\-type@{collection\_\-type}}
+\index{collection\_\-type@{collection\_\-type}!panda::Particle@{panda::Particle}}
+\subsubsection[{collection\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Collection}$<${\bf Particle}$>$ {\bf panda::Particle::collection\_\-type}}}
+\label{classpanda_1_1Particle_a5c7d779f6db770bcc94cfe63c42b59d2}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Element_ae8518ee6466644a9abe229a1da0bae57}{panda::Element}.
+
+Reimplemented in \hyperlink{classpanda_1_1Electron_abf729472e92b96747fc90029ca7ac3a1}{panda::Electron}, \hyperlink{classpanda_1_1FatJet_a2740a440685d1d581f92bcedbf1a6f9e}{panda::FatJet}, \hyperlink{classpanda_1_1GenJet_adf2446e9cb42ccd9a7b2e790d674965a}{panda::GenJet}, \hyperlink{classpanda_1_1GenParticle_a2f1d232f5f5660f0c147145d280df831}{panda::GenParticle}, \hyperlink{classpanda_1_1Jet_abc4f1b55581c1f9a65d14ca360458c40}{panda::Jet}, \hyperlink{classpanda_1_1Lepton_acba098c3047ecbfa9c1ad6c88a3ba95f}{panda::Lepton}, \hyperlink{classpanda_1_1MicroJet_a07385bfbc6560036a2f568b073183df9}{panda::MicroJet}, \hyperlink{classpanda_1_1Muon_a74e005c403745217b3e67bd6709ccea3}{panda::Muon}, \hyperlink{classpanda_1_1ParticleM_ae39fbe234c21960d067e8790541d0d68}{panda::ParticleM}, \hyperlink{classpanda_1_1Parton_adced932b94de43884831c4685e542518}{panda::Parton}, \hyperlink{classpanda_1_1PFCand_a6f3fdf6ad51952f9995adb1111fec3bc}{panda::PFCand}, \hyperlink{classpanda_1_1Photon_a76c4cc6e762c1d6785586b7546d2573f}{panda::Photon}, and \hyperlink{classpanda_1_1Tau_a4998ea28667acf331fa5dd9e9decdcda}{panda::Tau}.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classpanda_1_1Particle_a1e3d569b53827f47d15e104e06cca44f}{
+\index{panda::Particle@{panda::Particle}!Particle@{Particle}}
+\index{Particle@{Particle}!panda::Particle@{panda::Particle}}
+\subsubsection[{Particle}]{\setlength{\rightskip}{0pt plus 5cm}panda::Particle::Particle (char const $\ast$ {\em name} = {\ttfamily \char`\"{}\char`\"{}})}}
+\label{classpanda_1_1Particle_a1e3d569b53827f47d15e104e06cca44f}
+\hypertarget{classpanda_1_1Particle_a1b85ffd9b05ca143d4ed762747fb2b50}{
+\index{panda::Particle@{panda::Particle}!Particle@{Particle}}
+\index{Particle@{Particle}!panda::Particle@{panda::Particle}}
+\subsubsection[{Particle}]{\setlength{\rightskip}{0pt plus 5cm}panda::Particle::Particle ({\bf Particle} const \& {\em \_\-src})}}
+\label{classpanda_1_1Particle_a1b85ffd9b05ca143d4ed762747fb2b50}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Particle_aeca877b586da802e045c6ed2121240b5}{
+\index{panda::Particle@{panda::Particle}!Particle@{Particle}}
+\index{Particle@{Particle}!panda::Particle@{panda::Particle}}
+\subsubsection[{Particle}]{\setlength{\rightskip}{0pt plus 5cm}panda::Particle::Particle ({\bf datastore} \& {\em \_\-data}, \/  UInt\_\-t {\em idx})}}
+\label{classpanda_1_1Particle_aeca877b586da802e045c6ed2121240b5}
+\hypertarget{classpanda_1_1Particle_a83e4d1aa75d0c1a125d0b6669bd28db5}{
+\index{panda::Particle@{panda::Particle}!$\sim$Particle@{$\sim$Particle}}
+\index{$\sim$Particle@{$\sim$Particle}!panda::Particle@{panda::Particle}}
+\subsubsection[{$\sim$Particle}]{\setlength{\rightskip}{0pt plus 5cm}panda::Particle::$\sim$Particle ()}}
+\label{classpanda_1_1Particle_a83e4d1aa75d0c1a125d0b6669bd28db5}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Particle_a747e6df4d01f0af02a5bafe5d7e66340}{
+\index{panda::Particle@{panda::Particle}!Particle@{Particle}}
+\index{Particle@{Particle}!panda::Particle@{panda::Particle}}
+\subsubsection[{Particle}]{\setlength{\rightskip}{0pt plus 5cm}panda::Particle::Particle ({\bf ArrayBase} $\ast$ {\em \_\-array})\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classpanda_1_1Particle_a747e6df4d01f0af02a5bafe5d7e66340}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classpanda_1_1Particle_ad1a5f606b804ac2ec5d7e391aba6bda6}{
+\index{panda::Particle@{panda::Particle}!destructor@{destructor}}
+\index{destructor@{destructor}!panda::Particle@{panda::Particle}}
+\subsubsection[{destructor}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Particle::destructor ()\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{classpanda_1_1Particle_ad1a5f606b804ac2ec5d7e391aba6bda6}
+
+
+Destructor implementation. The actual destructor of the object should be called only if the \hyperlink{classpanda_1_1Element}{Element} is constructed as a singlet. In the Container environment, the memory allocated for this object is directly deallocated without calling $\sim$(\hyperlink{classpanda_1_1Object}{Object}). If subclasses need to make some calls at the destruction time of the object, they must be implemented in this \hyperlink{namespacepanda_1_1function}{function}. 
+
+Reimplemented from \hyperlink{classpanda_1_1Element_a7ce6bca6d7422aac78576742dc67f0b8}{panda::Element}.
+
+Reimplemented in \hyperlink{classpanda_1_1Electron_a9e9a34d904d5cc02ab895e73cdaf6d7f}{panda::Electron}, \hyperlink{classpanda_1_1FatJet_a421049d4b4315facb5bda39746f1a38b}{panda::FatJet}, \hyperlink{classpanda_1_1GenJet_a4a10379464d97681df56ba78c59d9ec9}{panda::GenJet}, \hyperlink{classpanda_1_1GenParticle_a3741159cb9918fc4a7bf714995d72469}{panda::GenParticle}, \hyperlink{classpanda_1_1Jet_adbd430a93e346588348e1eebaa90c42a}{panda::Jet}, \hyperlink{classpanda_1_1Lepton_af8bb4d531bdddbf51f479f7eb0dae175}{panda::Lepton}, \hyperlink{classpanda_1_1MicroJet_a89f2dbacfc1c34c4f34185ea305f8797}{panda::MicroJet}, \hyperlink{classpanda_1_1Muon_aa982002bedb53cacab127270c53e54e8}{panda::Muon}, \hyperlink{classpanda_1_1ParticleM_abef15d28e6e33ee92c0b318bd41af2ca}{panda::ParticleM}, \hyperlink{classpanda_1_1Parton_a54783d8795081067290078d39305e21c}{panda::Parton}, \hyperlink{classpanda_1_1PFCand_a30a87718470988f020ce75d7e990868b}{panda::PFCand}, \hyperlink{classpanda_1_1Photon_a03611f9014bd137d9aa651ac938575c7}{panda::Photon}, and \hyperlink{classpanda_1_1Tau_a7caf1a64e1c468e27a6a88c34ab97457}{panda::Tau}.
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Particle_a7216a6a830a5231aef8ebc7d57018699}{
+\index{panda::Particle@{panda::Particle}!dEta@{dEta}}
+\index{dEta@{dEta}!panda::Particle@{panda::Particle}}
+\subsubsection[{dEta}]{\setlength{\rightskip}{0pt plus 5cm}double panda::Particle::dEta ({\bf Particle} const \& {\em p}) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Particle_a7216a6a830a5231aef8ebc7d57018699}
+
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Particle_a3dab1e8430ed2e287ecd8fdbbdcf3c7e}{
+\index{panda::Particle@{panda::Particle}!doBook\_\-@{doBook\_\-}}
+\index{doBook\_\-@{doBook\_\-}!panda::Particle@{panda::Particle}}
+\subsubsection[{doBook\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Particle::doBook\_\- (TTree \&, \/  TString const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected\mbox{]}}}}
+\label{classpanda_1_1Particle_a3dab1e8430ed2e287ecd8fdbbdcf3c7e}
+
+
+Reimplemented in \hyperlink{classpanda_1_1Electron_a2b2000f57a7f009c12bdf33f25d50350}{panda::Electron}, \hyperlink{classpanda_1_1FatJet_a32dbcd6e7cf31c79aed92220c43daed7}{panda::FatJet}, \hyperlink{classpanda_1_1GenJet_a59196025df6d85eb481e9c47c681e0d7}{panda::GenJet}, \hyperlink{classpanda_1_1GenParticle_aae66df460d70150e146dd95392c7e781}{panda::GenParticle}, \hyperlink{classpanda_1_1Jet_a9f7d21237e7933ee156f5edea6a27696}{panda::Jet}, \hyperlink{classpanda_1_1Lepton_af9d74c974117a26f53e60da918cb84ba}{panda::Lepton}, \hyperlink{classpanda_1_1MicroJet_aa1f5281c41c34033e5ef194f9d846413}{panda::MicroJet}, \hyperlink{classpanda_1_1Muon_af27e42e8f6276dcbcf61ac742b17a4cd}{panda::Muon}, \hyperlink{classpanda_1_1ParticleM_a55d6e7e91edbc88e980a0031c299ef18}{panda::ParticleM}, \hyperlink{classpanda_1_1Parton_a6a1af1903a231bc8db97242dda42979a}{panda::Parton}, \hyperlink{classpanda_1_1PFCand_a0e032b321a5b1003d7639b72a211c7be}{panda::PFCand}, \hyperlink{classpanda_1_1Photon_aaa6770e70a128a4e4910899f92fbd816}{panda::Photon}, and \hyperlink{classpanda_1_1Tau_a223ddb7af7f072bdb8973676cdb69004}{panda::Tau}.\hypertarget{classpanda_1_1Particle_a7dcbf68bc3e74fdef1e3f3c620fb019a}{
+\index{panda::Particle@{panda::Particle}!doGetStatus\_\-@{doGetStatus\_\-}}
+\index{doGetStatus\_\-@{doGetStatus\_\-}!panda::Particle@{panda::Particle}}
+\subsubsection[{doGetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::utils::BranchList} panda::Particle::doGetStatus\_\- (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name}) const\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Particle_a7dcbf68bc3e74fdef1e3f3c620fb019a}
+
+
+Implements \hyperlink{classpanda_1_1Element_aeac30a79f7ce156033a2dd7538fc919d}{panda::Element}.
+
+Reimplemented in \hyperlink{classpanda_1_1Electron_a3e2097c55d5ab63188d0c04426e47248}{panda::Electron}, \hyperlink{classpanda_1_1FatJet_a96835f1d5e56985c033cc73029dccef0}{panda::FatJet}, \hyperlink{classpanda_1_1GenJet_a5f514a9289d97bd7b6b8731323143269}{panda::GenJet}, \hyperlink{classpanda_1_1GenParticle_a117dbbc192b9795838cbfbc75f0eceb8}{panda::GenParticle}, \hyperlink{classpanda_1_1Jet_a4ecbac39b42fe464f6346711aed38aba}{panda::Jet}, \hyperlink{classpanda_1_1Lepton_a90a170df4cd09d324964da724bcc5428}{panda::Lepton}, \hyperlink{classpanda_1_1MicroJet_a2055608524fe0bb8e4fae8ef78e3333e}{panda::MicroJet}, \hyperlink{classpanda_1_1Muon_af2331a81be13a07cc0202a6d107b0685}{panda::Muon}, \hyperlink{classpanda_1_1ParticleM_a003a63672058369e9bbea413e055b1c1}{panda::ParticleM}, \hyperlink{classpanda_1_1Parton_ab3709c6ae8b88560326291d4d1598c6b}{panda::Parton}, \hyperlink{classpanda_1_1PFCand_a3567f5259663a227698b6e27cc340cb4}{panda::PFCand}, \hyperlink{classpanda_1_1Photon_ae0b07f281f6553d7d1fe088374e6e39b}{panda::Photon}, and \hyperlink{classpanda_1_1Tau_ad81f7bd9caddfbc5773bd20f5f4a227f}{panda::Tau}.
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Particle_a3c8e5de4513c492b0bad74e5ba551775}{
+\index{panda::Particle@{panda::Particle}!doInit\_\-@{doInit\_\-}}
+\index{doInit\_\-@{doInit\_\-}!panda::Particle@{panda::Particle}}
+\subsubsection[{doInit\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Particle::doInit\_\- ()\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Particle_a3c8e5de4513c492b0bad74e5ba551775}
+
+
+Implements \hyperlink{classpanda_1_1Element_a374af043de4cf724fb6f640644ec35dc}{panda::Element}.
+
+Reimplemented in \hyperlink{classpanda_1_1Electron_a87826542cbfbde4305c312ffa677d1bf}{panda::Electron}, \hyperlink{classpanda_1_1FatJet_aae0c0b4e50cf6aae1d6c12b31d8585d9}{panda::FatJet}, \hyperlink{classpanda_1_1GenJet_a7d11efd32c760d452e8014c33ba3b64d}{panda::GenJet}, \hyperlink{classpanda_1_1GenParticle_a962c22c6afb1e9d0ef23eb70cfc809b5}{panda::GenParticle}, \hyperlink{classpanda_1_1Jet_ac8801b9ee9b645f4d0a24aa34accb414}{panda::Jet}, \hyperlink{classpanda_1_1Lepton_af764ff1ea6dfb16072d6c9de3b935129}{panda::Lepton}, \hyperlink{classpanda_1_1MicroJet_a15d337ea6042caf8a37d2f4172b9ab01}{panda::MicroJet}, \hyperlink{classpanda_1_1Muon_a50a228225667669a6fa827d426740e70}{panda::Muon}, \hyperlink{classpanda_1_1ParticleM_ae912914e3970c1fb238589f0ccc783f4}{panda::ParticleM}, \hyperlink{classpanda_1_1Parton_a4f94d91e76ce70fca972bcdbafec00c2}{panda::Parton}, \hyperlink{classpanda_1_1PFCand_afef3eb199afc086c2952e479fa1f191b}{panda::PFCand}, \hyperlink{classpanda_1_1Photon_a445fd29d5ce7a07c93443c05ae830a72}{panda::Photon}, and \hyperlink{classpanda_1_1Tau_aed759d7cf1b0e0e47fb34f646e899e5c}{panda::Tau}.\hypertarget{classpanda_1_1Particle_aff400fb217d44df886826a4ac1f4ca9b}{
+\index{panda::Particle@{panda::Particle}!doReleaseTree\_\-@{doReleaseTree\_\-}}
+\index{doReleaseTree\_\-@{doReleaseTree\_\-}!panda::Particle@{panda::Particle}}
+\subsubsection[{doReleaseTree\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Particle::doReleaseTree\_\- (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name})\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Particle_aff400fb217d44df886826a4ac1f4ca9b}
+
+
+Implements \hyperlink{classpanda_1_1Element_a7ae1dd245caf18525c891d3d2f9323d5}{panda::Element}.
+
+Reimplemented in \hyperlink{classpanda_1_1Electron_a728ea4bc877ba68f1a8e7301ea712871}{panda::Electron}, \hyperlink{classpanda_1_1FatJet_a8a4681a9c643494786d131103f281aa8}{panda::FatJet}, \hyperlink{classpanda_1_1GenJet_a9a787148306f5a612be76c57fbcf0317}{panda::GenJet}, \hyperlink{classpanda_1_1GenParticle_a7e328cf82b58dcdf43f008066e42e451}{panda::GenParticle}, \hyperlink{classpanda_1_1Jet_a3bc50ef589095a1bae03b1f4bbf74077}{panda::Jet}, \hyperlink{classpanda_1_1Lepton_ae0f913947dcc9e3827de846e7b885280}{panda::Lepton}, \hyperlink{classpanda_1_1MicroJet_a76d94a27064103f68ac0532d7d610889}{panda::MicroJet}, \hyperlink{classpanda_1_1Muon_ab6aedf6cd1f1714f4cd3b315cee18c8d}{panda::Muon}, \hyperlink{classpanda_1_1ParticleM_a0c24df56cbd50a8223fc4d8bf0b776d0}{panda::ParticleM}, \hyperlink{classpanda_1_1Parton_af0f659274734074ab87ee05f4b1ee6d8}{panda::Parton}, \hyperlink{classpanda_1_1PFCand_adefaef174f963c22f95e9ff84b3b4922}{panda::PFCand}, \hyperlink{classpanda_1_1Photon_a316d874232548d46d8ce0452b1d0fda9}{panda::Photon}, and \hyperlink{classpanda_1_1Tau_a5e28b6235042855a3e9d3b613c5145e5}{panda::Tau}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Particle_a96e604e87ef1bc5931b4cd3da447b084}{
+\index{panda::Particle@{panda::Particle}!doSetAddress\_\-@{doSetAddress\_\-}}
+\index{doSetAddress\_\-@{doSetAddress\_\-}!panda::Particle@{panda::Particle}}
+\subsubsection[{doSetAddress\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Particle::doSetAddress\_\- (TTree \&, \/  TString const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected\mbox{]}}}}
+\label{classpanda_1_1Particle_a96e604e87ef1bc5931b4cd3da447b084}
+
+
+Reimplemented in \hyperlink{classpanda_1_1Electron_a4da89a6071eab568e7aba8b61d2888a2}{panda::Electron}, \hyperlink{classpanda_1_1FatJet_a3f92ff4d7d7bb8f83fa43e4ef20bc036}{panda::FatJet}, \hyperlink{classpanda_1_1GenJet_ac0e79d0ee45b00c8477d376f81008204}{panda::GenJet}, \hyperlink{classpanda_1_1GenParticle_a05d969dcffe56d821bb1b73bdb084d6c}{panda::GenParticle}, \hyperlink{classpanda_1_1Jet_a4e59030d68ca3a27fb72f0c0976bdb27}{panda::Jet}, \hyperlink{classpanda_1_1Lepton_a2d46b07ce93bec008954f222c6860ff9}{panda::Lepton}, \hyperlink{classpanda_1_1MicroJet_a6a8758a218f0e0ce60a1af0a999ff598}{panda::MicroJet}, \hyperlink{classpanda_1_1Muon_a7488d95aaa9e9a79bda6d90b8967a52b}{panda::Muon}, \hyperlink{classpanda_1_1ParticleM_ab54d46a237f8d12074ee36c48af33b04}{panda::ParticleM}, \hyperlink{classpanda_1_1Parton_a2ab83f4fa3a99a93c7bf17ab2233a25a}{panda::Parton}, \hyperlink{classpanda_1_1PFCand_a2b6d101e2b1391e4c942b1f5ec2f6151}{panda::PFCand}, \hyperlink{classpanda_1_1Photon_a9a8788ec145f035a7a2875d5a7f9ef98}{panda::Photon}, and \hyperlink{classpanda_1_1Tau_a49f42dffab89a0699caff1da8d7993ed}{panda::Tau}.\hypertarget{classpanda_1_1Particle_aa30d821beea5e8f3d83580baf162a014}{
+\index{panda::Particle@{panda::Particle}!doSetStatus\_\-@{doSetStatus\_\-}}
+\index{doSetStatus\_\-@{doSetStatus\_\-}!panda::Particle@{panda::Particle}}
+\subsubsection[{doSetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Particle::doSetStatus\_\- (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name}, \/  {\bf utils::BranchList} const \& {\em \_\-branches})\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Particle_aa30d821beea5e8f3d83580baf162a014}
+
+
+Implements \hyperlink{classpanda_1_1Element_a1309a7039cde6233c19f3c488805015d}{panda::Element}.
+
+Reimplemented in \hyperlink{classpanda_1_1Electron_af73c3c5f59267c4bba4ceb0a47cfc6ec}{panda::Electron}, \hyperlink{classpanda_1_1FatJet_ad63603b0bd69d4e3b6173a194b3e6829}{panda::FatJet}, \hyperlink{classpanda_1_1GenJet_a519508188c474ac1dcc2c822de9e43c3}{panda::GenJet}, \hyperlink{classpanda_1_1GenParticle_a41d0169feced73ebddb43bf9547cecdf}{panda::GenParticle}, \hyperlink{classpanda_1_1Jet_a494d27c6c2b773f5849996944cf46eb2}{panda::Jet}, \hyperlink{classpanda_1_1Lepton_a2d3b49322244947c933645bbdb44bf88}{panda::Lepton}, \hyperlink{classpanda_1_1MicroJet_ae7b83b860f85cc86b736495317fb7f3a}{panda::MicroJet}, \hyperlink{classpanda_1_1Muon_a5a1c65b72491bc9df325bc182568e40c}{panda::Muon}, \hyperlink{classpanda_1_1ParticleM_a042f9e295576be022960ea88144e9022}{panda::ParticleM}, \hyperlink{classpanda_1_1Parton_a4471a7ad47570d85d6cd5ffa3c67b4d2}{panda::Parton}, \hyperlink{classpanda_1_1PFCand_a263dcf1e5a9b704827d4b4af006ebcf4}{panda::PFCand}, \hyperlink{classpanda_1_1Photon_a8fbe4f60488cc95024bd4a50b6df6b95}{panda::Photon}, and \hyperlink{classpanda_1_1Tau_a96eda4638f1fd6968f3a31757253600e}{panda::Tau}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Particle_ad58d76aa3509890401e7075d36d605b2}{
+\index{panda::Particle@{panda::Particle}!dPhi@{dPhi}}
+\index{dPhi@{dPhi}!panda::Particle@{panda::Particle}}
+\subsubsection[{dPhi}]{\setlength{\rightskip}{0pt plus 5cm}double panda::Particle::dPhi ({\bf Particle} const \& {\em p}) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Particle_ad58d76aa3509890401e7075d36d605b2}
+
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Particle_adbc50bce85d9da56699bbd7d9ab1e4bf}{
+\index{panda::Particle@{panda::Particle}!dR@{dR}}
+\index{dR@{dR}!panda::Particle@{panda::Particle}}
+\subsubsection[{dR}]{\setlength{\rightskip}{0pt plus 5cm}double panda::Particle::dR ({\bf Particle} const \& {\em p}) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Particle_adbc50bce85d9da56699bbd7d9ab1e4bf}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Particle_a31b515f8bcd6d64227ec24dd4b9682c3}{
+\index{panda::Particle@{panda::Particle}!dR2@{dR2}}
+\index{dR2@{dR2}!panda::Particle@{panda::Particle}}
+\subsubsection[{dR2}]{\setlength{\rightskip}{0pt plus 5cm}double panda::Particle::dR2 ({\bf Particle} const \& {\em p}) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Particle_a31b515f8bcd6d64227ec24dd4b9682c3}
+
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Particle_a7e352dd288ae0065303e5adc1ff3ba69}{
+\index{panda::Particle@{panda::Particle}!e@{e}}
+\index{e@{e}!panda::Particle@{panda::Particle}}
+\subsubsection[{e}]{\setlength{\rightskip}{0pt plus 5cm}double panda::Particle::e () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Particle_a7e352dd288ae0065303e5adc1ff3ba69}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Particle_aa793c05fc1334ed462e18c794339eebf}{
+\index{panda::Particle@{panda::Particle}!m@{m}}
+\index{m@{m}!panda::Particle@{panda::Particle}}
+\subsubsection[{m}]{\setlength{\rightskip}{0pt plus 5cm}virtual double panda::Particle::m () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classpanda_1_1Particle_aa793c05fc1334ed462e18c794339eebf}
+
+
+Reimplemented in \hyperlink{classpanda_1_1Electron_a809cee4161783ff5d00b69e24c125759}{panda::Electron}, \hyperlink{classpanda_1_1Muon_ac5fc1640178d5b0d00dd3eefa6fd44fb}{panda::Muon}, and \hyperlink{classpanda_1_1ParticleM_a3285647972bb49a26897e300f990b902}{panda::ParticleM}.
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Particle_a8c4fabfceb39b746b0e68a7389e662c4}{
+\index{panda::Particle@{panda::Particle}!operator=@{operator=}}
+\index{operator=@{operator=}!panda::Particle@{panda::Particle}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::Particle} \& panda::Particle::operator= ({\bf Particle} const \& {\em \_\-src})}}
+\label{classpanda_1_1Particle_a8c4fabfceb39b746b0e68a7389e662c4}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Element_aab6953bcc5df661a05d49fca81a0a4fc}{panda::Element}.
+
+Reimplemented in \hyperlink{classpanda_1_1Electron_adf667b212f1ea11094dd276fd913c4f6}{panda::Electron}, \hyperlink{classpanda_1_1FatJet_a20e4f6ca23c2a9a603c33e7f023337fe}{panda::FatJet}, \hyperlink{classpanda_1_1GenJet_aeaa1c9ce79a2ac5e7d49ff5ea1e34136}{panda::GenJet}, \hyperlink{classpanda_1_1GenParticle_a46eed568bb72468ccda95c09002ea6a5}{panda::GenParticle}, \hyperlink{classpanda_1_1Jet_a06509e069beffe7d5fa12a5450254e6a}{panda::Jet}, \hyperlink{classpanda_1_1Lepton_a24b1cd552930db2af2734d3acbb27257}{panda::Lepton}, \hyperlink{classpanda_1_1MicroJet_a9375dd6d13362ae323e9915b529458e8}{panda::MicroJet}, \hyperlink{classpanda_1_1Muon_a2f91424e93572f9efd189884d95efaf6}{panda::Muon}, \hyperlink{classpanda_1_1ParticleM_a37f7be4e1150b6080b47b005af730af5}{panda::ParticleM}, \hyperlink{classpanda_1_1Parton_a0def202110cf69ff7d9213cbf9db02ec}{panda::Parton}, \hyperlink{classpanda_1_1PFCand_ad32d7ae95ef68eb076604648684aca06}{panda::PFCand}, \hyperlink{classpanda_1_1Photon_aa747baa897eca18a06d897063402a966}{panda::Photon}, and \hyperlink{classpanda_1_1Tau_a1482f04be4fffde6b5c648ae3e7b539f}{panda::Tau}.
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Particle_a581eab76794352c5908ef3e8e6d36a95}{
+\index{panda::Particle@{panda::Particle}!p@{p}}
+\index{p@{p}!panda::Particle@{panda::Particle}}
+\subsubsection[{p}]{\setlength{\rightskip}{0pt plus 5cm}double panda::Particle::p () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Particle_a581eab76794352c5908ef3e8e6d36a95}
+
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Particle_aab2f22a57738ea3b2d3226e72c150a99}{
+\index{panda::Particle@{panda::Particle}!p4@{p4}}
+\index{p4@{p4}!panda::Particle@{panda::Particle}}
+\subsubsection[{p4}]{\setlength{\rightskip}{0pt plus 5cm}TLorentzVector panda::Particle::p4 () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Particle_aab2f22a57738ea3b2d3226e72c150a99}
+
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Particle_a1df59522ef74ec3c533c328aea7f433d}{
+\index{panda::Particle@{panda::Particle}!px@{px}}
+\index{px@{px}!panda::Particle@{panda::Particle}}
+\subsubsection[{px}]{\setlength{\rightskip}{0pt plus 5cm}double panda::Particle::px () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Particle_a1df59522ef74ec3c533c328aea7f433d}
+\hypertarget{classpanda_1_1Particle_a6e8d9ffa8dc261f7b67b6e0c75ba8143}{
+\index{panda::Particle@{panda::Particle}!py@{py}}
+\index{py@{py}!panda::Particle@{panda::Particle}}
+\subsubsection[{py}]{\setlength{\rightskip}{0pt plus 5cm}double panda::Particle::py () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Particle_a6e8d9ffa8dc261f7b67b6e0c75ba8143}
+\hypertarget{classpanda_1_1Particle_adeb8bce6ddfe5429f3db5f0d6ee6e9b0}{
+\index{panda::Particle@{panda::Particle}!pz@{pz}}
+\index{pz@{pz}!panda::Particle@{panda::Particle}}
+\subsubsection[{pz}]{\setlength{\rightskip}{0pt plus 5cm}double panda::Particle::pz () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Particle_adeb8bce6ddfe5429f3db5f0d6ee6e9b0}
+\hypertarget{classpanda_1_1Particle_adc7a78ac2476aac1648ae81f70e17211}{
+\index{panda::Particle@{panda::Particle}!setXYZE@{setXYZE}}
+\index{setXYZE@{setXYZE}!panda::Particle@{panda::Particle}}
+\subsubsection[{setXYZE}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Particle::setXYZE (double {\em px}, \/  double {\em py}, \/  double {\em pz}, \/  double)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classpanda_1_1Particle_adc7a78ac2476aac1648ae81f70e17211}
+
+
+Reimplemented in \hyperlink{classpanda_1_1ParticleM_a725a5be9c884b3819322f1cfd6b83010}{panda::ParticleM}.
+
+Here is the call graph for this function:
+
+\subsection{Member Data Documentation}
+\hypertarget{classpanda_1_1Particle_a57287d1410aa744cfb39a067bf4b44b7}{
+\index{panda::Particle@{panda::Particle}!eta@{eta}}
+\index{eta@{eta}!panda::Particle@{panda::Particle}}
+\subsubsection[{eta}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::Particle::eta}}}
+\label{classpanda_1_1Particle_a57287d1410aa744cfb39a067bf4b44b7}
+\hypertarget{classpanda_1_1Particle_acc1b5ccbda5824dcf754a6a4856c44da}{
+\index{panda::Particle@{panda::Particle}!phi@{phi}}
+\index{phi@{phi}!panda::Particle@{panda::Particle}}
+\subsubsection[{phi}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::Particle::phi}}}
+\label{classpanda_1_1Particle_acc1b5ccbda5824dcf754a6a4856c44da}
+\hypertarget{classpanda_1_1Particle_a9b74430c3c732132e01e6e215a6b3dd0}{
+\index{panda::Particle@{panda::Particle}!pt@{pt}}
+\index{pt@{pt}!panda::Particle@{panda::Particle}}
+\subsubsection[{pt}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::Particle::pt}}}
+\label{classpanda_1_1Particle_a9b74430c3c732132e01e6e215a6b3dd0}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Objects/interface/\hyperlink{Particle_8h}{Particle.h}\item 
+Objects/src/\hyperlink{Particle_8cc}{Particle.cc}\end{DoxyCompactItemize}

@@ -1,0 +1,121 @@
+\hypertarget{structpanda_1_1GenJet_1_1datastore}{
+\section{panda::GenJet::datastore Struct Reference}
+\label{structpanda_1_1GenJet_1_1datastore}\index{panda::GenJet::datastore@{panda::GenJet::datastore}}
+}
+
+
+{\ttfamily \#include $<$GenJet.h$>$}Inheritance diagram for panda::GenJet::datastore:Collaboration diagram for panda::GenJet::datastore:\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structpanda_1_1GenJet_1_1datastore_ad0ca5d1b0381eb65489787ba810fa69a}{datastore} ()
+\item 
+\hyperlink{structpanda_1_1GenJet_1_1datastore_aee5add4c9f162350865cec47c322dec0}{$\sim$datastore} ()
+\item 
+void \hyperlink{structpanda_1_1GenJet_1_1datastore_a8b05278d242cae6efa7c1cc2ed929d6a}{allocate} (UInt\_\-t n) override
+\item 
+void \hyperlink{structpanda_1_1GenJet_1_1datastore_a2b1e39eb4f994f496aa013aaf82998c4}{deallocate} () override
+\item 
+void \hyperlink{structpanda_1_1GenJet_1_1datastore_a7b9f67fdc168e7a372a9430c2b9866e3}{setStatus} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&) override
+\item 
+\hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} \hyperlink{structpanda_1_1GenJet_1_1datastore_a38a95477762b562ae4a6f2487e2c26ff}{getStatus} (TTree \&, TString const \&) const override
+\item 
+void \hyperlink{structpanda_1_1GenJet_1_1datastore_a7afa28bd4468d7ecb3c4c086d46ee6cf}{setAddress} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}, Bool\_\-t setStatus=kTRUE) override
+\item 
+void \hyperlink{structpanda_1_1GenJet_1_1datastore_abfe95213671131d88149b11bbe4a0f45}{book} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}, Bool\_\-t dynamic=kTRUE) override
+\item 
+void \hyperlink{structpanda_1_1GenJet_1_1datastore_aea7b516e513fbdf5cc2c6f67d0ae3dba}{releaseTree} (TTree \&, TString const \&) override
+\item 
+void \hyperlink{structpanda_1_1GenJet_1_1datastore_a6b6d0feb6fe978115c45180cccb7497b}{resizeVectors\_\-} (UInt\_\-t) override
+\begin{DoxyCompactList}\small\item\em Override when there are vector members. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{structpanda_1_1GenJet_1_1datastore_ad0ca5d1b0381eb65489787ba810fa69a}{
+\index{panda::GenJet::datastore@{panda::GenJet::datastore}!datastore@{datastore}}
+\index{datastore@{datastore}!panda::GenJet::datastore@{panda::GenJet::datastore}}
+\subsubsection[{datastore}]{\setlength{\rightskip}{0pt plus 5cm}panda::GenJet::datastore::datastore ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{structpanda_1_1GenJet_1_1datastore_ad0ca5d1b0381eb65489787ba810fa69a}
+
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_acc9af307e2c4fee9bc5d9bbb37ad6124}{panda::ParticleM::datastore}.\hypertarget{structpanda_1_1GenJet_1_1datastore_aee5add4c9f162350865cec47c322dec0}{
+\index{panda::GenJet::datastore@{panda::GenJet::datastore}!$\sim$datastore@{$\sim$datastore}}
+\index{$\sim$datastore@{$\sim$datastore}!panda::GenJet::datastore@{panda::GenJet::datastore}}
+\subsubsection[{$\sim$datastore}]{\setlength{\rightskip}{0pt plus 5cm}panda::GenJet::datastore::$\sim$datastore ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{structpanda_1_1GenJet_1_1datastore_aee5add4c9f162350865cec47c322dec0}
+
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_ae068980c20730bc8565d2f7ea701bc5e}{panda::ParticleM::datastore}.
+
+Here is the call graph for this function:
+
+\subsection{Member Function Documentation}
+\hypertarget{structpanda_1_1GenJet_1_1datastore_a8b05278d242cae6efa7c1cc2ed929d6a}{
+\index{panda::GenJet::datastore@{panda::GenJet::datastore}!allocate@{allocate}}
+\index{allocate@{allocate}!panda::GenJet::datastore@{panda::GenJet::datastore}}
+\subsubsection[{allocate}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenJet::datastore::allocate (UInt\_\-t {\em n})\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1GenJet_1_1datastore_a8b05278d242cae6efa7c1cc2ed929d6a}
+
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_aafc17a88cf8425ff45a00b5fd2eb5751}{panda::ParticleM::datastore}.\hypertarget{structpanda_1_1GenJet_1_1datastore_abfe95213671131d88149b11bbe4a0f45}{
+\index{panda::GenJet::datastore@{panda::GenJet::datastore}!book@{book}}
+\index{book@{book}!panda::GenJet::datastore@{panda::GenJet::datastore}}
+\subsubsection[{book}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenJet::datastore::book (TTree \&, \/  TString const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1GenJet_1_1datastore_abfe95213671131d88149b11bbe4a0f45}
+
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_ae2eb76ca042d8b3e899c027ee07b5860}{panda::ParticleM::datastore}.\hypertarget{structpanda_1_1GenJet_1_1datastore_a2b1e39eb4f994f496aa013aaf82998c4}{
+\index{panda::GenJet::datastore@{panda::GenJet::datastore}!deallocate@{deallocate}}
+\index{deallocate@{deallocate}!panda::GenJet::datastore@{panda::GenJet::datastore}}
+\subsubsection[{deallocate}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenJet::datastore::deallocate ()\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1GenJet_1_1datastore_a2b1e39eb4f994f496aa013aaf82998c4}
+
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_a85c4ce11f1d7c6944a525ad2488880aa}{panda::ParticleM::datastore}.
+
+Here is the caller graph for this function:\hypertarget{structpanda_1_1GenJet_1_1datastore_a38a95477762b562ae4a6f2487e2c26ff}{
+\index{panda::GenJet::datastore@{panda::GenJet::datastore}!getStatus@{getStatus}}
+\index{getStatus@{getStatus}!panda::GenJet::datastore@{panda::GenJet::datastore}}
+\subsubsection[{getStatus}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::utils::BranchList} panda::GenJet::datastore::getStatus (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name}) const\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1GenJet_1_1datastore_a38a95477762b562ae4a6f2487e2c26ff}
+
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_a4069b8cdca5715ed6faf0a7907ea8386}{panda::ParticleM::datastore}.
+
+Here is the call graph for this function:\hypertarget{structpanda_1_1GenJet_1_1datastore_aea7b516e513fbdf5cc2c6f67d0ae3dba}{
+\index{panda::GenJet::datastore@{panda::GenJet::datastore}!releaseTree@{releaseTree}}
+\index{releaseTree@{releaseTree}!panda::GenJet::datastore@{panda::GenJet::datastore}}
+\subsubsection[{releaseTree}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenJet::datastore::releaseTree (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name})\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1GenJet_1_1datastore_aea7b516e513fbdf5cc2c6f67d0ae3dba}
+
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_ad6986990fa55f1c6ca4e92db28486922}{panda::ParticleM::datastore}.
+
+Here is the call graph for this function:\hypertarget{structpanda_1_1GenJet_1_1datastore_a6b6d0feb6fe978115c45180cccb7497b}{
+\index{panda::GenJet::datastore@{panda::GenJet::datastore}!resizeVectors\_\-@{resizeVectors\_\-}}
+\index{resizeVectors\_\-@{resizeVectors\_\-}!panda::GenJet::datastore@{panda::GenJet::datastore}}
+\subsubsection[{resizeVectors\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenJet::datastore::resizeVectors\_\- (UInt\_\-t)\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1GenJet_1_1datastore_a6b6d0feb6fe978115c45180cccb7497b}
+
+
+Override when there are vector members. This method should only be used from Collections 
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_a6dd61d4a8f70e81a1638757a5edbc7ed}{panda::ParticleM::datastore}.\hypertarget{structpanda_1_1GenJet_1_1datastore_a7afa28bd4468d7ecb3c4c086d46ee6cf}{
+\index{panda::GenJet::datastore@{panda::GenJet::datastore}!setAddress@{setAddress}}
+\index{setAddress@{setAddress}!panda::GenJet::datastore@{panda::GenJet::datastore}}
+\subsubsection[{setAddress}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenJet::datastore::setAddress (TTree \&, \/  TString const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1GenJet_1_1datastore_a7afa28bd4468d7ecb3c4c086d46ee6cf}
+
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_ab9f9e7afb145c12941baa10892ed1811}{panda::ParticleM::datastore}.\hypertarget{structpanda_1_1GenJet_1_1datastore_a7b9f67fdc168e7a372a9430c2b9866e3}{
+\index{panda::GenJet::datastore@{panda::GenJet::datastore}!setStatus@{setStatus}}
+\index{setStatus@{setStatus}!panda::GenJet::datastore@{panda::GenJet::datastore}}
+\subsubsection[{setStatus}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenJet::datastore::setStatus (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name}, \/  {\bf utils::BranchList} const \& {\em \_\-branches})\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1GenJet_1_1datastore_a7b9f67fdc168e7a372a9430c2b9866e3}
+
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_a0329bec2c84d16ff16e15824890e7a86}{panda::ParticleM::datastore}.
+
+The documentation for this struct was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Objects/interface/\hyperlink{GenJet_8h}{GenJet.h}\item 
+Objects/src/\hyperlink{GenJet_8cc}{GenJet.cc}\end{DoxyCompactItemize}

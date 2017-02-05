@@ -1,0 +1,148 @@
+\hypertarget{classpanda_1_1HLTBits}{
+\section{panda::HLTBits Class Reference}
+\label{classpanda_1_1HLTBits}\index{panda::HLTBits@{panda::HLTBits}}
+}
+
+
+{\ttfamily \#include $<$HLTBits.h$>$}Inheritance diagram for panda::HLTBits:Collaboration diagram for panda::HLTBits:\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classpanda_1_1Singlet}{Singlet} \hyperlink{classpanda_1_1HLTBits_a0b3fb69a61a8c9ec407a7c066d40f5dc}{base\_\-type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1HLTBits_a9bb54b0cde697b4eec5cdd529426d0aa}{HLTBits} (char const $\ast$name=\char`\"{}\char`\"{})
+\item 
+\hyperlink{classpanda_1_1HLTBits_a2e76e64099e3edcfb52f78b3be8dd85f}{HLTBits} (\hyperlink{classpanda_1_1HLTBits}{HLTBits} const \&)
+\item 
+\hyperlink{classpanda_1_1HLTBits_a13c03f7e4df98e675cfad89c5647f949}{$\sim$HLTBits} ()
+\item 
+\hyperlink{classpanda_1_1HLTBits}{HLTBits} \& \hyperlink{classpanda_1_1HLTBits_ac58854e1b3ad1889afb461326f9f6d1c}{operator=} (\hyperlink{classpanda_1_1HLTBits}{HLTBits} const \&)
+\item 
+void \hyperlink{classpanda_1_1HLTBits_a72a95b5d1c4edc2bc5500b473506f80e}{set} (unsigned iB)
+\item 
+bool \hyperlink{classpanda_1_1HLTBits_a308783549d0044824efc73b14cd5910f}{pass} (unsigned iB) const 
+\item 
+unsigned \hyperlink{classpanda_1_1HLTBits_a3f467c754dbbe34c1d9a063b6b29a925}{size} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classpanda_1_1HLTBits_ae031e46f650668194269fec06b95ef72}{doSetStatus\_\-} (TTree \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&) override
+\item 
+\hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} \hyperlink{classpanda_1_1HLTBits_a25f37a9baf25b848fb303f8d08daa027}{doGetStatus\_\-} (TTree \&) const override
+\item 
+void \hyperlink{classpanda_1_1HLTBits_a97318f3a21281121aa78a84c3c9027af}{doSetAddress\_\-} (TTree \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}, Bool\_\-t setStatus=kTRUE) override
+\item 
+void \hyperlink{classpanda_1_1HLTBits_a9ed1eb7a9deebf34f8d9458dbf021407}{doBook\_\-} (TTree \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}) override
+\item 
+void \hyperlink{classpanda_1_1HLTBits_aa18c8ff3c69a7ab522df688d5680dcdd}{doReleaseTree\_\-} (TTree \&) override
+\item 
+void \hyperlink{classpanda_1_1HLTBits_a6851af7cebb5cb7a09aa7a76d42e5848}{doInit\_\-} () override
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classpanda_1_1HLTBits_a0b3fb69a61a8c9ec407a7c066d40f5dc}{
+\index{panda::HLTBits@{panda::HLTBits}!base\_\-type@{base\_\-type}}
+\index{base\_\-type@{base\_\-type}!panda::HLTBits@{panda::HLTBits}}
+\subsubsection[{base\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Singlet} {\bf panda::HLTBits::base\_\-type}}}
+\label{classpanda_1_1HLTBits_a0b3fb69a61a8c9ec407a7c066d40f5dc}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classpanda_1_1HLTBits_a9bb54b0cde697b4eec5cdd529426d0aa}{
+\index{panda::HLTBits@{panda::HLTBits}!HLTBits@{HLTBits}}
+\index{HLTBits@{HLTBits}!panda::HLTBits@{panda::HLTBits}}
+\subsubsection[{HLTBits}]{\setlength{\rightskip}{0pt plus 5cm}panda::HLTBits::HLTBits (char const $\ast$ {\em name} = {\ttfamily \char`\"{}\char`\"{}})}}
+\label{classpanda_1_1HLTBits_a9bb54b0cde697b4eec5cdd529426d0aa}
+\hypertarget{classpanda_1_1HLTBits_a2e76e64099e3edcfb52f78b3be8dd85f}{
+\index{panda::HLTBits@{panda::HLTBits}!HLTBits@{HLTBits}}
+\index{HLTBits@{HLTBits}!panda::HLTBits@{panda::HLTBits}}
+\subsubsection[{HLTBits}]{\setlength{\rightskip}{0pt plus 5cm}panda::HLTBits::HLTBits ({\bf HLTBits} const \& {\em \_\-src})}}
+\label{classpanda_1_1HLTBits_a2e76e64099e3edcfb52f78b3be8dd85f}
+\hypertarget{classpanda_1_1HLTBits_a13c03f7e4df98e675cfad89c5647f949}{
+\index{panda::HLTBits@{panda::HLTBits}!$\sim$HLTBits@{$\sim$HLTBits}}
+\index{$\sim$HLTBits@{$\sim$HLTBits}!panda::HLTBits@{panda::HLTBits}}
+\subsubsection[{$\sim$HLTBits}]{\setlength{\rightskip}{0pt plus 5cm}panda::HLTBits::$\sim$HLTBits ()}}
+\label{classpanda_1_1HLTBits_a13c03f7e4df98e675cfad89c5647f949}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classpanda_1_1HLTBits_a9ed1eb7a9deebf34f8d9458dbf021407}{
+\index{panda::HLTBits@{panda::HLTBits}!doBook\_\-@{doBook\_\-}}
+\index{doBook\_\-@{doBook\_\-}!panda::HLTBits@{panda::HLTBits}}
+\subsubsection[{doBook\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::HLTBits::doBook\_\- (TTree \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected\mbox{]}}}}
+\label{classpanda_1_1HLTBits_a9ed1eb7a9deebf34f8d9458dbf021407}
+\hypertarget{classpanda_1_1HLTBits_a25f37a9baf25b848fb303f8d08daa027}{
+\index{panda::HLTBits@{panda::HLTBits}!doGetStatus\_\-@{doGetStatus\_\-}}
+\index{doGetStatus\_\-@{doGetStatus\_\-}!panda::HLTBits@{panda::HLTBits}}
+\subsubsection[{doGetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::utils::BranchList} panda::HLTBits::doGetStatus\_\- (TTree \& {\em \_\-tree}) const\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1HLTBits_a25f37a9baf25b848fb303f8d08daa027}
+
+
+Implements \hyperlink{classpanda_1_1Singlet_ad2749c2f28a2970eda99db906a116881}{panda::Singlet}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1HLTBits_a6851af7cebb5cb7a09aa7a76d42e5848}{
+\index{panda::HLTBits@{panda::HLTBits}!doInit\_\-@{doInit\_\-}}
+\index{doInit\_\-@{doInit\_\-}!panda::HLTBits@{panda::HLTBits}}
+\subsubsection[{doInit\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::HLTBits::doInit\_\- ()\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1HLTBits_a6851af7cebb5cb7a09aa7a76d42e5848}
+
+
+Implements \hyperlink{classpanda_1_1Singlet_af5afe7bf7b223c51d1763953ac24d261}{panda::Singlet}.\hypertarget{classpanda_1_1HLTBits_aa18c8ff3c69a7ab522df688d5680dcdd}{
+\index{panda::HLTBits@{panda::HLTBits}!doReleaseTree\_\-@{doReleaseTree\_\-}}
+\index{doReleaseTree\_\-@{doReleaseTree\_\-}!panda::HLTBits@{panda::HLTBits}}
+\subsubsection[{doReleaseTree\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::HLTBits::doReleaseTree\_\- (TTree \& {\em \_\-tree})\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1HLTBits_aa18c8ff3c69a7ab522df688d5680dcdd}
+
+
+Implements \hyperlink{classpanda_1_1Singlet_ad5acaa19bf3a8c360cf2e36604ab4530}{panda::Singlet}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1HLTBits_a97318f3a21281121aa78a84c3c9027af}{
+\index{panda::HLTBits@{panda::HLTBits}!doSetAddress\_\-@{doSetAddress\_\-}}
+\index{doSetAddress\_\-@{doSetAddress\_\-}!panda::HLTBits@{panda::HLTBits}}
+\subsubsection[{doSetAddress\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::HLTBits::doSetAddress\_\- (TTree \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected\mbox{]}}}}
+\label{classpanda_1_1HLTBits_a97318f3a21281121aa78a84c3c9027af}
+\hypertarget{classpanda_1_1HLTBits_ae031e46f650668194269fec06b95ef72}{
+\index{panda::HLTBits@{panda::HLTBits}!doSetStatus\_\-@{doSetStatus\_\-}}
+\index{doSetStatus\_\-@{doSetStatus\_\-}!panda::HLTBits@{panda::HLTBits}}
+\subsubsection[{doSetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::HLTBits::doSetStatus\_\- (TTree \& {\em \_\-tree}, \/  {\bf utils::BranchList} const \& {\em \_\-branches})\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1HLTBits_ae031e46f650668194269fec06b95ef72}
+
+
+Implements \hyperlink{classpanda_1_1Singlet_a660799e379f7949f3b8e2d74f6e1ddb2}{panda::Singlet}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1HLTBits_ac58854e1b3ad1889afb461326f9f6d1c}{
+\index{panda::HLTBits@{panda::HLTBits}!operator=@{operator=}}
+\index{operator=@{operator=}!panda::HLTBits@{panda::HLTBits}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::HLTBits} \& panda::HLTBits::operator= ({\bf HLTBits} const \& {\em \_\-src})}}
+\label{classpanda_1_1HLTBits_ac58854e1b3ad1889afb461326f9f6d1c}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Singlet_a161b3df14c430fd7f1afdd64d098b211}{panda::Singlet}.\hypertarget{classpanda_1_1HLTBits_a308783549d0044824efc73b14cd5910f}{
+\index{panda::HLTBits@{panda::HLTBits}!pass@{pass}}
+\index{pass@{pass}!panda::HLTBits@{panda::HLTBits}}
+\subsubsection[{pass}]{\setlength{\rightskip}{0pt plus 5cm}bool panda::HLTBits::pass (unsigned {\em iB}) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1HLTBits_a308783549d0044824efc73b14cd5910f}
+
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1HLTBits_a72a95b5d1c4edc2bc5500b473506f80e}{
+\index{panda::HLTBits@{panda::HLTBits}!set@{set}}
+\index{set@{set}!panda::HLTBits@{panda::HLTBits}}
+\subsubsection[{set}]{\setlength{\rightskip}{0pt plus 5cm}void panda::HLTBits::set (unsigned {\em iB})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1HLTBits_a72a95b5d1c4edc2bc5500b473506f80e}
+\hypertarget{classpanda_1_1HLTBits_a3f467c754dbbe34c1d9a063b6b29a925}{
+\index{panda::HLTBits@{panda::HLTBits}!size@{size}}
+\index{size@{size}!panda::HLTBits@{panda::HLTBits}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}unsigned panda::HLTBits::size () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1HLTBits_a3f467c754dbbe34c1d9a063b6b29a925}
+
+
+Here is the caller graph for this function:
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Objects/interface/\hyperlink{HLTBits_8h}{HLTBits.h}\item 
+Objects/src/\hyperlink{HLTBits_8cc}{HLTBits.cc}\end{DoxyCompactItemize}

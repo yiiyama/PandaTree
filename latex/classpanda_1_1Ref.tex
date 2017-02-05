@@ -1,0 +1,171 @@
+\hypertarget{classpanda_1_1Ref}{
+\section{panda::Ref$<$ E $>$ Class Template Reference}
+\label{classpanda_1_1Ref}\index{panda::Ref@{panda::Ref}}
+}
+
+
+A \hyperlink{namespacepanda_1_1reference}{reference} to an element in a container.  
+
+
+{\ttfamily \#include $<$Ref.h$>$}Inheritance diagram for panda::Ref$<$ E $>$:\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classpanda_1_1Ref}{Ref}$<$ E $>$ \hyperlink{classpanda_1_1Ref_a4c030eb694aecfb39db76a6e5d536065}{self\_\-type}
+\item 
+typedef E \hyperlink{classpanda_1_1Ref_a52b7615b884eb959c20ef4fd8f23ded0}{value\_\-type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1Ref_aa9280ff78ab44076b90831fa6d5ee05a}{Ref} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Ref_ac19a2c6f6de8291120811a2438e1f05b}{Ref} (\hyperlink{classpanda_1_1ContainerBase}{ContainerBase} const $\ast$\&c, Int\_\-t \&idx)
+\begin{DoxyCompactList}\small\item\em Standard constructor. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Ref_ac7c585423cd52662fbd774186661024e}{Ref} (\hyperlink{classpanda_1_1Ref}{self\_\-type} const \&orig)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \item\end{DoxyCompactList}\item 
+void \hyperlink{classpanda_1_1Ref_ad310725ff2b08e1f83e40fa21599894a}{setIndex} (Int\_\-t \&idx)
+\begin{DoxyCompactList}\small\item\em Set the index. \item\end{DoxyCompactList}\item 
+void \hyperlink{classpanda_1_1Ref_a8e17556e348a48fe243aee93f714ba80}{setContainer} (\hyperlink{classpanda_1_1ContainerBase}{ContainerBase} const $\ast$\&c)
+\begin{DoxyCompactList}\small\item\em Set the container. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Ref_a52b7615b884eb959c20ef4fd8f23ded0}{value\_\-type} const $\ast$ \hyperlink{classpanda_1_1Ref_a5545faf85a2d31f3edf3fd2205ba1e40}{operator-\/$>$} () const 
+\begin{DoxyCompactList}\small\item\em The arrow operator. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Ref_a52b7615b884eb959c20ef4fd8f23ded0}{value\_\-type} const \& \hyperlink{classpanda_1_1Ref_a2250860a67770a88aae27c82f3be2a11}{operator$\ast$} () const 
+\begin{DoxyCompactList}\small\item\em The dereference operator. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Ref}{self\_\-type} \& \hyperlink{classpanda_1_1Ref_a76aa1d8abb4d45935c3b3b75bb50d161}{operator=} (\hyperlink{classpanda_1_1Ref_a52b7615b884eb959c20ef4fd8f23ded0}{value\_\-type} const $\ast$)
+\begin{DoxyCompactList}\small\item\em Setter \hyperlink{namespacepanda_1_1function}{function}. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Ref}{self\_\-type} \& \hyperlink{classpanda_1_1Ref_a5d4fbf20bb02e812ab035499aef85240}{operator=} (\hyperlink{classpanda_1_1Ref}{self\_\-type} const \&)
+\begin{DoxyCompactList}\small\item\em Copy assignment. \item\end{DoxyCompactList}\item 
+bool \hyperlink{classpanda_1_1Ref_a9260daa9c89d0775f2a1058a48e23bcb}{isValid} () const 
+\begin{DoxyCompactList}\small\item\em Validity check. Both container and idx must be valid, and idx must not be 0xffffffff. \item\end{DoxyCompactList}\item 
+void \hyperlink{classpanda_1_1Ref_af378c309fd6b7945a4e18eea5e041a89}{init} ()
+\begin{DoxyCompactList}\small\item\em Initializer. \item\end{DoxyCompactList}\item 
+Int\_\-t \& \hyperlink{classpanda_1_1Ref_adc0eaedf3db52609635a3e09a395375a}{idx} ()
+\begin{DoxyCompactList}\small\item\em Accessor to idx. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1ContainerBase}{ContainerBase} const $\ast$ \hyperlink{classpanda_1_1Ref_a1249f0bb38474905f0da01ead67b2c5f}{container} () const 
+\begin{DoxyCompactList}\small\item\em Accessor to container. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class E$>$ class panda::Ref$<$ E $>$}
+
+A \hyperlink{namespacepanda_1_1reference}{reference} to an element in a container. A \hyperlink{classpanda_1_1Ref}{Ref} consists of a pointer \hyperlink{namespacepanda_1_1reference}{reference} to a collection and an integer that acts as the index to the element referred to. The references are supplied by the holder of the \hyperlink{classpanda_1_1Ref}{Ref} during construction. At read time, the holder of the \hyperlink{classpanda_1_1Ref}{Ref} is responsible for instructing the \hyperlink{classpanda_1_1Ref}{Ref} to point to a specific index in the given collection. At write time, the \hyperlink{classpanda_1_1Ref}{Ref} can be passed a pointer to the element to point to, using the operator=. The \hyperlink{classpanda_1_1Ref}{Ref} object will find the proper index internally. The class has pointer-\/like operators (-\/$>$ and $\ast$) to make the implementation details transparent to users. 
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classpanda_1_1Ref_a4c030eb694aecfb39db76a6e5d536065}{
+\index{panda::Ref@{panda::Ref}!self\_\-type@{self\_\-type}}
+\index{self\_\-type@{self\_\-type}!panda::Ref@{panda::Ref}}
+\subsubsection[{self\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef {\bf Ref}$<$E$>$ {\bf panda::Ref}$<$ E $>$::{\bf self\_\-type}}}
+\label{classpanda_1_1Ref_a4c030eb694aecfb39db76a6e5d536065}
+\hypertarget{classpanda_1_1Ref_a52b7615b884eb959c20ef4fd8f23ded0}{
+\index{panda::Ref@{panda::Ref}!value\_\-type@{value\_\-type}}
+\index{value\_\-type@{value\_\-type}!panda::Ref@{panda::Ref}}
+\subsubsection[{value\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef E {\bf panda::Ref}$<$ E $>$::{\bf value\_\-type}}}
+\label{classpanda_1_1Ref_a52b7615b884eb959c20ef4fd8f23ded0}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classpanda_1_1Ref_aa9280ff78ab44076b90831fa6d5ee05a}{
+\index{panda::Ref@{panda::Ref}!Ref@{Ref}}
+\index{Ref@{Ref}!panda::Ref@{panda::Ref}}
+\subsubsection[{Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf panda::Ref}$<$ E $>$::{\bf Ref} ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Ref_aa9280ff78ab44076b90831fa6d5ee05a}
+
+
+Default constructor. \hypertarget{classpanda_1_1Ref_ac19a2c6f6de8291120811a2438e1f05b}{
+\index{panda::Ref@{panda::Ref}!Ref@{Ref}}
+\index{Ref@{Ref}!panda::Ref@{panda::Ref}}
+\subsubsection[{Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf panda::Ref}$<$ E $>$::{\bf Ref} ({\bf ContainerBase} const $\ast$\& {\em c}, \/  Int\_\-t \& {\em idx})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Ref_ac19a2c6f6de8291120811a2438e1f05b}
+
+
+Standard constructor. The container must be a derived class of Array$<$E$>$ or Collection$<$E$>$. There is no protection against assigning a wrong type of container. \hypertarget{classpanda_1_1Ref_ac7c585423cd52662fbd774186661024e}{
+\index{panda::Ref@{panda::Ref}!Ref@{Ref}}
+\index{Ref@{Ref}!panda::Ref@{panda::Ref}}
+\subsubsection[{Ref}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf panda::Ref}$<$ E $>$::{\bf Ref} ({\bf self\_\-type} const \& {\em orig})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Ref_ac7c585423cd52662fbd774186661024e}
+
+
+Copy constructor. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classpanda_1_1Ref_a1249f0bb38474905f0da01ead67b2c5f}{
+\index{panda::Ref@{panda::Ref}!container@{container}}
+\index{container@{container}!panda::Ref@{panda::Ref}}
+\subsubsection[{container}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ {\bf ContainerBase} const $\ast$ {\bf panda::Ref}$<$ E $>$::container () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Ref_a1249f0bb38474905f0da01ead67b2c5f}
+
+
+Accessor to container. Throws a runtime\_\-error if container is not valid. 
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Ref_adc0eaedf3db52609635a3e09a395375a}{
+\index{panda::Ref@{panda::Ref}!idx@{idx}}
+\index{idx@{idx}!panda::Ref@{panda::Ref}}
+\subsubsection[{idx}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ Int\_\-t \& {\bf panda::Ref}$<$ E $>$::idx ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Ref_adc0eaedf3db52609635a3e09a395375a}
+
+
+Accessor to idx. Throws a runtime\_\-error if idx is not valid. 
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Ref_af378c309fd6b7945a4e18eea5e041a89}{
+\index{panda::Ref@{panda::Ref}!init@{init}}
+\index{init@{init}!panda::Ref@{panda::Ref}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ void {\bf panda::Ref}$<$ E $>$::init ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Ref_af378c309fd6b7945a4e18eea5e041a89}
+
+
+Initializer. Invalidates the index by setting it to 0xffffffff. 
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Ref_a9260daa9c89d0775f2a1058a48e23bcb}{
+\index{panda::Ref@{panda::Ref}!isValid@{isValid}}
+\index{isValid@{isValid}!panda::Ref@{panda::Ref}}
+\subsubsection[{isValid}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ bool {\bf panda::Ref}$<$ E $>$::isValid () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Ref_a9260daa9c89d0775f2a1058a48e23bcb}
+
+
+Validity check. Both container and idx must be valid, and idx must not be 0xffffffff. \hypertarget{classpanda_1_1Ref_a2250860a67770a88aae27c82f3be2a11}{
+\index{panda::Ref@{panda::Ref}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!panda::Ref@{panda::Ref}}
+\subsubsection[{operator$\ast$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ E const \& {\bf panda::Ref}$<$ E $>$::operator$\ast$ () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Ref_a2250860a67770a88aae27c82f3be2a11}
+
+
+The dereference operator. Throws an invalid\_\-argument exception if the \hyperlink{namespacepanda_1_1reference}{reference} is invalid. \hypertarget{classpanda_1_1Ref_a5545faf85a2d31f3edf3fd2205ba1e40}{
+\index{panda::Ref@{panda::Ref}!operator-\/$>$@{operator-\/$>$}}
+\index{operator-\/$>$@{operator-\/$>$}!panda::Ref@{panda::Ref}}
+\subsubsection[{operator-\/$>$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ E const $\ast$ {\bf panda::Ref}$<$ E $>$::operator-\/$>$ () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Ref_a5545faf85a2d31f3edf3fd2205ba1e40}
+
+
+The arrow operator. Returns a null pointer if the container is not set or the index points to an invalid location. \hypertarget{classpanda_1_1Ref_a5d4fbf20bb02e812ab035499aef85240}{
+\index{panda::Ref@{panda::Ref}!operator=@{operator=}}
+\index{operator=@{operator=}!panda::Ref@{panda::Ref}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ {\bf Ref}$<$ E $>$ \& {\bf panda::Ref}$<$ E $>$::operator= ({\bf self\_\-type} const \& {\em \_\-rhs})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Ref_a5d4fbf20bb02e812ab035499aef85240}
+
+
+Copy assignment. idx is copied by value. Change in the right-\/hand-\/side index value after the assignment is not reflected to the left-\/hand-\/side index. \hypertarget{classpanda_1_1Ref_a76aa1d8abb4d45935c3b3b75bb50d161}{
+\index{panda::Ref@{panda::Ref}!operator=@{operator=}}
+\index{operator=@{operator=}!panda::Ref@{panda::Ref}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ {\bf Ref}$<$ E $>$ \& {\bf panda::Ref}$<$ E $>$::operator= ({\bf value\_\-type} const $\ast$ {\em \_\-rhs})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Ref_a76aa1d8abb4d45935c3b3b75bb50d161}
+
+
+Setter \hyperlink{namespacepanda_1_1function}{function}. Pass a pointer to a value\_\-type object on the right hand side after the container is set. If the object is found in the collector, sets the index value. \hypertarget{classpanda_1_1Ref_a8e17556e348a48fe243aee93f714ba80}{
+\index{panda::Ref@{panda::Ref}!setContainer@{setContainer}}
+\index{setContainer@{setContainer}!panda::Ref@{panda::Ref}}
+\subsubsection[{setContainer}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ void {\bf panda::Ref}$<$ E $>$::setContainer ({\bf ContainerBase} const $\ast$\& {\em c})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Ref_a8e17556e348a48fe243aee93f714ba80}
+
+
+Set the container. The container must be a derived class of Array$<$E$>$ or Collection$<$E$>$. There is no protection against assigning a wrong type of container. \hypertarget{classpanda_1_1Ref_ad310725ff2b08e1f83e40fa21599894a}{
+\index{panda::Ref@{panda::Ref}!setIndex@{setIndex}}
+\index{setIndex@{setIndex}!panda::Ref@{panda::Ref}}
+\subsubsection[{setIndex}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ void {\bf panda::Ref}$<$ E $>$::setIndex (Int\_\-t \& {\em idx})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Ref_ad310725ff2b08e1f83e40fa21599894a}
+
+
+Set the index. 
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+Framework/interface/\hyperlink{Ref_8h}{Ref.h}\end{DoxyCompactItemize}

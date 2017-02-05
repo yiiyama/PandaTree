@@ -1,0 +1,16 @@
+digraph "panda::MetFilters::book"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="panda::MetFilters::book",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="panda::Object::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Object.html#a2fcd6665633deef16e86aa4e49135dd7",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="panda::utils::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepanda_1_1utils.html#aaa6c7cd5892388e6ffdf713b11abf793",tooltip="Book the branch. "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="panda::utils::BranchName::in",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1utils_1_1BranchName.html#a6cc8a6df7c5b12a0221fd49773cca6a7",tooltip="Is the name included and not vetoed? "];
+  Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="panda::utils::BranchName\l::fullName",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412",tooltip="Prepend the branch name with &lt;objName.&gt;. "];
+}

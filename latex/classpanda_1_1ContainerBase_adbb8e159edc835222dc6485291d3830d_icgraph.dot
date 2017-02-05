@@ -1,0 +1,47 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir=LR;
+  Node1 [label="panda::ContainerBase::getData",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="panda::CollectionBase::clear",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1CollectionBase.html#a5820623424a01aa34f3988ead2612576",tooltip="Clear the container (set size = 0)."];
+  Node2 -> Node3 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="panda::CollectionBase::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1CollectionBase.html#acf4c92c41e6efccc8833981c8e8725c1",tooltip="Reset the object state."];
+  Node1 -> Node4 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="panda::CollectionBase::doBook_",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1CollectionBase.html#a55e90bbac83f59d93a938dbe57c871c0"];
+  Node1 -> Node5 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="panda::ArrayBase::doBook_",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1ArrayBase.html#aecb9d88c88e0102d7c8d631a036cb338"];
+  Node1 -> Node6 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="panda::CollectionBase::doGetStatus_",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1CollectionBase.html#a885ed7e0cd0d0f37f913db20597fcd3c"];
+  Node1 -> Node7 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="panda::ArrayBase::doGetStatus_",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1ArrayBase.html#a945c9cf4d4a979891c11cdfca5e7241f"];
+  Node1 -> Node8 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="panda::CollectionBase::doReleaseTree_",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1CollectionBase.html#ac9d4543501718f3fa96366e43fde46bc"];
+  Node1 -> Node9 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="panda::ArrayBase::doReleaseTree_",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1ArrayBase.html#a4fecec0749650b43c4eb3110e60fa193"];
+  Node1 -> Node10 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node10 [label="panda::ArrayBase::doSetAddress_",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1ArrayBase.html#a1ddaf0aff0dd758a0c4d99d0422db5b0"];
+  Node1 -> Node11 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node11 [label="panda::CollectionBase::doSetStatus_",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1CollectionBase.html#ac615b3ca8e0c3acdab38196bcad23027"];
+  Node1 -> Node12 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node12 [label="panda::ArrayBase::doSetStatus_",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1ArrayBase.html#a7c39d39cffed07ba2cffdf8828729cf7"];
+  Node1 -> Node13 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node13 [label="panda::ArrayBase::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1ArrayBase.html#a4df67e49765f19d5cd8596108eca11ed",tooltip="Reset the object state."];
+  Node1 -> Node14 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node14 [label="panda::CollectionBase::resize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1CollectionBase.html#a3ec014ac2da87bb755afbea0822621cc",tooltip="Resize the container."];
+  Node14 -> Node15 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node15 [label="panda::Collection::copy",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Collection.html#ad194c8ae8355ce5ba6c04518a223cde1",tooltip="Copy the array contents."];
+  Node15 -> Node16 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node16 [label="panda::Collection::Collection",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Collection.html#a065b038d41d0437ddacdab9f22f6d397"];
+  Node15 -> Node17 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node17 [label="panda::Collection::operator=",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Collection.html#af2065fa6ed20c1fe1dd54b33f83e7778"];
+  Node14 -> Node18 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node18 [label="panda::Collection::create_back",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Collection.html#a76d29ff9b6366c3a39f2aa06ac6b0604",tooltip="Create an element at the end of the collection and return a reference."];
+  Node14 -> Node19 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node19 [label="panda::CollectionBase::prepareGetEntry",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1CollectionBase.html#a217c39578bc5e0e7e2b6ebf44bf93cdd",tooltip="Run a look-ahead of the entry to determine the collection resize."];
+  Node19 -> Node20 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node20 [label="panda::CollectionBase::getEntry",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1CollectionBase.html#a777e26ce2cc4f86e7cc4eb345b0a78d7",tooltip="Read an entry from an input tree."];
+  Node1 -> Node21 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node21 [label="panda::ArrayBase::size",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1ArrayBase.html#aecde2cb03cafd4f1ba8ef2cff0abfb4d"];
+}

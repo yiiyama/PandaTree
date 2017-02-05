@@ -1,0 +1,29 @@
+digraph "panda::Electron::book"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="panda::Electron::book",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="panda::Lepton::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Lepton.html#a4be584d13f41f6c922d6fe58056ec25d",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="panda::Particle::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Particle.html#aaf351374f253978216b4a893a1766a64",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="panda::Object::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Object.html#a2fcd6665633deef16e86aa4e49135dd7",tooltip="Book new branches to the tree corresponding to the variables of this object. "];
+  Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="panda::utils::StoreManager\l::getName",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1utils_1_1StoreManager.html#a6f30ec459d951e84a1196b7e2ffdcf49"];
+  Node3 -> Node6 [color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="panda::utils::book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepanda_1_1utils.html#aaa6c7cd5892388e6ffdf713b11abf793",tooltip="Book the branch. "];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="panda::utils::BranchName::in",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1utils_1_1BranchName.html#a6cc8a6df7c5b12a0221fd49773cca6a7",tooltip="Is the name included and not vetoed? "];
+  Node6 -> Node8 [color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="panda::utils::BranchName\l::fullName",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412",tooltip="Prepend the branch name with &lt;objName.&gt;. "];
+  Node2 -> Node5 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 -> Node6 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 -> Node9 [color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="panda::utils::StoreManager\l::getData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1utils_1_1StoreManager.html#ae6c8fb6b0c3d25147b09ef8b92b61da8"];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid"];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid"];
+}

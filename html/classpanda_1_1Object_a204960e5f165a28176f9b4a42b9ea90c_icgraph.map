@@ -1,0 +1,27 @@
+<map id="panda::Object::init" name="panda::Object::init">
+<area shape="rect" id="node2" href="$classpanda_1_1ArrayBase.html#afd97e008dcd9f49e77a9d77bd7115890" title="Reset object state. " alt="" coords="183,5,336,33"/>
+<area shape="rect" id="node3" href="$classpanda_1_1CollectionBase.html#a3ec014ac2da87bb755afbea0822621cc" title="Resize the container. " alt="" coords="182,57,337,101"/>
+<area shape="rect" id="node6" href="$classpanda_1_1GenReweight.html#a01ce537b498806530435f95dab9d5979" title="Reset object state. " alt="" coords="186,125,333,169"/>
+<area shape="rect" id="node7" href="$classpanda_1_1HLTBits.html#a4a0a00855fd67ce90223b382eb939206" title="Reset object state. " alt="" coords="191,193,328,221"/>
+<area shape="rect" id="node8" href="$classpanda_1_1Met.html#a57e9fa5eb78a244a2e9a320f97223620" title="Reset object state. " alt="" coords="203,245,316,273"/>
+<area shape="rect" id="node10" href="$classpanda_1_1MetFilters.html#a497595857e9014dd929edb22c44ef1f5" title="Reset object state. " alt="" coords="185,297,334,325"/>
+<area shape="rect" id="node11" href="$classpanda_1_1Particle.html#a56ba0060e9e37322f98e2f30c3583dd3" title="Reset object state. " alt="" coords="192,349,327,377"/>
+<area shape="rect" id="node25" href="$classpanda_1_1Recoil.html#a60ef07168ec3e66b38302a9c1a7e9799" title="Reset object state. " alt="" coords="196,401,323,429"/>
+<area shape="rect" id="node26" href="$classpanda_1_1SuperCluster.html#a5330ab046d7182950d704693d3eaecef" title="Reset object state. " alt="" coords="188,453,331,497"/>
+<area shape="rect" id="node4" href="$classpanda_1_1Container.html#a05e9a487429721164541511d87a9783d" title="panda::Container::copy" alt="" coords="407,40,566,68"/>
+<area shape="rect" id="node5" href="$classpanda_1_1Container.html#a9603d59e46e21b048714a9760964b536" title="panda::Container::create_back" alt="" coords="385,92,588,120"/>
+<area shape="rect" id="node9" href="$classpanda_1_1RecoMet.html#ac2ef2e81cc701c8a195cc487121752dc" title="Reset object state. " alt="" coords="415,195,558,223"/>
+<area shape="rect" id="node12" href="$classpanda_1_1Lepton.html#a69c57be8a4bc498e6d10bf89f54a112b" title="Reset object state. " alt="" coords="421,247,552,275"/>
+<area shape="rect" id="node15" href="$classpanda_1_1ParticleM.html#a92df7a2653432fa4d304039e1e62c41b" title="Reset object state. " alt="" coords="414,384,560,412"/>
+<area shape="rect" id="node24" href="$classpanda_1_1Photon.html#a576d8827e8f6123f41a6f4aef5b98169" title="Reset object state. " alt="" coords="420,436,553,464"/>
+<area shape="rect" id="node13" href="$classpanda_1_1Electron.html#afcfeb0cdca439167cffa096de7eb89e2" title="Reset object state. " alt="" coords="637,177,776,205"/>
+<area shape="rect" id="node14" href="$classpanda_1_1Muon.html#a90bcf16472c051587bdbfcacfe7fb052" title="Reset object state. " alt="" coords="645,229,769,257"/>
+<area shape="rect" id="node16" href="$classpanda_1_1GenJet.html#aaea438a6a3461a997857f4d5e708f466" title="Reset object state. " alt="" coords="640,281,773,309"/>
+<area shape="rect" id="node17" href="$classpanda_1_1GenParticle.html#a133c2d435925b0466b2affcd8b03b5fc" title="Reset object state. " alt="" coords="639,333,774,377"/>
+<area shape="rect" id="node18" href="$classpanda_1_1MicroJet.html#acb01bef0c15e0175151fdd479cb1b5ba" title="Reset object state. " alt="" coords="636,401,777,429"/>
+<area shape="rect" id="node21" href="$classpanda_1_1Parton.html#a94dd23d135a2336f5e2d4afa7ab45e6c" title="Reset object state. " alt="" coords="642,453,772,481"/>
+<area shape="rect" id="node22" href="$classpanda_1_1PFCand.html#afd85b75ecaab10011291811260d1f84f" title="Reset object state. " alt="" coords="637,505,776,533"/>
+<area shape="rect" id="node23" href="$classpanda_1_1Tau.html#a2295834641659e77e1a61165f7f18587" title="Reset object state. " alt="" coords="650,557,763,585"/>
+<area shape="rect" id="node19" href="$classpanda_1_1Jet.html#a812a5a0a5a122791b2328c71e23a9d8b" title="Reset object state. " alt="" coords="825,401,933,429"/>
+<area shape="rect" id="node20" href="$classpanda_1_1FatJet.html#aa1a87839e3131c1629bbcf2e1a3b4cbc" title="Reset object state. " alt="" coords="981,401,1108,429"/>
+</map>

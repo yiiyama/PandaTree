@@ -1,0 +1,10 @@
+<map id="panda::ParticleM::setAddress" name="panda::ParticleM::setAddress">
+<area shape="rect" id="node2" href="$classpanda_1_1GenJet.html#a509b0782225dddb65a02d2469e031146" title="Set address for the branches to the variables of this object. " alt="" coords="252,5,435,33"/>
+<area shape="rect" id="node3" href="$classpanda_1_1GenParticle.html#a049670d248a94df47fb4de6e73956b4f" title="Set address for the branches to the variables of this object. " alt="" coords="276,57,412,101"/>
+<area shape="rect" id="node4" href="$classpanda_1_1MicroJet.html#ace34e537033194800fb766bd9cb18025" title="Set address for the branches to the variables of this object. " alt="" coords="249,125,439,153"/>
+<area shape="rect" id="node7" href="$classpanda_1_1Parton.html#a94d47d8282b93fe05c2c339f5b2052f7" title="Set address for the branches to the variables of this object. " alt="" coords="254,177,433,205"/>
+<area shape="rect" id="node8" href="$classpanda_1_1PFCand.html#a4646580d00cd946b4f077afd3ee8b3b5" title="Set address for the branches to the variables of this object. " alt="" coords="250,229,438,257"/>
+<area shape="rect" id="node9" href="$classpanda_1_1Tau.html#a67c457d171771dadcc84c33cfbda7e2c" title="Set address for the branches to the variables of this object. " alt="" coords="262,281,425,309"/>
+<area shape="rect" id="node5" href="$classpanda_1_1Jet.html#a96b6f57c39cf4e35af339a58f828a78e" title="Set address for the branches to the variables of this object. " alt="" coords="487,125,645,153"/>
+<area shape="rect" id="node6" href="$classpanda_1_1FatJet.html#a63392b9abcf86c432b0d7b34c7887cbf" title="Set address for the branches to the variables of this object. " alt="" coords="693,125,870,153"/>
+</map>

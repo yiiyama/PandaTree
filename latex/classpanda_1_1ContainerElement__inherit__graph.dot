@@ -1,0 +1,40 @@
+digraph "panda::ContainerElement"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="panda::ContainerElement",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="panda::Object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Object.html"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="panda::Particle",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Particle.html"];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="panda::Lepton",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Lepton.html"];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="panda::Electron",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Electron.html"];
+  Node4 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="panda::Muon",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Muon.html"];
+  Node3 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="panda::ParticleM",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1ParticleM.html"];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="panda::GenJet",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1GenJet.html"];
+  Node7 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="panda::GenParticle",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1GenParticle.html"];
+  Node7 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node10 [label="panda::MicroJet",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1MicroJet.html"];
+  Node10 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node11 [label="panda::Jet",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Jet.html"];
+  Node11 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node12 [label="panda::FatJet",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1FatJet.html"];
+  Node7 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node13 [label="panda::Parton",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Parton.html"];
+  Node7 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node14 [label="panda::PFCand",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1PFCand.html"];
+  Node7 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node15 [label="panda::Tau",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Tau.html"];
+  Node3 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node16 [label="panda::Photon",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Photon.html"];
+  Node1 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node17 [label="panda::SuperCluster",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1SuperCluster.html"];
+}

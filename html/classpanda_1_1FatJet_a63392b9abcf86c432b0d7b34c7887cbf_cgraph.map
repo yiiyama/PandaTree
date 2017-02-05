@@ -1,0 +1,15 @@
+<map id="panda::FatJet::setAddress" name="panda::FatJet::setAddress">
+<area shape="rect" id="node2" href="$classpanda_1_1Jet.html#a96b6f57c39cf4e35af339a58f828a78e" title="Set address for the branches to the variables of this object. " alt="" coords="230,232,388,260"/>
+<area shape="rect" id="node7" href="$classpanda_1_1utils_1_1StoreManager.html#a6f30ec459d951e84a1196b7e2ffdcf49" title="panda::utils::StoreManager\l::getName" alt="" coords="1150,296,1331,340"/>
+<area shape="rect" id="node8" href="$namespacepanda_1_1utils.html#abf9c62e588560197c2bae9932e6a6e05" title="Set address. " alt="" coords="1159,99,1323,127"/>
+<area shape="rect" id="node3" href="$classpanda_1_1MicroJet.html#ace34e537033194800fb766bd9cb18025" title="Set address for the branches to the variables of this object. " alt="" coords="436,201,626,229"/>
+<area shape="rect" id="node14" href="$classpanda_1_1utils_1_1StoreManager.html#ae6c8fb6b0c3d25147b09ef8b92b61da8" title="panda::utils::StoreManager\l::getData" alt="" coords="440,253,622,297"/>
+<area shape="rect" id="node4" href="$classpanda_1_1ParticleM.html#ad8aeae1e2ca26f4cdb7d079ab56a10fe" title="Set address for the branches to the variables of this object. " alt="" coords="674,201,870,229"/>
+<area shape="rect" id="node5" href="$classpanda_1_1Particle.html#a96282cfb24384c1f00c40576069a4c7e" title="Set address for the branches to the variables of this object. " alt="" coords="918,201,1102,229"/>
+<area shape="rect" id="node6" href="$classpanda_1_1Object.html#aed9f9d3b6abe518dd27957de843b36b5" title="Set address for the branches to the variables of this object. " alt="" coords="1151,201,1330,229"/>
+<area shape="rect" id="node9" href="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412" title="Prepend the branch name with &lt;objName.&gt;. " alt="" coords="1589,5,1763,49"/>
+<area shape="rect" id="node10" href="$namespacepanda_1_1utils.html#a01665f786d6a2acedb8f008f3fc9fc84" title="Set status of a branch. " alt="" coords="1379,125,1532,153"/>
+<area shape="rect" id="node11" href="$classpanda_1_1utils_1_1BranchName.html#a6cc8a6df7c5b12a0221fd49773cca6a7" title="Is the name included and not vetoed? " alt="" coords="1580,73,1772,101"/>
+<area shape="rect" id="node13" href="$namespacepanda_1_1utils.html#aafa411773a4b0ee829d99e6e5a0abdcd" title="Check status of a branch. " alt="" coords="1591,193,1761,221"/>
+<area shape="rect" id="node12" href="$classpanda_1_1utils_1_1BranchName.html#ae3332329bf2afae5ed8e7c35e5d77ffa" title="Is the name included and vetoed? " alt="" coords="1589,125,1763,169"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classpanda_1_1TreeEntry.html#a8d65c0ee41e1ef5c7f7a41c454dad052" title="Set status of branches to true (matching branch) or false (vetoed branch)." alt="" coords="240,32,427,61"/>
+<area shape="rect" id="node5" href="$classpanda_1_1TreeEntry.html#a8c17222accba71d53b73ad6e2c3276a2" title="panda::TreeEntry::doSetStatus_" alt="" coords="476,5,684,35"/>
+<area shape="rect" id="node7" href="$classpanda_1_1utils_1_1BranchList.html#a215520401f32786d157a68ee92d90372" title="Return a new list of branches that starts with the objName, removing &lt;objName..." alt="" coords="476,59,684,88"/>
+</map>

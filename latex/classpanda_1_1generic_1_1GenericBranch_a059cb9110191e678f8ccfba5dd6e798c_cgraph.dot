@@ -1,0 +1,10 @@
+digraph "panda.generic.GenericBranch.write_decl"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="panda.generic.GenericBranch.write_decl",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="panda.branch.Branch.arrdef_text",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1branch_1_1Branch.html#aeac8bec76fc5d1d244500924e9582011"];
+}

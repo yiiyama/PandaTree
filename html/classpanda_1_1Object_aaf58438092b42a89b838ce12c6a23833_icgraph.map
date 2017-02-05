@@ -1,0 +1,23 @@
+<map id="panda::Object::releaseTree" name="panda::Object::releaseTree">
+<area shape="rect" id="node2" href="$classpanda_1_1GenReweight.html#a16a66039913555976cb4dff6bd604cb0" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="259,5,405,49"/>
+<area shape="rect" id="node3" href="$classpanda_1_1HLTBits.html#a0279b04fa7d7ab49ae4b002c1d8d6355" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="236,73,428,101"/>
+<area shape="rect" id="node4" href="$classpanda_1_1Met.html#a89cb9ce10002cb2238b875a7ce4bf293" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="249,125,415,153"/>
+<area shape="rect" id="node6" href="$classpanda_1_1MetFilters.html#a6633e093ac16926f857b4b44b35f32f6" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="266,177,398,221"/>
+<area shape="rect" id="node7" href="$classpanda_1_1Particle.html#a8fb6fa0b4316967da573181262727142" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="238,245,426,273"/>
+<area shape="rect" id="node21" href="$classpanda_1_1Recoil.html#afe78f0c80a14aaeddd76220aa16aed6e" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="241,297,423,325"/>
+<area shape="rect" id="node22" href="$classpanda_1_1SuperCluster.html#a1bb8e632e803b43b8c6e76e512a7e39d" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="260,349,404,393"/>
+<area shape="rect" id="node5" href="$classpanda_1_1RecoMet.html#aff4a46217bfa8d7d1a950ed0d91891c6" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="477,73,675,101"/>
+<area shape="rect" id="node8" href="$classpanda_1_1Lepton.html#a6c7aa6fc6916d294290b96cfa5ee5585" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="483,125,668,153"/>
+<area shape="rect" id="node11" href="$classpanda_1_1ParticleM.html#a0315a281e15ff66329eef5169b162e8e" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="476,271,676,299"/>
+<area shape="rect" id="node20" href="$classpanda_1_1Photon.html#aae96bba0a370e01375787ce12f22bb65" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="483,323,669,351"/>
+<area shape="rect" id="node9" href="$classpanda_1_1Electron.html#a9c5f1f1de56657622fbb175e0dc65aac" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="725,60,918,88"/>
+<area shape="rect" id="node10" href="$classpanda_1_1Muon.html#a00d513e2558d8da5c4845ec09f2d4b7d" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="732,112,910,140"/>
+<area shape="rect" id="node12" href="$classpanda_1_1GenJet.html#a013d93183730d090e26b228c65cf9ce2" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="728,164,915,192"/>
+<area shape="rect" id="node13" href="$classpanda_1_1GenParticle.html#a5bd4d21966d73f742f2a37c8ad6e5cf5" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="753,216,889,260"/>
+<area shape="rect" id="node14" href="$classpanda_1_1MicroJet.html#a1f12baa07c2b52599be1e7808da40742" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="724,284,919,312"/>
+<area shape="rect" id="node17" href="$classpanda_1_1Parton.html#a6772498c2e5f5fc7fc041e099d8b6348" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="729,336,913,364"/>
+<area shape="rect" id="node18" href="$classpanda_1_1PFCand.html#ad2c2668cf6c6fd3d6ff09e4bdebbfc2a" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="725,388,918,416"/>
+<area shape="rect" id="node19" href="$classpanda_1_1Tau.html#a00639fe81c56ac1e7bc1d3977d1e9bce" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="738,440,905,468"/>
+<area shape="rect" id="node15" href="$classpanda_1_1Jet.html#af402d8510a38cfe145405448644ea3eb" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="967,284,1129,312"/>
+<area shape="rect" id="node16" href="$classpanda_1_1FatJet.html#a9ade7c13e2e94e5796ed7f60b2366896" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="1177,284,1358,312"/>
+</map>

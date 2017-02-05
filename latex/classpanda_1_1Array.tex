@@ -1,0 +1,355 @@
+\hypertarget{classpanda_1_1Array}{
+\section{panda::Array$<$ E $>$ Class Template Reference}
+\label{classpanda_1_1Array}\index{panda::Array@{panda::Array}}
+}
+
+
+Template class for fixed-\/size container implementations. Inherits from base\_\-type::array\_\-type of the element class.  
+
+
+{\ttfamily \#include $<$Array.h$>$}\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classpanda_1_1Array}{Array}$<$ E $>$ \hyperlink{classpanda_1_1Array_ad6bde3da7b6fdd2b20ae3c67973d6a33}{self\_\-type}
+\item 
+typedef E::base\_\-type::array\_\-type \hyperlink{classpanda_1_1Array_a3716c2dd4b92529bd7a9e8c94419e52d}{base\_\-type}
+\item 
+typedef E \hyperlink{classpanda_1_1Array_a1d3ff416a3960c4cb7a619df25d32359}{value\_\-type}
+\item 
+typedef \hyperlink{classpanda_1_1Array_a1d3ff416a3960c4cb7a619df25d32359}{value\_\-type} \& \hyperlink{classpanda_1_1Array_a87028232d5fb96ae20e58e1a92dfe708}{reference}
+\item 
+typedef \hyperlink{classpanda_1_1Array_a1d3ff416a3960c4cb7a619df25d32359}{value\_\-type} const \& \hyperlink{classpanda_1_1Array_a64dff4ee5d35a16425535f06c3e2b3e2}{const\_\-reference}
+\item 
+typedef \hyperlink{classpanda_1_1Array_a1d3ff416a3960c4cb7a619df25d32359}{value\_\-type} $\ast$ \hyperlink{classpanda_1_1Array_a14f428644ba37ca7a9d75760817e032d}{pointer}
+\item 
+typedef \hyperlink{classpanda_1_1Array_a1d3ff416a3960c4cb7a619df25d32359}{value\_\-type} const $\ast$ \hyperlink{classpanda_1_1Array_a3c3336e22b822441b731c248b272e8bb}{const\_\-pointer}
+\item 
+typedef \hyperlink{classpanda_1_1utils_1_1Iterator}{utils::Iterator}$<$ \hyperlink{classpanda_1_1Array}{self\_\-type}, false $>$ \hyperlink{classpanda_1_1Array_a74a060206264533305b6ab8729b0f85c}{iterator}
+\item 
+typedef \hyperlink{classpanda_1_1utils_1_1Iterator}{utils::Iterator}$<$ \hyperlink{classpanda_1_1Array}{self\_\-type}, true $>$ \hyperlink{classpanda_1_1Array_a4c0be76e73e13139fc0c132922f31323}{const\_\-iterator}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1Array_a05daeb194a5d5580d7c843374c45d610}{Array} (UInt\_\-t size, char const $\ast$name=\char`\"{}\char`\"{})
+\item 
+\hyperlink{classpanda_1_1Array_abe9578422f7f20d94532ad581404178a}{Array} (\hyperlink{classpanda_1_1Array}{self\_\-type} const \&src)
+\item 
+\hyperlink{classpanda_1_1Array_a98143dcae933f0bc7604aea8fb6c6439}{$\sim$Array} ()
+\item 
+\hyperlink{classpanda_1_1Array}{self\_\-type} \& \hyperlink{classpanda_1_1Array_ac13ad2768d4cc0fa018fe828b5db377c}{operator=} (\hyperlink{classpanda_1_1Array}{self\_\-type} const \&rhs)
+\item 
+\hyperlink{classpanda_1_1Array_a87028232d5fb96ae20e58e1a92dfe708}{reference} \hyperlink{classpanda_1_1Array_a4f8dde90c3132ac69fe01975137cda25}{at} (UInt\_\-t idx)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classpanda_1_1Element}{Element} accessor with range check. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Array_a64dff4ee5d35a16425535f06c3e2b3e2}{const\_\-reference} \hyperlink{classpanda_1_1Array_a00c7e7c983451a16d74901000cb1bbe1}{at} (UInt\_\-t idx) const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{classpanda_1_1Element}{Element} accessor with range check. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Array_a87028232d5fb96ae20e58e1a92dfe708}{reference} \hyperlink{classpanda_1_1Array_aaf72094bc5c101f74966d9aac34066cf}{operator\mbox{[}$\,$\mbox{]}} (UInt\_\-t)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classpanda_1_1Element}{Element} accessor with no range check. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Array_a64dff4ee5d35a16425535f06c3e2b3e2}{const\_\-reference} \hyperlink{classpanda_1_1Array_abbde72bcafdeadb574293543f44a7cf3}{operator\mbox{[}$\,$\mbox{]}} (UInt\_\-t) const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{classpanda_1_1Element}{Element} accessor with no range check. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1utils_1_1Iterator}{iterator} \hyperlink{classpanda_1_1Array_a8fa2cf8c33bb87c6c398e44e901ad9b9}{begin} ()
+\begin{DoxyCompactList}\small\item\em Return an iterator pointing to the first element. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1utils_1_1Iterator}{const\_\-iterator} \hyperlink{classpanda_1_1Array_a38f03e433d2f19fa1074226fc24a6cdf}{begin} () const 
+\begin{DoxyCompactList}\small\item\em Return an iterator pointing to the first element. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1utils_1_1Iterator}{iterator} \hyperlink{classpanda_1_1Array_a278c908fe61e762996552c696b92b04b}{end} ()
+\begin{DoxyCompactList}\small\item\em Return an iterator pointing to the end of the array (invalid address). \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1utils_1_1Iterator}{const\_\-iterator} \hyperlink{classpanda_1_1Array_a677cb1961e6ed9c941e790663eb5fd48}{end} () const 
+\begin{DoxyCompactList}\small\item\em Return an iterator pointing to the end of the array (invalid address). \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Array_a87028232d5fb96ae20e58e1a92dfe708}{reference} \hyperlink{classpanda_1_1Array_a6146a7f7ea2dc73aed0da04c6b903bf0}{front} ()
+\begin{DoxyCompactList}\small\item\em Reference to the first element. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Array_a64dff4ee5d35a16425535f06c3e2b3e2}{const\_\-reference} \hyperlink{classpanda_1_1Array_a1d8403dec0e8b63a66dabe2050055326}{front} () const 
+\begin{DoxyCompactList}\small\item\em Reference to the first element. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Array_a87028232d5fb96ae20e58e1a92dfe708}{reference} \hyperlink{classpanda_1_1Array_a4f8973eed439312b468841ebb1a71717}{back} ()
+\begin{DoxyCompactList}\small\item\em Reference to the last element. \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1Array_a64dff4ee5d35a16425535f06c3e2b3e2}{const\_\-reference} \hyperlink{classpanda_1_1Array_ab0134351628f5472db5984f5bc3531c3}{back} () const 
+\begin{DoxyCompactList}\small\item\em Reference to the last element. \item\end{DoxyCompactList}\item 
+void \hyperlink{classpanda_1_1Array_a7f44ada4aad69c0003de67667c646eb4}{copy} (\hyperlink{classpanda_1_1Array}{self\_\-type} const \&)
+\begin{DoxyCompactList}\small\item\em Copy the array contents. \item\end{DoxyCompactList}\item 
+\hyperlink{structpanda_1_1Element_1_1datastore}{Element::datastore} \& \hyperlink{classpanda_1_1Array_afb11a43b477291e33ee21f9764f118bd}{getData} () override
+\item 
+\hyperlink{structpanda_1_1Element_1_1datastore}{Element::datastore} const \& \hyperlink{classpanda_1_1Array_a8c992f9d8b7c2bff6a3a4a5d9e27b821}{getData} () const override
+\item 
+\hyperlink{classpanda_1_1Element}{Element} \& \hyperlink{classpanda_1_1Array_ae289d17a257c3a51d1c9184f2c05e413}{elemAt} (UInt\_\-t idx) override
+\item 
+\hyperlink{classpanda_1_1Element}{Element} const \& \hyperlink{classpanda_1_1Array_a99882399da6b65a14d6de794bcbe7c15}{elemAt} (UInt\_\-t idx) const override
+\item 
+std::vector$<$ UInt\_\-t $>$ \hyperlink{classpanda_1_1Array_a5c73a2221ab0eef710765585279a6c32}{sort} (\hyperlink{classpanda_1_1ContainerBase_a5269fda4f420b52d6ed9c0dac548559e}{ContainerBase::Comparison} const \&) override
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1Array_ae1388498ce5be69e85a07dffc4f21547}{Array} (char const $\ast$name, UInt\_\-t unitSize, Bool\_\-t dummy)
+\item 
+void \hyperlink{classpanda_1_1Array_ac3bf1d5e18721fed54de1741a71470fc}{allocate\_\-} (UInt\_\-t)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1Array_a1d3ff416a3960c4cb7a619df25d32359}{value\_\-type} $\ast$ \hyperlink{classpanda_1_1Array_a7ccf276765e6e092bea87b7181053ac5}{addr\_\-} () const 
+\item 
+\hyperlink{classpanda_1_1Array_a1d3ff416a3960c4cb7a619df25d32359}{value\_\-type} const $\ast$ \hyperlink{classpanda_1_1Array_a5ff7c75decc7a9e8710b8350f1c11768}{const\_\-addr\_\-} () const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class E$>$ class panda::Array$<$ E $>$}
+
+Template class for fixed-\/size container implementations. Inherits from base\_\-type::array\_\-type of the element class. For a \hyperlink{namespacepanda_1_1physics}{physics} object class E that inherits from B, Panda containers inherit as \hyperlink{classpanda_1_1Object}{Object} $<$-\/ \hyperlink{classpanda_1_1ContainerBase}{ContainerBase} $<$-\/ \hyperlink{classpanda_1_1ArrayBase}{ArrayBase} $<$-\/ \hyperlink{classpanda_1_1Array}{Array}{\bfseries  $<$-\/ Array$<$E$>$ \hyperlink{classpanda_1_1Object}{Object} $<$-\/ \hyperlink{classpanda_1_1ContainerBase}{ContainerBase} $<$-\/ \hyperlink{classpanda_1_1CollectionBase}{CollectionBase} $<$-\/ \hyperlink{classpanda_1_1Collection}{Collection}{\bfseries  $<$-\/ Collection$<$E$>$ }}
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classpanda_1_1Array_a3716c2dd4b92529bd7a9e8c94419e52d}{
+\index{panda::Array@{panda::Array}!base\_\-type@{base\_\-type}}
+\index{base\_\-type@{base\_\-type}!panda::Array@{panda::Array}}
+\subsubsection[{base\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef E::base\_\-type::array\_\-type {\bf panda::Array}$<$ E $>$::{\bf base\_\-type}}}
+\label{classpanda_1_1Array_a3716c2dd4b92529bd7a9e8c94419e52d}
+\hypertarget{classpanda_1_1Array_a4c0be76e73e13139fc0c132922f31323}{
+\index{panda::Array@{panda::Array}!const\_\-iterator@{const\_\-iterator}}
+\index{const\_\-iterator@{const\_\-iterator}!panda::Array@{panda::Array}}
+\subsubsection[{const\_\-iterator}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef {\bf utils::Iterator}$<${\bf self\_\-type}, true$>$ {\bf panda::Array}$<$ E $>$::{\bf const\_\-iterator}}}
+\label{classpanda_1_1Array_a4c0be76e73e13139fc0c132922f31323}
+\hypertarget{classpanda_1_1Array_a3c3336e22b822441b731c248b272e8bb}{
+\index{panda::Array@{panda::Array}!const\_\-pointer@{const\_\-pointer}}
+\index{const\_\-pointer@{const\_\-pointer}!panda::Array@{panda::Array}}
+\subsubsection[{const\_\-pointer}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef {\bf value\_\-type} const$\ast$ {\bf panda::Array}$<$ E $>$::{\bf const\_\-pointer}}}
+\label{classpanda_1_1Array_a3c3336e22b822441b731c248b272e8bb}
+\hypertarget{classpanda_1_1Array_a64dff4ee5d35a16425535f06c3e2b3e2}{
+\index{panda::Array@{panda::Array}!const\_\-reference@{const\_\-reference}}
+\index{const\_\-reference@{const\_\-reference}!panda::Array@{panda::Array}}
+\subsubsection[{const\_\-reference}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef {\bf value\_\-type} const\& {\bf panda::Array}$<$ E $>$::{\bf const\_\-reference}}}
+\label{classpanda_1_1Array_a64dff4ee5d35a16425535f06c3e2b3e2}
+\hypertarget{classpanda_1_1Array_a74a060206264533305b6ab8729b0f85c}{
+\index{panda::Array@{panda::Array}!iterator@{iterator}}
+\index{iterator@{iterator}!panda::Array@{panda::Array}}
+\subsubsection[{iterator}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef {\bf utils::Iterator}$<${\bf self\_\-type}, false$>$ {\bf panda::Array}$<$ E $>$::{\bf iterator}}}
+\label{classpanda_1_1Array_a74a060206264533305b6ab8729b0f85c}
+\hypertarget{classpanda_1_1Array_a14f428644ba37ca7a9d75760817e032d}{
+\index{panda::Array@{panda::Array}!pointer@{pointer}}
+\index{pointer@{pointer}!panda::Array@{panda::Array}}
+\subsubsection[{pointer}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef {\bf value\_\-type}$\ast$ {\bf panda::Array}$<$ E $>$::{\bf pointer}}}
+\label{classpanda_1_1Array_a14f428644ba37ca7a9d75760817e032d}
+\hypertarget{classpanda_1_1Array_a87028232d5fb96ae20e58e1a92dfe708}{
+\index{panda::Array@{panda::Array}!reference@{reference}}
+\index{reference@{reference}!panda::Array@{panda::Array}}
+\subsubsection[{reference}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef {\bf value\_\-type}\& {\bf panda::Array}$<$ E $>$::{\bf reference}}}
+\label{classpanda_1_1Array_a87028232d5fb96ae20e58e1a92dfe708}
+\hypertarget{classpanda_1_1Array_ad6bde3da7b6fdd2b20ae3c67973d6a33}{
+\index{panda::Array@{panda::Array}!self\_\-type@{self\_\-type}}
+\index{self\_\-type@{self\_\-type}!panda::Array@{panda::Array}}
+\subsubsection[{self\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef {\bf Array}$<$E$>$ {\bf panda::Array}$<$ E $>$::{\bf self\_\-type}}}
+\label{classpanda_1_1Array_ad6bde3da7b6fdd2b20ae3c67973d6a33}
+\hypertarget{classpanda_1_1Array_a1d3ff416a3960c4cb7a619df25d32359}{
+\index{panda::Array@{panda::Array}!value\_\-type@{value\_\-type}}
+\index{value\_\-type@{value\_\-type}!panda::Array@{panda::Array}}
+\subsubsection[{value\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ typedef E {\bf panda::Array}$<$ E $>$::{\bf value\_\-type}}}
+\label{classpanda_1_1Array_a1d3ff416a3960c4cb7a619df25d32359}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classpanda_1_1Array_a05daeb194a5d5580d7c843374c45d610}{
+\index{panda::Array@{panda::Array}!Array@{Array}}
+\index{Array@{Array}!panda::Array@{panda::Array}}
+\subsubsection[{Array}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf panda::Array}$<$ E $>$::{\bf Array} (UInt\_\-t {\em size}, \/  char const $\ast$ {\em name} = {\ttfamily \char`\"{}\char`\"{}})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Array_a05daeb194a5d5580d7c843374c45d610}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Array_abe9578422f7f20d94532ad581404178a}{
+\index{panda::Array@{panda::Array}!Array@{Array}}
+\index{Array@{Array}!panda::Array@{panda::Array}}
+\subsubsection[{Array}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf panda::Array}$<$ E $>$::{\bf Array} ({\bf self\_\-type} const \& {\em src})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Array_abe9578422f7f20d94532ad581404178a}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Array_a98143dcae933f0bc7604aea8fb6c6439}{
+\index{panda::Array@{panda::Array}!$\sim$Array@{$\sim$Array}}
+\index{$\sim$Array@{$\sim$Array}!panda::Array@{panda::Array}}
+\subsubsection[{$\sim$Array}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ {\bf panda::Array}$<$ E $>$::$\sim${\bf Array} ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Array_a98143dcae933f0bc7604aea8fb6c6439}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Array_ae1388498ce5be69e85a07dffc4f21547}{
+\index{panda::Array@{panda::Array}!Array@{Array}}
+\index{Array@{Array}!panda::Array@{panda::Array}}
+\subsubsection[{Array}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf panda::Array}$<$ E $>$::{\bf Array} (char const $\ast$ {\em name}, \/  UInt\_\-t {\em unitSize}, \/  Bool\_\-t {\em dummy})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected\mbox{]}}}}
+\label{classpanda_1_1Array_ae1388498ce5be69e85a07dffc4f21547}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classpanda_1_1Array_a7ccf276765e6e092bea87b7181053ac5}{
+\index{panda::Array@{panda::Array}!addr\_\-@{addr\_\-}}
+\index{addr\_\-@{addr\_\-}!panda::Array@{panda::Array}}
+\subsubsection[{addr\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf value\_\-type}$\ast$ {\bf panda::Array}$<$ E $>$::addr\_\- () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classpanda_1_1Array_a7ccf276765e6e092bea87b7181053ac5}
+
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Array_ac3bf1d5e18721fed54de1741a71470fc}{
+\index{panda::Array@{panda::Array}!allocate\_\-@{allocate\_\-}}
+\index{allocate\_\-@{allocate\_\-}!panda::Array@{panda::Array}}
+\subsubsection[{allocate\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ void {\bf panda::Array}$<$ E $>$::allocate\_\- (UInt\_\-t {\em \_\-nmax})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected\mbox{]}}}}
+\label{classpanda_1_1Array_ac3bf1d5e18721fed54de1741a71470fc}
+
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Array_a00c7e7c983451a16d74901000cb1bbe1}{
+\index{panda::Array@{panda::Array}!at@{at}}
+\index{at@{at}!panda::Array@{panda::Array}}
+\subsubsection[{at}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ {\bf Array}$<$ E $>$::{\bf const\_\-reference} {\bf panda::Array}$<$ E $>$::at (UInt\_\-t {\em idx}) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Array_a00c7e7c983451a16d74901000cb1bbe1}
+
+
+\hyperlink{classpanda_1_1Element}{Element} accessor with range check. \hypertarget{classpanda_1_1Array_a4f8dde90c3132ac69fe01975137cda25}{
+\index{panda::Array@{panda::Array}!at@{at}}
+\index{at@{at}!panda::Array@{panda::Array}}
+\subsubsection[{at}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ {\bf Array}$<$ E $>$::{\bf reference} {\bf panda::Array}$<$ E $>$::at (UInt\_\-t {\em idx})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Array_a4f8dde90c3132ac69fe01975137cda25}
+
+
+\hyperlink{classpanda_1_1Element}{Element} accessor with range check. 
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Array_ab0134351628f5472db5984f5bc3531c3}{
+\index{panda::Array@{panda::Array}!back@{back}}
+\index{back@{back}!panda::Array@{panda::Array}}
+\subsubsection[{back}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf const\_\-reference} {\bf panda::Array}$<$ E $>$::back () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Array_ab0134351628f5472db5984f5bc3531c3}
+
+
+Reference to the last element. 
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Array_a4f8973eed439312b468841ebb1a71717}{
+\index{panda::Array@{panda::Array}!back@{back}}
+\index{back@{back}!panda::Array@{panda::Array}}
+\subsubsection[{back}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf reference} {\bf panda::Array}$<$ E $>$::back ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Array_a4f8973eed439312b468841ebb1a71717}
+
+
+Reference to the last element. 
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Array_a38f03e433d2f19fa1074226fc24a6cdf}{
+\index{panda::Array@{panda::Array}!begin@{begin}}
+\index{begin@{begin}!panda::Array@{panda::Array}}
+\subsubsection[{begin}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf const\_\-iterator} {\bf panda::Array}$<$ E $>$::begin () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Array_a38f03e433d2f19fa1074226fc24a6cdf}
+
+
+Return an iterator pointing to the first element. 
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Array_a8fa2cf8c33bb87c6c398e44e901ad9b9}{
+\index{panda::Array@{panda::Array}!begin@{begin}}
+\index{begin@{begin}!panda::Array@{panda::Array}}
+\subsubsection[{begin}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf iterator} {\bf panda::Array}$<$ E $>$::begin ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Array_a8fa2cf8c33bb87c6c398e44e901ad9b9}
+
+
+Return an iterator pointing to the first element. 
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Array_a5ff7c75decc7a9e8710b8350f1c11768}{
+\index{panda::Array@{panda::Array}!const\_\-addr\_\-@{const\_\-addr\_\-}}
+\index{const\_\-addr\_\-@{const\_\-addr\_\-}!panda::Array@{panda::Array}}
+\subsubsection[{const\_\-addr\_\-}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf value\_\-type} const$\ast$ {\bf panda::Array}$<$ E $>$::const\_\-addr\_\- () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, private\mbox{]}}}}
+\label{classpanda_1_1Array_a5ff7c75decc7a9e8710b8350f1c11768}
+
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Array_a7f44ada4aad69c0003de67667c646eb4}{
+\index{panda::Array@{panda::Array}!copy@{copy}}
+\index{copy@{copy}!panda::Array@{panda::Array}}
+\subsubsection[{copy}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ void {\bf panda::Array}$<$ E $>$::copy ({\bf self\_\-type} const \& {\em \_\-src})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Array_a7f44ada4aad69c0003de67667c646eb4}
+
+
+Copy the array contents. 
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Array_a99882399da6b65a14d6de794bcbe7c15}{
+\index{panda::Array@{panda::Array}!elemAt@{elemAt}}
+\index{elemAt@{elemAt}!panda::Array@{panda::Array}}
+\subsubsection[{elemAt}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf Element} const\& {\bf panda::Array}$<$ E $>$::elemAt (UInt\_\-t {\em idx}) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, override\mbox{]}}}}
+\label{classpanda_1_1Array_a99882399da6b65a14d6de794bcbe7c15}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Array_ae289d17a257c3a51d1c9184f2c05e413}{
+\index{panda::Array@{panda::Array}!elemAt@{elemAt}}
+\index{elemAt@{elemAt}!panda::Array@{panda::Array}}
+\subsubsection[{elemAt}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf Element}\& {\bf panda::Array}$<$ E $>$::elemAt (UInt\_\-t {\em idx})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, override\mbox{]}}}}
+\label{classpanda_1_1Array_ae289d17a257c3a51d1c9184f2c05e413}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Array_a677cb1961e6ed9c941e790663eb5fd48}{
+\index{panda::Array@{panda::Array}!end@{end}}
+\index{end@{end}!panda::Array@{panda::Array}}
+\subsubsection[{end}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf const\_\-iterator} {\bf panda::Array}$<$ E $>$::end () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Array_a677cb1961e6ed9c941e790663eb5fd48}
+
+
+Return an iterator pointing to the end of the array (invalid address). 
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Array_a278c908fe61e762996552c696b92b04b}{
+\index{panda::Array@{panda::Array}!end@{end}}
+\index{end@{end}!panda::Array@{panda::Array}}
+\subsubsection[{end}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf iterator} {\bf panda::Array}$<$ E $>$::end ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Array_a278c908fe61e762996552c696b92b04b}
+
+
+Return an iterator pointing to the end of the array (invalid address). 
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Array_a1d8403dec0e8b63a66dabe2050055326}{
+\index{panda::Array@{panda::Array}!front@{front}}
+\index{front@{front}!panda::Array@{panda::Array}}
+\subsubsection[{front}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf const\_\-reference} {\bf panda::Array}$<$ E $>$::front () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Array_a1d8403dec0e8b63a66dabe2050055326}
+
+
+Reference to the first element. 
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Array_a6146a7f7ea2dc73aed0da04c6b903bf0}{
+\index{panda::Array@{panda::Array}!front@{front}}
+\index{front@{front}!panda::Array@{panda::Array}}
+\subsubsection[{front}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf reference} {\bf panda::Array}$<$ E $>$::front ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Array_a6146a7f7ea2dc73aed0da04c6b903bf0}
+
+
+Reference to the first element. 
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Array_a8c992f9d8b7c2bff6a3a4a5d9e27b821}{
+\index{panda::Array@{panda::Array}!getData@{getData}}
+\index{getData@{getData}!panda::Array@{panda::Array}}
+\subsubsection[{getData}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf Element::datastore} const\& {\bf panda::Array}$<$ E $>$::getData () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, override\mbox{]}}}}
+\label{classpanda_1_1Array_a8c992f9d8b7c2bff6a3a4a5d9e27b821}
+\hypertarget{classpanda_1_1Array_afb11a43b477291e33ee21f9764f118bd}{
+\index{panda::Array@{panda::Array}!getData@{getData}}
+\index{getData@{getData}!panda::Array@{panda::Array}}
+\subsubsection[{getData}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf Element::datastore}\& {\bf panda::Array}$<$ E $>$::getData ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, override\mbox{]}}}}
+\label{classpanda_1_1Array_afb11a43b477291e33ee21f9764f118bd}
+\hypertarget{classpanda_1_1Array_ac13ad2768d4cc0fa018fe828b5db377c}{
+\index{panda::Array@{panda::Array}!operator=@{operator=}}
+\index{operator=@{operator=}!panda::Array@{panda::Array}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E$>$ {\bf self\_\-type}\& {\bf panda::Array}$<$ E $>$::operator= ({\bf self\_\-type} const \& {\em rhs})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Array_ac13ad2768d4cc0fa018fe828b5db377c}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Array_abbde72bcafdeadb574293543f44a7cf3}{
+\index{panda::Array@{panda::Array}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!panda::Array@{panda::Array}}
+\subsubsection[{operator[]}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ {\bf Array}$<$ E $>$::{\bf const\_\-reference} {\bf panda::Array}$<$ E $>$::operator\mbox{[}$\,$\mbox{]} (UInt\_\-t {\em \_\-idx}) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Array_abbde72bcafdeadb574293543f44a7cf3}
+
+
+\hyperlink{classpanda_1_1Element}{Element} accessor with no range check. \hypertarget{classpanda_1_1Array_aaf72094bc5c101f74966d9aac34066cf}{
+\index{panda::Array@{panda::Array}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!panda::Array@{panda::Array}}
+\subsubsection[{operator[]}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ {\bf Array}$<$ E $>$::{\bf reference} {\bf panda::Array}$<$ E $>$::operator\mbox{[}$\,$\mbox{]} (UInt\_\-t {\em \_\-idx})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Array_aaf72094bc5c101f74966d9aac34066cf}
+
+
+\hyperlink{classpanda_1_1Element}{Element} accessor with no range check. 
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Array_a5c73a2221ab0eef710765585279a6c32}{
+\index{panda::Array@{panda::Array}!sort@{sort}}
+\index{sort@{sort}!panda::Array@{panda::Array}}
+\subsubsection[{sort}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class E $>$ std::vector$<$ UInt\_\-t $>$ {\bf panda::Array}$<$ E $>$::sort ({\bf ContainerBase::Comparison} const \& {\em \_\-c})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, override\mbox{]}}}}
+\label{classpanda_1_1Array_a5c73a2221ab0eef710765585279a6c32}
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+Framework/interface/\hyperlink{Array_8h}{Array.h}\end{DoxyCompactItemize}

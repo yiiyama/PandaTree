@@ -1,0 +1,220 @@
+\hypertarget{classpanda_1_1CollectionBase}{
+\section{panda::CollectionBase Class Reference}
+\label{classpanda_1_1CollectionBase}\index{panda::CollectionBase@{panda::CollectionBase}}
+}
+
+
+Base class for dynamic-\/size containers.  
+
+
+{\ttfamily \#include $<$CollectionBase.h$>$}Inheritance diagram for panda::CollectionBase:Collaboration diagram for panda::CollectionBase:\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1CollectionBase_a6e30b7cb32f9e4c46c4ce96bb0ccff2e}{CollectionBase} (\hyperlink{classpanda_1_1CollectionBase}{CollectionBase} const \&src)
+\item 
+\hyperlink{classpanda_1_1CollectionBase_a56858ddc5cafa8233daec30c0ad2769a}{$\sim$CollectionBase} ()
+\item 
+Int\_\-t \hyperlink{classpanda_1_1CollectionBase_a777e26ce2cc4f86e7cc4eb345b0a78d7}{getEntry} (Long64\_\-t entry, UInt\_\-t=0) final
+\begin{DoxyCompactList}\small\item\em Read an entry from an input \hyperlink{namespacepanda_1_1tree}{tree}. \item\end{DoxyCompactList}\item 
+void \hyperlink{classpanda_1_1CollectionBase_acf4c92c41e6efccc8833981c8e8725c1}{init} () final
+\begin{DoxyCompactList}\small\item\em Reset the object state. \item\end{DoxyCompactList}\item 
+UInt\_\-t \hyperlink{classpanda_1_1CollectionBase_a341cdaab81b20671510b14476973369e}{size} () const final
+\item 
+void \hyperlink{classpanda_1_1CollectionBase_a3ec014ac2da87bb755afbea0822621cc}{resize} (UInt\_\-t size)
+\begin{DoxyCompactList}\small\item\em Resize the container. \item\end{DoxyCompactList}\item 
+void \hyperlink{classpanda_1_1CollectionBase_a5820623424a01aa34f3988ead2612576}{clear} ()
+\begin{DoxyCompactList}\small\item\em Clear the container (set size = 0). \item\end{DoxyCompactList}\item 
+void \hyperlink{classpanda_1_1CollectionBase_a217c39578bc5e0e7e2b6ebf44bf93cdd}{prepareGetEntry} (Long64\_\-t entry, UInt\_\-t treeIdx=0)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classpanda_1_1Run}{Run} a look-\/ahead of the entry to determine the collection resize. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1CollectionBase_a4037f99dc89bcd8f3e89bea5fbec3a2c}{CollectionBase} (char const $\ast$name, UInt\_\-t unitSize, Bool\_\-t dummy)
+\item 
+void \hyperlink{classpanda_1_1CollectionBase_a4d6bc9cc77ee3e29840362826b108b23}{resetAddress\_\-} ()
+\item 
+virtual void \hyperlink{classpanda_1_1CollectionBase_a89b2268e4b665eb8f1fa5b54d4c61c32}{reallocate\_\-} (UInt\_\-t)=0
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classpanda_1_1CollectionBase_ac615b3ca8e0c3acdab38196bcad23027}{doSetStatus\_\-} (TTree \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&) final
+\item 
+\hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} \hyperlink{classpanda_1_1CollectionBase_a885ed7e0cd0d0f37f913db20597fcd3c}{doGetStatus\_\-} (TTree \&) const final
+\item 
+void \hyperlink{classpanda_1_1CollectionBase_a2bd8c03841337f83ccdb4279ebf1f24d}{doSetAddress\_\-} (TTree \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&, Bool\_\-t setStatus, Bool\_\-t asInput) final
+\item 
+void \hyperlink{classpanda_1_1CollectionBase_a55e90bbac83f59d93a938dbe57c871c0}{doBook\_\-} (TTree \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&) final
+\item 
+void \hyperlink{classpanda_1_1CollectionBase_ac9d4543501718f3fa96366e43fde46bc}{doReleaseTree\_\-} (TTree \&) final
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Base class for dynamic-\/size containers. Panda containers can be fixed-\/size (\hyperlink{classpanda_1_1Array}{Array}) or dynamic-\/size (\hyperlink{classpanda_1_1Collection}{Collection}). Dynaic-\/size containers are similar to std::vectors. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classpanda_1_1CollectionBase_a6e30b7cb32f9e4c46c4ce96bb0ccff2e}{
+\index{panda::CollectionBase@{panda::CollectionBase}!CollectionBase@{CollectionBase}}
+\index{CollectionBase@{CollectionBase}!panda::CollectionBase@{panda::CollectionBase}}
+\subsubsection[{CollectionBase}]{\setlength{\rightskip}{0pt plus 5cm}panda::CollectionBase::CollectionBase ({\bf CollectionBase} const \& {\em src})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1CollectionBase_a6e30b7cb32f9e4c46c4ce96bb0ccff2e}
+\hypertarget{classpanda_1_1CollectionBase_a56858ddc5cafa8233daec30c0ad2769a}{
+\index{panda::CollectionBase@{panda::CollectionBase}!$\sim$CollectionBase@{$\sim$CollectionBase}}
+\index{$\sim$CollectionBase@{$\sim$CollectionBase}!panda::CollectionBase@{panda::CollectionBase}}
+\subsubsection[{$\sim$CollectionBase}]{\setlength{\rightskip}{0pt plus 5cm}panda::CollectionBase::$\sim$CollectionBase ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1CollectionBase_a56858ddc5cafa8233daec30c0ad2769a}
+\hypertarget{classpanda_1_1CollectionBase_a4037f99dc89bcd8f3e89bea5fbec3a2c}{
+\index{panda::CollectionBase@{panda::CollectionBase}!CollectionBase@{CollectionBase}}
+\index{CollectionBase@{CollectionBase}!panda::CollectionBase@{panda::CollectionBase}}
+\subsubsection[{CollectionBase}]{\setlength{\rightskip}{0pt plus 5cm}panda::CollectionBase::CollectionBase (char const $\ast$ {\em name}, \/  UInt\_\-t {\em unitSize}, \/  Bool\_\-t {\em dummy})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, protected\mbox{]}}}}
+\label{classpanda_1_1CollectionBase_a4037f99dc89bcd8f3e89bea5fbec3a2c}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classpanda_1_1CollectionBase_a5820623424a01aa34f3988ead2612576}{
+\index{panda::CollectionBase@{panda::CollectionBase}!clear@{clear}}
+\index{clear@{clear}!panda::CollectionBase@{panda::CollectionBase}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}void panda::CollectionBase::clear ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1CollectionBase_a5820623424a01aa34f3988ead2612576}
+
+
+Clear the container (set size = 0). 
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1CollectionBase_a55e90bbac83f59d93a938dbe57c871c0}{
+\index{panda::CollectionBase@{panda::CollectionBase}!doBook\_\-@{doBook\_\-}}
+\index{doBook\_\-@{doBook\_\-}!panda::CollectionBase@{panda::CollectionBase}}
+\subsubsection[{doBook\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::CollectionBase::doBook\_\- (TTree \& {\em \_\-tree}, \/  {\bf utils::BranchList} const \& {\em \_\-branches})\hspace{0.3cm}{\ttfamily  \mbox{[}private, virtual\mbox{]}}}}
+\label{classpanda_1_1CollectionBase_a55e90bbac83f59d93a938dbe57c871c0}
+
+
+Implements \hyperlink{classpanda_1_1ContainerBase_acb14a3b21278b32716445c846017b664}{panda::ContainerBase}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1CollectionBase_a885ed7e0cd0d0f37f913db20597fcd3c}{
+\index{panda::CollectionBase@{panda::CollectionBase}!doGetStatus\_\-@{doGetStatus\_\-}}
+\index{doGetStatus\_\-@{doGetStatus\_\-}!panda::CollectionBase@{panda::CollectionBase}}
+\subsubsection[{doGetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::utils::BranchList} panda::CollectionBase::doGetStatus\_\- (TTree \& {\em \_\-tree}) const\hspace{0.3cm}{\ttfamily  \mbox{[}private, virtual\mbox{]}}}}
+\label{classpanda_1_1CollectionBase_a885ed7e0cd0d0f37f913db20597fcd3c}
+
+
+Implements \hyperlink{classpanda_1_1ContainerBase_a6aa05603a5aff914a56681ab70b01b4e}{panda::ContainerBase}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1CollectionBase_ac9d4543501718f3fa96366e43fde46bc}{
+\index{panda::CollectionBase@{panda::CollectionBase}!doReleaseTree\_\-@{doReleaseTree\_\-}}
+\index{doReleaseTree\_\-@{doReleaseTree\_\-}!panda::CollectionBase@{panda::CollectionBase}}
+\subsubsection[{doReleaseTree\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::CollectionBase::doReleaseTree\_\- (TTree \& {\em \_\-tree})\hspace{0.3cm}{\ttfamily  \mbox{[}private, virtual\mbox{]}}}}
+\label{classpanda_1_1CollectionBase_ac9d4543501718f3fa96366e43fde46bc}
+
+
+Implements \hyperlink{classpanda_1_1ContainerBase_af5628a554142af0fcbbec3f28edd1666}{panda::ContainerBase}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1CollectionBase_a2bd8c03841337f83ccdb4279ebf1f24d}{
+\index{panda::CollectionBase@{panda::CollectionBase}!doSetAddress\_\-@{doSetAddress\_\-}}
+\index{doSetAddress\_\-@{doSetAddress\_\-}!panda::CollectionBase@{panda::CollectionBase}}
+\subsubsection[{doSetAddress\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::CollectionBase::doSetAddress\_\- (TTree \& {\em \_\-tree}, \/  {\bf utils::BranchList} const \& {\em \_\-branches}, \/  Bool\_\-t {\em setStatus}, \/  Bool\_\-t {\em asInput})\hspace{0.3cm}{\ttfamily  \mbox{[}private, virtual\mbox{]}}}}
+\label{classpanda_1_1CollectionBase_a2bd8c03841337f83ccdb4279ebf1f24d}
+
+
+Implements \hyperlink{classpanda_1_1ContainerBase_a1f8b467981e2d6e55cf1b1e355e4eb93}{panda::ContainerBase}.
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1CollectionBase_ac615b3ca8e0c3acdab38196bcad23027}{
+\index{panda::CollectionBase@{panda::CollectionBase}!doSetStatus\_\-@{doSetStatus\_\-}}
+\index{doSetStatus\_\-@{doSetStatus\_\-}!panda::CollectionBase@{panda::CollectionBase}}
+\subsubsection[{doSetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::CollectionBase::doSetStatus\_\- (TTree \& {\em \_\-tree}, \/  {\bf utils::BranchList} const \& {\em \_\-branches})\hspace{0.3cm}{\ttfamily  \mbox{[}private, virtual\mbox{]}}}}
+\label{classpanda_1_1CollectionBase_ac615b3ca8e0c3acdab38196bcad23027}
+
+
+Implements \hyperlink{classpanda_1_1ContainerBase_aaae758928771e25de7c62db2fc9de750}{panda::ContainerBase}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1CollectionBase_a777e26ce2cc4f86e7cc4eb345b0a78d7}{
+\index{panda::CollectionBase@{panda::CollectionBase}!getEntry@{getEntry}}
+\index{getEntry@{getEntry}!panda::CollectionBase@{panda::CollectionBase}}
+\subsubsection[{getEntry}]{\setlength{\rightskip}{0pt plus 5cm}Int\_\-t panda::CollectionBase::getEntry (Long64\_\-t {\em entry}, \/  UInt\_\-t {\em treeIdx} = {\ttfamily 0})\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classpanda_1_1CollectionBase_a777e26ce2cc4f86e7cc4eb345b0a78d7}
+
+
+Read an entry from an input \hyperlink{namespacepanda_1_1tree}{tree}. 
+\begin{DoxyParams}{Parameters}
+\item[{\em entry}]Entry number in the input \hyperlink{namespacepanda_1_1tree}{tree}. \item[{\em treeIdx}]Token for the input \hyperlink{namespacepanda_1_1tree}{tree} as returned by \hyperlink{classpanda_1_1ContainerBase_ad5fdf0c76a93e2c5ae563ad34b268e43}{setAddress()}. \end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Object_a08f9b3d452bc056cf3a285dfad15e5ac}{panda::Object}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1CollectionBase_acf4c92c41e6efccc8833981c8e8725c1}{
+\index{panda::CollectionBase@{panda::CollectionBase}!init@{init}}
+\index{init@{init}!panda::CollectionBase@{panda::CollectionBase}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void panda::CollectionBase::init ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classpanda_1_1CollectionBase_acf4c92c41e6efccc8833981c8e8725c1}
+
+
+Reset the object state. 
+
+Reimplemented from \hyperlink{classpanda_1_1Object_a204960e5f165a28176f9b4a42b9ea90c}{panda::Object}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1CollectionBase_a217c39578bc5e0e7e2b6ebf44bf93cdd}{
+\index{panda::CollectionBase@{panda::CollectionBase}!prepareGetEntry@{prepareGetEntry}}
+\index{prepareGetEntry@{prepareGetEntry}!panda::CollectionBase@{panda::CollectionBase}}
+\subsubsection[{prepareGetEntry}]{\setlength{\rightskip}{0pt plus 5cm}void panda::CollectionBase::prepareGetEntry (Long64\_\-t {\em entry}, \/  UInt\_\-t {\em treeIdx} = {\ttfamily 0})}}
+\label{classpanda_1_1CollectionBase_a217c39578bc5e0e7e2b6ebf44bf93cdd}
+
+
+\hyperlink{classpanda_1_1Run}{Run} a look-\/ahead of the entry to determine the collection resize. To read a collection of N objects, we must have more than N slots allocated in memory. Since ROOT cannot automatically take care of resizing the array, we need to load the \char`\"{}size\char`\"{} \hyperlink{namespacepanda_1_1branch}{branch} first and reallocate memory if necessary.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em entry}]Entry number in the input \hyperlink{namespacepanda_1_1tree}{tree}. \item[{\em treeIdx}]Input \hyperlink{namespacepanda_1_1tree}{tree} ID (as returned by setAddress). \end{DoxyParams}
+
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1CollectionBase_a89b2268e4b665eb8f1fa5b54d4c61c32}{
+\index{panda::CollectionBase@{panda::CollectionBase}!reallocate\_\-@{reallocate\_\-}}
+\index{reallocate\_\-@{reallocate\_\-}!panda::CollectionBase@{panda::CollectionBase}}
+\subsubsection[{reallocate\_\-}]{\setlength{\rightskip}{0pt plus 5cm}virtual void panda::CollectionBase::reallocate\_\- (UInt\_\-t)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, pure virtual\mbox{]}}}}
+\label{classpanda_1_1CollectionBase_a89b2268e4b665eb8f1fa5b54d4c61c32}
+
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1CollectionBase_a4d6bc9cc77ee3e29840362826b108b23}{
+\index{panda::CollectionBase@{panda::CollectionBase}!resetAddress\_\-@{resetAddress\_\-}}
+\index{resetAddress\_\-@{resetAddress\_\-}!panda::CollectionBase@{panda::CollectionBase}}
+\subsubsection[{resetAddress\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::CollectionBase::resetAddress\_\- ()\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classpanda_1_1CollectionBase_a4d6bc9cc77ee3e29840362826b108b23}
+
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1CollectionBase_a3ec014ac2da87bb755afbea0822621cc}{
+\index{panda::CollectionBase@{panda::CollectionBase}!resize@{resize}}
+\index{resize@{resize}!panda::CollectionBase@{panda::CollectionBase}}
+\subsubsection[{resize}]{\setlength{\rightskip}{0pt plus 5cm}void panda::CollectionBase::resize (UInt\_\-t {\em size})}}
+\label{classpanda_1_1CollectionBase_a3ec014ac2da87bb755afbea0822621cc}
+
+
+Resize the container. If expanding, \hyperlink{classpanda_1_1CollectionBase_acf4c92c41e6efccc8833981c8e8725c1}{init()} is invoked on all new elements. If the new size is greater than nmax, data will be reallocated, making all references invalid.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em size}]New collection size. \end{DoxyParams}
+
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1CollectionBase_a341cdaab81b20671510b14476973369e}{
+\index{panda::CollectionBase@{panda::CollectionBase}!size@{size}}
+\index{size@{size}!panda::CollectionBase@{panda::CollectionBase}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}UInt\_\-t panda::CollectionBase::size () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classpanda_1_1CollectionBase_a341cdaab81b20671510b14476973369e}
+
+
+Implements \hyperlink{classpanda_1_1ContainerBase_a4035294b020325b57cafa39fb459fd7a}{panda::ContainerBase}.
+
+Here is the caller graph for this function:
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Framework/interface/\hyperlink{CollectionBase_8h}{CollectionBase.h}\item 
+Framework/src/\hyperlink{CollectionBase_8cc}{CollectionBase.cc}\end{DoxyCompactItemize}

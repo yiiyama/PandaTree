@@ -1,0 +1,11 @@
+digraph "obj" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  dir_43724e81dd40e09f32417973865cdd64 [shape=box, label="obj", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_43724e81dd40e09f32417973865cdd64.html"];
+  dir_5dafd4660615c7e05a84a5ee9d9fd12b [shape=box label="Objects" fillcolor="white" style="filled" color="red" URL="dir_5dafd4660615c7e05a84a5ee9d9fd12b.html"];
+  dir_bcbb2cf9a3d3d83e5515c82071a07177 [shape=box label="Framework" fillcolor="white" style="filled" color="red" URL="dir_bcbb2cf9a3d3d83e5515c82071a07177.html"];
+  dir_43724e81dd40e09f32417973865cdd64->dir_5dafd4660615c7e05a84a5ee9d9fd12b [headlabel="23", labeldistance=1.5 headhref="dir_000005_000006.html"];
+  dir_43724e81dd40e09f32417973865cdd64->dir_bcbb2cf9a3d3d83e5515c82071a07177 [headlabel="2", labeldistance=1.5 headhref="dir_000005_000000.html"];
+  dir_5dafd4660615c7e05a84a5ee9d9fd12b->dir_bcbb2cf9a3d3d83e5515c82071a07177 [headlabel="72", labeldistance=1.5 headhref="dir_000006_000000.html"];
+}

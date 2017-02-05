@@ -1,0 +1,121 @@
+\hypertarget{structpanda_1_1GenParticle_1_1datastore}{
+\section{panda::GenParticle::datastore Struct Reference}
+\label{structpanda_1_1GenParticle_1_1datastore}\index{panda::GenParticle::datastore@{panda::GenParticle::datastore}}
+}
+
+
+{\ttfamily \#include $<$GenParticle.h$>$}Inheritance diagram for panda::GenParticle::datastore:Collaboration diagram for panda::GenParticle::datastore:\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structpanda_1_1GenParticle_1_1datastore_ad1aab7880b9699f04e712abc69799953}{datastore} ()
+\item 
+\hyperlink{structpanda_1_1GenParticle_1_1datastore_af04b1b2c05d433c8020d5250db10d7d9}{$\sim$datastore} ()
+\item 
+void \hyperlink{structpanda_1_1GenParticle_1_1datastore_a431a6d40dc4affce7107d9368d2932a9}{allocate} (UInt\_\-t n) override
+\item 
+void \hyperlink{structpanda_1_1GenParticle_1_1datastore_afe415117bf9f06e163aff5e341c9ef00}{deallocate} () override
+\item 
+void \hyperlink{structpanda_1_1GenParticle_1_1datastore_ae4c5f9b8868d49879bba872aeb7b1027}{setStatus} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&) override
+\item 
+\hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} \hyperlink{structpanda_1_1GenParticle_1_1datastore_af83451f0c94efe8daeb7769571e81aef}{getStatus} (TTree \&, TString const \&) const override
+\item 
+void \hyperlink{structpanda_1_1GenParticle_1_1datastore_ae55290c7499a0b5c80309462637d9e73}{setAddress} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}, Bool\_\-t setStatus=kTRUE) override
+\item 
+void \hyperlink{structpanda_1_1GenParticle_1_1datastore_a115b560e4e4ecfa3d7c0a2fbbcafe5b9}{book} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}, Bool\_\-t dynamic=kTRUE) override
+\item 
+void \hyperlink{structpanda_1_1GenParticle_1_1datastore_a7c4f6ca82174720a87fa2371f40000d7}{releaseTree} (TTree \&, TString const \&) override
+\item 
+void \hyperlink{structpanda_1_1GenParticle_1_1datastore_a28a604490b71305ae71b9671e3ea0bdf}{resizeVectors\_\-} (UInt\_\-t) override
+\begin{DoxyCompactList}\small\item\em Override when there are vector members. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{structpanda_1_1GenParticle_1_1datastore_ad1aab7880b9699f04e712abc69799953}{
+\index{panda::GenParticle::datastore@{panda::GenParticle::datastore}!datastore@{datastore}}
+\index{datastore@{datastore}!panda::GenParticle::datastore@{panda::GenParticle::datastore}}
+\subsubsection[{datastore}]{\setlength{\rightskip}{0pt plus 5cm}panda::GenParticle::datastore::datastore ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{structpanda_1_1GenParticle_1_1datastore_ad1aab7880b9699f04e712abc69799953}
+
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_acc9af307e2c4fee9bc5d9bbb37ad6124}{panda::ParticleM::datastore}.\hypertarget{structpanda_1_1GenParticle_1_1datastore_af04b1b2c05d433c8020d5250db10d7d9}{
+\index{panda::GenParticle::datastore@{panda::GenParticle::datastore}!$\sim$datastore@{$\sim$datastore}}
+\index{$\sim$datastore@{$\sim$datastore}!panda::GenParticle::datastore@{panda::GenParticle::datastore}}
+\subsubsection[{$\sim$datastore}]{\setlength{\rightskip}{0pt plus 5cm}panda::GenParticle::datastore::$\sim$datastore ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{structpanda_1_1GenParticle_1_1datastore_af04b1b2c05d433c8020d5250db10d7d9}
+
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_ae068980c20730bc8565d2f7ea701bc5e}{panda::ParticleM::datastore}.
+
+Here is the call graph for this function:
+
+\subsection{Member Function Documentation}
+\hypertarget{structpanda_1_1GenParticle_1_1datastore_a431a6d40dc4affce7107d9368d2932a9}{
+\index{panda::GenParticle::datastore@{panda::GenParticle::datastore}!allocate@{allocate}}
+\index{allocate@{allocate}!panda::GenParticle::datastore@{panda::GenParticle::datastore}}
+\subsubsection[{allocate}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenParticle::datastore::allocate (UInt\_\-t {\em n})\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1GenParticle_1_1datastore_a431a6d40dc4affce7107d9368d2932a9}
+
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_aafc17a88cf8425ff45a00b5fd2eb5751}{panda::ParticleM::datastore}.\hypertarget{structpanda_1_1GenParticle_1_1datastore_a115b560e4e4ecfa3d7c0a2fbbcafe5b9}{
+\index{panda::GenParticle::datastore@{panda::GenParticle::datastore}!book@{book}}
+\index{book@{book}!panda::GenParticle::datastore@{panda::GenParticle::datastore}}
+\subsubsection[{book}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenParticle::datastore::book (TTree \&, \/  TString const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1GenParticle_1_1datastore_a115b560e4e4ecfa3d7c0a2fbbcafe5b9}
+
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_ae2eb76ca042d8b3e899c027ee07b5860}{panda::ParticleM::datastore}.\hypertarget{structpanda_1_1GenParticle_1_1datastore_afe415117bf9f06e163aff5e341c9ef00}{
+\index{panda::GenParticle::datastore@{panda::GenParticle::datastore}!deallocate@{deallocate}}
+\index{deallocate@{deallocate}!panda::GenParticle::datastore@{panda::GenParticle::datastore}}
+\subsubsection[{deallocate}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenParticle::datastore::deallocate ()\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1GenParticle_1_1datastore_afe415117bf9f06e163aff5e341c9ef00}
+
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_a85c4ce11f1d7c6944a525ad2488880aa}{panda::ParticleM::datastore}.
+
+Here is the caller graph for this function:\hypertarget{structpanda_1_1GenParticle_1_1datastore_af83451f0c94efe8daeb7769571e81aef}{
+\index{panda::GenParticle::datastore@{panda::GenParticle::datastore}!getStatus@{getStatus}}
+\index{getStatus@{getStatus}!panda::GenParticle::datastore@{panda::GenParticle::datastore}}
+\subsubsection[{getStatus}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::utils::BranchList} panda::GenParticle::datastore::getStatus (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name}) const\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1GenParticle_1_1datastore_af83451f0c94efe8daeb7769571e81aef}
+
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_a4069b8cdca5715ed6faf0a7907ea8386}{panda::ParticleM::datastore}.
+
+Here is the call graph for this function:\hypertarget{structpanda_1_1GenParticle_1_1datastore_a7c4f6ca82174720a87fa2371f40000d7}{
+\index{panda::GenParticle::datastore@{panda::GenParticle::datastore}!releaseTree@{releaseTree}}
+\index{releaseTree@{releaseTree}!panda::GenParticle::datastore@{panda::GenParticle::datastore}}
+\subsubsection[{releaseTree}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenParticle::datastore::releaseTree (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name})\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1GenParticle_1_1datastore_a7c4f6ca82174720a87fa2371f40000d7}
+
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_ad6986990fa55f1c6ca4e92db28486922}{panda::ParticleM::datastore}.
+
+Here is the call graph for this function:\hypertarget{structpanda_1_1GenParticle_1_1datastore_a28a604490b71305ae71b9671e3ea0bdf}{
+\index{panda::GenParticle::datastore@{panda::GenParticle::datastore}!resizeVectors\_\-@{resizeVectors\_\-}}
+\index{resizeVectors\_\-@{resizeVectors\_\-}!panda::GenParticle::datastore@{panda::GenParticle::datastore}}
+\subsubsection[{resizeVectors\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenParticle::datastore::resizeVectors\_\- (UInt\_\-t)\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1GenParticle_1_1datastore_a28a604490b71305ae71b9671e3ea0bdf}
+
+
+Override when there are vector members. This method should only be used from Collections 
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_a6dd61d4a8f70e81a1638757a5edbc7ed}{panda::ParticleM::datastore}.\hypertarget{structpanda_1_1GenParticle_1_1datastore_ae55290c7499a0b5c80309462637d9e73}{
+\index{panda::GenParticle::datastore@{panda::GenParticle::datastore}!setAddress@{setAddress}}
+\index{setAddress@{setAddress}!panda::GenParticle::datastore@{panda::GenParticle::datastore}}
+\subsubsection[{setAddress}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenParticle::datastore::setAddress (TTree \&, \/  TString const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1GenParticle_1_1datastore_ae55290c7499a0b5c80309462637d9e73}
+
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_ab9f9e7afb145c12941baa10892ed1811}{panda::ParticleM::datastore}.\hypertarget{structpanda_1_1GenParticle_1_1datastore_ae4c5f9b8868d49879bba872aeb7b1027}{
+\index{panda::GenParticle::datastore@{panda::GenParticle::datastore}!setStatus@{setStatus}}
+\index{setStatus@{setStatus}!panda::GenParticle::datastore@{panda::GenParticle::datastore}}
+\subsubsection[{setStatus}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenParticle::datastore::setStatus (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name}, \/  {\bf utils::BranchList} const \& {\em \_\-branches})\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1GenParticle_1_1datastore_ae4c5f9b8868d49879bba872aeb7b1027}
+
+
+Reimplemented from \hyperlink{structpanda_1_1ParticleM_1_1datastore_a0329bec2c84d16ff16e15824890e7a86}{panda::ParticleM::datastore}.
+
+The documentation for this struct was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Objects/interface/\hyperlink{GenParticle_8h}{GenParticle.h}\item 
+Objects/src/\hyperlink{GenParticle_8cc}{GenParticle.cc}\end{DoxyCompactItemize}

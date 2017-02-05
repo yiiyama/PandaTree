@@ -1,0 +1,8 @@
+<map id="panda::PFCand::datastore::book" name="panda::PFCand::datastore::book">
+<area shape="rect" id="node2" href="$structpanda_1_1ParticleM_1_1datastore.html#ae2eb76ca042d8b3e899c027ee07b5860" title="panda::ParticleM::datastore\l::book" alt="" coords="231,56,415,100"/>
+<area shape="rect" id="node5" href="$namespacepanda_1_1utils.html#aaa6c7cd5892388e6ffdf713b11abf793" title="Book the branch. " alt="" coords="708,73,834,101"/>
+<area shape="rect" id="node3" href="$structpanda_1_1Particle_1_1datastore.html#af75a5d8b8a18ee09ce98ab37888b4404" title="panda::Particle::datastore\l::book" alt="" coords="463,5,637,49"/>
+<area shape="rect" id="node4" href="$structpanda_1_1ContainerElement_1_1datastore.html#a3a4062043d9a913acd4056ab1cf5a93f" title="panda::ContainerElement\l::datastore::book" alt="" coords="685,5,857,49"/>
+<area shape="rect" id="node6" href="$classpanda_1_1utils_1_1BranchName.html#a6cc8a6df7c5b12a0221fd49773cca6a7" title="Is the name included and not vetoed? " alt="" coords="905,43,1098,71"/>
+<area shape="rect" id="node7" href="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412" title="Prepend the branch name with &lt;objName.&gt;. " alt="" coords="914,95,1089,139"/>
+</map>

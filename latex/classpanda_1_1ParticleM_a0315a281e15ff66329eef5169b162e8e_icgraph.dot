@@ -1,0 +1,24 @@
+digraph "panda::ParticleM::releaseTree"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="panda::ParticleM::releaseTree",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="panda::GenJet::releaseTree",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1GenJet.html#a013d93183730d090e26b228c65cf9ce2",tooltip="Reset the branch pointer to unlink the branch from this object. "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="panda::GenParticle\l::releaseTree",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1GenParticle.html#a5bd4d21966d73f742f2a37c8ad6e5cf5",tooltip="Reset the branch pointer to unlink the branch from this object. "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="panda::MicroJet::releaseTree",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1MicroJet.html#a1f12baa07c2b52599be1e7808da40742",tooltip="Reset the branch pointer to unlink the branch from this object. "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="panda::Jet::releaseTree",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Jet.html#af402d8510a38cfe145405448644ea3eb",tooltip="Reset the branch pointer to unlink the branch from this object. "];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="panda::FatJet::releaseTree",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1FatJet.html#a9ade7c13e2e94e5796ed7f60b2366896",tooltip="Reset the branch pointer to unlink the branch from this object. "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="panda::Parton::releaseTree",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Parton.html#a6772498c2e5f5fc7fc041e099d8b6348",tooltip="Reset the branch pointer to unlink the branch from this object. "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="panda::PFCand::releaseTree",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1PFCand.html#ad2c2668cf6c6fd3d6ff09e4bdebbfc2a",tooltip="Reset the branch pointer to unlink the branch from this object. "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="panda::Tau::releaseTree",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Tau.html#a00639fe81c56ac1e7bc1d3977d1e9bce",tooltip="Reset the branch pointer to unlink the branch from this object. "];
+}

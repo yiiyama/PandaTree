@@ -1,0 +1,143 @@
+\hypertarget{structpanda_1_1Lepton_1_1datastore}{
+\section{panda::Lepton::datastore Struct Reference}
+\label{structpanda_1_1Lepton_1_1datastore}\index{panda::Lepton::datastore@{panda::Lepton::datastore}}
+}
+
+
+{\ttfamily \#include $<$Lepton.h$>$}Inheritance diagram for panda::Lepton::datastore:Collaboration diagram for panda::Lepton::datastore:\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structpanda_1_1Lepton_1_1datastore_adf84bb1f833eb50c3c73d81af211496e}{datastore} ()
+\item 
+\hyperlink{structpanda_1_1Lepton_1_1datastore_aded63fdccd7551ae16f99adbd29afb82}{$\sim$datastore} ()
+\item 
+void \hyperlink{structpanda_1_1Lepton_1_1datastore_a109ac02caed6e0a69a1b00248d80500e}{allocate} (UInt\_\-t n) override
+\item 
+void \hyperlink{structpanda_1_1Lepton_1_1datastore_a527515ee96020a4aaef41d9de157c131}{deallocate} () override
+\item 
+void \hyperlink{structpanda_1_1Lepton_1_1datastore_a0a158cefd0f32a98625eb5736c414b01}{setStatus} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&) override
+\item 
+\hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} \hyperlink{structpanda_1_1Lepton_1_1datastore_a44602d14a45e9a23ffdb02f9dfa7e018}{getStatus} (TTree \&, TString const \&) const override
+\item 
+void \hyperlink{structpanda_1_1Lepton_1_1datastore_a01bc67f154130787caab05786b3169c6}{setAddress} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}, Bool\_\-t setStatus=kTRUE) override
+\item 
+void \hyperlink{structpanda_1_1Lepton_1_1datastore_ab6cf5ada9f43228301c6bd97b9b6238a}{book} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}, Bool\_\-t dynamic=kTRUE) override
+\item 
+void \hyperlink{structpanda_1_1Lepton_1_1datastore_a3288e551dbce7062e6f2e4e88f1a6a40}{releaseTree} (TTree \&, TString const \&) override
+\item 
+void \hyperlink{structpanda_1_1Lepton_1_1datastore_ae0167ad568d7b57d6e11b1775cd790c7}{resizeVectors\_\-} (UInt\_\-t) override
+\begin{DoxyCompactList}\small\item\em Override when there are vector members. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{structpanda_1_1Lepton_1_1datastore_adf84bb1f833eb50c3c73d81af211496e}{
+\index{panda::Lepton::datastore@{panda::Lepton::datastore}!datastore@{datastore}}
+\index{datastore@{datastore}!panda::Lepton::datastore@{panda::Lepton::datastore}}
+\subsubsection[{datastore}]{\setlength{\rightskip}{0pt plus 5cm}panda::Lepton::datastore::datastore ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{structpanda_1_1Lepton_1_1datastore_adf84bb1f833eb50c3c73d81af211496e}
+
+
+Reimplemented from \hyperlink{structpanda_1_1Particle_1_1datastore_a6e59a47437e52ced2f9605926e0de284}{panda::Particle::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_a2be5528c91b18d47c8c277a4f21ca899}{panda::Electron::datastore}, and \hyperlink{structpanda_1_1Muon_1_1datastore_a85904b7d723e3e95abf0901bbf3db103}{panda::Muon::datastore}.\hypertarget{structpanda_1_1Lepton_1_1datastore_aded63fdccd7551ae16f99adbd29afb82}{
+\index{panda::Lepton::datastore@{panda::Lepton::datastore}!$\sim$datastore@{$\sim$datastore}}
+\index{$\sim$datastore@{$\sim$datastore}!panda::Lepton::datastore@{panda::Lepton::datastore}}
+\subsubsection[{$\sim$datastore}]{\setlength{\rightskip}{0pt plus 5cm}panda::Lepton::datastore::$\sim$datastore ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{structpanda_1_1Lepton_1_1datastore_aded63fdccd7551ae16f99adbd29afb82}
+
+
+Reimplemented from \hyperlink{structpanda_1_1Particle_1_1datastore_afb2d9f4926afbfa8e0f15f0d8d98094a}{panda::Particle::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_af9dfc2f8a0fca924c40cc0d488f6bb02}{panda::Electron::datastore}, and \hyperlink{structpanda_1_1Muon_1_1datastore_a399cd7ed5610fc6c99ac1d3365ddc354}{panda::Muon::datastore}.
+
+Here is the call graph for this function:
+
+\subsection{Member Function Documentation}
+\hypertarget{structpanda_1_1Lepton_1_1datastore_a109ac02caed6e0a69a1b00248d80500e}{
+\index{panda::Lepton::datastore@{panda::Lepton::datastore}!allocate@{allocate}}
+\index{allocate@{allocate}!panda::Lepton::datastore@{panda::Lepton::datastore}}
+\subsubsection[{allocate}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Lepton::datastore::allocate (UInt\_\-t {\em n})\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1Lepton_1_1datastore_a109ac02caed6e0a69a1b00248d80500e}
+
+
+Reimplemented from \hyperlink{structpanda_1_1Particle_1_1datastore_aab4009a97b5f3cc30eaf61cd7dbf2e3d}{panda::Particle::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_a3e84b684132c59a589f7a041cae61507}{panda::Electron::datastore}, and \hyperlink{structpanda_1_1Muon_1_1datastore_a6845ee992e7f6f23a4f159b97411bfc6}{panda::Muon::datastore}.\hypertarget{structpanda_1_1Lepton_1_1datastore_ab6cf5ada9f43228301c6bd97b9b6238a}{
+\index{panda::Lepton::datastore@{panda::Lepton::datastore}!book@{book}}
+\index{book@{book}!panda::Lepton::datastore@{panda::Lepton::datastore}}
+\subsubsection[{book}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Lepton::datastore::book (TTree \&, \/  TString const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1Lepton_1_1datastore_ab6cf5ada9f43228301c6bd97b9b6238a}
+
+
+Reimplemented from \hyperlink{structpanda_1_1Particle_1_1datastore_af75a5d8b8a18ee09ce98ab37888b4404}{panda::Particle::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_aa22730e40dda69219e7dac203220dcae}{panda::Electron::datastore}, and \hyperlink{structpanda_1_1Muon_1_1datastore_ae3244041804870c1792c7ad3cd96ee53}{panda::Muon::datastore}.\hypertarget{structpanda_1_1Lepton_1_1datastore_a527515ee96020a4aaef41d9de157c131}{
+\index{panda::Lepton::datastore@{panda::Lepton::datastore}!deallocate@{deallocate}}
+\index{deallocate@{deallocate}!panda::Lepton::datastore@{panda::Lepton::datastore}}
+\subsubsection[{deallocate}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Lepton::datastore::deallocate ()\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1Lepton_1_1datastore_a527515ee96020a4aaef41d9de157c131}
+
+
+Reimplemented from \hyperlink{structpanda_1_1Particle_1_1datastore_ad741e5ab6ebeb9ca897ba9472d0dea36}{panda::Particle::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_a82e74b804ecc9c1a138d5c3fcd6ef3a3}{panda::Electron::datastore}, and \hyperlink{structpanda_1_1Muon_1_1datastore_aed9de75b6fb1e71671aa8a5b00862ace}{panda::Muon::datastore}.
+
+Here is the caller graph for this function:\hypertarget{structpanda_1_1Lepton_1_1datastore_a44602d14a45e9a23ffdb02f9dfa7e018}{
+\index{panda::Lepton::datastore@{panda::Lepton::datastore}!getStatus@{getStatus}}
+\index{getStatus@{getStatus}!panda::Lepton::datastore@{panda::Lepton::datastore}}
+\subsubsection[{getStatus}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::utils::BranchList} panda::Lepton::datastore::getStatus (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name}) const\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1Lepton_1_1datastore_a44602d14a45e9a23ffdb02f9dfa7e018}
+
+
+Reimplemented from \hyperlink{structpanda_1_1Particle_1_1datastore_a09e5a80068f06d0d2118c2596258b8e3}{panda::Particle::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_aca8cd939bbe2edf7b152348364b1ac4c}{panda::Electron::datastore}, and \hyperlink{structpanda_1_1Muon_1_1datastore_aa1c3edc46b6ca55e9b77634cdd0e6684}{panda::Muon::datastore}.
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{structpanda_1_1Lepton_1_1datastore_a3288e551dbce7062e6f2e4e88f1a6a40}{
+\index{panda::Lepton::datastore@{panda::Lepton::datastore}!releaseTree@{releaseTree}}
+\index{releaseTree@{releaseTree}!panda::Lepton::datastore@{panda::Lepton::datastore}}
+\subsubsection[{releaseTree}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Lepton::datastore::releaseTree (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name})\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1Lepton_1_1datastore_a3288e551dbce7062e6f2e4e88f1a6a40}
+
+
+Reimplemented from \hyperlink{structpanda_1_1Particle_1_1datastore_a9fa2653f0e8b59a5cbc752beaf6b7a57}{panda::Particle::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_acd47db6bdd5b2308f4f1b02a9b1bd97f}{panda::Electron::datastore}, and \hyperlink{structpanda_1_1Muon_1_1datastore_ac48b5f3d5fb73f9e54f0f810d11f8010}{panda::Muon::datastore}.
+
+Here is the call graph for this function:\hypertarget{structpanda_1_1Lepton_1_1datastore_ae0167ad568d7b57d6e11b1775cd790c7}{
+\index{panda::Lepton::datastore@{panda::Lepton::datastore}!resizeVectors\_\-@{resizeVectors\_\-}}
+\index{resizeVectors\_\-@{resizeVectors\_\-}!panda::Lepton::datastore@{panda::Lepton::datastore}}
+\subsubsection[{resizeVectors\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Lepton::datastore::resizeVectors\_\- (UInt\_\-t)\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1Lepton_1_1datastore_ae0167ad568d7b57d6e11b1775cd790c7}
+
+
+Override when there are vector members. This method should only be used from Collections 
+
+Reimplemented from \hyperlink{structpanda_1_1Particle_1_1datastore_aef7e06dbd8399f7de3215aa895907c5f}{panda::Particle::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_a8f0e7ee31635f5cf7482c86b732877a2}{panda::Electron::datastore}, and \hyperlink{structpanda_1_1Muon_1_1datastore_a77544efc70e6058bc86a09dc6a13f483}{panda::Muon::datastore}.\hypertarget{structpanda_1_1Lepton_1_1datastore_a01bc67f154130787caab05786b3169c6}{
+\index{panda::Lepton::datastore@{panda::Lepton::datastore}!setAddress@{setAddress}}
+\index{setAddress@{setAddress}!panda::Lepton::datastore@{panda::Lepton::datastore}}
+\subsubsection[{setAddress}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Lepton::datastore::setAddress (TTree \&, \/  TString const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1Lepton_1_1datastore_a01bc67f154130787caab05786b3169c6}
+
+
+Reimplemented from \hyperlink{structpanda_1_1Particle_1_1datastore_a3e4a1f8d223d8378ef2b92a6d4ccd2b0}{panda::Particle::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_a71a4b440953afe1b0252d462753b74f1}{panda::Electron::datastore}, and \hyperlink{structpanda_1_1Muon_1_1datastore_a04e66e2ffe68566cbba217d5682c8288}{panda::Muon::datastore}.\hypertarget{structpanda_1_1Lepton_1_1datastore_a0a158cefd0f32a98625eb5736c414b01}{
+\index{panda::Lepton::datastore@{panda::Lepton::datastore}!setStatus@{setStatus}}
+\index{setStatus@{setStatus}!panda::Lepton::datastore@{panda::Lepton::datastore}}
+\subsubsection[{setStatus}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Lepton::datastore::setStatus (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name}, \/  {\bf utils::BranchList} const \& {\em \_\-branches})\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{structpanda_1_1Lepton_1_1datastore_a0a158cefd0f32a98625eb5736c414b01}
+
+
+Reimplemented from \hyperlink{structpanda_1_1Particle_1_1datastore_a82fcd5398687827418d8bdcbfc16d661}{panda::Particle::datastore}.
+
+Reimplemented in \hyperlink{structpanda_1_1Electron_1_1datastore_af2c384514f539bcc78e55284b7eb3b67}{panda::Electron::datastore}, and \hyperlink{structpanda_1_1Muon_1_1datastore_a930f982ca62e2c7ceeb62dfcd5e03db9}{panda::Muon::datastore}.
+
+The documentation for this struct was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Objects/interface/\hyperlink{Lepton_8h}{Lepton.h}\item 
+Objects/src/\hyperlink{Lepton_8cc}{Lepton.cc}\end{DoxyCompactItemize}

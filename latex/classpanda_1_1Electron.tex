@@ -1,0 +1,302 @@
+\hypertarget{classpanda_1_1Electron}{
+\section{panda::Electron Class Reference}
+\label{classpanda_1_1Electron}\index{panda::Electron@{panda::Electron}}
+}
+
+
+{\ttfamily \#include $<$Electron.h$>$}Inheritance diagram for panda::Electron:Collaboration diagram for panda::Electron:\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpanda_1_1Electron_1_1datastore}{datastore}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classpanda_1_1Array}{Array}$<$ \hyperlink{classpanda_1_1Electron}{Electron} $>$ \hyperlink{classpanda_1_1Electron_a7bfeb05c19bc521a2e12e1704cc16958}{array\_\-type}
+\item 
+typedef \hyperlink{classpanda_1_1Collection}{Collection}$<$ \hyperlink{classpanda_1_1Electron}{Electron} $>$ \hyperlink{classpanda_1_1Electron_abf729472e92b96747fc90029ca7ac3a1}{collection\_\-type}
+\item 
+typedef \hyperlink{classpanda_1_1Lepton}{Lepton} \hyperlink{classpanda_1_1Electron_a0fdcdc003b2db72940f10d648b3833a6}{base\_\-type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1Electron_acfc2bc09ae177948fc6eef2e4d59946e}{Electron} (char const $\ast$name=\char`\"{}\char`\"{})
+\item 
+\hyperlink{classpanda_1_1Electron_af840b7a8130fbf43c745ebfc6f823d01}{Electron} (\hyperlink{classpanda_1_1Electron}{Electron} const \&)
+\item 
+\hyperlink{classpanda_1_1Electron_ac799df2aad67e3d34c3d71bc6848cc91}{Electron} (\hyperlink{structpanda_1_1Element_1_1datastore}{datastore} \&, UInt\_\-t idx)
+\item 
+\hyperlink{classpanda_1_1Electron_a279592af2591ccab5cf7e6d4527dcb56}{$\sim$Electron} ()
+\item 
+\hyperlink{classpanda_1_1Electron}{Electron} \& \hyperlink{classpanda_1_1Electron_adf667b212f1ea11094dd276fd913c4f6}{operator=} (\hyperlink{classpanda_1_1Electron}{Electron} const \&)
+\item 
+double \hyperlink{classpanda_1_1Electron_a809cee4161783ff5d00b69e24c125759}{m} () const override
+\item 
+double \hyperlink{classpanda_1_1Electron_a68eb50798d64b6bafaa21aac9e67f0d6}{combiso} () const override
+\item 
+void \hyperlink{classpanda_1_1Electron_a9e9a34d904d5cc02ab895e73cdaf6d7f}{destructor} () override
+\begin{DoxyCompactList}\small\item\em Destructor implementation. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1Electron_a45c4dfccb2afa82a251c18019275cd59}{chisoPh}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1Electron_a63c9ad9abcf7f57fac25a4cc2cf0c0e4}{nhisoPh}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1Electron_acc1bedc35d474dadf9e54f5309866eda}{phisoPh}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1Electron_a67e15ea6d6a8ad9ca9123fb50e095241}{ecaliso}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1Electron_ab2ef27643d09d31cefac59c900a32c80}{hcaliso}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1Electron_a557e17a14d575d9267e9b7caa291ff3f}{isoPUOffset}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1Electron_ab7c3817af811a716b1942fa545163996}{sieie}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1Electron_af63a95ef4a12371e908ec390aaff9c37}{sipip}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1Electron_aa3cf96c4368cde3a6ecfe55905b456f7}{eseed}
+\item 
+Float\_\-t \& \hyperlink{classpanda_1_1Electron_a1a6590866278504775ef609cde68e171}{hOverE}
+\item 
+Bool\_\-t \& \hyperlink{classpanda_1_1Electron_acaa07729d3fd779aea2837d4acd7c284}{veto}
+\item 
+Bool\_\-t(\& \hyperlink{classpanda_1_1Electron_a416b97f96a625647771934f8d4f8e53d}{triggerMatch} )\mbox{[}nElectronTriggerObjects\mbox{]}
+\item 
+\hyperlink{classpanda_1_1Ref}{Ref}$<$ \hyperlink{classpanda_1_1SuperCluster}{SuperCluster} $>$ \hyperlink{classpanda_1_1Electron_aa390943fba270ca2e54f846e67aa20be}{superCluster}
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1Electron_a1a164e9604f2796faf0702bb82a08fc6}{Electron} (\hyperlink{classpanda_1_1ArrayBase}{ArrayBase} $\ast$)
+\item 
+void \hyperlink{classpanda_1_1Electron_af73c3c5f59267c4bba4ceb0a47cfc6ec}{doSetStatus\_\-} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&) override
+\item 
+\hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} \hyperlink{classpanda_1_1Electron_a3e2097c55d5ab63188d0c04426e47248}{doGetStatus\_\-} (TTree \&, TString const \&) const override
+\item 
+void \hyperlink{classpanda_1_1Electron_a4da89a6071eab568e7aba8b61d2888a2}{doSetAddress\_\-} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}, Bool\_\-t setStatus=kTRUE) override
+\item 
+void \hyperlink{classpanda_1_1Electron_a2b2000f57a7f009c12bdf33f25d50350}{doBook\_\-} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}) override
+\item 
+void \hyperlink{classpanda_1_1Electron_a728ea4bc877ba68f1a8e7301ea712871}{doReleaseTree\_\-} (TTree \&, TString const \&) override
+\item 
+void \hyperlink{classpanda_1_1Electron_a87826542cbfbde4305c312ffa677d1bf}{doInit\_\-} () override
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classpanda_1_1Electron_a7bfeb05c19bc521a2e12e1704cc16958}{
+\index{panda::Electron@{panda::Electron}!array\_\-type@{array\_\-type}}
+\index{array\_\-type@{array\_\-type}!panda::Electron@{panda::Electron}}
+\subsubsection[{array\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Array}$<${\bf Electron}$>$ {\bf panda::Electron::array\_\-type}}}
+\label{classpanda_1_1Electron_a7bfeb05c19bc521a2e12e1704cc16958}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_ad9bce760734162cd7166b034515fe1fe}{panda::Lepton}.\hypertarget{classpanda_1_1Electron_a0fdcdc003b2db72940f10d648b3833a6}{
+\index{panda::Electron@{panda::Electron}!base\_\-type@{base\_\-type}}
+\index{base\_\-type@{base\_\-type}!panda::Electron@{panda::Electron}}
+\subsubsection[{base\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Lepton} {\bf panda::Electron::base\_\-type}}}
+\label{classpanda_1_1Electron_a0fdcdc003b2db72940f10d648b3833a6}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_ab8f2fc84ff093d5200d1905677d15578}{panda::Lepton}.\hypertarget{classpanda_1_1Electron_abf729472e92b96747fc90029ca7ac3a1}{
+\index{panda::Electron@{panda::Electron}!collection\_\-type@{collection\_\-type}}
+\index{collection\_\-type@{collection\_\-type}!panda::Electron@{panda::Electron}}
+\subsubsection[{collection\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Collection}$<${\bf Electron}$>$ {\bf panda::Electron::collection\_\-type}}}
+\label{classpanda_1_1Electron_abf729472e92b96747fc90029ca7ac3a1}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_acba098c3047ecbfa9c1ad6c88a3ba95f}{panda::Lepton}.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classpanda_1_1Electron_acfc2bc09ae177948fc6eef2e4d59946e}{
+\index{panda::Electron@{panda::Electron}!Electron@{Electron}}
+\index{Electron@{Electron}!panda::Electron@{panda::Electron}}
+\subsubsection[{Electron}]{\setlength{\rightskip}{0pt plus 5cm}panda::Electron::Electron (char const $\ast$ {\em name} = {\ttfamily \char`\"{}\char`\"{}})}}
+\label{classpanda_1_1Electron_acfc2bc09ae177948fc6eef2e4d59946e}
+\hypertarget{classpanda_1_1Electron_af840b7a8130fbf43c745ebfc6f823d01}{
+\index{panda::Electron@{panda::Electron}!Electron@{Electron}}
+\index{Electron@{Electron}!panda::Electron@{panda::Electron}}
+\subsubsection[{Electron}]{\setlength{\rightskip}{0pt plus 5cm}panda::Electron::Electron ({\bf Electron} const \& {\em \_\-src})}}
+\label{classpanda_1_1Electron_af840b7a8130fbf43c745ebfc6f823d01}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Electron_ac799df2aad67e3d34c3d71bc6848cc91}{
+\index{panda::Electron@{panda::Electron}!Electron@{Electron}}
+\index{Electron@{Electron}!panda::Electron@{panda::Electron}}
+\subsubsection[{Electron}]{\setlength{\rightskip}{0pt plus 5cm}panda::Electron::Electron ({\bf datastore} \& {\em \_\-data}, \/  UInt\_\-t {\em idx})}}
+\label{classpanda_1_1Electron_ac799df2aad67e3d34c3d71bc6848cc91}
+\hypertarget{classpanda_1_1Electron_a279592af2591ccab5cf7e6d4527dcb56}{
+\index{panda::Electron@{panda::Electron}!$\sim$Electron@{$\sim$Electron}}
+\index{$\sim$Electron@{$\sim$Electron}!panda::Electron@{panda::Electron}}
+\subsubsection[{$\sim$Electron}]{\setlength{\rightskip}{0pt plus 5cm}panda::Electron::$\sim$Electron ()}}
+\label{classpanda_1_1Electron_a279592af2591ccab5cf7e6d4527dcb56}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Electron_a1a164e9604f2796faf0702bb82a08fc6}{
+\index{panda::Electron@{panda::Electron}!Electron@{Electron}}
+\index{Electron@{Electron}!panda::Electron@{panda::Electron}}
+\subsubsection[{Electron}]{\setlength{\rightskip}{0pt plus 5cm}panda::Electron::Electron ({\bf ArrayBase} $\ast$ {\em \_\-array})\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classpanda_1_1Electron_a1a164e9604f2796faf0702bb82a08fc6}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classpanda_1_1Electron_a68eb50798d64b6bafaa21aac9e67f0d6}{
+\index{panda::Electron@{panda::Electron}!combiso@{combiso}}
+\index{combiso@{combiso}!panda::Electron@{panda::Electron}}
+\subsubsection[{combiso}]{\setlength{\rightskip}{0pt plus 5cm}double panda::Electron::combiso () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, override, virtual\mbox{]}}}}
+\label{classpanda_1_1Electron_a68eb50798d64b6bafaa21aac9e67f0d6}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_a13fd748ab9e1b76e5cc8391723cc5ea7}{panda::Lepton}.\hypertarget{classpanda_1_1Electron_a9e9a34d904d5cc02ab895e73cdaf6d7f}{
+\index{panda::Electron@{panda::Electron}!destructor@{destructor}}
+\index{destructor@{destructor}!panda::Electron@{panda::Electron}}
+\subsubsection[{destructor}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Electron::destructor ()\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{classpanda_1_1Electron_a9e9a34d904d5cc02ab895e73cdaf6d7f}
+
+
+Destructor implementation. The actual destructor of the object should be called only if the \hyperlink{classpanda_1_1Element}{Element} is constructed as a singlet. In the Container environment, the memory allocated for this object is directly deallocated without calling $\sim$(\hyperlink{classpanda_1_1Object}{Object}). If subclasses need to make some calls at the destruction time of the object, they must be implemented in this \hyperlink{namespacepanda_1_1function}{function}. 
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_af8bb4d531bdddbf51f479f7eb0dae175}{panda::Lepton}.
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Electron_a2b2000f57a7f009c12bdf33f25d50350}{
+\index{panda::Electron@{panda::Electron}!doBook\_\-@{doBook\_\-}}
+\index{doBook\_\-@{doBook\_\-}!panda::Electron@{panda::Electron}}
+\subsubsection[{doBook\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Electron::doBook\_\- (TTree \&, \/  TString const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected\mbox{]}}}}
+\label{classpanda_1_1Electron_a2b2000f57a7f009c12bdf33f25d50350}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_af9d74c974117a26f53e60da918cb84ba}{panda::Lepton}.\hypertarget{classpanda_1_1Electron_a3e2097c55d5ab63188d0c04426e47248}{
+\index{panda::Electron@{panda::Electron}!doGetStatus\_\-@{doGetStatus\_\-}}
+\index{doGetStatus\_\-@{doGetStatus\_\-}!panda::Electron@{panda::Electron}}
+\subsubsection[{doGetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::utils::BranchList} panda::Electron::doGetStatus\_\- (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name}) const\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Electron_a3e2097c55d5ab63188d0c04426e47248}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_a90a170df4cd09d324964da724bcc5428}{panda::Lepton}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Electron_a87826542cbfbde4305c312ffa677d1bf}{
+\index{panda::Electron@{panda::Electron}!doInit\_\-@{doInit\_\-}}
+\index{doInit\_\-@{doInit\_\-}!panda::Electron@{panda::Electron}}
+\subsubsection[{doInit\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Electron::doInit\_\- ()\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Electron_a87826542cbfbde4305c312ffa677d1bf}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_af764ff1ea6dfb16072d6c9de3b935129}{panda::Lepton}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Electron_a728ea4bc877ba68f1a8e7301ea712871}{
+\index{panda::Electron@{panda::Electron}!doReleaseTree\_\-@{doReleaseTree\_\-}}
+\index{doReleaseTree\_\-@{doReleaseTree\_\-}!panda::Electron@{panda::Electron}}
+\subsubsection[{doReleaseTree\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Electron::doReleaseTree\_\- (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name})\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Electron_a728ea4bc877ba68f1a8e7301ea712871}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_ae0f913947dcc9e3827de846e7b885280}{panda::Lepton}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Electron_a4da89a6071eab568e7aba8b61d2888a2}{
+\index{panda::Electron@{panda::Electron}!doSetAddress\_\-@{doSetAddress\_\-}}
+\index{doSetAddress\_\-@{doSetAddress\_\-}!panda::Electron@{panda::Electron}}
+\subsubsection[{doSetAddress\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Electron::doSetAddress\_\- (TTree \&, \/  TString const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected\mbox{]}}}}
+\label{classpanda_1_1Electron_a4da89a6071eab568e7aba8b61d2888a2}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_a2d46b07ce93bec008954f222c6860ff9}{panda::Lepton}.\hypertarget{classpanda_1_1Electron_af73c3c5f59267c4bba4ceb0a47cfc6ec}{
+\index{panda::Electron@{panda::Electron}!doSetStatus\_\-@{doSetStatus\_\-}}
+\index{doSetStatus\_\-@{doSetStatus\_\-}!panda::Electron@{panda::Electron}}
+\subsubsection[{doSetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Electron::doSetStatus\_\- (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name}, \/  {\bf utils::BranchList} const \& {\em \_\-branches})\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Electron_af73c3c5f59267c4bba4ceb0a47cfc6ec}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_a2d3b49322244947c933645bbdb44bf88}{panda::Lepton}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Electron_a809cee4161783ff5d00b69e24c125759}{
+\index{panda::Electron@{panda::Electron}!m@{m}}
+\index{m@{m}!panda::Electron@{panda::Electron}}
+\subsubsection[{m}]{\setlength{\rightskip}{0pt plus 5cm}double panda::Electron::m () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, override, virtual\mbox{]}}}}
+\label{classpanda_1_1Electron_a809cee4161783ff5d00b69e24c125759}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Particle_aa793c05fc1334ed462e18c794339eebf}{panda::Particle}.\hypertarget{classpanda_1_1Electron_adf667b212f1ea11094dd276fd913c4f6}{
+\index{panda::Electron@{panda::Electron}!operator=@{operator=}}
+\index{operator=@{operator=}!panda::Electron@{panda::Electron}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::Electron} \& panda::Electron::operator= ({\bf Electron} const \& {\em \_\-src})}}
+\label{classpanda_1_1Electron_adf667b212f1ea11094dd276fd913c4f6}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Lepton_a24b1cd552930db2af2734d3acbb27257}{panda::Lepton}.
+
+Here is the caller graph for this function:
+
+\subsection{Member Data Documentation}
+\hypertarget{classpanda_1_1Electron_a45c4dfccb2afa82a251c18019275cd59}{
+\index{panda::Electron@{panda::Electron}!chisoPh@{chisoPh}}
+\index{chisoPh@{chisoPh}!panda::Electron@{panda::Electron}}
+\subsubsection[{chisoPh}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::Electron::chisoPh}}}
+\label{classpanda_1_1Electron_a45c4dfccb2afa82a251c18019275cd59}
+\hypertarget{classpanda_1_1Electron_a67e15ea6d6a8ad9ca9123fb50e095241}{
+\index{panda::Electron@{panda::Electron}!ecaliso@{ecaliso}}
+\index{ecaliso@{ecaliso}!panda::Electron@{panda::Electron}}
+\subsubsection[{ecaliso}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::Electron::ecaliso}}}
+\label{classpanda_1_1Electron_a67e15ea6d6a8ad9ca9123fb50e095241}
+\hypertarget{classpanda_1_1Electron_aa3cf96c4368cde3a6ecfe55905b456f7}{
+\index{panda::Electron@{panda::Electron}!eseed@{eseed}}
+\index{eseed@{eseed}!panda::Electron@{panda::Electron}}
+\subsubsection[{eseed}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::Electron::eseed}}}
+\label{classpanda_1_1Electron_aa3cf96c4368cde3a6ecfe55905b456f7}
+\hypertarget{classpanda_1_1Electron_ab2ef27643d09d31cefac59c900a32c80}{
+\index{panda::Electron@{panda::Electron}!hcaliso@{hcaliso}}
+\index{hcaliso@{hcaliso}!panda::Electron@{panda::Electron}}
+\subsubsection[{hcaliso}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::Electron::hcaliso}}}
+\label{classpanda_1_1Electron_ab2ef27643d09d31cefac59c900a32c80}
+\hypertarget{classpanda_1_1Electron_a1a6590866278504775ef609cde68e171}{
+\index{panda::Electron@{panda::Electron}!hOverE@{hOverE}}
+\index{hOverE@{hOverE}!panda::Electron@{panda::Electron}}
+\subsubsection[{hOverE}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::Electron::hOverE}}}
+\label{classpanda_1_1Electron_a1a6590866278504775ef609cde68e171}
+\hypertarget{classpanda_1_1Electron_a557e17a14d575d9267e9b7caa291ff3f}{
+\index{panda::Electron@{panda::Electron}!isoPUOffset@{isoPUOffset}}
+\index{isoPUOffset@{isoPUOffset}!panda::Electron@{panda::Electron}}
+\subsubsection[{isoPUOffset}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::Electron::isoPUOffset}}}
+\label{classpanda_1_1Electron_a557e17a14d575d9267e9b7caa291ff3f}
+\hypertarget{classpanda_1_1Electron_a63c9ad9abcf7f57fac25a4cc2cf0c0e4}{
+\index{panda::Electron@{panda::Electron}!nhisoPh@{nhisoPh}}
+\index{nhisoPh@{nhisoPh}!panda::Electron@{panda::Electron}}
+\subsubsection[{nhisoPh}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::Electron::nhisoPh}}}
+\label{classpanda_1_1Electron_a63c9ad9abcf7f57fac25a4cc2cf0c0e4}
+\hypertarget{classpanda_1_1Electron_acc1bedc35d474dadf9e54f5309866eda}{
+\index{panda::Electron@{panda::Electron}!phisoPh@{phisoPh}}
+\index{phisoPh@{phisoPh}!panda::Electron@{panda::Electron}}
+\subsubsection[{phisoPh}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::Electron::phisoPh}}}
+\label{classpanda_1_1Electron_acc1bedc35d474dadf9e54f5309866eda}
+\hypertarget{classpanda_1_1Electron_ab7c3817af811a716b1942fa545163996}{
+\index{panda::Electron@{panda::Electron}!sieie@{sieie}}
+\index{sieie@{sieie}!panda::Electron@{panda::Electron}}
+\subsubsection[{sieie}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::Electron::sieie}}}
+\label{classpanda_1_1Electron_ab7c3817af811a716b1942fa545163996}
+\hypertarget{classpanda_1_1Electron_af63a95ef4a12371e908ec390aaff9c37}{
+\index{panda::Electron@{panda::Electron}!sipip@{sipip}}
+\index{sipip@{sipip}!panda::Electron@{panda::Electron}}
+\subsubsection[{sipip}]{\setlength{\rightskip}{0pt plus 5cm}Float\_\-t\& {\bf panda::Electron::sipip}}}
+\label{classpanda_1_1Electron_af63a95ef4a12371e908ec390aaff9c37}
+\hypertarget{classpanda_1_1Electron_aa390943fba270ca2e54f846e67aa20be}{
+\index{panda::Electron@{panda::Electron}!superCluster@{superCluster}}
+\index{superCluster@{superCluster}!panda::Electron@{panda::Electron}}
+\subsubsection[{superCluster}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Ref}$<${\bf SuperCluster}$>$ {\bf panda::Electron::superCluster}}}
+\label{classpanda_1_1Electron_aa390943fba270ca2e54f846e67aa20be}
+\hypertarget{classpanda_1_1Electron_a416b97f96a625647771934f8d4f8e53d}{
+\index{panda::Electron@{panda::Electron}!triggerMatch@{triggerMatch}}
+\index{triggerMatch@{triggerMatch}!panda::Electron@{panda::Electron}}
+\subsubsection[{triggerMatch}]{\setlength{\rightskip}{0pt plus 5cm}Bool\_\-t(\& {\bf panda::Electron::triggerMatch})\mbox{[}nElectronTriggerObjects\mbox{]}}}
+\label{classpanda_1_1Electron_a416b97f96a625647771934f8d4f8e53d}
+\hypertarget{classpanda_1_1Electron_acaa07729d3fd779aea2837d4acd7c284}{
+\index{panda::Electron@{panda::Electron}!veto@{veto}}
+\index{veto@{veto}!panda::Electron@{panda::Electron}}
+\subsubsection[{veto}]{\setlength{\rightskip}{0pt plus 5cm}Bool\_\-t\& {\bf panda::Electron::veto}}}
+\label{classpanda_1_1Electron_acaa07729d3fd779aea2837d4acd7c284}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Objects/interface/\hyperlink{Electron_8h}{Electron.h}\item 
+Objects/src/\hyperlink{Electron_8cc}{Electron.cc}\end{DoxyCompactItemize}

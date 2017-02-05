@@ -1,0 +1,32 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classpanda_1_1Object.html" title="panda::Object" alt="" coords="5,331,110,359"/>
+<area shape="rect" id="node2" href="$classpanda_1_1ContainerBase.html" title="Base class for all containers. " alt="" coords="167,161,321,189"/>
+<area shape="rect" id="node5" href="$classpanda_1_1ContainerElement.html" title="panda::ContainerElement" alt="" coords="158,265,330,293"/>
+<area shape="rect" id="node21" href="$classpanda_1_1Singlet.html" title="panda::Singlet" alt="" coords="191,396,297,424"/>
+<area shape="rect" id="node28" href="$classpanda_1_1TreeEntry.html" title="panda::TreeEntry" alt="" coords="182,577,306,605"/>
+<area shape="rect" id="node3" href="$classpanda_1_1ArrayBase.html" title="Base class for fixed&#45;size containers. " alt="" coords="391,109,520,137"/>
+<area shape="rect" id="node4" href="$classpanda_1_1CollectionBase.html" title="Base class for dynamic&#45;size containers. " alt="" coords="378,161,533,189"/>
+<area shape="rect" id="node6" href="$classpanda_1_1Particle.html" title="panda::Particle" alt="" coords="400,213,511,241"/>
+<area shape="rect" id="node20" href="$classpanda_1_1SuperCluster.html" title="panda::SuperCluster" alt="" coords="384,265,527,293"/>
+<area shape="rect" id="node7" href="$classpanda_1_1Lepton.html" title="panda::Lepton" alt="" coords="588,57,695,85"/>
+<area shape="rect" id="node10" href="$classpanda_1_1ParticleM.html" title="panda::ParticleM" alt="" coords="581,213,702,241"/>
+<area shape="rect" id="node19" href="$classpanda_1_1Photon.html" title="panda::Photon" alt="" coords="588,265,696,293"/>
+<area shape="rect" id="node8" href="$classpanda_1_1Electron.html" title="panda::Electron" alt="" coords="761,5,875,33"/>
+<area shape="rect" id="node9" href="$classpanda_1_1Muon.html" title="panda::Muon" alt="" coords="768,57,868,85"/>
+<area shape="rect" id="node11" href="$classpanda_1_1GenJet.html" title="panda::GenJet" alt="" coords="764,109,872,137"/>
+<area shape="rect" id="node12" href="$classpanda_1_1GenParticle.html" title="panda::GenParticle" alt="" coords="750,161,886,189"/>
+<area shape="rect" id="node13" href="$classpanda_1_1MicroJet.html" title="panda::MicroJet" alt="" coords="760,213,876,241"/>
+<area shape="rect" id="node16" href="$classpanda_1_1Parton.html" title="panda::Parton" alt="" coords="765,265,870,293"/>
+<area shape="rect" id="node17" href="$classpanda_1_1PFCand.html" title="panda::PFCand" alt="" coords="761,317,875,345"/>
+<area shape="rect" id="node18" href="$classpanda_1_1Tau.html" title="panda::Tau" alt="" coords="774,369,862,397"/>
+<area shape="rect" id="node14" href="$classpanda_1_1Jet.html" title="panda::Jet" alt="" coords="934,213,1017,241"/>
+<area shape="rect" id="node15" href="$classpanda_1_1FatJet.html" title="panda::FatJet" alt="" coords="1065,213,1168,241"/>
+<area shape="rect" id="node22" href="$classpanda_1_1GenReweight.html" title="panda::GenReweight" alt="" coords="382,317,529,345"/>
+<area shape="rect" id="node23" href="$classpanda_1_1HLTBits.html" title="panda::HLTBits" alt="" coords="399,369,512,397"/>
+<area shape="rect" id="node24" href="$classpanda_1_1Met.html" title="panda::Met" alt="" coords="411,421,500,449"/>
+<area shape="rect" id="node26" href="$classpanda_1_1MetFilters.html" title="panda::MetFilters" alt="" coords="393,473,518,501"/>
+<area shape="rect" id="node27" href="$classpanda_1_1Recoil.html" title="panda::Recoil" alt="" coords="404,525,507,553"/>
+<area shape="rect" id="node25" href="$classpanda_1_1RecoMet.html" title="panda::RecoMet" alt="" coords="582,421,701,449"/>
+<area shape="rect" id="node29" href="$classpanda_1_1Event.html" title="panda::Event" alt="" coords="406,577,505,605"/>
+<area shape="rect" id="node30" href="$classpanda_1_1Run.html" title="panda::Run" alt="" coords="410,629,501,657"/>
+</map>

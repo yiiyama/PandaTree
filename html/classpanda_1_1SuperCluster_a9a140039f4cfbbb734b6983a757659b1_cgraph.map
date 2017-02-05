@@ -1,0 +1,7 @@
+<map id="panda::SuperCluster::book" name="panda::SuperCluster::book">
+<area shape="rect" id="node2" href="$classpanda_1_1Object.html#a2fcd6665633deef16e86aa4e49135dd7" title="Book new branches to the tree corresponding to the variables of this object. " alt="" coords="217,5,358,33"/>
+<area shape="rect" id="node3" href="$classpanda_1_1utils_1_1StoreManager.html#a6f30ec459d951e84a1196b7e2ffdcf49" title="panda::utils::StoreManager\l::getName" alt="" coords="197,57,378,101"/>
+<area shape="rect" id="node4" href="$namespacepanda_1_1utils.html#aaa6c7cd5892388e6ffdf713b11abf793" title="Book the branch. " alt="" coords="225,125,351,153"/>
+<area shape="rect" id="node5" href="$classpanda_1_1utils_1_1BranchName.html#a6cc8a6df7c5b12a0221fd49773cca6a7" title="Is the name included and not vetoed? " alt="" coords="426,95,619,123"/>
+<area shape="rect" id="node6" href="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412" title="Prepend the branch name with &lt;objName.&gt;. " alt="" coords="435,147,610,191"/>
+</map>

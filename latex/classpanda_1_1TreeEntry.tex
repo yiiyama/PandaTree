@@ -1,0 +1,254 @@
+\hypertarget{classpanda_1_1TreeEntry}{
+\section{panda::TreeEntry Class Reference}
+\label{classpanda_1_1TreeEntry}\index{panda::TreeEntry@{panda::TreeEntry}}
+}
+
+
+Base class for objects representing one full entry of a \hyperlink{namespacepanda_1_1tree}{tree} (e.g. \hyperlink{classpanda_1_1Event}{Event}).  
+
+
+{\ttfamily \#include $<$TreeEntry.h$>$}Inheritance diagram for panda::TreeEntry:Collaboration diagram for panda::TreeEntry:\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1TreeEntry_a3e4d2b1708db6f13525a6eff2b577b88}{TreeEntry} (char const $\ast$name)
+\item 
+virtual \hyperlink{classpanda_1_1TreeEntry_a56aa861e9e5589723cbd45c701ca96c6}{$\sim$TreeEntry} ()
+\item 
+void \hyperlink{classpanda_1_1TreeEntry_a8d65c0ee41e1ef5c7f7a41c454dad052}{setStatus} (TTree \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&blist) final
+\begin{DoxyCompactList}\small\item\em Set status of branches to true (matching \hyperlink{namespacepanda_1_1branch}{branch}) or false (vetoed \hyperlink{namespacepanda_1_1branch}{branch}). \item\end{DoxyCompactList}\item 
+\hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} \hyperlink{classpanda_1_1TreeEntry_a3be7000fca4d0dd356488643aaa752dd}{getStatus} (TTree \&) const final
+\begin{DoxyCompactList}\small\item\em Get status of branches in the \hyperlink{namespacepanda_1_1tree}{tree}. \item\end{DoxyCompactList}\item 
+UInt\_\-t \hyperlink{classpanda_1_1TreeEntry_a693015be3e9d7c6daffe056798150455}{setAddress} (TTree \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&blist=\{\char`\"{}$\ast$\char`\"{}\}, Bool\_\-t setStatus=kTRUE) final
+\begin{DoxyCompactList}\small\item\em Bind the \hyperlink{namespacepanda_1_1tree}{tree} branches to the elements of this object. \item\end{DoxyCompactList}\item 
+void \hyperlink{classpanda_1_1TreeEntry_a2ad0cb0f4cdaca3292274a6c94f5ae2f}{book} (TTree \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&blist=\{\char`\"{}$\ast$\char`\"{}\}) final
+\begin{DoxyCompactList}\small\item\em Book new branches bound to this object on the \hyperlink{namespacepanda_1_1tree}{tree}. \item\end{DoxyCompactList}\item 
+Int\_\-t \hyperlink{classpanda_1_1TreeEntry_a6ac8a1bad151367648aedd366011172d}{getEntry} (Long64\_\-t entry, UInt\_\-t treeIdx=0) final
+\begin{DoxyCompactList}\small\item\em Read an entry from an input \hyperlink{namespacepanda_1_1tree}{tree}. \item\end{DoxyCompactList}\item 
+TTree $\ast$ \hyperlink{classpanda_1_1TreeEntry_a3e0841eb1ddb6e85e37413e4866101b6}{getInput} (UInt\_\-t treeIdx=0) const final
+\begin{DoxyCompactList}\small\item\em Get the input \hyperlink{namespacepanda_1_1tree}{tree} identified by the token. \item\end{DoxyCompactList}\item 
+void \hyperlink{classpanda_1_1TreeEntry_a3d54b23c121628d22c65c26482d7cab0}{releaseTree} (TTree \&) final
+\begin{DoxyCompactList}\small\item\em Unbind the \hyperlink{namespacepanda_1_1tree}{tree}. \item\end{DoxyCompactList}\item 
+void \hyperlink{classpanda_1_1TreeEntry_a734130107a3568d87eb6570ab9b9ee60}{init} () final
+\begin{DoxyCompactList}\small\item\em Reset the object state. \item\end{DoxyCompactList}\item 
+char const $\ast$ \hyperlink{classpanda_1_1TreeEntry_afbd2a566ad42c6f5e4ce0183cde65c20}{getName} () const final
+\begin{DoxyCompactList}\small\item\em Name of this object. \item\end{DoxyCompactList}\item 
+void \hyperlink{classpanda_1_1TreeEntry_aa0f473dd6eca2ae68ef9b9cb37d909bb}{setName} (char const $\ast$name) final
+\begin{DoxyCompactList}\small\item\em Set object name. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \hyperlink{classpanda_1_1TreeEntry_a8c17222accba71d53b73ad6e2c3276a2}{doSetStatus\_\-} (TTree \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&)=0
+\item 
+virtual \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} \hyperlink{classpanda_1_1TreeEntry_a649d4a6f2719b68d54c6a7505f5f3105}{doGetStatus\_\-} (TTree \&) const =0
+\item 
+virtual void \hyperlink{classpanda_1_1TreeEntry_abdb184144bf5a4ca8b0fdb6d06c5d4c1}{doSetAddress\_\-} (TTree \&tree, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&, Bool\_\-t setStatus)=0
+\item 
+virtual void \hyperlink{classpanda_1_1TreeEntry_a62e77d9db1eec7032b1e31e5edc78a10}{doBook\_\-} (TTree \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&)=0
+\item 
+virtual void \hyperlink{classpanda_1_1TreeEntry_a44e70436de0dc8088885895ea0011a2d}{doReleaseTree\_\-} (TTree \&)=0
+\item 
+virtual void \hyperlink{classpanda_1_1TreeEntry_ab78cd4dfd6c017222db541580983fb65}{doInit\_\-} ()=0
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Base class for objects representing one full entry of a \hyperlink{namespacepanda_1_1tree}{tree} (e.g. \hyperlink{classpanda_1_1Event}{Event}). A derived class of \hyperlink{classpanda_1_1TreeEntry}{TreeEntry} typically owns multiple Singlets, Containers, as well as its own primitive branches. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classpanda_1_1TreeEntry_a3e4d2b1708db6f13525a6eff2b577b88}{
+\index{panda::TreeEntry@{panda::TreeEntry}!TreeEntry@{TreeEntry}}
+\index{TreeEntry@{TreeEntry}!panda::TreeEntry@{panda::TreeEntry}}
+\subsubsection[{TreeEntry}]{\setlength{\rightskip}{0pt plus 5cm}panda::TreeEntry::TreeEntry (char const $\ast$ {\em name})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1TreeEntry_a3e4d2b1708db6f13525a6eff2b577b88}
+\hypertarget{classpanda_1_1TreeEntry_a56aa861e9e5589723cbd45c701ca96c6}{
+\index{panda::TreeEntry@{panda::TreeEntry}!$\sim$TreeEntry@{$\sim$TreeEntry}}
+\index{$\sim$TreeEntry@{$\sim$TreeEntry}!panda::TreeEntry@{panda::TreeEntry}}
+\subsubsection[{$\sim$TreeEntry}]{\setlength{\rightskip}{0pt plus 5cm}virtual panda::TreeEntry::$\sim$TreeEntry ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classpanda_1_1TreeEntry_a56aa861e9e5589723cbd45c701ca96c6}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classpanda_1_1TreeEntry_a2ad0cb0f4cdaca3292274a6c94f5ae2f}{
+\index{panda::TreeEntry@{panda::TreeEntry}!book@{book}}
+\index{book@{book}!panda::TreeEntry@{panda::TreeEntry}}
+\subsubsection[{book}]{\setlength{\rightskip}{0pt plus 5cm}void panda::TreeEntry::book (TTree \&)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classpanda_1_1TreeEntry_a2ad0cb0f4cdaca3292274a6c94f5ae2f}
+
+
+Book new branches bound to this object on the \hyperlink{namespacepanda_1_1tree}{tree}. 
+\begin{DoxyParams}{Parameters}
+\item[{\em blist}]List of branches to book. Vetoed or unmentioned branches are not booked. \end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Object_a2fcd6665633deef16e86aa4e49135dd7}{panda::Object}.
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1TreeEntry_a62e77d9db1eec7032b1e31e5edc78a10}{
+\index{panda::TreeEntry@{panda::TreeEntry}!doBook\_\-@{doBook\_\-}}
+\index{doBook\_\-@{doBook\_\-}!panda::TreeEntry@{panda::TreeEntry}}
+\subsubsection[{doBook\_\-}]{\setlength{\rightskip}{0pt plus 5cm}virtual void panda::TreeEntry::doBook\_\- (TTree \&, \/  {\bf utils::BranchList} const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, pure virtual\mbox{]}}}}
+\label{classpanda_1_1TreeEntry_a62e77d9db1eec7032b1e31e5edc78a10}
+
+
+Implemented in \hyperlink{classpanda_1_1Event_a3c20f40e1f37f947a5e977c38c53febb}{panda::Event}, and \hyperlink{classpanda_1_1Run_a7f6f2652e76aa39c2e584ce97d1245d3}{panda::Run}.\hypertarget{classpanda_1_1TreeEntry_a649d4a6f2719b68d54c6a7505f5f3105}{
+\index{panda::TreeEntry@{panda::TreeEntry}!doGetStatus\_\-@{doGetStatus\_\-}}
+\index{doGetStatus\_\-@{doGetStatus\_\-}!panda::TreeEntry@{panda::TreeEntry}}
+\subsubsection[{doGetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf utils::BranchList} panda::TreeEntry::doGetStatus\_\- (TTree \&) const\hspace{0.3cm}{\ttfamily  \mbox{[}protected, pure virtual\mbox{]}}}}
+\label{classpanda_1_1TreeEntry_a649d4a6f2719b68d54c6a7505f5f3105}
+
+
+Implemented in \hyperlink{classpanda_1_1Event_a1bd8a01f111c4e14a921a560caef6821}{panda::Event}, and \hyperlink{classpanda_1_1Run_a624aa12a6f703dbedea314cf69f1f04f}{panda::Run}.
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1TreeEntry_ab78cd4dfd6c017222db541580983fb65}{
+\index{panda::TreeEntry@{panda::TreeEntry}!doInit\_\-@{doInit\_\-}}
+\index{doInit\_\-@{doInit\_\-}!panda::TreeEntry@{panda::TreeEntry}}
+\subsubsection[{doInit\_\-}]{\setlength{\rightskip}{0pt plus 5cm}virtual void panda::TreeEntry::doInit\_\- ()\hspace{0.3cm}{\ttfamily  \mbox{[}protected, pure virtual\mbox{]}}}}
+\label{classpanda_1_1TreeEntry_ab78cd4dfd6c017222db541580983fb65}
+
+
+Implemented in \hyperlink{classpanda_1_1Event_a7907201dc93916ed71696bc276793c80}{panda::Event}, and \hyperlink{classpanda_1_1Run_ab2308a77944053b5ad6939cb3e63041f}{panda::Run}.
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1TreeEntry_a44e70436de0dc8088885895ea0011a2d}{
+\index{panda::TreeEntry@{panda::TreeEntry}!doReleaseTree\_\-@{doReleaseTree\_\-}}
+\index{doReleaseTree\_\-@{doReleaseTree\_\-}!panda::TreeEntry@{panda::TreeEntry}}
+\subsubsection[{doReleaseTree\_\-}]{\setlength{\rightskip}{0pt plus 5cm}virtual void panda::TreeEntry::doReleaseTree\_\- (TTree \&)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, pure virtual\mbox{]}}}}
+\label{classpanda_1_1TreeEntry_a44e70436de0dc8088885895ea0011a2d}
+
+
+Implemented in \hyperlink{classpanda_1_1Event_a63ef383a11be99bbf46771468557c89a}{panda::Event}, and \hyperlink{classpanda_1_1Run_a8a59dc2c95b3a5e3bc43040c119320cd}{panda::Run}.
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1TreeEntry_abdb184144bf5a4ca8b0fdb6d06c5d4c1}{
+\index{panda::TreeEntry@{panda::TreeEntry}!doSetAddress\_\-@{doSetAddress\_\-}}
+\index{doSetAddress\_\-@{doSetAddress\_\-}!panda::TreeEntry@{panda::TreeEntry}}
+\subsubsection[{doSetAddress\_\-}]{\setlength{\rightskip}{0pt plus 5cm}virtual void panda::TreeEntry::doSetAddress\_\- (TTree \& {\em tree}, \/  {\bf utils::BranchList} const \&, \/  Bool\_\-t {\em setStatus})\hspace{0.3cm}{\ttfamily  \mbox{[}protected, pure virtual\mbox{]}}}}
+\label{classpanda_1_1TreeEntry_abdb184144bf5a4ca8b0fdb6d06c5d4c1}
+
+
+Implemented in \hyperlink{classpanda_1_1Event_abe96424e8e74474e69a0f7bee8b6d38e}{panda::Event}, and \hyperlink{classpanda_1_1Run_a1fed64cabd5142e8b6981fdbadd9d2ae}{panda::Run}.\hypertarget{classpanda_1_1TreeEntry_a8c17222accba71d53b73ad6e2c3276a2}{
+\index{panda::TreeEntry@{panda::TreeEntry}!doSetStatus\_\-@{doSetStatus\_\-}}
+\index{doSetStatus\_\-@{doSetStatus\_\-}!panda::TreeEntry@{panda::TreeEntry}}
+\subsubsection[{doSetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}virtual void panda::TreeEntry::doSetStatus\_\- (TTree \&, \/  {\bf utils::BranchList} const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}protected, pure virtual\mbox{]}}}}
+\label{classpanda_1_1TreeEntry_a8c17222accba71d53b73ad6e2c3276a2}
+
+
+Implemented in \hyperlink{classpanda_1_1Event_a714f9999480dd623a883560e62717d85}{panda::Event}, and \hyperlink{classpanda_1_1Run_a6e0400b56778094d6ac8c6c9aa8eba3a}{panda::Run}.
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1TreeEntry_a6ac8a1bad151367648aedd366011172d}{
+\index{panda::TreeEntry@{panda::TreeEntry}!getEntry@{getEntry}}
+\index{getEntry@{getEntry}!panda::TreeEntry@{panda::TreeEntry}}
+\subsubsection[{getEntry}]{\setlength{\rightskip}{0pt plus 5cm}Int\_\-t panda::TreeEntry::getEntry (Long64\_\-t {\em entry}, \/  UInt\_\-t {\em treeIdx} = {\ttfamily 0})\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classpanda_1_1TreeEntry_a6ac8a1bad151367648aedd366011172d}
+
+
+Read an entry from an input \hyperlink{namespacepanda_1_1tree}{tree}. 
+\begin{DoxyParams}{Parameters}
+\item[{\em entry}]Entry number in the input \hyperlink{namespacepanda_1_1tree}{tree}. \item[{\em treeIdx}]Token for the input \hyperlink{namespacepanda_1_1tree}{tree} as returned by \hyperlink{classpanda_1_1TreeEntry_a693015be3e9d7c6daffe056798150455}{setAddress()}. \end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Object_a08f9b3d452bc056cf3a285dfad15e5ac}{panda::Object}.
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1TreeEntry_a3e0841eb1ddb6e85e37413e4866101b6}{
+\index{panda::TreeEntry@{panda::TreeEntry}!getInput@{getInput}}
+\index{getInput@{getInput}!panda::TreeEntry@{panda::TreeEntry}}
+\subsubsection[{getInput}]{\setlength{\rightskip}{0pt plus 5cm}TTree$\ast$ panda::TreeEntry::getInput (UInt\_\-t {\em treeIdx} = {\ttfamily 0}) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classpanda_1_1TreeEntry_a3e0841eb1ddb6e85e37413e4866101b6}
+
+
+Get the input \hyperlink{namespacepanda_1_1tree}{tree} identified by the token. 
+\begin{DoxyParams}{Parameters}
+\item[{\em treeIdx}]Token for the input \hyperlink{namespacepanda_1_1tree}{tree} as returned by \hyperlink{classpanda_1_1TreeEntry_a693015be3e9d7c6daffe056798150455}{setAddress()}. \end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Object_a69038e1ce9bc60222bb0ba7e7f933bd5}{panda::Object}.\hypertarget{classpanda_1_1TreeEntry_afbd2a566ad42c6f5e4ce0183cde65c20}{
+\index{panda::TreeEntry@{panda::TreeEntry}!getName@{getName}}
+\index{getName@{getName}!panda::TreeEntry@{panda::TreeEntry}}
+\subsubsection[{getName}]{\setlength{\rightskip}{0pt plus 5cm}char const$\ast$ panda::TreeEntry::getName () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classpanda_1_1TreeEntry_afbd2a566ad42c6f5e4ce0183cde65c20}
+
+
+Name of this object. 
+
+Reimplemented from \hyperlink{classpanda_1_1Object_a670b2150de796b6fc742fa9de30cd6b1}{panda::Object}.\hypertarget{classpanda_1_1TreeEntry_a3be7000fca4d0dd356488643aaa752dd}{
+\index{panda::TreeEntry@{panda::TreeEntry}!getStatus@{getStatus}}
+\index{getStatus@{getStatus}!panda::TreeEntry@{panda::TreeEntry}}
+\subsubsection[{getStatus}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::utils::BranchList} panda::TreeEntry::getStatus (TTree \&) const\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classpanda_1_1TreeEntry_a3be7000fca4d0dd356488643aaa752dd}
+
+
+Get status of branches in the \hyperlink{namespacepanda_1_1tree}{tree}. 
+
+Reimplemented from \hyperlink{classpanda_1_1Object_ad575503e839f7aa6cc47434b3a24cb80}{panda::Object}.
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1TreeEntry_a734130107a3568d87eb6570ab9b9ee60}{
+\index{panda::TreeEntry@{panda::TreeEntry}!init@{init}}
+\index{init@{init}!panda::TreeEntry@{panda::TreeEntry}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void panda::TreeEntry::init ()\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classpanda_1_1TreeEntry_a734130107a3568d87eb6570ab9b9ee60}
+
+
+Reset the object state. 
+
+Reimplemented from \hyperlink{classpanda_1_1Object_a204960e5f165a28176f9b4a42b9ea90c}{panda::Object}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1TreeEntry_a3d54b23c121628d22c65c26482d7cab0}{
+\index{panda::TreeEntry@{panda::TreeEntry}!releaseTree@{releaseTree}}
+\index{releaseTree@{releaseTree}!panda::TreeEntry@{panda::TreeEntry}}
+\subsubsection[{releaseTree}]{\setlength{\rightskip}{0pt plus 5cm}void panda::TreeEntry::releaseTree (TTree \&)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classpanda_1_1TreeEntry_a3d54b23c121628d22c65c26482d7cab0}
+
+
+Unbind the \hyperlink{namespacepanda_1_1tree}{tree}. 
+
+Reimplemented from \hyperlink{classpanda_1_1Object_aaf58438092b42a89b838ce12c6a23833}{panda::Object}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1TreeEntry_a693015be3e9d7c6daffe056798150455}{
+\index{panda::TreeEntry@{panda::TreeEntry}!setAddress@{setAddress}}
+\index{setAddress@{setAddress}!panda::TreeEntry@{panda::TreeEntry}}
+\subsubsection[{setAddress}]{\setlength{\rightskip}{0pt plus 5cm}UInt\_\-t panda::TreeEntry::setAddress (TTree \&)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classpanda_1_1TreeEntry_a693015be3e9d7c6daffe056798150455}
+
+
+Bind the \hyperlink{namespacepanda_1_1tree}{tree} branches to the elements of this object. 
+\begin{DoxyParams}{Parameters}
+\item[{\em blist}]List of branches to bind. Vetoed or unmentioned branches are not bound. \item[{\em setStatus}]If true, set the status of the \hyperlink{namespacepanda_1_1branch}{branch} to true before binding. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Token (serial number) of the input \hyperlink{namespacepanda_1_1tree}{tree}. 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Object_aed9f9d3b6abe518dd27957de843b36b5}{panda::Object}.
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1TreeEntry_aa0f473dd6eca2ae68ef9b9cb37d909bb}{
+\index{panda::TreeEntry@{panda::TreeEntry}!setName@{setName}}
+\index{setName@{setName}!panda::TreeEntry@{panda::TreeEntry}}
+\subsubsection[{setName}]{\setlength{\rightskip}{0pt plus 5cm}void panda::TreeEntry::setName (char const $\ast$)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classpanda_1_1TreeEntry_aa0f473dd6eca2ae68ef9b9cb37d909bb}
+
+
+Set object name. 
+
+Reimplemented from \hyperlink{classpanda_1_1Object_a7bba3813f78065be847cd8d85bab93fc}{panda::Object}.\hypertarget{classpanda_1_1TreeEntry_a8d65c0ee41e1ef5c7f7a41c454dad052}{
+\index{panda::TreeEntry@{panda::TreeEntry}!setStatus@{setStatus}}
+\index{setStatus@{setStatus}!panda::TreeEntry@{panda::TreeEntry}}
+\subsubsection[{setStatus}]{\setlength{\rightskip}{0pt plus 5cm}void panda::TreeEntry::setStatus (TTree \&, \/  {\bf utils::BranchList} const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classpanda_1_1TreeEntry_a8d65c0ee41e1ef5c7f7a41c454dad052}
+
+
+Set status of branches to true (matching \hyperlink{namespacepanda_1_1branch}{branch}) or false (vetoed \hyperlink{namespacepanda_1_1branch}{branch}). Sets the status of the \hyperlink{namespacepanda_1_1branch}{branch} to true (\hyperlink{namespacepanda_1_1branch}{branch} is in the list) or false (\hyperlink{namespacepanda_1_1branch}{branch} is vetoed in the list). Branches not mentioned in the \hyperlink{namespacepanda_1_1branch}{branch} list are untouched.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em blist}]List of branches. The status of a \hyperlink{namespacepanda_1_1branch}{branch} is set to true (false) if BranchName::in(blist) (BranchName::vetoed(blist)) evaluates to true for the \hyperlink{namespacepanda_1_1branch}{branch}. \end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Object_a282e820b1ad431db22ca4d4dd20b55e0}{panda::Object}.
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Framework/interface/\hyperlink{TreeEntry_8h}{TreeEntry.h}\item 
+Framework/src/\hyperlink{TreeEntry_8cc}{TreeEntry.cc}\end{DoxyCompactItemize}

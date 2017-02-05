@@ -1,0 +1,48 @@
+digraph "panda.branch.Branch.is_array"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="panda.branch.Branch.is\l_array",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="panda.branch.Branch.write_decl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1branch_1_1Branch.html#a11ce0de77040f41593ece6dce3137489"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="panda.branch.Branch.write\l_set_address",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1branch_1_1Branch.html#a7c6a68a476970534c23c265a0b56fa56"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="panda.branch.Branch.write_book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1branch_1_1Branch.html#acd04edc5835a827e5aec0ffa1b15b6d0"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="panda.branch.Branch.init_copy",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1branch_1_1Branch.html#a27249566fe1cd5b1e05366243a6d7de3"];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="panda.branch.Branch.write\l_assign",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1branch_1_1Branch.html#a9dd12cb55cc7f97e717290693e7fb371"];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="panda.refbranch.RefBranch.write\l_copy_ctor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refbranch_1_1RefBranch.html#aab6abb2a47955638050a1e0f2798f5f6"];
+  Node6 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="panda.refvbranch.RefVector\lBranch.write_copy_ctor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#a4a579a4942e4357945946c354ff21b45"];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="panda.refbranch.RefBranch.write_decl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refbranch_1_1RefBranch.html#a3287a514343dbae3d50e9578e7c6bb5e"];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node10 [label="panda.refbranch.RefBranch.init\l_default",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refbranch_1_1RefBranch.html#a4edcbb0da3190709f84b750e66ca5e88"];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node11 [label="panda.refbranch.RefBranch.init\l_standard",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refbranch_1_1RefBranch.html#ace72ad601d85c1c58ab249cafb3bd640"];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node12 [label="panda.refbranch.RefBranch.init_copy",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refbranch_1_1RefBranch.html#a72e8747ec09cb749e8dac7ad3bfd2243"];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node13 [label="panda.refbranch.RefBranch.write\l_default_ctor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refbranch_1_1RefBranch.html#a6ffa2957a631301713d3a09a7c342d19"];
+  Node1 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node14 [label="panda.refbranch.RefBranch.write\l_standard_ctor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refbranch_1_1RefBranch.html#ad061e9eb8e6ed82ccacfbd5359a41ba5"];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node1 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node15 [label="panda.refvbranch.RefVector\lBranch.write_decl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#a1ee9513bd0963fdfab24f8e0520ca07a"];
+  Node1 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node16 [label="panda.refvbranch.RefVector\lBranch.init_default",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#a38cc93cb3d19d614c3ba2af7c8f6d11b"];
+  Node1 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node17 [label="panda.refvbranch.RefVector\lBranch.init_standard",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#a44f049ff3e4c2cb5b2f5bb8cbd813e39"];
+  Node1 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node18 [label="panda.refvbranch.RefVector\lBranch.init_copy",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#abe8cf3a90e89c7f1e32a2c3e14dffb56"];
+  Node1 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node19 [label="panda.refvbranch.RefVector\lBranch.write_default_ctor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#a5d343d755a1486484bbb164fbdf9ac4c"];
+  Node1 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node20 [label="panda.refvbranch.RefVector\lBranch.write_standard_ctor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#a762962588e6b21736201ba01b0c9434f"];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+}

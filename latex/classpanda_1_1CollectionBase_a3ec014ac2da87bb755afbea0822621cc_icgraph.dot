@@ -1,0 +1,19 @@
+digraph G
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir=LR;
+  Node1 [label="panda::CollectionBase::resize",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="panda::Collection::copy",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Collection.html#ad194c8ae8355ce5ba6c04518a223cde1",tooltip="Copy the array contents."];
+  Node2 -> Node3 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="panda::Collection::Collection",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Collection.html#a065b038d41d0437ddacdab9f22f6d397"];
+  Node2 -> Node4 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="panda::Collection::operator=",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Collection.html#af2065fa6ed20c1fe1dd54b33f83e7778"];
+  Node1 -> Node5 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="panda::Collection::create_back",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Collection.html#a76d29ff9b6366c3a39f2aa06ac6b0604",tooltip="Create an element at the end of the collection and return a reference."];
+  Node1 -> Node6 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="panda::CollectionBase::prepareGetEntry",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1CollectionBase.html#a217c39578bc5e0e7e2b6ebf44bf93cdd",tooltip="Run a look-ahead of the entry to determine the collection resize."];
+  Node6 -> Node7 [dir=back,color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="panda::CollectionBase::getEntry",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1CollectionBase.html#a777e26ce2cc4f86e7cc4eb345b0a78d7",tooltip="Read an entry from an input tree."];
+}

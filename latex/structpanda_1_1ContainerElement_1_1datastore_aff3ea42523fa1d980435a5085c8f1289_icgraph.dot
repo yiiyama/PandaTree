@@ -1,0 +1,25 @@
+digraph "panda::ContainerElement::datastore::nmax"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="panda::ContainerElement\l::datastore::nmax",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="panda::ArrayBase::size",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1ArrayBase.html#ae21a729d1d32cfc48b67888b80ff9d17",tooltip="Return the (fixed) size of this array. "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="panda::Container::Container",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Container.html#aec587dc1a3991463ce002ee9cb82cb08"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="panda::Container::max_",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Container.html#a0873333a978d458a525f855d73416e09"];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="panda::Container::end",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Container.html#ac063e06f3e792ff475f28cd502abf843",tooltip="Return an iterator pointing to the end of the array (invalid address) "];
+  Node4 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="panda::Container::back",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Container.html#a61bb66309ba1c1472097808caf751200",tooltip="Reference to the last element. "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="panda::Container::copy",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Container.html#a47bf4140207c40fa731f44766dde536c",tooltip="Copy the array contents. "];
+  Node7 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="panda::Container::operator=",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1Container.html#a12c1ec82df87e7bb377788c76ba07891"];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="panda::ArrayBase::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1ArrayBase.html#afd97e008dcd9f49e77a9d77bd7115890",tooltip="Reset object state. "];
+}

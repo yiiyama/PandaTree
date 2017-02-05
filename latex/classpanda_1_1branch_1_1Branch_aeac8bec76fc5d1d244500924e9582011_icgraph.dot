@@ -1,0 +1,22 @@
+digraph "panda.branch.Branch.arrdef_text"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="panda.branch.Branch.arrdef_text",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="panda.branch.Branch.write_decl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1branch_1_1Branch.html#a11ce0de77040f41593ece6dce3137489"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="panda.branch.Branch.write\l_allocate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1branch_1_1Branch.html#ad4d6b4a6a42391cd7db05fde7441c5b3"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="panda.branch.Branch.write_book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1branch_1_1Branch.html#acd04edc5835a827e5aec0ffa1b15b6d0"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="panda.generic.GenericBranch.write_decl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1generic_1_1GenericBranch.html#a059cb9110191e678f8ccfba5dd6e798c"];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="panda.refbranch.RefBranch.write_decl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refbranch_1_1RefBranch.html#a3287a514343dbae3d50e9578e7c6bb5e"];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="panda.refbranch.RefBranch.write_book",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refbranch_1_1RefBranch.html#af4fcfe1d2a1ed6e6d78d34271187a9d4"];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="panda.refvbranch.RefVector\lBranch.write_decl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#a1ee9513bd0963fdfab24f8e0520ca07a"];
+}

@@ -1,0 +1,10 @@
+<map id="panda::ParticleM::releaseTree" name="panda::ParticleM::releaseTree">
+<area shape="rect" id="node2" href="$classpanda_1_1GenJet.html#a013d93183730d090e26b228c65cf9ce2" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="257,5,444,33"/>
+<area shape="rect" id="node3" href="$classpanda_1_1GenParticle.html#a5bd4d21966d73f742f2a37c8ad6e5cf5" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="283,57,418,101"/>
+<area shape="rect" id="node4" href="$classpanda_1_1MicroJet.html#a1f12baa07c2b52599be1e7808da40742" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="253,125,448,153"/>
+<area shape="rect" id="node7" href="$classpanda_1_1Parton.html#a6772498c2e5f5fc7fc041e099d8b6348" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="259,177,442,205"/>
+<area shape="rect" id="node8" href="$classpanda_1_1PFCand.html#ad2c2668cf6c6fd3d6ff09e4bdebbfc2a" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="254,229,447,257"/>
+<area shape="rect" id="node9" href="$classpanda_1_1Tau.html#a00639fe81c56ac1e7bc1d3977d1e9bce" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="267,281,434,309"/>
+<area shape="rect" id="node5" href="$classpanda_1_1Jet.html#af402d8510a38cfe145405448644ea3eb" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="496,125,658,153"/>
+<area shape="rect" id="node6" href="$classpanda_1_1FatJet.html#a9ade7c13e2e94e5796ed7f60b2366896" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="706,125,887,153"/>
+</map>

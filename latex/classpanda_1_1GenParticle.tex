@@ -1,0 +1,214 @@
+\hypertarget{classpanda_1_1GenParticle}{
+\section{panda::GenParticle Class Reference}
+\label{classpanda_1_1GenParticle}\index{panda::GenParticle@{panda::GenParticle}}
+}
+
+
+{\ttfamily \#include $<$GenParticle.h$>$}Inheritance diagram for panda::GenParticle:Collaboration diagram for panda::GenParticle:\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpanda_1_1GenParticle_1_1datastore}{datastore}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classpanda_1_1Array}{Array}$<$ \hyperlink{classpanda_1_1GenParticle}{GenParticle} $>$ \hyperlink{classpanda_1_1GenParticle_acacbe638e5f065cfe0d3bc8ca5ecd5ee}{array\_\-type}
+\item 
+typedef \hyperlink{classpanda_1_1Collection}{Collection}$<$ \hyperlink{classpanda_1_1GenParticle}{GenParticle} $>$ \hyperlink{classpanda_1_1GenParticle_a2f1d232f5f5660f0c147145d280df831}{collection\_\-type}
+\item 
+typedef \hyperlink{classpanda_1_1ParticleM}{ParticleM} \hyperlink{classpanda_1_1GenParticle_ab81b9a915960640d959816ecbf1397ec}{base\_\-type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1GenParticle_afdb6107d252b4155279305eed77e92f7}{GenParticle} (char const $\ast$name=\char`\"{}\char`\"{})
+\item 
+\hyperlink{classpanda_1_1GenParticle_aec80c4367bfe4e6113e0a615bc4aa570}{GenParticle} (\hyperlink{classpanda_1_1GenParticle}{GenParticle} const \&)
+\item 
+\hyperlink{classpanda_1_1GenParticle_a3f40ef5315a59c8f6fe86275c16c73fb}{GenParticle} (\hyperlink{structpanda_1_1Element_1_1datastore}{datastore} \&, UInt\_\-t idx)
+\item 
+\hyperlink{classpanda_1_1GenParticle_a777f200cb71277187c952281a4994e76}{$\sim$GenParticle} ()
+\item 
+\hyperlink{classpanda_1_1GenParticle}{GenParticle} \& \hyperlink{classpanda_1_1GenParticle_a46eed568bb72468ccda95c09002ea6a5}{operator=} (\hyperlink{classpanda_1_1GenParticle}{GenParticle} const \&)
+\item 
+void \hyperlink{classpanda_1_1GenParticle_a3741159cb9918fc4a7bf714995d72469}{destructor} () override
+\begin{DoxyCompactList}\small\item\em Destructor implementation. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Int\_\-t \& \hyperlink{classpanda_1_1GenParticle_aab60b403c96f228bfabbb5e5c338126b}{pdgid}
+\item 
+UShort\_\-t \& \hyperlink{classpanda_1_1GenParticle_af2b7ee2bf756391419ab702b7dfd2b3a}{statusFlags}
+\item 
+\hyperlink{classpanda_1_1Ref}{Ref}$<$ \hyperlink{classpanda_1_1GenParticle}{GenParticle} $>$ \hyperlink{classpanda_1_1GenParticle_a478bb0f7a51e96f83b9593acf76279ca}{parent}
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1GenParticle_ab10d7da92ebc75ab1fadc9c6f282c1ed}{GenParticle} (\hyperlink{classpanda_1_1ArrayBase}{ArrayBase} $\ast$)
+\item 
+void \hyperlink{classpanda_1_1GenParticle_a41d0169feced73ebddb43bf9547cecdf}{doSetStatus\_\-} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&) override
+\item 
+\hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} \hyperlink{classpanda_1_1GenParticle_a117dbbc192b9795838cbfbc75f0eceb8}{doGetStatus\_\-} (TTree \&, TString const \&) const override
+\item 
+void \hyperlink{classpanda_1_1GenParticle_a05d969dcffe56d821bb1b73bdb084d6c}{doSetAddress\_\-} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}, Bool\_\-t setStatus=kTRUE) override
+\item 
+void \hyperlink{classpanda_1_1GenParticle_aae66df460d70150e146dd95392c7e781}{doBook\_\-} (TTree \&, TString const \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}) override
+\item 
+void \hyperlink{classpanda_1_1GenParticle_a7e328cf82b58dcdf43f008066e42e451}{doReleaseTree\_\-} (TTree \&, TString const \&) override
+\item 
+void \hyperlink{classpanda_1_1GenParticle_a962c22c6afb1e9d0ef23eb70cfc809b5}{doInit\_\-} () override
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classpanda_1_1GenParticle_acacbe638e5f065cfe0d3bc8ca5ecd5ee}{
+\index{panda::GenParticle@{panda::GenParticle}!array\_\-type@{array\_\-type}}
+\index{array\_\-type@{array\_\-type}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{array\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Array}$<${\bf GenParticle}$>$ {\bf panda::GenParticle::array\_\-type}}}
+\label{classpanda_1_1GenParticle_acacbe638e5f065cfe0d3bc8ca5ecd5ee}
+
+
+Reimplemented from \hyperlink{classpanda_1_1ParticleM_a1ba36e35f5cd6a26decfbaa815678d2a}{panda::ParticleM}.\hypertarget{classpanda_1_1GenParticle_ab81b9a915960640d959816ecbf1397ec}{
+\index{panda::GenParticle@{panda::GenParticle}!base\_\-type@{base\_\-type}}
+\index{base\_\-type@{base\_\-type}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{base\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf ParticleM} {\bf panda::GenParticle::base\_\-type}}}
+\label{classpanda_1_1GenParticle_ab81b9a915960640d959816ecbf1397ec}
+
+
+Reimplemented from \hyperlink{classpanda_1_1ParticleM_a134d640b78531bc47ddb19ba490de07d}{panda::ParticleM}.\hypertarget{classpanda_1_1GenParticle_a2f1d232f5f5660f0c147145d280df831}{
+\index{panda::GenParticle@{panda::GenParticle}!collection\_\-type@{collection\_\-type}}
+\index{collection\_\-type@{collection\_\-type}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{collection\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Collection}$<${\bf GenParticle}$>$ {\bf panda::GenParticle::collection\_\-type}}}
+\label{classpanda_1_1GenParticle_a2f1d232f5f5660f0c147145d280df831}
+
+
+Reimplemented from \hyperlink{classpanda_1_1ParticleM_ae39fbe234c21960d067e8790541d0d68}{panda::ParticleM}.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classpanda_1_1GenParticle_afdb6107d252b4155279305eed77e92f7}{
+\index{panda::GenParticle@{panda::GenParticle}!GenParticle@{GenParticle}}
+\index{GenParticle@{GenParticle}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{GenParticle}]{\setlength{\rightskip}{0pt plus 5cm}panda::GenParticle::GenParticle (char const $\ast$ {\em name} = {\ttfamily \char`\"{}\char`\"{}})}}
+\label{classpanda_1_1GenParticle_afdb6107d252b4155279305eed77e92f7}
+\hypertarget{classpanda_1_1GenParticle_aec80c4367bfe4e6113e0a615bc4aa570}{
+\index{panda::GenParticle@{panda::GenParticle}!GenParticle@{GenParticle}}
+\index{GenParticle@{GenParticle}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{GenParticle}]{\setlength{\rightskip}{0pt plus 5cm}panda::GenParticle::GenParticle ({\bf GenParticle} const \& {\em \_\-src})}}
+\label{classpanda_1_1GenParticle_aec80c4367bfe4e6113e0a615bc4aa570}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1GenParticle_a3f40ef5315a59c8f6fe86275c16c73fb}{
+\index{panda::GenParticle@{panda::GenParticle}!GenParticle@{GenParticle}}
+\index{GenParticle@{GenParticle}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{GenParticle}]{\setlength{\rightskip}{0pt plus 5cm}panda::GenParticle::GenParticle ({\bf datastore} \& {\em \_\-data}, \/  UInt\_\-t {\em idx})}}
+\label{classpanda_1_1GenParticle_a3f40ef5315a59c8f6fe86275c16c73fb}
+\hypertarget{classpanda_1_1GenParticle_a777f200cb71277187c952281a4994e76}{
+\index{panda::GenParticle@{panda::GenParticle}!$\sim$GenParticle@{$\sim$GenParticle}}
+\index{$\sim$GenParticle@{$\sim$GenParticle}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{$\sim$GenParticle}]{\setlength{\rightskip}{0pt plus 5cm}panda::GenParticle::$\sim$GenParticle ()}}
+\label{classpanda_1_1GenParticle_a777f200cb71277187c952281a4994e76}
+
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1GenParticle_ab10d7da92ebc75ab1fadc9c6f282c1ed}{
+\index{panda::GenParticle@{panda::GenParticle}!GenParticle@{GenParticle}}
+\index{GenParticle@{GenParticle}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{GenParticle}]{\setlength{\rightskip}{0pt plus 5cm}panda::GenParticle::GenParticle ({\bf ArrayBase} $\ast$ {\em \_\-array})\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classpanda_1_1GenParticle_ab10d7da92ebc75ab1fadc9c6f282c1ed}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classpanda_1_1GenParticle_a3741159cb9918fc4a7bf714995d72469}{
+\index{panda::GenParticle@{panda::GenParticle}!destructor@{destructor}}
+\index{destructor@{destructor}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{destructor}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenParticle::destructor ()\hspace{0.3cm}{\ttfamily  \mbox{[}override, virtual\mbox{]}}}}
+\label{classpanda_1_1GenParticle_a3741159cb9918fc4a7bf714995d72469}
+
+
+Destructor implementation. The actual destructor of the object should be called only if the \hyperlink{classpanda_1_1Element}{Element} is constructed as a singlet. In the Container environment, the memory allocated for this object is directly deallocated without calling $\sim$(\hyperlink{classpanda_1_1Object}{Object}). If subclasses need to make some calls at the destruction time of the object, they must be implemented in this \hyperlink{namespacepanda_1_1function}{function}. 
+
+Reimplemented from \hyperlink{classpanda_1_1ParticleM_abef15d28e6e33ee92c0b318bd41af2ca}{panda::ParticleM}.
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1GenParticle_aae66df460d70150e146dd95392c7e781}{
+\index{panda::GenParticle@{panda::GenParticle}!doBook\_\-@{doBook\_\-}}
+\index{doBook\_\-@{doBook\_\-}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{doBook\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenParticle::doBook\_\- (TTree \&, \/  TString const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected\mbox{]}}}}
+\label{classpanda_1_1GenParticle_aae66df460d70150e146dd95392c7e781}
+
+
+Reimplemented from \hyperlink{classpanda_1_1ParticleM_a55d6e7e91edbc88e980a0031c299ef18}{panda::ParticleM}.\hypertarget{classpanda_1_1GenParticle_a117dbbc192b9795838cbfbc75f0eceb8}{
+\index{panda::GenParticle@{panda::GenParticle}!doGetStatus\_\-@{doGetStatus\_\-}}
+\index{doGetStatus\_\-@{doGetStatus\_\-}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{doGetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::utils::BranchList} panda::GenParticle::doGetStatus\_\- (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name}) const\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1GenParticle_a117dbbc192b9795838cbfbc75f0eceb8}
+
+
+Reimplemented from \hyperlink{classpanda_1_1ParticleM_a003a63672058369e9bbea413e055b1c1}{panda::ParticleM}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1GenParticle_a962c22c6afb1e9d0ef23eb70cfc809b5}{
+\index{panda::GenParticle@{panda::GenParticle}!doInit\_\-@{doInit\_\-}}
+\index{doInit\_\-@{doInit\_\-}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{doInit\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenParticle::doInit\_\- ()\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1GenParticle_a962c22c6afb1e9d0ef23eb70cfc809b5}
+
+
+Reimplemented from \hyperlink{classpanda_1_1ParticleM_ae912914e3970c1fb238589f0ccc783f4}{panda::ParticleM}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1GenParticle_a7e328cf82b58dcdf43f008066e42e451}{
+\index{panda::GenParticle@{panda::GenParticle}!doReleaseTree\_\-@{doReleaseTree\_\-}}
+\index{doReleaseTree\_\-@{doReleaseTree\_\-}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{doReleaseTree\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenParticle::doReleaseTree\_\- (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name})\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1GenParticle_a7e328cf82b58dcdf43f008066e42e451}
+
+
+Reimplemented from \hyperlink{classpanda_1_1ParticleM_a0c24df56cbd50a8223fc4d8bf0b776d0}{panda::ParticleM}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1GenParticle_a05d969dcffe56d821bb1b73bdb084d6c}{
+\index{panda::GenParticle@{panda::GenParticle}!doSetAddress\_\-@{doSetAddress\_\-}}
+\index{doSetAddress\_\-@{doSetAddress\_\-}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{doSetAddress\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenParticle::doSetAddress\_\- (TTree \&, \/  TString const \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected\mbox{]}}}}
+\label{classpanda_1_1GenParticle_a05d969dcffe56d821bb1b73bdb084d6c}
+
+
+Reimplemented from \hyperlink{classpanda_1_1ParticleM_ab54d46a237f8d12074ee36c48af33b04}{panda::ParticleM}.\hypertarget{classpanda_1_1GenParticle_a41d0169feced73ebddb43bf9547cecdf}{
+\index{panda::GenParticle@{panda::GenParticle}!doSetStatus\_\-@{doSetStatus\_\-}}
+\index{doSetStatus\_\-@{doSetStatus\_\-}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{doSetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::GenParticle::doSetStatus\_\- (TTree \& {\em \_\-tree}, \/  TString const \& {\em \_\-name}, \/  {\bf utils::BranchList} const \& {\em \_\-branches})\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1GenParticle_a41d0169feced73ebddb43bf9547cecdf}
+
+
+Reimplemented from \hyperlink{classpanda_1_1ParticleM_a042f9e295576be022960ea88144e9022}{panda::ParticleM}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1GenParticle_a46eed568bb72468ccda95c09002ea6a5}{
+\index{panda::GenParticle@{panda::GenParticle}!operator=@{operator=}}
+\index{operator=@{operator=}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::GenParticle} \& panda::GenParticle::operator= ({\bf GenParticle} const \& {\em \_\-src})}}
+\label{classpanda_1_1GenParticle_a46eed568bb72468ccda95c09002ea6a5}
+
+
+Reimplemented from \hyperlink{classpanda_1_1ParticleM_a37f7be4e1150b6080b47b005af730af5}{panda::ParticleM}.
+
+Here is the caller graph for this function:
+
+\subsection{Member Data Documentation}
+\hypertarget{classpanda_1_1GenParticle_a478bb0f7a51e96f83b9593acf76279ca}{
+\index{panda::GenParticle@{panda::GenParticle}!parent@{parent}}
+\index{parent@{parent}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{parent}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Ref}$<${\bf GenParticle}$>$ {\bf panda::GenParticle::parent}}}
+\label{classpanda_1_1GenParticle_a478bb0f7a51e96f83b9593acf76279ca}
+\hypertarget{classpanda_1_1GenParticle_aab60b403c96f228bfabbb5e5c338126b}{
+\index{panda::GenParticle@{panda::GenParticle}!pdgid@{pdgid}}
+\index{pdgid@{pdgid}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{pdgid}]{\setlength{\rightskip}{0pt plus 5cm}Int\_\-t\& {\bf panda::GenParticle::pdgid}}}
+\label{classpanda_1_1GenParticle_aab60b403c96f228bfabbb5e5c338126b}
+\hypertarget{classpanda_1_1GenParticle_af2b7ee2bf756391419ab702b7dfd2b3a}{
+\index{panda::GenParticle@{panda::GenParticle}!statusFlags@{statusFlags}}
+\index{statusFlags@{statusFlags}!panda::GenParticle@{panda::GenParticle}}
+\subsubsection[{statusFlags}]{\setlength{\rightskip}{0pt plus 5cm}UShort\_\-t\& {\bf panda::GenParticle::statusFlags}}}
+\label{classpanda_1_1GenParticle_af2b7ee2bf756391419ab702b7dfd2b3a}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Objects/interface/\hyperlink{GenParticle_8h}{GenParticle.h}\item 
+Objects/src/\hyperlink{GenParticle_8cc}{GenParticle.cc}\end{DoxyCompactItemize}

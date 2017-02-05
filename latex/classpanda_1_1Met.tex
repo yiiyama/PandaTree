@@ -1,0 +1,157 @@
+\hypertarget{classpanda_1_1Met}{
+\section{panda::Met Class Reference}
+\label{classpanda_1_1Met}\index{panda::Met@{panda::Met}}
+}
+
+
+{\ttfamily \#include $<$Met.h$>$}Inheritance diagram for panda::Met:Collaboration diagram for panda::Met:\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classpanda_1_1Singlet}{Singlet} \hyperlink{classpanda_1_1Met_a1676ccce630ca27435393bad8059cfcc}{base\_\-type}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpanda_1_1Met_a7bddafddf79440a1e31a1a18ed7d59c5}{Met} (char const $\ast$name=\char`\"{}\char`\"{})
+\item 
+\hyperlink{classpanda_1_1Met_ab48ed0a53644d320f210437b009043b5}{Met} (\hyperlink{classpanda_1_1Met}{Met} const \&)
+\item 
+\hyperlink{classpanda_1_1Met_aa8776da8d9be6dc0ff1e37ee54ddc69f}{$\sim$Met} ()
+\item 
+\hyperlink{classpanda_1_1Met}{Met} \& \hyperlink{classpanda_1_1Met_a75a8d56e25e884dfd9bdeff20b3d0b61}{operator=} (\hyperlink{classpanda_1_1Met}{Met} const \&)
+\item 
+virtual TVector2 \hyperlink{classpanda_1_1Met_a535aa3038be16e650ffcdf2d658d8ae6}{v} () const 
+\item 
+void \hyperlink{classpanda_1_1Met_af3f84170e9ef0be9b78722d149eb7895}{setXY} (double x, double y)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classpanda_1_1Met_a3ed51e1633313fa1fb5f5dbda38108c8}{doSetStatus\_\-} (TTree \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&) override
+\item 
+\hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} \hyperlink{classpanda_1_1Met_aa3b7a9f0bbbc48a0dbf21909c0c18d30}{doGetStatus\_\-} (TTree \&) const override
+\item 
+void \hyperlink{classpanda_1_1Met_aa3d27a3592eefcbd69ff73c6c8e70112}{doSetAddress\_\-} (TTree \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}, Bool\_\-t setStatus=kTRUE) override
+\item 
+void \hyperlink{classpanda_1_1Met_a83b50dafc33d3e97271e54ad1709e16e}{doBook\_\-} (TTree \&, \hyperlink{classpanda_1_1utils_1_1BranchList}{utils::BranchList} const \&=\{\char`\"{}$\ast$\char`\"{}\}) override
+\item 
+void \hyperlink{classpanda_1_1Met_a6df0a7e59b6d57c0e2b86702383f509d}{doReleaseTree\_\-} (TTree \&) override
+\item 
+void \hyperlink{classpanda_1_1Met_a72f7fac415a4777315b1e170aa1afca4}{doInit\_\-} () override
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classpanda_1_1Met_a1676ccce630ca27435393bad8059cfcc}{
+\index{panda::Met@{panda::Met}!base\_\-type@{base\_\-type}}
+\index{base\_\-type@{base\_\-type}!panda::Met@{panda::Met}}
+\subsubsection[{base\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Singlet} {\bf panda::Met::base\_\-type}}}
+\label{classpanda_1_1Met_a1676ccce630ca27435393bad8059cfcc}
+
+
+Reimplemented in \hyperlink{classpanda_1_1RecoMet_a08f27abd8ffe21cbfa4b44ce77a19bf3}{panda::RecoMet}.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classpanda_1_1Met_a7bddafddf79440a1e31a1a18ed7d59c5}{
+\index{panda::Met@{panda::Met}!Met@{Met}}
+\index{Met@{Met}!panda::Met@{panda::Met}}
+\subsubsection[{Met}]{\setlength{\rightskip}{0pt plus 5cm}panda::Met::Met (char const $\ast$ {\em name} = {\ttfamily \char`\"{}\char`\"{}})}}
+\label{classpanda_1_1Met_a7bddafddf79440a1e31a1a18ed7d59c5}
+\hypertarget{classpanda_1_1Met_ab48ed0a53644d320f210437b009043b5}{
+\index{panda::Met@{panda::Met}!Met@{Met}}
+\index{Met@{Met}!panda::Met@{panda::Met}}
+\subsubsection[{Met}]{\setlength{\rightskip}{0pt plus 5cm}panda::Met::Met ({\bf Met} const \& {\em \_\-src})}}
+\label{classpanda_1_1Met_ab48ed0a53644d320f210437b009043b5}
+\hypertarget{classpanda_1_1Met_aa8776da8d9be6dc0ff1e37ee54ddc69f}{
+\index{panda::Met@{panda::Met}!$\sim$Met@{$\sim$Met}}
+\index{$\sim$Met@{$\sim$Met}!panda::Met@{panda::Met}}
+\subsubsection[{$\sim$Met}]{\setlength{\rightskip}{0pt plus 5cm}panda::Met::$\sim$Met ()}}
+\label{classpanda_1_1Met_aa8776da8d9be6dc0ff1e37ee54ddc69f}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classpanda_1_1Met_a83b50dafc33d3e97271e54ad1709e16e}{
+\index{panda::Met@{panda::Met}!doBook\_\-@{doBook\_\-}}
+\index{doBook\_\-@{doBook\_\-}!panda::Met@{panda::Met}}
+\subsubsection[{doBook\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Met::doBook\_\- (TTree \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected\mbox{]}}}}
+\label{classpanda_1_1Met_a83b50dafc33d3e97271e54ad1709e16e}
+
+
+Reimplemented in \hyperlink{classpanda_1_1RecoMet_aa276d8e80b96770de06ea62231930a35}{panda::RecoMet}.\hypertarget{classpanda_1_1Met_aa3b7a9f0bbbc48a0dbf21909c0c18d30}{
+\index{panda::Met@{panda::Met}!doGetStatus\_\-@{doGetStatus\_\-}}
+\index{doGetStatus\_\-@{doGetStatus\_\-}!panda::Met@{panda::Met}}
+\subsubsection[{doGetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::utils::BranchList} panda::Met::doGetStatus\_\- (TTree \& {\em \_\-tree}) const\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Met_aa3b7a9f0bbbc48a0dbf21909c0c18d30}
+
+
+Implements \hyperlink{classpanda_1_1Singlet_ad2749c2f28a2970eda99db906a116881}{panda::Singlet}.
+
+Reimplemented in \hyperlink{classpanda_1_1RecoMet_a17e58c29268fd0e3f84467046cf28f2b}{panda::RecoMet}.
+
+Here is the call graph for this function:
+
+Here is the caller graph for this function:\hypertarget{classpanda_1_1Met_a72f7fac415a4777315b1e170aa1afca4}{
+\index{panda::Met@{panda::Met}!doInit\_\-@{doInit\_\-}}
+\index{doInit\_\-@{doInit\_\-}!panda::Met@{panda::Met}}
+\subsubsection[{doInit\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Met::doInit\_\- ()\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Met_a72f7fac415a4777315b1e170aa1afca4}
+
+
+Implements \hyperlink{classpanda_1_1Singlet_af5afe7bf7b223c51d1763953ac24d261}{panda::Singlet}.
+
+Reimplemented in \hyperlink{classpanda_1_1RecoMet_aa94e2fce017ff71bd6fcfa4f02356248}{panda::RecoMet}.\hypertarget{classpanda_1_1Met_a6df0a7e59b6d57c0e2b86702383f509d}{
+\index{panda::Met@{panda::Met}!doReleaseTree\_\-@{doReleaseTree\_\-}}
+\index{doReleaseTree\_\-@{doReleaseTree\_\-}!panda::Met@{panda::Met}}
+\subsubsection[{doReleaseTree\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Met::doReleaseTree\_\- (TTree \& {\em \_\-tree})\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Met_a6df0a7e59b6d57c0e2b86702383f509d}
+
+
+Implements \hyperlink{classpanda_1_1Singlet_ad5acaa19bf3a8c360cf2e36604ab4530}{panda::Singlet}.
+
+Reimplemented in \hyperlink{classpanda_1_1RecoMet_a264ac3eeeaf567babde8c3847317bcc9}{panda::RecoMet}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Met_aa3d27a3592eefcbd69ff73c6c8e70112}{
+\index{panda::Met@{panda::Met}!doSetAddress\_\-@{doSetAddress\_\-}}
+\index{doSetAddress\_\-@{doSetAddress\_\-}!panda::Met@{panda::Met}}
+\subsubsection[{doSetAddress\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Met::doSetAddress\_\- (TTree \&)\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected\mbox{]}}}}
+\label{classpanda_1_1Met_aa3d27a3592eefcbd69ff73c6c8e70112}
+
+
+Reimplemented in \hyperlink{classpanda_1_1RecoMet_a6b54b0213c71dc2208c24bae6f709e2c}{panda::RecoMet}.\hypertarget{classpanda_1_1Met_a3ed51e1633313fa1fb5f5dbda38108c8}{
+\index{panda::Met@{panda::Met}!doSetStatus\_\-@{doSetStatus\_\-}}
+\index{doSetStatus\_\-@{doSetStatus\_\-}!panda::Met@{panda::Met}}
+\subsubsection[{doSetStatus\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Met::doSetStatus\_\- (TTree \& {\em \_\-tree}, \/  {\bf utils::BranchList} const \& {\em \_\-branches})\hspace{0.3cm}{\ttfamily  \mbox{[}override, protected, virtual\mbox{]}}}}
+\label{classpanda_1_1Met_a3ed51e1633313fa1fb5f5dbda38108c8}
+
+
+Implements \hyperlink{classpanda_1_1Singlet_a660799e379f7949f3b8e2d74f6e1ddb2}{panda::Singlet}.
+
+Reimplemented in \hyperlink{classpanda_1_1RecoMet_ada709eee42912be17dc1575083bc5f99}{panda::RecoMet}.
+
+Here is the call graph for this function:\hypertarget{classpanda_1_1Met_a75a8d56e25e884dfd9bdeff20b3d0b61}{
+\index{panda::Met@{panda::Met}!operator=@{operator=}}
+\index{operator=@{operator=}!panda::Met@{panda::Met}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf panda::Met} \& panda::Met::operator= ({\bf Met} const \& {\em \_\-src})}}
+\label{classpanda_1_1Met_a75a8d56e25e884dfd9bdeff20b3d0b61}
+
+
+Reimplemented from \hyperlink{classpanda_1_1Singlet_a161b3df14c430fd7f1afdd64d098b211}{panda::Singlet}.
+
+Reimplemented in \hyperlink{classpanda_1_1RecoMet_a9457a28604d28d4f06346a121874dc27}{panda::RecoMet}.\hypertarget{classpanda_1_1Met_af3f84170e9ef0be9b78722d149eb7895}{
+\index{panda::Met@{panda::Met}!setXY@{setXY}}
+\index{setXY@{setXY}!panda::Met@{panda::Met}}
+\subsubsection[{setXY}]{\setlength{\rightskip}{0pt plus 5cm}void panda::Met::setXY (double {\em x}, \/  double {\em y})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classpanda_1_1Met_af3f84170e9ef0be9b78722d149eb7895}
+\hypertarget{classpanda_1_1Met_a535aa3038be16e650ffcdf2d658d8ae6}{
+\index{panda::Met@{panda::Met}!v@{v}}
+\index{v@{v}!panda::Met@{panda::Met}}
+\subsubsection[{v}]{\setlength{\rightskip}{0pt plus 5cm}virtual TVector2 panda::Met::v () const\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{classpanda_1_1Met_a535aa3038be16e650ffcdf2d658d8ae6}
+
+
+Here is the caller graph for this function:
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+Objects/interface/\hyperlink{Met_8h}{Met.h}\item 
+Objects/src/\hyperlink{Met_8cc}{Met.cc}\end{DoxyCompactItemize}
