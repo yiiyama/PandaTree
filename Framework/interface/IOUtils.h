@@ -5,6 +5,7 @@
 #include "TTree.h"
 
 #include <vector>
+#include <iostream>
 
 namespace panda {
   namespace utils {
@@ -27,7 +28,7 @@ namespace panda {
       //! Concatenate the words with '.'
       operator TString() const;
       //! Prepend the branch name with <objName.>.
-      TString fullName(TString const& objName) const;
+      TString fullName(TString const& objName = "") const;
       //! Did the name start with a '!'?
       bool isVeto() const { return isVeto_; }
       //! Does the name match with the given name?
@@ -127,5 +128,8 @@ namespace panda {
 
   }
 }
+
+//! Print BranchList
+std::ostream& operator<<(std::ostream&, panda::utils::BranchList const&);
 
 #endif

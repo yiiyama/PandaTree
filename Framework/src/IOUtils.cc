@@ -45,7 +45,7 @@ panda::utils::BranchName::operator TString() const
 }
 
 TString
-panda::utils::BranchName::fullName(TString const& _objName) const
+panda::utils::BranchName::fullName(TString const& _objName/* = ""*/) const
 {
   TString bFullName(*this);
 
@@ -146,7 +146,8 @@ panda::utils::BranchList::any() const
 {
   // loop over my branch names
   for (auto& b : *this) {
-    if (!b.isVeto())
+    // if a non-vetoed branch is found, check if it's not vetoed later
+    if (!b.isVeto() && b.in(*this))
       return true;
   }
 
@@ -267,4 +268,16 @@ panda::utils::resetAddress(TTree& _tree, TString const& _objName, BranchName con
     branch->ResetAddress();
 
   return 0;
+}
+
+std::ostream&
+operator<<(std::ostream& os, panda::utils::BranchList const& bl)
+{
+  for (unsigned iN(0); iN != bl.size(); ++iN) {
+    os << bl[iN].fullName();
+    if (iN != bl.size() - 1)
+      os << " ";
+  }
+
+  return os;
 }
