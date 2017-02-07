@@ -79,6 +79,8 @@ namespace panda {
      * Throws a runtime_error if container is not valid.
      */
     ContainerBase const* container() const;
+    //! Pointer to object
+    value_type const* get() const { return operator->(); }
 
   private:
     ContainerBase const** container_{0};
