@@ -130,8 +130,12 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
     }
 
     // fill events
-    if (applyBranchListOnRead_[kEvent])
-      event.setAddress(*inEventTree, branchList_[kEvent]);
+    if (applyBranchListOnRead_[kEvent]) {
+      event.setStatus(*inEventTree, {"!*"});
+      utils::BranchList blist({"*"});
+      blist += branchList_[kEvent];
+      event.setAddress(*inEventTree, blist, true);
+    }
     else
       event.setAddress(*inEventTree);
 
