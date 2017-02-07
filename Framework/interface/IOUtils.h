@@ -24,7 +24,8 @@ namespace panda {
       BranchName() {}
       BranchName(BranchName const&);
       BranchName(char const*);
-      BranchName(std::string const&);
+      BranchName(std::string const& s) : BranchName(s.c_str()) {}
+      BranchName(TString const& s) : BranchName(s.Data()) {}
       //! Concatenate the words with '.'
       operator TString() const;
       //! Prepend the branch name with <objName.>.

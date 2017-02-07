@@ -59,6 +59,9 @@ namespace panda {
     Float_t& phi;
 
     /* BEGIN CUSTOM Particle.h.classdef */
+    static Bool_t PtGreater(Element const& p1, Element const& p2) {
+      return static_cast<Particle const&>(p1).pt > static_cast<Particle const&>(p2).pt;
+    }
     /* END CUSTOM */
 
     void destructor() override;

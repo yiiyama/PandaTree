@@ -24,11 +24,6 @@ panda::utils::BranchName::BranchName(char const* _name)
   delete parts;
 }
 
-panda::utils::BranchName::BranchName(std::string const& _name) :
-  BranchName(_name.c_str())
-{
-}
-
 panda::utils::BranchName::operator TString() const
 {
   TString name;

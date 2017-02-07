@@ -27,7 +27,7 @@ namespace panda {
 
     //! Add input paths.
     /*!
-     * \param path  Path to input panda files. Wildcard allowed.
+     * \param path  Path to input panda files. Wildcard is allowed.
      */
     void addInput(char const* path);
 

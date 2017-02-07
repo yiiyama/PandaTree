@@ -39,6 +39,8 @@ namespace panda {
      * assigning a wrong type of container.
      */
     void setContainer(ContainerBase const*& c) { container_ = &c; }
+    //! Size of the vector.
+    UInt_t size() const;
     //! Element (ref) accessor.
     Ref<value_type> at(UInt_t) const;
     //! Object accessor.
@@ -78,6 +80,15 @@ namespace panda {
     ContainerBase const** container_{0};
     Indices* indices_{0};
   };
+
+  template<class E>
+  UInt_t
+  RefVector<E>::size() const
+  {
+    if (!indices_)
+      return 0;
+    return indices_->size();
+  }
 
   template<class E>
   Ref<E>
