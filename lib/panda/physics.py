@@ -212,6 +212,7 @@ class PhysicsObject(Definition, Object):
             header.writeline('void doBook_(TTree&, utils::BranchList const& = {"*"}) override;')
             header.writeline('void doReleaseTree_(TTree&) override;')
             header.writeline('void doInit_() override;')
+            header.indent -= 1
         else:
             header.newline()
             header.writeline('void destructor() override;')
@@ -227,6 +228,7 @@ class PhysicsObject(Definition, Object):
             header.writeline('void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;')
             header.writeline('void doReleaseTree_(TTree&, TString const&) override;')
             header.writeline('void doInit_() override;')
+            header.indent -= 1
 
         header.writeline('};')
 
