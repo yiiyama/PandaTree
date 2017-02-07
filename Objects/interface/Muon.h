@@ -91,16 +91,16 @@ namespace panda {
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doReleaseTree_(TTree&, TString const&) override;
     void doInit_() override;
-    };
+  };
 
-    typedef Muon::array_type MuonArray;
-    typedef Muon::collection_type MuonCollection;
-    typedef Ref<Muon> MuonRef;
-    typedef RefVector<Muon> MuonRefVector;
+  typedef Muon::array_type MuonArray;
+  typedef Muon::collection_type MuonCollection;
+  typedef Ref<Muon> MuonRef;
+  typedef RefVector<Muon> MuonRefVector;
 
   /* BEGIN CUSTOM Muon.h.global */
   /* END CUSTOM */
 
-  }
+}
 
-  #endif
+#endif

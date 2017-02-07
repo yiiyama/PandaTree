@@ -85,16 +85,16 @@ namespace panda {
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doReleaseTree_(TTree&, TString const&) override;
     void doInit_() override;
-    };
+  };
 
-    typedef Lepton::array_type LeptonArray;
-    typedef Lepton::collection_type LeptonCollection;
-    typedef Ref<Lepton> LeptonRef;
-    typedef RefVector<Lepton> LeptonRefVector;
+  typedef Lepton::array_type LeptonArray;
+  typedef Lepton::collection_type LeptonCollection;
+  typedef Ref<Lepton> LeptonRef;
+  typedef RefVector<Lepton> LeptonRefVector;
 
   /* BEGIN CUSTOM Lepton.h.global */
   /* END CUSTOM */
 
-  }
+}
 
-  #endif
+#endif

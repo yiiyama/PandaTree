@@ -72,16 +72,16 @@ namespace panda {
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doReleaseTree_(TTree&, TString const&) override;
     void doInit_() override;
-    };
+  };
 
-    typedef Particle::array_type ParticleArray;
-    typedef Particle::collection_type ParticleCollection;
-    typedef Ref<Particle> ParticleRef;
-    typedef RefVector<Particle> ParticleRefVector;
+  typedef Particle::array_type ParticleArray;
+  typedef Particle::collection_type ParticleCollection;
+  typedef Ref<Particle> ParticleRef;
+  typedef RefVector<Particle> ParticleRefVector;
 
   /* BEGIN CUSTOM Particle.h.global */
   /* END CUSTOM */
 
-  }
+}
 
-  #endif
+#endif

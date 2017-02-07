@@ -59,16 +59,16 @@ namespace panda {
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doReleaseTree_(TTree&, TString const&) override;
     void doInit_() override;
-    };
+  };
 
-    typedef SuperCluster::array_type SuperClusterArray;
-    typedef SuperCluster::collection_type SuperClusterCollection;
-    typedef Ref<SuperCluster> SuperClusterRef;
-    typedef RefVector<SuperCluster> SuperClusterRefVector;
+  typedef SuperCluster::array_type SuperClusterArray;
+  typedef SuperCluster::collection_type SuperClusterCollection;
+  typedef Ref<SuperCluster> SuperClusterRef;
+  typedef RefVector<SuperCluster> SuperClusterRefVector;
 
   /* BEGIN CUSTOM SuperCluster.h.global */
   /* END CUSTOM */
 
-  }
+}
 
-  #endif
+#endif

@@ -73,16 +73,16 @@ namespace panda {
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doReleaseTree_(TTree&, TString const&) override;
     void doInit_() override;
-    };
+  };
 
-    typedef MicroJet::array_type MicroJetArray;
-    typedef MicroJet::collection_type MicroJetCollection;
-    typedef Ref<MicroJet> MicroJetRef;
-    typedef RefVector<MicroJet> MicroJetRefVector;
+  typedef MicroJet::array_type MicroJetArray;
+  typedef MicroJet::collection_type MicroJetCollection;
+  typedef Ref<MicroJet> MicroJetRef;
+  typedef RefVector<MicroJet> MicroJetRefVector;
 
   /* BEGIN CUSTOM MicroJet.h.global */
   /* END CUSTOM */
 
-  }
+}
 
-  #endif
+#endif

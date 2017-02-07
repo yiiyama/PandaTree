@@ -35,11 +35,11 @@ namespace panda {
     void doBook_(TTree&, utils::BranchList const& = {"*"}) override;
     void doReleaseTree_(TTree&) override;
     void doInit_() override;
-    };
+  };
 
   /* BEGIN CUSTOM Met.h.global */
   /* END CUSTOM */
 
-  }
+}
 
-  #endif
+#endif

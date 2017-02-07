@@ -136,16 +136,16 @@ ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<Int_t>>*
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doReleaseTree_(TTree&, TString const&) override;
     void doInit_() override;
-    };
+  };
 
-    typedef FatJet::array_type FatJetArray;
-    typedef FatJet::collection_type FatJetCollection;
-    typedef Ref<FatJet> FatJetRef;
-    typedef RefVector<FatJet> FatJetRefVector;
+  typedef FatJet::array_type FatJetArray;
+  typedef FatJet::collection_type FatJetCollection;
+  typedef Ref<FatJet> FatJetRef;
+  typedef RefVector<FatJet> FatJetRefVector;
 
   /* BEGIN CUSTOM FatJet.h.global */
   /* END CUSTOM */
 
-  }
+}
 
-  #endif
+#endif

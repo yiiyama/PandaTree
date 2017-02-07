@@ -117,16 +117,16 @@ namespace panda {
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doReleaseTree_(TTree&, TString const&) override;
     void doInit_() override;
-    };
+  };
 
-    typedef Electron::array_type ElectronArray;
-    typedef Electron::collection_type ElectronCollection;
-    typedef Ref<Electron> ElectronRef;
-    typedef RefVector<Electron> ElectronRefVector;
+  typedef Electron::array_type ElectronArray;
+  typedef Electron::collection_type ElectronCollection;
+  typedef Ref<Electron> ElectronRef;
+  typedef RefVector<Electron> ElectronRefVector;
 
   /* BEGIN CUSTOM Electron.h.global */
   /* END CUSTOM */
 
-  }
+}
 
-  #endif
+#endif

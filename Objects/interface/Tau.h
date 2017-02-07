@@ -83,16 +83,16 @@ namespace panda {
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doReleaseTree_(TTree&, TString const&) override;
     void doInit_() override;
-    };
+  };
 
-    typedef Tau::array_type TauArray;
-    typedef Tau::collection_type TauCollection;
-    typedef Ref<Tau> TauRef;
-    typedef RefVector<Tau> TauRefVector;
+  typedef Tau::array_type TauArray;
+  typedef Tau::collection_type TauCollection;
+  typedef Ref<Tau> TauRef;
+  typedef RefVector<Tau> TauRefVector;
 
   /* BEGIN CUSTOM Tau.h.global */
   /* END CUSTOM */
 
-  }
+}
 
-  #endif
+#endif

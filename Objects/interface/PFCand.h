@@ -80,16 +80,16 @@ namespace panda {
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doReleaseTree_(TTree&, TString const&) override;
     void doInit_() override;
-    };
+  };
 
-    typedef PFCand::array_type PFCandArray;
-    typedef PFCand::collection_type PFCandCollection;
-    typedef Ref<PFCand> PFCandRef;
-    typedef RefVector<PFCand> PFCandRefVector;
+  typedef PFCand::array_type PFCandArray;
+  typedef PFCand::collection_type PFCandCollection;
+  typedef Ref<PFCand> PFCandRef;
+  typedef RefVector<PFCand> PFCandRefVector;
 
   /* BEGIN CUSTOM PFCand.h.global */
   /* END CUSTOM */
 
-  }
+}
 
-  #endif
+#endif

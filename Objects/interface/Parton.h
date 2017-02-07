@@ -71,16 +71,16 @@ namespace panda {
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doReleaseTree_(TTree&, TString const&) override;
     void doInit_() override;
-    };
+  };
 
-    typedef Parton::array_type PartonArray;
-    typedef Parton::collection_type PartonCollection;
-    typedef Ref<Parton> PartonRef;
-    typedef RefVector<Parton> PartonRefVector;
+  typedef Parton::array_type PartonArray;
+  typedef Parton::collection_type PartonCollection;
+  typedef Ref<Parton> PartonRef;
+  typedef RefVector<Parton> PartonRefVector;
 
   /* BEGIN CUSTOM Parton.h.global */
   /* END CUSTOM */
 
-  }
+}
 
-  #endif
+#endif

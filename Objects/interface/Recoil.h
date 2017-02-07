@@ -32,11 +32,11 @@ namespace panda {
     void doBook_(TTree&, utils::BranchList const& = {"*"}) override;
     void doReleaseTree_(TTree&) override;
     void doInit_() override;
-    };
+  };
 
   /* BEGIN CUSTOM Recoil.h.global */
   /* END CUSTOM */
 
-  }
+}
 
-  #endif
+#endif

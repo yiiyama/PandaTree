@@ -108,16 +108,16 @@ ContainerBase const* constituentsContainer_{0};      std::vector<std::vector<Int
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doReleaseTree_(TTree&, TString const&) override;
     void doInit_() override;
-    };
+  };
 
-    typedef Jet::array_type JetArray;
-    typedef Jet::collection_type JetCollection;
-    typedef Ref<Jet> JetRef;
-    typedef RefVector<Jet> JetRefVector;
+  typedef Jet::array_type JetArray;
+  typedef Jet::collection_type JetCollection;
+  typedef Ref<Jet> JetRef;
+  typedef RefVector<Jet> JetRefVector;
 
   /* BEGIN CUSTOM Jet.h.global */
   /* END CUSTOM */
 
-  }
+}
 
-  #endif
+#endif

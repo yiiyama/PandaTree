@@ -71,16 +71,16 @@ namespace panda {
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doReleaseTree_(TTree&, TString const&) override;
     void doInit_() override;
-    };
+  };
 
-    typedef GenJet::array_type GenJetArray;
-    typedef GenJet::collection_type GenJetCollection;
-    typedef Ref<GenJet> GenJetRef;
-    typedef RefVector<GenJet> GenJetRefVector;
+  typedef GenJet::array_type GenJetArray;
+  typedef GenJet::collection_type GenJetCollection;
+  typedef Ref<GenJet> GenJetRef;
+  typedef RefVector<GenJet> GenJetRefVector;
 
   /* BEGIN CUSTOM GenJet.h.global */
   /* END CUSTOM */
 
-  }
+}
 
-  #endif
+#endif

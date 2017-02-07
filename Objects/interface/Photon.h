@@ -123,16 +123,16 @@ namespace panda {
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doReleaseTree_(TTree&, TString const&) override;
     void doInit_() override;
-    };
+  };
 
-    typedef Photon::array_type PhotonArray;
-    typedef Photon::collection_type PhotonCollection;
-    typedef Ref<Photon> PhotonRef;
-    typedef RefVector<Photon> PhotonRefVector;
+  typedef Photon::array_type PhotonArray;
+  typedef Photon::collection_type PhotonCollection;
+  typedef Ref<Photon> PhotonRef;
+  typedef RefVector<Photon> PhotonRefVector;
 
   /* BEGIN CUSTOM Photon.h.global */
   /* END CUSTOM */
 
-  }
+}
 
-  #endif
+#endif
