@@ -33,6 +33,7 @@ namespace panda {
       ContainerBase const* matchedGenContainer_{0};
       Int_t* matchedGen_{0};
       */
+      Bool_t* hltsafe{0};
       Float_t* chisoPh{0};
       Float_t* nhisoPh{0};
       Float_t* phisoPh{0};
@@ -89,6 +90,7 @@ namespace panda {
     Float_t& puiso;
     Ref<GenParticle> matchedGen;
     */
+    Bool_t& hltsafe;
     Float_t& chisoPh;
     Float_t& nhisoPh;
     Float_t& phisoPh;

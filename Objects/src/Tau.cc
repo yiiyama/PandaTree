@@ -8,6 +8,7 @@ panda::Tau::datastore::allocate(UInt_t _nmax)
   q = new Short_t[nmax_];
   decayMode = new Bool_t[nmax_];
   decayModeNew = new Bool_t[nmax_];
+  looseIsoMVA = new Bool_t[nmax_];
   iso = new Float_t[nmax_];
   isoDeltaBetaCorr = new Float_t[nmax_];
   matchedGen_ = new Int_t[nmax_];
@@ -24,6 +25,8 @@ panda::Tau::datastore::deallocate()
   decayMode = 0;
   delete [] decayModeNew;
   decayModeNew = 0;
+  delete [] looseIsoMVA;
+  looseIsoMVA = 0;
   delete [] iso;
   iso = 0;
   delete [] isoDeltaBetaCorr;
@@ -40,6 +43,7 @@ panda::Tau::datastore::setStatus(TTree& _tree, TString const& _name, utils::Bran
   utils::setStatus(_tree, _name, "q", _branches);
   utils::setStatus(_tree, _name, "decayMode", _branches);
   utils::setStatus(_tree, _name, "decayModeNew", _branches);
+  utils::setStatus(_tree, _name, "looseIsoMVA", _branches);
   utils::setStatus(_tree, _name, "iso", _branches);
   utils::setStatus(_tree, _name, "isoDeltaBetaCorr", _branches);
   utils::setStatus(_tree, _name, "matchedGen_", _branches);
@@ -53,6 +57,7 @@ panda::Tau::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "q"));
   blist.push_back(utils::getStatus(_tree, _name, "decayMode"));
   blist.push_back(utils::getStatus(_tree, _name, "decayModeNew"));
+  blist.push_back(utils::getStatus(_tree, _name, "looseIsoMVA"));
   blist.push_back(utils::getStatus(_tree, _name, "iso"));
   blist.push_back(utils::getStatus(_tree, _name, "isoDeltaBetaCorr"));
   blist.push_back(utils::getStatus(_tree, _name, "matchedGen_"));
@@ -68,6 +73,7 @@ panda::Tau::datastore::setAddress(TTree& _tree, TString const& _name, utils::Bra
   utils::setAddress(_tree, _name, "q", q, _branches, _setStatus);
   utils::setAddress(_tree, _name, "decayMode", decayMode, _branches, _setStatus);
   utils::setAddress(_tree, _name, "decayModeNew", decayModeNew, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "looseIsoMVA", looseIsoMVA, _branches, _setStatus);
   utils::setAddress(_tree, _name, "iso", iso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "isoDeltaBetaCorr", isoDeltaBetaCorr, _branches, _setStatus);
   utils::setAddress(_tree, _name, "matchedGen_", matchedGen_, _branches, _setStatus);
@@ -83,6 +89,7 @@ panda::Tau::datastore::book(TTree& _tree, TString const& _name, utils::BranchLis
   utils::book(_tree, _name, "q", size, 'S', q, _branches);
   utils::book(_tree, _name, "decayMode", size, 'O', decayMode, _branches);
   utils::book(_tree, _name, "decayModeNew", size, 'O', decayModeNew, _branches);
+  utils::book(_tree, _name, "looseIsoMVA", size, 'O', looseIsoMVA, _branches);
   utils::book(_tree, _name, "iso", size, 'F', iso, _branches);
   utils::book(_tree, _name, "isoDeltaBetaCorr", size, 'F', isoDeltaBetaCorr, _branches);
   utils::book(_tree, _name, "matchedGen_", size, 'I', matchedGen_, _branches);
@@ -96,6 +103,7 @@ panda::Tau::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "q");
   utils::resetAddress(_tree, _name, "decayMode");
   utils::resetAddress(_tree, _name, "decayModeNew");
+  utils::resetAddress(_tree, _name, "looseIsoMVA");
   utils::resetAddress(_tree, _name, "iso");
   utils::resetAddress(_tree, _name, "isoDeltaBetaCorr");
   utils::resetAddress(_tree, _name, "matchedGen_");
@@ -113,6 +121,7 @@ panda::Tau::Tau(char const* _name/* = ""*/) :
   q(gStore.getData(this).q[0]),
   decayMode(gStore.getData(this).decayMode[0]),
   decayModeNew(gStore.getData(this).decayModeNew[0]),
+  looseIsoMVA(gStore.getData(this).looseIsoMVA[0]),
   iso(gStore.getData(this).iso[0]),
   isoDeltaBetaCorr(gStore.getData(this).isoDeltaBetaCorr[0]),
   matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
@@ -124,6 +133,7 @@ panda::Tau::Tau(datastore& _data, UInt_t _idx) :
   q(_data.q[_idx]),
   decayMode(_data.decayMode[_idx]),
   decayModeNew(_data.decayModeNew[_idx]),
+  looseIsoMVA(_data.looseIsoMVA[_idx]),
   iso(_data.iso[_idx]),
   isoDeltaBetaCorr(_data.isoDeltaBetaCorr[_idx]),
   matchedGen(_data.matchedGenContainer_, _data.matchedGen_[_idx])
@@ -135,6 +145,7 @@ panda::Tau::Tau(Tau const& _src) :
   q(gStore.getData(this).q[0]),
   decayMode(gStore.getData(this).decayMode[0]),
   decayModeNew(gStore.getData(this).decayModeNew[0]),
+  looseIsoMVA(gStore.getData(this).looseIsoMVA[0]),
   iso(gStore.getData(this).iso[0]),
   isoDeltaBetaCorr(gStore.getData(this).isoDeltaBetaCorr[0]),
   matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
@@ -144,6 +155,7 @@ panda::Tau::Tau(Tau const& _src) :
   q = _src.q;
   decayMode = _src.decayMode;
   decayModeNew = _src.decayModeNew;
+  looseIsoMVA = _src.looseIsoMVA;
   iso = _src.iso;
   isoDeltaBetaCorr = _src.isoDeltaBetaCorr;
   matchedGen = _src.matchedGen;
@@ -154,6 +166,7 @@ panda::Tau::Tau(ArrayBase* _array) :
   q(gStore.getData(this).q[0]),
   decayMode(gStore.getData(this).decayMode[0]),
   decayModeNew(gStore.getData(this).decayModeNew[0]),
+  looseIsoMVA(gStore.getData(this).looseIsoMVA[0]),
   iso(gStore.getData(this).iso[0]),
   isoDeltaBetaCorr(gStore.getData(this).isoDeltaBetaCorr[0]),
   matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
@@ -183,6 +196,7 @@ panda::Tau::operator=(Tau const& _src)
   q = _src.q;
   decayMode = _src.decayMode;
   decayModeNew = _src.decayModeNew;
+  looseIsoMVA = _src.looseIsoMVA;
   iso = _src.iso;
   isoDeltaBetaCorr = _src.isoDeltaBetaCorr;
   matchedGen = _src.matchedGen;
@@ -198,6 +212,7 @@ panda::Tau::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList c
   utils::setStatus(_tree, _name, "q", _branches);
   utils::setStatus(_tree, _name, "decayMode", _branches);
   utils::setStatus(_tree, _name, "decayModeNew", _branches);
+  utils::setStatus(_tree, _name, "looseIsoMVA", _branches);
   utils::setStatus(_tree, _name, "iso", _branches);
   utils::setStatus(_tree, _name, "isoDeltaBetaCorr", _branches);
   utils::setStatus(_tree, _name, "matchedGen_", _branches);
@@ -211,6 +226,7 @@ panda::Tau::doGetStatus_(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "q"));
   blist.push_back(utils::getStatus(_tree, _name, "decayMode"));
   blist.push_back(utils::getStatus(_tree, _name, "decayModeNew"));
+  blist.push_back(utils::getStatus(_tree, _name, "looseIsoMVA"));
   blist.push_back(utils::getStatus(_tree, _name, "iso"));
   blist.push_back(utils::getStatus(_tree, _name, "isoDeltaBetaCorr"));
   blist.push_back(utils::getStatus(_tree, _name, "matchedGen_"));
@@ -226,6 +242,7 @@ panda::Tau::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList 
   utils::setAddress(_tree, _name, "q", &q, _branches, _setStatus);
   utils::setAddress(_tree, _name, "decayMode", &decayMode, _branches, _setStatus);
   utils::setAddress(_tree, _name, "decayModeNew", &decayModeNew, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "looseIsoMVA", &looseIsoMVA, _branches, _setStatus);
   utils::setAddress(_tree, _name, "iso", &iso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "isoDeltaBetaCorr", &isoDeltaBetaCorr, _branches, _setStatus);
   utils::setAddress(_tree, _name, "matchedGen_", gStore.getData(this).matchedGen_, _branches, true);
@@ -239,6 +256,7 @@ panda::Tau::doBook_(TTree& _tree, TString const& _name, utils::BranchList const&
   utils::book(_tree, _name, "q", "", 'S', &q, _branches);
   utils::book(_tree, _name, "decayMode", "", 'O', &decayMode, _branches);
   utils::book(_tree, _name, "decayModeNew", "", 'O', &decayModeNew, _branches);
+  utils::book(_tree, _name, "looseIsoMVA", "", 'O', &looseIsoMVA, _branches);
   utils::book(_tree, _name, "iso", "", 'F', &iso, _branches);
   utils::book(_tree, _name, "isoDeltaBetaCorr", "", 'F', &isoDeltaBetaCorr, _branches);
   utils::book(_tree, _name, "matchedGen_", "", 'I', gStore.getData(this).matchedGen_, _branches);
@@ -252,6 +270,7 @@ panda::Tau::doReleaseTree_(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "q");
   utils::resetAddress(_tree, _name, "decayMode");
   utils::resetAddress(_tree, _name, "decayModeNew");
+  utils::resetAddress(_tree, _name, "looseIsoMVA");
   utils::resetAddress(_tree, _name, "iso");
   utils::resetAddress(_tree, _name, "isoDeltaBetaCorr");
   utils::resetAddress(_tree, _name, "matchedGen_");
@@ -265,6 +284,7 @@ panda::Tau::doInit_()
   q = 0;
   decayMode = false;
   decayModeNew = false;
+  looseIsoMVA = false;
   iso = 0.;
   isoDeltaBetaCorr = 0.;
   matchedGen.init();

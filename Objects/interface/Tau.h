@@ -27,6 +27,7 @@ namespace panda {
       Short_t* q{0};
       Bool_t* decayMode{0};
       Bool_t* decayModeNew{0};
+      Bool_t* looseIsoMVA{0};
       Float_t* iso{0};
       Float_t* isoDeltaBetaCorr{0};
       ContainerBase const* matchedGenContainer_{0};
@@ -65,6 +66,7 @@ namespace panda {
     Short_t& q;
     Bool_t& decayMode;
     Bool_t& decayModeNew;
+    Bool_t& looseIsoMVA;
     Float_t& iso;
     Float_t& isoDeltaBetaCorr;
     Ref<GenParticle> matchedGen;

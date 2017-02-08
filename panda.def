@@ -119,6 +119,7 @@ matchedGen/GenParticleRef
 virtual double combiso() const { return 0.; }
 
 [Electron>Lepton]
+hltsafe/O
 chisoPh/F
 nhisoPh/F
 phisoPh/F
@@ -144,6 +145,7 @@ double combiso() const override { return chiso + std::max(nhiso + phoiso - 0.5 *
 q/S
 decayMode/O
 decayModeNew/O
+looseIsoMVA/O
 iso/F
 isoDeltaBetaCorr/F
 matchedGen/GenParticleRef
