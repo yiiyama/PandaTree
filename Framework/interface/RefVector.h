@@ -76,6 +76,51 @@ namespace panda {
      */
     ContainerBase const* container() const;
 
+    //! "pointer" wrapper for Ref
+    class RefHolder {
+    public:
+      RefHolder(ContainerBase const*& c, Int_t& idx) : ref_(c, idx) {}
+      Ref<E> const& operator*() const { return ref_; }
+      Ref<E> const* operator->() const { return &ref_; }
+    private:
+      Ref<E> ref_;
+    };
+
+    //! const iterator
+    class RefVectorIterator {
+      friend class RefVector<E>;
+    public:
+      RefVectorIterator() {}
+      RefVectorIterator(RefVectorIterator const& it) : refvector_(it.refvector_), itr_(it.itr_) {}
+      RefVectorIterator& operator++() { ++itr_; return *this; }
+      RefVectorIterator operator++(int) { auto copy(*this); ++itr_; return copy; }
+      RefVectorIterator& operator--() { --itr_; return *this; }
+      RefVectorIterator operator--(int) { auto copy(*this); --itr_; return copy; }
+      RefVectorIterator& operator+=(int n) { itr_ += n; return *this; }
+      RefVectorIterator& operator-=(int n) { itr_ -= n; return *this; }
+      RefVectorIterator operator+(int n) const { auto copy(*this); return (copy += n); }
+      RefVectorIterator operator-(int n) const { auto copy(*this); return (copy -= n); }
+      bool operator==(RefVectorIterator const& rhs) const { return itr_ == rhs.itr_; }
+      bool operator!=(RefVectorIterator const& rhs) const { return itr_ != rhs.itr_; }
+      Ref<E> operator*() const { return Ref<E>(refvector_->container_, *itr_); }
+      RefVector<E>::RefHolder operator->() const { return RefVector<E>::RefHolder(refvector_->container_, *itr_); }
+
+    private:
+      RefVectorIterator(RefVector<E> const& v, Indices::const_iterator const& i) : refvector_(&v), itr_(i) {}
+
+      RefVector<E> const* refvector_{0};
+      Indices::const_iterator itr_{};
+    };
+
+    friend class RefVectorIterator;
+    typedef RefVectorIterator const_iterator;
+    typedef const_iterator iterator;
+
+    const_iterator begin() const { return const_iterator(*this, indices_->begin()); }
+    iterator begin() { return iterator(*this, indices_->begin()); }
+    const_iterator end() const { return const_iterator(*this, indices_->end()); }
+    iterator end() { return iterator(*this, indices_->end()); }
+
   private:
     ContainerBase const** container_{0};
     Indices* indices_{0};
