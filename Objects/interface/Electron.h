@@ -16,10 +16,10 @@ namespace panda {
       datastore() : Lepton::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* Particle
-      Float_t* pt{0};
-      Float_t* eta{0};
-      Float_t* phi{0};
+      /* ParticleP
+      Float_t* pt_{0};
+      Float_t* eta_{0};
+      Float_t* phi_{0};
       */
       /* Lepton
       Short_t* q{0};
@@ -70,14 +70,10 @@ namespace panda {
     ~Electron();
     Electron& operator=(Electron const&);
 
-
     double m() const override { return 5.109989e-4; }
     double combiso() const override { return chiso + std::max(nhiso + phoiso - isoPUOffset, Float_t(0.)); }
 
-    /* Particle
-    Float_t& pt;
-    Float_t& eta;
-    Float_t& phi;
+    /* ParticleP
     */
     /* Lepton
     Short_t& q;
@@ -88,7 +84,6 @@ namespace panda {
     Float_t& nhiso;
     Float_t& phoiso;
     Float_t& puiso;
-    Ref<GenParticle> matchedGen;
     */
     Bool_t& hltsafe;
     Float_t& chisoPh;
@@ -103,8 +98,18 @@ namespace panda {
     Float_t& hOverE;
     Bool_t& veto;
     Bool_t (&triggerMatch)[nElectronTriggerObjects];
+  protected:
+    /* ParticleP
+    Float_t& pt_;
+    Float_t& eta_;
+    Float_t& phi_;
+    */
+    /* Lepton
+    Ref<GenParticle> matchedGen;
+    */
     Ref<SuperCluster> superCluster;
 
+  public:
     /* BEGIN CUSTOM Electron.h.classdef */
     /* END CUSTOM */
 

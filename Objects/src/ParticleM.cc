@@ -3,34 +3,34 @@
 void
 panda::ParticleM::datastore::allocate(UInt_t _nmax)
 {
-  Particle::datastore::allocate(_nmax);
+  ParticleP::datastore::allocate(_nmax);
 
-  mass = new Float_t[nmax_];
+  mass_ = new Float_t[nmax_];
 }
 
 void
 panda::ParticleM::datastore::deallocate()
 {
-  Particle::datastore::deallocate();
+  ParticleP::datastore::deallocate();
 
-  delete [] mass;
-  mass = 0;
+  delete [] mass_;
+  mass_ = 0;
 }
 
 void
 panda::ParticleM::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  Particle::datastore::setStatus(_tree, _name, _branches);
+  ParticleP::datastore::setStatus(_tree, _name, _branches);
 
-  utils::setStatus(_tree, _name, "mass", _branches);
+  utils::setStatus(_tree, _name, "mass_", _branches);
 }
 
 panda::utils::BranchList
 panda::ParticleM::datastore::getStatus(TTree& _tree, TString const& _name) const
 {
-  utils::BranchList blist(Particle::datastore::getStatus(_tree, _name));
+  utils::BranchList blist(ParticleP::datastore::getStatus(_tree, _name));
 
-  blist.push_back(utils::getStatus(_tree, _name, "mass"));
+  blist.push_back(utils::getStatus(_tree, _name, "mass_"));
 
   return blist;
 }
@@ -38,60 +38,60 @@ panda::ParticleM::datastore::getStatus(TTree& _tree, TString const& _name) const
 void
 panda::ParticleM::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Particle::datastore::setAddress(_tree, _name, _branches, _setStatus);
+  ParticleP::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
-  utils::setAddress(_tree, _name, "mass", mass, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "mass_", mass_, _branches, _setStatus);
 }
 
 void
 panda::ParticleM::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
 {
-  Particle::datastore::book(_tree, _name, _branches, _dynamic);
+  ParticleP::datastore::book(_tree, _name, _branches, _dynamic);
 
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
-  utils::book(_tree, _name, "mass", size, 'F', mass, _branches);
+  utils::book(_tree, _name, "mass_", size, 'F', mass_, _branches);
 }
 
 void
 panda::ParticleM::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
-  Particle::datastore::releaseTree(_tree, _name);
+  ParticleP::datastore::releaseTree(_tree, _name);
 
-  utils::resetAddress(_tree, _name, "mass");
+  utils::resetAddress(_tree, _name, "mass_");
 }
 
 void
 panda::ParticleM::datastore::resizeVectors_(UInt_t _size)
 {
-  Particle::datastore::resizeVectors_(_size);
+  ParticleP::datastore::resizeVectors_(_size);
 
 }
 
 panda::ParticleM::ParticleM(char const* _name/* = ""*/) :
-  Particle(new ParticleMArray(1, _name)),
-  mass(gStore.getData(this).mass[0])
-{
-}
-
-panda::ParticleM::ParticleM(datastore& _data, UInt_t _idx) :
-  Particle(_data, _idx),
-  mass(_data.mass[_idx])
+  ParticleP(new ParticleMArray(1, _name)),
+  mass_(gStore.getData(this).mass_[0])
 {
 }
 
 panda::ParticleM::ParticleM(ParticleM const& _src) :
-  Particle(new ParticleMArray(1, gStore.getName(&_src))),
-  mass(gStore.getData(this).mass[0])
+  ParticleP(new ParticleMArray(1, gStore.getName(&_src))),
+  mass_(gStore.getData(this).mass_[0])
 {
-  Particle::operator=(_src);
+  ParticleP::operator=(_src);
 
-  mass = _src.mass;
+  mass_ = _src.mass_;
+}
+
+panda::ParticleM::ParticleM(datastore& _data, UInt_t _idx) :
+  ParticleP(_data, _idx),
+  mass_(_data.mass_[_idx])
+{
 }
 
 panda::ParticleM::ParticleM(ArrayBase* _array) :
-  Particle(_array),
-  mass(gStore.getData(this).mass[0])
+  ParticleP(_array),
+  mass_(gStore.getData(this).mass_[0])
 {
 }
 
@@ -107,15 +107,15 @@ panda::ParticleM::destructor()
   /* BEGIN CUSTOM ParticleM.cc.destructor */
   /* END CUSTOM */
 
-  Particle::destructor();
+  ParticleP::destructor();
 }
 
 panda::ParticleM&
 panda::ParticleM::operator=(ParticleM const& _src)
 {
-  Particle::operator=(_src);
+  ParticleP::operator=(_src);
 
-  mass = _src.mass;
+  mass_ = _src.mass_;
 
   return *this;
 }
@@ -123,17 +123,17 @@ panda::ParticleM::operator=(ParticleM const& _src)
 void
 panda::ParticleM::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  Particle::doSetStatus_(_tree, _name, _branches);
+  ParticleP::doSetStatus_(_tree, _name, _branches);
 
-  utils::setStatus(_tree, _name, "mass", _branches);
+  utils::setStatus(_tree, _name, "mass_", _branches);
 }
 
 panda::utils::BranchList
 panda::ParticleM::doGetStatus_(TTree& _tree, TString const& _name) const
 {
-  utils::BranchList blist(Particle::doGetStatus_(_tree, _name));
+  utils::BranchList blist(ParticleP::doGetStatus_(_tree, _name));
 
-  blist.push_back(utils::getStatus(_tree, _name, "mass"));
+  blist.push_back(utils::getStatus(_tree, _name, "mass_"));
 
   return blist;
 }
@@ -141,43 +141,55 @@ panda::ParticleM::doGetStatus_(TTree& _tree, TString const& _name) const
 void
 panda::ParticleM::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Particle::doSetAddress_(_tree, _name, _branches, _setStatus);
+  ParticleP::doSetAddress_(_tree, _name, _branches, _setStatus);
 
-  utils::setAddress(_tree, _name, "mass", &mass, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "mass_", &mass_, _branches, _setStatus);
 }
 
 void
 panda::ParticleM::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Particle::doBook_(_tree, _name, _branches);
+  ParticleP::doBook_(_tree, _name, _branches);
 
-  utils::book(_tree, _name, "mass", "", 'F', &mass, _branches);
+  utils::book(_tree, _name, "mass_", "", 'F', &mass_, _branches);
 }
 
 void
 panda::ParticleM::doReleaseTree_(TTree& _tree, TString const& _name)
 {
-  Particle::doReleaseTree_(_tree, _name);
+  ParticleP::doReleaseTree_(_tree, _name);
 
-  utils::resetAddress(_tree, _name, "mass");
+  utils::resetAddress(_tree, _name, "mass_");
 }
 
 void
 panda::ParticleM::doInit_()
 {
-  Particle::doInit_();
+  ParticleP::doInit_();
 
-  mass = 0.;
+  mass_ = 0.;
+
+  /* BEGIN CUSTOM ParticleM.cc.doInit_ */
+  /* END CUSTOM */
+}
+
+void
+panda::ParticleM::setPtEtaPhiM(double pt, double eta, double phi, double m)
+{
+  pt_ = pt;
+  eta_ = eta;
+  phi_ = phi;
+  mass_ = m;
 }
 
 void
 panda::ParticleM::setXYZE(double px, double py, double pz, double e)
 {
-  pt = std::sqrt(px * px + py * py);
+  pt_ = std::sqrt(px * px + py * py);
   double p(std::sqrt(px * px + py * py + pz * pz));
-  eta = 0.5 * std::log((p + pz) / (p - pz));
-  phi = std::atan2(py, px);
-  mass = std::sqrt(e * e - p * p);
+  eta_ = 0.5 * std::log((p + pz) / (p - pz));
+  phi_ = std::atan2(py, px);
+  mass_ = std::sqrt(e * e - p * p);
 }
 
 

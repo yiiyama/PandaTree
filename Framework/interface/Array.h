@@ -6,6 +6,7 @@
 
 #include <stdexcept>
 #include <memory>
+#include <type_traits>
 
 namespace panda {
 
@@ -72,11 +73,14 @@ namespace panda {
   protected:
     Array(char const* name, UInt_t unitSize, Bool_t dummy) : base_type(name, unitSize, kFALSE) {}
 
-    void allocate_(UInt_t);
-
   private:
     value_type* addr_() const { return reinterpret_cast<value_type*>(ContainerBase::array_); }
     value_type const* const_addr_() const { return reinterpret_cast<value_type const*>(ContainerBase::array_); }
+
+    template<class T = E>
+    typename std::enable_if<std::is_trivially_constructible<T>::value>::type allocate_(UInt_t);
+    template<class T = E>
+    typename std::enable_if<!std::is_trivially_constructible<T>::value>::type allocate_(UInt_t);
   };
 
   template<class E>
@@ -188,9 +192,10 @@ namespace panda {
     return sortedIndices;
   }
 
-  /*protected*/
+  /*private*/
   template<class E>
-  void
+  template<class T/* = E*/>
+  typename std::enable_if<std::is_trivially_constructible<T>::value>::type
   Array<E>::allocate_(UInt_t _nmax)
   {
     data.allocate(_nmax);
@@ -200,6 +205,15 @@ namespace panda {
     value_type* p(addr_());
     for (UInt_t iP(0); iP != data.nmax(); ++iP, ++p)
       new (p) value_type(data, iP);
+  }
+
+  /*private*/
+  template<class E>
+  template<class T/* = E*/>
+  typename std::enable_if<!std::is_trivially_constructible<T>::value>::type
+  Array<E>::allocate_(UInt_t)
+  {
+    throw std::runtime_error((ContainerBase::name_ + " cannot create an Array of pure-virtual elements").Data());
   }
 
 }

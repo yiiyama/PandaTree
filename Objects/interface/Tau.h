@@ -16,13 +16,13 @@ namespace panda {
       datastore() : ParticleM::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* Particle
-      Float_t* pt{0};
-      Float_t* eta{0};
-      Float_t* phi{0};
+      /* ParticleP
+      Float_t* pt_{0};
+      Float_t* eta_{0};
+      Float_t* phi_{0};
       */
       /* ParticleM
-      Float_t* mass{0};
+      Float_t* mass_{0};
       */
       Short_t* q{0};
       Bool_t* decayMode{0};
@@ -54,14 +54,9 @@ namespace panda {
     ~Tau();
     Tau& operator=(Tau const&);
 
-
-    /* Particle
-    Float_t& pt;
-    Float_t& eta;
-    Float_t& phi;
+    /* ParticleP
     */
     /* ParticleM
-    Float_t& mass;
     */
     Short_t& q;
     Bool_t& decayMode;
@@ -69,8 +64,18 @@ namespace panda {
     Bool_t& looseIsoMVA;
     Float_t& iso;
     Float_t& isoDeltaBetaCorr;
+  protected:
+    /* ParticleP
+    Float_t& pt_;
+    Float_t& eta_;
+    Float_t& phi_;
+    */
+    /* ParticleM
+    Float_t& mass_;
+    */
     Ref<GenParticle> matchedGen;
 
+  public:
     /* BEGIN CUSTOM Tau.h.classdef */
     /* END CUSTOM */
 

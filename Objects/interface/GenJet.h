@@ -15,13 +15,13 @@ namespace panda {
       datastore() : ParticleM::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* Particle
-      Float_t* pt{0};
-      Float_t* eta{0};
-      Float_t* phi{0};
+      /* ParticleP
+      Float_t* pt_{0};
+      Float_t* eta_{0};
+      Float_t* phi_{0};
       */
       /* ParticleM
-      Float_t* mass{0};
+      Float_t* mass_{0};
       */
       UShort_t* pdgid{0};
 
@@ -46,17 +46,22 @@ namespace panda {
     ~GenJet();
     GenJet& operator=(GenJet const&);
 
-
-    /* Particle
-    Float_t& pt;
-    Float_t& eta;
-    Float_t& phi;
+    /* ParticleP
     */
     /* ParticleM
-    Float_t& mass;
     */
     UShort_t& pdgid;
+  protected:
+    /* ParticleP
+    Float_t& pt_;
+    Float_t& eta_;
+    Float_t& phi_;
+    */
+    /* ParticleM
+    Float_t& mass_;
+    */
 
+  public:
     /* BEGIN CUSTOM GenJet.h.classdef */
     /* END CUSTOM */
 

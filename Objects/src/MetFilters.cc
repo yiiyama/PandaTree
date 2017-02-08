@@ -116,6 +116,9 @@ panda::MetFilters::doInit_()
   badsc = false;
   badTrack = false;
   badMuonTrack = false;
+
+  /* BEGIN CUSTOM MetFilters.cc.doInit_ */
+  /* END CUSTOM */
 }
 
 

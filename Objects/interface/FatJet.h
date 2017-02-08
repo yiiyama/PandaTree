@@ -16,13 +16,13 @@ namespace panda {
       datastore() : Jet::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* Particle
-      Float_t* pt{0};
-      Float_t* eta{0};
-      Float_t* phi{0};
+      /* ParticleP
+      Float_t* pt_{0};
+      Float_t* eta_{0};
+      Float_t* phi_{0};
       */
       /* ParticleM
-      Float_t* mass{0};
+      Float_t* mass_{0};
       */
       /* MicroJet
       Float_t* csv{0};
@@ -78,17 +78,12 @@ ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<Int_t>>*
     ~FatJet();
     FatJet& operator=(FatJet const&);
 
-
     double get_ecf(int o_, int N_, int ib_) const;
     bool set_ecf(int o_, int N_, int ib_, float x_);
 
-    /* Particle
-    Float_t& pt;
-    Float_t& eta;
-    Float_t& phi;
+    /* ParticleP
     */
     /* ParticleM
-    Float_t& mass;
     */
     /* MicroJet
     Float_t& csv;
@@ -107,8 +102,6 @@ ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<Int_t>>*
     Bool_t& loose;
     Bool_t& tight;
     Bool_t& monojet;
-    Ref<GenJet> matchedGenJet;
-    RefVector<PFCand> constituents;
     */
     Float_t& tau1;
     Float_t& tau2;
@@ -120,8 +113,24 @@ ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<Int_t>>*
     Float_t& htt_mass;
     Float_t& htt_frec;
     Float_t (&ecfs)[3][4][4];
+  protected:
+    /* ParticleP
+    Float_t& pt_;
+    Float_t& eta_;
+    Float_t& phi_;
+    */
+    /* ParticleM
+    Float_t& mass_;
+    */
+    /* MicroJet
+    */
+    /* Jet
+    Ref<GenJet> matchedGenJet;
+    RefVector<PFCand> constituents;
+    */
     RefVector<MicroJet> subjets;
 
+  public:
     /* BEGIN CUSTOM FatJet.h.classdef */
     /* END CUSTOM */
 

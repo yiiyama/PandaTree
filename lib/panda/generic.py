@@ -9,7 +9,7 @@ class GenericBranch(Branch):
     """
 
     def __init__(self, line):
-        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ ]+)(?:| += +(.*))$')
+        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ ]+)(?:|/([m]+))(?:| += +(.*))$')
 
         self.name = self.matches.group(1)
         # is this an array branch?
@@ -23,7 +23,11 @@ class GenericBranch(Branch):
         for dim in reversed(self.arrdef):
             self.type = 'std::array<{type}, {dim}>'.format(type = self.type, dim = dim)
 
-        self.init = self.matches.group(4) # used in decl
+        self.modifier = self.matches.group(4)
+        if self.modifier is None:
+            self.modifier = ''
+
+        self.init = self.matches.group(5) # used in decl
         if self.init is None:
             self.init = ''
 

@@ -192,25 +192,6 @@ panda::Jet::Jet(char const* _name/* = ""*/) :
 {
 }
 
-panda::Jet::Jet(datastore& _data, UInt_t _idx) :
-  MicroJet(_data, _idx),
-  rawPt(_data.rawPt[_idx]),
-  ptCorrUp(_data.ptCorrUp[_idx]),
-  ptCorrDown(_data.ptCorrDown[_idx]),
-  ptSmear(_data.ptSmear[_idx]),
-  ptSmearUp(_data.ptSmearUp[_idx]),
-  ptSmearDown(_data.ptSmearDown[_idx]),
-  nhf(_data.nhf[_idx]),
-  chf(_data.chf[_idx]),
-  puid(_data.puid[_idx]),
-  loose(_data.loose[_idx]),
-  tight(_data.tight[_idx]),
-  monojet(_data.monojet[_idx]),
-  matchedGenJet(_data.matchedGenJetContainer_, _data.matchedGenJet_[_idx]),
-  constituents(_data.constituentsContainer_, (*_data.constituents_)[_idx])
-{
-}
-
 panda::Jet::Jet(Jet const& _src) :
   MicroJet(new JetArray(1, gStore.getName(&_src))),
   rawPt(gStore.getData(this).rawPt[0]),
@@ -244,6 +225,25 @@ panda::Jet::Jet(Jet const& _src) :
   monojet = _src.monojet;
   matchedGenJet = _src.matchedGenJet;
   constituents = _src.constituents;
+}
+
+panda::Jet::Jet(datastore& _data, UInt_t _idx) :
+  MicroJet(_data, _idx),
+  rawPt(_data.rawPt[_idx]),
+  ptCorrUp(_data.ptCorrUp[_idx]),
+  ptCorrDown(_data.ptCorrDown[_idx]),
+  ptSmear(_data.ptSmear[_idx]),
+  ptSmearUp(_data.ptSmearUp[_idx]),
+  ptSmearDown(_data.ptSmearDown[_idx]),
+  nhf(_data.nhf[_idx]),
+  chf(_data.chf[_idx]),
+  puid(_data.puid[_idx]),
+  loose(_data.loose[_idx]),
+  tight(_data.tight[_idx]),
+  monojet(_data.monojet[_idx]),
+  matchedGenJet(_data.matchedGenJetContainer_, _data.matchedGenJet_[_idx]),
+  constituents(_data.constituentsContainer_, (*_data.constituents_)[_idx])
+{
 }
 
 panda::Jet::Jet(ArrayBase* _array) :
@@ -429,6 +429,9 @@ panda::Jet::doInit_()
   monojet = false;
   matchedGenJet.init();
   constituents.init();
+
+  /* BEGIN CUSTOM Jet.cc.doInit_ */
+  /* END CUSTOM */
 }
 
 /* BEGIN CUSTOM Jet.cc.global */

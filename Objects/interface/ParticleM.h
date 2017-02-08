@@ -1,7 +1,7 @@
 #ifndef PandaTree_Objects_ParticleM_h
 #define PandaTree_Objects_ParticleM_h
 #include "Constants.h"
-#include "Particle.h"
+#include "ParticleP.h"
 #include "../../Framework/interface/Array.h"
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
@@ -9,18 +9,18 @@
 
 namespace panda {
 
-  class ParticleM : public Particle {
+  class ParticleM : public ParticleP {
   public:
-    struct datastore : public Particle::datastore {
-      datastore() : Particle::datastore() {}
+    struct datastore : public ParticleP::datastore {
+      datastore() : ParticleP::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* Particle
-      Float_t* pt{0};
-      Float_t* eta{0};
-      Float_t* phi{0};
+      /* ParticleP
+      Float_t* pt_{0};
+      Float_t* eta_{0};
+      Float_t* phi_{0};
       */
-      Float_t* mass{0};
+      Float_t* mass_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -35,7 +35,7 @@ namespace panda {
     typedef Array<ParticleM> array_type;
     typedef Collection<ParticleM> collection_type;
 
-    typedef Particle base_type;
+    typedef ParticleP base_type;
 
     ParticleM(char const* name = "");
     ParticleM(ParticleM const&);
@@ -43,17 +43,21 @@ namespace panda {
     ~ParticleM();
     ParticleM& operator=(ParticleM const&);
 
-
-    double m() const override { return mass; }
+    double m() const override { return mass_; }
+    void setPtEtaPhiM(double pt, double eta, double phi, double m);
     void setXYZE(double px, double py, double pz, double e) override;
 
-    /* Particle
-    Float_t& pt;
-    Float_t& eta;
-    Float_t& phi;
+    /* ParticleP
     */
-    Float_t& mass;
+  protected:
+    /* ParticleP
+    Float_t& pt_;
+    Float_t& eta_;
+    Float_t& phi_;
+    */
+    Float_t& mass_;
 
+  public:
     /* BEGIN CUSTOM ParticleM.h.classdef */
     /* END CUSTOM */
 

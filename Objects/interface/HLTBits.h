@@ -18,14 +18,15 @@ namespace panda {
     ~HLTBits();
     HLTBits& operator=(HLTBits const&);
 
-
     void set(unsigned iB) { words[iB / 32] |= (1 << (iB % 32)); }
     bool pass(unsigned iB) const { return ((words[iB / 32] >> (iB % 32)) & 1) != 0; }
     unsigned size() const { return size_; }
 
     UInt_t words[16]{};
+  protected:
     UInt_t size_{512};
 
+  public:
     /* BEGIN CUSTOM HLTBits.h.classdef */
     /* END CUSTOM */
 

@@ -3,7 +3,7 @@
 void
 panda::Photon::datastore::allocate(UInt_t _nmax)
 {
-  Particle::datastore::allocate(_nmax);
+  ParticleP::datastore::allocate(_nmax);
 
   chiso = new Float_t[nmax_];
   chisoWorst = new Float_t[nmax_];
@@ -38,7 +38,7 @@ panda::Photon::datastore::allocate(UInt_t _nmax)
 void
 panda::Photon::datastore::deallocate()
 {
-  Particle::datastore::deallocate();
+  ParticleP::datastore::deallocate();
 
   delete [] chiso;
   chiso = 0;
@@ -101,7 +101,7 @@ panda::Photon::datastore::deallocate()
 void
 panda::Photon::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  Particle::datastore::setStatus(_tree, _name, _branches);
+  ParticleP::datastore::setStatus(_tree, _name, _branches);
 
   utils::setStatus(_tree, _name, "chiso", _branches);
   utils::setStatus(_tree, _name, "chisoWorst", _branches);
@@ -136,7 +136,7 @@ panda::Photon::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
 panda::utils::BranchList
 panda::Photon::datastore::getStatus(TTree& _tree, TString const& _name) const
 {
-  utils::BranchList blist(Particle::datastore::getStatus(_tree, _name));
+  utils::BranchList blist(ParticleP::datastore::getStatus(_tree, _name));
 
   blist.push_back(utils::getStatus(_tree, _name, "chiso"));
   blist.push_back(utils::getStatus(_tree, _name, "chisoWorst"));
@@ -173,7 +173,7 @@ panda::Photon::datastore::getStatus(TTree& _tree, TString const& _name) const
 void
 panda::Photon::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Particle::datastore::setAddress(_tree, _name, _branches, _setStatus);
+  ParticleP::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
   utils::setAddress(_tree, _name, "chiso", chiso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "chisoWorst", chisoWorst, _branches, _setStatus);
@@ -208,7 +208,7 @@ panda::Photon::datastore::setAddress(TTree& _tree, TString const& _name, utils::
 void
 panda::Photon::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
 {
-  Particle::datastore::book(_tree, _name, _branches, _dynamic);
+  ParticleP::datastore::book(_tree, _name, _branches, _dynamic);
 
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
@@ -245,7 +245,7 @@ panda::Photon::datastore::book(TTree& _tree, TString const& _name, utils::Branch
 void
 panda::Photon::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
-  Particle::datastore::releaseTree(_tree, _name);
+  ParticleP::datastore::releaseTree(_tree, _name);
 
   utils::resetAddress(_tree, _name, "chiso");
   utils::resetAddress(_tree, _name, "chisoWorst");
@@ -280,12 +280,12 @@ panda::Photon::datastore::releaseTree(TTree& _tree, TString const& _name)
 void
 panda::Photon::datastore::resizeVectors_(UInt_t _size)
 {
-  Particle::datastore::resizeVectors_(_size);
+  ParticleP::datastore::resizeVectors_(_size);
 
 }
 
 panda::Photon::Photon(char const* _name/* = ""*/) :
-  Particle(new PhotonArray(1, _name)),
+  ParticleP(new PhotonArray(1, _name)),
   chiso(gStore.getData(this).chiso[0]),
   chisoWorst(gStore.getData(this).chisoWorst[0]),
   nhiso(gStore.getData(this).nhiso[0]),
@@ -314,44 +314,11 @@ panda::Photon::Photon(char const* _name/* = ""*/) :
   triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0]),
   matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
-{
-}
-
-panda::Photon::Photon(datastore& _data, UInt_t _idx) :
-  Particle(_data, _idx),
-  chiso(_data.chiso[_idx]),
-  chisoWorst(_data.chisoWorst[_idx]),
-  nhiso(_data.nhiso[_idx]),
-  phoiso(_data.phoiso[_idx]),
-  sieie(_data.sieie[_idx]),
-  sipip(_data.sipip[_idx]),
-  hOverE(_data.hOverE[_idx]),
-  geniso(_data.geniso[_idx]),
-  mipEnergy(_data.mipEnergy[_idx]),
-  e33(_data.e33[_idx]),
-  e4(_data.e4[_idx]),
-  eseed(_data.eseed[_idx]),
-  emax(_data.emax[_idx]),
-  e2nd(_data.e2nd[_idx]),
-  r9(_data.r9[_idx]),
-  etaWidth(_data.etaWidth[_idx]),
-  phiWidth(_data.phiWidth[_idx]),
-  time(_data.time[_idx]),
-  timeSpan(_data.timeSpan[_idx]),
-  loose(_data.loose[_idx]),
-  medium(_data.medium[_idx]),
-  tight(_data.tight[_idx]),
-  highpt(_data.highpt[_idx]),
-  pixelVeto(_data.pixelVeto[_idx]),
-  csafeVeto(_data.csafeVeto[_idx]),
-  triggerMatch(_data.triggerMatch[_idx]),
-  superCluster(_data.superClusterContainer_, _data.superCluster_[_idx]),
-  matchedGen(_data.matchedGenContainer_, _data.matchedGen_[_idx])
 {
 }
 
 panda::Photon::Photon(Photon const& _src) :
-  Particle(new PhotonArray(1, gStore.getName(&_src))),
+  ParticleP(new PhotonArray(1, gStore.getName(&_src))),
   chiso(gStore.getData(this).chiso[0]),
   chisoWorst(gStore.getData(this).chisoWorst[0]),
   nhiso(gStore.getData(this).nhiso[0]),
@@ -381,7 +348,7 @@ panda::Photon::Photon(Photon const& _src) :
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0]),
   matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
 {
-  Particle::operator=(_src);
+  ParticleP::operator=(_src);
 
   chiso = _src.chiso;
   chisoWorst = _src.chisoWorst;
@@ -413,8 +380,41 @@ panda::Photon::Photon(Photon const& _src) :
   matchedGen = _src.matchedGen;
 }
 
+panda::Photon::Photon(datastore& _data, UInt_t _idx) :
+  ParticleP(_data, _idx),
+  chiso(_data.chiso[_idx]),
+  chisoWorst(_data.chisoWorst[_idx]),
+  nhiso(_data.nhiso[_idx]),
+  phoiso(_data.phoiso[_idx]),
+  sieie(_data.sieie[_idx]),
+  sipip(_data.sipip[_idx]),
+  hOverE(_data.hOverE[_idx]),
+  geniso(_data.geniso[_idx]),
+  mipEnergy(_data.mipEnergy[_idx]),
+  e33(_data.e33[_idx]),
+  e4(_data.e4[_idx]),
+  eseed(_data.eseed[_idx]),
+  emax(_data.emax[_idx]),
+  e2nd(_data.e2nd[_idx]),
+  r9(_data.r9[_idx]),
+  etaWidth(_data.etaWidth[_idx]),
+  phiWidth(_data.phiWidth[_idx]),
+  time(_data.time[_idx]),
+  timeSpan(_data.timeSpan[_idx]),
+  loose(_data.loose[_idx]),
+  medium(_data.medium[_idx]),
+  tight(_data.tight[_idx]),
+  highpt(_data.highpt[_idx]),
+  pixelVeto(_data.pixelVeto[_idx]),
+  csafeVeto(_data.csafeVeto[_idx]),
+  triggerMatch(_data.triggerMatch[_idx]),
+  superCluster(_data.superClusterContainer_, _data.superCluster_[_idx]),
+  matchedGen(_data.matchedGenContainer_, _data.matchedGen_[_idx])
+{
+}
+
 panda::Photon::Photon(ArrayBase* _array) :
-  Particle(_array),
+  ParticleP(_array),
   chiso(gStore.getData(this).chiso[0]),
   chisoWorst(gStore.getData(this).chisoWorst[0]),
   nhiso(gStore.getData(this).nhiso[0]),
@@ -458,13 +458,13 @@ panda::Photon::destructor()
   /* BEGIN CUSTOM Photon.cc.destructor */
   /* END CUSTOM */
 
-  Particle::destructor();
+  ParticleP::destructor();
 }
 
 panda::Photon&
 panda::Photon::operator=(Photon const& _src)
 {
-  Particle::operator=(_src);
+  ParticleP::operator=(_src);
 
   chiso = _src.chiso;
   chisoWorst = _src.chisoWorst;
@@ -501,7 +501,7 @@ panda::Photon::operator=(Photon const& _src)
 void
 panda::Photon::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  Particle::doSetStatus_(_tree, _name, _branches);
+  ParticleP::doSetStatus_(_tree, _name, _branches);
 
   utils::setStatus(_tree, _name, "chiso", _branches);
   utils::setStatus(_tree, _name, "chisoWorst", _branches);
@@ -536,7 +536,7 @@ panda::Photon::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchLis
 panda::utils::BranchList
 panda::Photon::doGetStatus_(TTree& _tree, TString const& _name) const
 {
-  utils::BranchList blist(Particle::doGetStatus_(_tree, _name));
+  utils::BranchList blist(ParticleP::doGetStatus_(_tree, _name));
 
   blist.push_back(utils::getStatus(_tree, _name, "chiso"));
   blist.push_back(utils::getStatus(_tree, _name, "chisoWorst"));
@@ -573,7 +573,7 @@ panda::Photon::doGetStatus_(TTree& _tree, TString const& _name) const
 void
 panda::Photon::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Particle::doSetAddress_(_tree, _name, _branches, _setStatus);
+  ParticleP::doSetAddress_(_tree, _name, _branches, _setStatus);
 
   utils::setAddress(_tree, _name, "chiso", &chiso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "chisoWorst", &chisoWorst, _branches, _setStatus);
@@ -608,7 +608,7 @@ panda::Photon::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchLi
 void
 panda::Photon::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Particle::doBook_(_tree, _name, _branches);
+  ParticleP::doBook_(_tree, _name, _branches);
 
   utils::book(_tree, _name, "chiso", "", 'F', &chiso, _branches);
   utils::book(_tree, _name, "chisoWorst", "", 'F', &chisoWorst, _branches);
@@ -643,7 +643,7 @@ panda::Photon::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
 void
 panda::Photon::doReleaseTree_(TTree& _tree, TString const& _name)
 {
-  Particle::doReleaseTree_(_tree, _name);
+  ParticleP::doReleaseTree_(_tree, _name);
 
   utils::resetAddress(_tree, _name, "chiso");
   utils::resetAddress(_tree, _name, "chisoWorst");
@@ -678,7 +678,7 @@ panda::Photon::doReleaseTree_(TTree& _tree, TString const& _name)
 void
 panda::Photon::doInit_()
 {
-  Particle::doInit_();
+  ParticleP::doInit_();
 
   chiso = 0.;
   chisoWorst = 0.;
@@ -708,6 +708,9 @@ panda::Photon::doInit_()
   for (auto& p0 : triggerMatch) p0 = false;
   superCluster.init();
   matchedGen.init();
+
+  /* BEGIN CUSTOM Photon.cc.doInit_ */
+  /* END CUSTOM */
 }
 
 /* BEGIN CUSTOM Photon.cc.global */

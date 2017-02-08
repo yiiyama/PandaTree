@@ -3,7 +3,7 @@
 void
 panda::GenParticle::datastore::allocate(UInt_t _nmax)
 {
-  ParticleM::datastore::allocate(_nmax);
+  PackedParticle::datastore::allocate(_nmax);
 
   pdgid = new Int_t[nmax_];
   statusFlags = new UShort_t[nmax_];
@@ -13,7 +13,7 @@ panda::GenParticle::datastore::allocate(UInt_t _nmax)
 void
 panda::GenParticle::datastore::deallocate()
 {
-  ParticleM::datastore::deallocate();
+  PackedParticle::datastore::deallocate();
 
   delete [] pdgid;
   pdgid = 0;
@@ -26,7 +26,7 @@ panda::GenParticle::datastore::deallocate()
 void
 panda::GenParticle::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  ParticleM::datastore::setStatus(_tree, _name, _branches);
+  PackedParticle::datastore::setStatus(_tree, _name, _branches);
 
   utils::setStatus(_tree, _name, "pdgid", _branches);
   utils::setStatus(_tree, _name, "statusFlags", _branches);
@@ -36,7 +36,7 @@ panda::GenParticle::datastore::setStatus(TTree& _tree, TString const& _name, uti
 panda::utils::BranchList
 panda::GenParticle::datastore::getStatus(TTree& _tree, TString const& _name) const
 {
-  utils::BranchList blist(ParticleM::datastore::getStatus(_tree, _name));
+  utils::BranchList blist(PackedParticle::datastore::getStatus(_tree, _name));
 
   blist.push_back(utils::getStatus(_tree, _name, "pdgid"));
   blist.push_back(utils::getStatus(_tree, _name, "statusFlags"));
@@ -48,7 +48,7 @@ panda::GenParticle::datastore::getStatus(TTree& _tree, TString const& _name) con
 void
 panda::GenParticle::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  ParticleM::datastore::setAddress(_tree, _name, _branches, _setStatus);
+  PackedParticle::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
   utils::setAddress(_tree, _name, "pdgid", pdgid, _branches, _setStatus);
   utils::setAddress(_tree, _name, "statusFlags", statusFlags, _branches, _setStatus);
@@ -58,7 +58,7 @@ panda::GenParticle::datastore::setAddress(TTree& _tree, TString const& _name, ut
 void
 panda::GenParticle::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
 {
-  ParticleM::datastore::book(_tree, _name, _branches, _dynamic);
+  PackedParticle::datastore::book(_tree, _name, _branches, _dynamic);
 
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
@@ -70,7 +70,7 @@ panda::GenParticle::datastore::book(TTree& _tree, TString const& _name, utils::B
 void
 panda::GenParticle::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
-  ParticleM::datastore::releaseTree(_tree, _name);
+  PackedParticle::datastore::releaseTree(_tree, _name);
 
   utils::resetAddress(_tree, _name, "pdgid");
   utils::resetAddress(_tree, _name, "statusFlags");
@@ -80,41 +80,41 @@ panda::GenParticle::datastore::releaseTree(TTree& _tree, TString const& _name)
 void
 panda::GenParticle::datastore::resizeVectors_(UInt_t _size)
 {
-  ParticleM::datastore::resizeVectors_(_size);
+  PackedParticle::datastore::resizeVectors_(_size);
 
 }
 
 panda::GenParticle::GenParticle(char const* _name/* = ""*/) :
-  ParticleM(new GenParticleArray(1, _name)),
+  PackedParticle(new GenParticleArray(1, _name)),
   pdgid(gStore.getData(this).pdgid[0]),
   statusFlags(gStore.getData(this).statusFlags[0]),
   parent(gStore.getData(this).parentContainer_, gStore.getData(this).parent_[0])
-{
-}
-
-panda::GenParticle::GenParticle(datastore& _data, UInt_t _idx) :
-  ParticleM(_data, _idx),
-  pdgid(_data.pdgid[_idx]),
-  statusFlags(_data.statusFlags[_idx]),
-  parent(_data.parentContainer_, _data.parent_[_idx])
 {
 }
 
 panda::GenParticle::GenParticle(GenParticle const& _src) :
-  ParticleM(new GenParticleArray(1, gStore.getName(&_src))),
+  PackedParticle(new GenParticleArray(1, gStore.getName(&_src))),
   pdgid(gStore.getData(this).pdgid[0]),
   statusFlags(gStore.getData(this).statusFlags[0]),
   parent(gStore.getData(this).parentContainer_, gStore.getData(this).parent_[0])
 {
-  ParticleM::operator=(_src);
+  PackedParticle::operator=(_src);
 
   pdgid = _src.pdgid;
   statusFlags = _src.statusFlags;
   parent = _src.parent;
 }
 
+panda::GenParticle::GenParticle(datastore& _data, UInt_t _idx) :
+  PackedParticle(_data, _idx),
+  pdgid(_data.pdgid[_idx]),
+  statusFlags(_data.statusFlags[_idx]),
+  parent(_data.parentContainer_, _data.parent_[_idx])
+{
+}
+
 panda::GenParticle::GenParticle(ArrayBase* _array) :
-  ParticleM(_array),
+  PackedParticle(_array),
   pdgid(gStore.getData(this).pdgid[0]),
   statusFlags(gStore.getData(this).statusFlags[0]),
   parent(gStore.getData(this).parentContainer_, gStore.getData(this).parent_[0])
@@ -133,13 +133,13 @@ panda::GenParticle::destructor()
   /* BEGIN CUSTOM GenParticle.cc.destructor */
   /* END CUSTOM */
 
-  ParticleM::destructor();
+  PackedParticle::destructor();
 }
 
 panda::GenParticle&
 panda::GenParticle::operator=(GenParticle const& _src)
 {
-  ParticleM::operator=(_src);
+  PackedParticle::operator=(_src);
 
   pdgid = _src.pdgid;
   statusFlags = _src.statusFlags;
@@ -151,7 +151,7 @@ panda::GenParticle::operator=(GenParticle const& _src)
 void
 panda::GenParticle::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  ParticleM::doSetStatus_(_tree, _name, _branches);
+  PackedParticle::doSetStatus_(_tree, _name, _branches);
 
   utils::setStatus(_tree, _name, "pdgid", _branches);
   utils::setStatus(_tree, _name, "statusFlags", _branches);
@@ -161,7 +161,7 @@ panda::GenParticle::doSetStatus_(TTree& _tree, TString const& _name, utils::Bran
 panda::utils::BranchList
 panda::GenParticle::doGetStatus_(TTree& _tree, TString const& _name) const
 {
-  utils::BranchList blist(ParticleM::doGetStatus_(_tree, _name));
+  utils::BranchList blist(PackedParticle::doGetStatus_(_tree, _name));
 
   blist.push_back(utils::getStatus(_tree, _name, "pdgid"));
   blist.push_back(utils::getStatus(_tree, _name, "statusFlags"));
@@ -173,7 +173,7 @@ panda::GenParticle::doGetStatus_(TTree& _tree, TString const& _name) const
 void
 panda::GenParticle::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  ParticleM::doSetAddress_(_tree, _name, _branches, _setStatus);
+  PackedParticle::doSetAddress_(_tree, _name, _branches, _setStatus);
 
   utils::setAddress(_tree, _name, "pdgid", &pdgid, _branches, _setStatus);
   utils::setAddress(_tree, _name, "statusFlags", &statusFlags, _branches, _setStatus);
@@ -183,7 +183,7 @@ panda::GenParticle::doSetAddress_(TTree& _tree, TString const& _name, utils::Bra
 void
 panda::GenParticle::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  ParticleM::doBook_(_tree, _name, _branches);
+  PackedParticle::doBook_(_tree, _name, _branches);
 
   utils::book(_tree, _name, "pdgid", "", 'I', &pdgid, _branches);
   utils::book(_tree, _name, "statusFlags", "", 's', &statusFlags, _branches);
@@ -193,7 +193,7 @@ panda::GenParticle::doBook_(TTree& _tree, TString const& _name, utils::BranchLis
 void
 panda::GenParticle::doReleaseTree_(TTree& _tree, TString const& _name)
 {
-  ParticleM::doReleaseTree_(_tree, _name);
+  PackedParticle::doReleaseTree_(_tree, _name);
 
   utils::resetAddress(_tree, _name, "pdgid");
   utils::resetAddress(_tree, _name, "statusFlags");
@@ -203,11 +203,14 @@ panda::GenParticle::doReleaseTree_(TTree& _tree, TString const& _name)
 void
 panda::GenParticle::doInit_()
 {
-  ParticleM::doInit_();
+  PackedParticle::doInit_();
 
   pdgid = 0;
   statusFlags = 0;
   parent.init();
+
+  /* BEGIN CUSTOM GenParticle.cc.doInit_ */
+  /* END CUSTOM */
 }
 
 /* BEGIN CUSTOM GenParticle.cc.global */

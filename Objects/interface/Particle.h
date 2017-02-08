@@ -15,10 +15,6 @@ namespace panda {
       datastore() : Element::datastore() {}
       ~datastore() { deallocate(); }
 
-      Float_t* pt{0};
-      Float_t* eta{0};
-      Float_t* phi{0};
-
       void allocate(UInt_t n) override;
       void deallocate() override;
       void setStatus(TTree&, TString const&, utils::BranchList const&) override;
@@ -34,34 +30,31 @@ namespace panda {
 
     typedef Element base_type;
 
-    Particle(char const* name = "");
-    Particle(Particle const&);
     Particle(datastore&, UInt_t idx);
     ~Particle();
     Particle& operator=(Particle const&);
 
-
-    TLorentzVector p4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt, eta, phi, m()); return p4; }
-    double e() const { return std::sqrt(std::pow(pt * std::cosh(eta), 2.) + m() * m()); }
-    double p() const { return pt * std::cosh(eta); }
-    double px() const { return pt * std::cos(phi); }
-    double py() const { return pt * std::sin(phi); }
-    double pz() const { return pt * std::sinh(eta); }
-    virtual double m() const { return 0.; }
-    double dEta(Particle const& p) const { return eta - p.eta; }
-    double dPhi(Particle const& p) const { return TVector2::Phi_mpi_pi(phi - p.phi); }
+    TLorentzVector p4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt(), eta(), phi(), m()); return p4; }
+    double e() const { return std::sqrt(std::pow(pt() * std::cosh(eta()), 2.) + m() * m()); }
+    double p() const { return pt() * std::cosh(eta()); }
+    double px() const { return pt() * std::cos(phi()); }
+    double py() const { return pt() * std::sin(phi()); }
+    double pz() const { return pt() * std::sinh(eta()); }
+    virtual double pt() const = 0;
+    virtual double eta() const = 0;
+    virtual double phi() const = 0;
+    virtual double m() const = 0;
+    double dEta(Particle const& p) const { return eta() - p.eta(); }
+    double dPhi(Particle const& p) const { return TVector2::Phi_mpi_pi(phi() - p.phi()); }
     double dR2(Particle const& p) const { double d1(dEta(p)); double d2(dPhi(p)); return d1 * d1 + d2 * d2; }
     double dR(Particle const& p) const { return std::sqrt(dR2(p)); }
-    virtual void setXYZE(double px, double py, double pz, double);
+    virtual void setPtEtaPhiM(double pt, double eta, double phi, double m) = 0;
+    virtual void setXYZE(double px, double py, double pz, double e) = 0;
 
-    Float_t& pt;
-    Float_t& eta;
-    Float_t& phi;
+  protected:
 
+  public:
     /* BEGIN CUSTOM Particle.h.classdef */
-    static Bool_t PtGreater(Element const& p1, Element const& p2) {
-      return static_cast<Particle const&>(p1).pt > static_cast<Particle const&>(p2).pt;
-    }
     /* END CUSTOM */
 
     void destructor() override;

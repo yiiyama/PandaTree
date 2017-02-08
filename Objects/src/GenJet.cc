@@ -74,12 +74,6 @@ panda::GenJet::GenJet(char const* _name/* = ""*/) :
 {
 }
 
-panda::GenJet::GenJet(datastore& _data, UInt_t _idx) :
-  ParticleM(_data, _idx),
-  pdgid(_data.pdgid[_idx])
-{
-}
-
 panda::GenJet::GenJet(GenJet const& _src) :
   ParticleM(new GenJetArray(1, gStore.getName(&_src))),
   pdgid(gStore.getData(this).pdgid[0])
@@ -87,6 +81,12 @@ panda::GenJet::GenJet(GenJet const& _src) :
   ParticleM::operator=(_src);
 
   pdgid = _src.pdgid;
+}
+
+panda::GenJet::GenJet(datastore& _data, UInt_t _idx) :
+  ParticleM(_data, _idx),
+  pdgid(_data.pdgid[_idx])
+{
 }
 
 panda::GenJet::GenJet(ArrayBase* _array) :
@@ -168,6 +168,9 @@ panda::GenJet::doInit_()
   ParticleM::doInit_();
 
   pdgid = 0;
+
+  /* BEGIN CUSTOM GenJet.cc.doInit_ */
+  /* END CUSTOM */
 }
 
 /* BEGIN CUSTOM GenJet.cc.global */

@@ -15,13 +15,13 @@ namespace panda {
       datastore() : ParticleM::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* Particle
-      Float_t* pt{0};
-      Float_t* eta{0};
-      Float_t* phi{0};
+      /* ParticleP
+      Float_t* pt_{0};
+      Float_t* eta_{0};
+      Float_t* phi_{0};
       */
       /* ParticleM
-      Float_t* mass{0};
+      Float_t* mass_{0};
       */
       Float_t* csv{0};
       Float_t* qgl{0};
@@ -47,18 +47,23 @@ namespace panda {
     ~MicroJet();
     MicroJet& operator=(MicroJet const&);
 
-
-    /* Particle
-    Float_t& pt;
-    Float_t& eta;
-    Float_t& phi;
+    /* ParticleP
     */
     /* ParticleM
-    Float_t& mass;
     */
     Float_t& csv;
     Float_t& qgl;
+  protected:
+    /* ParticleP
+    Float_t& pt_;
+    Float_t& eta_;
+    Float_t& phi_;
+    */
+    /* ParticleM
+    Float_t& mass_;
+    */
 
+  public:
     /* BEGIN CUSTOM MicroJet.h.classdef */
     /* END CUSTOM */
 

@@ -9,23 +9,27 @@ class Function(Definition):
     """
 
     def __init__(self, line, source):
-        Definition.__init__(self, line, '((?:virtual +|static +|)([^\(]+) +([^ \(]+\([^\)]*\)(?: +const|))(?: +override|)) *(.*)')
+        Definition.__init__(self, line, '((?:virtual +|static +|)([^\(]+) +([^ \(]+\([^\)]*\)(?: +const|))(?: +override|))(.*)')
 
         self.decl = self.matches.group(1) # includes virtual/static, const, override
         self.type = self.matches.group(2) # return type
         self.signature = self.matches.group(3) # function name and arguments
 
-        self.impl = ''
+        self.impl = self.matches.group(4).strip()
 
-        if self.matches.group(4) == ';':
+        if re.match('^ *= *0 *;$', self.impl):
+            self.is_pure_virtual = True
+        else:
+            self.is_pure_virtual = False
+
+        if self.impl.endswith(';'):
             # implementation must be given by hand in the .cc file
             return
 
-        self.impl += self.matches.group(4)
-
         depth = self.impl.count('{') - self.impl.count('}')
 
-        if '{' in self.impl and depth == 0:
+        if self.impl != '' and depth == 0:
+            # a one-liner
             return
 
         while True:
@@ -46,7 +50,7 @@ class Function(Definition):
             out.writeline(self.decl + ';')
 
         elif context == 'class':
-            if '\n' not in self.impl: # a one-liner -> write directly in decl
+            if self.impl != ';' and '\n' not in self.impl: # a one-liner -> write directly in decl
                 out.writeline('{decl} {impl}'.format(decl = self.decl, impl = self.impl))
             else:
                 out.writeline('{decl};'.format(decl = self.decl))

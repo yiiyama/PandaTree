@@ -45,6 +45,11 @@ class PhysicsObject(Definition, Object):
 
         Object.__init__(self, self.matches.group(1), source)
 
+        if len([f for f in self.functions if f.is_pure_virtual]) == 0:
+            self.instantiable = True
+        else:
+            self.instantiable = False
+
     def is_singlet(self):
         if self._singlet is None:
             return PhysicsObject.get(self.parent).is_singlet()
@@ -152,8 +157,9 @@ class PhysicsObject(Definition, Object):
         header.newline()
 
         # "boilerplate" functions (default ctor for non-SINGLE objects are pretty nontrivial though)
-        header.writeline('{name}(char const* name = "");'.format(name = self.name)) # default constructor
-        header.writeline('{name}({name} const&);'.format(name = self.name)) # copy constructor
+        if self.instantiable:
+            header.writeline('{name}(char const* name = "");'.format(name = self.name)) # default constructor
+            header.writeline('{name}({name} const&);'.format(name = self.name)) # copy constructor
 
         # standard constructors and specific functions
         if not self.is_singlet():
@@ -166,39 +172,58 @@ class PhysicsObject(Definition, Object):
         header.newline()
 
         if len(self.constants) != 0:
-            header.newline()
             for constant in self.constants:
                 constant.write_decl(header, context = 'class')
+            header.newline()
 
         if len(self.functions) != 0:
-            header.newline()
             for function in self.functions:
                 function.write_decl(header, context = 'class')
+            header.newline()
 
         if self.is_singlet():
             context = 'Singlet'
         else:
             context = 'Element'
 
-        newline = False
         for ancestor in inheritance:
             if len(ancestor.branches) == 0:
                 continue
-
-            if not newline:
-                header.newline()
-                newline = True
 
             if ancestor != self:
                 header.writeline('/* {name}'.format(name = ancestor.name))
 
             for branch in ancestor.branches:
-                branch.write_decl(header, context = context)
+                if not branch.name.endswith('_'):
+                    branch.write_decl(header, context = context)
+
+            if ancestor != self:
+                header.writeline('*/')
+
+        header.indent -= 1
+        header.writeline('protected:')
+        header.indent += 1
+
+        for ancestor in inheritance:
+            if len(ancestor.branches) == 0:
+                continue
+
+            if ancestor != self:
+                header.writeline('/* {name}'.format(name = ancestor.name))
+
+            for branch in ancestor.branches:
+                if branch.name.endswith('_'):
+                    branch.write_decl(header, context = context)
 
             if ancestor != self:
                 header.writeline('*/')
 
         header.newline()
+
+        header.indent -= 1
+        header.writeline('public:')
+        header.indent += 1
+
         header.write_custom_block('{name}.h.classdef'.format(name = self.name))
 
         if self.is_singlet():
@@ -251,7 +276,7 @@ class PhysicsObject(Definition, Object):
         header.writeline('#endif')
         header.close()
 
-    def _write_method(self, out, context, methodspec, nestedcls = ''):
+    def _write_method(self, out, context, methodspec, nestedcls = '', custom_block = False):
         """
         Util function to write class methods with a common pattern.
         """
@@ -314,6 +339,10 @@ class PhysicsObject(Definition, Object):
             for branch in self.branches:
                 getattr(branch, generator)(out, context = context)
 
+        if custom_block:
+            out.newline()
+            out.write_custom_block('{name}.cc.{method}'.format(name = name, method = fname))
+
         if retexpr:
             out.newline()
             out.writeline('return {expr};'.format(expr = retexpr))
@@ -339,35 +368,36 @@ class PhysicsObject(Definition, Object):
         if self.is_singlet():
             src.newline()
 
-            src.writeline('{NAMESPACE}::{name}::{name}(char const* _name/* = ""*/) :'.format(**subst))
-            src.indent += 1
-            initializers = ['{parent}(_name)'.format(**subst)]
-            for branch in self.branches:
-                branch.init_default(initializers, context = 'Singlet')
-            src.writelines(initializers, ',')
-            src.indent -= 1
-            src.writeline('{')
-            src.indent += 1
-            for branch in self.branches:
-                branch.write_default_ctor(src, context = 'Singlet')
-            src.indent -= 1
-            src.writeline('}')
-            src.newline()
-
-            src.writeline('{NAMESPACE}::{name}::{name}({name} const& _src) :'.format(**subst))
-            src.indent += 1
-            initializers = ['{parent}(_src.name_)'.format(**subst)]
-            for branch in self.branches:
-                branch.init_copy(initializers, context = 'Singlet')
-            src.writelines(initializers, ',')
-            src.indent -= 1
-            src.writeline('{')
-            src.indent += 1
-            for branch in self.branches:
-                branch.write_copy_ctor(src, context = 'Singlet')
-            src.indent -= 1
-            src.writeline('}')
-            src.newline()
+            if self.instantiable:
+                src.writeline('{NAMESPACE}::{name}::{name}(char const* _name/* = ""*/) :'.format(**subst))
+                src.indent += 1
+                initializers = ['{parent}(_name)'.format(**subst)]
+                for branch in self.branches:
+                    branch.init_default(initializers, context = 'Singlet')
+                src.writelines(initializers, ',')
+                src.indent -= 1
+                src.writeline('{')
+                src.indent += 1
+                for branch in self.branches:
+                    branch.write_default_ctor(src, context = 'Singlet')
+                src.indent -= 1
+                src.writeline('}')
+                src.newline()
+    
+                src.writeline('{NAMESPACE}::{name}::{name}({name} const& _src) :'.format(**subst))
+                src.indent += 1
+                initializers = ['{parent}(_src.name_)'.format(**subst)]
+                for branch in self.branches:
+                    branch.init_copy(initializers, context = 'Singlet')
+                src.writelines(initializers, ',')
+                src.indent -= 1
+                src.writeline('{')
+                src.indent += 1
+                for branch in self.branches:
+                    branch.write_copy_ctor(src, context = 'Singlet')
+                src.indent -= 1
+                src.writeline('}')
+                src.newline()
 
             src.writeline('{NAMESPACE}::{name}::~{name}()'.format(**subst))
             src.writeline('{')
@@ -385,7 +415,7 @@ class PhysicsObject(Definition, Object):
 
             for method in methods:
                 src.newline()
-                self._write_method(src, 'Singlet', method)
+                self._write_method(src, 'Singlet', method, custom_block = (method[0] in ['doInit_']))
 
         #if self.is_singlet():
         else:
@@ -405,20 +435,39 @@ class PhysicsObject(Definition, Object):
                 src.newline()
                 self._write_method(src, 'datastore', method, nestedcls = 'datastore')
 
-            src.newline()
-            src.writeline('{NAMESPACE}::{name}::{name}(char const* _name/* = ""*/) :'.format(**subst))
-            src.indent += 1
-            initializers = ['{parent}(new {name}Array(1, _name))'.format(**subst)]
-            for branch in self.branches:
-                branch.init_default(initializers, context = 'Element')
-            src.writelines(initializers, ',')
-            src.indent -= 1
-            src.writeline('{')
-            src.indent += 1
-            for branch in self.branches:
-                branch.write_default_ctor(src, context = 'Element')
-            src.indent -= 1
-            src.writeline('}')
+            if self.instantiable:
+                src.newline()
+                src.writeline('{NAMESPACE}::{name}::{name}(char const* _name/* = ""*/) :'.format(**subst))
+                src.indent += 1
+                initializers = ['{parent}(new {name}Array(1, _name))'.format(**subst)]
+                for branch in self.branches:
+                    branch.init_default(initializers, context = 'Element')
+                src.writelines(initializers, ',')
+                src.indent -= 1
+                src.writeline('{')
+                src.indent += 1
+                for branch in self.branches:
+                    branch.write_default_ctor(src, context = 'Element')
+                src.indent -= 1
+                src.writeline('}')
+
+                src.newline()
+                src.writeline('{NAMESPACE}::{name}::{name}({name} const& _src) :'.format(**subst))
+                src.indent += 1
+                initializers = ['{parent}(new {name}Array(1, gStore.getName(&_src)))'.format(**subst)]
+                for branch in self.branches:
+                    branch.init_copy(initializers, context = 'Element')
+                src.writelines(initializers, ',')
+                src.indent -= 1
+                src.writeline('{')
+                src.indent += 1
+                src.writeline('{parent}::operator=(_src);'.format(**subst))
+                if len(self.branches) != 0:
+                    src.newline()
+                    for branch in self.branches:
+                        branch.write_copy_ctor(src, context = 'Element')
+                src.indent -= 1
+                src.writeline('}')
 
             src.newline()
             src.writeline('{NAMESPACE}::{name}::{name}(datastore& _data, UInt_t _idx) :'.format(**subst))
@@ -432,24 +481,6 @@ class PhysicsObject(Definition, Object):
             src.indent += 1
             for branch in self.branches:
                 branch.write_standard_ctor(src, context = 'Element')
-            src.indent -= 1
-            src.writeline('}')
-
-            src.newline()
-            src.writeline('{NAMESPACE}::{name}::{name}({name} const& _src) :'.format(**subst))
-            src.indent += 1
-            initializers = ['{parent}(new {name}Array(1, gStore.getName(&_src)))'.format(**subst)]
-            for branch in self.branches:
-                branch.init_copy(initializers, context = 'Element')
-            src.writelines(initializers, ',')
-            src.indent -= 1
-            src.writeline('{')
-            src.indent += 1
-            src.writeline('{parent}::operator=(_src);'.format(**subst))
-            if len(self.branches) != 0:
-                src.newline()
-                for branch in self.branches:
-                    branch.write_copy_ctor(src, context = 'Element')
             src.indent -= 1
             src.writeline('}')
 
@@ -501,7 +532,7 @@ class PhysicsObject(Definition, Object):
 
             for method in methods:
                 src.newline()
-                self._write_method(src, 'Element', method)
+                self._write_method(src, 'Element', method, custom_block = (method[0] in ['doInit_']))
 
         if len(self.functions):
             src.newline()

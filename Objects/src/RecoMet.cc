@@ -146,6 +146,9 @@ panda::RecoMet::doInit_()
   phiUnclUp = 0.;
   ptUnclDown = 0.;
   phiUnclDown = 0.;
+
+  /* BEGIN CUSTOM RecoMet.cc.doInit_ */
+  /* END CUSTOM */
 }
 
 TVector2

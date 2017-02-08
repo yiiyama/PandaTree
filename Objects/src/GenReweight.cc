@@ -124,6 +124,9 @@ panda::GenReweight::doInit_()
   r5f5DW = 0.;
   pdfDW = 0.;
   for (auto& p0 : genParam) p0 = 0.;
+
+  /* BEGIN CUSTOM GenReweight.cc.doInit_ */
+  /* END CUSTOM */
 }
 
 /* BEGIN CUSTOM GenReweight.cc.global */

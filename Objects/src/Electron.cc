@@ -191,25 +191,6 @@ panda::Electron::Electron(char const* _name/* = ""*/) :
 {
 }
 
-panda::Electron::Electron(datastore& _data, UInt_t _idx) :
-  Lepton(_data, _idx),
-  hltsafe(_data.hltsafe[_idx]),
-  chisoPh(_data.chisoPh[_idx]),
-  nhisoPh(_data.nhisoPh[_idx]),
-  phisoPh(_data.phisoPh[_idx]),
-  ecaliso(_data.ecaliso[_idx]),
-  hcaliso(_data.hcaliso[_idx]),
-  isoPUOffset(_data.isoPUOffset[_idx]),
-  sieie(_data.sieie[_idx]),
-  sipip(_data.sipip[_idx]),
-  eseed(_data.eseed[_idx]),
-  hOverE(_data.hOverE[_idx]),
-  veto(_data.veto[_idx]),
-  triggerMatch(_data.triggerMatch[_idx]),
-  superCluster(_data.superClusterContainer_, _data.superCluster_[_idx])
-{
-}
-
 panda::Electron::Electron(Electron const& _src) :
   Lepton(new ElectronArray(1, gStore.getName(&_src))),
   hltsafe(gStore.getData(this).hltsafe[0]),
@@ -243,6 +224,25 @@ panda::Electron::Electron(Electron const& _src) :
   veto = _src.veto;
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nElectronTriggerObjects);
   superCluster = _src.superCluster;
+}
+
+panda::Electron::Electron(datastore& _data, UInt_t _idx) :
+  Lepton(_data, _idx),
+  hltsafe(_data.hltsafe[_idx]),
+  chisoPh(_data.chisoPh[_idx]),
+  nhisoPh(_data.nhisoPh[_idx]),
+  phisoPh(_data.phisoPh[_idx]),
+  ecaliso(_data.ecaliso[_idx]),
+  hcaliso(_data.hcaliso[_idx]),
+  isoPUOffset(_data.isoPUOffset[_idx]),
+  sieie(_data.sieie[_idx]),
+  sipip(_data.sipip[_idx]),
+  eseed(_data.eseed[_idx]),
+  hOverE(_data.hOverE[_idx]),
+  veto(_data.veto[_idx]),
+  triggerMatch(_data.triggerMatch[_idx]),
+  superCluster(_data.superClusterContainer_, _data.superCluster_[_idx])
+{
 }
 
 panda::Electron::Electron(ArrayBase* _array) :
@@ -428,6 +428,9 @@ panda::Electron::doInit_()
   veto = false;
   for (auto& p0 : triggerMatch) p0 = false;
   superCluster.init();
+
+  /* BEGIN CUSTOM Electron.cc.doInit_ */
+  /* END CUSTOM */
 }
 
 

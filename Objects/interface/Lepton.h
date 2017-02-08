@@ -1,7 +1,7 @@
 #ifndef PandaTree_Objects_Lepton_h
 #define PandaTree_Objects_Lepton_h
 #include "Constants.h"
-#include "Particle.h"
+#include "ParticleP.h"
 #include "../../Framework/interface/Array.h"
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
@@ -10,16 +10,16 @@
 
 namespace panda {
 
-  class Lepton : public Particle {
+  class Lepton : public ParticleP {
   public:
-    struct datastore : public Particle::datastore {
-      datastore() : Particle::datastore() {}
+    struct datastore : public ParticleP::datastore {
+      datastore() : ParticleP::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* Particle
-      Float_t* pt{0};
-      Float_t* eta{0};
-      Float_t* phi{0};
+      /* ParticleP
+      Float_t* pt_{0};
+      Float_t* eta_{0};
+      Float_t* phi_{0};
       */
       Short_t* q{0};
       Bool_t* loose{0};
@@ -45,7 +45,7 @@ namespace panda {
     typedef Array<Lepton> array_type;
     typedef Collection<Lepton> collection_type;
 
-    typedef Particle base_type;
+    typedef ParticleP base_type;
 
     Lepton(char const* name = "");
     Lepton(Lepton const&);
@@ -53,13 +53,9 @@ namespace panda {
     ~Lepton();
     Lepton& operator=(Lepton const&);
 
-
     virtual double combiso() const { return 0.; }
 
-    /* Particle
-    Float_t& pt;
-    Float_t& eta;
-    Float_t& phi;
+    /* ParticleP
     */
     Short_t& q;
     Bool_t& loose;
@@ -69,8 +65,15 @@ namespace panda {
     Float_t& nhiso;
     Float_t& phoiso;
     Float_t& puiso;
+  protected:
+    /* ParticleP
+    Float_t& pt_;
+    Float_t& eta_;
+    Float_t& phi_;
+    */
     Ref<GenParticle> matchedGen;
 
+  public:
     /* BEGIN CUSTOM Lepton.h.classdef */
     /* END CUSTOM */
 

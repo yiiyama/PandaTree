@@ -11,7 +11,7 @@ class Branch(Definition):
         'I': 'Int_t', 'i': 'UInt_t', 'L': 'Long64_t', 'l': 'ULong64_t', 'F': 'Float_t', 'D': 'Double_t', 'O': 'Bool_t'}
 
     def __init__(self, line):
-        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ ]+)(?:| += +(.*))$')
+        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ /]+)(?:|/([!m]+))(?:| += +(.+))$')
 
         self.type = self.matches.group(3)
         if self.type not in Branch.TYPE_MAP:
@@ -25,7 +25,11 @@ class Branch(Definition):
         else:
             self.arrdef = []
 
-        self.init = self.matches.group(4) # used in decl
+        self.modifier = self.matches.group(4)
+        if self.modifier is None:
+            self.modifier = ''
+
+        self.init = self.matches.group(5) # used in decl
         if self.init is None:
             self.init = ''
 
@@ -38,7 +42,7 @@ class Branch(Definition):
             init = '0.'
         else:
             init = '0'
-    
+
         if self.is_array():
             self.initializer = ''
             arr = self.name
@@ -66,7 +70,10 @@ class Branch(Definition):
             else:
                 out.writeline('{type}* {name}{{0}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text()))
         elif context == 'Singlet' or context == 'TreeEntry':
-            out.writeline('{type} {name}{arrdef}{{{init}}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text(), init = self.init))
+            if 'm' in self.modifier:
+                out.writeline('mutable {type} {name}{arrdef}{{{init}}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text(), init = self.init))
+            else:
+                out.writeline('{type} {name}{arrdef}{{{init}}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text(), init = self.init))
         elif context == 'Element':
             if self.is_array():
                 out.writeline('{type} (&{name}){arrdef};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text()))
@@ -83,6 +90,9 @@ class Branch(Definition):
         out.writeline('{name} = 0;'.format(name = self.name))
 
     def write_set_status(self, out, context):
+        if '!' in self.modifier:
+            return
+
         if context == 'datastore':
             namevar = '_name'
         elif context == 'Singlet':
@@ -95,6 +105,9 @@ class Branch(Definition):
         out.writeline('utils::setStatus(_tree, {namevar}, "{name}", _branches);'.format(namevar = namevar, name = self.name))
 
     def write_get_status(self, out, context):
+        if '!' in self.modifier:
+            return
+
         if context == 'datastore':
             namevar = '_name'
         elif context == 'Singlet':
@@ -107,6 +120,9 @@ class Branch(Definition):
         out.writeline('blist.push_back(utils::getStatus(_tree, {namevar}, "{name}"));'.format(namevar = namevar, name = self.name))
 
     def write_set_address(self, out, context):
+        if '!' in self.modifier:
+            return
+
         if context == 'datastore':
             namevar = '_name'
         elif context == 'Singlet':
@@ -124,6 +140,9 @@ class Branch(Definition):
         out.writeline('utils::setAddress(_tree, {namevar}, "{name}", {ptr}, _branches, _setStatus);'.format(namevar = namevar, name = self.name, ptr = ptr))
 
     def write_book(self, out, context):
+        if '!' in self.modifier:
+            return
+
         if self.is_array():
             # form an arrdef_text, where numeric literals are in quotes but the constants are in the code
             size_str = 'TString::Format("'
@@ -163,6 +182,9 @@ class Branch(Definition):
         out.writeline('utils::book(_tree, {namevar}, "{name}", {size}, \'{type}\', {ptr}, _branches);'.format(namevar = namevar, name = self.name, size = size_str, type = self.type, ptr = ptr))
 
     def write_release_tree(self, out, context):
+        if '!' in self.modifier:
+            return
+
         if context == 'datastore':
             namevar = '_name'
         elif context == 'Singlet':

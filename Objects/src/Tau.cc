@@ -128,18 +128,6 @@ panda::Tau::Tau(char const* _name/* = ""*/) :
 {
 }
 
-panda::Tau::Tau(datastore& _data, UInt_t _idx) :
-  ParticleM(_data, _idx),
-  q(_data.q[_idx]),
-  decayMode(_data.decayMode[_idx]),
-  decayModeNew(_data.decayModeNew[_idx]),
-  looseIsoMVA(_data.looseIsoMVA[_idx]),
-  iso(_data.iso[_idx]),
-  isoDeltaBetaCorr(_data.isoDeltaBetaCorr[_idx]),
-  matchedGen(_data.matchedGenContainer_, _data.matchedGen_[_idx])
-{
-}
-
 panda::Tau::Tau(Tau const& _src) :
   ParticleM(new TauArray(1, gStore.getName(&_src))),
   q(gStore.getData(this).q[0]),
@@ -159,6 +147,18 @@ panda::Tau::Tau(Tau const& _src) :
   iso = _src.iso;
   isoDeltaBetaCorr = _src.isoDeltaBetaCorr;
   matchedGen = _src.matchedGen;
+}
+
+panda::Tau::Tau(datastore& _data, UInt_t _idx) :
+  ParticleM(_data, _idx),
+  q(_data.q[_idx]),
+  decayMode(_data.decayMode[_idx]),
+  decayModeNew(_data.decayModeNew[_idx]),
+  looseIsoMVA(_data.looseIsoMVA[_idx]),
+  iso(_data.iso[_idx]),
+  isoDeltaBetaCorr(_data.isoDeltaBetaCorr[_idx]),
+  matchedGen(_data.matchedGenContainer_, _data.matchedGen_[_idx])
+{
 }
 
 panda::Tau::Tau(ArrayBase* _array) :
@@ -288,6 +288,9 @@ panda::Tau::doInit_()
   iso = 0.;
   isoDeltaBetaCorr = 0.;
   matchedGen.init();
+
+  /* BEGIN CUSTOM Tau.cc.doInit_ */
+  /* END CUSTOM */
 }
 
 /* BEGIN CUSTOM Tau.cc.global */

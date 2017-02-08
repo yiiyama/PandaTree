@@ -18,7 +18,6 @@ namespace panda {
     ~RecoMet();
     RecoMet& operator=(RecoMet const&);
 
-
     virtual TVector2 vCorr(int corr = 0) const;
 
     /* Met
@@ -34,7 +33,11 @@ namespace panda {
     Float_t phiUnclUp{};
     Float_t ptUnclDown{};
     Float_t phiUnclDown{};
+  protected:
+    /* Met
+    */
 
+  public:
     /* BEGIN CUSTOM RecoMet.h.classdef */
     /* END CUSTOM */
 

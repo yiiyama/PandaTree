@@ -71,6 +71,9 @@ panda::Met::doInit_()
 {
   pt = 0.;
   phi = 0.;
+
+  /* BEGIN CUSTOM Met.cc.doInit_ */
+  /* END CUSTOM */
 }
 
 

@@ -1,7 +1,7 @@
 #ifndef PandaTree_Objects_Photon_h
 #define PandaTree_Objects_Photon_h
 #include "Constants.h"
-#include "Particle.h"
+#include "ParticleP.h"
 #include "../../Framework/interface/Array.h"
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
@@ -11,16 +11,16 @@
 
 namespace panda {
 
-  class Photon : public Particle {
+  class Photon : public ParticleP {
   public:
-    struct datastore : public Particle::datastore {
-      datastore() : Particle::datastore() {}
+    struct datastore : public ParticleP::datastore {
+      datastore() : ParticleP::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* Particle
-      Float_t* pt{0};
-      Float_t* eta{0};
-      Float_t* phi{0};
+      /* ParticleP
+      Float_t* pt_{0};
+      Float_t* eta_{0};
+      Float_t* phi_{0};
       */
       Float_t* chiso{0};
       Float_t* chisoWorst{0};
@@ -66,7 +66,7 @@ namespace panda {
     typedef Array<Photon> array_type;
     typedef Collection<Photon> collection_type;
 
-    typedef Particle base_type;
+    typedef ParticleP base_type;
 
     Photon(char const* name = "");
     Photon(Photon const&);
@@ -74,11 +74,7 @@ namespace panda {
     ~Photon();
     Photon& operator=(Photon const&);
 
-
-    /* Particle
-    Float_t& pt;
-    Float_t& eta;
-    Float_t& phi;
+    /* ParticleP
     */
     Float_t& chiso;
     Float_t& chisoWorst;
@@ -106,9 +102,16 @@ namespace panda {
     Bool_t& pixelVeto;
     Bool_t& csafeVeto;
     Bool_t (&triggerMatch)[nPhotonTriggerObjects];
+  protected:
+    /* ParticleP
+    Float_t& pt_;
+    Float_t& eta_;
+    Float_t& phi_;
+    */
     Ref<SuperCluster> superCluster;
     Ref<GenParticle> matchedGen;
 
+  public:
     /* BEGIN CUSTOM Photon.h.classdef */
     /* END CUSTOM */
 

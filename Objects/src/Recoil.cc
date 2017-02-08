@@ -71,6 +71,9 @@ panda::Recoil::doInit_()
 {
   categories = 0;
   max = 0.;
+
+  /* BEGIN CUSTOM Recoil.cc.doInit_ */
+  /* END CUSTOM */
 }
 
 /* BEGIN CUSTOM Recoil.cc.global */

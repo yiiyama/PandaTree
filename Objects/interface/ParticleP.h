@@ -1,7 +1,7 @@
-#ifndef PandaTree_Objects_SuperCluster_h
-#define PandaTree_Objects_SuperCluster_h
+#ifndef PandaTree_Objects_ParticleP_h
+#define PandaTree_Objects_ParticleP_h
 #include "Constants.h"
-#include "../../Framework/interface/Element.h"
+#include "Particle.h"
 #include "../../Framework/interface/Array.h"
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
@@ -9,15 +9,15 @@
 
 namespace panda {
 
-  class SuperCluster : public Element {
+  class ParticleP : public Particle {
   public:
-    struct datastore : public Element::datastore {
-      datastore() : Element::datastore() {}
+    struct datastore : public Particle::datastore {
+      datastore() : Particle::datastore() {}
       ~datastore() { deallocate(); }
 
-      Float_t* rawPt{0};
-      Float_t* eta{0};
-      Float_t* phi{0};
+      Float_t* pt_{0};
+      Float_t* eta_{0};
+      Float_t* phi_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -29,30 +29,37 @@ namespace panda {
       void resizeVectors_(UInt_t) override;
     };
 
-    typedef Array<SuperCluster> array_type;
-    typedef Collection<SuperCluster> collection_type;
+    typedef Array<ParticleP> array_type;
+    typedef Collection<ParticleP> collection_type;
 
-    typedef Element base_type;
+    typedef Particle base_type;
 
-    SuperCluster(char const* name = "");
-    SuperCluster(SuperCluster const&);
-    SuperCluster(datastore&, UInt_t idx);
-    ~SuperCluster();
-    SuperCluster& operator=(SuperCluster const&);
+    ParticleP(char const* name = "");
+    ParticleP(ParticleP const&);
+    ParticleP(datastore&, UInt_t idx);
+    ~ParticleP();
+    ParticleP& operator=(ParticleP const&);
 
-    Float_t& rawPt;
-    Float_t& eta;
-    Float_t& phi;
+    double pt() const { return pt_; }
+    double eta() const { return eta_; }
+    double phi() const { return phi_; }
+    double m() const { return 0.; }
+    void setPtEtaPhiM(double pt, double eta, double phi, double);
+    void setXYZE(double px, double py, double pz, double);
+
   protected:
+    Float_t& pt_;
+    Float_t& eta_;
+    Float_t& phi_;
 
   public:
-    /* BEGIN CUSTOM SuperCluster.h.classdef */
+    /* BEGIN CUSTOM ParticleP.h.classdef */
     /* END CUSTOM */
 
     void destructor() override;
 
   protected:
-    SuperCluster(ArrayBase*);
+    ParticleP(ArrayBase*);
 
     void doSetStatus_(TTree&, TString const&, utils::BranchList const&) override;
     utils::BranchList doGetStatus_(TTree&, TString const&) const override;
@@ -62,12 +69,12 @@ namespace panda {
     void doInit_() override;
   };
 
-  typedef SuperCluster::array_type SuperClusterArray;
-  typedef SuperCluster::collection_type SuperClusterCollection;
-  typedef Ref<SuperCluster> SuperClusterRef;
-  typedef RefVector<SuperCluster> SuperClusterRefVector;
+  typedef ParticleP::array_type ParticlePArray;
+  typedef ParticleP::collection_type ParticlePCollection;
+  typedef Ref<ParticleP> ParticlePRef;
+  typedef RefVector<ParticleP> ParticlePRefVector;
 
-  /* BEGIN CUSTOM SuperCluster.h.global */
+  /* BEGIN CUSTOM ParticleP.h.global */
   /* END CUSTOM */
 
 }

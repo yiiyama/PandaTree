@@ -74,12 +74,6 @@ panda::Muon::Muon(char const* _name/* = ""*/) :
 {
 }
 
-panda::Muon::Muon(datastore& _data, UInt_t _idx) :
-  Lepton(_data, _idx),
-  triggerMatch(_data.triggerMatch[_idx])
-{
-}
-
 panda::Muon::Muon(Muon const& _src) :
   Lepton(new MuonArray(1, gStore.getName(&_src))),
   triggerMatch(gStore.getData(this).triggerMatch[0])
@@ -87,6 +81,12 @@ panda::Muon::Muon(Muon const& _src) :
   Lepton::operator=(_src);
 
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nMuonTriggerObjects);
+}
+
+panda::Muon::Muon(datastore& _data, UInt_t _idx) :
+  Lepton(_data, _idx),
+  triggerMatch(_data.triggerMatch[_idx])
+{
 }
 
 panda::Muon::Muon(ArrayBase* _array) :
@@ -168,6 +168,9 @@ panda::Muon::doInit_()
   Lepton::doInit_();
 
   for (auto& p0 : triggerMatch) p0 = false;
+
+  /* BEGIN CUSTOM Muon.cc.doInit_ */
+  /* END CUSTOM */
 }
 
 

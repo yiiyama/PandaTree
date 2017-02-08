@@ -92,14 +92,6 @@ panda::SuperCluster::SuperCluster(char const* _name/* = ""*/) :
 {
 }
 
-panda::SuperCluster::SuperCluster(datastore& _data, UInt_t _idx) :
-  Element(_data, _idx),
-  rawPt(_data.rawPt[_idx]),
-  eta(_data.eta[_idx]),
-  phi(_data.phi[_idx])
-{
-}
-
 panda::SuperCluster::SuperCluster(SuperCluster const& _src) :
   Element(new SuperClusterArray(1, gStore.getName(&_src))),
   rawPt(gStore.getData(this).rawPt[0]),
@@ -111,6 +103,14 @@ panda::SuperCluster::SuperCluster(SuperCluster const& _src) :
   rawPt = _src.rawPt;
   eta = _src.eta;
   phi = _src.phi;
+}
+
+panda::SuperCluster::SuperCluster(datastore& _data, UInt_t _idx) :
+  Element(_data, _idx),
+  rawPt(_data.rawPt[_idx]),
+  eta(_data.eta[_idx]),
+  phi(_data.phi[_idx])
+{
 }
 
 panda::SuperCluster::SuperCluster(ArrayBase* _array) :
@@ -196,6 +196,9 @@ panda::SuperCluster::doInit_()
   rawPt = 0.;
   eta = 0.;
   phi = 0.;
+
+  /* BEGIN CUSTOM SuperCluster.cc.doInit_ */
+  /* END CUSTOM */
 }
 
 /* BEGIN CUSTOM SuperCluster.cc.global */

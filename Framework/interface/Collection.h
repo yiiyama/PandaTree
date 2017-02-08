@@ -65,6 +65,8 @@ namespace panda {
     //! Append an element to the back and resize by 1.
     /*!
      * If the new size is greater than nmax, data will be reallocated, making all references invalid.
+     * Note that this method is not virtual; if calling from a base class, the new element will be copied
+     * only partially.
      */
     void push_back(const_reference);
     //! Create an element at the end of the collection and return a reference.
@@ -90,9 +92,18 @@ namespace panda {
   private:
     value_type* addr_() const { return reinterpret_cast<value_type*>(ContainerBase::array_); }
     value_type const* const_addr_() const { return reinterpret_cast<value_type const*>(ContainerBase::array_); }
-    void allocate_(UInt_t);
-    // static just because no member is referenced
-    static void deallocate_(value_type* addr, typename value_type::datastore&);
+
+    template<class T = E>
+    typename std::enable_if<std::is_trivially_constructible<T>::value>::type allocate_(UInt_t);
+    template<class T = E>
+    typename std::enable_if<!std::is_trivially_constructible<T>::value>::type allocate_(UInt_t);
+
+    template<class T = E>
+    typename std::enable_if<std::is_trivially_constructible<T>::value>::type
+    deallocate_(value_type* addr, typename value_type::datastore&);
+    template<class T = E>
+    typename std::enable_if<!std::is_trivially_constructible<T>::value>::type
+    deallocate_(value_type* addr, typename value_type::datastore&);
   };
 
   template<class E>
@@ -179,14 +190,8 @@ namespace panda {
   void
   Collection<E>::push_back(const_reference _elem)
   {
-    if (CollectionBase::size() == data.nmax()) {
-      // reallocate elements with nmax *= 2
-      // all references and pointers to data members and array elements will become invalid
-      reallocate_(data.nmax() * 2);
-    }
-
-    (*this)[CollectionBase::size()] = _elem;
-    ++CollectionBase::size();
+    CollectionBase::resize(CollectionBase::size() + 1);
+    back() = _elem;
   }
 
   template<class E>
@@ -249,7 +254,8 @@ namespace panda {
 
   /*private*/
   template<class E>
-  void
+  template<class T/* = E*/>
+  typename std::enable_if<std::is_trivially_constructible<T>::value>::type
   Collection<E>::allocate_(UInt_t _nmax)
   {
     data.allocate(_nmax);
@@ -261,9 +267,19 @@ namespace panda {
       new (p) value_type(data, iP);
   }
 
+  /*private*/
+  template<class E>
+  template<class T/* = E*/>
+  typename std::enable_if<!std::is_trivially_constructible<T>::value>::type
+  Collection<E>::allocate_(UInt_t)
+  {
+    throw std::runtime_error((ContainerBase::name_ + " cannot create a Collection of pure-virtual elements").Data());
+  }
+
   /*private static*/
   template<class E>
-  void
+  template<class T/* = E*/>
+  typename std::enable_if<std::is_trivially_constructible<T>::value>::type
   Collection<E>::deallocate_(value_type* _addr, typename value_type::datastore& _data)
   {
     // Call the destructor of the array elements
@@ -273,6 +289,15 @@ namespace panda {
 
     std::allocator<value_type>().deallocate(_addr, _data.nmax());
     _data.deallocate();
+  }
+
+  /*private static*/
+  template<class E>
+  template<class T/* = E*/>
+  typename std::enable_if<!std::is_trivially_constructible<T>::value>::type
+  Collection<E>::deallocate_(value_type*, typename value_type::datastore&)
+  {
+    throw std::runtime_error((ContainerBase::name_ + " cannot deallocate pure-virtual elements").Data());
   }
 
 }

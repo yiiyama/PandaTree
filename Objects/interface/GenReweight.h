@@ -18,7 +18,6 @@ namespace panda {
     ~GenReweight();
     GenReweight& operator=(GenReweight const&);
 
-
     Float_t r1f2DW{};
     Float_t r1f5DW{};
     Float_t r2f1DW{};
@@ -27,7 +26,9 @@ namespace panda {
     Float_t r5f5DW{};
     Float_t pdfDW{};
     Float_t genParam[128]{};
+  protected:
 
+  public:
     /* BEGIN CUSTOM GenReweight.h.classdef */
     /* END CUSTOM */
 

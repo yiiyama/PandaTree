@@ -83,13 +83,6 @@ panda::MicroJet::MicroJet(char const* _name/* = ""*/) :
 {
 }
 
-panda::MicroJet::MicroJet(datastore& _data, UInt_t _idx) :
-  ParticleM(_data, _idx),
-  csv(_data.csv[_idx]),
-  qgl(_data.qgl[_idx])
-{
-}
-
 panda::MicroJet::MicroJet(MicroJet const& _src) :
   ParticleM(new MicroJetArray(1, gStore.getName(&_src))),
   csv(gStore.getData(this).csv[0]),
@@ -99,6 +92,13 @@ panda::MicroJet::MicroJet(MicroJet const& _src) :
 
   csv = _src.csv;
   qgl = _src.qgl;
+}
+
+panda::MicroJet::MicroJet(datastore& _data, UInt_t _idx) :
+  ParticleM(_data, _idx),
+  csv(_data.csv[_idx]),
+  qgl(_data.qgl[_idx])
+{
 }
 
 panda::MicroJet::MicroJet(ArrayBase* _array) :
@@ -188,6 +188,9 @@ panda::MicroJet::doInit_()
 
   csv = 0.;
   qgl = 0.;
+
+  /* BEGIN CUSTOM MicroJet.cc.doInit_ */
+  /* END CUSTOM */
 }
 
 /* BEGIN CUSTOM MicroJet.cc.global */

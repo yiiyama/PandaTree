@@ -18,7 +18,6 @@ namespace panda {
     ~MetFilters();
     MetFilters& operator=(MetFilters const&);
 
-
     virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !badTrack && !badMuonTrack; }
 
     Bool_t globalHalo16{};
@@ -28,7 +27,9 @@ namespace panda {
     Bool_t badsc{};
     Bool_t badTrack{};
     Bool_t badMuonTrack{};
+  protected:
 
+  public:
     /* BEGIN CUSTOM MetFilters.h.classdef */
     /* END CUSTOM */
 

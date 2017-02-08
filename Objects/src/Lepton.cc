@@ -3,7 +3,7 @@
 void
 panda::Lepton::datastore::allocate(UInt_t _nmax)
 {
-  Particle::datastore::allocate(_nmax);
+  ParticleP::datastore::allocate(_nmax);
 
   q = new Short_t[nmax_];
   loose = new Bool_t[nmax_];
@@ -19,7 +19,7 @@ panda::Lepton::datastore::allocate(UInt_t _nmax)
 void
 panda::Lepton::datastore::deallocate()
 {
-  Particle::datastore::deallocate();
+  ParticleP::datastore::deallocate();
 
   delete [] q;
   q = 0;
@@ -44,7 +44,7 @@ panda::Lepton::datastore::deallocate()
 void
 panda::Lepton::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  Particle::datastore::setStatus(_tree, _name, _branches);
+  ParticleP::datastore::setStatus(_tree, _name, _branches);
 
   utils::setStatus(_tree, _name, "q", _branches);
   utils::setStatus(_tree, _name, "loose", _branches);
@@ -60,7 +60,7 @@ panda::Lepton::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
 panda::utils::BranchList
 panda::Lepton::datastore::getStatus(TTree& _tree, TString const& _name) const
 {
-  utils::BranchList blist(Particle::datastore::getStatus(_tree, _name));
+  utils::BranchList blist(ParticleP::datastore::getStatus(_tree, _name));
 
   blist.push_back(utils::getStatus(_tree, _name, "q"));
   blist.push_back(utils::getStatus(_tree, _name, "loose"));
@@ -78,7 +78,7 @@ panda::Lepton::datastore::getStatus(TTree& _tree, TString const& _name) const
 void
 panda::Lepton::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Particle::datastore::setAddress(_tree, _name, _branches, _setStatus);
+  ParticleP::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
   utils::setAddress(_tree, _name, "q", q, _branches, _setStatus);
   utils::setAddress(_tree, _name, "loose", loose, _branches, _setStatus);
@@ -94,7 +94,7 @@ panda::Lepton::datastore::setAddress(TTree& _tree, TString const& _name, utils::
 void
 panda::Lepton::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
 {
-  Particle::datastore::book(_tree, _name, _branches, _dynamic);
+  ParticleP::datastore::book(_tree, _name, _branches, _dynamic);
 
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
@@ -112,7 +112,7 @@ panda::Lepton::datastore::book(TTree& _tree, TString const& _name, utils::Branch
 void
 panda::Lepton::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
-  Particle::datastore::releaseTree(_tree, _name);
+  ParticleP::datastore::releaseTree(_tree, _name);
 
   utils::resetAddress(_tree, _name, "q");
   utils::resetAddress(_tree, _name, "loose");
@@ -128,12 +128,12 @@ panda::Lepton::datastore::releaseTree(TTree& _tree, TString const& _name)
 void
 panda::Lepton::datastore::resizeVectors_(UInt_t _size)
 {
-  Particle::datastore::resizeVectors_(_size);
+  ParticleP::datastore::resizeVectors_(_size);
 
 }
 
 panda::Lepton::Lepton(char const* _name/* = ""*/) :
-  Particle(new LeptonArray(1, _name)),
+  ParticleP(new LeptonArray(1, _name)),
   q(gStore.getData(this).q[0]),
   loose(gStore.getData(this).loose[0]),
   medium(gStore.getData(this).medium[0]),
@@ -143,25 +143,11 @@ panda::Lepton::Lepton(char const* _name/* = ""*/) :
   phoiso(gStore.getData(this).phoiso[0]),
   puiso(gStore.getData(this).puiso[0]),
   matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
-{
-}
-
-panda::Lepton::Lepton(datastore& _data, UInt_t _idx) :
-  Particle(_data, _idx),
-  q(_data.q[_idx]),
-  loose(_data.loose[_idx]),
-  medium(_data.medium[_idx]),
-  tight(_data.tight[_idx]),
-  chiso(_data.chiso[_idx]),
-  nhiso(_data.nhiso[_idx]),
-  phoiso(_data.phoiso[_idx]),
-  puiso(_data.puiso[_idx]),
-  matchedGen(_data.matchedGenContainer_, _data.matchedGen_[_idx])
 {
 }
 
 panda::Lepton::Lepton(Lepton const& _src) :
-  Particle(new LeptonArray(1, gStore.getName(&_src))),
+  ParticleP(new LeptonArray(1, gStore.getName(&_src))),
   q(gStore.getData(this).q[0]),
   loose(gStore.getData(this).loose[0]),
   medium(gStore.getData(this).medium[0]),
@@ -172,7 +158,7 @@ panda::Lepton::Lepton(Lepton const& _src) :
   puiso(gStore.getData(this).puiso[0]),
   matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
 {
-  Particle::operator=(_src);
+  ParticleP::operator=(_src);
 
   q = _src.q;
   loose = _src.loose;
@@ -185,8 +171,22 @@ panda::Lepton::Lepton(Lepton const& _src) :
   matchedGen = _src.matchedGen;
 }
 
+panda::Lepton::Lepton(datastore& _data, UInt_t _idx) :
+  ParticleP(_data, _idx),
+  q(_data.q[_idx]),
+  loose(_data.loose[_idx]),
+  medium(_data.medium[_idx]),
+  tight(_data.tight[_idx]),
+  chiso(_data.chiso[_idx]),
+  nhiso(_data.nhiso[_idx]),
+  phoiso(_data.phoiso[_idx]),
+  puiso(_data.puiso[_idx]),
+  matchedGen(_data.matchedGenContainer_, _data.matchedGen_[_idx])
+{
+}
+
 panda::Lepton::Lepton(ArrayBase* _array) :
-  Particle(_array),
+  ParticleP(_array),
   q(gStore.getData(this).q[0]),
   loose(gStore.getData(this).loose[0]),
   medium(gStore.getData(this).medium[0]),
@@ -211,13 +211,13 @@ panda::Lepton::destructor()
   /* BEGIN CUSTOM Lepton.cc.destructor */
   /* END CUSTOM */
 
-  Particle::destructor();
+  ParticleP::destructor();
 }
 
 panda::Lepton&
 panda::Lepton::operator=(Lepton const& _src)
 {
-  Particle::operator=(_src);
+  ParticleP::operator=(_src);
 
   q = _src.q;
   loose = _src.loose;
@@ -235,7 +235,7 @@ panda::Lepton::operator=(Lepton const& _src)
 void
 panda::Lepton::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  Particle::doSetStatus_(_tree, _name, _branches);
+  ParticleP::doSetStatus_(_tree, _name, _branches);
 
   utils::setStatus(_tree, _name, "q", _branches);
   utils::setStatus(_tree, _name, "loose", _branches);
@@ -251,7 +251,7 @@ panda::Lepton::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchLis
 panda::utils::BranchList
 panda::Lepton::doGetStatus_(TTree& _tree, TString const& _name) const
 {
-  utils::BranchList blist(Particle::doGetStatus_(_tree, _name));
+  utils::BranchList blist(ParticleP::doGetStatus_(_tree, _name));
 
   blist.push_back(utils::getStatus(_tree, _name, "q"));
   blist.push_back(utils::getStatus(_tree, _name, "loose"));
@@ -269,7 +269,7 @@ panda::Lepton::doGetStatus_(TTree& _tree, TString const& _name) const
 void
 panda::Lepton::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  Particle::doSetAddress_(_tree, _name, _branches, _setStatus);
+  ParticleP::doSetAddress_(_tree, _name, _branches, _setStatus);
 
   utils::setAddress(_tree, _name, "q", &q, _branches, _setStatus);
   utils::setAddress(_tree, _name, "loose", &loose, _branches, _setStatus);
@@ -285,7 +285,7 @@ panda::Lepton::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchLi
 void
 panda::Lepton::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  Particle::doBook_(_tree, _name, _branches);
+  ParticleP::doBook_(_tree, _name, _branches);
 
   utils::book(_tree, _name, "q", "", 'S', &q, _branches);
   utils::book(_tree, _name, "loose", "", 'O', &loose, _branches);
@@ -301,7 +301,7 @@ panda::Lepton::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
 void
 panda::Lepton::doReleaseTree_(TTree& _tree, TString const& _name)
 {
-  Particle::doReleaseTree_(_tree, _name);
+  ParticleP::doReleaseTree_(_tree, _name);
 
   utils::resetAddress(_tree, _name, "q");
   utils::resetAddress(_tree, _name, "loose");
@@ -317,7 +317,7 @@ panda::Lepton::doReleaseTree_(TTree& _tree, TString const& _name)
 void
 panda::Lepton::doInit_()
 {
-  Particle::doInit_();
+  ParticleP::doInit_();
 
   q = 0;
   loose = false;
@@ -328,6 +328,9 @@ panda::Lepton::doInit_()
   phoiso = 0.;
   puiso = 0.;
   matchedGen.init();
+
+  /* BEGIN CUSTOM Lepton.cc.doInit_ */
+  /* END CUSTOM */
 }
 
 

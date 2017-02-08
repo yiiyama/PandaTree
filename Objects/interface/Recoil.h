@@ -18,10 +18,11 @@ namespace panda {
     ~Recoil();
     Recoil& operator=(Recoil const&);
 
-
     UInt_t categories{};
     Float_t max{};
+  protected:
 
+  public:
     /* BEGIN CUSTOM Recoil.h.classdef */
     /* END CUSTOM */
 

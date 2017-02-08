@@ -165,22 +165,6 @@ panda::FatJet::FatJet(char const* _name/* = ""*/) :
 {
 }
 
-panda::FatJet::FatJet(datastore& _data, UInt_t _idx) :
-  Jet(_data, _idx),
-  tau1(_data.tau1[_idx]),
-  tau2(_data.tau2[_idx]),
-  tau3(_data.tau3[_idx]),
-  mSD(_data.mSD[_idx]),
-  tau1SD(_data.tau1SD[_idx]),
-  tau2SD(_data.tau2SD[_idx]),
-  tau3SD(_data.tau3SD[_idx]),
-  htt_mass(_data.htt_mass[_idx]),
-  htt_frec(_data.htt_frec[_idx]),
-  ecfs(_data.ecfs[_idx]),
-  subjets(_data.subjetsContainer_, (*_data.subjets_)[_idx])
-{
-}
-
 panda::FatJet::FatJet(FatJet const& _src) :
   Jet(new FatJetArray(1, gStore.getName(&_src))),
   tau1(gStore.getData(this).tau1[0]),
@@ -208,6 +192,22 @@ panda::FatJet::FatJet(FatJet const& _src) :
   htt_frec = _src.htt_frec;
   std::memcpy(ecfs, _src.ecfs, sizeof(Float_t) * 3 * 4 * 4);
   subjets = _src.subjets;
+}
+
+panda::FatJet::FatJet(datastore& _data, UInt_t _idx) :
+  Jet(_data, _idx),
+  tau1(_data.tau1[_idx]),
+  tau2(_data.tau2[_idx]),
+  tau3(_data.tau3[_idx]),
+  mSD(_data.mSD[_idx]),
+  tau1SD(_data.tau1SD[_idx]),
+  tau2SD(_data.tau2SD[_idx]),
+  tau3SD(_data.tau3SD[_idx]),
+  htt_mass(_data.htt_mass[_idx]),
+  htt_frec(_data.htt_frec[_idx]),
+  ecfs(_data.ecfs[_idx]),
+  subjets(_data.subjetsContainer_, (*_data.subjets_)[_idx])
+{
 }
 
 panda::FatJet::FatJet(ArrayBase* _array) :
@@ -369,6 +369,9 @@ panda::FatJet::doInit_()
   htt_frec = 0.;
   for (auto& p0 : ecfs) for (auto& p1 : p0) for (auto& p2 : p1) p2 = 0.;
   subjets.init();
+
+  /* BEGIN CUSTOM FatJet.cc.doInit_ */
+  /* END CUSTOM */
 }
 
 double

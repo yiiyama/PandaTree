@@ -70,6 +70,9 @@ panda::HLTBits::doInit_()
 {
   for (auto& p0 : words) p0 = 0;
   size_ = 512;
+
+  /* BEGIN CUSTOM HLTBits.cc.doInit_ */
+  /* END CUSTOM */
 }
 
 
