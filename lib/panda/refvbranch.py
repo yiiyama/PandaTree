@@ -28,7 +28,7 @@ class RefVectorBranch(RefBranch, GenericBranch):
 
     def write_decl(self, out, context):
         if context == 'datastore':
-            out.write('ContainerBase const* {name}Container_{{0}};'.format(name = self.refname))
+            out.writeline('ContainerBase const* {name}Container_{{0}};'.format(name = self.refname))
             GenericBranch.write_decl(self, out, context)
         else:
             if context == 'Singlet':

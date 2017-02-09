@@ -55,8 +55,6 @@ namespace panda {
 
     virtual double combiso() const { return 0.; }
 
-    /* ParticleP
-    */
     Short_t& q;
     Bool_t& loose;
     Bool_t& medium;
@@ -65,13 +63,14 @@ namespace panda {
     Float_t& nhiso;
     Float_t& phoiso;
     Float_t& puiso;
+    Ref<GenParticle> matchedGen;
+
   protected:
     /* ParticleP
     Float_t& pt_;
     Float_t& eta_;
     Float_t& phi_;
     */
-    Ref<GenParticle> matchedGen;
 
   public:
     /* BEGIN CUSTOM Lepton.h.classdef */

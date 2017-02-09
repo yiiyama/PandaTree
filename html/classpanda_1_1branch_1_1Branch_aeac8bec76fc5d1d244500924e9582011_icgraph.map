@@ -1,9 +1,0 @@
-<map id="panda.branch.Branch.arrdef_text" name="panda.branch.Branch.arrdef_text">
-<area shape="rect" id="node2" href="$classpanda_1_1branch_1_1Branch.html#a11ce0de77040f41593ece6dce3137489" title="panda.branch.Branch.write_decl" alt="" coords="294,5,507,33"/>
-<area shape="rect" id="node3" href="$classpanda_1_1branch_1_1Branch.html#ad4d6b4a6a42391cd7db05fde7441c5b3" title="panda.branch.Branch.write\l_allocate" alt="" coords="310,57,491,101"/>
-<area shape="rect" id="node4" href="$classpanda_1_1branch_1_1Branch.html#acd04edc5835a827e5aec0ffa1b15b6d0" title="panda.branch.Branch.write_book" alt="" coords="292,125,509,153"/>
-<area shape="rect" id="node5" href="$classpanda_1_1generic_1_1GenericBranch.html#a059cb9110191e678f8ccfba5dd6e798c" title="panda.generic.GenericBranch.write_decl" alt="" coords="270,177,532,205"/>
-<area shape="rect" id="node6" href="$classpanda_1_1refbranch_1_1RefBranch.html#a3287a514343dbae3d50e9578e7c6bb5e" title="panda.refbranch.RefBranch.write_decl" alt="" coords="276,229,525,257"/>
-<area shape="rect" id="node7" href="$classpanda_1_1refbranch_1_1RefBranch.html#af4fcfe1d2a1ed6e6d78d34271187a9d4" title="panda.refbranch.RefBranch.write_book" alt="" coords="274,281,527,309"/>
-<area shape="rect" id="node8" href="$classpanda_1_1refvbranch_1_1RefVectorBranch.html#a1ee9513bd0963fdfab24f8e0520ca07a" title="panda.refvbranch.RefVector\lBranch.write_decl" alt="" coords="307,333,495,377"/>
-</map>

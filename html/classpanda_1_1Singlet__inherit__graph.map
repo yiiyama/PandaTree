@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node5" href="$classpanda_1_1GenReweight.html" title="panda::GenReweight" alt="" coords="5,160,149,189"/>
-<area shape="rect" id="node7" href="$classpanda_1_1HLTBits.html" title="panda::HLTBits" alt="" coords="173,160,285,189"/>
-<area shape="rect" id="node9" href="$classpanda_1_1Met.html" title="panda::Met" alt="" coords="309,160,395,189"/>
-<area shape="rect" id="node13" href="$classpanda_1_1MetFilters.html" title="panda::MetFilters" alt="" coords="419,160,541,189"/>
-<area shape="rect" id="node15" href="$classpanda_1_1Recoil.html" title="panda::Recoil" alt="" coords="565,160,667,189"/>
-<area shape="rect" id="node2" href="$classpanda_1_1Object.html" title="Object base class." alt="" coords="301,5,403,35"/>
-<area shape="rect" id="node11" href="$classpanda_1_1RecoMet.html" title="panda::RecoMet" alt="" coords="293,237,411,267"/>
-</map>

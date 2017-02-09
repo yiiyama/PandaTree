@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$classpanda_1_1CollectionBase.html#a3ec014ac2da87bb755afbea0822621cc" title="Resize the container." alt="" coords="279,85,473,115"/>
-<area shape="rect" id="node5" href="$classpanda_1_1Collection.html#ad194c8ae8355ce5ba6c04518a223cde1" title="Copy the array contents." alt="" coords="572,32,729,61"/>
-<area shape="rect" id="node11" href="$classpanda_1_1Collection.html#a76d29ff9b6366c3a39f2aa06ac6b0604" title="Create an element at the end of the collection and return a reference." alt="" coords="549,85,752,115"/>
-<area shape="rect" id="node13" href="$classpanda_1_1CollectionBase.html#a217c39578bc5e0e7e2b6ebf44bf93cdd" title="Run a look&#45;ahead of the entry to determine the collection resize." alt="" coords="523,139,779,168"/>
-<area shape="rect" id="node7" href="$classpanda_1_1Collection.html#a065b038d41d0437ddacdab9f22f6d397" title="panda::Collection::Collection" alt="" coords="837,5,1027,35"/>
-<area shape="rect" id="node9" href="$classpanda_1_1Collection.html#af2065fa6ed20c1fe1dd54b33f83e7778" title="panda::Collection::operator=" alt="" coords="839,59,1025,88"/>
-<area shape="rect" id="node15" href="$classpanda_1_1CollectionBase.html#a777e26ce2cc4f86e7cc4eb345b0a78d7" title="Read an entry from an input tree." alt="" coords="827,139,1037,168"/>
-</map>

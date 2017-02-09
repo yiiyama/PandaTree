@@ -14,6 +14,7 @@ panda::FatJet::datastore::allocate(UInt_t _nmax)
   tau3SD = new Float_t[nmax_];
   htt_mass = new Float_t[nmax_];
   htt_frec = new Float_t[nmax_];
+  double_sub = new Float_t[nmax_];
   ecfs = new Float_t[nmax_][3][4][4];
   subjets_ = new std::vector<std::vector<Int_t>>(nmax_);
 }
@@ -41,6 +42,8 @@ panda::FatJet::datastore::deallocate()
   htt_mass = 0;
   delete [] htt_frec;
   htt_frec = 0;
+  delete [] double_sub;
+  double_sub = 0;
   delete [] ecfs;
   ecfs = 0;
   delete subjets_;
@@ -61,6 +64,7 @@ panda::FatJet::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
   utils::setStatus(_tree, _name, "tau3SD", _branches);
   utils::setStatus(_tree, _name, "htt_mass", _branches);
   utils::setStatus(_tree, _name, "htt_frec", _branches);
+  utils::setStatus(_tree, _name, "double_sub", _branches);
   utils::setStatus(_tree, _name, "ecfs", _branches);
   utils::setStatus(_tree, _name, "subjets_", _branches);
 }
@@ -79,6 +83,7 @@ panda::FatJet::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "tau3SD"));
   blist.push_back(utils::getStatus(_tree, _name, "htt_mass"));
   blist.push_back(utils::getStatus(_tree, _name, "htt_frec"));
+  blist.push_back(utils::getStatus(_tree, _name, "double_sub"));
   blist.push_back(utils::getStatus(_tree, _name, "ecfs"));
   blist.push_back(utils::getStatus(_tree, _name, "subjets_"));
 
@@ -99,6 +104,7 @@ panda::FatJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::
   utils::setAddress(_tree, _name, "tau3SD", tau3SD, _branches, _setStatus);
   utils::setAddress(_tree, _name, "htt_mass", htt_mass, _branches, _setStatus);
   utils::setAddress(_tree, _name, "htt_frec", htt_frec, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "double_sub", double_sub, _branches, _setStatus);
   utils::setAddress(_tree, _name, "ecfs", ecfs, _branches, _setStatus);
   utils::setAddress(_tree, _name, "subjets_", &subjets_, _branches, _setStatus);
 }
@@ -119,6 +125,7 @@ panda::FatJet::datastore::book(TTree& _tree, TString const& _name, utils::Branch
   utils::book(_tree, _name, "tau3SD", size, 'F', tau3SD, _branches);
   utils::book(_tree, _name, "htt_mass", size, 'F', htt_mass, _branches);
   utils::book(_tree, _name, "htt_frec", size, 'F', htt_frec, _branches);
+  utils::book(_tree, _name, "double_sub", size, 'F', double_sub, _branches);
   utils::book(_tree, _name, "ecfs", size + TString::Format("[3][4][4]"), 'F', ecfs, _branches);
   utils::book(_tree, _name, "subjets_", "std::vector<std::vector<Int_t>>", &subjets_, _branches);
 }
@@ -137,6 +144,7 @@ panda::FatJet::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "tau3SD");
   utils::resetAddress(_tree, _name, "htt_mass");
   utils::resetAddress(_tree, _name, "htt_frec");
+  utils::resetAddress(_tree, _name, "double_sub");
   utils::resetAddress(_tree, _name, "ecfs");
   utils::resetAddress(_tree, _name, "subjets_");
 }
@@ -160,6 +168,7 @@ panda::FatJet::FatJet(char const* _name/* = ""*/) :
   tau3SD(gStore.getData(this).tau3SD[0]),
   htt_mass(gStore.getData(this).htt_mass[0]),
   htt_frec(gStore.getData(this).htt_frec[0]),
+  double_sub(gStore.getData(this).double_sub[0]),
   ecfs(gStore.getData(this).ecfs[0]),
   subjets(gStore.getData(this).subjetsContainer_, (*gStore.getData(this).subjets_)[0])
 {
@@ -176,6 +185,7 @@ panda::FatJet::FatJet(FatJet const& _src) :
   tau3SD(gStore.getData(this).tau3SD[0]),
   htt_mass(gStore.getData(this).htt_mass[0]),
   htt_frec(gStore.getData(this).htt_frec[0]),
+  double_sub(gStore.getData(this).double_sub[0]),
   ecfs(gStore.getData(this).ecfs[0]),
   subjets(gStore.getData(this).subjetsContainer_, (*gStore.getData(this).subjets_)[0])
 {
@@ -190,6 +200,7 @@ panda::FatJet::FatJet(FatJet const& _src) :
   tau3SD = _src.tau3SD;
   htt_mass = _src.htt_mass;
   htt_frec = _src.htt_frec;
+  double_sub = _src.double_sub;
   std::memcpy(ecfs, _src.ecfs, sizeof(Float_t) * 3 * 4 * 4);
   subjets = _src.subjets;
 }
@@ -205,6 +216,7 @@ panda::FatJet::FatJet(datastore& _data, UInt_t _idx) :
   tau3SD(_data.tau3SD[_idx]),
   htt_mass(_data.htt_mass[_idx]),
   htt_frec(_data.htt_frec[_idx]),
+  double_sub(_data.double_sub[_idx]),
   ecfs(_data.ecfs[_idx]),
   subjets(_data.subjetsContainer_, (*_data.subjets_)[_idx])
 {
@@ -221,6 +233,7 @@ panda::FatJet::FatJet(ArrayBase* _array) :
   tau3SD(gStore.getData(this).tau3SD[0]),
   htt_mass(gStore.getData(this).htt_mass[0]),
   htt_frec(gStore.getData(this).htt_frec[0]),
+  double_sub(gStore.getData(this).double_sub[0]),
   ecfs(gStore.getData(this).ecfs[0]),
   subjets(gStore.getData(this).subjetsContainer_, (*gStore.getData(this).subjets_)[0])
 {
@@ -255,6 +268,7 @@ panda::FatJet::operator=(FatJet const& _src)
   tau3SD = _src.tau3SD;
   htt_mass = _src.htt_mass;
   htt_frec = _src.htt_frec;
+  double_sub = _src.double_sub;
   std::memcpy(ecfs, _src.ecfs, sizeof(Float_t) * 3 * 4 * 4);
   subjets = _src.subjets;
 
@@ -275,6 +289,7 @@ panda::FatJet::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchLis
   utils::setStatus(_tree, _name, "tau3SD", _branches);
   utils::setStatus(_tree, _name, "htt_mass", _branches);
   utils::setStatus(_tree, _name, "htt_frec", _branches);
+  utils::setStatus(_tree, _name, "double_sub", _branches);
   utils::setStatus(_tree, _name, "ecfs", _branches);
   utils::setStatus(_tree, _name, "subjets_", _branches);
 }
@@ -293,6 +308,7 @@ panda::FatJet::doGetStatus_(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "tau3SD"));
   blist.push_back(utils::getStatus(_tree, _name, "htt_mass"));
   blist.push_back(utils::getStatus(_tree, _name, "htt_frec"));
+  blist.push_back(utils::getStatus(_tree, _name, "double_sub"));
   blist.push_back(utils::getStatus(_tree, _name, "ecfs"));
   blist.push_back(utils::getStatus(_tree, _name, "subjets_"));
 
@@ -313,6 +329,7 @@ panda::FatJet::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchLi
   utils::setAddress(_tree, _name, "tau3SD", &tau3SD, _branches, _setStatus);
   utils::setAddress(_tree, _name, "htt_mass", &htt_mass, _branches, _setStatus);
   utils::setAddress(_tree, _name, "htt_frec", &htt_frec, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "double_sub", &double_sub, _branches, _setStatus);
   utils::setAddress(_tree, _name, "ecfs", ecfs, _branches, _setStatus);
   utils::setAddress(_tree, _name, "subjets_", &subjets.indices(), _branches, true);
 }
@@ -331,6 +348,7 @@ panda::FatJet::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
   utils::book(_tree, _name, "tau3SD", "", 'F', &tau3SD, _branches);
   utils::book(_tree, _name, "htt_mass", "", 'F', &htt_mass, _branches);
   utils::book(_tree, _name, "htt_frec", "", 'F', &htt_frec, _branches);
+  utils::book(_tree, _name, "double_sub", "", 'F', &double_sub, _branches);
   utils::book(_tree, _name, "ecfs", TString::Format("[3][4][4]"), 'F', ecfs, _branches);
   utils::book(_tree, _name, "subjets_", "std::vector<Int_t>", &subjets.indices(), _branches);
 }
@@ -349,6 +367,7 @@ panda::FatJet::doReleaseTree_(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "tau3SD");
   utils::resetAddress(_tree, _name, "htt_mass");
   utils::resetAddress(_tree, _name, "htt_frec");
+  utils::resetAddress(_tree, _name, "double_sub");
   utils::resetAddress(_tree, _name, "ecfs");
   utils::resetAddress(_tree, _name, "subjets_");
 }
@@ -367,6 +386,7 @@ panda::FatJet::doInit_()
   tau3SD = -1.;
   htt_mass = 0.;
   htt_frec = 0.;
+  double_sub = 0.;
   for (auto& p0 : ecfs) for (auto& p1 : p0) for (auto& p2 : p1) p2 = 0.;
   subjets.init();
 

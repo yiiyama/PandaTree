@@ -1,9 +1,0 @@
-<map id="panda::ContainerBase::getData" name="panda::ContainerBase::getData">
-<area shape="rect" id="node2" href="$classpanda_1_1ArrayBase.html#ae21a729d1d32cfc48b67888b80ff9d17" title="Return the (fixed) size of this array. " alt="" coords="207,5,366,33"/>
-<area shape="rect" id="node3" href="$classpanda_1_1CollectionBase.html#a5820623424a01aa34f3988ead2612576" title="panda::CollectionBase\l::clear" alt="" coords="210,57,364,101"/>
-<area shape="rect" id="node5" href="$classpanda_1_1ArrayBase.html#afd97e008dcd9f49e77a9d77bd7115890" title="Reset object state. " alt="" coords="211,125,363,153"/>
-<area shape="rect" id="node6" href="$classpanda_1_1CollectionBase.html#a3ec014ac2da87bb755afbea0822621cc" title="Resize the container. " alt="" coords="210,177,364,221"/>
-<area shape="rect" id="node4" href="$classpanda_1_1CollectionBase.html#a5d7caaf03fa968bd6c9dad5b6ffe4687" title="Reset object state. " alt="" coords="439,57,594,101"/>
-<area shape="rect" id="node7" href="$classpanda_1_1Container.html#a05e9a487429721164541511d87a9783d" title="panda::Container::copy" alt="" coords="437,159,596,187"/>
-<area shape="rect" id="node8" href="$classpanda_1_1Container.html#a9603d59e46e21b048714a9760964b536" title="panda::Container::create_back" alt="" coords="414,211,618,239"/>
-</map>

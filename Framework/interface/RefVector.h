@@ -102,23 +102,20 @@ namespace panda {
       RefVectorIterator operator-(int n) const { auto copy(*this); return (copy -= n); }
       bool operator==(RefVectorIterator const& rhs) const { return itr_ == rhs.itr_; }
       bool operator!=(RefVectorIterator const& rhs) const { return itr_ != rhs.itr_; }
-      Ref<E> operator*() const { return Ref<E>(refvector_->container_, *itr_); }
+      Ref<E> operator*() const { return Ref<E>(*refvector_->container_, *itr_); }
       RefVector<E>::RefHolder operator->() const { return RefVector<E>::RefHolder(refvector_->container_, *itr_); }
 
     private:
-      RefVectorIterator(RefVector<E> const& v, Indices::const_iterator const& i) : refvector_(&v), itr_(i) {}
+      RefVectorIterator(RefVector<E> const& v, Indices::iterator const& i) : refvector_(&v), itr_(i) {}
 
       RefVector<E> const* refvector_{0};
-      Indices::const_iterator itr_{};
+      Indices::iterator itr_{};
     };
 
     friend class RefVectorIterator;
-    typedef RefVectorIterator const_iterator;
-    typedef const_iterator iterator;
+    typedef RefVectorIterator iterator;
 
-    const_iterator begin() const { return const_iterator(*this, indices_->begin()); }
     iterator begin() { return iterator(*this, indices_->begin()); }
-    const_iterator end() const { return const_iterator(*this, indices_->end()); }
     iterator end() { return iterator(*this, indices_->end()); }
 
   private:

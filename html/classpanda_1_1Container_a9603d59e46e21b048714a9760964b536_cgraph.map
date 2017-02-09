@@ -1,8 +1,0 @@
-<map id="panda::Container::create_back" name="panda::Container::create_back">
-<area shape="rect" id="node2" href="$classpanda_1_1CollectionBase.html#a3ec014ac2da87bb755afbea0822621cc" title="Resize the container. " alt="" coords="257,141,412,185"/>
-<area shape="rect" id="node3" href="$classpanda_1_1ContainerBase.html#a14b14c940d7c8b0ce870c7df333e18a7" title="panda::ContainerBase\l::getData" alt="" coords="473,5,627,49"/>
-<area shape="rect" id="node4" href="$classpanda_1_1ContainerBase.html#a89fcae0bf801676563ab4056c6c8345a" title="panda::ContainerBase\l::reallocate_" alt="" coords="473,73,627,117"/>
-<area shape="rect" id="node5" href="$structpanda_1_1ContainerElement_1_1datastore.html#ac050bf7055f0c53b4aff4234e2de6e20" title="Override when there are vector members. " alt="" coords="460,141,640,185"/>
-<area shape="rect" id="node6" href="$classpanda_1_1ContainerBase.html#a611d8e68bcae5de2046874b340256fb4" title="panda::ContainerBase\l::elemAt" alt="" coords="473,209,627,253"/>
-<area shape="rect" id="node7" href="$classpanda_1_1Object.html#a204960e5f165a28176f9b4a42b9ea90c" title="Reset object state. " alt="" coords="485,277,614,305"/>
-</map>

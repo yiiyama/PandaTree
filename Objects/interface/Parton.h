@@ -46,11 +46,8 @@ namespace panda {
     ~Parton();
     Parton& operator=(Parton const&);
 
-    /* ParticleP
-    */
-    /* ParticleM
-    */
     Int_t& pdgid;
+
   protected:
     /* ParticleP
     Float_t& pt_;

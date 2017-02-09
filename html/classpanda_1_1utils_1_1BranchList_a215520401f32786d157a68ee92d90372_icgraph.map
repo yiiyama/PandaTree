@@ -1,5 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$classpanda_1_1TreeEntry.html#a8d65c0ee41e1ef5c7f7a41c454dad052" title="Set status of branches to true (matching branch) or false (vetoed branch)." alt="" coords="264,32,451,61"/>
-<area shape="rect" id="node5" href="$classpanda_1_1Run.html#a6e0400b56778094d6ac8c6c9aa8eba3a" title="panda::Run::doSetStatus_" alt="" coords="504,5,680,35"/>
-<area shape="rect" id="node7" href="$classpanda_1_1Event.html#a714f9999480dd623a883560e62717d85" title="panda::Event::doSetStatus_" alt="" coords="499,59,685,88"/>
-</map>

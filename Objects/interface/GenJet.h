@@ -46,11 +46,8 @@ namespace panda {
     ~GenJet();
     GenJet& operator=(GenJet const&);
 
-    /* ParticleP
-    */
-    /* ParticleM
-    */
     UShort_t& pdgid;
+
   protected:
     /* ParticleP
     Float_t& pt_;

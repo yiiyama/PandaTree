@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$classpanda_1_1Singlet.html#a7b38d2165f30ed45922939a806708602" title="Set status of branches to true (matching branch) or false (vetoed branch)." alt="" coords="247,139,415,168"/>
-<area shape="rect" id="node5" href="$classpanda_1_1RecoMet.html#ada709eee42912be17dc1575083bc5f99" title="panda::RecoMet::doSetStatus_" alt="" coords="477,5,683,35"/>
-<area shape="rect" id="node7" href="$classpanda_1_1Recoil.html#a68fa34c56d13dae0010ad93e1092ca4f" title="panda::Recoil::doSetStatus_" alt="" coords="485,59,675,88"/>
-<area shape="rect" id="node9" href="$classpanda_1_1MetFilters.html#a48c76c6289784dda542350d88e05aa66" title="panda::MetFilters::doSetStatus_" alt="" coords="475,112,685,141"/>
-<area shape="rect" id="node11" href="$classpanda_1_1Met.html#a3ed51e1633313fa1fb5f5dbda38108c8" title="panda::Met::doSetStatus_" alt="" coords="493,165,667,195"/>
-<area shape="rect" id="node13" href="$classpanda_1_1HLTBits.html#ae031e46f650668194269fec06b95ef72" title="panda::HLTBits::doSetStatus_" alt="" coords="480,219,680,248"/>
-<area shape="rect" id="node15" href="$classpanda_1_1GenReweight.html#ac8e96798e059c6ddcbec6e0f91ab8190" title="panda::GenReweight::doSetStatus_" alt="" coords="465,272,695,301"/>
-</map>

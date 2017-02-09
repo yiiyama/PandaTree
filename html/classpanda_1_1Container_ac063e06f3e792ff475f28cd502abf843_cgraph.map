@@ -1,6 +1,0 @@
-<map id="panda::Container::end" name="panda::Container::end">
-<area shape="rect" id="node2" href="$classpanda_1_1Container.html#a3e3139381afff7a2bea1e46685a4c734" title="panda::Container::addr_" alt="" coords="207,5,372,33"/>
-<area shape="rect" id="node3" href="$classpanda_1_1Container.html#a0873333a978d458a525f855d73416e09" title="panda::Container::max_" alt="" coords="207,57,371,85"/>
-<area shape="rect" id="node4" href="$classpanda_1_1Container.html#ae8c189c8e337af593b268455a2dda89f" title="panda::Container::getData" alt="" coords="420,27,597,55"/>
-<area shape="rect" id="node5" href="$structpanda_1_1ContainerElement_1_1datastore.html#aff3ea42523fa1d980435a5085c8f1289" title="panda::ContainerElement\l::datastore::nmax" alt="" coords="422,79,595,123"/>
-</map>

@@ -23,6 +23,7 @@ namespace panda {
     unsigned size() const { return size_; }
 
     UInt_t words[16]{};
+
   protected:
     UInt_t size_{512};
 

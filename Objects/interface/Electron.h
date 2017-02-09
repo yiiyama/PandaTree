@@ -73,8 +73,6 @@ namespace panda {
     double m() const override { return 5.109989e-4; }
     double combiso() const override { return chiso + std::max(nhiso + phoiso - isoPUOffset, Float_t(0.)); }
 
-    /* ParticleP
-    */
     /* Lepton
     Short_t& q;
     Bool_t& loose;
@@ -84,6 +82,7 @@ namespace panda {
     Float_t& nhiso;
     Float_t& phoiso;
     Float_t& puiso;
+    Ref<GenParticle> matchedGen;
     */
     Bool_t& hltsafe;
     Float_t& chisoPh;
@@ -98,16 +97,14 @@ namespace panda {
     Float_t& hOverE;
     Bool_t& veto;
     Bool_t (&triggerMatch)[nElectronTriggerObjects];
+    Ref<SuperCluster> superCluster;
+
   protected:
     /* ParticleP
     Float_t& pt_;
     Float_t& eta_;
     Float_t& phi_;
     */
-    /* Lepton
-    Ref<GenParticle> matchedGen;
-    */
-    Ref<SuperCluster> superCluster;
 
   public:
     /* BEGIN CUSTOM Electron.h.classdef */

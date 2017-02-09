@@ -1,6 +1,0 @@
-<map id="panda::ContainerBase::elemAt" name="panda::ContainerBase::elemAt">
-<area shape="rect" id="node2" href="$classpanda_1_1ArrayBase.html#afd97e008dcd9f49e77a9d77bd7115890" title="Reset object state. " alt="" coords="208,5,361,33"/>
-<area shape="rect" id="node3" href="$classpanda_1_1CollectionBase.html#a3ec014ac2da87bb755afbea0822621cc" title="Resize the container. " alt="" coords="207,57,362,101"/>
-<area shape="rect" id="node4" href="$classpanda_1_1Container.html#a05e9a487429721164541511d87a9783d" title="panda::Container::copy" alt="" coords="432,39,591,67"/>
-<area shape="rect" id="node5" href="$classpanda_1_1Container.html#a9603d59e46e21b048714a9760964b536" title="panda::Container::create_back" alt="" coords="410,91,614,119"/>
-</map>

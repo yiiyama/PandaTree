@@ -47,12 +47,9 @@ namespace panda {
     ~MicroJet();
     MicroJet& operator=(MicroJet const&);
 
-    /* ParticleP
-    */
-    /* ParticleM
-    */
     Float_t& csv;
     Float_t& qgl;
+
   protected:
     /* ParticleP
     Float_t& pt_;

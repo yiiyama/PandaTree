@@ -15,10 +15,9 @@ namespace panda {
       datastore() : Particle::datastore() {}
       ~datastore() { deallocate(); }
 
-      UShort_t* packedPt_{0};
-      UShort_t* packedEta_{0};
-      UShort_t* packedPhi_{0};
-      UShort_t* packedM_{0};
+      UShort_t* packedPt{0};
+      Short_t* packedPhi{0};
+      UShort_t* packedM{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -48,21 +47,21 @@ namespace panda {
     void setPtEtaPhiM(double pt, double eta, double phi, double m);
     void setXYZE(double px, double py, double pz, double e);
 
-  protected:
-    UShort_t& packedPt_;
-    UShort_t& packedEta_;
-    UShort_t& packedPhi_;
-    UShort_t& packedM_;
+    UShort_t& packedPt;
+    Short_t& packedPhi;
+    UShort_t& packedM;
 
-  public:
     /* BEGIN CUSTOM PackedParticle.h.classdef */
   protected:
+    void pack_();
     void unpack_() const;
-    Double_t pt_{0.};
-    Double_t eta_{0.};
-    Double_t phi_{0.};
-    Double_t mass_{0.};
-    Bool_t unpacked_{kFALSE};
+    virtual void packEta_() = 0;
+    virtual void unpackEta_() const = 0;
+    mutable Double_t pt_{0.};
+    mutable Double_t eta_{0.};
+    mutable Double_t phi_{0.};
+    mutable Double_t mass_{0.};
+    mutable Bool_t unpacked_{kFALSE};
 
   public:
     /* END CUSTOM */
@@ -86,6 +85,21 @@ namespace panda {
   typedef RefVector<PackedParticle> PackedParticleRefVector;
 
   /* BEGIN CUSTOM PackedParticle.h.global */
+  class PackingHelper {
+  public:
+    PackingHelper();
+
+    Double_t unpackUnbound(UShort_t);
+    UShort_t packUnbound(Double_t);
+
+  private:
+    UInt_t mantissatable[2048];
+    UInt_t exponenttable[64];
+    UShort_t offsettable[64];
+    UShort_t basetable[512];
+    UChar_t shifttable[512];
+  };
+
   /* END CUSTOM */
 
 }

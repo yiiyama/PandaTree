@@ -33,11 +33,7 @@ namespace panda {
     Float_t phiUnclUp{};
     Float_t ptUnclDown{};
     Float_t phiUnclDown{};
-  protected:
-    /* Met
-    */
 
-  public:
     /* BEGIN CUSTOM RecoMet.h.classdef */
     /* END CUSTOM */
 

@@ -1,6 +1,0 @@
-<map id="panda::Container::back" name="panda::Container::back">
-<area shape="rect" id="node2" href="$classpanda_1_1Container.html#a249fc903c76cb3bbe91983d6d99c474f" title="Element accessor with no range check. " alt="" coords="212,5,401,33"/>
-<area shape="rect" id="node3" href="$classpanda_1_1Container.html#a0873333a978d458a525f855d73416e09" title="panda::Container::max_" alt="" coords="225,57,388,85"/>
-<area shape="rect" id="node4" href="$classpanda_1_1Container.html#ae8c189c8e337af593b268455a2dda89f" title="panda::Container::getData" alt="" coords="449,27,626,55"/>
-<area shape="rect" id="node5" href="$structpanda_1_1ContainerElement_1_1datastore.html#aff3ea42523fa1d980435a5085c8f1289" title="panda::ContainerElement\l::datastore::nmax" alt="" coords="451,79,624,123"/>
-</map>

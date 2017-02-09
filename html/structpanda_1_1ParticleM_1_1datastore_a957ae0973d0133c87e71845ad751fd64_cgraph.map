@@ -1,9 +1,0 @@
-<map id="panda::ParticleM::datastore::setStatus" name="panda::ParticleM::datastore::setStatus">
-<area shape="rect" id="node2" href="$structpanda_1_1Particle_1_1datastore.html#afa508d25966c3e2044e67e4b50f1679e" title="panda::Particle::datastore\l::setStatus" alt="" coords="238,32,411,76"/>
-<area shape="rect" id="node4" href="$namespacepanda_1_1utils.html#a01665f786d6a2acedb8f008f3fc9fc84" title="Set status of a branch. " alt="" coords="469,100,621,128"/>
-<area shape="rect" id="node3" href="$structpanda_1_1ContainerElement_1_1datastore.html#aad03a4d0428dfa3b6ae9ccfb04d49cd8" title="panda::ContainerElement\l::datastore::setStatus" alt="" coords="459,32,631,76"/>
-<area shape="rect" id="node5" href="$classpanda_1_1utils_1_1BranchName.html#a6cc8a6df7c5b12a0221fd49773cca6a7" title="Is the name included and not vetoed? " alt="" coords="679,5,872,33"/>
-<area shape="rect" id="node6" href="$classpanda_1_1utils_1_1BranchName.html#ae3332329bf2afae5ed8e7c35e5d77ffa" title="Is the name included and vetoed? " alt="" coords="688,57,863,101"/>
-<area shape="rect" id="node7" href="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412" title="Prepend the branch name with &lt;objName.&gt;. " alt="" coords="688,125,863,169"/>
-<area shape="rect" id="node8" href="$namespacepanda_1_1utils.html#aafa411773a4b0ee829d99e6e5a0abdcd" title="Check status of a branch. " alt="" coords="691,193,860,221"/>
-</map>

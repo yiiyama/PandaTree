@@ -1,5 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$classpanda_1_1utils_1_1BranchList.html#aead8646065a2422c246b8d04f66dd00d" title="Returns true if any of the branch in the list is not vetoed." alt="" coords="279,5,465,35"/>
-<area shape="rect" id="node5" href="$structpanda_1_1Element_1_1datastore.html#a2e677f904aee6a53452674b83bea49e4" title="panda::Element::datastore::book" alt="" coords="267,59,477,88"/>
-<area shape="rect" id="node7" href="$classpanda_1_1ContainerBase.html#adbb8e159edc835222dc6485291d3830d" title="panda::ContainerBase::getData" alt="" coords="269,112,475,141"/>
-</map>

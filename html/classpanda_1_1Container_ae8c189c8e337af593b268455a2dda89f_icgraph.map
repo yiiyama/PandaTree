@@ -1,8 +1,0 @@
-<map id="panda::Container::getData" name="panda::Container::getData">
-<area shape="rect" id="node2" href="$classpanda_1_1Container.html#aec587dc1a3991463ce002ee9cb82cb08" title="panda::Container::Container" alt="" coords="443,109,631,137"/>
-<area shape="rect" id="node3" href="$classpanda_1_1Container.html#a0873333a978d458a525f855d73416e09" title="panda::Container::max_" alt="" coords="231,57,395,85"/>
-<area shape="rect" id="node6" href="$classpanda_1_1Container.html#a47bf4140207c40fa731f44766dde536c" title="Copy the array contents. " alt="" coords="233,161,392,189"/>
-<area shape="rect" id="node4" href="$classpanda_1_1Container.html#ac063e06f3e792ff475f28cd502abf843" title="Return an iterator pointing to the end of the array (invalid address) " alt="" coords="460,57,614,85"/>
-<area shape="rect" id="node5" href="$classpanda_1_1Container.html#a61bb66309ba1c1472097808caf751200" title="Reference to the last element. " alt="" coords="457,5,617,33"/>
-<area shape="rect" id="node7" href="$classpanda_1_1Container.html#a12c1ec82df87e7bb377788c76ba07891" title="panda::Container::operator=" alt="" coords="443,161,631,189"/>
-</map>

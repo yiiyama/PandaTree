@@ -43,9 +43,7 @@ namespace panda {
     Float_t& rawPt;
     Float_t& eta;
     Float_t& phi;
-  protected:
 
-  public:
     /* BEGIN CUSTOM SuperCluster.h.classdef */
     /* END CUSTOM */
 

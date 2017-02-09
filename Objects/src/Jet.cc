@@ -11,6 +11,7 @@ panda::Jet::datastore::allocate(UInt_t _nmax)
   ptSmear = new Float_t[nmax_];
   ptSmearUp = new Float_t[nmax_];
   ptSmearDown = new Float_t[nmax_];
+  area = new Float_t[nmax_];
   nhf = new Float_t[nmax_];
   chf = new Float_t[nmax_];
   puid = new Float_t[nmax_];
@@ -38,6 +39,8 @@ panda::Jet::datastore::deallocate()
   ptSmearUp = 0;
   delete [] ptSmearDown;
   ptSmearDown = 0;
+  delete [] area;
+  area = 0;
   delete [] nhf;
   nhf = 0;
   delete [] chf;
@@ -67,6 +70,7 @@ panda::Jet::datastore::setStatus(TTree& _tree, TString const& _name, utils::Bran
   utils::setStatus(_tree, _name, "ptSmear", _branches);
   utils::setStatus(_tree, _name, "ptSmearUp", _branches);
   utils::setStatus(_tree, _name, "ptSmearDown", _branches);
+  utils::setStatus(_tree, _name, "area", _branches);
   utils::setStatus(_tree, _name, "nhf", _branches);
   utils::setStatus(_tree, _name, "chf", _branches);
   utils::setStatus(_tree, _name, "puid", _branches);
@@ -88,6 +92,7 @@ panda::Jet::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "ptSmear"));
   blist.push_back(utils::getStatus(_tree, _name, "ptSmearUp"));
   blist.push_back(utils::getStatus(_tree, _name, "ptSmearDown"));
+  blist.push_back(utils::getStatus(_tree, _name, "area"));
   blist.push_back(utils::getStatus(_tree, _name, "nhf"));
   blist.push_back(utils::getStatus(_tree, _name, "chf"));
   blist.push_back(utils::getStatus(_tree, _name, "puid"));
@@ -111,6 +116,7 @@ panda::Jet::datastore::setAddress(TTree& _tree, TString const& _name, utils::Bra
   utils::setAddress(_tree, _name, "ptSmear", ptSmear, _branches, _setStatus);
   utils::setAddress(_tree, _name, "ptSmearUp", ptSmearUp, _branches, _setStatus);
   utils::setAddress(_tree, _name, "ptSmearDown", ptSmearDown, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "area", area, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nhf", nhf, _branches, _setStatus);
   utils::setAddress(_tree, _name, "chf", chf, _branches, _setStatus);
   utils::setAddress(_tree, _name, "puid", puid, _branches, _setStatus);
@@ -134,6 +140,7 @@ panda::Jet::datastore::book(TTree& _tree, TString const& _name, utils::BranchLis
   utils::book(_tree, _name, "ptSmear", size, 'F', ptSmear, _branches);
   utils::book(_tree, _name, "ptSmearUp", size, 'F', ptSmearUp, _branches);
   utils::book(_tree, _name, "ptSmearDown", size, 'F', ptSmearDown, _branches);
+  utils::book(_tree, _name, "area", size, 'F', area, _branches);
   utils::book(_tree, _name, "nhf", size, 'F', nhf, _branches);
   utils::book(_tree, _name, "chf", size, 'F', chf, _branches);
   utils::book(_tree, _name, "puid", size, 'F', puid, _branches);
@@ -155,6 +162,7 @@ panda::Jet::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "ptSmear");
   utils::resetAddress(_tree, _name, "ptSmearUp");
   utils::resetAddress(_tree, _name, "ptSmearDown");
+  utils::resetAddress(_tree, _name, "area");
   utils::resetAddress(_tree, _name, "nhf");
   utils::resetAddress(_tree, _name, "chf");
   utils::resetAddress(_tree, _name, "puid");
@@ -181,6 +189,7 @@ panda::Jet::Jet(char const* _name/* = ""*/) :
   ptSmear(gStore.getData(this).ptSmear[0]),
   ptSmearUp(gStore.getData(this).ptSmearUp[0]),
   ptSmearDown(gStore.getData(this).ptSmearDown[0]),
+  area(gStore.getData(this).area[0]),
   nhf(gStore.getData(this).nhf[0]),
   chf(gStore.getData(this).chf[0]),
   puid(gStore.getData(this).puid[0]),
@@ -200,6 +209,7 @@ panda::Jet::Jet(Jet const& _src) :
   ptSmear(gStore.getData(this).ptSmear[0]),
   ptSmearUp(gStore.getData(this).ptSmearUp[0]),
   ptSmearDown(gStore.getData(this).ptSmearDown[0]),
+  area(gStore.getData(this).area[0]),
   nhf(gStore.getData(this).nhf[0]),
   chf(gStore.getData(this).chf[0]),
   puid(gStore.getData(this).puid[0]),
@@ -217,6 +227,7 @@ panda::Jet::Jet(Jet const& _src) :
   ptSmear = _src.ptSmear;
   ptSmearUp = _src.ptSmearUp;
   ptSmearDown = _src.ptSmearDown;
+  area = _src.area;
   nhf = _src.nhf;
   chf = _src.chf;
   puid = _src.puid;
@@ -235,6 +246,7 @@ panda::Jet::Jet(datastore& _data, UInt_t _idx) :
   ptSmear(_data.ptSmear[_idx]),
   ptSmearUp(_data.ptSmearUp[_idx]),
   ptSmearDown(_data.ptSmearDown[_idx]),
+  area(_data.area[_idx]),
   nhf(_data.nhf[_idx]),
   chf(_data.chf[_idx]),
   puid(_data.puid[_idx]),
@@ -254,6 +266,7 @@ panda::Jet::Jet(ArrayBase* _array) :
   ptSmear(gStore.getData(this).ptSmear[0]),
   ptSmearUp(gStore.getData(this).ptSmearUp[0]),
   ptSmearDown(gStore.getData(this).ptSmearDown[0]),
+  area(gStore.getData(this).area[0]),
   nhf(gStore.getData(this).nhf[0]),
   chf(gStore.getData(this).chf[0]),
   puid(gStore.getData(this).puid[0]),
@@ -291,6 +304,7 @@ panda::Jet::operator=(Jet const& _src)
   ptSmear = _src.ptSmear;
   ptSmearUp = _src.ptSmearUp;
   ptSmearDown = _src.ptSmearDown;
+  area = _src.area;
   nhf = _src.nhf;
   chf = _src.chf;
   puid = _src.puid;
@@ -314,6 +328,7 @@ panda::Jet::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList c
   utils::setStatus(_tree, _name, "ptSmear", _branches);
   utils::setStatus(_tree, _name, "ptSmearUp", _branches);
   utils::setStatus(_tree, _name, "ptSmearDown", _branches);
+  utils::setStatus(_tree, _name, "area", _branches);
   utils::setStatus(_tree, _name, "nhf", _branches);
   utils::setStatus(_tree, _name, "chf", _branches);
   utils::setStatus(_tree, _name, "puid", _branches);
@@ -335,6 +350,7 @@ panda::Jet::doGetStatus_(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "ptSmear"));
   blist.push_back(utils::getStatus(_tree, _name, "ptSmearUp"));
   blist.push_back(utils::getStatus(_tree, _name, "ptSmearDown"));
+  blist.push_back(utils::getStatus(_tree, _name, "area"));
   blist.push_back(utils::getStatus(_tree, _name, "nhf"));
   blist.push_back(utils::getStatus(_tree, _name, "chf"));
   blist.push_back(utils::getStatus(_tree, _name, "puid"));
@@ -358,6 +374,7 @@ panda::Jet::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList 
   utils::setAddress(_tree, _name, "ptSmear", &ptSmear, _branches, _setStatus);
   utils::setAddress(_tree, _name, "ptSmearUp", &ptSmearUp, _branches, _setStatus);
   utils::setAddress(_tree, _name, "ptSmearDown", &ptSmearDown, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "area", &area, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nhf", &nhf, _branches, _setStatus);
   utils::setAddress(_tree, _name, "chf", &chf, _branches, _setStatus);
   utils::setAddress(_tree, _name, "puid", &puid, _branches, _setStatus);
@@ -379,6 +396,7 @@ panda::Jet::doBook_(TTree& _tree, TString const& _name, utils::BranchList const&
   utils::book(_tree, _name, "ptSmear", "", 'F', &ptSmear, _branches);
   utils::book(_tree, _name, "ptSmearUp", "", 'F', &ptSmearUp, _branches);
   utils::book(_tree, _name, "ptSmearDown", "", 'F', &ptSmearDown, _branches);
+  utils::book(_tree, _name, "area", "", 'F', &area, _branches);
   utils::book(_tree, _name, "nhf", "", 'F', &nhf, _branches);
   utils::book(_tree, _name, "chf", "", 'F', &chf, _branches);
   utils::book(_tree, _name, "puid", "", 'F', &puid, _branches);
@@ -400,6 +418,7 @@ panda::Jet::doReleaseTree_(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "ptSmear");
   utils::resetAddress(_tree, _name, "ptSmearUp");
   utils::resetAddress(_tree, _name, "ptSmearDown");
+  utils::resetAddress(_tree, _name, "area");
   utils::resetAddress(_tree, _name, "nhf");
   utils::resetAddress(_tree, _name, "chf");
   utils::resetAddress(_tree, _name, "puid");
@@ -421,6 +440,7 @@ panda::Jet::doInit_()
   ptSmear = 0.;
   ptSmearUp = 0.;
   ptSmearDown = 0.;
+  area = 0.;
   nhf = 0.;
   chf = 0.;
   puid = 0.;

@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$classpanda_1_1Array.html#ac3bf1d5e18721fed54de1741a71470fc" title="panda::Array::allocate_" alt="" coords="191,5,345,35"/>
-<area shape="rect" id="node7" href="$classpanda_1_1Array.html#a8fa2cf8c33bb87c6c398e44e901ad9b9" title="Return an iterator pointing to the first element." alt="" coords="201,59,335,88"/>
-<area shape="rect" id="node9" href="$classpanda_1_1Array.html#a278c908fe61e762996552c696b92b04b" title="Return an iterator pointing to the end of the array (invalid address)." alt="" coords="205,112,331,141"/>
-<area shape="rect" id="node11" href="$classpanda_1_1Array.html#a98143dcae933f0bc7604aea8fb6c6439" title="panda::Array::~Array" alt="" coords="197,165,339,195"/>
-<area shape="rect" id="node5" href="$classpanda_1_1Array.html#a05daeb194a5d5580d7c843374c45d610" title="panda::Array::Array" alt="" coords="396,5,529,35"/>
-</map>

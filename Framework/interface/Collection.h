@@ -94,15 +94,15 @@ namespace panda {
     value_type const* const_addr_() const { return reinterpret_cast<value_type const*>(ContainerBase::array_); }
 
     template<class T = E>
-    typename std::enable_if<std::is_trivially_constructible<T>::value>::type allocate_(UInt_t);
+    typename std::enable_if<std::is_constructible<T>::value>::type allocate_(UInt_t);
     template<class T = E>
-    typename std::enable_if<!std::is_trivially_constructible<T>::value>::type allocate_(UInt_t);
+    typename std::enable_if<!std::is_constructible<T>::value>::type allocate_(UInt_t);
 
     template<class T = E>
-    typename std::enable_if<std::is_trivially_constructible<T>::value>::type
+    typename std::enable_if<std::is_constructible<T>::value>::type
     deallocate_(value_type* addr, typename value_type::datastore&);
     template<class T = E>
-    typename std::enable_if<!std::is_trivially_constructible<T>::value>::type
+    typename std::enable_if<!std::is_constructible<T>::value>::type
     deallocate_(value_type* addr, typename value_type::datastore&);
   };
 
@@ -255,7 +255,7 @@ namespace panda {
   /*private*/
   template<class E>
   template<class T/* = E*/>
-  typename std::enable_if<std::is_trivially_constructible<T>::value>::type
+  typename std::enable_if<std::is_constructible<T>::value>::type
   Collection<E>::allocate_(UInt_t _nmax)
   {
     data.allocate(_nmax);
@@ -270,7 +270,7 @@ namespace panda {
   /*private*/
   template<class E>
   template<class T/* = E*/>
-  typename std::enable_if<!std::is_trivially_constructible<T>::value>::type
+  typename std::enable_if<!std::is_constructible<T>::value>::type
   Collection<E>::allocate_(UInt_t)
   {
     throw std::runtime_error((ContainerBase::name_ + " cannot create a Collection of pure-virtual elements").Data());
@@ -279,7 +279,7 @@ namespace panda {
   /*private static*/
   template<class E>
   template<class T/* = E*/>
-  typename std::enable_if<std::is_trivially_constructible<T>::value>::type
+  typename std::enable_if<std::is_constructible<T>::value>::type
   Collection<E>::deallocate_(value_type* _addr, typename value_type::datastore& _data)
   {
     // Call the destructor of the array elements
@@ -294,7 +294,7 @@ namespace panda {
   /*private static*/
   template<class E>
   template<class T/* = E*/>
-  typename std::enable_if<!std::is_trivially_constructible<T>::value>::type
+  typename std::enable_if<!std::is_constructible<T>::value>::type
   Collection<E>::deallocate_(value_type*, typename value_type::datastore&)
   {
     throw std::runtime_error((ContainerBase::name_ + " cannot deallocate pure-virtual elements").Data());

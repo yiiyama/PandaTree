@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$namespacepanda_1_1utils.html#aa19d897bd5e032044ceac8b4eae43409" title="panda::utils::book" alt="" coords="260,5,385,35"/>
-<area shape="rect" id="node5" href="$namespacepanda_1_1utils.html#abf9c62e588560197c2bae9932e6a6e05" title="Set address." alt="" coords="448,84,611,113"/>
-<area shape="rect" id="node15" href="$namespacepanda_1_1utils.html#a01665f786d6a2acedb8f008f3fc9fc84" title="Set the status of a branch." alt="" coords="247,109,399,139"/>
-<area shape="rect" id="node7" href="$classpanda_1_1CollectionBase.html#a2bd8c03841337f83ccdb4279ebf1f24d" title="panda::CollectionBase::doSetAddress_" alt="" coords="659,84,909,113"/>
-<area shape="rect" id="node9" href="$classpanda_1_1CollectionBase.html#a4d6bc9cc77ee3e29840362826b108b23" title="panda::CollectionBase::resetAddress_" alt="" coords="957,84,1203,113"/>
-<area shape="rect" id="node11" href="$classpanda_1_1Collection.html#a2187bdc5efe30684f1e9f4db4fe4fb2e" title="panda::Collection::reallocate_" alt="" coords="1251,84,1445,113"/>
-<area shape="rect" id="node13" href="$classpanda_1_1Collection.html#a801b74a80bdd197bdfe08a06112bdcee" title="Append an element to the back and resize by 1." alt="" coords="1493,84,1688,113"/>
-</map>

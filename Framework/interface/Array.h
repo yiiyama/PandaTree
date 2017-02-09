@@ -78,9 +78,9 @@ namespace panda {
     value_type const* const_addr_() const { return reinterpret_cast<value_type const*>(ContainerBase::array_); }
 
     template<class T = E>
-    typename std::enable_if<std::is_trivially_constructible<T>::value>::type allocate_(UInt_t);
+    typename std::enable_if<std::is_constructible<T>::value>::type allocate_(UInt_t);
     template<class T = E>
-    typename std::enable_if<!std::is_trivially_constructible<T>::value>::type allocate_(UInt_t);
+    typename std::enable_if<!std::is_constructible<T>::value>::type allocate_(UInt_t);
   };
 
   template<class E>
@@ -195,7 +195,7 @@ namespace panda {
   /*private*/
   template<class E>
   template<class T/* = E*/>
-  typename std::enable_if<std::is_trivially_constructible<T>::value>::type
+  typename std::enable_if<std::is_constructible<T>::value>::type
   Array<E>::allocate_(UInt_t _nmax)
   {
     data.allocate(_nmax);
@@ -210,7 +210,7 @@ namespace panda {
   /*private*/
   template<class E>
   template<class T/* = E*/>
-  typename std::enable_if<!std::is_trivially_constructible<T>::value>::type
+  typename std::enable_if<!std::is_constructible<T>::value>::type
   Array<E>::allocate_(UInt_t)
   {
     throw std::runtime_error((ContainerBase::name_ + " cannot create an Array of pure-virtual elements").Data());

@@ -20,9 +20,7 @@ namespace panda {
 
     UInt_t categories{};
     Float_t max{};
-  protected:
 
-  public:
     /* BEGIN CUSTOM Recoil.h.classdef */
     /* END CUSTOM */
 

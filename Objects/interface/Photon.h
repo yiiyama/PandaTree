@@ -74,8 +74,6 @@ namespace panda {
     ~Photon();
     Photon& operator=(Photon const&);
 
-    /* ParticleP
-    */
     Float_t& chiso;
     Float_t& chisoWorst;
     Float_t& nhiso;
@@ -102,14 +100,15 @@ namespace panda {
     Bool_t& pixelVeto;
     Bool_t& csafeVeto;
     Bool_t (&triggerMatch)[nPhotonTriggerObjects];
+    Ref<SuperCluster> superCluster;
+    Ref<GenParticle> matchedGen;
+
   protected:
     /* ParticleP
     Float_t& pt_;
     Float_t& eta_;
     Float_t& phi_;
     */
-    Ref<SuperCluster> superCluster;
-    Ref<GenParticle> matchedGen;
 
   public:
     /* BEGIN CUSTOM Photon.h.classdef */

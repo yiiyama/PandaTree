@@ -1,5 +1,0 @@
-<map id="panda::SuperCluster::datastore::resetAddress" name="panda::SuperCluster::datastore::resetAddress">
-<area shape="rect" id="node2" href="$structpanda_1_1ContainerElement_1_1datastore.html#a1f296453b1f2e440d9b4be3388069d43" title="panda::ContainerElement\l::datastore::resetAddress" alt="" coords="225,5,398,49"/>
-<area shape="rect" id="node3" href="$namespacepanda_1_1utils.html#a82a8530e64fbdf917cf9b8659065f98b" title="panda::utils::resetAddress" alt="" coords="224,73,399,101"/>
-<area shape="rect" id="node4" href="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412" title="Prepend the branch name with &lt;objName.&gt;. " alt="" coords="447,65,622,109"/>
-</map>

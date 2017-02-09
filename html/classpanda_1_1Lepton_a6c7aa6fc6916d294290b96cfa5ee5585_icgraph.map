@@ -1,4 +1,0 @@
-<map id="panda::Lepton::releaseTree" name="panda::Lepton::releaseTree">
-<area shape="rect" id="node2" href="$classpanda_1_1Electron.html#a9c5f1f1de56657622fbb175e0dc65aac" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="238,5,432,33"/>
-<area shape="rect" id="node3" href="$classpanda_1_1Muon.html#a00d513e2558d8da5c4845ec09f2d4b7d" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="246,57,424,85"/>
-</map>

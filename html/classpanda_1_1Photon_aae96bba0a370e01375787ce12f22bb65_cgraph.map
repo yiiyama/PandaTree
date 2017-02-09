@@ -1,7 +1,0 @@
-<map id="panda::Photon::releaseTree" name="panda::Photon::releaseTree">
-<area shape="rect" id="node2" href="$classpanda_1_1Particle.html#a8fb6fa0b4316967da573181262727142" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="240,73,429,101"/>
-<area shape="rect" id="node4" href="$classpanda_1_1utils_1_1StoreManager.html#a6f30ec459d951e84a1196b7e2ffdcf49" title="panda::utils::StoreManager\l::getName" alt="" coords="477,5,659,49"/>
-<area shape="rect" id="node5" href="$namespacepanda_1_1utils.html#a82a8530e64fbdf917cf9b8659065f98b" title="panda::utils::resetAddress" alt="" coords="480,125,656,153"/>
-<area shape="rect" id="node3" href="$classpanda_1_1Object.html#aaf58438092b42a89b838ce12c6a23833" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="477,73,660,101"/>
-<area shape="rect" id="node6" href="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412" title="Prepend the branch name with &lt;objName.&gt;. " alt="" coords="708,117,882,161"/>
-</map>

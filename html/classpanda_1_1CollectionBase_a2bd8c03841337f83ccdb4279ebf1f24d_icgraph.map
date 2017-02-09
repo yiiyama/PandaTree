@@ -1,5 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$classpanda_1_1CollectionBase.html#a4d6bc9cc77ee3e29840362826b108b23" title="panda::CollectionBase::resetAddress_" alt="" coords="304,5,549,35"/>
-<area shape="rect" id="node5" href="$classpanda_1_1Collection.html#a2187bdc5efe30684f1e9f4db4fe4fb2e" title="panda::Collection::reallocate_" alt="" coords="597,5,792,35"/>
-<area shape="rect" id="node7" href="$classpanda_1_1Collection.html#a801b74a80bdd197bdfe08a06112bdcee" title="Append an element to the back and resize by 1." alt="" coords="840,5,1035,35"/>
-</map>

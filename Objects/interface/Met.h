@@ -23,9 +23,7 @@ namespace panda {
 
     Float_t pt{};
     Float_t phi{};
-  protected:
 
-  public:
     /* BEGIN CUSTOM Met.h.classdef */
     /* END CUSTOM */
 

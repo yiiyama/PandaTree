@@ -1,6 +1,0 @@
-<map id="panda::Container::operator=" name="panda::Container::operator=">
-<area shape="rect" id="node2" href="$classpanda_1_1Container.html#a47bf4140207c40fa731f44766dde536c" title="Copy the array contents. " alt="" coords="242,65,401,93"/>
-<area shape="rect" id="node3" href="$classpanda_1_1Container.html#ae8c189c8e337af593b268455a2dda89f" title="panda::Container::getData" alt="" coords="449,5,627,33"/>
-<area shape="rect" id="node4" href="$structpanda_1_1ContainerElement_1_1datastore.html#aff3ea42523fa1d980435a5085c8f1289" title="panda::ContainerElement\l::datastore::nmax" alt="" coords="452,57,624,101"/>
-<area shape="rect" id="node5" href="$classpanda_1_1ContainerBase.html#af338d42cdb776d8af77a2c14d3a983f5" title="Set the name of this container. " alt="" coords="461,125,615,169"/>
-</map>

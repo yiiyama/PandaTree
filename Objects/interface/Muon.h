@@ -58,8 +58,6 @@ namespace panda {
     double m() const override { return 1.05658e-2; }
     double combiso() const override { return chiso + std::max(nhiso + phoiso - 0.5 * puiso, 0.); }
 
-    /* ParticleP
-    */
     /* Lepton
     Short_t& q;
     Bool_t& loose;
@@ -69,16 +67,15 @@ namespace panda {
     Float_t& nhiso;
     Float_t& phoiso;
     Float_t& puiso;
+    Ref<GenParticle> matchedGen;
     */
     Bool_t (&triggerMatch)[nMuonTriggerObjects];
+
   protected:
     /* ParticleP
     Float_t& pt_;
     Float_t& eta_;
     Float_t& phi_;
-    */
-    /* Lepton
-    Ref<GenParticle> matchedGen;
     */
 
   public:

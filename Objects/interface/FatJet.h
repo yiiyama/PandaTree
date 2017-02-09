@@ -35,6 +35,7 @@ namespace panda {
       Float_t* ptSmear{0};
       Float_t* ptSmearUp{0};
       Float_t* ptSmearDown{0};
+      Float_t* area{0};
       Float_t* nhf{0};
       Float_t* chf{0};
       Float_t* puid{0};
@@ -43,7 +44,8 @@ namespace panda {
       Bool_t* monojet{0};
       ContainerBase const* matchedGenJetContainer_{0};
       Int_t* matchedGenJet_{0};
-ContainerBase const* constituentsContainer_{0};      std::vector<std::vector<Int_t>>* constituents_{0};
+      ContainerBase const* constituentsContainer_{0};
+      std::vector<std::vector<Int_t>>* constituents_{0};
       */
       Float_t* tau1{0};
       Float_t* tau2{0};
@@ -54,8 +56,10 @@ ContainerBase const* constituentsContainer_{0};      std::vector<std::vector<Int
       Float_t* tau3SD{0};
       Float_t* htt_mass{0};
       Float_t* htt_frec{0};
+      Float_t* double_sub{0};
       Float_t (*ecfs)[3][4][4]{0};
-ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<Int_t>>* subjets_{0};
+      ContainerBase const* subjetsContainer_{0};
+      std::vector<std::vector<Int_t>>* subjets_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -81,10 +85,6 @@ ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<Int_t>>*
     double get_ecf(int o_, int N_, int ib_) const;
     bool set_ecf(int o_, int N_, int ib_, float x_);
 
-    /* ParticleP
-    */
-    /* ParticleM
-    */
     /* MicroJet
     Float_t& csv;
     Float_t& qgl;
@@ -96,12 +96,15 @@ ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<Int_t>>*
     Float_t& ptSmear;
     Float_t& ptSmearUp;
     Float_t& ptSmearDown;
+    Float_t& area;
     Float_t& nhf;
     Float_t& chf;
     Float_t& puid;
     Bool_t& loose;
     Bool_t& tight;
     Bool_t& monojet;
+    Ref<GenJet> matchedGenJet;
+    RefVector<PFCand> constituents;
     */
     Float_t& tau1;
     Float_t& tau2;
@@ -112,7 +115,10 @@ ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<Int_t>>*
     Float_t& tau3SD;
     Float_t& htt_mass;
     Float_t& htt_frec;
+    Float_t& double_sub;
     Float_t (&ecfs)[3][4][4];
+    RefVector<MicroJet> subjets;
+
   protected:
     /* ParticleP
     Float_t& pt_;
@@ -122,13 +128,6 @@ ContainerBase const* subjetsContainer_{0};      std::vector<std::vector<Int_t>>*
     /* ParticleM
     Float_t& mass_;
     */
-    /* MicroJet
-    */
-    /* Jet
-    Ref<GenJet> matchedGenJet;
-    RefVector<PFCand> constituents;
-    */
-    RefVector<MicroJet> subjets;
 
   public:
     /* BEGIN CUSTOM FatJet.h.classdef */

@@ -16,11 +16,11 @@ namespace panda {
       ~datastore() { deallocate(); }
 
       /* PackedParticle
-      UShort_t* packedPt_{0};
-      UShort_t* packedEta_{0};
-      UShort_t* packedPhi_{0};
-      UShort_t* packedM_{0};
+      UShort_t* packedPt{0};
+      Short_t* packedPhi{0};
+      UShort_t* packedM{0};
       */
+      Short_t* packedY{0};
       Int_t* pdgid{0};
       UShort_t* statusFlags{0};
       ContainerBase const* parentContainer_{0};
@@ -48,20 +48,22 @@ namespace panda {
     GenParticle& operator=(GenParticle const&);
 
     /* PackedParticle
+    UShort_t& packedPt;
+    Short_t& packedPhi;
+    UShort_t& packedM;
     */
+    Short_t& packedY;
     Int_t& pdgid;
     UShort_t& statusFlags;
-  protected:
-    /* PackedParticle
-    UShort_t& packedPt_;
-    UShort_t& packedEta_;
-    UShort_t& packedPhi_;
-    UShort_t& packedM_;
-    */
     Ref<GenParticle> parent;
 
-  public:
     /* BEGIN CUSTOM GenParticle.h.classdef */
+  protected:
+    //! Value of packedEta for GenParticle corresponds to *rapidity*, not pseudorapidity.
+    void packEta_() override;
+    void unpackEta_() const override;
+
+  public:
     /* END CUSTOM */
 
     void destructor() override;

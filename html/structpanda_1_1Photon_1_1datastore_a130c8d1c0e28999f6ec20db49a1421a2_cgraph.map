@@ -1,6 +1,0 @@
-<map id="panda::Photon::datastore::resetAddress" name="panda::Photon::datastore::resetAddress">
-<area shape="rect" id="node2" href="$structpanda_1_1Particle_1_1datastore.html#a4a04e4dd473787da09b945659e07f0ec" title="panda::Particle::datastore\l::resetAddress" alt="" coords="224,5,398,49"/>
-<area shape="rect" id="node4" href="$namespacepanda_1_1utils.html#a82a8530e64fbdf917cf9b8659065f98b" title="panda::utils::resetAddress" alt="" coords="446,73,621,101"/>
-<area shape="rect" id="node3" href="$structpanda_1_1ContainerElement_1_1datastore.html#a1f296453b1f2e440d9b4be3388069d43" title="panda::ContainerElement\l::datastore::resetAddress" alt="" coords="447,5,620,49"/>
-<area shape="rect" id="node5" href="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412" title="Prepend the branch name with &lt;objName.&gt;. " alt="" coords="669,65,844,109"/>
-</map>

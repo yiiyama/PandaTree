@@ -54,16 +54,14 @@ namespace panda {
     ~Tau();
     Tau& operator=(Tau const&);
 
-    /* ParticleP
-    */
-    /* ParticleM
-    */
     Short_t& q;
     Bool_t& decayMode;
     Bool_t& decayModeNew;
     Bool_t& looseIsoMVA;
     Float_t& iso;
     Float_t& isoDeltaBetaCorr;
+    Ref<GenParticle> matchedGen;
+
   protected:
     /* ParticleP
     Float_t& pt_;
@@ -73,7 +71,6 @@ namespace panda {
     /* ParticleM
     Float_t& mass_;
     */
-    Ref<GenParticle> matchedGen;
 
   public:
     /* BEGIN CUSTOM Tau.h.classdef */

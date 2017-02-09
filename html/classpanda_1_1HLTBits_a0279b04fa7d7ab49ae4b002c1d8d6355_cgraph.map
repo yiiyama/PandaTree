@@ -1,5 +1,0 @@
-<map id="panda::HLTBits::releaseTree" name="panda::HLTBits::releaseTree">
-<area shape="rect" id="node2" href="$classpanda_1_1Object.html#aaf58438092b42a89b838ce12c6a23833" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="245,5,428,33"/>
-<area shape="rect" id="node3" href="$namespacepanda_1_1utils.html#a82a8530e64fbdf917cf9b8659065f98b" title="panda::utils::resetAddress" alt="" coords="249,57,424,85"/>
-<area shape="rect" id="node4" href="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412" title="Prepend the branch name with &lt;objName.&gt;. " alt="" coords="476,49,651,93"/>
-</map>

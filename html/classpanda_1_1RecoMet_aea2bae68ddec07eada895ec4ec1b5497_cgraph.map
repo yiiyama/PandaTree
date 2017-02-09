@@ -1,9 +1,0 @@
-<map id="panda::RecoMet::setStatus" name="panda::RecoMet::setStatus">
-<area shape="rect" id="node2" href="$classpanda_1_1Met.html#ac619f68ec14ec84e34ba84023cd6f5fb" title="Set status of branches with names that correspond to the variables of this object. " alt="" coords="235,48,386,76"/>
-<area shape="rect" id="node4" href="$namespacepanda_1_1utils.html#a01665f786d6a2acedb8f008f3fc9fc84" title="Set status of a branch. " alt="" coords="442,100,594,128"/>
-<area shape="rect" id="node3" href="$classpanda_1_1Object.html#a282e820b1ad431db22ca4d4dd20b55e0" title="Set status of branches with names that correspond to the variables of this object. " alt="" coords="434,48,602,76"/>
-<area shape="rect" id="node5" href="$classpanda_1_1utils_1_1BranchName.html#a6cc8a6df7c5b12a0221fd49773cca6a7" title="Is the name included and not vetoed? " alt="" coords="650,5,842,33"/>
-<area shape="rect" id="node6" href="$classpanda_1_1utils_1_1BranchName.html#ae3332329bf2afae5ed8e7c35e5d77ffa" title="Is the name included and vetoed? " alt="" coords="659,57,833,101"/>
-<area shape="rect" id="node7" href="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412" title="Prepend the branch name with &lt;objName.&gt;. " alt="" coords="659,125,833,169"/>
-<area shape="rect" id="node8" href="$namespacepanda_1_1utils.html#aafa411773a4b0ee829d99e6e5a0abdcd" title="Check status of a branch. " alt="" coords="661,193,831,221"/>
-</map>

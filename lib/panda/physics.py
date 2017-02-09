@@ -186,43 +186,68 @@ class PhysicsObject(Definition, Object):
         else:
             context = 'Element'
 
+        has_public = False
         for ancestor in inheritance:
             if len(ancestor.branches) == 0:
                 continue
 
-            if ancestor != self:
-                header.writeline('/* {name}'.format(name = ancestor.name))
+            inherits_members = False
 
             for branch in ancestor.branches:
-                if not branch.name.endswith('_'):
-                    branch.write_decl(header, context = context)
+                if not hasattr(branch, 'refname') and branch.name.endswith('_'):
+                    continue
 
-            if ancestor != self:
+                if not has_public:
+                    has_public = True
+
+                if not inherits_members:
+                    if ancestor != self:
+                        header.writeline('/* {name}'.format(name = ancestor.name))
+
+                    inherits_members = True
+
+                branch.write_decl(header, context = context)
+
+            if inherits_members and ancestor != self:
                 header.writeline('*/')
 
-        header.indent -= 1
-        header.writeline('protected:')
-        header.indent += 1
+        if has_public:
+            header.newline()
 
+        has_protected = False
         for ancestor in inheritance:
             if len(ancestor.branches) == 0:
                 continue
 
-            if ancestor != self:
-                header.writeline('/* {name}'.format(name = ancestor.name))
+            inherits_members = False
 
             for branch in ancestor.branches:
-                if branch.name.endswith('_'):
-                    branch.write_decl(header, context = context)
+                if hasattr(branch, 'refname') or not branch.name.endswith('_'):
+                    continue
 
-            if ancestor != self:
+                if not has_protected:
+                    header.indent -= 1
+                    header.writeline('protected:')
+                    header.indent += 1
+                    has_protected = True
+
+                if not inherits_members:
+                    if ancestor != self:
+                        header.writeline('/* {name}'.format(name = ancestor.name))
+
+                    inherits_members = True
+
+                branch.write_decl(header, context = context)
+
+            if inherits_members and ancestor != self:
                 header.writeline('*/')
 
-        header.newline()
-
-        header.indent -= 1
-        header.writeline('public:')
-        header.indent += 1
+        if has_protected:
+            header.newline()
+    
+            header.indent -= 1
+            header.writeline('public:')
+            header.indent += 1
 
         header.write_custom_block('{name}.h.classdef'.format(name = self.name))
 

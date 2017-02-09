@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$Event_8h.html" title="Objects/interface/Event.h" alt="" coords="230,237,401,267"/>
-<area shape="rect" id="node5" href="$Lepton_8h.html" title="Objects/interface/Lepton.h" alt="" coords="229,83,402,112"/>
-<area shape="rect" id="node13" href="$Photon_8h.html" title="Objects/interface/Photon.h" alt="" coords="423,160,599,189"/>
-<area shape="rect" id="node16" href="$Tau_8h.html" title="Objects/interface/Tau.h" alt="" coords="537,83,694,112"/>
-<area shape="rect" id="node7" href="$Electron_8h.html" title="Objects/interface/Electron.h" alt="" coords="23,160,207,189"/>
-<area shape="rect" id="node10" href="$Muon_8h.html" title="Objects/interface/Muon.h" alt="" coords="231,160,399,189"/>
-</map>

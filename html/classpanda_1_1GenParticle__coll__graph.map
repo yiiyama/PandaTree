@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node2" href="$classpanda_1_1ParticleM.html" title="panda::ParticleM" alt="" coords="5,261,125,291"/>
-<area shape="rect" id="node4" href="$classpanda_1_1Particle.html" title="panda::Particle" alt="" coords="11,165,120,195"/>
-<area shape="rect" id="node6" href="$classpanda_1_1Element.html" title="Base class for elements of containers." alt="" coords="9,85,121,115"/>
-<area shape="rect" id="node8" href="$classpanda_1_1Object.html" title="Object base class." alt="" coords="15,5,116,35"/>
-<area shape="rect" id="node10" href="$classpanda_1_1Ref.html" title="panda::Ref\&lt; GenParticle \&gt;" alt="" coords="149,261,328,291"/>
-<area shape="rect" id="node12" href="$classpanda_1_1Ref.html" title="A reference to an element in a container." alt="" coords="180,165,297,195"/>
-</map>

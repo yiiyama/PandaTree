@@ -1,8 +1,0 @@
-<map id="panda::GenJet::releaseTree" name="panda::GenJet::releaseTree">
-<area shape="rect" id="node2" href="$classpanda_1_1ParticleM.html#a0315a281e15ff66329eef5169b162e8e" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="241,73,441,101"/>
-<area shape="rect" id="node5" href="$classpanda_1_1utils_1_1StoreManager.html#a6f30ec459d951e84a1196b7e2ffdcf49" title="panda::utils::StoreManager\l::getName" alt="" coords="726,5,907,49"/>
-<area shape="rect" id="node6" href="$namespacepanda_1_1utils.html#a82a8530e64fbdf917cf9b8659065f98b" title="panda::utils::resetAddress" alt="" coords="729,125,904,153"/>
-<area shape="rect" id="node3" href="$classpanda_1_1Particle.html#a8fb6fa0b4316967da573181262727142" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="489,73,677,101"/>
-<area shape="rect" id="node4" href="$classpanda_1_1Object.html#aaf58438092b42a89b838ce12c6a23833" title="Reset the branch pointer to unlink the branch from this object. " alt="" coords="725,73,908,101"/>
-<area shape="rect" id="node7" href="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412" title="Prepend the branch name with &lt;objName.&gt;. " alt="" coords="956,117,1131,161"/>
-</map>

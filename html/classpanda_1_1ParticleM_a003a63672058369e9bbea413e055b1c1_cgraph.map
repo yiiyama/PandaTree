@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$classpanda_1_1Particle.html#a7dcbf68bc3e74fdef1e3f3c620fb019a" title="panda::Particle::doGetStatus_" alt="" coords="261,5,459,35"/>
-<area shape="rect" id="node5" href="$namespacepanda_1_1utils.html#a8928c2bd486eae6103c33618c6eb4e80" title="Get the status of a branch." alt="" coords="508,32,660,61"/>
-<area shape="rect" id="node7" href="$namespacepanda_1_1utils.html#aafa411773a4b0ee829d99e6e5a0abdcd" title="Check status of a branch." alt="" coords="741,5,912,35"/>
-<area shape="rect" id="node9" href="$classpanda_1_1utils_1_1BranchName.html#a13958ff4a9d554d2c057c600b4f70412" title="Prepend the branch name with &lt;objName.&gt;." alt="" coords="711,59,943,88"/>
-</map>

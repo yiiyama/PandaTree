@@ -47,8 +47,6 @@ namespace panda {
     void setPtEtaPhiM(double pt, double eta, double phi, double m);
     void setXYZE(double px, double py, double pz, double e) override;
 
-    /* ParticleP
-    */
   protected:
     /* ParticleP
     Float_t& pt_;

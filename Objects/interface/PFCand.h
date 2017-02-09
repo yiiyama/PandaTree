@@ -16,11 +16,11 @@ namespace panda {
       ~datastore() { deallocate(); }
 
       /* PackedParticle
-      UShort_t* packedPt_{0};
-      UShort_t* packedEta_{0};
-      UShort_t* packedPhi_{0};
-      UShort_t* packedM_{0};
+      UShort_t* packedPt{0};
+      Short_t* packedPhi{0};
+      UShort_t* packedM{0};
       */
+      Short_t* packedEta{0};
       Short_t* q{0};
       Float_t* puppiW{0};
       Float_t* puppiWNoLep{0};
@@ -51,21 +51,22 @@ namespace panda {
     TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep, eta(), phi(), m() * puppiWNoLep); return p4; }
 
     /* PackedParticle
+    UShort_t& packedPt;
+    Short_t& packedPhi;
+    UShort_t& packedM;
     */
+    Short_t& packedEta;
     Short_t& q;
     Float_t& puppiW;
     Float_t& puppiWNoLep;
     Int_t& pftype;
+
+    /* BEGIN CUSTOM PFCand.h.classdef */
   protected:
-    /* PackedParticle
-    UShort_t& packedPt_;
-    UShort_t& packedEta_;
-    UShort_t& packedPhi_;
-    UShort_t& packedM_;
-    */
+    void packEta_() override;
+    void unpackEta_() const override;
 
   public:
-    /* BEGIN CUSTOM PFCand.h.classdef */
     /* END CUSTOM */
 
     void destructor() override;

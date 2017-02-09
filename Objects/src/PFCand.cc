@@ -5,6 +5,7 @@ panda::PFCand::datastore::allocate(UInt_t _nmax)
 {
   PackedParticle::datastore::allocate(_nmax);
 
+  packedEta = new Short_t[nmax_];
   q = new Short_t[nmax_];
   puppiW = new Float_t[nmax_];
   puppiWNoLep = new Float_t[nmax_];
@@ -16,6 +17,8 @@ panda::PFCand::datastore::deallocate()
 {
   PackedParticle::datastore::deallocate();
 
+  delete [] packedEta;
+  packedEta = 0;
   delete [] q;
   q = 0;
   delete [] puppiW;
@@ -31,6 +34,7 @@ panda::PFCand::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
 {
   PackedParticle::datastore::setStatus(_tree, _name, _branches);
 
+  utils::setStatus(_tree, _name, "packedEta", _branches);
   utils::setStatus(_tree, _name, "q", _branches);
   utils::setStatus(_tree, _name, "puppiW", _branches);
   utils::setStatus(_tree, _name, "puppiWNoLep", _branches);
@@ -42,6 +46,7 @@ panda::PFCand::datastore::getStatus(TTree& _tree, TString const& _name) const
 {
   utils::BranchList blist(PackedParticle::datastore::getStatus(_tree, _name));
 
+  blist.push_back(utils::getStatus(_tree, _name, "packedEta"));
   blist.push_back(utils::getStatus(_tree, _name, "q"));
   blist.push_back(utils::getStatus(_tree, _name, "puppiW"));
   blist.push_back(utils::getStatus(_tree, _name, "puppiWNoLep"));
@@ -55,6 +60,7 @@ panda::PFCand::datastore::setAddress(TTree& _tree, TString const& _name, utils::
 {
   PackedParticle::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
+  utils::setAddress(_tree, _name, "packedEta", packedEta, _branches, _setStatus);
   utils::setAddress(_tree, _name, "q", q, _branches, _setStatus);
   utils::setAddress(_tree, _name, "puppiW", puppiW, _branches, _setStatus);
   utils::setAddress(_tree, _name, "puppiWNoLep", puppiWNoLep, _branches, _setStatus);
@@ -68,6 +74,7 @@ panda::PFCand::datastore::book(TTree& _tree, TString const& _name, utils::Branch
 
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
+  utils::book(_tree, _name, "packedEta", size, 'S', packedEta, _branches);
   utils::book(_tree, _name, "q", size, 'S', q, _branches);
   utils::book(_tree, _name, "puppiW", size, 'F', puppiW, _branches);
   utils::book(_tree, _name, "puppiWNoLep", size, 'F', puppiWNoLep, _branches);
@@ -79,6 +86,7 @@ panda::PFCand::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
   PackedParticle::datastore::releaseTree(_tree, _name);
 
+  utils::resetAddress(_tree, _name, "packedEta");
   utils::resetAddress(_tree, _name, "q");
   utils::resetAddress(_tree, _name, "puppiW");
   utils::resetAddress(_tree, _name, "puppiWNoLep");
@@ -94,6 +102,7 @@ panda::PFCand::datastore::resizeVectors_(UInt_t _size)
 
 panda::PFCand::PFCand(char const* _name/* = ""*/) :
   PackedParticle(new PFCandArray(1, _name)),
+  packedEta(gStore.getData(this).packedEta[0]),
   q(gStore.getData(this).q[0]),
   puppiW(gStore.getData(this).puppiW[0]),
   puppiWNoLep(gStore.getData(this).puppiWNoLep[0]),
@@ -103,6 +112,7 @@ panda::PFCand::PFCand(char const* _name/* = ""*/) :
 
 panda::PFCand::PFCand(PFCand const& _src) :
   PackedParticle(new PFCandArray(1, gStore.getName(&_src))),
+  packedEta(gStore.getData(this).packedEta[0]),
   q(gStore.getData(this).q[0]),
   puppiW(gStore.getData(this).puppiW[0]),
   puppiWNoLep(gStore.getData(this).puppiWNoLep[0]),
@@ -110,6 +120,7 @@ panda::PFCand::PFCand(PFCand const& _src) :
 {
   PackedParticle::operator=(_src);
 
+  packedEta = _src.packedEta;
   q = _src.q;
   puppiW = _src.puppiW;
   puppiWNoLep = _src.puppiWNoLep;
@@ -118,6 +129,7 @@ panda::PFCand::PFCand(PFCand const& _src) :
 
 panda::PFCand::PFCand(datastore& _data, UInt_t _idx) :
   PackedParticle(_data, _idx),
+  packedEta(_data.packedEta[_idx]),
   q(_data.q[_idx]),
   puppiW(_data.puppiW[_idx]),
   puppiWNoLep(_data.puppiWNoLep[_idx]),
@@ -127,6 +139,7 @@ panda::PFCand::PFCand(datastore& _data, UInt_t _idx) :
 
 panda::PFCand::PFCand(ArrayBase* _array) :
   PackedParticle(_array),
+  packedEta(gStore.getData(this).packedEta[0]),
   q(gStore.getData(this).q[0]),
   puppiW(gStore.getData(this).puppiW[0]),
   puppiWNoLep(gStore.getData(this).puppiWNoLep[0]),
@@ -154,6 +167,7 @@ panda::PFCand::operator=(PFCand const& _src)
 {
   PackedParticle::operator=(_src);
 
+  packedEta = _src.packedEta;
   q = _src.q;
   puppiW = _src.puppiW;
   puppiWNoLep = _src.puppiWNoLep;
@@ -167,6 +181,7 @@ panda::PFCand::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchLis
 {
   PackedParticle::doSetStatus_(_tree, _name, _branches);
 
+  utils::setStatus(_tree, _name, "packedEta", _branches);
   utils::setStatus(_tree, _name, "q", _branches);
   utils::setStatus(_tree, _name, "puppiW", _branches);
   utils::setStatus(_tree, _name, "puppiWNoLep", _branches);
@@ -178,6 +193,7 @@ panda::PFCand::doGetStatus_(TTree& _tree, TString const& _name) const
 {
   utils::BranchList blist(PackedParticle::doGetStatus_(_tree, _name));
 
+  blist.push_back(utils::getStatus(_tree, _name, "packedEta"));
   blist.push_back(utils::getStatus(_tree, _name, "q"));
   blist.push_back(utils::getStatus(_tree, _name, "puppiW"));
   blist.push_back(utils::getStatus(_tree, _name, "puppiWNoLep"));
@@ -191,6 +207,7 @@ panda::PFCand::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchLi
 {
   PackedParticle::doSetAddress_(_tree, _name, _branches, _setStatus);
 
+  utils::setAddress(_tree, _name, "packedEta", &packedEta, _branches, _setStatus);
   utils::setAddress(_tree, _name, "q", &q, _branches, _setStatus);
   utils::setAddress(_tree, _name, "puppiW", &puppiW, _branches, _setStatus);
   utils::setAddress(_tree, _name, "puppiWNoLep", &puppiWNoLep, _branches, _setStatus);
@@ -202,6 +219,7 @@ panda::PFCand::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
 {
   PackedParticle::doBook_(_tree, _name, _branches);
 
+  utils::book(_tree, _name, "packedEta", "", 'S', &packedEta, _branches);
   utils::book(_tree, _name, "q", "", 'S', &q, _branches);
   utils::book(_tree, _name, "puppiW", "", 'F', &puppiW, _branches);
   utils::book(_tree, _name, "puppiWNoLep", "", 'F', &puppiWNoLep, _branches);
@@ -213,6 +231,7 @@ panda::PFCand::doReleaseTree_(TTree& _tree, TString const& _name)
 {
   PackedParticle::doReleaseTree_(_tree, _name);
 
+  utils::resetAddress(_tree, _name, "packedEta");
   utils::resetAddress(_tree, _name, "q");
   utils::resetAddress(_tree, _name, "puppiW");
   utils::resetAddress(_tree, _name, "puppiWNoLep");
@@ -224,6 +243,7 @@ panda::PFCand::doInit_()
 {
   PackedParticle::doInit_();
 
+  packedEta = 0;
   q = 0;
   puppiW = 0.;
   puppiWNoLep = 0.;
@@ -235,4 +255,15 @@ panda::PFCand::doInit_()
 
 
 /* BEGIN CUSTOM PFCand.cc.global */
+void
+panda::PFCand::packEta_()
+{
+  packedEta = std::round(eta_ / 6.0f * std::numeric_limits<Short_t>::max());
+}
+
+void
+panda::PFCand::unpackEta_() const
+{
+  eta_ = packedEta * 6.0f / std::numeric_limits<Short_t>::max();
+}
 /* END CUSTOM */

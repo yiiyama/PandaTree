@@ -27,9 +27,7 @@ namespace panda {
     Bool_t badsc{};
     Bool_t badTrack{};
     Bool_t badMuonTrack{};
-  protected:
 
-  public:
     /* BEGIN CUSTOM MetFilters.h.classdef */
     /* END CUSTOM */
 
