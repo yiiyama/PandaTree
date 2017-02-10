@@ -234,9 +234,17 @@ panda::GenParticle::doInit_()
 }
 
 /* BEGIN CUSTOM GenParticle.cc.global */
+namespace panda {
+  extern PackingHelper packingHelper;
+}
+
 void
-panda::GenParticle::packEta_()
+panda::GenParticle::pack_()
 {
+  packedPt = packingHelper.packUnbound(pt_);
+  packedPhi = std::round(phi_/3.2f*std::numeric_limits<Short_t>::max());
+  packedM = packingHelper.packUnbound(pt_);
+
   double reducedm2(mass_ / pt_);
   reducedm2 *= reducedm2;
   double c(std::cosh(eta_));
@@ -245,11 +253,24 @@ panda::GenParticle::packEta_()
 }
 
 void
-panda::GenParticle::unpackEta_() const
+panda::GenParticle::unpack_() const
 {
+  if (unpacked_)
+    return;
+
+  pt_ = packingHelper.unpackUnbound(packedPt);
+  // shift particle phi to break degeneracies in angular separations
+  // plus introduce a pseudo-random sign of the shift
+  double shift(pt_ < 1. ? 0.1 * pt_ : 0.1 / pt_);
+  double sign((int(pt_ * 10.) % 2 == 0) ? 1 : -1);
+  phi_ = (packedPhi + sign * shift) * 3.2f / std::numeric_limits<Short_t>::max();
+  mass_ = packingHelper.unpackUnbound(packedM);
+
   double y(packedY * 6.0f / std::numeric_limits<Short_t>::max());
   double c(std::cosh(y));
   double reducedm2(mass_ * mass_ / (mass_ * mass_ + pt_ * pt_));
   eta_ = std::log((std::sqrt(c * c - reducedm2) + std::sinh(y)) / std::sqrt(1. - reducedm2));
+
+  unpacked_ = true;
 }
 /* END CUSTOM */

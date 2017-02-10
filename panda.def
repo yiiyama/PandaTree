@@ -72,10 +72,10 @@ virtual void setXYZE(double px, double py, double pz, double e) = 0;
 packedPt/s
 packedPhi/S
 packedM/s
-double pt() const { unpack_(); return pt_; }
-double eta() const { unpack_(); return eta_; }
-double phi() const { unpack_(); return phi_; }
-double m() const { unpack_(); return mass_; }
+double pt() const override { unpack_(); return pt_; }
+double eta() const override { unpack_(); return eta_; }
+double phi() const override { unpack_(); return phi_; }
+double m() const override { unpack_(); return mass_; }
 void setPtEtaPhiM(double pt, double eta, double phi, double m);
 void setXYZE(double px, double py, double pz, double e);
 
@@ -87,21 +87,42 @@ parent/GenParticleRef
 
 [PFCand>PackedParticle]
 packedEta/S
-q/S
-puppiW/F
-puppiWNoLep/F
-pftype/I
-TLorentzVector puppiP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiW, eta(), phi(), m() * puppiW); return p4; }
-TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep, eta(), phi(), m() * puppiWNoLep); return p4; }
+packedPuppiW/B
+packedPuppiWNoLepDiff/B
+ptype/b
+double puppiW() const { unpack_(); return puppiW_; }
+double puppiWNoLep() const { unpack_(); return puppiWNoLep_; }
+void setPuppiW(double w, double wnl);
+TLorentzVector puppiP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiW(), eta(), phi(), m() * puppiW()); return p4; }
+TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep(), eta(), phi(), m() * puppiWNoLep()); return p4; }
+int q() const { return q_[ptype]; }
+int pdgId() const { return pdgId_[ptype]; }
+enum PType {
+  hp,
+  hm,
+  ep,
+  em,
+  mup,
+  mum,
+  gamma,
+  h0,
+  h_HF,
+  egamma_HF,
+  Xp,
+  Xm,
+  X
+};
+static const int q_[nPTypes] = {1, -1, 1, -1, 1, -1, 0, 0, 0, 0, 1, -1, 0};
+static const int pdgId_[nPTypes] = {211, -211, -11, 11, -13, 13, 22, 130, 1, 2, 0, 0, 0};
 
 [ParticleP>Particle]
 pt_/F
 eta_/F
 phi_/F
-double pt() const { return pt_; }
-double eta() const { return eta_; }
-double phi() const { return phi_; }
-double m() const { return 0.; }
+double pt() const override { return pt_; }
+double eta() const override { return eta_; }
+double phi() const override { return phi_; }
+double m() const override { return 0.; }
 void setPtEtaPhiM(double pt, double eta, double phi, double)
 {
   pt_ = pt;

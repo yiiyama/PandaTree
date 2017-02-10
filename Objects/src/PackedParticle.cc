@@ -323,6 +323,49 @@ panda::PackingHelper::unpackUnbound(UShort_t p)
   return conv.flt;
 }
 
+Char_t
+panda::PackingHelper::pack8LogBound(Double_t x, Double_t min, Double_t max, UChar_t baseminus1)
+{
+  if (baseminus1 > 127)
+    baseminus1 = 127;
+
+  double l(std::log(std::abs(x)));
+  Char_t r;
+  if (l < min)
+    r = 0;
+  else if (l >= max)
+    r = baseminus1;
+  else
+    r = std::round((l - min) / (max - min) * baseminus1);
+
+  if (x < 0.) {
+    if (r == 0)
+      r = -1;
+    else
+      r *= -1;
+  }
+  return r;
+}
+
+Double_t
+panda::PackingHelper::unpack8LogBound(Char_t i, Double_t min, Double_t max, UChar_t baseminus1)
+{
+  if (baseminus1 > 127)
+    baseminus1 = 127;
+
+  double l;
+  if (std::abs(i) == baseminus1)
+    l = max;
+  else
+    l = min + std::abs(i) * (max - min) / baseminus1;
+
+  double val(std::exp(l));
+  if (i < 0)
+    return -val;
+  else
+    return val;
+}
+
 namespace panda {
   PackingHelper packingHelper;
 }
@@ -349,32 +392,5 @@ panda::PackedParticle::setXYZE(double px, double py, double pz, double e)
   mass_ = std::sqrt(e * e - p * p);
   unpacked_ = true;
   pack_();
-}
-
-void
-panda::PackedParticle::pack_()
-{
-  packedPt = packingHelper.packUnbound(pt_);
-  packedPhi = std::round(phi_/3.2f*std::numeric_limits<Short_t>::max());
-  packedM = packingHelper.packUnbound(pt_);
-  packEta_();
-}
-
-void
-panda::PackedParticle::unpack_() const
-{
-  if (unpacked_)
-    return;
-
-  pt_ = packingHelper.unpackUnbound(packedPt);
-  // shift particle phi to break degeneracies in angular separations
-  // plus introduce a pseudo-random sign of the shift
-  double shift(pt_ < 1. ? 0.1 * pt_ : 0.1 / pt_);
-  double sign((int(pt_ * 10.) % 2 == 0) ? 1 : -1);
-  phi_ = (packedPhi + sign * shift) * 3.2f / std::numeric_limits<Short_t>::max();
-  mass_ = packingHelper.unpackUnbound(packedM);
-  unpackEta_();
-
-  unpacked_ = true;
 }
 /* END CUSTOM */

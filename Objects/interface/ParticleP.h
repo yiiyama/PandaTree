@@ -40,10 +40,10 @@ namespace panda {
     ~ParticleP();
     ParticleP& operator=(ParticleP const&);
 
-    double pt() const { return pt_; }
-    double eta() const { return eta_; }
-    double phi() const { return phi_; }
-    double m() const { return 0.; }
+    double pt() const override { return pt_; }
+    double eta() const override { return eta_; }
+    double phi() const override { return phi_; }
+    double m() const override { return 0.; }
     void setPtEtaPhiM(double pt, double eta, double phi, double);
     void setXYZE(double px, double py, double pz, double);
 

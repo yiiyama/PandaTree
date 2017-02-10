@@ -60,8 +60,8 @@ namespace panda {
     /* BEGIN CUSTOM GenParticle.h.classdef */
   protected:
     //! Value of packedEta for GenParticle corresponds to *rapidity*, not pseudorapidity.
-    void packEta_() override;
-    void unpackEta_() const override;
+    void pack_() override;
+    void unpack_() const override;
 
   public:
     /* END CUSTOM */

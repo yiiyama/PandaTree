@@ -40,10 +40,10 @@ namespace panda {
     ~PackedParticle();
     PackedParticle& operator=(PackedParticle const&);
 
-    double pt() const { unpack_(); return pt_; }
-    double eta() const { unpack_(); return eta_; }
-    double phi() const { unpack_(); return phi_; }
-    double m() const { unpack_(); return mass_; }
+    double pt() const override { unpack_(); return pt_; }
+    double eta() const override { unpack_(); return eta_; }
+    double phi() const override { unpack_(); return phi_; }
+    double m() const override { unpack_(); return mass_; }
     void setPtEtaPhiM(double pt, double eta, double phi, double m);
     void setXYZE(double px, double py, double pz, double e);
 
@@ -53,10 +53,8 @@ namespace panda {
 
     /* BEGIN CUSTOM PackedParticle.h.classdef */
   protected:
-    void pack_();
-    void unpack_() const;
-    virtual void packEta_() = 0;
-    virtual void unpackEta_() const = 0;
+    virtual void pack_() = 0;
+    virtual void unpack_() const = 0;
     mutable Double_t pt_{0.};
     mutable Double_t eta_{0.};
     mutable Double_t phi_{0.};
@@ -89,8 +87,10 @@ namespace panda {
   public:
     PackingHelper();
 
-    Double_t unpackUnbound(UShort_t);
     UShort_t packUnbound(Double_t);
+    Double_t unpackUnbound(UShort_t);
+    Char_t pack8LogBound(Double_t, Double_t min, Double_t max, UChar_t baseminus1);
+    Double_t unpack8LogBound(Char_t, Double_t min, Double_t max, UChar_t baseminus1);
 
   private:
     UInt_t mantissatable[2048];

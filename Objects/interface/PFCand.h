@@ -21,10 +21,9 @@ namespace panda {
       UShort_t* packedM{0};
       */
       Short_t* packedEta{0};
-      Short_t* q{0};
-      Float_t* puppiW{0};
-      Float_t* puppiWNoLep{0};
-      Int_t* pftype{0};
+      Char_t* packedPuppiW{0};
+      Char_t* packedPuppiWNoLepDiff{0};
+      UChar_t* ptype{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -47,8 +46,33 @@ namespace panda {
     ~PFCand();
     PFCand& operator=(PFCand const&);
 
-    TLorentzVector puppiP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiW, eta(), phi(), m() * puppiW); return p4; }
-    TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep, eta(), phi(), m() * puppiWNoLep); return p4; }
+    enum PType {
+      hp,
+      hm,
+      ep,
+      em,
+      mup,
+      mum,
+      gamma,
+      h0,
+      h_HF,
+      egamma_HF,
+      Xp,
+      Xm,
+      X,
+      nPTypes
+    };
+
+    static int q_[nPTypes];
+    static int pdgId_[nPTypes];
+
+    double puppiW() const { unpack_(); return puppiW_; }
+    double puppiWNoLep() const { unpack_(); return puppiWNoLep_; }
+    void setPuppiW(double w, double wnl);
+    TLorentzVector puppiP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiW(), eta(), phi(), m() * puppiW()); return p4; }
+    TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep(), eta(), phi(), m() * puppiWNoLep()); return p4; }
+    int q() const { return q_[ptype]; }
+    int pdgId() const { return pdgId_[ptype]; }
 
     /* PackedParticle
     UShort_t& packedPt;
@@ -56,15 +80,17 @@ namespace panda {
     UShort_t& packedM;
     */
     Short_t& packedEta;
-    Short_t& q;
-    Float_t& puppiW;
-    Float_t& puppiWNoLep;
-    Int_t& pftype;
+    Char_t& packedPuppiW;
+    Char_t& packedPuppiWNoLepDiff;
+    UChar_t& ptype;
 
     /* BEGIN CUSTOM PFCand.h.classdef */
   protected:
-    void packEta_() override;
-    void unpackEta_() const override;
+    void pack_() override;
+    void unpack_() const override;
+
+    mutable double puppiW_{0.};
+    mutable double puppiWNoLep_{0.};
 
   public:
     /* END CUSTOM */
