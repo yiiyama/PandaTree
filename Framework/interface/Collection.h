@@ -273,10 +273,10 @@ namespace panda {
   typename std::enable_if<!std::is_constructible<T>::value>::type
   Collection<E>::allocate_(UInt_t)
   {
-    throw std::runtime_error((ContainerBase::name_ + " cannot create a Collection of pure-virtual elements").Data());
+    throw std::runtime_error(("Cannot create a Collection of pure-virtual elements (" + ContainerBase::name_ + ")").Data());
   }
 
-  /*private static*/
+  /*private*/
   template<class E>
   template<class T/* = E*/>
   typename std::enable_if<std::is_constructible<T>::value>::type
@@ -291,13 +291,13 @@ namespace panda {
     _data.deallocate();
   }
 
-  /*private static*/
+  /*private*/
   template<class E>
   template<class T/* = E*/>
   typename std::enable_if<!std::is_constructible<T>::value>::type
   Collection<E>::deallocate_(value_type*, typename value_type::datastore&)
   {
-    throw std::runtime_error((ContainerBase::name_ + " cannot deallocate pure-virtual elements").Data());
+    throw std::runtime_error(("Cannot deallocate pure-virtual elements (" + ContainerBase::name_ + ")").Data());
   }
 
 }

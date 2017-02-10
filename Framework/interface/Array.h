@@ -213,7 +213,7 @@ namespace panda {
   typename std::enable_if<!std::is_constructible<T>::value>::type
   Array<E>::allocate_(UInt_t)
   {
-    throw std::runtime_error((ContainerBase::name_ + " cannot create an Array of pure-virtual elements").Data());
+    throw std::runtime_error(("Cannot create an Array of pure-virtual elements (" + ContainerBase::name_ + ")").Data());
   }
 
 }
