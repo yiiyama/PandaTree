@@ -7,19 +7,25 @@ class Constant(Definition):
     """
 
     def __init__(self, line):
-        Definition.__init__(self, line, '((?:static +|)(?:const +[^ ]+|[^ ]+ +const) +[a-zA-Z0-9_]+(?:\[[^\]]+\])*)(.*);')
-        self.decl = self.matches.group(1)
-        self.value = self.matches.group(2)
+        Definition.__init__(self, line, '(?:static +|)(?:const +([^ ]+)|([^ ]+) +const) +([a-zA-Z0-9_]+(?:\[[^\]]+\])*)(.*);')
+        self.type = self.matches.group(1)
+        if self.type is None:
+            self.type = self.matches.group(2)
+
+        self.decl = self.matches.group(3)
+        self.value = self.matches.group(4)
 
     def write_decl(self, out, context):
         if context == 'class':
-            out.writeline('{decl};'.format(decl = self.decl))
+            out.writeline('static {type} {decl};'.format(type = self.type, decl = self.decl))
         elif context == 'global':
-            out.writeline('{decl}{value};'.format(decl = self.decl, value = self.value))
+            # in global (non-class) context, const values can be directly written in the header
+            out.writeline('{type} {decl}{value};'.format(type = self.type, decl = self.decl, value = self.value))
 
-    def write_def(self, out):
+    def write_def(self, out, cls):
+        # called only by PhysicsObject to define the values of class static const in the global scope
         out.writeline('/*static*/')
-        out.writeline('{decl}{value};'.format(decl = self.decl.replace('static ', ''), value = self.value))
+        out.writeline('{type} {cls}::{decl}{value};'.format(type = self.type, cls = cls, decl = self.decl, value = self.value))
 
 
 class Assert(Definition):

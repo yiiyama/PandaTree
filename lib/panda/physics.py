@@ -171,6 +171,11 @@ class PhysicsObject(Definition, Object):
 
         header.newline()
 
+        if len(self.enums) != 0:
+            for enum in self.enums:
+                enum.write_decl(header, names = False)
+            header.newline()
+
         if len(self.constants) != 0:
             for constant in self.constants:
                 constant.write_decl(header, context = 'class')
@@ -388,7 +393,7 @@ class PhysicsObject(Definition, Object):
         if len(self.constants) != 0:
             src.newline()
             for constant in self.constants:
-                constant.write_def(src)
+                constant.write_def(src, cls = '{NAMESPACE}::{name}'.format(**subst))
 
         if self.is_singlet():
             src.newline()

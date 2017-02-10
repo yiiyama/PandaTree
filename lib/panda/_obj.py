@@ -1,6 +1,6 @@
 from base import Definition
 from oneliner import Include
-from constexpr import Constant
+from constexpr import Constant, Enum
 from refbranch import RefBranch
 from refvbranch import RefVectorBranch
 from generic import GenericBranch
@@ -19,6 +19,7 @@ def __init__(self, name, source):
     self.name = name
     self.includes = []
     self.constants = []
+    self.enums = []
     self.objbranches = []
     self.branches = []
     self.references = []
@@ -33,6 +34,12 @@ def __init__(self, name, source):
 
         try:
             self.includes.append(Include(line))
+            continue
+        except Definition.NoMatch:
+            pass
+
+        try:
+            self.enums.append(Enum(line, source))
             continue
         except Definition.NoMatch:
             pass
