@@ -64,8 +64,8 @@ namespace panda {
       BranchList(std::initializer_list<value_type> il, const allocator_type& alloc = allocator_type()) : std::vector<BranchName>(il, alloc) {}
       //! Return a new list of branches that starts with the objName, removing <objName.> from each.
       BranchList subList(TString const& objName) const;
-      //! Returns true if any of the branch in the list is not vetoed.
-      bool any() const;
+      //! Returns true if any of the branch in the list is not vetoed in my list.
+      bool matchesAny(BranchList const&) const;
       //! Extend the list
       BranchList& operator+=(BranchList const&);
     };
@@ -131,6 +131,7 @@ namespace panda {
 }
 
 //! Print BranchList
+std::ostream& operator<<(std::ostream&, panda::utils::BranchName const&);
 std::ostream& operator<<(std::ostream&, panda::utils::BranchList const&);
 
 #endif

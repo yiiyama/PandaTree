@@ -47,10 +47,8 @@ panda::CollectionBase::resetAddress_()
     if (tree)
       doSetAddress_(*tree, {"*"}, false, true);
   }
-  for (auto* tree : outputs_) {
-    if (tree)
-      doSetAddress_(*tree, {"*"}, false, false);
-  }
+  for (auto* tree : outputs_)
+    doSetAddress_(*tree, {"*"}, false, false);
 }
 
 /*private*/
@@ -115,12 +113,14 @@ panda::CollectionBase::doSetAddress_(TTree& _tree, utils::BranchList const& _bra
 void
 panda::CollectionBase::doBook_(TTree& _tree, utils::BranchList const& _branches)
 {
-  if (!_branches.any())
+  if (!_branches.matchesAny(getBranchNames()))
     return;
 
   _tree.Branch(name_ + ".size", &size_, "size/i");
 
   getData().book(_tree, name_, _branches, true);
+
+  outputs_.push_back(&_tree);
 }
 
 /*private*/
@@ -140,4 +140,11 @@ panda::CollectionBase::doReleaseTree_(TTree& _tree)
   }
 
   getData().releaseTree(_tree, name_);
+
+  for (auto&& oItr(outputs_.begin()); oItr != outputs_.end(); ++oItr) {
+    if (*oItr == &_tree) {
+      outputs_.erase(oItr);
+      break;
+    }
+  }
 }

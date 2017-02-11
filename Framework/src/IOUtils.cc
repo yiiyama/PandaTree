@@ -137,11 +137,11 @@ panda::utils::BranchList::subList(TString const& _objName) const
 }
 
 bool
-panda::utils::BranchList::any() const
+panda::utils::BranchList::matchesAny(BranchList const& _list) const
 {
-  // loop over my branch names
-  for (auto& b : *this) {
-    // if a non-vetoed branch is found, check if it's not vetoed later
+  // loop over given branch names
+  for (auto& b : _list) {
+    // find a non-vetoed branch that is in my list
     if (!b.isVeto() && b.in(*this))
       return true;
   }
@@ -218,7 +218,7 @@ panda::utils::setAddress(TTree& _tree, TString const& _objName, BranchName const
   else {
     if (!_bName.in(_bList))
       return -2;
-
+    
     // -1 -> branch does not exist; 0 -> status is false; 1 -> status is true
     returnCode = checkStatus(_tree, fullName, false);
     if (returnCode != 1)
@@ -263,6 +263,12 @@ panda::utils::resetAddress(TTree& _tree, TString const& _objName, BranchName con
     branch->ResetAddress();
 
   return 0;
+}
+
+std::ostream&
+operator<<(std::ostream& os, panda::utils::BranchName const& bn)
+{
+  return (os << TString(bn));
 }
 
 std::ostream&
