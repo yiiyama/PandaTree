@@ -17,10 +17,10 @@ namespace panda {
 
       /* PackedParticle
       UShort_t* packedPt{0};
+      Short_t* packedEta{0};
       Short_t* packedPhi{0};
       UShort_t* packedM{0};
       */
-      Short_t* packedEta{0};
       Char_t* packedPuppiW{0};
       Char_t* packedPuppiWNoLepDiff{0};
       UChar_t* ptype{0};
@@ -77,18 +77,18 @@ namespace panda {
 
     /* PackedParticle
     UShort_t& packedPt;
+    Short_t& packedEta;
     Short_t& packedPhi;
     UShort_t& packedM;
     */
-    Short_t& packedEta;
     Char_t& packedPuppiW;
     Char_t& packedPuppiWNoLepDiff;
     UChar_t& ptype;
 
     /* BEGIN CUSTOM PFCand.h.classdef */
   protected:
-    void pack_() override;
-    void unpack_() const override;
+    void packMore_() override;
+    void unpackMore_() const override;
 
     mutable double puppiW_{0.};
     mutable double puppiWNoLep_{0.};

@@ -16,6 +16,7 @@ namespace panda {
       ~datastore() { deallocate(); }
 
       UShort_t* packedPt{0};
+      Short_t* packedEta{0};
       Short_t* packedPhi{0};
       UShort_t* packedM{0};
 
@@ -49,13 +50,17 @@ namespace panda {
     void setXYZE(double px, double py, double pz, double e);
 
     UShort_t& packedPt;
+    Short_t& packedEta;
     Short_t& packedPhi;
     UShort_t& packedM;
 
     /* BEGIN CUSTOM PackedParticle.h.classdef */
   protected:
-    virtual void pack_() = 0;
-    virtual void unpack_() const = 0;
+    void pack_();
+    void unpack_() const;
+    virtual void packMore_() {}
+    virtual void unpackMore_() const {}
+
     mutable Double_t pt_{0.};
     mutable Double_t eta_{0.};
     mutable Double_t phi_{0.};
@@ -86,10 +91,12 @@ namespace panda {
   public:
     PackingHelper();
 
-    UShort_t packUnbound(Double_t);
-    Double_t unpackUnbound(UShort_t);
-    Char_t pack8LogBound(Double_t, Double_t min, Double_t max, UChar_t baseminus1);
-    Double_t unpack8LogBound(Char_t, Double_t min, Double_t max, UChar_t baseminus1);
+    static PackingHelper const& singleton() { static PackingHelper helper; return helper; }
+
+    UShort_t packUnbound(Double_t) const;
+    Double_t unpackUnbound(UShort_t) const;
+    Char_t pack8LogBound(Double_t, Double_t min, Double_t max, UChar_t baseminus1) const;
+    Double_t unpack8LogBound(Char_t, Double_t min, Double_t max, UChar_t baseminus1) const;
 
   private:
     UInt_t mantissatable[2048];

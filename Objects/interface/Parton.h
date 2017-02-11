@@ -7,8 +7,6 @@
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
 
-#include <sstream>
-
 namespace panda {
 
   class Parton : public ParticleM {

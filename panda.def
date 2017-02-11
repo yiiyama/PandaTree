@@ -70,6 +70,7 @@ virtual void setXYZE(double px, double py, double pz, double e) = 0;
 
 [PackedParticle>Particle]
 packedPt/s
+packedEta/S
 packedPhi/S
 packedM/s
 double pt() const override { unpack_(); return pt_; }
@@ -80,13 +81,11 @@ void setPtEtaPhiM(double pt, double eta, double phi, double m);
 void setXYZE(double px, double py, double pz, double e);
 
 [GenParticle>PackedParticle]
-packedY/S
 pdgid/I
 statusFlags/s
 parent/GenParticleRef
 
 [PFCand>PackedParticle]
-packedEta/S
 packedPuppiW/B
 packedPuppiWNoLepDiff/B
 ptype/b

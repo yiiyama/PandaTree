@@ -17,10 +17,10 @@ namespace panda {
 
       /* PackedParticle
       UShort_t* packedPt{0};
+      Short_t* packedEta{0};
       Short_t* packedPhi{0};
       UShort_t* packedM{0};
       */
-      Short_t* packedY{0};
       Int_t* pdgid{0};
       UShort_t* statusFlags{0};
       ContainerBase const* parentContainer_{0};
@@ -50,21 +50,15 @@ namespace panda {
 
     /* PackedParticle
     UShort_t& packedPt;
+    Short_t& packedEta;
     Short_t& packedPhi;
     UShort_t& packedM;
     */
-    Short_t& packedY;
     Int_t& pdgid;
     UShort_t& statusFlags;
     Ref<GenParticle> parent;
 
     /* BEGIN CUSTOM GenParticle.h.classdef */
-  protected:
-    //! Value of packedEta for GenParticle corresponds to *rapidity*, not pseudorapidity.
-    void pack_() override;
-    void unpack_() const override;
-
-  public:
     /* END CUSTOM */
 
     void destructor() override;

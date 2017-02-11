@@ -6,6 +6,7 @@ panda::PackedParticle::datastore::allocate(UInt_t _nmax)
   Particle::datastore::allocate(_nmax);
 
   packedPt = new UShort_t[nmax_];
+  packedEta = new Short_t[nmax_];
   packedPhi = new Short_t[nmax_];
   packedM = new UShort_t[nmax_];
 }
@@ -17,6 +18,8 @@ panda::PackedParticle::datastore::deallocate()
 
   delete [] packedPt;
   packedPt = 0;
+  delete [] packedEta;
+  packedEta = 0;
   delete [] packedPhi;
   packedPhi = 0;
   delete [] packedM;
@@ -29,6 +32,7 @@ panda::PackedParticle::datastore::setStatus(TTree& _tree, TString const& _name, 
   Particle::datastore::setStatus(_tree, _name, _branches);
 
   utils::setStatus(_tree, _name, "packedPt", _branches);
+  utils::setStatus(_tree, _name, "packedEta", _branches);
   utils::setStatus(_tree, _name, "packedPhi", _branches);
   utils::setStatus(_tree, _name, "packedM", _branches);
 }
@@ -39,6 +43,7 @@ panda::PackedParticle::datastore::getStatus(TTree& _tree, TString const& _name) 
   utils::BranchList blist(Particle::datastore::getStatus(_tree, _name));
 
   blist.push_back(utils::getStatus(_tree, _name, "packedPt"));
+  blist.push_back(utils::getStatus(_tree, _name, "packedEta"));
   blist.push_back(utils::getStatus(_tree, _name, "packedPhi"));
   blist.push_back(utils::getStatus(_tree, _name, "packedM"));
 
@@ -51,6 +56,7 @@ panda::PackedParticle::datastore::getBranchNames(TString const& _name) const
   utils::BranchList blist(Particle::datastore::getBranchNames(_name));
 
   blist.push_back(utils::BranchName("packedPt").fullName(_name));
+  blist.push_back(utils::BranchName("packedEta").fullName(_name));
   blist.push_back(utils::BranchName("packedPhi").fullName(_name));
   blist.push_back(utils::BranchName("packedM").fullName(_name));
 
@@ -63,6 +69,7 @@ panda::PackedParticle::datastore::setAddress(TTree& _tree, TString const& _name,
   Particle::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
   utils::setAddress(_tree, _name, "packedPt", packedPt, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "packedEta", packedEta, _branches, _setStatus);
   utils::setAddress(_tree, _name, "packedPhi", packedPhi, _branches, _setStatus);
   utils::setAddress(_tree, _name, "packedM", packedM, _branches, _setStatus);
 }
@@ -75,6 +82,7 @@ panda::PackedParticle::datastore::book(TTree& _tree, TString const& _name, utils
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
   utils::book(_tree, _name, "packedPt", size, 's', packedPt, _branches);
+  utils::book(_tree, _name, "packedEta", size, 'S', packedEta, _branches);
   utils::book(_tree, _name, "packedPhi", size, 'S', packedPhi, _branches);
   utils::book(_tree, _name, "packedM", size, 's', packedM, _branches);
 }
@@ -85,6 +93,7 @@ panda::PackedParticle::datastore::releaseTree(TTree& _tree, TString const& _name
   Particle::datastore::releaseTree(_tree, _name);
 
   utils::resetAddress(_tree, _name, "packedPt");
+  utils::resetAddress(_tree, _name, "packedEta");
   utils::resetAddress(_tree, _name, "packedPhi");
   utils::resetAddress(_tree, _name, "packedM");
 }
@@ -99,6 +108,7 @@ panda::PackedParticle::datastore::resizeVectors_(UInt_t _size)
 panda::PackedParticle::PackedParticle(char const* _name/* = ""*/) :
   Particle(new PackedParticleArray(1, _name)),
   packedPt(gStore.getData(this).packedPt[0]),
+  packedEta(gStore.getData(this).packedEta[0]),
   packedPhi(gStore.getData(this).packedPhi[0]),
   packedM(gStore.getData(this).packedM[0])
 {
@@ -107,12 +117,14 @@ panda::PackedParticle::PackedParticle(char const* _name/* = ""*/) :
 panda::PackedParticle::PackedParticle(PackedParticle const& _src) :
   Particle(new PackedParticleArray(1, gStore.getName(&_src))),
   packedPt(gStore.getData(this).packedPt[0]),
+  packedEta(gStore.getData(this).packedEta[0]),
   packedPhi(gStore.getData(this).packedPhi[0]),
   packedM(gStore.getData(this).packedM[0])
 {
   Particle::operator=(_src);
 
   packedPt = _src.packedPt;
+  packedEta = _src.packedEta;
   packedPhi = _src.packedPhi;
   packedM = _src.packedM;
 }
@@ -120,6 +132,7 @@ panda::PackedParticle::PackedParticle(PackedParticle const& _src) :
 panda::PackedParticle::PackedParticle(datastore& _data, UInt_t _idx) :
   Particle(_data, _idx),
   packedPt(_data.packedPt[_idx]),
+  packedEta(_data.packedEta[_idx]),
   packedPhi(_data.packedPhi[_idx]),
   packedM(_data.packedM[_idx])
 {
@@ -128,6 +141,7 @@ panda::PackedParticle::PackedParticle(datastore& _data, UInt_t _idx) :
 panda::PackedParticle::PackedParticle(ArrayBase* _array) :
   Particle(_array),
   packedPt(gStore.getData(this).packedPt[0]),
+  packedEta(gStore.getData(this).packedEta[0]),
   packedPhi(gStore.getData(this).packedPhi[0]),
   packedM(gStore.getData(this).packedM[0])
 {
@@ -154,6 +168,7 @@ panda::PackedParticle::operator=(PackedParticle const& _src)
   Particle::operator=(_src);
 
   packedPt = _src.packedPt;
+  packedEta = _src.packedEta;
   packedPhi = _src.packedPhi;
   packedM = _src.packedM;
 
@@ -166,6 +181,7 @@ panda::PackedParticle::doSetAddress_(TTree& _tree, TString const& _name, utils::
   Particle::doSetAddress_(_tree, _name, _branches, _setStatus);
 
   utils::setAddress(_tree, _name, "packedPt", &packedPt, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "packedEta", &packedEta, _branches, _setStatus);
   utils::setAddress(_tree, _name, "packedPhi", &packedPhi, _branches, _setStatus);
   utils::setAddress(_tree, _name, "packedM", &packedM, _branches, _setStatus);
 }
@@ -176,6 +192,7 @@ panda::PackedParticle::doBook_(TTree& _tree, TString const& _name, utils::Branch
   Particle::doBook_(_tree, _name, _branches);
 
   utils::book(_tree, _name, "packedPt", "", 's', &packedPt, _branches);
+  utils::book(_tree, _name, "packedEta", "", 'S', &packedEta, _branches);
   utils::book(_tree, _name, "packedPhi", "", 'S', &packedPhi, _branches);
   utils::book(_tree, _name, "packedM", "", 's', &packedM, _branches);
 }
@@ -186,6 +203,7 @@ panda::PackedParticle::doReleaseTree_(TTree& _tree, TString const& _name)
   Particle::doReleaseTree_(_tree, _name);
 
   utils::resetAddress(_tree, _name, "packedPt");
+  utils::resetAddress(_tree, _name, "packedEta");
   utils::resetAddress(_tree, _name, "packedPhi");
   utils::resetAddress(_tree, _name, "packedM");
 }
@@ -196,6 +214,7 @@ panda::PackedParticle::doInit_()
   Particle::doInit_();
 
   packedPt = 0;
+  packedEta = 0;
   packedPhi = 0;
   packedM = 0;
 
@@ -218,67 +237,71 @@ panda::PackingHelper::PackingHelper()
   mantissatable[0] = 0;
   // -- denorm --
   for (unsigned int i = 1; i <= 1023; ++i) {
-    unsigned int m =(i<<13), e=0;
-    while(!(m&0x00800000)){ // While not normalized
-      e-=0x00800000; // Decrement exponent (1<<23)
-      m<<=1; // Shift mantissa
+    unsigned m = (i<<13);
+    unsigned e = 0;
+    while ((m & 0x00800000) == 0) { // While not normalized
+      e -= 0x00800000; // Decrement exponent (1<<23)
+      m <<= 1; // Shift mantissa
     }
-    m&=~0x00800000; // Clear leading 1 bit
-    e+= 0x38800000; // Adjust bias ((127-14)<<23)
+    m &= ~0x00800000; // Clear leading 1 bit
+    e += 0x38800000; // Adjust bias ((127-14)<<23)
     mantissatable[i] = m | e; 
   }
   // -- norm --
-  for (unsigned int i = 1024; i <= 2047; ++i) {
-    mantissatable[i] = 0x38000000 + ((i-1024)<<13);
-  }
+  for (unsigned int i = 1024; i <= 2047; ++i)
+    mantissatable[i] = 0x38000000 + ((i - 1024) << 13);
+
   // ==== exponenttable ===
   exponenttable[0] = 0;
-  for (unsigned int i = 1; i <= 30; ++i) exponenttable[i] = i<<23;
+  for (unsigned int i = 1; i <= 30; ++i)
+    exponenttable[i] = i << 23;
   exponenttable[31] = 0x47800000;
   exponenttable[32] = 0x80000000u;
-  for (unsigned int i = 33; i <= 62; ++i) exponenttable[i] = 0x80000000u | ((i-32)<<23);
+  for (unsigned int i = 33; i <= 62; ++i)
+    exponenttable[i] = 0x80000000u | ((i - 32) << 23);
   exponenttable[63] = 0xC7800000;
  
   // ==== offsettable ====
-  for (unsigned int i = 0; i <= 63; ++i) offsettable[i] = ((i == 0 || i == 32) ? 0 : 1024);
+  for (unsigned int i = 0; i <= 63; ++i)
+    offsettable[i] = ((i == 0 || i == 32) ? 0 : 1024);
 
-  for (unsigned i=0; i<256; ++i){
-    int e = int(i)-127;
-    if(e<-24){ // Very small numbers map to zero
-      basetable[i|0x000]=0x0000;
-      basetable[i|0x100]=0x8000;
-      shifttable[i|0x000]=24;
-      shifttable[i|0x100]=24;
+  for (unsigned i = 0; i < 256; ++i) {
+    int e = int(i) - 127;
+    if (e < -24) { // Very small numbers map to zero
+      basetable[i | 0x000] = 0x0000;
+      basetable[i | 0x100] = 0x8000;
+      shifttable[i | 0x000] = 24;
+      shifttable[i | 0x100] = 24;
     }
-    else if(e<-14){ // Small numbers map to denorms
-      basetable[i|0x000]=(0x0400>>(-e-14));
-      basetable[i|0x100]=(0x0400>>(-e-14)) | 0x8000;
-      shifttable[i|0x000]=-e-1;
-      shifttable[i|0x100]=-e-1;
+    else if (e < -14) { // Small numbers map to denorms
+      basetable[i | 0x000] = (0x0400 >> (-e - 14));
+      basetable[i | 0x100] = (0x0400 >> (-e - 14)) | 0x8000;
+      shifttable[i | 0x000] = -e - 1;
+      shifttable[i | 0x100] = -e - 1;
     }
-    else if(e<=15){ // Normal numbers just lose precision
-      basetable[i|0x000]=((e+15)<<10);
-      basetable[i|0x100]=((e+15)<<10) | 0x8000;
-      shifttable[i|0x000]=13;
-      shifttable[i|0x100]=13;
+    else if (e <= 15) { // Normal numbers just lose precision
+      basetable[i | 0x000] = ((e + 15) << 10);
+      basetable[i | 0x100] = ((e + 15) << 10) | 0x8000;
+      shifttable[i | 0x000] = 13;
+      shifttable[i | 0x100] = 13;
     }
-    else if(e<128){ // Large numbers map to Infinity
-      basetable[i|0x000]=0x7C00;
-      basetable[i|0x100]=0xFC00;
-      shifttable[i|0x000]=24;
-      shifttable[i|0x100]=24;
+    else if (e < 128) { // Large numbers map to Infinity
+      basetable[i | 0x000] = 0x7C00;
+      basetable[i | 0x100] = 0xFC00;
+      shifttable[i | 0x000] = 24;
+      shifttable[i | 0x100] = 24;
     }
-    else{ // Infinity and NaN's stay Infinity and NaN's
-      basetable[i|0x000]=0x7C00;
-      basetable[i|0x100]=0xFC00;
-      shifttable[i|0x000]=13;
-      shifttable[i|0x100]=13;
+    else { // Infinity and NaN's stay Infinity and NaN's
+      basetable[i | 0x000] = 0x7C00;
+      basetable[i | 0x100] = 0xFC00;
+      shifttable[i | 0x000] = 13;
+      shifttable[i | 0x100] = 13;
     }
   }
 }
 
 UShort_t
-panda::PackingHelper::packUnbound(Double_t x)
+panda::PackingHelper::packUnbound(Double_t x) const
 {
   // Implementation copied from DataFormats/PatCandidates/interface/libminifloat.h
   // float32to16
@@ -289,20 +312,18 @@ panda::PackingHelper::packUnbound(Double_t x)
   } conv;
 
   conv.flt = x;
-  uint8_t shift = shifttable[(conv.i32>>23)&0x1ff];
-  if (shift == 13) {
+  if (shifttable[(conv.i32>>23)&0x1ff] == 13) {
     uint16_t base2 = (conv.i32&0x007fffff)>>12;
     uint16_t base = base2 >> 1;
     if (((base2 & 1) != 0) && (base < 1023)) base++;
     return basetable[(conv.i32>>23)&0x1ff]+base; 
   }
-  else {
+  else
     return basetable[(conv.i32>>23)&0x1ff]+((conv.i32&0x007fffff)>>shifttable[(conv.i32>>23)&0x1ff]);
-  }
 }
 
 Double_t
-panda::PackingHelper::unpackUnbound(UShort_t p)
+panda::PackingHelper::unpackUnbound(UShort_t p) const
 {
   union {
     float flt;
@@ -314,7 +335,7 @@ panda::PackingHelper::unpackUnbound(UShort_t p)
 }
 
 Char_t
-panda::PackingHelper::pack8LogBound(Double_t x, Double_t min, Double_t max, UChar_t baseminus1)
+panda::PackingHelper::pack8LogBound(Double_t x, Double_t min, Double_t max, UChar_t baseminus1) const
 {
   if (baseminus1 > 127)
     baseminus1 = 127;
@@ -338,7 +359,7 @@ panda::PackingHelper::pack8LogBound(Double_t x, Double_t min, Double_t max, UCha
 }
 
 Double_t
-panda::PackingHelper::unpack8LogBound(Char_t i, Double_t min, Double_t max, UChar_t baseminus1)
+panda::PackingHelper::unpack8LogBound(Char_t i, Double_t min, Double_t max, UChar_t baseminus1) const
 {
   if (baseminus1 > 127)
     baseminus1 = 127;
@@ -354,10 +375,6 @@ panda::PackingHelper::unpack8LogBound(Char_t i, Double_t min, Double_t max, UCha
     return -val;
   else
     return val;
-}
-
-namespace panda {
-  PackingHelper packingHelper;
 }
 
 /*static*/
@@ -382,5 +399,36 @@ panda::PackedParticle::setXYZE(double px, double py, double pz, double e)
   mass_ = std::sqrt(e * e - p * p);
   unpacked_ = true;
   pack_();
+}
+
+void
+panda::PackedParticle::pack_()
+{
+  packedPt = PackingHelper::singleton().packUnbound(pt_);
+  packedEta = std::round(eta_ / 6.0f * std::numeric_limits<Short_t>::max());
+  packedPhi = std::round(phi_/3.2f*std::numeric_limits<Short_t>::max());
+  packedM = PackingHelper::singleton().packUnbound(pt_);
+
+  packMore_();
+}
+
+void
+panda::PackedParticle::unpack_() const
+{
+  if (unpacked_)
+    return;
+
+  pt_ = PackingHelper::singleton().unpackUnbound(packedPt);
+  // shift particle phi to break degeneracies in angular separations
+  // plus introduce a pseudo-random sign of the shift
+  double shift(pt_ < 1. ? 0.1 * pt_ : 0.1 / pt_);
+  double sign((int(pt_ * 10.) % 2 == 0) ? 1 : -1);
+  phi_ = (packedPhi + sign * shift) * 3.2f / std::numeric_limits<Short_t>::max();
+  mass_ = PackingHelper::singleton().unpackUnbound(packedM);
+  eta_ = packedEta * 6.0f / std::numeric_limits<Short_t>::max();
+
+  unpackMore_();
+
+  unpacked_ = true;
 }
 /* END CUSTOM */
