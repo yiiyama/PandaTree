@@ -97,6 +97,8 @@ panda::TreeEntry::getEntry(Long64_t _entry, UInt_t _treeIdx/* = 0*/)
 
   currentInputIdx_ = _treeIdx;
 
+  init();
+
   // call prepareGetEntry on collections
   for (unsigned iC(0); iC != collections_.size(); ++iC)
     collections_[iC]->prepareGetEntry(_entry, collInputTokens_[_treeIdx][iC]);

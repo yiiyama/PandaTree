@@ -4,6 +4,8 @@
 Int_t
 panda::CollectionBase::getEntry(Long64_t _iEntry, UInt_t _treeIdx)
 {
+  init();
+
   prepareGetEntry(_iEntry, _treeIdx);
 
   return ContainerBase::getEntry(_iEntry, _treeIdx);
