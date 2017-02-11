@@ -18,15 +18,17 @@ namespace panda {
   class RefVector {
   public:
     typedef RefVector<E> self_type;
-    typedef E value_type;
+    typedef E element_type;
+    typedef Ref<element_type> ref_type;
+    typedef ConstRef<element_type> const_ref_type;
     typedef std::vector<Int_t> Indices;
 
     //! Default constructor.
     RefVector() {}
     //! Standard constructor.
     /*!
-     * The container must be a derived class of Array<E> or Collection<E>. There is no protection against
-     * assigning a wrong type of container.
+     * The container must be a pointer to a derived class of Array<E> or Collection<E>. Proper assignment
+     * is only done at runtime and thus there no protection against assigning a wrong type of container.
      */
     RefVector(ContainerBase const*& c, Indices& indices) : container_(&c), indices_(&indices) {}
     //! Copy constructor.
@@ -42,22 +44,24 @@ namespace panda {
     //! Size of the vector.
     UInt_t size() const;
     //! Element (ref) accessor.
-    Ref<value_type> at(UInt_t) const;
+    ref_type at(UInt_t);
+    //! Element (ref) accessor.
+    const_ref_type at(UInt_t) const;
     //! Object accessor.
-    value_type const& objAt(UInt_t) const;
+    element_type const& objAt(UInt_t) const;
     //! Assignment operator
     self_type& operator=(self_type const&);
     //! Setter function
     /*!
-     * Pass a value_type object after the container is set.
+     * Pass a element_type object after the container is set.
      * If the object is found in the collector, pushes the index value.
      */
-    void push_back(value_type const&);
+    void push_back(element_type const&);
     //! Setter function
     /*!
      * Pushes back a ref if the container is common.
      */
-    void push_back(Ref<E> const&);
+    void push_back(ref_type const&);
     //! Clear operation.
     void clear() { if (indices_) indices_->clear(); }
     //! Initializer
@@ -77,46 +81,59 @@ namespace panda {
     ContainerBase const* container() const;
 
     //! "pointer" wrapper for Ref
+    template<Bool_t is_const>
     class RefHolder {
     public:
-      RefHolder(ContainerBase const*& c, Int_t& idx) : ref_(c, idx) {}
-      Ref<E> const& operator*() const { return ref_; }
-      Ref<E> const* operator->() const { return &ref_; }
+      typedef typename std::conditional<is_const, Int_t const, Int_t>::type index_type;
+      typedef typename std::conditional<is_const, const_ref_type, ref_type>::type value_type;
+
+      RefHolder(ContainerBase const*& c, index_type& idx) : ref_(c, idx) {}
+      value_type const& operator*() const { return ref_; }
+      value_type const* operator->() const { return &ref_; }
     private:
-      Ref<E> ref_;
+      value_type ref_;
     };
 
     //! const iterator
+    template<Bool_t is_const>
     class RefVectorIterator {
-      friend class RefVector<E>;
+      friend class RefVector<element_type>;
     public:
+      typedef RefVector<element_type> refvector_type;
+      typedef RefVectorIterator<is_const> self_type;
+      typedef typename std::conditional<is_const, const_ref_type, ref_type>::type value_type;
+      typedef refvector_type::RefHolder<is_const> ptr_type;
+      typedef typename std::conditional<is_const, Indices::const_iterator, Indices::iterator>::type internal_type;
+
       RefVectorIterator() {}
-      RefVectorIterator(RefVectorIterator const& it) : refvector_(it.refvector_), itr_(it.itr_) {}
-      RefVectorIterator& operator++() { ++itr_; return *this; }
-      RefVectorIterator operator++(int) { auto copy(*this); ++itr_; return copy; }
-      RefVectorIterator& operator--() { --itr_; return *this; }
-      RefVectorIterator operator--(int) { auto copy(*this); --itr_; return copy; }
-      RefVectorIterator& operator+=(int n) { itr_ += n; return *this; }
-      RefVectorIterator& operator-=(int n) { itr_ -= n; return *this; }
-      RefVectorIterator operator+(int n) const { auto copy(*this); return (copy += n); }
-      RefVectorIterator operator-(int n) const { auto copy(*this); return (copy -= n); }
-      bool operator==(RefVectorIterator const& rhs) const { return itr_ == rhs.itr_; }
-      bool operator!=(RefVectorIterator const& rhs) const { return itr_ != rhs.itr_; }
-      Ref<E> operator*() const { return Ref<E>(*refvector_->container_, *itr_); }
-      RefVector<E>::RefHolder operator->() const { return RefVector<E>::RefHolder(refvector_->container_, *itr_); }
+      RefVectorIterator(self_type const& it) : container_(it.container_), itr_(it.itr_) {}
+      self_type& operator++() { ++itr_; return *this; }
+      self_type operator++(int) { auto copy(*this); ++itr_; return copy; }
+      self_type& operator--() { --itr_; return *this; }
+      self_type operator--(int) { auto copy(*this); --itr_; return copy; }
+      self_type& operator+=(int n) { itr_ += n; return *this; }
+      self_type& operator-=(int n) { itr_ -= n; return *this; }
+      self_type operator+(int n) const { auto copy(*this); return (copy += n); }
+      self_type operator-(int n) const { auto copy(*this); return (copy -= n); }
+      bool operator==(self_type const& rhs) const { return itr_ == rhs.itr_; }
+      bool operator!=(self_type const& rhs) const { return itr_ != rhs.itr_; }
+      value_type operator*() const { return value_type(container_, *itr_); }
+      ptr_type operator->() const { return ptr_type(container_, *itr_); }
 
     private:
-      RefVectorIterator(RefVector<E> const& v, Indices::iterator const& i) : refvector_(&v), itr_(i) {}
+      RefVectorIterator(ContainerBase const*& v, internal_type const& i) : container_(v), itr_(i) {}
 
-      RefVector<E> const* refvector_{0};
-      Indices::iterator itr_{};
+      ContainerBase const*& container_{0};
+      internal_type itr_{};
     };
 
-    friend class RefVectorIterator;
-    typedef RefVectorIterator iterator;
+    typedef RefVectorIterator<kTRUE> const_iterator;
+    typedef RefVectorIterator<kFALSE> iterator;
 
-    iterator begin() { return iterator(*this, indices_->begin()); }
-    iterator end() { return iterator(*this, indices_->end()); }
+    const_iterator begin() const { return const_iterator(*container_, indices_->begin()); }
+    iterator begin() { return iterator(*container_, indices_->begin()); }
+    const_iterator end() const { return const_iterator(*container_, indices_->end()); }
+    iterator end() { return iterator(*container_, indices_->end()); }
 
   private:
     ContainerBase const** container_{0};
@@ -134,12 +151,22 @@ namespace panda {
 
   template<class E>
   Ref<E>
+  RefVector<E>::at(UInt_t _i)
+  {
+    if (!container_ || !indices_)
+      throw std::runtime_error("at() called on an invalid RefVector");
+
+    return Ref<element_type>(*container_, indices_->at(_i));
+  }
+
+  template<class E>
+  ConstRef<E>
   RefVector<E>::at(UInt_t _i) const
   {
     if (!container_ || !indices_)
       throw std::runtime_error("at() called on an invalid RefVector");
 
-    return Ref<E>(*container_, indices_->at(_i));
+    return ConstRef<element_type>(*container_, indices_->at(_i));
   }
 
   template<class E>
@@ -149,7 +176,7 @@ namespace panda {
     if (!container_ || !(*container_) || !indices_)
       throw std::runtime_error("at() called on an invalid RefVector");
 
-    return static_cast<E const&>((*container_)->elemAt(indices_->at(_i)));
+    return static_cast<element_type const&>((*container_)->elemAt(indices_->at(_i)));
   }
 
   template<class E>
@@ -171,7 +198,7 @@ namespace panda {
 
   template<class E>
   void
-  RefVector<E>::push_back(value_type const& _obj)
+  RefVector<E>::push_back(element_type const& _obj)
   {
     if (!container_ || !(*container_) || !indices_)
       throw std::runtime_error("Cannot push to an invalid RefVector");
@@ -188,7 +215,7 @@ namespace panda {
   
   template<class E>
   void
-  RefVector<E>::push_back(Ref<E> const& _ref)
+  RefVector<E>::push_back(Ref<element_type> const& _ref)
   {
     if (!container_ || !indices_)
       throw std::runtime_error("Cannot push to an invalid RefVector");
