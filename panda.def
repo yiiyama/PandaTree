@@ -327,9 +327,7 @@ hbhe/O
 hbheIso/O
 ecalDeadCell/O
 badsc/O
-badTrack/O
-badMuonTrack/O
-virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !badTrack && !badMuonTrack; }
+virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc; }
 
 [HLTBits:SINGLE]
 words[16]/i

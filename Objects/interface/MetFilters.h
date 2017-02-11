@@ -18,15 +18,13 @@ namespace panda {
     ~MetFilters();
     MetFilters& operator=(MetFilters const&);
 
-    virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !badTrack && !badMuonTrack; }
+    virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc; }
 
     Bool_t globalHalo16{};
     Bool_t hbhe{};
     Bool_t hbheIso{};
     Bool_t ecalDeadCell{};
     Bool_t badsc{};
-    Bool_t badTrack{};
-    Bool_t badMuonTrack{};
 
     /* BEGIN CUSTOM MetFilters.h.classdef */
     /* END CUSTOM */

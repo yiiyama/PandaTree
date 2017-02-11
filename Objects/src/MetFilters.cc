@@ -11,17 +11,13 @@ panda::MetFilters::MetFilters(MetFilters const& _src) :
   hbhe(_src.hbhe),
   hbheIso(_src.hbheIso),
   ecalDeadCell(_src.ecalDeadCell),
-  badsc(_src.badsc),
-  badTrack(_src.badTrack),
-  badMuonTrack(_src.badMuonTrack)
+  badsc(_src.badsc)
 {
   globalHalo16 = _src.globalHalo16;
   hbhe = _src.hbhe;
   hbheIso = _src.hbheIso;
   ecalDeadCell = _src.ecalDeadCell;
   badsc = _src.badsc;
-  badTrack = _src.badTrack;
-  badMuonTrack = _src.badMuonTrack;
 }
 
 panda::MetFilters::~MetFilters()
@@ -36,8 +32,6 @@ panda::MetFilters::operator=(MetFilters const& _src)
   hbheIso = _src.hbheIso;
   ecalDeadCell = _src.ecalDeadCell;
   badsc = _src.badsc;
-  badTrack = _src.badTrack;
-  badMuonTrack = _src.badMuonTrack;
 
   return *this;
 }
@@ -50,8 +44,6 @@ panda::MetFilters::doSetStatus_(TTree& _tree, utils::BranchList const& _branches
   utils::setStatus(_tree, name_, "hbheIso", _branches);
   utils::setStatus(_tree, name_, "ecalDeadCell", _branches);
   utils::setStatus(_tree, name_, "badsc", _branches);
-  utils::setStatus(_tree, name_, "badTrack", _branches);
-  utils::setStatus(_tree, name_, "badMuonTrack", _branches);
 }
 
 panda::utils::BranchList
@@ -64,8 +56,6 @@ panda::MetFilters::doGetStatus_(TTree& _tree) const
   blist.push_back(utils::getStatus(_tree, name_, "hbheIso"));
   blist.push_back(utils::getStatus(_tree, name_, "ecalDeadCell"));
   blist.push_back(utils::getStatus(_tree, name_, "badsc"));
-  blist.push_back(utils::getStatus(_tree, name_, "badTrack"));
-  blist.push_back(utils::getStatus(_tree, name_, "badMuonTrack"));
 
   return blist;
 }
@@ -80,8 +70,6 @@ panda::MetFilters::doGetBranchNames_() const
   blist.push_back(utils::BranchName("hbheIso").fullName(name_));
   blist.push_back(utils::BranchName("ecalDeadCell").fullName(name_));
   blist.push_back(utils::BranchName("badsc").fullName(name_));
-  blist.push_back(utils::BranchName("badTrack").fullName(name_));
-  blist.push_back(utils::BranchName("badMuonTrack").fullName(name_));
 
   return blist;
 }
@@ -94,8 +82,6 @@ panda::MetFilters::doSetAddress_(TTree& _tree, utils::BranchList const& _branche
   utils::setAddress(_tree, name_, "hbheIso", &hbheIso, _branches, _setStatus);
   utils::setAddress(_tree, name_, "ecalDeadCell", &ecalDeadCell, _branches, _setStatus);
   utils::setAddress(_tree, name_, "badsc", &badsc, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "badTrack", &badTrack, _branches, _setStatus);
-  utils::setAddress(_tree, name_, "badMuonTrack", &badMuonTrack, _branches, _setStatus);
 }
 
 void
@@ -106,8 +92,6 @@ panda::MetFilters::doBook_(TTree& _tree, utils::BranchList const& _branches/* = 
   utils::book(_tree, name_, "hbheIso", "", 'O', &hbheIso, _branches);
   utils::book(_tree, name_, "ecalDeadCell", "", 'O', &ecalDeadCell, _branches);
   utils::book(_tree, name_, "badsc", "", 'O', &badsc, _branches);
-  utils::book(_tree, name_, "badTrack", "", 'O', &badTrack, _branches);
-  utils::book(_tree, name_, "badMuonTrack", "", 'O', &badMuonTrack, _branches);
 }
 
 void
@@ -118,8 +102,6 @@ panda::MetFilters::doReleaseTree_(TTree& _tree)
   utils::resetAddress(_tree, name_, "hbheIso");
   utils::resetAddress(_tree, name_, "ecalDeadCell");
   utils::resetAddress(_tree, name_, "badsc");
-  utils::resetAddress(_tree, name_, "badTrack");
-  utils::resetAddress(_tree, name_, "badMuonTrack");
 }
 
 void
@@ -130,8 +112,6 @@ panda::MetFilters::doInit_()
   hbheIso = false;
   ecalDeadCell = false;
   badsc = false;
-  badTrack = false;
-  badMuonTrack = false;
 
   /* BEGIN CUSTOM MetFilters.cc.doInit_ */
   /* END CUSTOM */
