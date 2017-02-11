@@ -30,6 +30,15 @@ panda::Particle::datastore::getStatus(TTree& _tree, TString const& _name) const
   return blist;
 }
 
+panda::utils::BranchList
+panda::Particle::datastore::getBranchNames(TString const& _name) const
+{
+  utils::BranchList blist(Element::datastore::getBranchNames(_name));
+
+
+  return blist;
+}
+
 void
 panda::Particle::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -90,20 +99,6 @@ panda::Particle::operator=(Particle const& _src)
 {
 
   return *this;
-}
-
-void
-panda::Particle::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
-{
-}
-
-panda::utils::BranchList
-panda::Particle::doGetStatus_(TTree& _tree, TString const& _name) const
-{
-  utils::BranchList blist;
-
-
-  return blist;
 }
 
 void

@@ -35,6 +35,16 @@ panda::Muon::datastore::getStatus(TTree& _tree, TString const& _name) const
   return blist;
 }
 
+panda::utils::BranchList
+panda::Muon::datastore::getBranchNames(TString const& _name) const
+{
+  utils::BranchList blist(Lepton::datastore::getBranchNames(_name));
+
+  blist.push_back(utils::BranchName("triggerMatch").fullName(_name));
+
+  return blist;
+}
+
 void
 panda::Muon::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -118,24 +128,6 @@ panda::Muon::operator=(Muon const& _src)
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nMuonTriggerObjects);
 
   return *this;
-}
-
-void
-panda::Muon::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
-{
-  Lepton::doSetStatus_(_tree, _name, _branches);
-
-  utils::setStatus(_tree, _name, "triggerMatch", _branches);
-}
-
-panda::utils::BranchList
-panda::Muon::doGetStatus_(TTree& _tree, TString const& _name) const
-{
-  utils::BranchList blist(Lepton::doGetStatus_(_tree, _name));
-
-  blist.push_back(utils::getStatus(_tree, _name, "triggerMatch"));
-
-  return blist;
 }
 
 void

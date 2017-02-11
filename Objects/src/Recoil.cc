@@ -45,6 +45,17 @@ panda::Recoil::doGetStatus_(TTree& _tree) const
   return blist;
 }
 
+panda::utils::BranchList
+panda::Recoil::doGetBranchNames_() const
+{
+  utils::BranchList blist;
+
+  blist.push_back(utils::BranchName("categories").fullName(name_));
+  blist.push_back(utils::BranchName("max").fullName(name_));
+
+  return blist;
+}
+
 void
 panda::Recoil::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {

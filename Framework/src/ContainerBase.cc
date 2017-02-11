@@ -15,6 +15,12 @@ panda::ContainerBase::getStatus(TTree& _tree) const
   return doGetStatus_(_tree);
 }
 
+panda::utils::BranchList
+panda::ContainerBase::getBranchNames() const
+{
+  return getData().getBranchNames(name_);
+}
+
 UInt_t
 panda::ContainerBase::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {

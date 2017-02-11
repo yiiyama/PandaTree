@@ -84,6 +84,24 @@ panda::RecoMet::doGetStatus_(TTree& _tree) const
   return blist;
 }
 
+panda::utils::BranchList
+panda::RecoMet::doGetBranchNames_() const
+{
+  utils::BranchList blist(Met::doGetBranchNames_());
+
+  blist.push_back(utils::BranchName("sumETRaw").fullName(name_));
+  blist.push_back(utils::BranchName("ptCorrUp").fullName(name_));
+  blist.push_back(utils::BranchName("phiCorrUp").fullName(name_));
+  blist.push_back(utils::BranchName("ptCorrDown").fullName(name_));
+  blist.push_back(utils::BranchName("phiCorrDown").fullName(name_));
+  blist.push_back(utils::BranchName("ptUnclUp").fullName(name_));
+  blist.push_back(utils::BranchName("phiUnclUp").fullName(name_));
+  blist.push_back(utils::BranchName("ptUnclDown").fullName(name_));
+  blist.push_back(utils::BranchName("phiUnclDown").fullName(name_));
+
+  return blist;
+}
+
 void
 panda::RecoMet::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {

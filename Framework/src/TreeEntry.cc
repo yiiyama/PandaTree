@@ -23,6 +23,19 @@ panda::TreeEntry::getStatus(TTree& _tree) const
   return blist;
 }
 
+panda::utils::BranchList
+panda::TreeEntry::getBranchNames() const
+{
+  utils::BranchList blist;
+
+  for (auto* obj : objects_)
+    blist += obj->getBranchNames();
+
+  blist += doGetBranchNames_();
+
+  return blist;
+}
+
 UInt_t
 panda::TreeEntry::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {

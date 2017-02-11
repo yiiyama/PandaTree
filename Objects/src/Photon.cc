@@ -170,6 +170,43 @@ panda::Photon::datastore::getStatus(TTree& _tree, TString const& _name) const
   return blist;
 }
 
+panda::utils::BranchList
+panda::Photon::datastore::getBranchNames(TString const& _name) const
+{
+  utils::BranchList blist(ParticleP::datastore::getBranchNames(_name));
+
+  blist.push_back(utils::BranchName("chiso").fullName(_name));
+  blist.push_back(utils::BranchName("chisoWorst").fullName(_name));
+  blist.push_back(utils::BranchName("nhiso").fullName(_name));
+  blist.push_back(utils::BranchName("phoiso").fullName(_name));
+  blist.push_back(utils::BranchName("sieie").fullName(_name));
+  blist.push_back(utils::BranchName("sipip").fullName(_name));
+  blist.push_back(utils::BranchName("hOverE").fullName(_name));
+  blist.push_back(utils::BranchName("geniso").fullName(_name));
+  blist.push_back(utils::BranchName("mipEnergy").fullName(_name));
+  blist.push_back(utils::BranchName("e33").fullName(_name));
+  blist.push_back(utils::BranchName("e4").fullName(_name));
+  blist.push_back(utils::BranchName("eseed").fullName(_name));
+  blist.push_back(utils::BranchName("emax").fullName(_name));
+  blist.push_back(utils::BranchName("e2nd").fullName(_name));
+  blist.push_back(utils::BranchName("r9").fullName(_name));
+  blist.push_back(utils::BranchName("etaWidth").fullName(_name));
+  blist.push_back(utils::BranchName("phiWidth").fullName(_name));
+  blist.push_back(utils::BranchName("time").fullName(_name));
+  blist.push_back(utils::BranchName("timeSpan").fullName(_name));
+  blist.push_back(utils::BranchName("loose").fullName(_name));
+  blist.push_back(utils::BranchName("medium").fullName(_name));
+  blist.push_back(utils::BranchName("tight").fullName(_name));
+  blist.push_back(utils::BranchName("highpt").fullName(_name));
+  blist.push_back(utils::BranchName("pixelVeto").fullName(_name));
+  blist.push_back(utils::BranchName("csafeVeto").fullName(_name));
+  blist.push_back(utils::BranchName("triggerMatch").fullName(_name));
+  blist.push_back(utils::BranchName("superCluster_").fullName(_name));
+  blist.push_back(utils::BranchName("matchedGen_").fullName(_name));
+
+  return blist;
+}
+
 void
 panda::Photon::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -496,78 +533,6 @@ panda::Photon::operator=(Photon const& _src)
   matchedGen = _src.matchedGen;
 
   return *this;
-}
-
-void
-panda::Photon::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
-{
-  ParticleP::doSetStatus_(_tree, _name, _branches);
-
-  utils::setStatus(_tree, _name, "chiso", _branches);
-  utils::setStatus(_tree, _name, "chisoWorst", _branches);
-  utils::setStatus(_tree, _name, "nhiso", _branches);
-  utils::setStatus(_tree, _name, "phoiso", _branches);
-  utils::setStatus(_tree, _name, "sieie", _branches);
-  utils::setStatus(_tree, _name, "sipip", _branches);
-  utils::setStatus(_tree, _name, "hOverE", _branches);
-  utils::setStatus(_tree, _name, "geniso", _branches);
-  utils::setStatus(_tree, _name, "mipEnergy", _branches);
-  utils::setStatus(_tree, _name, "e33", _branches);
-  utils::setStatus(_tree, _name, "e4", _branches);
-  utils::setStatus(_tree, _name, "eseed", _branches);
-  utils::setStatus(_tree, _name, "emax", _branches);
-  utils::setStatus(_tree, _name, "e2nd", _branches);
-  utils::setStatus(_tree, _name, "r9", _branches);
-  utils::setStatus(_tree, _name, "etaWidth", _branches);
-  utils::setStatus(_tree, _name, "phiWidth", _branches);
-  utils::setStatus(_tree, _name, "time", _branches);
-  utils::setStatus(_tree, _name, "timeSpan", _branches);
-  utils::setStatus(_tree, _name, "loose", _branches);
-  utils::setStatus(_tree, _name, "medium", _branches);
-  utils::setStatus(_tree, _name, "tight", _branches);
-  utils::setStatus(_tree, _name, "highpt", _branches);
-  utils::setStatus(_tree, _name, "pixelVeto", _branches);
-  utils::setStatus(_tree, _name, "csafeVeto", _branches);
-  utils::setStatus(_tree, _name, "triggerMatch", _branches);
-  utils::setStatus(_tree, _name, "superCluster_", _branches);
-  utils::setStatus(_tree, _name, "matchedGen_", _branches);
-}
-
-panda::utils::BranchList
-panda::Photon::doGetStatus_(TTree& _tree, TString const& _name) const
-{
-  utils::BranchList blist(ParticleP::doGetStatus_(_tree, _name));
-
-  blist.push_back(utils::getStatus(_tree, _name, "chiso"));
-  blist.push_back(utils::getStatus(_tree, _name, "chisoWorst"));
-  blist.push_back(utils::getStatus(_tree, _name, "nhiso"));
-  blist.push_back(utils::getStatus(_tree, _name, "phoiso"));
-  blist.push_back(utils::getStatus(_tree, _name, "sieie"));
-  blist.push_back(utils::getStatus(_tree, _name, "sipip"));
-  blist.push_back(utils::getStatus(_tree, _name, "hOverE"));
-  blist.push_back(utils::getStatus(_tree, _name, "geniso"));
-  blist.push_back(utils::getStatus(_tree, _name, "mipEnergy"));
-  blist.push_back(utils::getStatus(_tree, _name, "e33"));
-  blist.push_back(utils::getStatus(_tree, _name, "e4"));
-  blist.push_back(utils::getStatus(_tree, _name, "eseed"));
-  blist.push_back(utils::getStatus(_tree, _name, "emax"));
-  blist.push_back(utils::getStatus(_tree, _name, "e2nd"));
-  blist.push_back(utils::getStatus(_tree, _name, "r9"));
-  blist.push_back(utils::getStatus(_tree, _name, "etaWidth"));
-  blist.push_back(utils::getStatus(_tree, _name, "phiWidth"));
-  blist.push_back(utils::getStatus(_tree, _name, "time"));
-  blist.push_back(utils::getStatus(_tree, _name, "timeSpan"));
-  blist.push_back(utils::getStatus(_tree, _name, "loose"));
-  blist.push_back(utils::getStatus(_tree, _name, "medium"));
-  blist.push_back(utils::getStatus(_tree, _name, "tight"));
-  blist.push_back(utils::getStatus(_tree, _name, "highpt"));
-  blist.push_back(utils::getStatus(_tree, _name, "pixelVeto"));
-  blist.push_back(utils::getStatus(_tree, _name, "csafeVeto"));
-  blist.push_back(utils::getStatus(_tree, _name, "triggerMatch"));
-  blist.push_back(utils::getStatus(_tree, _name, "superCluster_"));
-  blist.push_back(utils::getStatus(_tree, _name, "matchedGen_"));
-
-  return blist;
 }
 
 void

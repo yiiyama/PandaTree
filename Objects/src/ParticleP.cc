@@ -45,6 +45,18 @@ panda::ParticleP::datastore::getStatus(TTree& _tree, TString const& _name) const
   return blist;
 }
 
+panda::utils::BranchList
+panda::ParticleP::datastore::getBranchNames(TString const& _name) const
+{
+  utils::BranchList blist(Particle::datastore::getBranchNames(_name));
+
+  blist.push_back(utils::BranchName("pt_").fullName(_name));
+  blist.push_back(utils::BranchName("eta_").fullName(_name));
+  blist.push_back(utils::BranchName("phi_").fullName(_name));
+
+  return blist;
+}
+
 void
 panda::ParticleP::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -146,28 +158,6 @@ panda::ParticleP::operator=(ParticleP const& _src)
   phi_ = _src.phi_;
 
   return *this;
-}
-
-void
-panda::ParticleP::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
-{
-  Particle::doSetStatus_(_tree, _name, _branches);
-
-  utils::setStatus(_tree, _name, "pt_", _branches);
-  utils::setStatus(_tree, _name, "eta_", _branches);
-  utils::setStatus(_tree, _name, "phi_", _branches);
-}
-
-panda::utils::BranchList
-panda::ParticleP::doGetStatus_(TTree& _tree, TString const& _name) const
-{
-  utils::BranchList blist(Particle::doGetStatus_(_tree, _name));
-
-  blist.push_back(utils::getStatus(_tree, _name, "pt_"));
-  blist.push_back(utils::getStatus(_tree, _name, "eta_"));
-  blist.push_back(utils::getStatus(_tree, _name, "phi_"));
-
-  return blist;
 }
 
 void

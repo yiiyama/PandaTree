@@ -75,6 +75,24 @@ panda::Lepton::datastore::getStatus(TTree& _tree, TString const& _name) const
   return blist;
 }
 
+panda::utils::BranchList
+panda::Lepton::datastore::getBranchNames(TString const& _name) const
+{
+  utils::BranchList blist(ParticleP::datastore::getBranchNames(_name));
+
+  blist.push_back(utils::BranchName("q").fullName(_name));
+  blist.push_back(utils::BranchName("loose").fullName(_name));
+  blist.push_back(utils::BranchName("medium").fullName(_name));
+  blist.push_back(utils::BranchName("tight").fullName(_name));
+  blist.push_back(utils::BranchName("chiso").fullName(_name));
+  blist.push_back(utils::BranchName("nhiso").fullName(_name));
+  blist.push_back(utils::BranchName("phoiso").fullName(_name));
+  blist.push_back(utils::BranchName("puiso").fullName(_name));
+  blist.push_back(utils::BranchName("matchedGen_").fullName(_name));
+
+  return blist;
+}
+
 void
 panda::Lepton::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -230,40 +248,6 @@ panda::Lepton::operator=(Lepton const& _src)
   matchedGen = _src.matchedGen;
 
   return *this;
-}
-
-void
-panda::Lepton::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
-{
-  ParticleP::doSetStatus_(_tree, _name, _branches);
-
-  utils::setStatus(_tree, _name, "q", _branches);
-  utils::setStatus(_tree, _name, "loose", _branches);
-  utils::setStatus(_tree, _name, "medium", _branches);
-  utils::setStatus(_tree, _name, "tight", _branches);
-  utils::setStatus(_tree, _name, "chiso", _branches);
-  utils::setStatus(_tree, _name, "nhiso", _branches);
-  utils::setStatus(_tree, _name, "phoiso", _branches);
-  utils::setStatus(_tree, _name, "puiso", _branches);
-  utils::setStatus(_tree, _name, "matchedGen_", _branches);
-}
-
-panda::utils::BranchList
-panda::Lepton::doGetStatus_(TTree& _tree, TString const& _name) const
-{
-  utils::BranchList blist(ParticleP::doGetStatus_(_tree, _name));
-
-  blist.push_back(utils::getStatus(_tree, _name, "q"));
-  blist.push_back(utils::getStatus(_tree, _name, "loose"));
-  blist.push_back(utils::getStatus(_tree, _name, "medium"));
-  blist.push_back(utils::getStatus(_tree, _name, "tight"));
-  blist.push_back(utils::getStatus(_tree, _name, "chiso"));
-  blist.push_back(utils::getStatus(_tree, _name, "nhiso"));
-  blist.push_back(utils::getStatus(_tree, _name, "phoiso"));
-  blist.push_back(utils::getStatus(_tree, _name, "puiso"));
-  blist.push_back(utils::getStatus(_tree, _name, "matchedGen_"));
-
-  return blist;
 }
 
 void

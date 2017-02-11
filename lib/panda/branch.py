@@ -97,8 +97,6 @@ class Branch(Definition):
             namevar = '_name'
         elif context == 'Singlet':
             namevar = 'name_'
-        elif context == 'Element':
-            namevar = '_name'
         elif context == 'TreeEntry':
             namevar = '""'
 
@@ -112,12 +110,23 @@ class Branch(Definition):
             namevar = '_name'
         elif context == 'Singlet':
             namevar = 'name_'
-        elif context == 'Element':
-            namevar = '_name'
         elif context == 'TreeEntry':
             namevar = '""'
 
         out.writeline('blist.push_back(utils::getStatus(_tree, {namevar}, "{name}"));'.format(namevar = namevar, name = self.name))
+
+    def write_get_branch_names(self, out, context):
+        if '!' in self.modifier:
+            return
+
+        if context == 'datastore':
+            namevar = '_name'
+        elif context == 'Singlet':
+            namevar = 'name_'
+        elif context == 'TreeEntry':
+            namevar = '""'
+
+        out.writeline('blist.push_back(utils::BranchName("{name}").fullName({namevar}));'.format(namevar = namevar, name = self.name))
 
     def write_set_address(self, out, context):
         if '!' in self.modifier:

@@ -41,6 +41,17 @@ panda::Run::doGetStatus_(TTree& _tree) const
 }
 
 /*protected*/
+panda::utils::BranchList
+panda::Run::doGetBranchNames_() const
+{
+  utils::BranchList blist;
+
+  blist.push_back(utils::BranchName("runNumber").fullName(""));
+  blist.push_back(utils::BranchName("hltMenu").fullName(""));
+  return blist;
+}
+
+/*protected*/
 void
 panda::Run::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus)
 {

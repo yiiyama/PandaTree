@@ -23,6 +23,7 @@ namespace panda {
 
     void setStatus(TTree&, utils::BranchList const& blist) final;
     utils::BranchList getStatus(TTree&) const final;
+    utils::BranchList getBranchNames() const final;
     UInt_t setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
     void book(TTree&, utils::BranchList const& blist = {"*"}) final;
     TTree* getInput(UInt_t treeIdx = 0) const final { return inputs_.at(treeIdx); }

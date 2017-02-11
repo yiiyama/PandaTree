@@ -196,6 +196,24 @@ panda::Event::doGetStatus_(TTree& _tree) const
 }
 
 /*protected*/
+panda::utils::BranchList
+panda::Event::doGetBranchNames_() const
+{
+  utils::BranchList blist;
+
+  blist.push_back(utils::BranchName("runNumber").fullName(""));
+  blist.push_back(utils::BranchName("lumiNumber").fullName(""));
+  blist.push_back(utils::BranchName("eventNumber").fullName(""));
+  blist.push_back(utils::BranchName("isData").fullName(""));
+  blist.push_back(utils::BranchName("npv").fullName(""));
+  blist.push_back(utils::BranchName("npvTrue").fullName(""));
+  blist.push_back(utils::BranchName("rho").fullName(""));
+  blist.push_back(utils::BranchName("rhoCentralCalo").fullName(""));
+  blist.push_back(utils::BranchName("weight").fullName(""));
+  return blist;
+}
+
+/*protected*/
 void
 panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus)
 {

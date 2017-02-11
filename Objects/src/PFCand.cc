@@ -55,6 +55,19 @@ panda::PFCand::datastore::getStatus(TTree& _tree, TString const& _name) const
   return blist;
 }
 
+panda::utils::BranchList
+panda::PFCand::datastore::getBranchNames(TString const& _name) const
+{
+  utils::BranchList blist(PackedParticle::datastore::getBranchNames(_name));
+
+  blist.push_back(utils::BranchName("packedEta").fullName(_name));
+  blist.push_back(utils::BranchName("packedPuppiW").fullName(_name));
+  blist.push_back(utils::BranchName("packedPuppiWNoLepDiff").fullName(_name));
+  blist.push_back(utils::BranchName("ptype").fullName(_name));
+
+  return blist;
+}
+
 void
 panda::PFCand::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -165,30 +178,6 @@ panda::PFCand::operator=(PFCand const& _src)
   ptype = _src.ptype;
 
   return *this;
-}
-
-void
-panda::PFCand::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
-{
-  PackedParticle::doSetStatus_(_tree, _name, _branches);
-
-  utils::setStatus(_tree, _name, "packedEta", _branches);
-  utils::setStatus(_tree, _name, "packedPuppiW", _branches);
-  utils::setStatus(_tree, _name, "packedPuppiWNoLepDiff", _branches);
-  utils::setStatus(_tree, _name, "ptype", _branches);
-}
-
-panda::utils::BranchList
-panda::PFCand::doGetStatus_(TTree& _tree, TString const& _name) const
-{
-  utils::BranchList blist(PackedParticle::doGetStatus_(_tree, _name));
-
-  blist.push_back(utils::getStatus(_tree, _name, "packedEta"));
-  blist.push_back(utils::getStatus(_tree, _name, "packedPuppiW"));
-  blist.push_back(utils::getStatus(_tree, _name, "packedPuppiWNoLepDiff"));
-  blist.push_back(utils::getStatus(_tree, _name, "ptype"));
-
-  return blist;
 }
 
 void

@@ -12,6 +12,12 @@ panda::Singlet::getStatus(TTree& _tree) const
   return doGetStatus_(_tree);
 }
 
+panda::utils::BranchList
+panda::Singlet::getBranchNames() const
+{
+  return doGetBranchNames_();
+}
+
 UInt_t
 panda::Singlet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {

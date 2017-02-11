@@ -2,6 +2,7 @@
 #define PandaTree_Framework_Object_h
 
 #include "IOUtils.h"
+#include <iostream>
 
 class TTree;
 
@@ -28,24 +29,27 @@ namespace panda {
      * Branches not mentioned in the branch list are untouched.
      *
      * \param blist   List of branches. The status of a branch is set to true (false) if BranchName::in(blist) (BranchName::vetoed(blist)) evaluates to true for the branch.
-    */
+     */
     virtual void setStatus(TTree&, utils::BranchList const&) {}
 
     //! Get status of branches in the tree
     virtual utils::BranchList getStatus(TTree&) const { return utils::BranchList(); }
+
+    //! Get the full list of branch names
+    virtual utils::BranchList getBranchNames() const { return utils::BranchList(); }
 
     //! Bind the tree branches to the elements of this object.
     /*!
      * \param blist      List of branches to bind. Vetoed or unmentioned branches are not bound.
      * \param setStatus  If true, set the status of the branch to true before binding.
      * \return Token (serial number) of the input tree.
-    */
+     */
     virtual UInt_t setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) { return -1; }
 
     //! Book new branches bound to this object on the tree.
     /*!
      * \param blist   List of branches to book. Vetoed or unmentioned branches are not booked.
-    */
+     */
     virtual void book(TTree&, utils::BranchList const& = {"*"}) {}
 
     //! Read an entry from an input tree.
@@ -72,6 +76,9 @@ namespace panda {
 
     //! Set object name.
     virtual void setName(char const*) {}
+
+    //! Print the object content.
+    virtual std::string print() { return ""; }
   };
 
 }

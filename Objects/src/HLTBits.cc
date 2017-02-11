@@ -44,6 +44,17 @@ panda::HLTBits::doGetStatus_(TTree& _tree) const
   return blist;
 }
 
+panda::utils::BranchList
+panda::HLTBits::doGetBranchNames_() const
+{
+  utils::BranchList blist;
+
+  blist.push_back(utils::BranchName("words").fullName(name_));
+  blist.push_back(utils::BranchName("size_").fullName(name_));
+
+  return blist;
+}
+
 void
 panda::HLTBits::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -69,7 +80,7 @@ void
 panda::HLTBits::doInit_()
 {
   for (auto& p0 : words) p0 = 0;
-  size_ = 512;
+  size_ = 0;
 
   /* BEGIN CUSTOM HLTBits.cc.doInit_ */
   /* END CUSTOM */

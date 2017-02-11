@@ -100,6 +100,29 @@ panda::Electron::datastore::getStatus(TTree& _tree, TString const& _name) const
   return blist;
 }
 
+panda::utils::BranchList
+panda::Electron::datastore::getBranchNames(TString const& _name) const
+{
+  utils::BranchList blist(Lepton::datastore::getBranchNames(_name));
+
+  blist.push_back(utils::BranchName("hltsafe").fullName(_name));
+  blist.push_back(utils::BranchName("chisoPh").fullName(_name));
+  blist.push_back(utils::BranchName("nhisoPh").fullName(_name));
+  blist.push_back(utils::BranchName("phisoPh").fullName(_name));
+  blist.push_back(utils::BranchName("ecaliso").fullName(_name));
+  blist.push_back(utils::BranchName("hcaliso").fullName(_name));
+  blist.push_back(utils::BranchName("isoPUOffset").fullName(_name));
+  blist.push_back(utils::BranchName("sieie").fullName(_name));
+  blist.push_back(utils::BranchName("sipip").fullName(_name));
+  blist.push_back(utils::BranchName("eseed").fullName(_name));
+  blist.push_back(utils::BranchName("hOverE").fullName(_name));
+  blist.push_back(utils::BranchName("veto").fullName(_name));
+  blist.push_back(utils::BranchName("triggerMatch").fullName(_name));
+  blist.push_back(utils::BranchName("superCluster_").fullName(_name));
+
+  return blist;
+}
+
 void
 panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -300,50 +323,6 @@ panda::Electron::operator=(Electron const& _src)
   superCluster = _src.superCluster;
 
   return *this;
-}
-
-void
-panda::Electron::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
-{
-  Lepton::doSetStatus_(_tree, _name, _branches);
-
-  utils::setStatus(_tree, _name, "hltsafe", _branches);
-  utils::setStatus(_tree, _name, "chisoPh", _branches);
-  utils::setStatus(_tree, _name, "nhisoPh", _branches);
-  utils::setStatus(_tree, _name, "phisoPh", _branches);
-  utils::setStatus(_tree, _name, "ecaliso", _branches);
-  utils::setStatus(_tree, _name, "hcaliso", _branches);
-  utils::setStatus(_tree, _name, "isoPUOffset", _branches);
-  utils::setStatus(_tree, _name, "sieie", _branches);
-  utils::setStatus(_tree, _name, "sipip", _branches);
-  utils::setStatus(_tree, _name, "eseed", _branches);
-  utils::setStatus(_tree, _name, "hOverE", _branches);
-  utils::setStatus(_tree, _name, "veto", _branches);
-  utils::setStatus(_tree, _name, "triggerMatch", _branches);
-  utils::setStatus(_tree, _name, "superCluster_", _branches);
-}
-
-panda::utils::BranchList
-panda::Electron::doGetStatus_(TTree& _tree, TString const& _name) const
-{
-  utils::BranchList blist(Lepton::doGetStatus_(_tree, _name));
-
-  blist.push_back(utils::getStatus(_tree, _name, "hltsafe"));
-  blist.push_back(utils::getStatus(_tree, _name, "chisoPh"));
-  blist.push_back(utils::getStatus(_tree, _name, "nhisoPh"));
-  blist.push_back(utils::getStatus(_tree, _name, "phisoPh"));
-  blist.push_back(utils::getStatus(_tree, _name, "ecaliso"));
-  blist.push_back(utils::getStatus(_tree, _name, "hcaliso"));
-  blist.push_back(utils::getStatus(_tree, _name, "isoPUOffset"));
-  blist.push_back(utils::getStatus(_tree, _name, "sieie"));
-  blist.push_back(utils::getStatus(_tree, _name, "sipip"));
-  blist.push_back(utils::getStatus(_tree, _name, "eseed"));
-  blist.push_back(utils::getStatus(_tree, _name, "hOverE"));
-  blist.push_back(utils::getStatus(_tree, _name, "veto"));
-  blist.push_back(utils::getStatus(_tree, _name, "triggerMatch"));
-  blist.push_back(utils::getStatus(_tree, _name, "superCluster_"));
-
-  return blist;
 }
 
 void

@@ -90,6 +90,27 @@ panda::FatJet::datastore::getStatus(TTree& _tree, TString const& _name) const
   return blist;
 }
 
+panda::utils::BranchList
+panda::FatJet::datastore::getBranchNames(TString const& _name) const
+{
+  utils::BranchList blist(Jet::datastore::getBranchNames(_name));
+
+  blist.push_back(utils::BranchName("tau1").fullName(_name));
+  blist.push_back(utils::BranchName("tau2").fullName(_name));
+  blist.push_back(utils::BranchName("tau3").fullName(_name));
+  blist.push_back(utils::BranchName("mSD").fullName(_name));
+  blist.push_back(utils::BranchName("tau1SD").fullName(_name));
+  blist.push_back(utils::BranchName("tau2SD").fullName(_name));
+  blist.push_back(utils::BranchName("tau3SD").fullName(_name));
+  blist.push_back(utils::BranchName("htt_mass").fullName(_name));
+  blist.push_back(utils::BranchName("htt_frec").fullName(_name));
+  blist.push_back(utils::BranchName("double_sub").fullName(_name));
+  blist.push_back(utils::BranchName("ecfs").fullName(_name));
+  blist.push_back(utils::BranchName("subjets_").fullName(_name));
+
+  return blist;
+}
+
 void
 panda::FatJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -273,46 +294,6 @@ panda::FatJet::operator=(FatJet const& _src)
   subjets = _src.subjets;
 
   return *this;
-}
-
-void
-panda::FatJet::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
-{
-  Jet::doSetStatus_(_tree, _name, _branches);
-
-  utils::setStatus(_tree, _name, "tau1", _branches);
-  utils::setStatus(_tree, _name, "tau2", _branches);
-  utils::setStatus(_tree, _name, "tau3", _branches);
-  utils::setStatus(_tree, _name, "mSD", _branches);
-  utils::setStatus(_tree, _name, "tau1SD", _branches);
-  utils::setStatus(_tree, _name, "tau2SD", _branches);
-  utils::setStatus(_tree, _name, "tau3SD", _branches);
-  utils::setStatus(_tree, _name, "htt_mass", _branches);
-  utils::setStatus(_tree, _name, "htt_frec", _branches);
-  utils::setStatus(_tree, _name, "double_sub", _branches);
-  utils::setStatus(_tree, _name, "ecfs", _branches);
-  utils::setStatus(_tree, _name, "subjets_", _branches);
-}
-
-panda::utils::BranchList
-panda::FatJet::doGetStatus_(TTree& _tree, TString const& _name) const
-{
-  utils::BranchList blist(Jet::doGetStatus_(_tree, _name));
-
-  blist.push_back(utils::getStatus(_tree, _name, "tau1"));
-  blist.push_back(utils::getStatus(_tree, _name, "tau2"));
-  blist.push_back(utils::getStatus(_tree, _name, "tau3"));
-  blist.push_back(utils::getStatus(_tree, _name, "mSD"));
-  blist.push_back(utils::getStatus(_tree, _name, "tau1SD"));
-  blist.push_back(utils::getStatus(_tree, _name, "tau2SD"));
-  blist.push_back(utils::getStatus(_tree, _name, "tau3SD"));
-  blist.push_back(utils::getStatus(_tree, _name, "htt_mass"));
-  blist.push_back(utils::getStatus(_tree, _name, "htt_frec"));
-  blist.push_back(utils::getStatus(_tree, _name, "double_sub"));
-  blist.push_back(utils::getStatus(_tree, _name, "ecfs"));
-  blist.push_back(utils::getStatus(_tree, _name, "subjets_"));
-
-  return blist;
 }
 
 void

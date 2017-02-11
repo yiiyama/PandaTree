@@ -105,6 +105,30 @@ panda::Jet::datastore::getStatus(TTree& _tree, TString const& _name) const
   return blist;
 }
 
+panda::utils::BranchList
+panda::Jet::datastore::getBranchNames(TString const& _name) const
+{
+  utils::BranchList blist(MicroJet::datastore::getBranchNames(_name));
+
+  blist.push_back(utils::BranchName("rawPt").fullName(_name));
+  blist.push_back(utils::BranchName("ptCorrUp").fullName(_name));
+  blist.push_back(utils::BranchName("ptCorrDown").fullName(_name));
+  blist.push_back(utils::BranchName("ptSmear").fullName(_name));
+  blist.push_back(utils::BranchName("ptSmearUp").fullName(_name));
+  blist.push_back(utils::BranchName("ptSmearDown").fullName(_name));
+  blist.push_back(utils::BranchName("area").fullName(_name));
+  blist.push_back(utils::BranchName("nhf").fullName(_name));
+  blist.push_back(utils::BranchName("chf").fullName(_name));
+  blist.push_back(utils::BranchName("puid").fullName(_name));
+  blist.push_back(utils::BranchName("loose").fullName(_name));
+  blist.push_back(utils::BranchName("tight").fullName(_name));
+  blist.push_back(utils::BranchName("monojet").fullName(_name));
+  blist.push_back(utils::BranchName("matchedGenJet_").fullName(_name));
+  blist.push_back(utils::BranchName("constituents_").fullName(_name));
+
+  return blist;
+}
+
 void
 panda::Jet::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -315,52 +339,6 @@ panda::Jet::operator=(Jet const& _src)
   constituents = _src.constituents;
 
   return *this;
-}
-
-void
-panda::Jet::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
-{
-  MicroJet::doSetStatus_(_tree, _name, _branches);
-
-  utils::setStatus(_tree, _name, "rawPt", _branches);
-  utils::setStatus(_tree, _name, "ptCorrUp", _branches);
-  utils::setStatus(_tree, _name, "ptCorrDown", _branches);
-  utils::setStatus(_tree, _name, "ptSmear", _branches);
-  utils::setStatus(_tree, _name, "ptSmearUp", _branches);
-  utils::setStatus(_tree, _name, "ptSmearDown", _branches);
-  utils::setStatus(_tree, _name, "area", _branches);
-  utils::setStatus(_tree, _name, "nhf", _branches);
-  utils::setStatus(_tree, _name, "chf", _branches);
-  utils::setStatus(_tree, _name, "puid", _branches);
-  utils::setStatus(_tree, _name, "loose", _branches);
-  utils::setStatus(_tree, _name, "tight", _branches);
-  utils::setStatus(_tree, _name, "monojet", _branches);
-  utils::setStatus(_tree, _name, "matchedGenJet_", _branches);
-  utils::setStatus(_tree, _name, "constituents_", _branches);
-}
-
-panda::utils::BranchList
-panda::Jet::doGetStatus_(TTree& _tree, TString const& _name) const
-{
-  utils::BranchList blist(MicroJet::doGetStatus_(_tree, _name));
-
-  blist.push_back(utils::getStatus(_tree, _name, "rawPt"));
-  blist.push_back(utils::getStatus(_tree, _name, "ptCorrUp"));
-  blist.push_back(utils::getStatus(_tree, _name, "ptCorrDown"));
-  blist.push_back(utils::getStatus(_tree, _name, "ptSmear"));
-  blist.push_back(utils::getStatus(_tree, _name, "ptSmearUp"));
-  blist.push_back(utils::getStatus(_tree, _name, "ptSmearDown"));
-  blist.push_back(utils::getStatus(_tree, _name, "area"));
-  blist.push_back(utils::getStatus(_tree, _name, "nhf"));
-  blist.push_back(utils::getStatus(_tree, _name, "chf"));
-  blist.push_back(utils::getStatus(_tree, _name, "puid"));
-  blist.push_back(utils::getStatus(_tree, _name, "loose"));
-  blist.push_back(utils::getStatus(_tree, _name, "tight"));
-  blist.push_back(utils::getStatus(_tree, _name, "monojet"));
-  blist.push_back(utils::getStatus(_tree, _name, "matchedGenJet_"));
-  blist.push_back(utils::getStatus(_tree, _name, "constituents_"));
-
-  return blist;
 }
 
 void

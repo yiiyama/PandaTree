@@ -140,6 +140,7 @@ class PhysicsObject(Definition, Object):
             header.writeline('void deallocate() override;')
             header.writeline('void setStatus(TTree&, TString const&, utils::BranchList const&) override;')
             header.writeline('utils::BranchList getStatus(TTree&, TString const&) const override;')
+            header.writeline('utils::BranchList getBranchNames(TString const&) const override;')
             header.writeline('void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
             header.writeline('void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;')
             header.writeline('void releaseTree(TTree&, TString const&) override;')
@@ -263,6 +264,7 @@ class PhysicsObject(Definition, Object):
             header.indent += 1
             header.writeline('void doSetStatus_(TTree&, utils::BranchList const&) override;')
             header.writeline('utils::BranchList doGetStatus_(TTree&) const override;')
+            header.writeline('utils::BranchList doGetBranchNames_() const override;')
             header.writeline('void doSetAddress_(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
             header.writeline('void doBook_(TTree&, utils::BranchList const& = {"*"}) override;')
             header.writeline('void doReleaseTree_(TTree&) override;')
@@ -277,8 +279,6 @@ class PhysicsObject(Definition, Object):
             header.indent += 1
             header.writeline('{name}(ArrayBase*);'.format(name = self.name))
             header.newline()
-            header.writeline('void doSetStatus_(TTree&, TString const&, utils::BranchList const&) override;')
-            header.writeline('utils::BranchList doGetStatus_(TTree&, TString const&) const override;')
             header.writeline('void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
             header.writeline('void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;')
             header.writeline('void doReleaseTree_(TTree&, TString const&) override;')
@@ -437,6 +437,7 @@ class PhysicsObject(Definition, Object):
                 ('operator=', '{NAMESPACE}::{name}&'.format(**subst), [('{name} const&'.format(**subst), '_src')], 'write_assign', '*this'),
                 ('doSetStatus_', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches')], 'write_set_status', None),
                 ('doGetStatus_ const', 'panda::utils::BranchList', [('TTree&', '_tree')], 'write_get_status', 'blist', [], 'utils::BranchList blist'),
+                ('doGetBranchNames_ const', 'panda::utils::BranchList', [], 'write_get_branch_names', 'blist', [], 'utils::BranchList blist'),
                 ('doSetAddress_', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
                 ('doBook_', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', None),
                 ('doReleaseTree_', 'void', [('TTree&', '_tree')], 'write_release_tree', None),
@@ -455,6 +456,7 @@ class PhysicsObject(Definition, Object):
                 ('deallocate', 'void', [], 'write_deallocate', None),
                 ('setStatus', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches')], 'write_set_status', None),
                 ('getStatus const', 'panda::utils::BranchList', [('TTree&', '_tree'), ('TString const&', '_name')], 'write_get_status', 'blist', [], 'utils::BranchList blist'),
+                ('getBranchNames const', 'panda::utils::BranchList', [('TString const&', '_name')], 'write_get_branch_names', 'blist', [], 'utils::BranchList blist'),
                 ('setAddress', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
                 ('book', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_dynamic', 'kTRUE')], 'write_book', None, size_lines),
                 ('releaseTree', 'void', [('TTree&', '_tree'), ('TString const&', '_name')], 'write_release_tree', None),
@@ -552,8 +554,6 @@ class PhysicsObject(Definition, Object):
 
             methods = [
                 ('operator=', '{NAMESPACE}::{name}&'.format(**subst), [('{name} const&'.format(**subst), '_src')], 'write_assign', '*this'),
-                ('doSetStatus_', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches')], 'write_set_status', None),
-                ('doGetStatus_ const', 'panda::utils::BranchList', [('TTree&', '_tree'), ('TString const&', '_name')], 'write_get_status', 'blist', [], 'utils::BranchList blist'),
                 ('doSetAddress_', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
                 ('doBook_', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', None),
                 ('doReleaseTree_', 'void', [('TTree&', '_tree'), ('TString const&', '_name')], 'write_release_tree', None),

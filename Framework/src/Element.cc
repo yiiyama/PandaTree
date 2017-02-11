@@ -26,13 +26,19 @@ panda::Element::setName(char const* _name)
 void
 panda::Element::setStatus(TTree& _tree, utils::BranchList const& _branches)
 {
-  doSetStatus_(_tree, gStore.getName(this), _branches);
+  gStore.getData(this).setStatus(_tree, gStore.getName(this), _branches);
 }
 
 panda::utils::BranchList
 panda::Element::getStatus(TTree& _tree) const
 {
-  return doGetStatus_(_tree, gStore.getName(this));
+  return gStore.getData(this).getStatus(_tree, gStore.getName(this));
+}
+
+panda::utils::BranchList
+panda::Element::getBranchNames() const
+{
+  return gStore.getData(this).getBranchNames(gStore.getName(this));
 }
 
 UInt_t

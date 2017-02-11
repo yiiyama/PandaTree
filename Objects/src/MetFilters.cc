@@ -70,6 +70,22 @@ panda::MetFilters::doGetStatus_(TTree& _tree) const
   return blist;
 }
 
+panda::utils::BranchList
+panda::MetFilters::doGetBranchNames_() const
+{
+  utils::BranchList blist;
+
+  blist.push_back(utils::BranchName("globalHalo16").fullName(name_));
+  blist.push_back(utils::BranchName("hbhe").fullName(name_));
+  blist.push_back(utils::BranchName("hbheIso").fullName(name_));
+  blist.push_back(utils::BranchName("ecalDeadCell").fullName(name_));
+  blist.push_back(utils::BranchName("badsc").fullName(name_));
+  blist.push_back(utils::BranchName("badTrack").fullName(name_));
+  blist.push_back(utils::BranchName("badMuonTrack").fullName(name_));
+
+  return blist;
+}
+
 void
 panda::MetFilters::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {

@@ -45,6 +45,17 @@ panda::Met::doGetStatus_(TTree& _tree) const
   return blist;
 }
 
+panda::utils::BranchList
+panda::Met::doGetBranchNames_() const
+{
+  utils::BranchList blist;
+
+  blist.push_back(utils::BranchName("pt").fullName(name_));
+  blist.push_back(utils::BranchName("phi").fullName(name_));
+
+  return blist;
+}
+
 void
 panda::Met::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {

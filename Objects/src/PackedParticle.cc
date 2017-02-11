@@ -45,6 +45,18 @@ panda::PackedParticle::datastore::getStatus(TTree& _tree, TString const& _name) 
   return blist;
 }
 
+panda::utils::BranchList
+panda::PackedParticle::datastore::getBranchNames(TString const& _name) const
+{
+  utils::BranchList blist(Particle::datastore::getBranchNames(_name));
+
+  blist.push_back(utils::BranchName("packedPt").fullName(_name));
+  blist.push_back(utils::BranchName("packedPhi").fullName(_name));
+  blist.push_back(utils::BranchName("packedM").fullName(_name));
+
+  return blist;
+}
+
 void
 panda::PackedParticle::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -146,28 +158,6 @@ panda::PackedParticle::operator=(PackedParticle const& _src)
   packedM = _src.packedM;
 
   return *this;
-}
-
-void
-panda::PackedParticle::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
-{
-  Particle::doSetStatus_(_tree, _name, _branches);
-
-  utils::setStatus(_tree, _name, "packedPt", _branches);
-  utils::setStatus(_tree, _name, "packedPhi", _branches);
-  utils::setStatus(_tree, _name, "packedM", _branches);
-}
-
-panda::utils::BranchList
-panda::PackedParticle::doGetStatus_(TTree& _tree, TString const& _name) const
-{
-  utils::BranchList blist(Particle::doGetStatus_(_tree, _name));
-
-  blist.push_back(utils::getStatus(_tree, _name, "packedPt"));
-  blist.push_back(utils::getStatus(_tree, _name, "packedPhi"));
-  blist.push_back(utils::getStatus(_tree, _name, "packedM"));
-
-  return blist;
 }
 
 void

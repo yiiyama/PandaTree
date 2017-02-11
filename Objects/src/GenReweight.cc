@@ -74,6 +74,23 @@ panda::GenReweight::doGetStatus_(TTree& _tree) const
   return blist;
 }
 
+panda::utils::BranchList
+panda::GenReweight::doGetBranchNames_() const
+{
+  utils::BranchList blist;
+
+  blist.push_back(utils::BranchName("r1f2DW").fullName(name_));
+  blist.push_back(utils::BranchName("r1f5DW").fullName(name_));
+  blist.push_back(utils::BranchName("r2f1DW").fullName(name_));
+  blist.push_back(utils::BranchName("r2f2DW").fullName(name_));
+  blist.push_back(utils::BranchName("r5f1DW").fullName(name_));
+  blist.push_back(utils::BranchName("r5f5DW").fullName(name_));
+  blist.push_back(utils::BranchName("pdfDW").fullName(name_));
+  blist.push_back(utils::BranchName("genParam").fullName(name_));
+
+  return blist;
+}
+
 void
 panda::GenReweight::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {

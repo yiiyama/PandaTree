@@ -65,6 +65,22 @@ panda::Tau::datastore::getStatus(TTree& _tree, TString const& _name) const
   return blist;
 }
 
+panda::utils::BranchList
+panda::Tau::datastore::getBranchNames(TString const& _name) const
+{
+  utils::BranchList blist(ParticleM::datastore::getBranchNames(_name));
+
+  blist.push_back(utils::BranchName("q").fullName(_name));
+  blist.push_back(utils::BranchName("decayMode").fullName(_name));
+  blist.push_back(utils::BranchName("decayModeNew").fullName(_name));
+  blist.push_back(utils::BranchName("looseIsoMVA").fullName(_name));
+  blist.push_back(utils::BranchName("iso").fullName(_name));
+  blist.push_back(utils::BranchName("isoDeltaBetaCorr").fullName(_name));
+  blist.push_back(utils::BranchName("matchedGen_").fullName(_name));
+
+  return blist;
+}
+
 void
 panda::Tau::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -202,36 +218,6 @@ panda::Tau::operator=(Tau const& _src)
   matchedGen = _src.matchedGen;
 
   return *this;
-}
-
-void
-panda::Tau::doSetStatus_(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
-{
-  ParticleM::doSetStatus_(_tree, _name, _branches);
-
-  utils::setStatus(_tree, _name, "q", _branches);
-  utils::setStatus(_tree, _name, "decayMode", _branches);
-  utils::setStatus(_tree, _name, "decayModeNew", _branches);
-  utils::setStatus(_tree, _name, "looseIsoMVA", _branches);
-  utils::setStatus(_tree, _name, "iso", _branches);
-  utils::setStatus(_tree, _name, "isoDeltaBetaCorr", _branches);
-  utils::setStatus(_tree, _name, "matchedGen_", _branches);
-}
-
-panda::utils::BranchList
-panda::Tau::doGetStatus_(TTree& _tree, TString const& _name) const
-{
-  utils::BranchList blist(ParticleM::doGetStatus_(_tree, _name));
-
-  blist.push_back(utils::getStatus(_tree, _name, "q"));
-  blist.push_back(utils::getStatus(_tree, _name, "decayMode"));
-  blist.push_back(utils::getStatus(_tree, _name, "decayModeNew"));
-  blist.push_back(utils::getStatus(_tree, _name, "looseIsoMVA"));
-  blist.push_back(utils::getStatus(_tree, _name, "iso"));
-  blist.push_back(utils::getStatus(_tree, _name, "isoDeltaBetaCorr"));
-  blist.push_back(utils::getStatus(_tree, _name, "matchedGen_"));
-
-  return blist;
 }
 
 void
