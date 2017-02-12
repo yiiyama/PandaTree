@@ -32,6 +32,7 @@ namespace panda {
       ContainerBase const* matchedGenContainer_{0};
       Int_t* matchedGen_{0};
       */
+      Bool_t* mediumBtoF{0};
       Bool_t (*triggerMatch)[nMuonTriggerObjects]{0};
 
       void allocate(UInt_t n) override;
@@ -70,6 +71,7 @@ namespace panda {
     Float_t& puiso;
     Ref<GenParticle> matchedGen;
     */
+    Bool_t& mediumBtoF;
     Bool_t (&triggerMatch)[nMuonTriggerObjects];
 
   protected:

@@ -194,6 +194,7 @@ double m() const override { return 5.109989e-4; }
 double combiso() const override { return chiso + std::max(nhiso + phoiso - isoPUOffset, Float_t(0.)); }
 
 [Muon>Lepton]
+mediumBtoF/O
 triggerMatch[nMuonTriggerObjects]/O
 double m() const override { return 1.05658e-2; }
 double combiso() const override { return chiso + std::max(nhiso + phoiso - 0.5 * puiso, 0.); }
