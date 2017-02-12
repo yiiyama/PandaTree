@@ -3,7 +3,7 @@
 panda::Event::Event() :
   TreeEntry("Event")
 {
-  objects_ = {&genReweight, &pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsCA15Jets, &puppiAK8Jets, &puppiCA15Jets, &subjets, &genJets, &genParticles, &partons, &met, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metFilters, &triggers, &recoil};
+  objects_ = {&genReweight, &pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsCA15Jets, &puppiAK8Jets, &puppiCA15Jets, &subjets, &genJets, &genParticles, &partons, &met, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &triggers, &recoil};
   collections_ = {&pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsCA15Jets, &puppiAK8Jets, &puppiCA15Jets, &subjets, &genJets, &genParticles, &partons};
 
   electrons.data.superClusterContainer_ = &superClusters;
@@ -57,6 +57,8 @@ panda::Event::Event(Event const& _src) :
   photonMet(_src.photonMet),
   hfMet(_src.hfMet),
   genMet(_src.genMet),
+  metMuOnlyFix(_src.metMuOnlyFix),
+  metNoFix(_src.metNoFix),
   metFilters(_src.metFilters),
   triggers(_src.triggers),
   recoil(_src.recoil),
@@ -70,7 +72,7 @@ panda::Event::Event(Event const& _src) :
   rhoCentralCalo(_src.rhoCentralCalo),
   weight(_src.weight)
 {
-  objects_ = {&genReweight, &pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsCA15Jets, &puppiAK8Jets, &puppiCA15Jets, &subjets, &genJets, &genParticles, &partons, &met, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metFilters, &triggers, &recoil};
+  objects_ = {&genReweight, &pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsCA15Jets, &puppiAK8Jets, &puppiCA15Jets, &subjets, &genJets, &genParticles, &partons, &met, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &triggers, &recoil};
   collections_ = {&pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsCA15Jets, &puppiAK8Jets, &puppiCA15Jets, &subjets, &genJets, &genParticles, &partons};
 
   electrons.data.superClusterContainer_ = &superClusters;
@@ -135,6 +137,8 @@ panda::Event::operator=(Event const& _src)
   photonMet = _src.photonMet;
   hfMet = _src.hfMet;
   genMet = _src.genMet;
+  metMuOnlyFix = _src.metMuOnlyFix;
+  metNoFix = _src.metNoFix;
   metFilters = _src.metFilters;
   triggers = _src.triggers;
   recoil = _src.recoil;

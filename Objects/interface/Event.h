@@ -58,6 +58,8 @@ namespace panda {
     Met photonMet = Met("photonMet");
     Met hfMet = Met("hfMet");
     Met genMet = Met("genMet");
+    RecoMet metMuOnlyFix = RecoMet("metMuOnlyFix");
+    RecoMet metNoFix = RecoMet("metNoFix");
     MetFilters metFilters = MetFilters("metFilters");
     HLTBits triggers = HLTBits("triggers");
     Recoil recoil = Recoil("recoil");

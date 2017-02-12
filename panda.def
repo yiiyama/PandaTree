@@ -327,6 +327,10 @@ hbhe/O
 hbheIso/O
 ecalDeadCell/O
 badsc/O
+badMuons/O
+duplicateMuons/O
+dupECALClusters/O
+unfixedECALHits/O
 virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc; }
 
 [HLTBits:SINGLE]
@@ -388,6 +392,8 @@ neutralMet/Met
 photonMet/Met
 hfMet/Met
 genMet/Met
+metMuOnlyFix/RecoMet
+metNoFix/RecoMet
 metFilters/MetFilters
 triggers/HLTBits
 recoil/Recoil

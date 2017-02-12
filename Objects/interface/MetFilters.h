@@ -25,6 +25,10 @@ namespace panda {
     Bool_t hbheIso{};
     Bool_t ecalDeadCell{};
     Bool_t badsc{};
+    Bool_t badMuons{};
+    Bool_t duplicateMuons{};
+    Bool_t dupECALClusters{};
+    Bool_t unfixedECALHits{};
 
     /* BEGIN CUSTOM MetFilters.h.classdef */
     /* END CUSTOM */
