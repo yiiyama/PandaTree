@@ -66,6 +66,9 @@ class Tree(Definition, Object):
                 branch.write_decl(header, context = 'TreeEntry')
 
         header.newline()
+        header.writeline('static utils::BranchList getListOfBranches();')
+
+        header.newline()
         header.indent -= 1
         header.writeline('protected:')
         header.indent += 1
@@ -170,6 +173,19 @@ class Tree(Definition, Object):
         src.writeline('}')
         src.newline()
 
+        src.writeline('/*static*/')
+        src.writeline('panda::utils::BranchList')
+        src.writeline('{NAMESPACE}::{name}::getListOfBranches()'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{')
+        src.indent += 1
+        src.writeline('utils::BranchList blist;')
+        src.writeline('blist += {{{bnames}}};'.format(bnames = ', '.join('"{name}"'.format(name = branch.name) for branch in self.branches)))
+        for objbranch in self.objbranches:
+            src.writeline('blist += {otype}::getListOfBranches().fullNames("{name}");'.format(otype = objbranch.objname, name = objbranch.name))
+        src.writeline('return blist;')
+        src.indent -= 1
+        src.writeline('}')
+
         src.writeline('/*protected*/')
         src.writeline('void')
         src.writeline('{NAMESPACE}::{name}::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)'.format(NAMESPACE = NAMESPACE, name = self.name))
@@ -200,11 +216,7 @@ class Tree(Definition, Object):
         src.writeline('{NAMESPACE}::{name}::doGetBranchNames_() const'.format(NAMESPACE = NAMESPACE, name = self.name))
         src.writeline('{')
         src.indent += 1
-        src.writeline('utils::BranchList blist;')
-        src.newline()
-        for branch in self.branches:
-            branch.write_get_branch_names(src, context = 'TreeEntry')
-        src.writeline('return blist;')
+        src.writeline('return getListOfBranches();')
         src.indent -= 1
         src.writeline('}')
         src.newline()

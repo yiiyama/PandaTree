@@ -1,5 +1,14 @@
 #include "../interface/Met.h"
 
+/*static*/
+panda::utils::BranchList
+panda::Met::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += {"pt", "phi"};
+  return blist;
+}
+
 panda::Met::Met(char const* _name/* = ""*/) :
   Singlet(_name)
 {
@@ -45,17 +54,6 @@ panda::Met::doGetStatus_(TTree& _tree) const
   return blist;
 }
 
-panda::utils::BranchList
-panda::Met::doGetBranchNames_() const
-{
-  utils::BranchList blist;
-
-  blist.push_back(utils::BranchName("pt").fullName(name_));
-  blist.push_back(utils::BranchName("phi").fullName(name_));
-
-  return blist;
-}
-
 void
 panda::Met::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -85,6 +83,12 @@ panda::Met::doInit_()
 
   /* BEGIN CUSTOM Met.cc.doInit_ */
   /* END CUSTOM */
+}
+
+panda::utils::BranchList
+panda::Met::doGetBranchNames_() const
+{
+  return getListOfBranches().fullNames(name_);
 }
 
 

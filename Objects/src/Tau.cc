@@ -1,5 +1,15 @@
 #include "../interface/Tau.h"
 
+/*static*/
+panda::utils::BranchList
+panda::Tau::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += ParticleM::getListOfBranches();
+  blist += {"q", "decayMode", "decayModeNew", "looseIsoMVA", "iso", "isoDeltaBetaCorr", "matchedGen_"};
+  return blist;
+}
+
 void
 panda::Tau::datastore::allocate(UInt_t _nmax)
 {
@@ -65,22 +75,6 @@ panda::Tau::datastore::getStatus(TTree& _tree, TString const& _name) const
   return blist;
 }
 
-panda::utils::BranchList
-panda::Tau::datastore::getBranchNames(TString const& _name) const
-{
-  utils::BranchList blist(ParticleM::datastore::getBranchNames(_name));
-
-  blist.push_back(utils::BranchName("q").fullName(_name));
-  blist.push_back(utils::BranchName("decayMode").fullName(_name));
-  blist.push_back(utils::BranchName("decayModeNew").fullName(_name));
-  blist.push_back(utils::BranchName("looseIsoMVA").fullName(_name));
-  blist.push_back(utils::BranchName("iso").fullName(_name));
-  blist.push_back(utils::BranchName("isoDeltaBetaCorr").fullName(_name));
-  blist.push_back(utils::BranchName("matchedGen_").fullName(_name));
-
-  return blist;
-}
-
 void
 panda::Tau::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -130,6 +124,13 @@ panda::Tau::datastore::resizeVectors_(UInt_t _size)
 {
   ParticleM::datastore::resizeVectors_(_size);
 
+}
+
+
+panda::utils::BranchList
+panda::Tau::datastore::getBranchNames(TString const& _name) const
+{
+  return Tau::getListOfBranches().fullNames(_name);
 }
 
 panda::Tau::Tau(char const* _name/* = ""*/) :

@@ -1,5 +1,14 @@
 #include "../interface/HLTBits.h"
 
+/*static*/
+panda::utils::BranchList
+panda::HLTBits::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += {"words", "size_"};
+  return blist;
+}
+
 panda::HLTBits::HLTBits(char const* _name/* = ""*/) :
   Singlet(_name)
 {
@@ -44,17 +53,6 @@ panda::HLTBits::doGetStatus_(TTree& _tree) const
   return blist;
 }
 
-panda::utils::BranchList
-panda::HLTBits::doGetBranchNames_() const
-{
-  utils::BranchList blist;
-
-  blist.push_back(utils::BranchName("words").fullName(name_));
-  blist.push_back(utils::BranchName("size_").fullName(name_));
-
-  return blist;
-}
-
 void
 panda::HLTBits::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -84,6 +82,12 @@ panda::HLTBits::doInit_()
 
   /* BEGIN CUSTOM HLTBits.cc.doInit_ */
   /* END CUSTOM */
+}
+
+panda::utils::BranchList
+panda::HLTBits::doGetBranchNames_() const
+{
+  return getListOfBranches().fullNames(name_);
 }
 
 

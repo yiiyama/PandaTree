@@ -61,6 +61,8 @@ namespace panda {
     /* BEGIN CUSTOM GenParticle.h.classdef */
     /* END CUSTOM */
 
+    static utils::BranchList getListOfBranches();
+
     void destructor() override;
 
   protected:

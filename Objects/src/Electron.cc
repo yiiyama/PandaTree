@@ -1,5 +1,15 @@
 #include "../interface/Electron.h"
 
+/*static*/
+panda::utils::BranchList
+panda::Electron::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += Lepton::getListOfBranches();
+  blist += {"hltsafe", "chisoPh", "nhisoPh", "phisoPh", "ecaliso", "hcaliso", "isoPUOffset", "sieie", "sipip", "eseed", "hOverE", "veto", "triggerMatch", "superCluster_"};
+  return blist;
+}
+
 void
 panda::Electron::datastore::allocate(UInt_t _nmax)
 {
@@ -100,29 +110,6 @@ panda::Electron::datastore::getStatus(TTree& _tree, TString const& _name) const
   return blist;
 }
 
-panda::utils::BranchList
-panda::Electron::datastore::getBranchNames(TString const& _name) const
-{
-  utils::BranchList blist(Lepton::datastore::getBranchNames(_name));
-
-  blist.push_back(utils::BranchName("hltsafe").fullName(_name));
-  blist.push_back(utils::BranchName("chisoPh").fullName(_name));
-  blist.push_back(utils::BranchName("nhisoPh").fullName(_name));
-  blist.push_back(utils::BranchName("phisoPh").fullName(_name));
-  blist.push_back(utils::BranchName("ecaliso").fullName(_name));
-  blist.push_back(utils::BranchName("hcaliso").fullName(_name));
-  blist.push_back(utils::BranchName("isoPUOffset").fullName(_name));
-  blist.push_back(utils::BranchName("sieie").fullName(_name));
-  blist.push_back(utils::BranchName("sipip").fullName(_name));
-  blist.push_back(utils::BranchName("eseed").fullName(_name));
-  blist.push_back(utils::BranchName("hOverE").fullName(_name));
-  blist.push_back(utils::BranchName("veto").fullName(_name));
-  blist.push_back(utils::BranchName("triggerMatch").fullName(_name));
-  blist.push_back(utils::BranchName("superCluster_").fullName(_name));
-
-  return blist;
-}
-
 void
 panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -193,6 +180,13 @@ panda::Electron::datastore::resizeVectors_(UInt_t _size)
 {
   Lepton::datastore::resizeVectors_(_size);
 
+}
+
+
+panda::utils::BranchList
+panda::Electron::datastore::getBranchNames(TString const& _name) const
+{
+  return Electron::getListOfBranches().fullNames(_name);
 }
 
 panda::Electron::Electron(char const* _name/* = ""*/) :

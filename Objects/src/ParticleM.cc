@@ -1,5 +1,15 @@
 #include "../interface/ParticleM.h"
 
+/*static*/
+panda::utils::BranchList
+panda::ParticleM::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += ParticleP::getListOfBranches();
+  blist += {"mass_"};
+  return blist;
+}
+
 void
 panda::ParticleM::datastore::allocate(UInt_t _nmax)
 {
@@ -35,16 +45,6 @@ panda::ParticleM::datastore::getStatus(TTree& _tree, TString const& _name) const
   return blist;
 }
 
-panda::utils::BranchList
-panda::ParticleM::datastore::getBranchNames(TString const& _name) const
-{
-  utils::BranchList blist(ParticleP::datastore::getBranchNames(_name));
-
-  blist.push_back(utils::BranchName("mass_").fullName(_name));
-
-  return blist;
-}
-
 void
 panda::ParticleM::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -76,6 +76,13 @@ panda::ParticleM::datastore::resizeVectors_(UInt_t _size)
 {
   ParticleP::datastore::resizeVectors_(_size);
 
+}
+
+
+panda::utils::BranchList
+panda::ParticleM::datastore::getBranchNames(TString const& _name) const
+{
+  return ParticleM::getListOfBranches().fullNames(_name);
 }
 
 panda::ParticleM::ParticleM(char const* _name/* = ""*/) :

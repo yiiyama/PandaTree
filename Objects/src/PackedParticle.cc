@@ -1,5 +1,15 @@
 #include "../interface/PackedParticle.h"
 
+/*static*/
+panda::utils::BranchList
+panda::PackedParticle::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += Particle::getListOfBranches();
+  blist += {"packedPt", "packedEta", "packedPhi", "packedM"};
+  return blist;
+}
+
 void
 panda::PackedParticle::datastore::allocate(UInt_t _nmax)
 {
@@ -50,19 +60,6 @@ panda::PackedParticle::datastore::getStatus(TTree& _tree, TString const& _name) 
   return blist;
 }
 
-panda::utils::BranchList
-panda::PackedParticle::datastore::getBranchNames(TString const& _name) const
-{
-  utils::BranchList blist(Particle::datastore::getBranchNames(_name));
-
-  blist.push_back(utils::BranchName("packedPt").fullName(_name));
-  blist.push_back(utils::BranchName("packedEta").fullName(_name));
-  blist.push_back(utils::BranchName("packedPhi").fullName(_name));
-  blist.push_back(utils::BranchName("packedM").fullName(_name));
-
-  return blist;
-}
-
 void
 panda::PackedParticle::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -103,6 +100,13 @@ panda::PackedParticle::datastore::resizeVectors_(UInt_t _size)
 {
   Particle::datastore::resizeVectors_(_size);
 
+}
+
+
+panda::utils::BranchList
+panda::PackedParticle::datastore::getBranchNames(TString const& _name) const
+{
+  return PackedParticle::getListOfBranches().fullNames(_name);
 }
 
 panda::PackedParticle::PackedParticle(char const* _name/* = ""*/) :

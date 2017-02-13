@@ -1,5 +1,14 @@
 #include "../interface/Recoil.h"
 
+/*static*/
+panda::utils::BranchList
+panda::Recoil::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += {"met", "monoMu", "monoE", "diMu", "diE", "gamma", "max"};
+  return blist;
+}
+
 panda::Recoil::Recoil(char const* _name/* = ""*/) :
   Singlet(_name)
 {
@@ -70,22 +79,6 @@ panda::Recoil::doGetStatus_(TTree& _tree) const
   return blist;
 }
 
-panda::utils::BranchList
-panda::Recoil::doGetBranchNames_() const
-{
-  utils::BranchList blist;
-
-  blist.push_back(utils::BranchName("met").fullName(name_));
-  blist.push_back(utils::BranchName("monoMu").fullName(name_));
-  blist.push_back(utils::BranchName("monoE").fullName(name_));
-  blist.push_back(utils::BranchName("diMu").fullName(name_));
-  blist.push_back(utils::BranchName("diE").fullName(name_));
-  blist.push_back(utils::BranchName("gamma").fullName(name_));
-  blist.push_back(utils::BranchName("max").fullName(name_));
-
-  return blist;
-}
-
 void
 panda::Recoil::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -135,6 +128,12 @@ panda::Recoil::doInit_()
 
   /* BEGIN CUSTOM Recoil.cc.doInit_ */
   /* END CUSTOM */
+}
+
+panda::utils::BranchList
+panda::Recoil::doGetBranchNames_() const
+{
+  return getListOfBranches().fullNames(name_);
 }
 
 

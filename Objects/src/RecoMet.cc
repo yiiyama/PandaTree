@@ -1,5 +1,15 @@
 #include "../interface/RecoMet.h"
 
+/*static*/
+panda::utils::BranchList
+panda::RecoMet::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += Met::getListOfBranches();
+  blist += {"sumETRaw", "ptCorrUp", "phiCorrUp", "ptCorrDown", "phiCorrDown", "ptUnclUp", "phiUnclUp", "ptUnclDown", "phiUnclDown"};
+  return blist;
+}
+
 panda::RecoMet::RecoMet(char const* _name/* = ""*/) :
   Met(_name)
 {
@@ -84,24 +94,6 @@ panda::RecoMet::doGetStatus_(TTree& _tree) const
   return blist;
 }
 
-panda::utils::BranchList
-panda::RecoMet::doGetBranchNames_() const
-{
-  utils::BranchList blist(Met::doGetBranchNames_());
-
-  blist.push_back(utils::BranchName("sumETRaw").fullName(name_));
-  blist.push_back(utils::BranchName("ptCorrUp").fullName(name_));
-  blist.push_back(utils::BranchName("phiCorrUp").fullName(name_));
-  blist.push_back(utils::BranchName("ptCorrDown").fullName(name_));
-  blist.push_back(utils::BranchName("phiCorrDown").fullName(name_));
-  blist.push_back(utils::BranchName("ptUnclUp").fullName(name_));
-  blist.push_back(utils::BranchName("phiUnclUp").fullName(name_));
-  blist.push_back(utils::BranchName("ptUnclDown").fullName(name_));
-  blist.push_back(utils::BranchName("phiUnclDown").fullName(name_));
-
-  return blist;
-}
-
 void
 panda::RecoMet::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -167,6 +159,12 @@ panda::RecoMet::doInit_()
 
   /* BEGIN CUSTOM RecoMet.cc.doInit_ */
   /* END CUSTOM */
+}
+
+panda::utils::BranchList
+panda::RecoMet::doGetBranchNames_() const
+{
+  return getListOfBranches().fullNames(name_);
 }
 
 TVector2

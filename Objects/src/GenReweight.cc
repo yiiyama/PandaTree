@@ -1,5 +1,14 @@
 #include "../interface/GenReweight.h"
 
+/*static*/
+panda::utils::BranchList
+panda::GenReweight::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += {"r1f2DW", "r1f5DW", "r2f1DW", "r2f2DW", "r5f1DW", "r5f5DW", "pdfDW", "genParam"};
+  return blist;
+}
+
 panda::GenReweight::GenReweight(char const* _name/* = ""*/) :
   Singlet(_name)
 {
@@ -74,23 +83,6 @@ panda::GenReweight::doGetStatus_(TTree& _tree) const
   return blist;
 }
 
-panda::utils::BranchList
-panda::GenReweight::doGetBranchNames_() const
-{
-  utils::BranchList blist;
-
-  blist.push_back(utils::BranchName("r1f2DW").fullName(name_));
-  blist.push_back(utils::BranchName("r1f5DW").fullName(name_));
-  blist.push_back(utils::BranchName("r2f1DW").fullName(name_));
-  blist.push_back(utils::BranchName("r2f2DW").fullName(name_));
-  blist.push_back(utils::BranchName("r5f1DW").fullName(name_));
-  blist.push_back(utils::BranchName("r5f5DW").fullName(name_));
-  blist.push_back(utils::BranchName("pdfDW").fullName(name_));
-  blist.push_back(utils::BranchName("genParam").fullName(name_));
-
-  return blist;
-}
-
 void
 panda::GenReweight::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -144,6 +136,12 @@ panda::GenReweight::doInit_()
 
   /* BEGIN CUSTOM GenReweight.cc.doInit_ */
   /* END CUSTOM */
+}
+
+panda::utils::BranchList
+panda::GenReweight::doGetBranchNames_() const
+{
+  return getListOfBranches().fullNames(name_);
 }
 
 /* BEGIN CUSTOM GenReweight.cc.global */

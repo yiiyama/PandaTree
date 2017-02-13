@@ -1,5 +1,15 @@
 #include "../interface/Muon.h"
 
+/*static*/
+panda::utils::BranchList
+panda::Muon::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += Lepton::getListOfBranches();
+  blist += {"mediumBtoF", "triggerMatch"};
+  return blist;
+}
+
 void
 panda::Muon::datastore::allocate(UInt_t _nmax)
 {
@@ -40,17 +50,6 @@ panda::Muon::datastore::getStatus(TTree& _tree, TString const& _name) const
   return blist;
 }
 
-panda::utils::BranchList
-panda::Muon::datastore::getBranchNames(TString const& _name) const
-{
-  utils::BranchList blist(Lepton::datastore::getBranchNames(_name));
-
-  blist.push_back(utils::BranchName("mediumBtoF").fullName(_name));
-  blist.push_back(utils::BranchName("triggerMatch").fullName(_name));
-
-  return blist;
-}
-
 void
 panda::Muon::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -85,6 +84,13 @@ panda::Muon::datastore::resizeVectors_(UInt_t _size)
 {
   Lepton::datastore::resizeVectors_(_size);
 
+}
+
+
+panda::utils::BranchList
+panda::Muon::datastore::getBranchNames(TString const& _name) const
+{
+  return Muon::getListOfBranches().fullNames(_name);
 }
 
 panda::Muon::Muon(char const* _name/* = ""*/) :

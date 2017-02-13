@@ -1,5 +1,13 @@
 #include "../interface/Particle.h"
 
+/*static*/
+panda::utils::BranchList
+panda::Particle::getListOfBranches()
+{
+  utils::BranchList blist;
+  return blist;
+}
+
 void
 panda::Particle::datastore::allocate(UInt_t _nmax)
 {
@@ -25,15 +33,6 @@ panda::utils::BranchList
 panda::Particle::datastore::getStatus(TTree& _tree, TString const& _name) const
 {
   utils::BranchList blist(Element::datastore::getStatus(_tree, _name));
-
-
-  return blist;
-}
-
-panda::utils::BranchList
-panda::Particle::datastore::getBranchNames(TString const& _name) const
-{
-  utils::BranchList blist(Element::datastore::getBranchNames(_name));
 
 
   return blist;
@@ -67,6 +66,13 @@ panda::Particle::datastore::resizeVectors_(UInt_t _size)
 {
   Element::datastore::resizeVectors_(_size);
 
+}
+
+
+panda::utils::BranchList
+panda::Particle::datastore::getBranchNames(TString const& _name) const
+{
+  return Particle::getListOfBranches().fullNames(_name);
 }
 
 panda::Particle::Particle(datastore& _data, UInt_t _idx) :

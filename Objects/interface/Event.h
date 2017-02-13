@@ -74,6 +74,8 @@ namespace panda {
     Float_t rhoCentralCalo{};
     Float_t weight{};
 
+    static utils::BranchList getListOfBranches();
+
   protected:
     void doSetStatus_(TTree&, utils::BranchList const&) override;
     utils::BranchList doGetStatus_(TTree&) const override;

@@ -1,5 +1,15 @@
 #include "../interface/GenParticle.h"
 
+/*static*/
+panda::utils::BranchList
+panda::GenParticle::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += PackedParticle::getListOfBranches();
+  blist += {"pdgid", "statusFlags", "parent_"};
+  return blist;
+}
+
 void
 panda::GenParticle::datastore::allocate(UInt_t _nmax)
 {
@@ -45,18 +55,6 @@ panda::GenParticle::datastore::getStatus(TTree& _tree, TString const& _name) con
   return blist;
 }
 
-panda::utils::BranchList
-panda::GenParticle::datastore::getBranchNames(TString const& _name) const
-{
-  utils::BranchList blist(PackedParticle::datastore::getBranchNames(_name));
-
-  blist.push_back(utils::BranchName("pdgid").fullName(_name));
-  blist.push_back(utils::BranchName("statusFlags").fullName(_name));
-  blist.push_back(utils::BranchName("parent_").fullName(_name));
-
-  return blist;
-}
-
 void
 panda::GenParticle::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -94,6 +92,13 @@ panda::GenParticle::datastore::resizeVectors_(UInt_t _size)
 {
   PackedParticle::datastore::resizeVectors_(_size);
 
+}
+
+
+panda::utils::BranchList
+panda::GenParticle::datastore::getBranchNames(TString const& _name) const
+{
+  return GenParticle::getListOfBranches().fullNames(_name);
 }
 
 panda::GenParticle::GenParticle(char const* _name/* = ""*/) :

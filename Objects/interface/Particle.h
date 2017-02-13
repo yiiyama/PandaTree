@@ -64,6 +64,8 @@ namespace panda {
     }
     /* END CUSTOM */
 
+    static utils::BranchList getListOfBranches();
+
     void destructor() override;
 
   protected:

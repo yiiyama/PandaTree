@@ -111,6 +111,8 @@ namespace panda {
     /* BEGIN CUSTOM Electron.h.classdef */
     /* END CUSTOM */
 
+    static utils::BranchList getListOfBranches();
+
     void destructor() override;
 
   protected:

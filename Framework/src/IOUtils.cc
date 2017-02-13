@@ -156,6 +156,16 @@ panda::utils::BranchList::operator+=(BranchList const& _rhs)
   return *this;
 }
 
+panda::utils::BranchList
+panda::utils::BranchList::fullNames(TString const& _objName/* = ""*/) const
+{
+  BranchList blist;
+  for (auto& name : *this)
+    blist.emplace_back(name.fullName(_objName));
+
+  return blist;
+}
+
 Int_t
 panda::utils::checkStatus(TTree& _tree, TString const& _fullName, Bool_t _status)
 {

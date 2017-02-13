@@ -21,6 +21,14 @@ panda::Run::operator=(Run const& _src)
   return *this;
 }
 
+/*static*/
+panda::utils::BranchList
+panda::Run::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += {"runNumber", "hltMenu"};
+  return blist;
+}
 /*protected*/
 void
 panda::Run::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
@@ -44,11 +52,7 @@ panda::Run::doGetStatus_(TTree& _tree) const
 panda::utils::BranchList
 panda::Run::doGetBranchNames_() const
 {
-  utils::BranchList blist;
-
-  blist.push_back(utils::BranchName("runNumber").fullName(""));
-  blist.push_back(utils::BranchName("hltMenu").fullName(""));
-  return blist;
+  return getListOfBranches();
 }
 
 /*protected*/

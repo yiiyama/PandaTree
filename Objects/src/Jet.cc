@@ -1,5 +1,15 @@
 #include "../interface/Jet.h"
 
+/*static*/
+panda::utils::BranchList
+panda::Jet::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += MicroJet::getListOfBranches();
+  blist += {"rawPt", "ptCorrUp", "ptCorrDown", "ptSmear", "ptSmearUp", "ptSmearDown", "area", "nhf", "chf", "puid", "loose", "tight", "monojet", "matchedGenJet_", "constituents_"};
+  return blist;
+}
+
 void
 panda::Jet::datastore::allocate(UInt_t _nmax)
 {
@@ -105,30 +115,6 @@ panda::Jet::datastore::getStatus(TTree& _tree, TString const& _name) const
   return blist;
 }
 
-panda::utils::BranchList
-panda::Jet::datastore::getBranchNames(TString const& _name) const
-{
-  utils::BranchList blist(MicroJet::datastore::getBranchNames(_name));
-
-  blist.push_back(utils::BranchName("rawPt").fullName(_name));
-  blist.push_back(utils::BranchName("ptCorrUp").fullName(_name));
-  blist.push_back(utils::BranchName("ptCorrDown").fullName(_name));
-  blist.push_back(utils::BranchName("ptSmear").fullName(_name));
-  blist.push_back(utils::BranchName("ptSmearUp").fullName(_name));
-  blist.push_back(utils::BranchName("ptSmearDown").fullName(_name));
-  blist.push_back(utils::BranchName("area").fullName(_name));
-  blist.push_back(utils::BranchName("nhf").fullName(_name));
-  blist.push_back(utils::BranchName("chf").fullName(_name));
-  blist.push_back(utils::BranchName("puid").fullName(_name));
-  blist.push_back(utils::BranchName("loose").fullName(_name));
-  blist.push_back(utils::BranchName("tight").fullName(_name));
-  blist.push_back(utils::BranchName("monojet").fullName(_name));
-  blist.push_back(utils::BranchName("matchedGenJet_").fullName(_name));
-  blist.push_back(utils::BranchName("constituents_").fullName(_name));
-
-  return blist;
-}
-
 void
 panda::Jet::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -203,6 +189,13 @@ panda::Jet::datastore::resizeVectors_(UInt_t _size)
   MicroJet::datastore::resizeVectors_(_size);
 
   constituents_->resize(_size);
+}
+
+
+panda::utils::BranchList
+panda::Jet::datastore::getBranchNames(TString const& _name) const
+{
+  return Jet::getListOfBranches().fullNames(_name);
 }
 
 panda::Jet::Jet(char const* _name/* = ""*/) :

@@ -68,6 +68,8 @@ namespace panda {
       bool matchesAny(BranchList const&) const;
       //! Extend the list
       BranchList& operator+=(BranchList const&);
+      //! Prepend the branch names with <objName.>.
+      BranchList fullNames(TString const& objName = "") const;
     };
 
     //! Check status of a branch

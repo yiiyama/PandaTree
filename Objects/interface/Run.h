@@ -15,6 +15,8 @@ namespace panda {
     UInt_t runNumber{};
     UInt_t hltMenu{};
 
+    static utils::BranchList getListOfBranches();
+
   protected:
     void doSetStatus_(TTree&, utils::BranchList const&) override;
     utils::BranchList doGetStatus_(TTree&) const override;

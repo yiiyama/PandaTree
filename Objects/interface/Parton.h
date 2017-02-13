@@ -64,6 +64,8 @@ namespace panda {
     std::string print() override { std::stringstream ss; ss << pdgid << "(" << pt_ << "," << eta_ << "," << phi_ << "," << mass_; return ss.str(); }
     /* END CUSTOM */
 
+    static utils::BranchList getListOfBranches();
+
     void destructor() override;
 
   protected:

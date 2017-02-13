@@ -85,6 +85,8 @@ namespace panda {
     /* BEGIN CUSTOM Muon.h.classdef */
     /* END CUSTOM */
 
+    static utils::BranchList getListOfBranches();
+
     void destructor() override;
 
   protected:

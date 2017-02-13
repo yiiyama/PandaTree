@@ -166,6 +166,47 @@ panda::Event::operator=(Event const& _src)
   return *this;
 }
 
+/*static*/
+panda::utils::BranchList
+panda::Event::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += {"runNumber", "lumiNumber", "eventNumber", "isData", "npv", "npvTrue", "rho", "rhoCentralCalo", "weight"};
+  blist += GenReweight::getListOfBranches().fullNames("genReweight");
+  blist += PFCand::getListOfBranches().fullNames("pfCandidates");
+  blist += SuperCluster::getListOfBranches().fullNames("superClusters");
+  blist += Electron::getListOfBranches().fullNames("electrons");
+  blist += Muon::getListOfBranches().fullNames("muons");
+  blist += Tau::getListOfBranches().fullNames("taus");
+  blist += Photon::getListOfBranches().fullNames("photons");
+  blist += Jet::getListOfBranches().fullNames("chsAK4Jets");
+  blist += Jet::getListOfBranches().fullNames("puppiAK4Jets");
+  blist += FatJet::getListOfBranches().fullNames("chsAK8Jets");
+  blist += FatJet::getListOfBranches().fullNames("chsCA15Jets");
+  blist += FatJet::getListOfBranches().fullNames("puppiAK8Jets");
+  blist += FatJet::getListOfBranches().fullNames("puppiCA15Jets");
+  blist += MicroJet::getListOfBranches().fullNames("subjets");
+  blist += GenJet::getListOfBranches().fullNames("genJets");
+  blist += GenParticle::getListOfBranches().fullNames("genParticles");
+  blist += Parton::getListOfBranches().fullNames("partons");
+  blist += RecoMet::getListOfBranches().fullNames("met");
+  blist += RecoMet::getListOfBranches().fullNames("puppiMet");
+  blist += Met::getListOfBranches().fullNames("rawMet");
+  blist += Met::getListOfBranches().fullNames("caloMet");
+  blist += Met::getListOfBranches().fullNames("noMuMet");
+  blist += Met::getListOfBranches().fullNames("noHFMet");
+  blist += Met::getListOfBranches().fullNames("trkMet");
+  blist += Met::getListOfBranches().fullNames("neutralMet");
+  blist += Met::getListOfBranches().fullNames("photonMet");
+  blist += Met::getListOfBranches().fullNames("hfMet");
+  blist += Met::getListOfBranches().fullNames("genMet");
+  blist += RecoMet::getListOfBranches().fullNames("metMuOnlyFix");
+  blist += RecoMet::getListOfBranches().fullNames("metNoFix");
+  blist += MetFilters::getListOfBranches().fullNames("metFilters");
+  blist += HLTBits::getListOfBranches().fullNames("triggers");
+  blist += Recoil::getListOfBranches().fullNames("recoil");
+  return blist;
+}
 /*protected*/
 void
 panda::Event::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
@@ -203,18 +244,7 @@ panda::Event::doGetStatus_(TTree& _tree) const
 panda::utils::BranchList
 panda::Event::doGetBranchNames_() const
 {
-  utils::BranchList blist;
-
-  blist.push_back(utils::BranchName("runNumber").fullName(""));
-  blist.push_back(utils::BranchName("lumiNumber").fullName(""));
-  blist.push_back(utils::BranchName("eventNumber").fullName(""));
-  blist.push_back(utils::BranchName("isData").fullName(""));
-  blist.push_back(utils::BranchName("npv").fullName(""));
-  blist.push_back(utils::BranchName("npvTrue").fullName(""));
-  blist.push_back(utils::BranchName("rho").fullName(""));
-  blist.push_back(utils::BranchName("rhoCentralCalo").fullName(""));
-  blist.push_back(utils::BranchName("weight").fullName(""));
-  return blist;
+  return getListOfBranches();
 }
 
 /*protected*/

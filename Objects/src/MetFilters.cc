@@ -1,5 +1,14 @@
 #include "../interface/MetFilters.h"
 
+/*static*/
+panda::utils::BranchList
+panda::MetFilters::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += {"globalHalo16", "hbhe", "hbheIso", "ecalDeadCell", "badsc", "badMuons", "duplicateMuons", "dupECALClusters", "unfixedECALHits"};
+  return blist;
+}
+
 panda::MetFilters::MetFilters(char const* _name/* = ""*/) :
   Singlet(_name)
 {
@@ -80,24 +89,6 @@ panda::MetFilters::doGetStatus_(TTree& _tree) const
   return blist;
 }
 
-panda::utils::BranchList
-panda::MetFilters::doGetBranchNames_() const
-{
-  utils::BranchList blist;
-
-  blist.push_back(utils::BranchName("globalHalo16").fullName(name_));
-  blist.push_back(utils::BranchName("hbhe").fullName(name_));
-  blist.push_back(utils::BranchName("hbheIso").fullName(name_));
-  blist.push_back(utils::BranchName("ecalDeadCell").fullName(name_));
-  blist.push_back(utils::BranchName("badsc").fullName(name_));
-  blist.push_back(utils::BranchName("badMuons").fullName(name_));
-  blist.push_back(utils::BranchName("duplicateMuons").fullName(name_));
-  blist.push_back(utils::BranchName("dupECALClusters").fullName(name_));
-  blist.push_back(utils::BranchName("unfixedECALHits").fullName(name_));
-
-  return blist;
-}
-
 void
 panda::MetFilters::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -155,6 +146,12 @@ panda::MetFilters::doInit_()
 
   /* BEGIN CUSTOM MetFilters.cc.doInit_ */
   /* END CUSTOM */
+}
+
+panda::utils::BranchList
+panda::MetFilters::doGetBranchNames_() const
+{
+  return getListOfBranches().fullNames(name_);
 }
 
 

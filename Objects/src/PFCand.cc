@@ -5,6 +5,16 @@ int panda::PFCand::q_[nPTypes] = {1, -1, 1, -1, 1, -1, 0, 0, 0, 0, 1, -1, 0};
 /*static*/
 int panda::PFCand::pdgId_[nPTypes] = {211, -211, -11, 11, -13, 13, 22, 130, 1, 2, 0, 0, 0};
 
+/*static*/
+panda::utils::BranchList
+panda::PFCand::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += PackedParticle::getListOfBranches();
+  blist += {"packedPuppiW", "packedPuppiWNoLepDiff", "ptype"};
+  return blist;
+}
+
 void
 panda::PFCand::datastore::allocate(UInt_t _nmax)
 {
@@ -50,18 +60,6 @@ panda::PFCand::datastore::getStatus(TTree& _tree, TString const& _name) const
   return blist;
 }
 
-panda::utils::BranchList
-panda::PFCand::datastore::getBranchNames(TString const& _name) const
-{
-  utils::BranchList blist(PackedParticle::datastore::getBranchNames(_name));
-
-  blist.push_back(utils::BranchName("packedPuppiW").fullName(_name));
-  blist.push_back(utils::BranchName("packedPuppiWNoLepDiff").fullName(_name));
-  blist.push_back(utils::BranchName("ptype").fullName(_name));
-
-  return blist;
-}
-
 void
 panda::PFCand::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -99,6 +97,13 @@ panda::PFCand::datastore::resizeVectors_(UInt_t _size)
 {
   PackedParticle::datastore::resizeVectors_(_size);
 
+}
+
+
+panda::utils::BranchList
+panda::PFCand::datastore::getBranchNames(TString const& _name) const
+{
+  return PFCand::getListOfBranches().fullNames(_name);
 }
 
 panda::PFCand::PFCand(char const* _name/* = ""*/) :

@@ -1,5 +1,15 @@
 #include "../interface/FatJet.h"
 
+/*static*/
+panda::utils::BranchList
+panda::FatJet::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += Jet::getListOfBranches();
+  blist += {"tau1", "tau2", "tau3", "mSD", "tau1SD", "tau2SD", "tau3SD", "htt_mass", "htt_frec", "double_sub", "ecfs", "subjets_"};
+  return blist;
+}
+
 void
 panda::FatJet::datastore::allocate(UInt_t _nmax)
 {
@@ -90,27 +100,6 @@ panda::FatJet::datastore::getStatus(TTree& _tree, TString const& _name) const
   return blist;
 }
 
-panda::utils::BranchList
-panda::FatJet::datastore::getBranchNames(TString const& _name) const
-{
-  utils::BranchList blist(Jet::datastore::getBranchNames(_name));
-
-  blist.push_back(utils::BranchName("tau1").fullName(_name));
-  blist.push_back(utils::BranchName("tau2").fullName(_name));
-  blist.push_back(utils::BranchName("tau3").fullName(_name));
-  blist.push_back(utils::BranchName("mSD").fullName(_name));
-  blist.push_back(utils::BranchName("tau1SD").fullName(_name));
-  blist.push_back(utils::BranchName("tau2SD").fullName(_name));
-  blist.push_back(utils::BranchName("tau3SD").fullName(_name));
-  blist.push_back(utils::BranchName("htt_mass").fullName(_name));
-  blist.push_back(utils::BranchName("htt_frec").fullName(_name));
-  blist.push_back(utils::BranchName("double_sub").fullName(_name));
-  blist.push_back(utils::BranchName("ecfs").fullName(_name));
-  blist.push_back(utils::BranchName("subjets_").fullName(_name));
-
-  return blist;
-}
-
 void
 panda::FatJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -176,6 +165,13 @@ panda::FatJet::datastore::resizeVectors_(UInt_t _size)
   Jet::datastore::resizeVectors_(_size);
 
   subjets_->resize(_size);
+}
+
+
+panda::utils::BranchList
+panda::FatJet::datastore::getBranchNames(TString const& _name) const
+{
+  return FatJet::getListOfBranches().fullNames(_name);
 }
 
 panda::FatJet::FatJet(char const* _name/* = ""*/) :

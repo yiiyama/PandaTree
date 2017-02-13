@@ -33,6 +33,8 @@ namespace panda {
     /* BEGIN CUSTOM MetFilters.h.classdef */
     /* END CUSTOM */
 
+    static utils::BranchList getListOfBranches();
+
   protected:
     void doSetStatus_(TTree&, utils::BranchList const&) override;
     utils::BranchList doGetStatus_(TTree&) const override;

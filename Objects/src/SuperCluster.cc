@@ -1,5 +1,14 @@
 #include "../interface/SuperCluster.h"
 
+/*static*/
+panda::utils::BranchList
+panda::SuperCluster::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += {"rawPt", "eta", "phi"};
+  return blist;
+}
+
 void
 panda::SuperCluster::datastore::allocate(UInt_t _nmax)
 {
@@ -45,18 +54,6 @@ panda::SuperCluster::datastore::getStatus(TTree& _tree, TString const& _name) co
   return blist;
 }
 
-panda::utils::BranchList
-panda::SuperCluster::datastore::getBranchNames(TString const& _name) const
-{
-  utils::BranchList blist(Element::datastore::getBranchNames(_name));
-
-  blist.push_back(utils::BranchName("rawPt").fullName(_name));
-  blist.push_back(utils::BranchName("eta").fullName(_name));
-  blist.push_back(utils::BranchName("phi").fullName(_name));
-
-  return blist;
-}
-
 void
 panda::SuperCluster::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
@@ -94,6 +91,13 @@ panda::SuperCluster::datastore::resizeVectors_(UInt_t _size)
 {
   Element::datastore::resizeVectors_(_size);
 
+}
+
+
+panda::utils::BranchList
+panda::SuperCluster::datastore::getBranchNames(TString const& _name) const
+{
+  return SuperCluster::getListOfBranches().fullNames(_name);
 }
 
 panda::SuperCluster::SuperCluster(char const* _name/* = ""*/) :

@@ -257,6 +257,9 @@ class PhysicsObject(Definition, Object):
 
         header.write_custom_block('{name}.h.classdef'.format(name = self.name))
 
+        header.newline()
+        header.writeline('static utils::BranchList getListOfBranches();')
+
         if self.is_singlet():
             header.newline()
             header.indent -= 1
@@ -395,6 +398,21 @@ class PhysicsObject(Definition, Object):
             for constant in self.constants:
                 constant.write_def(src, cls = '{NAMESPACE}::{name}'.format(**subst))
 
+        src.newline()
+        src.writeline('/*static*/')
+        src.writeline('panda::utils::BranchList')
+        src.writeline('{NAMESPACE}::{name}::getListOfBranches()'.format(**subst))
+        src.writeline('{')
+        src.indent += 1
+        src.writeline('utils::BranchList blist;')
+        if self.parent not in ['Singlet', 'Element']:
+            src.writeline('blist += {parent}::getListOfBranches();'.format(**subst))
+        if len(self.branches) != 0:
+            src.writeline('blist += {{{bnames}}};'.format(bnames = ', '.join('"{name}"'.format(name = branch.name) for branch in self.branches)))
+        src.writeline('return blist;')
+        src.indent -= 1
+        src.writeline('}')
+
         if self.is_singlet():
             src.newline()
 
@@ -437,7 +455,6 @@ class PhysicsObject(Definition, Object):
                 ('operator=', '{NAMESPACE}::{name}&'.format(**subst), [('{name} const&'.format(**subst), '_src')], 'write_assign', '*this'),
                 ('doSetStatus_', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches')], 'write_set_status', None),
                 ('doGetStatus_ const', 'panda::utils::BranchList', [('TTree&', '_tree')], 'write_get_status', 'blist', [], 'utils::BranchList blist'),
-                ('doGetBranchNames_ const', 'panda::utils::BranchList', [], 'write_get_branch_names', 'blist', [], 'utils::BranchList blist'),
                 ('doSetAddress_', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
                 ('doBook_', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', None),
                 ('doReleaseTree_', 'void', [('TTree&', '_tree')], 'write_release_tree', None),
@@ -448,6 +465,15 @@ class PhysicsObject(Definition, Object):
                 src.newline()
                 self._write_method(src, 'Singlet', method, custom_block = (method[0] in ['doInit_']))
 
+            src.newline()
+            src.writeline('panda::utils::BranchList')
+            src.writeline('{NAMESPACE}::{name}::doGetBranchNames_() const'.format(**subst))
+            src.writeline('{')
+            src.indent += 1
+            src.writeline('return getListOfBranches().fullNames(name_);')
+            src.indent -= 1
+            src.writeline('}')
+
         #if self.is_singlet():
         else:
             size_lines = ['TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));']
@@ -456,7 +482,6 @@ class PhysicsObject(Definition, Object):
                 ('deallocate', 'void', [], 'write_deallocate', None),
                 ('setStatus', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches')], 'write_set_status', None),
                 ('getStatus const', 'panda::utils::BranchList', [('TTree&', '_tree'), ('TString const&', '_name')], 'write_get_status', 'blist', [], 'utils::BranchList blist'),
-                ('getBranchNames const', 'panda::utils::BranchList', [('TString const&', '_name')], 'write_get_branch_names', 'blist', [], 'utils::BranchList blist'),
                 ('setAddress', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
                 ('book', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_dynamic', 'kTRUE')], 'write_book', None, size_lines),
                 ('releaseTree', 'void', [('TTree&', '_tree'), ('TString const&', '_name')], 'write_release_tree', None),
@@ -466,6 +491,16 @@ class PhysicsObject(Definition, Object):
             for method in methods:
                 src.newline()
                 self._write_method(src, 'datastore', method, nestedcls = 'datastore')
+
+            src.newline()
+            src.newline()
+            src.writeline('panda::utils::BranchList')
+            src.writeline('{NAMESPACE}::{name}::datastore::getBranchNames(TString const& _name) const'.format(**subst))
+            src.writeline('{')
+            src.indent += 1
+            src.writeline('return {name}::getListOfBranches().fullNames(_name);'.format(**subst))
+            src.indent -= 1
+            src.writeline('}')
 
             if self.instantiable:
                 src.newline()
