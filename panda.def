@@ -388,10 +388,13 @@ photons/PhotonCollection(32)
 chsAK4Jets/JetCollection(64)
 puppiAK4Jets/JetCollection(64)
 chsAK8Jets/FatJetCollection(8)
+chsAK8Subjets/MicroJetCollection(64)
 chsCA15Jets/FatJetCollection(8)
+chsCA15Subjets/MicroJetCollection(64)
 puppiAK8Jets/FatJetCollection(8)
+puppiAK8Subjets/MicroJetCollection(64)
 puppiCA15Jets/FatJetCollection(8)
-subjets/MicroJetCollection(64)
+puppiCA15Subjets/MicroJetCollection(64)
 genJets/GenJetCollection(64)
 genParticles/GenParticleCollection(128)
 partons/PartonCollection(8)
@@ -423,13 +426,13 @@ chsAK4Jets.matchedGenJet->genJets
 puppiAK4Jets.constituents->pfCandidates
 puppiAK4Jets.matchedGenJet->genJets
 chsAK8Jets.constituents->pfCandidates
-chsAK8Jets.subjets->subjets
+chsAK8Jets.subjets->chsAK8Subjets
 chsCA15Jets.constituents->pfCandidates
-chsCA15Jets.subjets->subjets
+chsCA15Jets.subjets->chsCA15Subjets
 puppiAK8Jets.constituents->pfCandidates
-puppiAK8Jets.subjets->subjets
+puppiAK8Jets.subjets->puppiAK8Subjets
 puppiCA15Jets.constituents->pfCandidates
-puppiCA15Jets.subjets->subjets
+puppiCA15Jets.subjets->puppiCA15Subjets
 #include "Run.h"
 
 {Run}

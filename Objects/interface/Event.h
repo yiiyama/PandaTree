@@ -41,10 +41,13 @@ namespace panda {
     JetCollection chsAK4Jets = JetCollection("chsAK4Jets", 64);
     JetCollection puppiAK4Jets = JetCollection("puppiAK4Jets", 64);
     FatJetCollection chsAK8Jets = FatJetCollection("chsAK8Jets", 8);
+    MicroJetCollection chsAK8Subjets = MicroJetCollection("chsAK8Subjets", 64);
     FatJetCollection chsCA15Jets = FatJetCollection("chsCA15Jets", 8);
+    MicroJetCollection chsCA15Subjets = MicroJetCollection("chsCA15Subjets", 64);
     FatJetCollection puppiAK8Jets = FatJetCollection("puppiAK8Jets", 8);
+    MicroJetCollection puppiAK8Subjets = MicroJetCollection("puppiAK8Subjets", 64);
     FatJetCollection puppiCA15Jets = FatJetCollection("puppiCA15Jets", 8);
-    MicroJetCollection subjets = MicroJetCollection("subjets", 64);
+    MicroJetCollection puppiCA15Subjets = MicroJetCollection("puppiCA15Subjets", 64);
     GenJetCollection genJets = GenJetCollection("genJets", 64);
     GenParticleCollection genParticles = GenParticleCollection("genParticles", 128);
     PartonCollection partons = PartonCollection("partons", 8);

@@ -3,8 +3,8 @@
 panda::Event::Event() :
   TreeEntry("Event")
 {
-  objects_ = {&genReweight, &pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsCA15Jets, &puppiAK8Jets, &puppiCA15Jets, &subjets, &genJets, &genParticles, &partons, &met, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &triggers, &recoil};
-  collections_ = {&pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsCA15Jets, &puppiAK8Jets, &puppiCA15Jets, &subjets, &genJets, &genParticles, &partons};
+  objects_ = {&genReweight, &pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &genJets, &genParticles, &partons, &met, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &triggers, &recoil};
+  collections_ = {&pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &genJets, &genParticles, &partons};
 
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedGenContainer_ = &genParticles;
@@ -18,13 +18,13 @@ panda::Event::Event() :
   puppiAK4Jets.data.constituentsContainer_ = &pfCandidates;
   puppiAK4Jets.data.matchedGenJetContainer_ = &genJets;
   chsAK8Jets.data.constituentsContainer_ = &pfCandidates;
-  chsAK8Jets.data.subjetsContainer_ = &subjets;
+  chsAK8Jets.data.subjetsContainer_ = &chsAK8Subjets;
   chsCA15Jets.data.constituentsContainer_ = &pfCandidates;
-  chsCA15Jets.data.subjetsContainer_ = &subjets;
+  chsCA15Jets.data.subjetsContainer_ = &chsCA15Subjets;
   puppiAK8Jets.data.constituentsContainer_ = &pfCandidates;
-  puppiAK8Jets.data.subjetsContainer_ = &subjets;
+  puppiAK8Jets.data.subjetsContainer_ = &puppiAK8Subjets;
   puppiCA15Jets.data.constituentsContainer_ = &pfCandidates;
-  puppiCA15Jets.data.subjetsContainer_ = &subjets;
+  puppiCA15Jets.data.subjetsContainer_ = &puppiCA15Subjets;
 }
 
 panda::Event::Event(Event const& _src) :
@@ -39,10 +39,13 @@ panda::Event::Event(Event const& _src) :
   chsAK4Jets(_src.chsAK4Jets),
   puppiAK4Jets(_src.puppiAK4Jets),
   chsAK8Jets(_src.chsAK8Jets),
+  chsAK8Subjets(_src.chsAK8Subjets),
   chsCA15Jets(_src.chsCA15Jets),
+  chsCA15Subjets(_src.chsCA15Subjets),
   puppiAK8Jets(_src.puppiAK8Jets),
+  puppiAK8Subjets(_src.puppiAK8Subjets),
   puppiCA15Jets(_src.puppiCA15Jets),
-  subjets(_src.subjets),
+  puppiCA15Subjets(_src.puppiCA15Subjets),
   genJets(_src.genJets),
   genParticles(_src.genParticles),
   partons(_src.partons),
@@ -72,8 +75,8 @@ panda::Event::Event(Event const& _src) :
   rhoCentralCalo(_src.rhoCentralCalo),
   weight(_src.weight)
 {
-  objects_ = {&genReweight, &pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsCA15Jets, &puppiAK8Jets, &puppiCA15Jets, &subjets, &genJets, &genParticles, &partons, &met, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &triggers, &recoil};
-  collections_ = {&pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsCA15Jets, &puppiAK8Jets, &puppiCA15Jets, &subjets, &genJets, &genParticles, &partons};
+  objects_ = {&genReweight, &pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &genJets, &genParticles, &partons, &met, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &triggers, &recoil};
+  collections_ = {&pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &genJets, &genParticles, &partons};
 
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedGenContainer_ = &genParticles;
@@ -87,13 +90,13 @@ panda::Event::Event(Event const& _src) :
   puppiAK4Jets.data.constituentsContainer_ = &pfCandidates;
   puppiAK4Jets.data.matchedGenJetContainer_ = &genJets;
   chsAK8Jets.data.constituentsContainer_ = &pfCandidates;
-  chsAK8Jets.data.subjetsContainer_ = &subjets;
+  chsAK8Jets.data.subjetsContainer_ = &chsAK8Subjets;
   chsCA15Jets.data.constituentsContainer_ = &pfCandidates;
-  chsCA15Jets.data.subjetsContainer_ = &subjets;
+  chsCA15Jets.data.subjetsContainer_ = &chsCA15Subjets;
   puppiAK8Jets.data.constituentsContainer_ = &pfCandidates;
-  puppiAK8Jets.data.subjetsContainer_ = &subjets;
+  puppiAK8Jets.data.subjetsContainer_ = &puppiAK8Subjets;
   puppiCA15Jets.data.constituentsContainer_ = &pfCandidates;
-  puppiCA15Jets.data.subjetsContainer_ = &subjets;
+  puppiCA15Jets.data.subjetsContainer_ = &puppiCA15Subjets;
 }
 
 panda::Event&
@@ -119,10 +122,13 @@ panda::Event::operator=(Event const& _src)
   chsAK4Jets = _src.chsAK4Jets;
   puppiAK4Jets = _src.puppiAK4Jets;
   chsAK8Jets = _src.chsAK8Jets;
+  chsAK8Subjets = _src.chsAK8Subjets;
   chsCA15Jets = _src.chsCA15Jets;
+  chsCA15Subjets = _src.chsCA15Subjets;
   puppiAK8Jets = _src.puppiAK8Jets;
+  puppiAK8Subjets = _src.puppiAK8Subjets;
   puppiCA15Jets = _src.puppiCA15Jets;
-  subjets = _src.subjets;
+  puppiCA15Subjets = _src.puppiCA15Subjets;
   genJets = _src.genJets;
   genParticles = _src.genParticles;
   partons = _src.partons;
@@ -155,13 +161,13 @@ panda::Event::operator=(Event const& _src)
   puppiAK4Jets.data.constituentsContainer_ = &pfCandidates;
   puppiAK4Jets.data.matchedGenJetContainer_ = &genJets;
   chsAK8Jets.data.constituentsContainer_ = &pfCandidates;
-  chsAK8Jets.data.subjetsContainer_ = &subjets;
+  chsAK8Jets.data.subjetsContainer_ = &chsAK8Subjets;
   chsCA15Jets.data.constituentsContainer_ = &pfCandidates;
-  chsCA15Jets.data.subjetsContainer_ = &subjets;
+  chsCA15Jets.data.subjetsContainer_ = &chsCA15Subjets;
   puppiAK8Jets.data.constituentsContainer_ = &pfCandidates;
-  puppiAK8Jets.data.subjetsContainer_ = &subjets;
+  puppiAK8Jets.data.subjetsContainer_ = &puppiAK8Subjets;
   puppiCA15Jets.data.constituentsContainer_ = &pfCandidates;
-  puppiCA15Jets.data.subjetsContainer_ = &subjets;
+  puppiCA15Jets.data.subjetsContainer_ = &puppiCA15Subjets;
 
   return *this;
 }
@@ -182,10 +188,13 @@ panda::Event::getListOfBranches()
   blist += Jet::getListOfBranches().fullNames("chsAK4Jets");
   blist += Jet::getListOfBranches().fullNames("puppiAK4Jets");
   blist += FatJet::getListOfBranches().fullNames("chsAK8Jets");
+  blist += MicroJet::getListOfBranches().fullNames("chsAK8Subjets");
   blist += FatJet::getListOfBranches().fullNames("chsCA15Jets");
+  blist += MicroJet::getListOfBranches().fullNames("chsCA15Subjets");
   blist += FatJet::getListOfBranches().fullNames("puppiAK8Jets");
+  blist += MicroJet::getListOfBranches().fullNames("puppiAK8Subjets");
   blist += FatJet::getListOfBranches().fullNames("puppiCA15Jets");
-  blist += MicroJet::getListOfBranches().fullNames("subjets");
+  blist += MicroJet::getListOfBranches().fullNames("puppiCA15Subjets");
   blist += GenJet::getListOfBranches().fullNames("genJets");
   blist += GenParticle::getListOfBranches().fullNames("genParticles");
   blist += Parton::getListOfBranches().fullNames("partons");
