@@ -82,7 +82,15 @@ class Enum(Definition):
                         self.elements.append(elem)
 
         # last entry is always n{name}s (e.g. enum Trigger -> nTriggers)
-        self.elements.append('n{name}s'.format(name = self.name))
+        last_name = 'n' + self.name
+        if last_name.endswith('y'):
+            last_name = last_name[:-1] + 'ies'
+        elif last_name.endswith('s') or last_name.endswith('x') or last_name.endswith('z'):
+            last_name += 'es'
+        else:
+            last_name += 's'
+
+        self.elements.append(last_name)
 
     def write_decl(self, out, names = True):
         out.writeline('enum ' + self.name + ' {')

@@ -86,5 +86,29 @@ panda::makeMuonTriggerObjectTree()
   return tree;
 }
 
+TString panda::RecoilCategoryName[] = {
+  "rMET",
+  "rMonoMu",
+  "rMonoE",
+  "rDiMu",
+  "rDiE",
+  "rGamma"
+};
+
+TTree*
+panda::makeRecoilCategoryTree()
+{
+  auto* tree(new TTree("RecoilCategory", "RecoilCategory"));
+  TString* name(new TString);
+  tree->Branch("name", "TString", &name);
+  for (auto&& n : RecoilCategoryName) {
+    *name = n;
+    tree->Fill();
+  }
+  tree->ResetBranchAddresses();
+  delete name;
+  return tree;
+}
+
 /* BEGIN CUSTOM Constants.cc.global */
 /* END CUSTOM */

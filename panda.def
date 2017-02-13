@@ -48,6 +48,15 @@ enum MuonTriggerObject {
   fMu27
 };
 
+enum RecoilCategory {
+  rMET,
+  rMonoMu,
+  rMonoE,
+  rDiMu,
+  rDiE,
+  rGamma
+};
+
 % OBJECTS
 
 [Particle]
@@ -352,8 +361,14 @@ pdfDW/F
 genParam[128]/F
 
 [Recoil:SINGLE]
-categories/i
+met/O
+monoMu/O
+monoE/O
+diMu/O
+diE/O
+gamma/O
 max/F
+bool any() const { return met || monoMu || monoE || diMu || diE || gamma; }
 
 {Event}
 runNumber/i

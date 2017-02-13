@@ -37,6 +37,7 @@
 #pragma link C++ enum panda::PhotonTriggerObject;
 #pragma link C++ enum panda::ElectronTriggerObject;
 #pragma link C++ enum panda::MuonTriggerObject;
+#pragma link C++ enum panda::RecoilCategory;
 #pragma link C++ class panda::Particle;
 #pragma link C++ class panda::PackedParticle;
 #pragma link C++ class panda::GenParticle;

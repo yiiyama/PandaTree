@@ -18,7 +18,14 @@ namespace panda {
     ~Recoil();
     Recoil& operator=(Recoil const&);
 
-    UInt_t categories{};
+    bool any() const { return met || monoMu || monoE || diMu || diE || gamma; }
+
+    Bool_t met{};
+    Bool_t monoMu{};
+    Bool_t monoE{};
+    Bool_t diMu{};
+    Bool_t diE{};
+    Bool_t gamma{};
     Float_t max{};
 
     /* BEGIN CUSTOM Recoil.h.classdef */

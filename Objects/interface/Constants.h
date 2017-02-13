@@ -64,8 +64,21 @@ namespace panda {
   extern TString MuonTriggerObjectName[nMuonTriggerObjects];
   TTree* makeMuonTriggerObjectTree();
 
+  enum RecoilCategory {
+    rMET,
+    rMonoMu,
+    rMonoE,
+    rDiMu,
+    rDiE,
+    rGamma,
+    nRecoilCategories
+  };
+
+  extern TString RecoilCategoryName[nRecoilCategories];
+  TTree* makeRecoilCategoryTree();
+
   enum Assertions {
-    nAssertionss
+    nAssertionses
   };
   /* BEGIN CUSTOM Constants.h.global */
   /* END CUSTOM */
