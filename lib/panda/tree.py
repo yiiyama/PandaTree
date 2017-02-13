@@ -179,7 +179,7 @@ class Tree(Definition, Object):
         src.writeline('{')
         src.indent += 1
         src.writeline('utils::BranchList blist;')
-        src.writeline('blist += {{{bnames}}};'.format(bnames = ', '.join('"{name}"'.format(name = branch.name) for branch in self.branches)))
+        src.writeline('blist += {{{bnames}}};'.format(bnames = ', '.join('"{name}"'.format(name = branch.name) for branch in self.branches if '!' not in branch.modifier)))
         for objbranch in self.objbranches:
             src.writeline('blist += {otype}::getListOfBranches().fullNames("{name}");'.format(otype = objbranch.objname, name = objbranch.name))
         src.writeline('return blist;')

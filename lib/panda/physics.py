@@ -408,7 +408,7 @@ class PhysicsObject(Definition, Object):
         if self.parent not in ['Singlet', 'Element']:
             src.writeline('blist += {parent}::getListOfBranches();'.format(**subst))
         if len(self.branches) != 0:
-            src.writeline('blist += {{{bnames}}};'.format(bnames = ', '.join('"{name}"'.format(name = branch.name) for branch in self.branches)))
+            src.writeline('blist += {{{bnames}}};'.format(bnames = ', '.join('"{name}"'.format(name = branch.name) for branch in self.branches if '!' not in branch.modifier)))
         src.writeline('return blist;')
         src.indent -= 1
         src.writeline('}')
