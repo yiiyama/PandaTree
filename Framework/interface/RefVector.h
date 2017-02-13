@@ -106,7 +106,7 @@ namespace panda {
       typedef typename std::conditional<is_const, Indices::const_iterator, Indices::iterator>::type internal_type;
 
       RefVectorIterator() {}
-      RefVectorIterator(self_type const& it) : container_(&it.container_), itr_(it.itr_) {}
+      RefVectorIterator(self_type const& it) : container_(it.container_), itr_(it.itr_) {}
       self_type& operator++() { ++itr_; return *this; }
       self_type operator++(int) { auto copy(*this); ++itr_; return copy; }
       self_type& operator--() { --itr_; return *this; }
