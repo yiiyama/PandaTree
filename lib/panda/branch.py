@@ -66,19 +66,24 @@ class Branch(Definition):
     def write_decl(self, out, context):
         if context == 'datastore':
             if self.is_array():
-                out.writeline('{type} (*{name}){arrdef}{{0}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text()))
+                line = '{type} (*{name}){arrdef}{{0}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text())
             else:
-                out.writeline('{type}* {name}{{0}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text()))
+                line = '{type}* {name}{{0}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text())
         elif context == 'Singlet' or context == 'TreeEntry':
             if 'm' in self.modifier:
-                out.writeline('mutable {type} {name}{arrdef}{{{init}}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text(), init = self.init))
+                line = 'mutable {type} {name}{arrdef}{{{init}}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text(), init = self.init)
             else:
-                out.writeline('{type} {name}{arrdef}{{{init}}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text(), init = self.init))
+                line = '{type} {name}{arrdef}{{{init}}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text(), init = self.init)
         elif context == 'Element':
             if self.is_array():
-                out.writeline('{type} (&{name}){arrdef};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text()))
+                line = '{type} (&{name}){arrdef};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text())
             else:
-                out.writeline('{type}& {name};'.format(type = self.typename(), name = self.name))
+                line = '{type}& {name};'.format(type = self.typename(), name = self.name)
+
+        if '!' in self.modifier:
+            line += ' // transient'
+
+        out.writeline(line)
 
     def write_allocate(self, out, context):
         # context must be datastore

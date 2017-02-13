@@ -344,11 +344,9 @@ unfixedECALHits/O
 virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc; }
 
 [HLTBits:SINGLE]
-words[16]/i
-size_/i
-void set(unsigned iB) { words[iB / 32] |= (1 << (iB % 32)); }
-bool pass(unsigned iB) const { return ((words[iB / 32] >> (iB % 32)) & 1) != 0; }
-unsigned size() const { return size_; }
+words[16]/l
+void set(unsigned iB) { words[iB / 64] |= (1 << (iB % 64)); }
+bool pass(unsigned iB) const { return ((words[iB / 64] >> (iB % 64)) & 1) != 0; }
 
 [GenReweight:SINGLE]
 r1f2DW/F
@@ -432,7 +430,9 @@ puppiAK8Jets.constituents->pfCandidates
 puppiAK8Jets.subjets->subjets
 puppiCA15Jets.constituents->pfCandidates
 puppiCA15Jets.subjets->subjets
+#include "Run.h"
 
 {Run}
 runNumber/i
 hltMenu/i
+hltSize/s/!

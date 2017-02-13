@@ -39,6 +39,7 @@ namespace panda {
     virtual utils::BranchList doGetBranchNames_() const = 0;
     virtual void doSetAddress_(TTree& tree, utils::BranchList const&, Bool_t setStatus) = 0;
     virtual void doBook_(TTree&, utils::BranchList const&) = 0;
+    virtual void doGetEntry_(Long64_t entry) = 0;
     virtual void doReleaseTree_(TTree&) = 0;
     virtual void doInit_() = 0;
 

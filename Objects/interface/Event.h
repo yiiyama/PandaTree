@@ -20,6 +20,7 @@
 #include "MetFilters.h"
 #include "HLTBits.h"
 #include "Recoil.h"
+#include "Run.h"
 
 namespace panda {
 
@@ -82,11 +83,15 @@ namespace panda {
     utils::BranchList doGetBranchNames_() const override;
     void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;
     void doBook_(TTree&, utils::BranchList const&) override;
+    void doGetEntry_(Long64_t) override;
     void doReleaseTree_(TTree&) override;
     void doInit_() override;
 
   public:
     /* BEGIN CUSTOM Event.h.classdef */
+
+    //! Current run object.
+    Run run;
 
     //! Use to declare a trigger path to be used in the analysis. Returns a token for the path.
     /*!
@@ -96,7 +101,7 @@ namespace panda {
      *
      * \param path   HLT path
      */
-    UInt_t registerTrigger(char const* path);
+    UInt_t registerTrigger(char const* path) { return run.registerTrigger(path); }
 
     //! Trigger decision of the event.
     /*!
@@ -105,24 +110,6 @@ namespace panda {
      * \param token   Token returned by registerTrigger()
      */
     Bool_t triggerFired(UInt_t token) const;
-
-    //! Current trigger menu name.
-    char const* triggerMenu() const;
-
-  private:
-    std::vector<TString> registeredTriggers_{}; /*!< List of registered paths */
-
-    //! Check if run or input boundary has been crossed and update trigger information.
-    Bool_t initRun_() const;
-
-    mutable struct {
-      UInt_t runNumber{0};
-      Int_t treeNumber{-1};
-      UInt_t menuId{0};
-      std::vector<TString> triggerMenuNames{}; /*!< List of menu names*/
-      std::vector<std::vector<UInt_t>> triggerIndicesStore{}; /*!< List of index lists*/
-      std::map<UInt_t, UInt_t> runToMenuIdMap{}; 
-    } runCache_{};
 
     /* END CUSTOM */
   };

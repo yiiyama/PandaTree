@@ -8,7 +8,8 @@ panda::Run::Run() :
 panda::Run::Run(Run const& _src) :
   TreeEntry(_src.getName()),
   runNumber(_src.runNumber),
-  hltMenu(_src.hltMenu)
+  hltMenu(_src.hltMenu),
+  hltSize(_src.hltSize)
 {
 }
 
@@ -17,6 +18,7 @@ panda::Run::operator=(Run const& _src)
 {
   runNumber = _src.runNumber;
   hltMenu = _src.hltMenu;
+  hltSize = _src.hltSize;
 
   return *this;
 }
@@ -73,6 +75,14 @@ panda::Run::doBook_(TTree& _tree, utils::BranchList const& _branches)
 
 /*protected*/
 void
+panda::Run::doGetEntry_(Long64_t _entry)
+{
+  /* BEGIN CUSTOM Run.cc.doGetEntry_ */
+  /* END CUSTOM */
+}
+
+/*protected*/
+void
 panda::Run::doReleaseTree_(TTree& _tree)
 {
   utils::resetAddress(_tree, "", "runNumber");
@@ -84,8 +94,138 @@ panda::Run::doInit_()
 {
   runNumber = 0;
   hltMenu = 0;
+  hltSize = 0;
+  /* BEGIN CUSTOM Run.cc.doInit_ */
+  /* END CUSTOM */
 }
 
 
 /* BEGIN CUSTOM Run.cc.global */
+
+#include "TFile.h"
+#include "TKey.h"
+
+void
+panda::Run::setLoadTrigger(Bool_t _l/* = kTRUE*/)
+{
+  loadTrigger_ = _l;
+  if (!_l) {
+    hlt.destroy();
+  }
+}
+
+UInt_t
+panda::Run::registerTrigger(char const* _path)
+{
+  loadTrigger_ = true;
+
+  TString path(_path);
+  path += "_v";
+  registeredTriggers_.push_back(path);
+
+  // need to update the input
+  hlt.destroy();
+
+  return registeredTriggers_.size() - 1;
+}
+
+char const*
+panda::Run::triggerMenu() const
+{
+  if (!hlt.menu)
+    throw std::runtime_error("Trigger menu is not read from the input.");
+
+  return *hlt.menu;
+}
+
+std::vector<TString> const&
+panda::Run::triggerPaths() const
+{
+  if (!hlt.paths)
+    throw std::runtime_error("Trigger menu is not read from the input.");
+
+  return *hlt.paths;
+}
+
+void
+panda::Run::update(UInt_t _runNumber, TTree& _eventTree)
+{
+  bool needRead(false);
+
+  if (_runNumber != runNumber) {
+    // gets overwritten again later, but if !loadTrigger_ this is the only place to set run number
+    runNumber = _runNumber;
+    needRead = true;
+  }
+
+  if (!loadTrigger_)
+    return;
+
+  if (!hlt.menu)
+    needRead = true;
+
+  if (!needRead)
+    return;
+
+  auto* inputFile(_eventTree.GetCurrentFile());
+  if (!inputFile)
+    return;
+
+  // read out runs and hlt trees (using GetKey to create a "fresh" object - Get can fetch an in-memory object that may already be in use)
+  auto* key(inputFile->GetKey("runs"));
+  if (!key) {
+    std::cerr << "File " << inputFile->GetName() << " does not have a run tree" << std::endl;
+    throw std::runtime_error("InputError");
+  }
+  auto* runTree(static_cast<TTree*>(key->ReadObj()));
+
+  setAddress(*runTree);
+
+  long iEntry(0);
+  while (runTree->GetEntry(iEntry++) > 0) {
+    if (runNumber == _runNumber)
+      break;
+  }
+  if (iEntry == runTree->GetEntries()) {
+    std::cerr << "Run " << _runNumber << " not found in " << inputFile->GetName() << std::endl;
+    throw std::runtime_error("InputError");
+  }
+
+  delete runTree;
+
+  key = inputFile->GetKey("hlt");
+  if (!key) {
+    std::cerr << "File " << inputFile->GetName() << " does not have an hlt tree" << std::endl;
+    throw std::runtime_error("InputError");
+  }
+  auto* hltTree(static_cast<TTree*>(key->ReadObj()));
+
+  if (!hlt.menu)
+    hlt.create();
+
+  hltTree->SetBranchAddress("menu", &hlt.menu);
+  hltTree->SetBranchAddress("paths", &hlt.paths);
+
+  if (hltTree->GetEntry(hltMenu) <= 0) {
+    std::cerr << "Failed to read HLT menu " << hltMenu << " from " << inputFile->GetName() << std::endl;
+    throw std::runtime_error("InputError");
+  }
+
+  delete hltTree;
+
+  triggerIndices_.clear();
+  // for each registered path, find the matching trigger in the given menu
+  for (auto& path : registeredTriggers_) {
+    unsigned iT(0);
+    for (; iT != hlt.paths->size(); ++iT) {
+      if ((*hlt.paths)[iT].BeginsWith(path)) {
+        triggerIndices_.push_back(iT);
+        break;
+      }
+    }
+    if (iT == hlt.paths->size())
+      triggerIndices_.push_back(-1);
+  }
+}
+
 /* END CUSTOM */

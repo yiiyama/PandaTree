@@ -103,5 +103,7 @@ panda::TreeEntry::getEntry(Long64_t _entry, UInt_t _treeIdx/* = 0*/)
   for (unsigned iC(0); iC != collections_.size(); ++iC)
     collections_[iC]->prepareGetEntry(_entry, collInputTokens_[_treeIdx][iC]);
 
+  doGetEntry_(_entry);
+
   return inputs_[_treeIdx]->GetEntry(_entry);
 }
