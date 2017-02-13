@@ -109,8 +109,8 @@ namespace panda {
     void doInit_() override;
   };
 
-  typedef PFCand::array_type PFCandArray;
-  typedef PFCand::collection_type PFCandCollection;
+  typedef Array<PFCand> PFCandArray;
+  typedef Collection<PFCand> PFCandCollection;
   typedef Ref<PFCand> PFCandRef;
   typedef RefVector<PFCand> PFCandRefVector;
 

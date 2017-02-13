@@ -21,7 +21,7 @@ panda::Tau::datastore::allocate(UInt_t _nmax)
   looseIsoMVA = new Bool_t[nmax_];
   iso = new Float_t[nmax_];
   isoDeltaBetaCorr = new Float_t[nmax_];
-  matchedGen_ = new Int_t[nmax_];
+  matchedGen_ = new Short_t[nmax_];
 }
 
 void
@@ -102,7 +102,7 @@ panda::Tau::datastore::book(TTree& _tree, TString const& _name, utils::BranchLis
   utils::book(_tree, _name, "looseIsoMVA", size, 'O', looseIsoMVA, _branches);
   utils::book(_tree, _name, "iso", size, 'F', iso, _branches);
   utils::book(_tree, _name, "isoDeltaBetaCorr", size, 'F', isoDeltaBetaCorr, _branches);
-  utils::book(_tree, _name, "matchedGen_", size, 'I', matchedGen_, _branches);
+  utils::book(_tree, _name, "matchedGen_", size, 'S', matchedGen_, _branches);
 }
 
 void
@@ -246,7 +246,7 @@ panda::Tau::doBook_(TTree& _tree, TString const& _name, utils::BranchList const&
   utils::book(_tree, _name, "looseIsoMVA", "", 'O', &looseIsoMVA, _branches);
   utils::book(_tree, _name, "iso", "", 'F', &iso, _branches);
   utils::book(_tree, _name, "isoDeltaBetaCorr", "", 'F', &isoDeltaBetaCorr, _branches);
-  utils::book(_tree, _name, "matchedGen_", "", 'I', gStore.getData(this).matchedGen_, _branches);
+  utils::book(_tree, _name, "matchedGen_", "", 'S', gStore.getData(this).matchedGen_, _branches);
 }
 
 void

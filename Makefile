@@ -1,5 +1,5 @@
 target=libpanda.so
-src=$(wildcard Objects/src/*.cc) $(wildcard Interface/src/*.cc)
+src=$(wildcard Objects/src/*.cc) $(wildcard Framework/src/*.cc)
 hdr=
 obj=$(patsubst %.cc,obj/%.o,$(subst /src/,/,$(src)))
 
@@ -12,8 +12,8 @@ obj/dict.o: $(patsubst %.cc,%.h,$(subst /src/,/interface/,$(src))) obj/LinkDef.h
 	rootcling -f obj/dict.cc $^
 	g++ -std=c++11 -O2 -fPIC -c -o $@ -I$(shell root-config --incdir) -I$(shell pwd) obj/dict.cc
 
-obj/Interface/%.o: Interface/src/%.cc Interface/interface/%.h
-	mkdir -p obj/Interface
+obj/Framework/%.o: Framework/src/%.cc Framework/interface/%.h
+	mkdir -p obj/Framework
 	g++ -std=c++11 -O2 -fPIC -c -o $@ -I$(shell root-config --incdir) $<
 
 obj/Objects/%.o: Objects/src/%.cc Objects/interface/%.h

@@ -45,8 +45,8 @@ namespace panda {
     double eta() const override { return eta_; }
     double phi() const override { return phi_; }
     double m() const override { return 0.; }
-    void setPtEtaPhiM(double pt, double eta, double phi, double);
-    void setXYZE(double px, double py, double pz, double);
+    void setPtEtaPhiM(double pt, double eta, double phi, double) override;
+    void setXYZE(double px, double py, double pz, double) override;
 
   protected:
     Float_t& pt_;
@@ -70,8 +70,8 @@ namespace panda {
     void doInit_() override;
   };
 
-  typedef ParticleP::array_type ParticlePArray;
-  typedef ParticleP::collection_type ParticlePCollection;
+  typedef Array<ParticleP> ParticlePArray;
+  typedef Collection<ParticleP> ParticlePCollection;
   typedef Ref<ParticleP> ParticlePRef;
   typedef RefVector<ParticleP> ParticlePRefVector;
 

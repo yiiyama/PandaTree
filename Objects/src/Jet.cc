@@ -28,8 +28,8 @@ panda::Jet::datastore::allocate(UInt_t _nmax)
   loose = new Bool_t[nmax_];
   tight = new Bool_t[nmax_];
   monojet = new Bool_t[nmax_];
-  matchedGenJet_ = new Int_t[nmax_];
-  constituents_ = new std::vector<std::vector<Int_t>>(nmax_);
+  matchedGenJet_ = new Short_t[nmax_];
+  constituents_ = new std::vector<std::vector<Short_t>>(nmax_);
 }
 
 void
@@ -157,8 +157,8 @@ panda::Jet::datastore::book(TTree& _tree, TString const& _name, utils::BranchLis
   utils::book(_tree, _name, "loose", size, 'O', loose, _branches);
   utils::book(_tree, _name, "tight", size, 'O', tight, _branches);
   utils::book(_tree, _name, "monojet", size, 'O', monojet, _branches);
-  utils::book(_tree, _name, "matchedGenJet_", size, 'I', matchedGenJet_, _branches);
-  utils::book(_tree, _name, "constituents_", "std::vector<std::vector<Int_t>>", &constituents_, _branches);
+  utils::book(_tree, _name, "matchedGenJet_", size, 'S', matchedGenJet_, _branches);
+  utils::book(_tree, _name, "constituents_", "std::vector<std::vector<Short_t>>", &constituents_, _branches);
 }
 
 void
@@ -374,8 +374,8 @@ panda::Jet::doBook_(TTree& _tree, TString const& _name, utils::BranchList const&
   utils::book(_tree, _name, "loose", "", 'O', &loose, _branches);
   utils::book(_tree, _name, "tight", "", 'O', &tight, _branches);
   utils::book(_tree, _name, "monojet", "", 'O', &monojet, _branches);
-  utils::book(_tree, _name, "matchedGenJet_", "", 'I', gStore.getData(this).matchedGenJet_, _branches);
-  utils::book(_tree, _name, "constituents_", "std::vector<Int_t>", &constituents.indices(), _branches);
+  utils::book(_tree, _name, "matchedGenJet_", "", 'S', gStore.getData(this).matchedGenJet_, _branches);
+  utils::book(_tree, _name, "constituents_", "std::vector<Short_t>", &constituents.indices(), _branches);
 }
 
 void

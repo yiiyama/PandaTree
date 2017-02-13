@@ -21,7 +21,7 @@ namespace panda {
     typedef E element_type;
     typedef Ref<element_type> ref_type;
     typedef ConstRef<element_type> const_ref_type;
-    typedef std::vector<Int_t> Indices;
+    typedef std::vector<Short_t> Indices;
 
     //! Default constructor.
     RefVector() {}
@@ -42,13 +42,13 @@ namespace panda {
      */
     void setContainer(ContainerBase const*& c) { container_ = &c; }
     //! Size of the vector.
-    UInt_t size() const;
+    UShort_t size() const;
     //! Element (ref) accessor.
-    ref_type at(UInt_t);
+    ref_type at(UShort_t);
     //! Element (ref) accessor.
-    const_ref_type at(UInt_t) const;
+    const_ref_type at(UShort_t) const;
     //! Object accessor.
-    element_type const& objAt(UInt_t) const;
+    element_type const& objAt(UShort_t) const;
     //! Assignment operator
     self_type& operator=(self_type const&);
     //! Setter function
@@ -84,7 +84,7 @@ namespace panda {
     template<Bool_t is_const>
     class RefHolder {
     public:
-      typedef typename std::conditional<is_const, Int_t const, Int_t>::type index_type;
+      typedef typename std::conditional<is_const, Short_t const, Short_t>::type index_type;
       typedef typename std::conditional<is_const, const_ref_type, ref_type>::type value_type;
 
       RefHolder(ContainerBase const*& c, index_type& idx) : ref_(c, idx) {}
@@ -106,7 +106,7 @@ namespace panda {
       typedef typename std::conditional<is_const, Indices::const_iterator, Indices::iterator>::type internal_type;
 
       RefVectorIterator() {}
-      RefVectorIterator(self_type const& it) : container_(it.container_), itr_(it.itr_) {}
+      RefVectorIterator(self_type const& it) : container_(&it.container_), itr_(it.itr_) {}
       self_type& operator++() { ++itr_; return *this; }
       self_type operator++(int) { auto copy(*this); ++itr_; return copy; }
       self_type& operator--() { --itr_; return *this; }
@@ -117,13 +117,13 @@ namespace panda {
       self_type operator-(int n) const { auto copy(*this); return (copy -= n); }
       bool operator==(self_type const& rhs) const { return itr_ == rhs.itr_; }
       bool operator!=(self_type const& rhs) const { return itr_ != rhs.itr_; }
-      value_type operator*() const { return value_type(container_, *itr_); }
-      ptr_type operator->() const { return ptr_type(container_, *itr_); }
+      value_type operator*() const { return value_type(*container_, *itr_); }
+      ptr_type operator->() const { return ptr_type(*container_, *itr_); }
 
     private:
-      RefVectorIterator(ContainerBase const*& v, internal_type const& i) : container_(v), itr_(i) {}
+      RefVectorIterator(ContainerBase const*& v, internal_type const& i) : container_(&v), itr_(i) {}
 
-      ContainerBase const*& container_{0};
+      ContainerBase const** container_{0};
       internal_type itr_{};
     };
 
@@ -141,7 +141,7 @@ namespace panda {
   };
 
   template<class E>
-  UInt_t
+  UShort_t
   RefVector<E>::size() const
   {
     if (!indices_)
@@ -151,7 +151,7 @@ namespace panda {
 
   template<class E>
   Ref<E>
-  RefVector<E>::at(UInt_t _i)
+  RefVector<E>::at(UShort_t _i)
   {
     if (!container_ || !indices_)
       throw std::runtime_error("at() called on an invalid RefVector");
@@ -161,7 +161,7 @@ namespace panda {
 
   template<class E>
   ConstRef<E>
-  RefVector<E>::at(UInt_t _i) const
+  RefVector<E>::at(UShort_t _i) const
   {
     if (!container_ || !indices_)
       throw std::runtime_error("at() called on an invalid RefVector");
@@ -171,7 +171,7 @@ namespace panda {
 
   template<class E>
   E const&
-  RefVector<E>::objAt(UInt_t _i) const
+  RefVector<E>::objAt(UShort_t _i) const
   {
     if (!container_ || !(*container_) || !indices_)
       throw std::runtime_error("at() called on an invalid RefVector");
@@ -203,9 +203,9 @@ namespace panda {
     if (!container_ || !(*container_) || !indices_)
       throw std::runtime_error("Cannot push to an invalid RefVector");
 
-    for (UInt_t idx(0); idx != (*container_)->size(); ++idx) {
+    for (UShort_t idx(0); idx != (*container_)->size(); ++idx) {
       if (&(*container_)->elemAt(idx) == &_obj) {
-        indices_->push_back(Int_t(idx));
+        indices_->push_back(Short_t(idx));
         return;
       }
     }
@@ -227,7 +227,7 @@ namespace panda {
   }
 
   template<class E>
-  std::vector<Int_t>*&
+  std::vector<Short_t>*&
   RefVector<E>::indices()
   {
     if (!indices_)

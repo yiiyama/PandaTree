@@ -61,8 +61,8 @@ namespace panda {
     void doInit_() override;
   };
 
-  typedef SuperCluster::array_type SuperClusterArray;
-  typedef SuperCluster::collection_type SuperClusterCollection;
+  typedef Array<SuperCluster> SuperClusterArray;
+  typedef Collection<SuperCluster> SuperClusterCollection;
   typedef Ref<SuperCluster> SuperClusterRef;
   typedef RefVector<SuperCluster> SuperClusterRefVector;
 

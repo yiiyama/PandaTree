@@ -22,7 +22,7 @@ namespace panda {
   public:
     typedef RefT<E, is_const> self_type;
     typedef E value_type;
-    typedef typename std::conditional<is_const, Int_t const, Int_t>::type index_type;
+    typedef typename std::conditional<is_const, Short_t const, Short_t>::type index_type;
 
     //! Default constructor.
     RefT() {}
@@ -79,7 +79,7 @@ namespace panda {
      * Throws a runtime_error if idx is not valid.
      */
     template<Bool_t C = is_const>
-    typename std::enable_if<!C, Int_t&>::type idx();
+    typename std::enable_if<!C, Short_t&>::type idx();
     //! Accessor to container
     /*!
      * Throws a runtime_error if container is not valid.
@@ -126,7 +126,7 @@ namespace panda {
     if (!container_ || !(*container_) || !idx_)
       return *this;
 
-    for ((*idx_) = 0; (*idx_) != Int_t((*container_)->size()); ++(*idx_)) {
+    for ((*idx_) = 0; (*idx_) != Short_t((*container_)->size()); ++(*idx_)) {
       if (&(*container_)->elemAt(*idx_) == _rhs)
         return *this;
     }
@@ -152,7 +152,7 @@ namespace panda {
 
   template<class E, Bool_t is_const>
   template<Bool_t C/* = is_const*/>
-  typename std::enable_if<!C, Int_t&>::type
+  typename std::enable_if<!C, Short_t&>::type
   RefT<E, is_const>::idx()
   {
     if (!idx_)

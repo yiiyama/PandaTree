@@ -41,7 +41,9 @@ namespace panda {
     private:
       Iterator(pointer p, unsigned unitSize) : ptr_(p), unitSize_(unitSize) {}
 
-      void shiftPtr_(int shift) { reinterpret_cast<char*&>(ptr_) += unitSize_ * shift; }
+      typedef typename std::conditional<is_const, char const*, char*>::type char_pointer;
+
+      void shiftPtr_(int shift) { reinterpret_cast<char_pointer&>(ptr_) += unitSize_ * shift; }
 
       pointer ptr_{0};
       unsigned const unitSize_{0};

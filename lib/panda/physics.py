@@ -293,8 +293,8 @@ class PhysicsObject(Definition, Object):
         header.newline()
 
         if not self.is_singlet():
-            header.writeline('typedef {name}::array_type {name}Array;'.format(name = self.name))
-            header.writeline('typedef {name}::collection_type {name}Collection;'.format(name = self.name))
+            header.writeline('typedef Array<{name}> {name}Array;'.format(name = self.name))
+            header.writeline('typedef Collection<{name}> {name}Collection;'.format(name = self.name))
             header.writeline('typedef Ref<{name}> {name}Ref;'.format(name = self.name))
             header.writeline('typedef RefVector<{name}> {name}RefVector;'.format(name = self.name))
             header.newline()

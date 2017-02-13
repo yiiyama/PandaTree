@@ -41,8 +41,8 @@ panda::Photon::datastore::allocate(UInt_t _nmax)
   pixelVeto = new Bool_t[nmax_];
   csafeVeto = new Bool_t[nmax_];
   triggerMatch = new Bool_t[nmax_][nPhotonTriggerObjects];
-  superCluster_ = new Int_t[nmax_];
-  matchedGen_ = new Int_t[nmax_];
+  superCluster_ = new Short_t[nmax_];
+  matchedGen_ = new Short_t[nmax_];
 }
 
 void
@@ -248,8 +248,8 @@ panda::Photon::datastore::book(TTree& _tree, TString const& _name, utils::Branch
   utils::book(_tree, _name, "pixelVeto", size, 'O', pixelVeto, _branches);
   utils::book(_tree, _name, "csafeVeto", size, 'O', csafeVeto, _branches);
   utils::book(_tree, _name, "triggerMatch", size + TString::Format("[%d]", nPhotonTriggerObjects), 'O', triggerMatch, _branches);
-  utils::book(_tree, _name, "superCluster_", size, 'I', superCluster_, _branches);
-  utils::book(_tree, _name, "matchedGen_", size, 'I', matchedGen_, _branches);
+  utils::book(_tree, _name, "superCluster_", size, 'S', superCluster_, _branches);
+  utils::book(_tree, _name, "matchedGen_", size, 'S', matchedGen_, _branches);
 }
 
 void
@@ -581,8 +581,8 @@ panda::Photon::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
   utils::book(_tree, _name, "pixelVeto", "", 'O', &pixelVeto, _branches);
   utils::book(_tree, _name, "csafeVeto", "", 'O', &csafeVeto, _branches);
   utils::book(_tree, _name, "triggerMatch", TString::Format("[%d]", nPhotonTriggerObjects), 'O', triggerMatch, _branches);
-  utils::book(_tree, _name, "superCluster_", "", 'I', gStore.getData(this).superCluster_, _branches);
-  utils::book(_tree, _name, "matchedGen_", "", 'I', gStore.getData(this).matchedGen_, _branches);
+  utils::book(_tree, _name, "superCluster_", "", 'S', gStore.getData(this).superCluster_, _branches);
+  utils::book(_tree, _name, "matchedGen_", "", 'S', gStore.getData(this).matchedGen_, _branches);
 }
 
 void

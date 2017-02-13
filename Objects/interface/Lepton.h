@@ -30,7 +30,7 @@ namespace panda {
       Float_t* phoiso{0};
       Float_t* puiso{0};
       ContainerBase const* matchedGenContainer_{0};
-      Int_t* matchedGen_{0};
+      Short_t* matchedGen_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -90,8 +90,8 @@ namespace panda {
     void doInit_() override;
   };
 
-  typedef Lepton::array_type LeptonArray;
-  typedef Lepton::collection_type LeptonCollection;
+  typedef Array<Lepton> LeptonArray;
+  typedef Collection<Lepton> LeptonCollection;
   typedef Ref<Lepton> LeptonRef;
   typedef RefVector<Lepton> LeptonRefVector;
 

@@ -43,9 +43,9 @@ namespace panda {
       Bool_t* tight{0};
       Bool_t* monojet{0};
       ContainerBase const* matchedGenJetContainer_{0};
-      Int_t* matchedGenJet_{0};
+      Short_t* matchedGenJet_{0};
       ContainerBase const* constituentsContainer_{0};
-      std::vector<std::vector<Int_t>>* constituents_{0};
+      std::vector<std::vector<Short_t>>* constituents_{0};
       */
       Float_t* tau1{0};
       Float_t* tau2{0};
@@ -59,7 +59,7 @@ namespace panda {
       Float_t* double_sub{0};
       Float_t (*ecfs)[3][4][4]{0};
       ContainerBase const* subjetsContainer_{0};
-      std::vector<std::vector<Int_t>>* subjets_{0};
+      std::vector<std::vector<Short_t>>* subjets_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -147,8 +147,8 @@ namespace panda {
     void doInit_() override;
   };
 
-  typedef FatJet::array_type FatJetArray;
-  typedef FatJet::collection_type FatJetCollection;
+  typedef Array<FatJet> FatJetArray;
+  typedef Collection<FatJet> FatJetCollection;
   typedef Ref<FatJet> FatJetRef;
   typedef RefVector<FatJet> FatJetRefVector;
 

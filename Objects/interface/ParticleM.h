@@ -45,7 +45,7 @@ namespace panda {
     ParticleM& operator=(ParticleM const&);
 
     double m() const override { return mass_; }
-    void setPtEtaPhiM(double pt, double eta, double phi, double m);
+    void setPtEtaPhiM(double pt, double eta, double phi, double m) override;
     void setXYZE(double px, double py, double pz, double e) override;
 
   protected:
@@ -73,8 +73,8 @@ namespace panda {
     void doInit_() override;
   };
 
-  typedef ParticleM::array_type ParticleMArray;
-  typedef ParticleM::collection_type ParticleMCollection;
+  typedef Array<ParticleM> ParticleMArray;
+  typedef Collection<ParticleM> ParticleMCollection;
   typedef Ref<ParticleM> ParticleMRef;
   typedef RefVector<ParticleM> ParticleMRefVector;
 

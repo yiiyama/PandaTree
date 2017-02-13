@@ -24,7 +24,7 @@ namespace panda {
       Int_t* pdgid{0};
       UShort_t* statusFlags{0};
       ContainerBase const* parentContainer_{0};
-      Int_t* parent_{0};
+      Short_t* parent_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -74,8 +74,8 @@ namespace panda {
     void doInit_() override;
   };
 
-  typedef GenParticle::array_type GenParticleArray;
-  typedef GenParticle::collection_type GenParticleCollection;
+  typedef Array<GenParticle> GenParticleArray;
+  typedef Collection<GenParticle> GenParticleCollection;
   typedef Ref<GenParticle> GenParticleRef;
   typedef RefVector<GenParticle> GenParticleRefVector;
 

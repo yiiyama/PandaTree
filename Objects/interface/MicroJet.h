@@ -78,8 +78,8 @@ namespace panda {
     void doInit_() override;
   };
 
-  typedef MicroJet::array_type MicroJetArray;
-  typedef MicroJet::collection_type MicroJetCollection;
+  typedef Array<MicroJet> MicroJetArray;
+  typedef Collection<MicroJet> MicroJetCollection;
   typedef Ref<MicroJet> MicroJetRef;
   typedef RefVector<MicroJet> MicroJetRefVector;
 

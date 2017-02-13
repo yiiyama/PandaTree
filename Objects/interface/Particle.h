@@ -77,8 +77,8 @@ namespace panda {
     void doInit_() override;
   };
 
-  typedef Particle::array_type ParticleArray;
-  typedef Particle::collection_type ParticleCollection;
+  typedef Array<Particle> ParticleArray;
+  typedef Collection<Particle> ParticleCollection;
   typedef Ref<Particle> ParticleRef;
   typedef RefVector<Particle> ParticleRefVector;
 

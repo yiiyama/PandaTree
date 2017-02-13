@@ -46,8 +46,8 @@ namespace panda {
     double eta() const override { unpack_(); return eta_; }
     double phi() const override { unpack_(); return phi_; }
     double m() const override { unpack_(); return mass_; }
-    void setPtEtaPhiM(double pt, double eta, double phi, double m);
-    void setXYZE(double px, double py, double pz, double e);
+    void setPtEtaPhiM(double pt, double eta, double phi, double m) override;
+    void setXYZE(double px, double py, double pz, double e) override;
 
     UShort_t& packedPt;
     Short_t& packedEta;
@@ -83,8 +83,8 @@ namespace panda {
     void doInit_() override;
   };
 
-  typedef PackedParticle::array_type PackedParticleArray;
-  typedef PackedParticle::collection_type PackedParticleCollection;
+  typedef Array<PackedParticle> PackedParticleArray;
+  typedef Collection<PackedParticle> PackedParticleCollection;
   typedef Ref<PackedParticle> PackedParticleRef;
   typedef RefVector<PackedParticle> PackedParticleRefVector;
 

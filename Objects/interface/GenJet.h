@@ -76,8 +76,8 @@ namespace panda {
     void doInit_() override;
   };
 
-  typedef GenJet::array_type GenJetArray;
-  typedef GenJet::collection_type GenJetCollection;
+  typedef Array<GenJet> GenJetArray;
+  typedef Collection<GenJet> GenJetCollection;
   typedef Ref<GenJet> GenJetRef;
   typedef RefVector<GenJet> GenJetRefVector;
 

@@ -61,7 +61,6 @@ namespace panda {
 
   public:
     /* BEGIN CUSTOM Parton.h.classdef */
-    std::string print() override { std::stringstream ss; ss << pdgid << "(" << pt_ << "," << eta_ << "," << phi_ << "," << mass_; return ss.str(); }
     /* END CUSTOM */
 
     static utils::BranchList getListOfBranches();
@@ -77,8 +76,8 @@ namespace panda {
     void doInit_() override;
   };
 
-  typedef Parton::array_type PartonArray;
-  typedef Parton::collection_type PartonCollection;
+  typedef Array<Parton> PartonArray;
+  typedef Collection<Parton> PartonCollection;
   typedef Ref<Parton> PartonRef;
   typedef RefVector<Parton> PartonRefVector;
 

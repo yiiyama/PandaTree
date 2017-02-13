@@ -31,7 +31,7 @@ namespace panda {
       Float_t* iso{0};
       Float_t* isoDeltaBetaCorr{0};
       ContainerBase const* matchedGenContainer_{0};
-      Int_t* matchedGen_{0};
+      Short_t* matchedGen_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -90,8 +90,8 @@ namespace panda {
     void doInit_() override;
   };
 
-  typedef Tau::array_type TauArray;
-  typedef Tau::collection_type TauCollection;
+  typedef Array<Tau> TauArray;
+  typedef Collection<Tau> TauCollection;
   typedef Ref<Tau> TauRef;
   typedef RefVector<Tau> TauRefVector;
 

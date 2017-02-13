@@ -24,7 +24,7 @@ class RefVectorBranch(RefBranch, GenericBranch):
             raise RuntimeError('Cannot create reference to single object ' + objdef.name)
 
         # create a branch for the indices with name {name}_
-        GenericBranch.__init__(self, '{name}_{arrdef}/std::vector<Int_t>'.format(name = self.refname, arrdef = arrdef, type = self.objname))
+        GenericBranch.__init__(self, '{name}_{arrdef}/std::vector<Short_t>'.format(name = self.refname, arrdef = arrdef, type = self.objname))
 
     def write_decl(self, out, context):
         if context == 'datastore':

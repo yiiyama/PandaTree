@@ -30,7 +30,7 @@ namespace panda {
       Float_t* phoiso{0};
       Float_t* puiso{0};
       ContainerBase const* matchedGenContainer_{0};
-      Int_t* matchedGen_{0};
+      Short_t* matchedGen_{0};
       */
       Bool_t* mediumBtoF{0};
       Bool_t (*triggerMatch)[nMuonTriggerObjects]{0};
@@ -98,8 +98,8 @@ namespace panda {
     void doInit_() override;
   };
 
-  typedef Muon::array_type MuonArray;
-  typedef Muon::collection_type MuonCollection;
+  typedef Array<Muon> MuonArray;
+  typedef Collection<Muon> MuonCollection;
   typedef Ref<Muon> MuonRef;
   typedef RefVector<Muon> MuonRefVector;
 

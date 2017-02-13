@@ -86,8 +86,8 @@ double pt() const override { unpack_(); return pt_; }
 double eta() const override { unpack_(); return eta_; }
 double phi() const override { unpack_(); return phi_; }
 double m() const override { unpack_(); return mass_; }
-void setPtEtaPhiM(double pt, double eta, double phi, double m);
-void setXYZE(double px, double py, double pz, double e);
+void setPtEtaPhiM(double pt, double eta, double phi, double m) override;
+void setXYZE(double px, double py, double pz, double e) override;
 
 [GenParticle>PackedParticle]
 pdgid/I
@@ -131,13 +131,13 @@ double pt() const override { return pt_; }
 double eta() const override { return eta_; }
 double phi() const override { return phi_; }
 double m() const override { return 0.; }
-void setPtEtaPhiM(double pt, double eta, double phi, double)
+void setPtEtaPhiM(double pt, double eta, double phi, double) override
 {
   pt_ = pt;
   eta_ = eta;
   phi_ = phi;
 }
-void setXYZE(double px, double py, double pz, double)
+void setXYZE(double px, double py, double pz, double) override
 {
   pt_ = std::sqrt(px * px + py * py);
   double p(std::sqrt(px * px + py * py + pz * pz));
@@ -148,7 +148,7 @@ void setXYZE(double px, double py, double pz, double)
 [ParticleM>ParticleP]
 mass_/F
 double m() const override { return mass_; }
-void setPtEtaPhiM(double pt, double eta, double phi, double m)
+void setPtEtaPhiM(double pt, double eta, double phi, double m) override
 {
   pt_ = pt;
   eta_ = eta;

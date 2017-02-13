@@ -23,7 +23,7 @@ panda::Lepton::datastore::allocate(UInt_t _nmax)
   nhiso = new Float_t[nmax_];
   phoiso = new Float_t[nmax_];
   puiso = new Float_t[nmax_];
-  matchedGen_ = new Int_t[nmax_];
+  matchedGen_ = new Short_t[nmax_];
 }
 
 void
@@ -116,7 +116,7 @@ panda::Lepton::datastore::book(TTree& _tree, TString const& _name, utils::Branch
   utils::book(_tree, _name, "nhiso", size, 'F', nhiso, _branches);
   utils::book(_tree, _name, "phoiso", size, 'F', phoiso, _branches);
   utils::book(_tree, _name, "puiso", size, 'F', puiso, _branches);
-  utils::book(_tree, _name, "matchedGen_", size, 'I', matchedGen_, _branches);
+  utils::book(_tree, _name, "matchedGen_", size, 'S', matchedGen_, _branches);
 }
 
 void
@@ -278,7 +278,7 @@ panda::Lepton::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
   utils::book(_tree, _name, "nhiso", "", 'F', &nhiso, _branches);
   utils::book(_tree, _name, "phoiso", "", 'F', &phoiso, _branches);
   utils::book(_tree, _name, "puiso", "", 'F', &puiso, _branches);
-  utils::book(_tree, _name, "matchedGen_", "", 'I', gStore.getData(this).matchedGen_, _branches);
+  utils::book(_tree, _name, "matchedGen_", "", 'S', gStore.getData(this).matchedGen_, _branches);
 }
 
 void

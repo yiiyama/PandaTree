@@ -43,9 +43,9 @@ namespace panda {
       Bool_t* tight{0};
       Bool_t* monojet{0};
       ContainerBase const* matchedGenJetContainer_{0};
-      Int_t* matchedGenJet_{0};
+      Short_t* matchedGenJet_{0};
       ContainerBase const* constituentsContainer_{0};
-      std::vector<std::vector<Int_t>>* constituents_{0};
+      std::vector<std::vector<Short_t>>* constituents_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -116,8 +116,8 @@ namespace panda {
     void doInit_() override;
   };
 
-  typedef Jet::array_type JetArray;
-  typedef Jet::collection_type JetCollection;
+  typedef Array<Jet> JetArray;
+  typedef Collection<Jet> JetCollection;
   typedef Ref<Jet> JetRef;
   typedef RefVector<Jet> JetRefVector;
 

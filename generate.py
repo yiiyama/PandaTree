@@ -193,7 +193,8 @@ for objdef in phobjects + trees:
 # write a linkdef file (not compiled by CMSSW - only for Makefile)
 linkdef = FileOutput(common.PACKDIR + '/obj/LinkDef.h')
 linkdef.writeline('#include "../Framework/interface/Object.h"')
-linkdef.writeline('#include "../Framework/interface/Container.h"')
+linkdef.writeline('#include "../Framework/interface/Array.h"')
+linkdef.writeline('#include "../Framework/interface/Collection.h"')
 for objdef in phobjects:
     linkdef.writeline('#include "../Objects/interface/{name}.h"'.format(name = objdef.name))
 for tree in trees:
@@ -215,6 +216,9 @@ linkdef.newline()
 for enum in enums:
     linkdef.writeline('#pragma link C++ enum {NAMESPACE}::{name};'.format(NAMESPACE = common.NAMESPACE, name = enum.name))
 
+for fwk in ['Object', 'Singlet', 'Element', 'ContainerBase', 'ArrayBase', 'CollectionBase', 'TreeEntry']:
+    linkdef.writeline('#pragma link C++ class {NAMESPACE}::{name};'.format(NAMESPACE = common.NAMESPACE, name = fwk))
+
 for objdef in phobjects:
     linkdef.writeline('#pragma link C++ class {NAMESPACE}::{name};'.format(NAMESPACE = common.NAMESPACE, name = objdef.name))
     for branch in objdef.branches:
@@ -224,8 +228,8 @@ for objdef in phobjects:
 
 for objdef in phobjects:
     if not objdef.is_singlet():
-        linkdef.writeline('#pragma link C++ class Array<{NAMESPACE}::{name}>;'.format(NAMESPACE = common.NAMESPACE, name = objdef.name))
-        linkdef.writeline('#pragma link C++ class Collection<{NAMESPACE}::{name}>;'.format(NAMESPACE = common.NAMESPACE, name = objdef.name))
+        linkdef.writeline('#pragma link C++ class {NAMESPACE}::Array<{NAMESPACE}::{name}>;'.format(NAMESPACE = common.NAMESPACE, name = objdef.name))
+        linkdef.writeline('#pragma link C++ class {NAMESPACE}::Collection<{NAMESPACE}::{name}>;'.format(NAMESPACE = common.NAMESPACE, name = objdef.name))
 for objdef in phobjects:
     if not objdef.is_singlet():
         linkdef.writeline('#pragma link C++ typedef {NAMESPACE}::{name}Array;'.format(NAMESPACE = common.NAMESPACE, name = objdef.name))

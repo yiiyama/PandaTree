@@ -31,7 +31,7 @@ namespace panda {
       Float_t* phoiso{0};
       Float_t* puiso{0};
       ContainerBase const* matchedGenContainer_{0};
-      Int_t* matchedGen_{0};
+      Short_t* matchedGen_{0};
       */
       Bool_t* hltsafe{0};
       Float_t* chisoPh{0};
@@ -47,7 +47,7 @@ namespace panda {
       Bool_t* veto{0};
       Bool_t (*triggerMatch)[nElectronTriggerObjects]{0};
       ContainerBase const* superClusterContainer_{0};
-      Int_t* superCluster_{0};
+      Short_t* superCluster_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -124,8 +124,8 @@ namespace panda {
     void doInit_() override;
   };
 
-  typedef Electron::array_type ElectronArray;
-  typedef Electron::collection_type ElectronCollection;
+  typedef Array<Electron> ElectronArray;
+  typedef Collection<Electron> ElectronCollection;
   typedef Ref<Electron> ElectronRef;
   typedef RefVector<Electron> ElectronRefVector;
 
