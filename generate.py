@@ -2,6 +2,8 @@
 
 import sys
 import os
+import shutil
+import subprocess
 from argparse import ArgumentParser
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/lib')
 from panda import *
@@ -14,6 +16,14 @@ args = argParser.parse_args()
 
 if args.clear_custom:
     common.PRESERVE_CUSTOM = False
+
+# are we running in a CMSSW environment?
+in_cmssw = os.path.exists(common.PACKDIR + '/../../.SCRAM/Environment')
+
+if in_cmssw:
+    if 'CMSSW_BASE' not in os.environ:
+        print 'Script executed in CMSSW workarea but CMSSW environmet is not set.'
+        sys.exit(1)
 
 # globals
 includes = [
@@ -107,11 +117,10 @@ if not os.path.isdir(common.PACKDIR + '/Objects/src'):
 if not os.path.isdir(common.PACKDIR + '/obj'):
     os.makedirs(common.PACKDIR + '/obj')
 
-# are we running in a CMSSW environment?
-if os.path.exists(common.PACKDIR + '/../../.SCRAM/Environment'):
+if in_cmssw:
     with open(common.PACKDIR + '/../../.SCRAM/Environment') as environment:
         if 'CMSSW' in environment.readline():
-            # if so, we need to write the build file
+            # we need to write the build file
             with open(common.PACKDIR + '/Objects/BuildFile.xml', 'w') as buildFile:
                 buildFile.write('<use name="root"/>\n')
                 buildFile.write('<use name="{PACKAGE}/Framework"/>\n'.format(PACKAGE = common.PACKAGE))
@@ -190,7 +199,7 @@ for objdef in phobjects + trees:
     objdef.generate_header()
     objdef.generate_source()
 
-# write a linkdef file (not compiled by CMSSW - only for Makefile)
+# write a linkdef file
 linkdef = FileOutput(common.PACKDIR + '/obj/LinkDef.h')
 linkdef.writeline('#include "../Framework/interface/Object.h"')
 linkdef.writeline('#include "../Framework/interface/Array.h"')
@@ -241,3 +250,24 @@ for tree in trees:
 linkdef.newline()
 
 linkdef.writeline('#endif')
+
+linkdef.close()
+
+# generate a dictionary file
+headers = []
+for header in os.listdir(common.PACKDIR + '/Framework/interface'):
+    headers.append('../../Framework/interface/' + header)
+
+for header in os.listdir(common.PACKDIR + '/Objects/interface'):
+    headers.append('../interface/' + header)
+
+proc = subprocess.Popen(['rootcling', '-f', 'dict.cc'] + headers + ['../../obj/LinkDef.h'], stdout = subprocess.PIPE, stderr = subprocess.PIPE, cwd = common.PACKDIR + '/Objects/src')
+stdout, stderr = proc.communicate()
+if stdout.strip():
+    print stdout.strip()
+if stderr.strip():
+    print stderr.strip()
+
+shutil.copy(common.PACKDIR + '/Objects/src/dict_rdict.pcm', common.PACKDIR + '/lib')
+if in_cmssw:
+    os.rename(common.PACKDIR + '/Objects/src/dict_rdict.pcm', os.environ['CMSSW_BASE'] + '/lib/' + os.environ['SCRAM_ARCH'] + '/dict_rdict.pcm')
