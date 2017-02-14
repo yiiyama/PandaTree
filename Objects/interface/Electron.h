@@ -44,6 +44,8 @@ namespace panda {
       Float_t* sipip{0};
       Float_t* eseed{0};
       Float_t* hOverE{0};
+      Float_t* rawPt{0};
+      Float_t* regPt{0};
       Bool_t* veto{0};
       Bool_t (*triggerMatch)[nElectronTriggerObjects]{0};
       ContainerBase const* superClusterContainer_{0};
@@ -97,6 +99,8 @@ namespace panda {
     Float_t& sipip;
     Float_t& eseed;
     Float_t& hOverE;
+    Float_t& rawPt;
+    Float_t& regPt;
     Bool_t& veto;
     Bool_t (&triggerMatch)[nElectronTriggerObjects];
     Ref<SuperCluster> superCluster;

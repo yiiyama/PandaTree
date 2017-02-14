@@ -196,6 +196,8 @@ sieie/F
 sipip/F
 eseed/F
 hOverE/F
+rawPt/F
+regPt/F
 veto/O
 triggerMatch[nElectronTriggerObjects]/O
 superCluster/SuperClusterRef
@@ -237,6 +239,8 @@ etaWidth/F
 phiWidth/F
 time/F
 timeSpan/F
+rawPt/F
+regPt/F
 loose/O
 medium/O
 tight/O
@@ -396,7 +400,7 @@ puppiAK8Subjets/MicroJetCollection(64)
 puppiCA15Jets/FatJetCollection(8)
 puppiCA15Subjets/MicroJetCollection(64)
 genJets/GenJetCollection(64)
-genParticles/GenParticleCollection(128)
+genParticles/GenParticleCollection(256)
 partons/PartonCollection(8)
 met/RecoMet
 puppiMet/RecoMet
