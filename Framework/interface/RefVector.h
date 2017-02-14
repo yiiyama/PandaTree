@@ -56,7 +56,7 @@ namespace panda {
      * Pass a element_type object after the container is set.
      * If the object is found in the collector, pushes the index value.
      */
-    void push_back(element_type const&);
+    void addRef(element_type const*);
     //! Setter function
     /*!
      * Pushes back a ref if the container is common.
@@ -198,13 +198,16 @@ namespace panda {
 
   template<class E>
   void
-  RefVector<E>::push_back(element_type const& _obj)
+  RefVector<E>::addRef(element_type const* _obj)
   {
+    if (!_obj)
+      return;
+
     if (!container_ || !(*container_) || !indices_)
       throw std::runtime_error("Cannot push to an invalid RefVector");
 
     for (UShort_t idx(0); idx != (*container_)->size(); ++idx) {
-      if (&(*container_)->elemAt(idx) == &_obj) {
+      if (&(*container_)->elemAt(idx) == _obj) {
         indices_->push_back(Short_t(idx));
         return;
       }

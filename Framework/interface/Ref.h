@@ -52,13 +52,6 @@ namespace panda {
      * Throws an invalid_argument exception if the reference is invalid.
      */
     value_type const& operator*() const;
-    //! Setter function
-    /*!
-     * Pass a pointer to a value_type object on the right hand side after the container is set.
-     * If the object is found in the collector, sets the index value.
-     */
-    template<Bool_t C = is_const>
-    typename std::enable_if<!C, self_type&>::type operator=(value_type const*);
     //! Copy assignment
     /*!
      * idx is copied by value. Change in the right-hand-side index value after the assignment
@@ -66,8 +59,15 @@ namespace panda {
      */
     template<Bool_t C = is_const>
     typename std::enable_if<!C, self_type&>::type operator=(self_type const&);
+    //! Setter function
+    /*!
+     * Pass a pointer to a value_type object on the right hand side after the container is set.
+     * If the object is found in the collector, sets the index value.
+     */
+    template<Bool_t C = is_const>
+    typename std::enable_if<!C, Bool_t>::type setRef(value_type const*);
     //! Validity check. Both container and idx must be valid, and idx must not be 0xffffffff.
-    bool isValid() const { return container_ && *container_ && idx_ && (*idx_) < (*container_)->size(); }
+    Bool_t isValid() const { return container_ && *container_ && idx_ && (*idx_) < (*container_)->size(); }
     //! Initializer
     /*!
      * Invalidates the index by setting it to 0xffffffff.
@@ -91,6 +91,10 @@ namespace panda {
   private:
     ContainerBase const** container_{0};
     index_type* idx_{0};
+
+    //! Hide assignment for const refs
+    template<Bool_t C = is_const>
+    typename std::enable_if<C, self_type&>::type operator=(self_type const&) { return *this; }
   };
 
   template<class E, Bool_t is_const>
@@ -116,28 +120,6 @@ namespace panda {
   template<class E, Bool_t is_const>
   template<Bool_t C/* = is_const*/>
   typename std::enable_if<!C, RefT<E, is_const>&>::type
-  RefT<E, is_const>::operator=(value_type const* _rhs)
-  {
-    if (!_rhs) {
-      container_ = 0;
-      idx_ = 0;
-    }
-
-    if (!container_ || !(*container_) || !idx_)
-      return *this;
-
-    for ((*idx_) = 0; (*idx_) != Short_t((*container_)->size()); ++(*idx_)) {
-      if (&(*container_)->elemAt(*idx_) == _rhs)
-        return *this;
-    }
-
-    (*idx_) = -1;
-    return *this;
-  }
-
-  template<class E, Bool_t is_const>
-  template<Bool_t C/* = is_const*/>
-  typename std::enable_if<!C, RefT<E, is_const>&>::type
   RefT<E, is_const>::operator=(self_type const& _rhs)
   {
     container_ = _rhs.container_;
@@ -148,6 +130,31 @@ namespace panda {
         (*idx_) = -1;
     }
     return *this;
+  }
+
+  template<class E, Bool_t is_const>
+  template<Bool_t C/* = is_const*/>
+  typename std::enable_if<!C, Bool_t>::type
+  RefT<E, is_const>::setRef(value_type const* _rhs)
+  {
+    if (!_rhs) {
+      container_ = 0;
+      idx_ = 0;
+    }
+
+    if (!container_ || !(*container_) || !idx_)
+      return false;
+
+    // loop through the container and return when a match is found
+    for ((*idx_) = 0; (*idx_) != Short_t((*container_)->size()); ++(*idx_)) {
+      if (&(*container_)->elemAt(*idx_) == _rhs)
+        return true;
+    }
+
+    // otherwise set to -1 and return false
+
+    (*idx_) = -1;
+    return true;
   }
 
   template<class E, Bool_t is_const>
