@@ -49,7 +49,7 @@ namespace panda {
     FatJetCollection puppiCA15Jets = FatJetCollection("puppiCA15Jets", 8);
     MicroJetCollection puppiCA15Subjets = MicroJetCollection("puppiCA15Subjets", 64);
     GenJetCollection genJets = GenJetCollection("genJets", 64);
-    GenParticleCollection genParticles = GenParticleCollection("genParticles", 128);
+    GenParticleCollection genParticles = GenParticleCollection("genParticles", 256);
     PartonCollection partons = PartonCollection("partons", 8);
     RecoMet met = RecoMet("met");
     RecoMet puppiMet = RecoMet("puppiMet");
