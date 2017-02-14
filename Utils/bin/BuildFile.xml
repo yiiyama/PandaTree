@@ -1,4 +1,5 @@
 <use name="PandaTree/Utils"/>
 <environment>
   <bin file="padd.cc"></bin>
+  <bin file="pxrdcp.cc"></bin>
 </environment>
