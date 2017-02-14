@@ -229,9 +229,9 @@ panda::utils::setAddress(TTree& _tree, TString const& _objName, BranchName const
     if (!_bName.in(_bList))
       return -2;
     
-    // -1 -> branch does not exist; 0 -> status is false; 1 -> status is true
-    returnCode = checkStatus(_tree, fullName, false);
-    if (returnCode != 1)
+    // -1 -> branch does not exist; 0 -> status is true; 1 -> status is false
+    returnCode = checkStatus(_tree, fullName, true);
+    if (returnCode != 0)
       return returnCode;
   }
 
