@@ -74,6 +74,7 @@ namespace panda {
     Photon(datastore&, UInt_t idx);
     ~Photon();
     Photon& operator=(Photon const&);
+    void print(std::ostream& = std::cout) const override;
 
     Float_t& chiso;
     Float_t& chisoWorst;

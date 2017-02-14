@@ -208,5 +208,17 @@ panda::GenParticle::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::GenParticle::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM GenParticle.cc.print */
+  _out << "GenParticle " << pdgid << " (" << pt() << ", " << eta() << ", " << phi() << ") "
+       << "flag=";
+  for (unsigned i(0); i != 16; ++i)
+    _out << ((statusFlags >> i) & 1);
+  _out << std::endl;
+  /* END CUSTOM */
+}
+
 /* BEGIN CUSTOM GenParticle.cc.global */
 /* END CUSTOM */

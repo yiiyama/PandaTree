@@ -658,5 +658,12 @@ panda::Photon::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::Photon::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM Photon.cc.print */
+  /* END CUSTOM */
+}
+
 /* BEGIN CUSTOM Photon.cc.global */
 /* END CUSTOM */

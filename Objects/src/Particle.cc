@@ -130,6 +130,13 @@ panda::Particle::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::Particle::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM Particle.cc.print */
+  /* END CUSTOM */
+}
+
 
 /* BEGIN CUSTOM Particle.cc.global */
 /* END CUSTOM */

@@ -172,5 +172,12 @@ panda::GenJet::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::GenJet::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM GenJet.cc.print */
+  /* END CUSTOM */
+}
+
 /* BEGIN CUSTOM GenJet.cc.global */
 /* END CUSTOM */

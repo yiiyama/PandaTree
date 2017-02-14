@@ -68,6 +68,7 @@ namespace panda {
     Jet(datastore&, UInt_t idx);
     ~Jet();
     Jet& operator=(Jet const&);
+    void print(std::ostream& = std::cout) const override;
 
     /* MicroJet
     Float_t& csv;

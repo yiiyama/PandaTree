@@ -406,6 +406,13 @@ panda::Electron::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::Electron::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM Electron.cc.print */
+  /* END CUSTOM */
+}
+
 
 /* BEGIN CUSTOM Electron.cc.global */
 /* END CUSTOM */

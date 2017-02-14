@@ -172,5 +172,12 @@ panda::Parton::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::Parton::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM Parton.cc.print */
+  /* END CUSTOM */
+}
+
 /* BEGIN CUSTOM Parton.cc.global */
 /* END CUSTOM */

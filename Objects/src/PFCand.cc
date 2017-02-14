@@ -213,6 +213,13 @@ panda::PFCand::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::PFCand::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM PFCand.cc.print */
+  /* END CUSTOM */
+}
+
 
 /* BEGIN CUSTOM PFCand.cc.global */
 void

@@ -17,6 +17,7 @@ namespace panda {
     Met(Met const&);
     ~Met();
     Met& operator=(Met const&);
+    void print(std::ostream& = std::cout) const override;
 
     virtual TVector2 v() const { TVector2 vec; vec.SetMagPhi(pt, phi); return vec; }
     void setXY(double x, double y) { pt = std::sqrt(x * x + y * y); phi = std::atan2(y, x); }

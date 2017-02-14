@@ -371,6 +371,13 @@ panda::FatJet::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::FatJet::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM FatJet.cc.print */
+  /* END CUSTOM */
+}
+
 double
 panda::FatJet::get_ecf(int o_, int N_, int ib_) const
 {

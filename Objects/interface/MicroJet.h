@@ -47,6 +47,7 @@ namespace panda {
     MicroJet(datastore&, UInt_t idx);
     ~MicroJet();
     MicroJet& operator=(MicroJet const&);
+    void print(std::ostream& = std::cout) const override;
 
     Float_t& csv;
     Float_t& qgl;

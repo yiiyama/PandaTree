@@ -144,5 +144,12 @@ panda::GenReweight::doGetBranchNames_() const
   return getListOfBranches().fullNames(name_);
 }
 
+void
+panda::GenReweight::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM GenReweight.cc.print */
+  /* END CUSTOM */
+}
+
 /* BEGIN CUSTOM GenReweight.cc.global */
 /* END CUSTOM */

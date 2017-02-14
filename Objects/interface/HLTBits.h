@@ -17,9 +17,10 @@ namespace panda {
     HLTBits(HLTBits const&);
     ~HLTBits();
     HLTBits& operator=(HLTBits const&);
+    void print(std::ostream& = std::cout) const override;
 
-    void set(unsigned iB) { words[iB / 64] |= (1 << (iB % 64)); }
-    bool pass(unsigned iB) const { return ((words[iB / 64] >> (iB % 64)) & 1) != 0; }
+    void set(unsigned iB) { if (iB >= 1024) return; words[iB / 64] |= (1 << (iB % 64)); }
+    bool pass(unsigned iB) const { if (iB >= 1024) return false; return ((words[iB / 64] >> (iB % 64)) & 1) != 0; }
 
     ULong64_t words[16]{};
 

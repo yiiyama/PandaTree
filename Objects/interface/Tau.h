@@ -54,6 +54,7 @@ namespace panda {
     Tau(datastore&, UInt_t idx);
     ~Tau();
     Tau& operator=(Tau const&);
+    void print(std::ostream& = std::cout) const override;
 
     Short_t& q;
     Bool_t& decayMode;

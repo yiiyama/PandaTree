@@ -47,6 +47,7 @@ namespace panda {
     GenParticle(datastore&, UInt_t idx);
     ~GenParticle();
     GenParticle& operator=(GenParticle const&);
+    void print(std::ostream& = std::cout) const override;
 
     /* PackedParticle
     UShort_t& packedPt;

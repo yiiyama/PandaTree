@@ -280,5 +280,12 @@ panda::Tau::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::Tau::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM Tau.cc.print */
+  /* END CUSTOM */
+}
+
 /* BEGIN CUSTOM Tau.cc.global */
 /* END CUSTOM */

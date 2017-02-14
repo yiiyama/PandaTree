@@ -91,6 +91,13 @@ panda::Met::doGetBranchNames_() const
   return getListOfBranches().fullNames(name_);
 }
 
+void
+panda::Met::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM Met.cc.print */
+  /* END CUSTOM */
+}
+
 
 /* BEGIN CUSTOM Met.cc.global */
 /* END CUSTOM */

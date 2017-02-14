@@ -197,5 +197,12 @@ panda::SuperCluster::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::SuperCluster::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM SuperCluster.cc.print */
+  /* END CUSTOM */
+}
+
 /* BEGIN CUSTOM SuperCluster.cc.global */
 /* END CUSTOM */

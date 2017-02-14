@@ -17,6 +17,7 @@ namespace panda {
     RecoMet(RecoMet const&);
     ~RecoMet();
     RecoMet& operator=(RecoMet const&);
+    void print(std::ostream& = std::cout) const override;
 
     virtual TVector2 vCorr(int corr = 0) const;
 

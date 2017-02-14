@@ -167,6 +167,13 @@ panda::RecoMet::doGetBranchNames_() const
   return getListOfBranches().fullNames(name_);
 }
 
+void
+panda::RecoMet::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM RecoMet.cc.print */
+  /* END CUSTOM */
+}
+
 TVector2
 panda::RecoMet::vCorr(int corr/* = 0*/) const
 {

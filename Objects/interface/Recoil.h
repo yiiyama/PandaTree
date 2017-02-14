@@ -17,6 +17,7 @@ namespace panda {
     Recoil(Recoil const&);
     ~Recoil();
     Recoil& operator=(Recoil const&);
+    void print(std::ostream& = std::cout) const override;
 
     bool any() const { return met || monoMu || monoE || diMu || diE || gamma; }
 

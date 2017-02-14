@@ -136,6 +136,13 @@ panda::Recoil::doGetBranchNames_() const
   return getListOfBranches().fullNames(name_);
 }
 
+void
+panda::Recoil::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM Recoil.cc.print */
+  /* END CUSTOM */
+}
+
 
 /* BEGIN CUSTOM Recoil.cc.global */
 /* END CUSTOM */

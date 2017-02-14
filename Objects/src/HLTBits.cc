@@ -81,6 +81,13 @@ panda::HLTBits::doGetBranchNames_() const
   return getListOfBranches().fullNames(name_);
 }
 
+void
+panda::HLTBits::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM HLTBits.cc.print */
+  /* END CUSTOM */
+}
+
 
 /* BEGIN CUSTOM HLTBits.cc.global */
 /* END CUSTOM */

@@ -316,6 +316,13 @@ panda::Lepton::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::Lepton::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM Lepton.cc.print */
+  /* END CUSTOM */
+}
+
 
 /* BEGIN CUSTOM Lepton.cc.global */
 /* END CUSTOM */

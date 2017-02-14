@@ -46,6 +46,7 @@ namespace panda {
     GenJet(datastore&, UInt_t idx);
     ~GenJet();
     GenJet& operator=(GenJet const&);
+    void print(std::ostream& = std::cout) const override;
 
     UShort_t& pdgid;
 

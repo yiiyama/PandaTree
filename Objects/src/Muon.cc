@@ -190,6 +190,13 @@ panda::Muon::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::Muon::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM Muon.cc.print */
+  /* END CUSTOM */
+}
+
 
 /* BEGIN CUSTOM Muon.cc.global */
 /* END CUSTOM */

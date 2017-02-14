@@ -209,6 +209,13 @@ panda::ParticleP::doInit_()
 }
 
 void
+panda::ParticleP::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM ParticleP.cc.print */
+  /* END CUSTOM */
+}
+
+void
 panda::ParticleP::setPtEtaPhiM(double pt, double eta, double phi, double)
 {
   pt_ = pt;

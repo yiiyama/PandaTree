@@ -154,6 +154,13 @@ panda::MetFilters::doGetBranchNames_() const
   return getListOfBranches().fullNames(name_);
 }
 
+void
+panda::MetFilters::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM MetFilters.cc.print */
+  /* END CUSTOM */
+}
+
 
 /* BEGIN CUSTOM MetFilters.cc.global */
 /* END CUSTOM */

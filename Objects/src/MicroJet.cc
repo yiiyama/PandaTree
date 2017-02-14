@@ -190,5 +190,12 @@ panda::MicroJet::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::MicroJet::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM MicroJet.cc.print */
+  /* END CUSTOM */
+}
+
 /* BEGIN CUSTOM MicroJet.cc.global */
 /* END CUSTOM */

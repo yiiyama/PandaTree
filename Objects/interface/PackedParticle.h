@@ -41,6 +41,7 @@ namespace panda {
     PackedParticle(datastore&, UInt_t idx);
     ~PackedParticle();
     PackedParticle& operator=(PackedParticle const&);
+    void print(std::ostream& = std::cout) const override;
 
     double pt() const override { unpack_(); return pt_; }
     double eta() const override { unpack_(); return eta_; }

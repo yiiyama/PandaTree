@@ -231,6 +231,13 @@ panda::PackedParticle::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::PackedParticle::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM PackedParticle.cc.print */
+  /* END CUSTOM */
+}
+
 
 /* BEGIN CUSTOM PackedParticle.cc.global */
 

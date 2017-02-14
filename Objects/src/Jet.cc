@@ -425,5 +425,12 @@ panda::Jet::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::Jet::print(std::ostream& _out/* = std::cout*/) const
+{
+  /* BEGIN CUSTOM Jet.cc.print */
+  /* END CUSTOM */
+}
+
 /* BEGIN CUSTOM Jet.cc.global */
 /* END CUSTOM */
