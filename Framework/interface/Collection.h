@@ -21,6 +21,7 @@ namespace panda {
     typedef Collection<E> self_type;
     typedef typename E::base_type::collection_type base_type;
     typedef E value_type;
+    typedef typename value_type::datastore data_type;
     typedef value_type& reference;
     typedef value_type const& const_reference;
     typedef value_type* pointer;
@@ -82,7 +83,7 @@ namespace panda {
 
     std::vector<UInt_t> sort(ContainerBase::Comparison const&) override;
 
-    typename value_type::datastore data{};
+    data_type data{};
 
   protected:
     Collection(char const* name, UInt_t unitSize, Bool_t dummy) : base_type(name, unitSize, kFALSE) {}
@@ -100,10 +101,10 @@ namespace panda {
 
     template<class T = E>
     typename std::enable_if<std::is_constructible<T>::value>::type
-    deallocate_(value_type* addr, typename value_type::datastore&);
+    deallocate_(value_type* addr, data_type&);
     template<class T = E>
     typename std::enable_if<!std::is_constructible<T>::value>::type
-    deallocate_(value_type* addr, typename value_type::datastore&);
+    deallocate_(value_type* addr, data_type&);
   };
 
   template<class E>
@@ -231,13 +232,15 @@ namespace panda {
   void
   Collection<E>::reallocate_(UInt_t _nmax)
   {
-    // keep the copy of the pointers temporarily
-    // tmpStore is not directly used but is linked from tmpArray
-    // tmpStore is itself a bunch of pointers (no values are copied here)
-    auto tmpStore(data);
-    auto* tmpArray(reinterpret_cast<value_type*>(ContainerBase::array_));
+    if (_nmax <= data.nmax())
+      return;
 
-    // allocate new space
+    // keep the copy of the pointers temporarily
+    // tmpStore is itself a bunch of pointers (no values are copied here)
+    data_type tmpStore(data);
+    value_type* tmpArray(reinterpret_cast<value_type*>(ContainerBase::array_));
+
+    // allocate a new chunk of memory in heap
     allocate_(_nmax);
 
     // copy old values
@@ -280,7 +283,7 @@ namespace panda {
   template<class E>
   template<class T/* = E*/>
   typename std::enable_if<std::is_constructible<T>::value>::type
-  Collection<E>::deallocate_(value_type* _addr, typename value_type::datastore& _data)
+  Collection<E>::deallocate_(value_type* _addr, data_type& _data)
   {
     // Call the destructor of the array elements
     value_type* p(_addr);
@@ -295,7 +298,7 @@ namespace panda {
   template<class E>
   template<class T/* = E*/>
   typename std::enable_if<!std::is_constructible<T>::value>::type
-  Collection<E>::deallocate_(value_type*, typename value_type::datastore&)
+  Collection<E>::deallocate_(value_type*, data_type&)
   {
     throw std::runtime_error(("Cannot deallocate pure-virtual elements (" + ContainerBase::name_ + ")").Data());
   }
