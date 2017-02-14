@@ -169,6 +169,7 @@ class PhysicsObject(Definition, Object):
 
         header.writeline('~{name}();'.format(name = self.name)) # destructor
         header.writeline('{name}& operator=({name} const&);'.format(name = self.name)) # assignment operator
+        header.writeline('void print(std::ostream& = std::cout) const override;')
 
         header.newline()
 
@@ -598,6 +599,15 @@ class PhysicsObject(Definition, Object):
             for method in methods:
                 src.newline()
                 self._write_method(src, 'Element', method, custom_block = (method[0] in ['doInit_']))
+
+        src.newline()
+        src.writeline('void')
+        src.writeline('{NAMESPACE}::{name}::print(std::ostream& _out/* = std::cout*/) const'.format(**subst))
+        src.writeline('{')
+        src.indent += 1
+        src.write_custom_block('{name}.cc.print'.format(**subst))
+        src.indent -= 1
+        src.writeline('}')
 
         if len(self.functions):
             src.newline()
