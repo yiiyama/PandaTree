@@ -12,17 +12,21 @@
 #include <iostream>
 
 void
-copyTree(TTree& _tree, panda::utils::BranchList const& _blist, TFile& _outputFile)
+copyTree(TTree& _tree, panda::utils::BranchList const& _allBranches, panda::utils::BranchList const& _blist, TFile& _outputFile)
 {
-  for (auto& bname : _blist) {
-    TString name(bname);
-    if (bname.isVeto())
-      name = name(1, name.Length());
+  std::cout << "setbranch * false" << std::endl;
+  _tree.SetBranchStatus("*", false);
 
-    if (!_tree.GetBranch(name))
+  for (auto& bname : _allBranches) {
+    TString name(bname.fullName());
+    std::cout << name;
+    if (!_tree.GetBranch(name) || !bname.in(_blist)) {
+      std::cout << " vetoed" << std::endl;
       continue;
+    }
+    std::cout << " pass" << std::endl;
 
-    _tree.SetBranchStatus(name, !bname.isVeto());
+    _tree.SetBranchStatus(name, true);
   }
 
   _outputFile.cd();
@@ -78,18 +82,18 @@ main(int _argc, char const* _argv[])
 
   auto* outputFile(TFile::Open(*argv, "recreate"));
 
-  panda::utils::BranchList blist(panda::Event::getListOfBranches());
+  panda::utils::BranchList blist = {"*"};
 
   while (--narg != 0) {
     TString arg(*(++argv));
 
     if (arg == "-r" || arg == "--run") {
-      copyTree(*eventTree, blist, *outputFile);
+      copyTree(*eventTree, panda::Event::getListOfBranches(), blist, *outputFile);
       delete eventTree;
       eventTree = 0;
 
       if (runTree)
-        blist = panda::Run::getListOfBranches();
+        blist = {"*"};
 
       continue;
     }
@@ -98,12 +102,12 @@ main(int _argc, char const* _argv[])
   }
 
   if (eventTree) {
-    copyTree(*eventTree, blist, *outputFile);
+    copyTree(*eventTree, panda::Event::getListOfBranches(), blist, *outputFile);
     blist = {"*"};
   }
   
   if (runTree)
-    copyTree(*runTree, blist, *outputFile);
+    copyTree(*runTree, panda::Run::getListOfBranches(), blist, *outputFile);
 
   // find the latest keys and copy
 
