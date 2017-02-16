@@ -27,7 +27,7 @@ namespace panda {
       Bool_t* tight{0};
       Float_t* chIso{0};
       Float_t* nhIso{0};
-      Float_t* phoIso{0};
+      Float_t* phIso{0};
       Float_t* puIso{0};
       ContainerBase const* matchedGenContainer_{0};
       Short_t* matchedGen_{0};
@@ -59,7 +59,7 @@ namespace panda {
     void print(std::ostream& = std::cout) const override;
 
     double m() const override { return 1.05658e-2; }
-    double combIso() const override { return chIso + std::max(nhIso + phoIso - 0.5 * puIso, 0.); }
+    double combIso() const override { return chIso + std::max(nhIso + phIso - 0.5 * puIso, 0.); }
 
     /* Lepton
     Char_t& charge;
@@ -68,7 +68,7 @@ namespace panda {
     Bool_t& tight;
     Float_t& chIso;
     Float_t& nhIso;
-    Float_t& phoIso;
+    Float_t& phIso;
     Float_t& puIso;
     Ref<GenParticle> matchedGen;
     */
