@@ -693,7 +693,7 @@ panda::Photon::doInit_()
 {
   ParticleP::doInit_();
 
-  pfPt = 0.;
+  pfPt = -1.;
   chIso = 0.;
   chIsoWorst = 0.;
   nhIso = 0.;
@@ -715,7 +715,7 @@ panda::Photon::doInit_()
   timeSpan = 0.;
   rawPt = 0.;
   regPt = 0.;
-  originalPt = 0.;
+  originalPt = -1.;
   loose = false;
   medium = false;
   tight = false;

@@ -173,7 +173,7 @@ eta/F
 phi/F
 
 [Lepton>ParticleP]
-pfPt/F // for E: Pt of the dR-closest PF candidate; for Mu: pfP4().pt()
+pfPt/F = -1. // for E: Pt of the dR-closest PF candidate; for Mu: pfP4().pt()
 charge/B
 loose/O
 medium/O
@@ -199,7 +199,7 @@ eseed/F
 hOverE/F
 rawPt/F
 regPt/F
-originalPt/F
+originalPt/F = -1.
 veto/O
 triggerMatch[nElectronTriggerObjects]/O
 superCluster/SuperClusterRef
@@ -222,7 +222,7 @@ isoDeltaBetaCorr/F
 matchedGen/GenParticleRef
 
 [Photon>ParticleP]
-pfPt/F // Pt of the dR-closest PF candidate
+pfPt/F = -1. // Pt of the dR-closest PF candidate
 chIso/F
 chIsoWorst/F
 nhIso/F
@@ -244,7 +244,7 @@ time/F
 timeSpan/F
 rawPt/F
 regPt/F
-originalPt/F
+originalPt/F = -1.
 loose/O
 medium/O
 tight/O

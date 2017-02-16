@@ -319,7 +319,7 @@ panda::Lepton::doInit_()
 {
   ParticleP::doInit_();
 
-  pfPt = 0.;
+  pfPt = -1.;
   charge = 0;
   loose = false;
   medium = false;

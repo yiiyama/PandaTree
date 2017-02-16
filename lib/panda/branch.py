@@ -11,7 +11,7 @@ class Branch(Definition):
         'I': 'Int_t', 'i': 'UInt_t', 'L': 'Long64_t', 'l': 'ULong64_t', 'F': 'Float_t', 'D': 'Double_t', 'O': 'Bool_t'}
 
     def __init__(self, line):
-        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ /]+)(?:|/([!m]+))(?:| += +(.+))(?:| *( //.+))$')
+        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ /]+)(?:|/([!m]+))(?:| += +([a-zA-Z0-9_.-]+))(?:| *( //.+))$')
 
         self.type = self.matches.group(3)
         if self.type not in Branch.TYPE_MAP:

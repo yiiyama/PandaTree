@@ -451,7 +451,7 @@ panda::Electron::doInit_()
   hOverE = 0.;
   rawPt = 0.;
   regPt = 0.;
-  originalPt = 0.;
+  originalPt = -1.;
   veto = false;
   for (auto& p0 : triggerMatch) p0 = false;
   superCluster.init();
