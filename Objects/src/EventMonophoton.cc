@@ -19,7 +19,7 @@ panda::EventMonophoton::EventMonophoton() :
 }
 
 panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
-  EventBase(),
+  EventBase(_src),
   genReweight(_src.genReweight),
   superClusters(_src.superClusters),
   electrons(_src.electrons),
@@ -60,6 +60,7 @@ panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
 panda::EventMonophoton&
 panda::EventMonophoton::operator=(EventMonophoton const& _src)
 {
+  EventBase::operator=(_src);
   npv = _src.npv;
   npvTrue = _src.npvTrue;
   rho = _src.rho;
@@ -99,13 +100,15 @@ panda::utils::BranchList
 panda::EventMonophoton::getListOfBranches()
 {
   utils::BranchList blist;
+  blist += EventBase::getListOfBranches();
+
   blist += {"npv", "npvTrue", "rho", "rhoCentralCalo"};
   blist += GenReweight::getListOfBranches().fullNames("genReweight");
   blist += SuperCluster::getListOfBranches().fullNames("superClusters");
   blist += Electron::getListOfBranches().fullNames("electrons");
   blist += Muon::getListOfBranches().fullNames("muons");
   blist += Tau::getListOfBranches().fullNames("taus");
-  blist += Photon::getListOfBranches().fullNames("photons");
+  blist += XPhoton::getListOfBranches().fullNames("photons");
   blist += Jet::getListOfBranches().fullNames("jets");
   blist += GenJet::getListOfBranches().fullNames("genJets");
   blist += GenParticle::getListOfBranches().fullNames("genParticles");
@@ -122,6 +125,7 @@ panda::EventMonophoton::getListOfBranches()
 void
 panda::EventMonophoton::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 {
+  EventBase::doSetStatus_(_tree, _branches);
   utils::setStatus(_tree, "", "npv", _branches);
   utils::setStatus(_tree, "", "npvTrue", _branches);
   utils::setStatus(_tree, "", "rho", _branches);
@@ -133,6 +137,7 @@ panda::utils::BranchList
 panda::EventMonophoton::doGetStatus_(TTree& _tree) const
 {
   utils::BranchList blist;
+  blist += EventBase::doGetStatus_(_tree);
 
   blist.push_back(utils::getStatus(_tree, "", "npv"));
   blist.push_back(utils::getStatus(_tree, "", "npvTrue"));
@@ -152,6 +157,8 @@ panda::EventMonophoton::doGetBranchNames_() const
 void
 panda::EventMonophoton::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus)
 {
+  EventBase::doSetAddress_(_tree, _branches, _setStatus);
+
   utils::setAddress(_tree, "", "npv", &npv, _branches, _setStatus);
   utils::setAddress(_tree, "", "npvTrue", &npvTrue, _branches, _setStatus);
   utils::setAddress(_tree, "", "rho", &rho, _branches, _setStatus);
@@ -162,6 +169,8 @@ panda::EventMonophoton::doSetAddress_(TTree& _tree, utils::BranchList const& _br
 void
 panda::EventMonophoton::doBook_(TTree& _tree, utils::BranchList const& _branches)
 {
+  EventBase::doBook_(_tree, _branches);
+
   utils::book(_tree, "", "npv", "", 's', &npv, _branches);
   utils::book(_tree, "", "npvTrue", "", 's', &npvTrue, _branches);
   utils::book(_tree, "", "rho", "", 'F', &rho, _branches);
@@ -172,6 +181,8 @@ panda::EventMonophoton::doBook_(TTree& _tree, utils::BranchList const& _branches
 void
 panda::EventMonophoton::doGetEntry_(Long64_t _entry)
 {
+  EventBase::doGetEntry_(_entry);
+
   /* BEGIN CUSTOM EventMonophoton.cc.doGetEntry_ */
   /* END CUSTOM */
 }
@@ -184,11 +195,15 @@ panda::EventMonophoton::doReleaseTree_(TTree& _tree)
   utils::resetAddress(_tree, "", "npvTrue");
   utils::resetAddress(_tree, "", "rho");
   utils::resetAddress(_tree, "", "rhoCentralCalo");
+
+  EventBase::doReleaseTree_(_tree);
 }
 
 void
 panda::EventMonophoton::doInit_()
 {
+  EventBase::doInit_();
+
   npv = 0;
   npvTrue = 0;
   rho = 0.;
@@ -212,7 +227,7 @@ panda::EventMonophoton::operator=(Event const& _src)
   electrons = _src.electrons;
   muons = _src.muons;
   taus = _src.taus;
-  photons = _src.photons;
+  static_cast<PhotonCollection&>(photons) = _src.photons;
   jets = _src.chsAK4Jets;
   genJets = _src.ak4GenJets;
   genParticles = _src.genParticles;

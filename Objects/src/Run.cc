@@ -6,7 +6,7 @@ panda::Run::Run() :
 }
 
 panda::Run::Run(Run const& _src) :
-  TreeEntry(),
+  TreeEntry(_src),
   runNumber(_src.runNumber),
   hltMenu(_src.hltMenu),
   hltSize(_src.hltSize)
@@ -17,6 +17,7 @@ panda::Run::Run(Run const& _src) :
 panda::Run&
 panda::Run::operator=(Run const& _src)
 {
+  TreeEntry::operator=(_src);
   runNumber = _src.runNumber;
   hltMenu = _src.hltMenu;
   hltSize = _src.hltSize;

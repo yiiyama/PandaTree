@@ -5,12 +5,10 @@ panda::EventBase::EventBase() :
 {
   std::vector<Object*> myObjects{{&triggers}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{}};
-  collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 }
 
 panda::EventBase::EventBase(EventBase const& _src) :
-  TreeEntry(),
+  TreeEntry(_src),
   triggers(_src.triggers),
   runNumber(_src.runNumber),
   lumiNumber(_src.lumiNumber),
@@ -20,14 +18,13 @@ panda::EventBase::EventBase(EventBase const& _src) :
 {
   std::vector<Object*> myObjects{{&triggers}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{}};
-  collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
 }
 
 panda::EventBase&
 panda::EventBase::operator=(EventBase const& _src)
 {
+  TreeEntry::operator=(_src);
   runNumber = _src.runNumber;
   lumiNumber = _src.lumiNumber;
   eventNumber = _src.eventNumber;

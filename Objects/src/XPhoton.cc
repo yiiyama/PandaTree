@@ -17,7 +17,7 @@ panda::XPhoton::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Photon::getListOfBranches();
-  blist += {"scRawPt", "chIsoS15", "nhIsoS15", "phIsoS15", "isEB"};
+  blist += {"scEta", "scRawPt", "chIsoS15", "nhIsoS15", "phIsoS15", "isEB"};
   return blist;
 }
 
@@ -26,6 +26,7 @@ panda::XPhoton::datastore::allocate(UInt_t _nmax)
 {
   Photon::datastore::allocate(_nmax);
 
+  scEta = new Float_t[nmax_];
   scRawPt = new Float_t[nmax_];
   chIsoS15 = new Float_t[nmax_];
   nhIsoS15 = new Float_t[nmax_];
@@ -38,6 +39,8 @@ panda::XPhoton::datastore::deallocate()
 {
   Photon::datastore::deallocate();
 
+  delete [] scEta;
+  scEta = 0;
   delete [] scRawPt;
   scRawPt = 0;
   delete [] chIsoS15;
@@ -55,6 +58,7 @@ panda::XPhoton::datastore::setStatus(TTree& _tree, TString const& _name, utils::
 {
   Photon::datastore::setStatus(_tree, _name, _branches);
 
+  utils::setStatus(_tree, _name, "scEta", _branches);
   utils::setStatus(_tree, _name, "scRawPt", _branches);
   utils::setStatus(_tree, _name, "chIsoS15", _branches);
   utils::setStatus(_tree, _name, "nhIsoS15", _branches);
@@ -67,6 +71,7 @@ panda::XPhoton::datastore::getStatus(TTree& _tree, TString const& _name) const
 {
   utils::BranchList blist(Photon::datastore::getStatus(_tree, _name));
 
+  blist.push_back(utils::getStatus(_tree, _name, "scEta"));
   blist.push_back(utils::getStatus(_tree, _name, "scRawPt"));
   blist.push_back(utils::getStatus(_tree, _name, "chIsoS15"));
   blist.push_back(utils::getStatus(_tree, _name, "nhIsoS15"));
@@ -81,6 +86,7 @@ panda::XPhoton::datastore::setAddress(TTree& _tree, TString const& _name, utils:
 {
   Photon::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
+  utils::setAddress(_tree, _name, "scEta", scEta, _branches, _setStatus);
   utils::setAddress(_tree, _name, "scRawPt", scRawPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "chIsoS15", chIsoS15, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nhIsoS15", nhIsoS15, _branches, _setStatus);
@@ -95,6 +101,7 @@ panda::XPhoton::datastore::book(TTree& _tree, TString const& _name, utils::Branc
 
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
+  utils::book(_tree, _name, "scEta", size, 'F', scEta, _branches);
   utils::book(_tree, _name, "scRawPt", size, 'F', scRawPt, _branches);
   utils::book(_tree, _name, "chIsoS15", size, 'F', chIsoS15, _branches);
   utils::book(_tree, _name, "nhIsoS15", size, 'F', nhIsoS15, _branches);
@@ -107,6 +114,7 @@ panda::XPhoton::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
   Photon::datastore::releaseTree(_tree, _name);
 
+  utils::resetAddress(_tree, _name, "scEta");
   utils::resetAddress(_tree, _name, "scRawPt");
   utils::resetAddress(_tree, _name, "chIsoS15");
   utils::resetAddress(_tree, _name, "nhIsoS15");
@@ -130,6 +138,7 @@ panda::XPhoton::datastore::getBranchNames(TString const& _name) const
 
 panda::XPhoton::XPhoton(char const* _name/* = ""*/) :
   Photon(new XPhotonArray(1, _name)),
+  scEta(gStore.getData(this).scEta[0]),
   scRawPt(gStore.getData(this).scRawPt[0]),
   chIsoS15(gStore.getData(this).chIsoS15[0]),
   nhIsoS15(gStore.getData(this).nhIsoS15[0]),
@@ -140,6 +149,7 @@ panda::XPhoton::XPhoton(char const* _name/* = ""*/) :
 
 panda::XPhoton::XPhoton(XPhoton const& _src) :
   Photon(new XPhotonArray(1, gStore.getName(&_src))),
+  scEta(gStore.getData(this).scEta[0]),
   scRawPt(gStore.getData(this).scRawPt[0]),
   chIsoS15(gStore.getData(this).chIsoS15[0]),
   nhIsoS15(gStore.getData(this).nhIsoS15[0]),
@@ -148,6 +158,7 @@ panda::XPhoton::XPhoton(XPhoton const& _src) :
 {
   Photon::operator=(_src);
 
+  scEta = _src.scEta;
   scRawPt = _src.scRawPt;
   chIsoS15 = _src.chIsoS15;
   nhIsoS15 = _src.nhIsoS15;
@@ -157,6 +168,7 @@ panda::XPhoton::XPhoton(XPhoton const& _src) :
 
 panda::XPhoton::XPhoton(datastore& _data, UInt_t _idx) :
   Photon(_data, _idx),
+  scEta(_data.scEta[_idx]),
   scRawPt(_data.scRawPt[_idx]),
   chIsoS15(_data.chIsoS15[_idx]),
   nhIsoS15(_data.nhIsoS15[_idx]),
@@ -167,6 +179,7 @@ panda::XPhoton::XPhoton(datastore& _data, UInt_t _idx) :
 
 panda::XPhoton::XPhoton(ArrayBase* _array) :
   Photon(_array),
+  scEta(gStore.getData(this).scEta[0]),
   scRawPt(gStore.getData(this).scRawPt[0]),
   chIsoS15(gStore.getData(this).chIsoS15[0]),
   nhIsoS15(gStore.getData(this).nhIsoS15[0]),
@@ -195,6 +208,7 @@ panda::XPhoton::operator=(XPhoton const& _src)
 {
   Photon::operator=(_src);
 
+  scEta = _src.scEta;
   scRawPt = _src.scRawPt;
   chIsoS15 = _src.chIsoS15;
   nhIsoS15 = _src.nhIsoS15;
@@ -209,6 +223,7 @@ panda::XPhoton::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchL
 {
   Photon::doSetAddress_(_tree, _name, _branches, _setStatus);
 
+  utils::setAddress(_tree, _name, "scEta", &scEta, _branches, _setStatus);
   utils::setAddress(_tree, _name, "scRawPt", &scRawPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "chIsoS15", &chIsoS15, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nhIsoS15", &nhIsoS15, _branches, _setStatus);
@@ -221,6 +236,7 @@ panda::XPhoton::doBook_(TTree& _tree, TString const& _name, utils::BranchList co
 {
   Photon::doBook_(_tree, _name, _branches);
 
+  utils::book(_tree, _name, "scEta", "", 'F', &scEta, _branches);
   utils::book(_tree, _name, "scRawPt", "", 'F', &scRawPt, _branches);
   utils::book(_tree, _name, "chIsoS15", "", 'F', &chIsoS15, _branches);
   utils::book(_tree, _name, "nhIsoS15", "", 'F', &nhIsoS15, _branches);
@@ -233,6 +249,7 @@ panda::XPhoton::doReleaseTree_(TTree& _tree, TString const& _name)
 {
   Photon::doReleaseTree_(_tree, _name);
 
+  utils::resetAddress(_tree, _name, "scEta");
   utils::resetAddress(_tree, _name, "scRawPt");
   utils::resetAddress(_tree, _name, "chIsoS15");
   utils::resetAddress(_tree, _name, "nhIsoS15");
@@ -245,6 +262,7 @@ panda::XPhoton::doInit_()
 {
   Photon::doInit_();
 
+  scEta = 0.;
   scRawPt = 0.;
   chIsoS15 = 0.;
   nhIsoS15 = 0.;

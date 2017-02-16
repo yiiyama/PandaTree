@@ -7,7 +7,7 @@
 #include "Electron.h"
 #include "Muon.h"
 #include "Tau.h"
-#include "Photon.h"
+#include "XPhoton.h"
 #include "Jet.h"
 #include "GenJet.h"
 #include "GenParticle.h"
@@ -31,7 +31,7 @@ namespace panda {
     ElectronCollection electrons = ElectronCollection("electrons", 32);
     MuonCollection muons = MuonCollection("muons", 32);
     TauCollection taus = TauCollection("taus", 64);
-    PhotonCollection photons = PhotonCollection("photons", 32);
+    XPhotonCollection photons = XPhotonCollection("photons", 32);
     JetCollection jets = JetCollection("jets", 64);
     GenJetCollection genJets = GenJetCollection("genJets", 64);
     GenParticleCollection genParticles = GenParticleCollection("genParticles", 256);

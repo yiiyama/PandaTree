@@ -56,6 +56,7 @@ namespace panda {
       ContainerBase const* matchedGenContainer_{0};
       Short_t* matchedGen_{0};
       */
+      Float_t* scEta{0};
       Float_t* scRawPt{0};
       Float_t* chIsoS15{0};
       Float_t* nhIsoS15{0};
@@ -134,6 +135,7 @@ namespace panda {
     Ref<SuperCluster> superCluster;
     Ref<GenParticle> matchedGen;
     */
+    Float_t& scEta;
     Float_t& scRawPt;
     Float_t& chIsoS15;
     Float_t& nhIsoS15;

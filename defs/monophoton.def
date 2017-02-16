@@ -1,4 +1,5 @@
 [XPhoton>Photon]
+scEta/F
 scRawPt/F
 chIsoS15/F
 nhIsoS15/F
@@ -28,7 +29,7 @@ superClusters/SuperClusterCollection(64)
 electrons/ElectronCollection(32)
 muons/MuonCollection(32)
 taus/TauCollection(64)
-photons/PhotonCollection(32)
+photons/XPhotonCollection(32)
 jets/JetCollection(64)
 genJets/GenJetCollection(64)
 genParticles/GenParticleCollection(256)
