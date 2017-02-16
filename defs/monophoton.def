@@ -29,11 +29,11 @@ electrons/ElectronCollection(32)
 muons/MuonCollection(32)
 taus/TauCollection(64)
 photons/PhotonCollection(32)
-chsAK4Jets/JetCollection(64)
-ak4GenJets/GenJetCollection(64)
+jets/JetCollection(64)
+genJets/GenJetCollection(64)
 genParticles/GenParticleCollection(256)
 partons/PartonCollection(8)
-pfMet/RecoMet
+t1Met/RecoMet
 rawMet/Met
 caloMet/Met
 metMuOnlyFix/RecoMet
@@ -46,4 +46,5 @@ taus.matchedGen->genParticles
 photons.superCluster->superClusters
 photons.matchedGen->genParticles
 genParticles.parent->genParticles
-chsAK4Jets.matchedGenJet->ak4GenJets
+jets.matchedGenJet->genJets
+#include "Event.h"

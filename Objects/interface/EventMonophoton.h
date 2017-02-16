@@ -15,6 +15,7 @@
 #include "RecoMet.h"
 #include "Met.h"
 #include "MetFilters.h"
+#include "Event.h"
 
 namespace panda {
 
@@ -31,11 +32,11 @@ namespace panda {
     MuonCollection muons = MuonCollection("muons", 32);
     TauCollection taus = TauCollection("taus", 64);
     PhotonCollection photons = PhotonCollection("photons", 32);
-    JetCollection chsAK4Jets = JetCollection("chsAK4Jets", 64);
-    GenJetCollection ak4GenJets = GenJetCollection("ak4GenJets", 64);
+    JetCollection jets = JetCollection("jets", 64);
+    GenJetCollection genJets = GenJetCollection("genJets", 64);
     GenParticleCollection genParticles = GenParticleCollection("genParticles", 256);
     PartonCollection partons = PartonCollection("partons", 8);
-    RecoMet pfMet = RecoMet("pfMet");
+    RecoMet t1Met = RecoMet("t1Met");
     Met rawMet = Met("rawMet");
     Met caloMet = Met("caloMet");
     RecoMet metMuOnlyFix = RecoMet("metMuOnlyFix");
@@ -61,6 +62,7 @@ namespace panda {
 
   public:
     /* BEGIN CUSTOM EventMonophoton.h.classdef */
+    EventMonophoton& operator=(Event const&);
     /* END CUSTOM */
   };
 

@@ -173,6 +173,7 @@ eta/F
 phi/F
 
 [Lepton>ParticleP]
+pfPt/F
 charge/B
 loose/O
 medium/O
@@ -198,6 +199,7 @@ eseed/F
 hOverE/F
 rawPt/F
 regPt/F
+originalPt/F
 veto/O
 triggerMatch[nElectronTriggerObjects]/O
 superCluster/SuperClusterRef
@@ -220,6 +222,7 @@ isoDeltaBetaCorr/F
 matchedGen/GenParticleRef
 
 [Photon>ParticleP]
+pfPt/F
 chIso/F
 chIsoWorst/F
 nhIso/F
@@ -241,6 +244,7 @@ time/F
 timeSpan/F
 rawPt/F
 regPt/F
+originalPt/F
 loose/O
 medium/O
 tight/O

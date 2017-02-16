@@ -74,9 +74,19 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
   std::vector<TString> hltMenuList{};
   std::vector<std::vector<TString>> hltPathsList{};
 
+  panda::Event* inEvent(0);
+
   // will book only at the first valid input
   TTree* outEventTree(0);
-  panda::Event event;
+  if (!outEvent_) {
+    outEvent_ = new panda::Event;
+    ownsOutEvent_ = true;
+    inEvent = static_cast<panda::Event*>(outEvent_);
+  }
+  else {
+    // if the output event object is passed from outside, we cannot assume that it's a panda::Event
+    inEvent = new panda::Event;
+  }
 
   // loop over files to
   // . fill events (simple)
@@ -121,36 +131,41 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
         delete obj;
       }
 
-      auto blist(event.getStatus(*inEventTree));
+      auto blist(inEvent->getStatus(*inEventTree));
       blist += branchList_[kEvent];
 
       outputFile->cd();
       outEventTree = new TTree("events", "Events");
-      event.book(*outEventTree, blist);
+      outEvent_->book(*outEventTree, blist);
     }
 
     // fill events
     if (applyBranchListOnRead_[kEvent]) {
-      event.setStatus(*inEventTree, {"!*"});
+      inEvent->setStatus(*inEventTree, {"!*"});
       utils::BranchList blist({"*"});
       blist += branchList_[kEvent];
-      event.setAddress(*inEventTree, blist, true);
+      inEvent->setAddress(*inEventTree, blist, true);
     }
     else
-      event.setAddress(*inEventTree);
+      inEvent->setAddress(*inEventTree);
 
     std::set<UInt_t> savedRuns;
     
     long iEntry(0);
-    while (nTotal != _nEvents && event.getEntry(iEntry++) > 0) {
+    while (nTotal != _nEvents && inEvent->getEntry(iEntry++) > 0) {
       ++nTotal;
 
-      if (skimFunction_ && !skimFunction_(event))
+      if (skimFunction_ && !skimFunction_(*inEvent))
         continue;
+
+      if (!ownsOutEvent_) {
+        // if outEvent is supplied externally, it is not the same object as inEvent
+        *outEvent_ = *inEvent;
+      }
 
       outEventTree->Fill();
 
-      savedRuns.insert(event.runNumber);
+      savedRuns.insert(inEvent->runNumber);
     }
 
     auto* inRunTree(static_cast<TTree*>(source->Get("runs")));
@@ -284,5 +299,22 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
   }
 
   delete outputFile;
+
+  if (ownsOutEvent_) {
+    delete outEvent_;
+    outEvent_ = 0;
+    ownsOutEvent_ = false;
+  }
+  else
+    delete inEvent;
 }
 
+void
+panda::FileMerger::setOutEvent(panda::EventBase* _evt)
+{
+  if (ownsOutEvent_)
+    delete outEvent_;
+
+  outEvent_ = _evt;
+  ownsOutEvent_ = false;
+}

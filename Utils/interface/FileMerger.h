@@ -10,6 +10,7 @@
 
 namespace panda {
 
+  class EventBase;
   class Event;
   class Run;
 
@@ -50,6 +51,9 @@ namespace panda {
 
     typedef std::function<Bool_t(panda::Event&)> SkimFunction;
 
+    //! Set the output event object (an Event will be created if nothing is set)
+    void setOutEvent(EventBase*);
+
     //! Introduce a skim.
     /*!
      * SkimFunction is any callable object (functions or classes with operator())
@@ -63,6 +67,8 @@ namespace panda {
     std::vector<TString> paths_{};
     utils::BranchList branchList_[nTreeTypes]{};
     Bool_t applyBranchListOnRead_[nTreeTypes]{};
+    EventBase* outEvent_{0};
+    Bool_t ownsOutEvent_{kFALSE};
     SkimFunction skimFunction_{};
   };
 

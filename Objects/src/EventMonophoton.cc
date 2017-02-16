@@ -3,9 +3,9 @@
 panda::EventMonophoton::EventMonophoton() :
   EventBase()
 {
-  std::vector<Object*> myObjects{{&genReweight, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &ak4GenJets, &genParticles, &partons, &pfMet, &rawMet, &caloMet, &metMuOnlyFix, &metNoFix, &metFilters}};
+  std::vector<Object*> myObjects{{&genReweight, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &partons, &t1Met, &rawMet, &caloMet, &metMuOnlyFix, &metNoFix, &metFilters}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &ak4GenJets, &genParticles, &partons}};
+  std::vector<CollectionBase*> myCollections{{&superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &partons}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
   electrons.data.superClusterContainer_ = &superClusters;
@@ -15,7 +15,7 @@ panda::EventMonophoton::EventMonophoton() :
   photons.data.superClusterContainer_ = &superClusters;
   photons.data.matchedGenContainer_ = &genParticles;
   genParticles.data.parentContainer_ = &genParticles;
-  chsAK4Jets.data.matchedGenJetContainer_ = &ak4GenJets;
+  jets.data.matchedGenJetContainer_ = &genJets;
 }
 
 panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
@@ -26,11 +26,11 @@ panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
   muons(_src.muons),
   taus(_src.taus),
   photons(_src.photons),
-  chsAK4Jets(_src.chsAK4Jets),
-  ak4GenJets(_src.ak4GenJets),
+  jets(_src.jets),
+  genJets(_src.genJets),
   genParticles(_src.genParticles),
   partons(_src.partons),
-  pfMet(_src.pfMet),
+  t1Met(_src.t1Met),
   rawMet(_src.rawMet),
   caloMet(_src.caloMet),
   metMuOnlyFix(_src.metMuOnlyFix),
@@ -41,9 +41,9 @@ panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
   rho(_src.rho),
   rhoCentralCalo(_src.rhoCentralCalo)
 {
-  std::vector<Object*> myObjects{{&genReweight, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &ak4GenJets, &genParticles, &partons, &pfMet, &rawMet, &caloMet, &metMuOnlyFix, &metNoFix, &metFilters}};
+  std::vector<Object*> myObjects{{&genReweight, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &partons, &t1Met, &rawMet, &caloMet, &metMuOnlyFix, &metNoFix, &metFilters}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &ak4GenJets, &genParticles, &partons}};
+  std::vector<CollectionBase*> myCollections{{&superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &partons}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
 
@@ -54,7 +54,7 @@ panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
   photons.data.superClusterContainer_ = &superClusters;
   photons.data.matchedGenContainer_ = &genParticles;
   genParticles.data.parentContainer_ = &genParticles;
-  chsAK4Jets.data.matchedGenJetContainer_ = &ak4GenJets;
+  jets.data.matchedGenJetContainer_ = &genJets;
 }
 
 panda::EventMonophoton&
@@ -71,11 +71,11 @@ panda::EventMonophoton::operator=(EventMonophoton const& _src)
   muons = _src.muons;
   taus = _src.taus;
   photons = _src.photons;
-  chsAK4Jets = _src.chsAK4Jets;
-  ak4GenJets = _src.ak4GenJets;
+  jets = _src.jets;
+  genJets = _src.genJets;
   genParticles = _src.genParticles;
   partons = _src.partons;
-  pfMet = _src.pfMet;
+  t1Met = _src.t1Met;
   rawMet = _src.rawMet;
   caloMet = _src.caloMet;
   metMuOnlyFix = _src.metMuOnlyFix;
@@ -89,7 +89,7 @@ panda::EventMonophoton::operator=(EventMonophoton const& _src)
   photons.data.superClusterContainer_ = &superClusters;
   photons.data.matchedGenContainer_ = &genParticles;
   genParticles.data.parentContainer_ = &genParticles;
-  chsAK4Jets.data.matchedGenJetContainer_ = &ak4GenJets;
+  jets.data.matchedGenJetContainer_ = &genJets;
 
   return *this;
 }
@@ -106,11 +106,11 @@ panda::EventMonophoton::getListOfBranches()
   blist += Muon::getListOfBranches().fullNames("muons");
   blist += Tau::getListOfBranches().fullNames("taus");
   blist += Photon::getListOfBranches().fullNames("photons");
-  blist += Jet::getListOfBranches().fullNames("chsAK4Jets");
-  blist += GenJet::getListOfBranches().fullNames("ak4GenJets");
+  blist += Jet::getListOfBranches().fullNames("jets");
+  blist += GenJet::getListOfBranches().fullNames("genJets");
   blist += GenParticle::getListOfBranches().fullNames("genParticles");
   blist += Parton::getListOfBranches().fullNames("partons");
-  blist += RecoMet::getListOfBranches().fullNames("pfMet");
+  blist += RecoMet::getListOfBranches().fullNames("t1Met");
   blist += Met::getListOfBranches().fullNames("rawMet");
   blist += Met::getListOfBranches().fullNames("caloMet");
   blist += RecoMet::getListOfBranches().fullNames("metMuOnlyFix");
@@ -199,4 +199,41 @@ panda::EventMonophoton::doInit_()
 
 
 /* BEGIN CUSTOM EventMonophoton.cc.global */
+panda::EventMonophoton&
+panda::EventMonophoton::operator=(Event const& _src)
+{
+  npv = _src.npv;
+  npvTrue = _src.npvTrue;
+  rho = _src.rho;
+  rhoCentralCalo = _src.rhoCentralCalo;
+
+  genReweight = _src.genReweight;
+  superClusters = _src.superClusters;
+  electrons = _src.electrons;
+  muons = _src.muons;
+  taus = _src.taus;
+  photons = _src.photons;
+  jets = _src.chsAK4Jets;
+  genJets = _src.ak4GenJets;
+  genParticles = _src.genParticles;
+  partons = _src.partons;
+  t1Met = _src.pfMet;
+  rawMet = _src.rawMet;
+  caloMet = _src.caloMet;
+  metMuOnlyFix = _src.metMuOnlyFix;
+  metNoFix = _src.metNoFix;
+  metFilters = _src.metFilters;
+
+  electrons.data.superClusterContainer_ = &superClusters;
+  electrons.data.matchedGenContainer_ = &genParticles;
+  muons.data.matchedGenContainer_ = &genParticles;
+  taus.data.matchedGenContainer_ = &genParticles;
+  photons.data.superClusterContainer_ = &superClusters;
+  photons.data.matchedGenContainer_ = &genParticles;
+  genParticles.data.parentContainer_ = &genParticles;
+  jets.data.matchedGenJetContainer_ = &genJets;
+
+  return *this;
+}
+
 /* END CUSTOM */
