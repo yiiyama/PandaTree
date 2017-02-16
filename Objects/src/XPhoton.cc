@@ -131,7 +131,7 @@ panda::XPhoton::datastore::resizeVectors_(UInt_t _size)
 
 
 panda::utils::BranchList
-panda::XPhoton::datastore::getBranchNames(TString const& _name) const
+panda::XPhoton::datastore::getBranchNames(TString const& _name/* = ""*/) const
 {
   return XPhoton::getListOfBranches().fullNames(_name);
 }

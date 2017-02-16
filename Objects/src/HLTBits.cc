@@ -76,9 +76,12 @@ panda::HLTBits::doInit_()
 }
 
 panda::utils::BranchList
-panda::HLTBits::doGetBranchNames_() const
+panda::HLTBits::doGetBranchNames_(Bool_t _fullName) const
 {
-  return getListOfBranches().fullNames(name_);
+  if (_fullName)
+    return getListOfBranches().fullNames(name_);
+  else
+    return getListOfBranches().fullNames();
 }
 
 void

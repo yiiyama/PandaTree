@@ -208,7 +208,7 @@ panda::Electron::datastore::resizeVectors_(UInt_t _size)
 
 
 panda::utils::BranchList
-panda::Electron::datastore::getBranchNames(TString const& _name) const
+panda::Electron::datastore::getBranchNames(TString const& _name/* = ""*/) const
 {
   return Electron::getListOfBranches().fullNames(_name);
 }

@@ -152,7 +152,7 @@ panda::Lepton::datastore::resizeVectors_(UInt_t _size)
 
 
 panda::utils::BranchList
-panda::Lepton::datastore::getBranchNames(TString const& _name) const
+panda::Lepton::datastore::getBranchNames(TString const& _name/* = ""*/) const
 {
   return Lepton::getListOfBranches().fullNames(_name);
 }

@@ -96,7 +96,7 @@ panda::GenParticle::datastore::resizeVectors_(UInt_t _size)
 
 
 panda::utils::BranchList
-panda::GenParticle::datastore::getBranchNames(TString const& _name) const
+panda::GenParticle::datastore::getBranchNames(TString const& _name/* = ""*/) const
 {
   return GenParticle::getListOfBranches().fullNames(_name);
 }

@@ -44,7 +44,7 @@ namespace panda {
       virtual void deallocate() {}
       virtual void setStatus(TTree&, TString const&, utils::BranchList const&) {}
       virtual utils::BranchList getStatus(TTree&, TString const&) const { return utils::BranchList(); }
-      virtual utils::BranchList getBranchNames(TString const&) const { return utils::BranchList(); }
+      virtual utils::BranchList getBranchNames(TString const& = "") const { return utils::BranchList(); }
       virtual void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) {}
       virtual void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) {}
       virtual void releaseTree(TTree&, TString const&) {}
@@ -76,7 +76,7 @@ namespace panda {
 
     void setStatus(TTree&, utils::BranchList const& blist) final;
     utils::BranchList getStatus(TTree&) const final;
-    utils::BranchList getBranchNames() const final;
+    utils::BranchList getBranchNames(Bool_t fullName = kTRUE) const final;
     UInt_t setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
     void book(TTree&, utils::BranchList const& blist = {"*"}) final;
     TTree* getInput(UInt_t treeIdx = 0) const final;

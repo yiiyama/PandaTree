@@ -162,9 +162,12 @@ panda::RecoMet::doInit_()
 }
 
 panda::utils::BranchList
-panda::RecoMet::doGetBranchNames_() const
+panda::RecoMet::doGetBranchNames_(Bool_t _fullName) const
 {
-  return getListOfBranches().fullNames(name_);
+  if (_fullName)
+    return getListOfBranches().fullNames(name_);
+  else
+    return getListOfBranches().fullNames();
 }
 
 void

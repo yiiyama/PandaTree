@@ -328,7 +328,7 @@ panda::Photon::datastore::resizeVectors_(UInt_t _size)
 
 
 panda::utils::BranchList
-panda::Photon::datastore::getBranchNames(TString const& _name) const
+panda::Photon::datastore::getBranchNames(TString const& _name/* = ""*/) const
 {
   return Photon::getListOfBranches().fullNames(_name);
 }

@@ -140,7 +140,7 @@ class PhysicsObject(Definition, Object):
             header.writeline('void deallocate() override;')
             header.writeline('void setStatus(TTree&, TString const&, utils::BranchList const&) override;')
             header.writeline('utils::BranchList getStatus(TTree&, TString const&) const override;')
-            header.writeline('utils::BranchList getBranchNames(TString const&) const override;')
+            header.writeline('utils::BranchList getBranchNames(TString const& = "") const override;')
             header.writeline('void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
             header.writeline('void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;')
             header.writeline('void releaseTree(TTree&, TString const&) override;')
@@ -268,7 +268,7 @@ class PhysicsObject(Definition, Object):
             header.indent += 1
             header.writeline('void doSetStatus_(TTree&, utils::BranchList const&) override;')
             header.writeline('utils::BranchList doGetStatus_(TTree&) const override;')
-            header.writeline('utils::BranchList doGetBranchNames_() const override;')
+            header.writeline('utils::BranchList doGetBranchNames_(Bool_t) const override;')
             header.writeline('void doSetAddress_(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
             header.writeline('void doBook_(TTree&, utils::BranchList const& = {"*"}) override;')
             header.writeline('void doReleaseTree_(TTree&) override;')
@@ -468,10 +468,13 @@ class PhysicsObject(Definition, Object):
 
             src.newline()
             src.writeline('panda::utils::BranchList')
-            src.writeline('{NAMESPACE}::{name}::doGetBranchNames_() const'.format(**subst))
+            src.writeline('{NAMESPACE}::{name}::doGetBranchNames_(Bool_t _fullName) const'.format(**subst))
             src.writeline('{')
             src.indent += 1
-            src.writeline('return getListOfBranches().fullNames(name_);')
+            src.writeline('if (_fullName)')
+            src.writeline('  return getListOfBranches().fullNames(name_);')
+            src.writeline('else')
+            src.writeline('  return getListOfBranches().fullNames();')
             src.indent -= 1
             src.writeline('}')
 
@@ -496,7 +499,7 @@ class PhysicsObject(Definition, Object):
             src.newline()
             src.newline()
             src.writeline('panda::utils::BranchList')
-            src.writeline('{NAMESPACE}::{name}::datastore::getBranchNames(TString const& _name) const'.format(**subst))
+            src.writeline('{NAMESPACE}::{name}::datastore::getBranchNames(TString const& _name/* = ""*/) const'.format(**subst))
             src.writeline('{')
             src.indent += 1
             src.writeline('return {name}::getListOfBranches().fullNames(_name);'.format(**subst))

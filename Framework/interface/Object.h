@@ -36,7 +36,7 @@ namespace panda {
     virtual utils::BranchList getStatus(TTree&) const { return utils::BranchList(); }
 
     //! Get the full list of branch names
-    virtual utils::BranchList getBranchNames() const { return utils::BranchList(); }
+    virtual utils::BranchList getBranchNames(Bool_t fullName = kTRUE) const { return utils::BranchList(); }
 
     //! Bind the tree branches to the elements of this object.
     /*!

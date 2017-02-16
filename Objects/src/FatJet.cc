@@ -169,7 +169,7 @@ panda::FatJet::datastore::resizeVectors_(UInt_t _size)
 
 
 panda::utils::BranchList
-panda::FatJet::datastore::getBranchNames(TString const& _name) const
+panda::FatJet::datastore::getBranchNames(TString const& _name/* = ""*/) const
 {
   return FatJet::getListOfBranches().fullNames(_name);
 }

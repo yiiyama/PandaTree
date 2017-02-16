@@ -70,7 +70,7 @@ panda::Particle::datastore::resizeVectors_(UInt_t _size)
 
 
 panda::utils::BranchList
-panda::Particle::datastore::getBranchNames(TString const& _name) const
+panda::Particle::datastore::getBranchNames(TString const& _name/* = ""*/) const
 {
   return Particle::getListOfBranches().fullNames(_name);
 }

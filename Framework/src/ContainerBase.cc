@@ -16,9 +16,12 @@ panda::ContainerBase::getStatus(TTree& _tree) const
 }
 
 panda::utils::BranchList
-panda::ContainerBase::getBranchNames() const
+panda::ContainerBase::getBranchNames(Bool_t _fullName/* = kTRUE*/) const
 {
-  return getData().getBranchNames(name_);
+  if (_fullName)
+    return getData().getBranchNames(name_);
+  else
+    return getData().getBranchNames("");
 }
 
 UInt_t

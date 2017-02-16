@@ -217,6 +217,8 @@ panda::EventMonophoton::doInit_()
 panda::EventMonophoton&
 panda::EventMonophoton::operator=(Event const& _src)
 {
+  EventBase::operator=(_src);
+
   npv = _src.npv;
   npvTrue = _src.npvTrue;
   rho = _src.rho;
@@ -227,7 +229,9 @@ panda::EventMonophoton::operator=(Event const& _src)
   electrons = _src.electrons;
   muons = _src.muons;
   taus = _src.taus;
-  static_cast<PhotonCollection&>(photons) = _src.photons;
+  photons.resize(_src.photons.size());
+  for (unsigned iP(0); iP != photons.size(); ++iP)
+    static_cast<Photon&>(photons[iP]) = _src.photons[iP];
   jets = _src.chsAK4Jets;
   genJets = _src.ak4GenJets;
   genParticles = _src.genParticles;

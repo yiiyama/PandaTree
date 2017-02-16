@@ -88,7 +88,7 @@ panda::MicroJet::datastore::resizeVectors_(UInt_t _size)
 
 
 panda::utils::BranchList
-panda::MicroJet::datastore::getBranchNames(TString const& _name) const
+panda::MicroJet::datastore::getBranchNames(TString const& _name/* = ""*/) const
 {
   return MicroJet::getListOfBranches().fullNames(_name);
 }

@@ -13,9 +13,9 @@ panda::Singlet::getStatus(TTree& _tree) const
 }
 
 panda::utils::BranchList
-panda::Singlet::getBranchNames() const
+panda::Singlet::getBranchNames(Bool_t _fullName/* = kTRUE*/) const
 {
-  return doGetBranchNames_();
+  return doGetBranchNames_(_fullName);
 }
 
 UInt_t

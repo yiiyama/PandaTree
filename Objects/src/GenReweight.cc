@@ -139,9 +139,12 @@ panda::GenReweight::doInit_()
 }
 
 panda::utils::BranchList
-panda::GenReweight::doGetBranchNames_() const
+panda::GenReweight::doGetBranchNames_(Bool_t _fullName) const
 {
-  return getListOfBranches().fullNames(name_);
+  if (_fullName)
+    return getListOfBranches().fullNames(name_);
+  else
+    return getListOfBranches().fullNames();
 }
 
 void

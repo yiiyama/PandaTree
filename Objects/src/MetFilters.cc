@@ -149,9 +149,12 @@ panda::MetFilters::doInit_()
 }
 
 panda::utils::BranchList
-panda::MetFilters::doGetBranchNames_() const
+panda::MetFilters::doGetBranchNames_(Bool_t _fullName) const
 {
-  return getListOfBranches().fullNames(name_);
+  if (_fullName)
+    return getListOfBranches().fullNames(name_);
+  else
+    return getListOfBranches().fullNames();
 }
 
 void

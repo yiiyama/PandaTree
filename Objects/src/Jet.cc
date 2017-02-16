@@ -193,7 +193,7 @@ panda::Jet::datastore::resizeVectors_(UInt_t _size)
 
 
 panda::utils::BranchList
-panda::Jet::datastore::getBranchNames(TString const& _name) const
+panda::Jet::datastore::getBranchNames(TString const& _name/* = ""*/) const
 {
   return Jet::getListOfBranches().fullNames(_name);
 }

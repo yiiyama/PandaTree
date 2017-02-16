@@ -88,7 +88,7 @@ panda::Muon::datastore::resizeVectors_(UInt_t _size)
 
 
 panda::utils::BranchList
-panda::Muon::datastore::getBranchNames(TString const& _name) const
+panda::Muon::datastore::getBranchNames(TString const& _name/* = ""*/) const
 {
   return Muon::getListOfBranches().fullNames(_name);
 }

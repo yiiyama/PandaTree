@@ -57,7 +57,7 @@ panda::FileMerger::selectBranches(utils::BranchList const& _blist, Bool_t _onRea
   applyBranchListOnRead_[_ttype] = _onRead;
 }
 
-void
+unsigned
 panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
 {
   auto* outputFile(TFile::Open(_outPath, "recreate"));
@@ -94,6 +94,7 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
   // . collect hlt info
 
   long nTotal(0);
+  long nWritten(0);
 
   for (unsigned iS(0); iS != paths_.size(); ++iS) {
     auto& path(paths_[iS]);
@@ -131,8 +132,11 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
         delete obj;
       }
 
+      // list of branches in the original tree filtered by branchList_
       auto blist(inEvent->getStatus(*inEventTree));
       blist += branchList_[kEvent];
+
+      std::cout << blist << std::endl;
 
       outputFile->cd();
       outEventTree = new TTree("events", "Events");
@@ -141,7 +145,6 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
 
     // fill events
     if (applyBranchListOnRead_[kEvent]) {
-      inEvent->setStatus(*inEventTree, {"!*"});
       utils::BranchList blist({"*"});
       blist += branchList_[kEvent];
       inEvent->setAddress(*inEventTree, blist, true);
@@ -158,12 +161,9 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
       if (skimFunction_ && !skimFunction_(*inEvent))
         continue;
 
-      if (!ownsOutEvent_) {
-        // if outEvent is supplied externally, it is not the same object as inEvent
-        *outEvent_ = *inEvent;
-      }
-
+      // If outEvent is supplied externally, values from the inEvent must be copied within the skimFunction
       outEventTree->Fill();
+      ++nWritten;
 
       savedRuns.insert(inEvent->runNumber);
     }
@@ -237,7 +237,8 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
     delete source;
   }
 
-  std::cout << "Total number of events: " << nTotal << std::endl;
+  std::cout << "Number of events in : " << nTotal << std::endl;
+  std::cout << "Number of events out: " << nWritten << std::endl;
 
   if (outEventTree) {
     outputFile->cd();
@@ -307,6 +308,8 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
   }
   else
     delete inEvent;
+
+  return nWritten;
 }
 
 void

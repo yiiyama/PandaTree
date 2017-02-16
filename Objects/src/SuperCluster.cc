@@ -95,7 +95,7 @@ panda::SuperCluster::datastore::resizeVectors_(UInt_t _size)
 
 
 panda::utils::BranchList
-panda::SuperCluster::datastore::getBranchNames(TString const& _name) const
+panda::SuperCluster::datastore::getBranchNames(TString const& _name/* = ""*/) const
 {
   return SuperCluster::getListOfBranches().fullNames(_name);
 }

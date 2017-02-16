@@ -115,7 +115,7 @@ panda::CollectionBase::doSetAddress_(TTree& _tree, utils::BranchList const& _bra
 void
 panda::CollectionBase::doBook_(TTree& _tree, utils::BranchList const& _branches)
 {
-  if (!_branches.matchesAny(getBranchNames()))
+  if (!_branches.matchesAny(getBranchNames(false)))
     return;
 
   _tree.Branch(name_ + ".size", &size_, "size/i");

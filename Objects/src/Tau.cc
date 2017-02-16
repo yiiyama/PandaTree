@@ -128,7 +128,7 @@ panda::Tau::datastore::resizeVectors_(UInt_t _size)
 
 
 panda::utils::BranchList
-panda::Tau::datastore::getBranchNames(TString const& _name) const
+panda::Tau::datastore::getBranchNames(TString const& _name/* = ""*/) const
 {
   return Tau::getListOfBranches().fullNames(_name);
 }

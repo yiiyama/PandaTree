@@ -24,12 +24,12 @@ panda::TreeEntry::getStatus(TTree& _tree) const
 }
 
 panda::utils::BranchList
-panda::TreeEntry::getBranchNames() const
+panda::TreeEntry::getBranchNames(Bool_t/* = kTRUE*/) const
 {
   utils::BranchList blist;
 
   for (auto* obj : objects_)
-    blist += obj->getBranchNames();
+    blist += obj->getBranchNames(true);
 
   blist += doGetBranchNames_();
 

@@ -46,8 +46,10 @@ namespace panda {
     /*!
      * \param outPath   Output file name.
      * \param nEvents   The number of events to process (default -1 = process all).
+     *
+     * \return Number of events in the output file.
      */
-    void merge(char const* outPath, long nEvents = -1);
+    unsigned merge(char const* outPath, long nEvents = -1);
 
     typedef std::function<Bool_t(panda::Event&)> SkimFunction;
 

@@ -86,9 +86,12 @@ panda::Met::doInit_()
 }
 
 panda::utils::BranchList
-panda::Met::doGetBranchNames_() const
+panda::Met::doGetBranchNames_(Bool_t _fullName) const
 {
-  return getListOfBranches().fullNames(name_);
+  if (_fullName)
+    return getListOfBranches().fullNames(name_);
+  else
+    return getListOfBranches().fullNames();
 }
 
 void

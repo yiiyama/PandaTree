@@ -80,7 +80,7 @@ panda::Parton::datastore::resizeVectors_(UInt_t _size)
 
 
 panda::utils::BranchList
-panda::Parton::datastore::getBranchNames(TString const& _name) const
+panda::Parton::datastore::getBranchNames(TString const& _name/* = ""*/) const
 {
   return Parton::getListOfBranches().fullNames(_name);
 }

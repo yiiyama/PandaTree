@@ -36,9 +36,12 @@ panda::Element::getStatus(TTree& _tree) const
 }
 
 panda::utils::BranchList
-panda::Element::getBranchNames() const
+panda::Element::getBranchNames(Bool_t _fullName/* = kTRUE*/) const
 {
-  return gStore.getData(this).getBranchNames(gStore.getName(this));
+  if (_fullName)
+    return gStore.getData(this).getBranchNames(gStore.getName(this));
+  else
+    return gStore.getData(this).getBranchNames();
 }
 
 UInt_t

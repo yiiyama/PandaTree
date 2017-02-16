@@ -101,7 +101,7 @@ panda::PFCand::datastore::resizeVectors_(UInt_t _size)
 
 
 panda::utils::BranchList
-panda::PFCand::datastore::getBranchNames(TString const& _name) const
+panda::PFCand::datastore::getBranchNames(TString const& _name/* = ""*/) const
 {
   return PFCand::getListOfBranches().fullNames(_name);
 }

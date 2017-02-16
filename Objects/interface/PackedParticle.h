@@ -24,7 +24,7 @@ namespace panda {
       void deallocate() override;
       void setStatus(TTree&, TString const&, utils::BranchList const&) override;
       utils::BranchList getStatus(TTree&, TString const&) const override;
-      utils::BranchList getBranchNames(TString const&) const override;
+      utils::BranchList getBranchNames(TString const& = "") const override;
       void setAddress(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
       void book(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t dynamic = kTRUE) override;
       void releaseTree(TTree&, TString const&) override;
