@@ -179,7 +179,7 @@ medium/O
 tight/O
 chIso/F
 nhIso/F
-phoIso/F
+phIso/F
 puIso/F
 matchedGen/GenParticleRef
 virtual double combIso() const { return 0.; }
@@ -202,13 +202,13 @@ veto/O
 triggerMatch[nElectronTriggerObjects]/O
 superCluster/SuperClusterRef
 double m() const override { return 5.109989e-4; }
-double combIso() const override { return chIso + std::max(nhIso + phoIso - isoPUOffset, Float_t(0.)); }
+double combIso() const override { return chIso + std::max(nhIso + phIso - isoPUOffset, Float_t(0.)); }
 
 [Muon>Lepton]
 mediumBtoF/O
 triggerMatch[nMuonTriggerObjects]/O
 double m() const override { return 1.05658e-2; }
-double combIso() const override { return chIso + std::max(nhIso + phoIso - 0.5 * puIso, 0.); }
+double combIso() const override { return chIso + std::max(nhIso + phIso - 0.5 * puIso, 0.); }
 
 [Tau>ParticleM]
 charge/B
@@ -223,7 +223,7 @@ matchedGen/GenParticleRef
 chIso/F
 chIsoWorst/F
 nhIso/F
-phoIso/F
+phIso/F
 sieie/F
 sipip/F
 hOverE/F
