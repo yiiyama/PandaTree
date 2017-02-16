@@ -7,14 +7,19 @@ class Tree(Definition, Object):
     """
     Tree definition. Definition file syntax:
 
-    {<Name>}
+    {Name(>Parent)}
     <branch definitions>
     <function definitions>
     """
 
     def __init__(self, line, source):
-        Definition.__init__(self, line, '\\{([^\\}]+)\\}$')
+        Definition.__init__(self, line, '\\{([A-Z][a-zA-Z0-9]+)(>[A-Z][a-zA-Z0-9]+|)\\}$')
         Object.__init__(self, self.matches.group(1), source)
+
+        if self.matches.group(2):
+            self.parent = self.matches.group(2)[1:]
+        else:
+            self.parent = 'TreeEntry'
 
     def generate_header(self):
         """
@@ -24,7 +29,10 @@ class Tree(Definition, Object):
         header = FileOutput('{PACKDIR}/Objects/interface/{name}.h'.format(PACKDIR = PACKDIR, name = self.name))
         header.writeline('#ifndef {PACKAGE}_Objects_{name}_h'.format(PACKAGE = PACKAGE, name = self.name))
         header.writeline('#define {PACKAGE}_Objects_{name}_h'.format(PACKAGE = PACKAGE, name = self.name))
-        header.writeline('#include "../../Framework/interface/TreeEntry.h"')
+        if self.parent == 'TreeEntry':
+            header.writeline('#include "../../Framework/interface/TreeEntry.h"')
+        else:
+            header.writeline('#include "{parent}.h"'.format(parent = self.parent))
         header.writeline('#include "Constants.h"')
 
         included = []
@@ -41,7 +49,7 @@ class Tree(Definition, Object):
         header.newline()
         header.indent += 1
 
-        header.writeline('class {name} : public TreeEntry {{'.format(name = self.name))
+        header.writeline('class {name} : public {parent} {{'.format(name = self.name, parent = self.parent))
         header.writeline('public:')
         header.indent += 1
         
@@ -114,24 +122,28 @@ class Tree(Definition, Object):
 
         src.writeline('{NAMESPACE}::{name}::{name}() :'.format(NAMESPACE = NAMESPACE, name = self.name))
         src.indent += 1
-        src.writeline('TreeEntry("{name}")'.format(name = self.name))
+        src.writeline('{parent}()'.format(parent = self.parent, name = self.name))
         src.indent -= 1
         src.writeline('{')
         src.indent += 1
         if len(self.objbranches) != 0:
-            src.writeline('objects_ = {' + ', '.join(['&{name}'.format(name = b.name) for b in self.objbranches]) + '};')
-            src.writeline('collections_ = {' + ', '.join(['&{name}'.format(name = b.name) for b in self.objbranches if b.conttype == 'Collection']) + '};')
+            src.writeline('std::vector<Object*> myObjects{{' + ', '.join(['&{name}'.format(name = b.name) for b in self.objbranches]) + '}};')
+            src.writeline('objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());')
+            src.writeline('std::vector<CollectionBase*> myCollections{{' + ', '.join(['&{name}'.format(name = b.name) for b in self.objbranches if b.conttype == 'Collection']) + '}};')
+            src.writeline('collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());')
+
+        if len(self.references) != 0:
             src.newline()
-            
-        for ref in self.references:
-            ref.write_def(src, self.objbranches)
+            for ref in self.references:
+                ref.write_def(src, self.objbranches)
+
         src.indent -= 1
         src.writeline('}')
         src.newline()
 
         src.writeline('{NAMESPACE}::{name}::{name}({name} const& _src) :'.format(NAMESPACE = NAMESPACE, name = self.name))
         src.indent += 1
-        initializers = ['TreeEntry(_src.getName())']
+        initializers = ['{parent}()'.format(parent = self.parent)]
         for objbranch in self.objbranches:
             initializers.append(objbranch.cpyctor())
         for branch in self.branches:
@@ -141,14 +153,22 @@ class Tree(Definition, Object):
         src.writeline('{')
         src.indent += 1
         if len(self.objbranches) != 0:
-            src.writeline('objects_ = {' + ', '.join(['&{name}'.format(name = b.name) for b in self.objbranches]) + '};')
-            src.writeline('collections_ = {' + ', '.join(['&{name}'.format(name = b.name) for b in self.objbranches if b.conttype == 'Collection']) + '};')
+            src.writeline('std::vector<Object*> myObjects{{' + ', '.join(['&{name}'.format(name = b.name) for b in self.objbranches]) + '}};')
+            src.writeline('objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());')
+            src.writeline('std::vector<CollectionBase*> myCollections{{' + ', '.join(['&{name}'.format(name = b.name) for b in self.objbranches if b.conttype == 'Collection']) + '}};')
+            src.writeline('collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());')
+
+        if len(self.branches) != 0:
             src.newline()
-        for branch in self.branches:
-            if branch.is_array():
-                branch.write_assign(src, context = 'TreeEntry')
-        for ref in self.references:
-            ref.write_def(src, self.objbranches)
+            for branch in self.branches:
+                if branch.is_array():
+                    branch.write_assign(src, context = 'TreeEntry')
+
+        if len(self.references) != 0:
+            src.newline()
+            for ref in self.references:
+                ref.write_def(src, self.objbranches)
+
         src.indent -= 1
         src.writeline('}')
         src.newline()

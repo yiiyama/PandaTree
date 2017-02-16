@@ -24,6 +24,7 @@
 #include "../Objects/interface/HLTBits.h"
 #include "../Objects/interface/GenReweight.h"
 #include "../Objects/interface/Recoil.h"
+#include "../Objects/interface/EventBase.h"
 #include "../Objects/interface/Event.h"
 #include "../Objects/interface/Run.h"
 
@@ -137,6 +138,7 @@
 #pragma link C++ typedef panda::JetCollection;
 #pragma link C++ typedef panda::FatJetArray;
 #pragma link C++ typedef panda::FatJetCollection;
+#pragma link C++ class panda::EventBase;
 #pragma link C++ class panda::Event;
 #pragma link C++ class panda::Run;
 

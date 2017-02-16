@@ -1,10 +1,12 @@
 #include "../interface/Event.h"
 
 panda::Event::Event() :
-  TreeEntry("Event")
+  EventBase()
 {
-  objects_ = {&genReweight, &pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &triggers, &recoil};
-  collections_ = {&pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons};
+  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &recoil}};
+  objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
+  std::vector<CollectionBase*> myCollections{{&pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons}};
+  collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedGenContainer_ = &genParticles;
@@ -32,7 +34,7 @@ panda::Event::Event() :
 }
 
 panda::Event::Event(Event const& _src) :
-  TreeEntry(_src.getName()),
+  EventBase(),
   genReweight(_src.genReweight),
   pfCandidates(_src.pfCandidates),
   superClusters(_src.superClusters),
@@ -69,20 +71,17 @@ panda::Event::Event(Event const& _src) :
   metMuOnlyFix(_src.metMuOnlyFix),
   metNoFix(_src.metNoFix),
   metFilters(_src.metFilters),
-  triggers(_src.triggers),
   recoil(_src.recoil),
-  runNumber(_src.runNumber),
-  lumiNumber(_src.lumiNumber),
-  eventNumber(_src.eventNumber),
-  isData(_src.isData),
   npv(_src.npv),
   npvTrue(_src.npvTrue),
   rho(_src.rho),
-  rhoCentralCalo(_src.rhoCentralCalo),
-  weight(_src.weight)
+  rhoCentralCalo(_src.rhoCentralCalo)
 {
-  objects_ = {&genReweight, &pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &triggers, &recoil};
-  collections_ = {&pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons};
+  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &recoil}};
+  objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
+  std::vector<CollectionBase*> myCollections{{&pfCandidates, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons}};
+  collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
+
 
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedGenContainer_ = &genParticles;
@@ -112,15 +111,10 @@ panda::Event::Event(Event const& _src) :
 panda::Event&
 panda::Event::operator=(Event const& _src)
 {
-  runNumber = _src.runNumber;
-  lumiNumber = _src.lumiNumber;
-  eventNumber = _src.eventNumber;
-  isData = _src.isData;
   npv = _src.npv;
   npvTrue = _src.npvTrue;
   rho = _src.rho;
   rhoCentralCalo = _src.rhoCentralCalo;
-  weight = _src.weight;
 
   genReweight = _src.genReweight;
   pfCandidates = _src.pfCandidates;
@@ -158,7 +152,6 @@ panda::Event::operator=(Event const& _src)
   metMuOnlyFix = _src.metMuOnlyFix;
   metNoFix = _src.metNoFix;
   metFilters = _src.metFilters;
-  triggers = _src.triggers;
   recoil = _src.recoil;
 
   electrons.data.superClusterContainer_ = &superClusters;
@@ -193,7 +186,7 @@ panda::utils::BranchList
 panda::Event::getListOfBranches()
 {
   utils::BranchList blist;
-  blist += {"runNumber", "lumiNumber", "eventNumber", "isData", "npv", "npvTrue", "rho", "rhoCentralCalo", "weight"};
+  blist += {"npv", "npvTrue", "rho", "rhoCentralCalo"};
   blist += GenReweight::getListOfBranches().fullNames("genReweight");
   blist += PFCand::getListOfBranches().fullNames("pfCandidates");
   blist += SuperCluster::getListOfBranches().fullNames("superClusters");
@@ -230,7 +223,6 @@ panda::Event::getListOfBranches()
   blist += RecoMet::getListOfBranches().fullNames("metMuOnlyFix");
   blist += RecoMet::getListOfBranches().fullNames("metNoFix");
   blist += MetFilters::getListOfBranches().fullNames("metFilters");
-  blist += HLTBits::getListOfBranches().fullNames("triggers");
   blist += Recoil::getListOfBranches().fullNames("recoil");
   return blist;
 }
@@ -238,15 +230,10 @@ panda::Event::getListOfBranches()
 void
 panda::Event::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 {
-  utils::setStatus(_tree, "", "runNumber", _branches);
-  utils::setStatus(_tree, "", "lumiNumber", _branches);
-  utils::setStatus(_tree, "", "eventNumber", _branches);
-  utils::setStatus(_tree, "", "isData", _branches);
   utils::setStatus(_tree, "", "npv", _branches);
   utils::setStatus(_tree, "", "npvTrue", _branches);
   utils::setStatus(_tree, "", "rho", _branches);
   utils::setStatus(_tree, "", "rhoCentralCalo", _branches);
-  utils::setStatus(_tree, "", "weight", _branches);
 }
 
 /*protected*/
@@ -255,15 +242,10 @@ panda::Event::doGetStatus_(TTree& _tree) const
 {
   utils::BranchList blist;
 
-  blist.push_back(utils::getStatus(_tree, "", "runNumber"));
-  blist.push_back(utils::getStatus(_tree, "", "lumiNumber"));
-  blist.push_back(utils::getStatus(_tree, "", "eventNumber"));
-  blist.push_back(utils::getStatus(_tree, "", "isData"));
   blist.push_back(utils::getStatus(_tree, "", "npv"));
   blist.push_back(utils::getStatus(_tree, "", "npvTrue"));
   blist.push_back(utils::getStatus(_tree, "", "rho"));
   blist.push_back(utils::getStatus(_tree, "", "rhoCentralCalo"));
-  blist.push_back(utils::getStatus(_tree, "", "weight"));
   return blist;
 }
 
@@ -278,30 +260,20 @@ panda::Event::doGetBranchNames_() const
 void
 panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus)
 {
-  utils::setAddress(_tree, "", "runNumber", &runNumber, _branches, _setStatus);
-  utils::setAddress(_tree, "", "lumiNumber", &lumiNumber, _branches, _setStatus);
-  utils::setAddress(_tree, "", "eventNumber", &eventNumber, _branches, _setStatus);
-  utils::setAddress(_tree, "", "isData", &isData, _branches, _setStatus);
   utils::setAddress(_tree, "", "npv", &npv, _branches, _setStatus);
   utils::setAddress(_tree, "", "npvTrue", &npvTrue, _branches, _setStatus);
   utils::setAddress(_tree, "", "rho", &rho, _branches, _setStatus);
   utils::setAddress(_tree, "", "rhoCentralCalo", &rhoCentralCalo, _branches, _setStatus);
-  utils::setAddress(_tree, "", "weight", &weight, _branches, _setStatus);
 }
 
 /*protected*/
 void
 panda::Event::doBook_(TTree& _tree, utils::BranchList const& _branches)
 {
-  utils::book(_tree, "", "runNumber", "", 'i', &runNumber, _branches);
-  utils::book(_tree, "", "lumiNumber", "", 'i', &lumiNumber, _branches);
-  utils::book(_tree, "", "eventNumber", "", 'i', &eventNumber, _branches);
-  utils::book(_tree, "", "isData", "", 'O', &isData, _branches);
   utils::book(_tree, "", "npv", "", 's', &npv, _branches);
   utils::book(_tree, "", "npvTrue", "", 's', &npvTrue, _branches);
   utils::book(_tree, "", "rho", "", 'F', &rho, _branches);
   utils::book(_tree, "", "rhoCentralCalo", "", 'F', &rhoCentralCalo, _branches);
-  utils::book(_tree, "", "weight", "", 'F', &weight, _branches);
 }
 
 /*protected*/
@@ -309,7 +281,7 @@ void
 panda::Event::doGetEntry_(Long64_t _entry)
 {
   /* BEGIN CUSTOM Event.cc.doGetEntry_ */
-  run.update(runNumber, *inputs_[currentInputIdx_]);
+  EventBase::doGetEntry_(_entry);
   /* END CUSTOM */
 }
 
@@ -317,44 +289,23 @@ panda::Event::doGetEntry_(Long64_t _entry)
 void
 panda::Event::doReleaseTree_(TTree& _tree)
 {
-  utils::resetAddress(_tree, "", "runNumber");
-  utils::resetAddress(_tree, "", "lumiNumber");
-  utils::resetAddress(_tree, "", "eventNumber");
-  utils::resetAddress(_tree, "", "isData");
   utils::resetAddress(_tree, "", "npv");
   utils::resetAddress(_tree, "", "npvTrue");
   utils::resetAddress(_tree, "", "rho");
   utils::resetAddress(_tree, "", "rhoCentralCalo");
-  utils::resetAddress(_tree, "", "weight");
 }
 
 void
 panda::Event::doInit_()
 {
-  runNumber = 0;
-  lumiNumber = 0;
-  eventNumber = 0;
-  isData = false;
   npv = 0;
   npvTrue = 0;
   rho = 0.;
   rhoCentralCalo = 0.;
-  weight = 0.;
   /* BEGIN CUSTOM Event.cc.doInit_ */
   /* END CUSTOM */
 }
 
 
 /* BEGIN CUSTOM Event.cc.global */
-
-Bool_t
-panda::Event::triggerFired(UInt_t _token) const
-{
-  UInt_t idx(run.getTriggerIndex(_token));
-  if (idx < run.triggerSize())
-    return triggers.pass(idx);
-  else
-    return false;
-}
-
 /* END CUSTOM */

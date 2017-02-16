@@ -1,6 +1,6 @@
 #ifndef PandaTree_Objects_Event_h
 #define PandaTree_Objects_Event_h
-#include "../../Framework/interface/TreeEntry.h"
+#include "EventBase.h"
 #include "Constants.h"
 #include "GenReweight.h"
 #include "PFCand.h"
@@ -18,13 +18,11 @@
 #include "RecoMet.h"
 #include "Met.h"
 #include "MetFilters.h"
-#include "HLTBits.h"
 #include "Recoil.h"
-#include "Run.h"
 
 namespace panda {
 
-  class Event : public TreeEntry {
+  class Event : public EventBase {
   public:
     Event();
     Event(Event const&);
@@ -67,18 +65,12 @@ namespace panda {
     RecoMet metMuOnlyFix = RecoMet("metMuOnlyFix");
     RecoMet metNoFix = RecoMet("metNoFix");
     MetFilters metFilters = MetFilters("metFilters");
-    HLTBits triggers = HLTBits("triggers");
     Recoil recoil = Recoil("recoil");
 
-    UInt_t runNumber{};
-    UInt_t lumiNumber{};
-    UInt_t eventNumber{};
-    Bool_t isData{};
     UShort_t npv{};
     UShort_t npvTrue{};
     Float_t rho{};
     Float_t rhoCentralCalo{};
-    Float_t weight{};
 
     static utils::BranchList getListOfBranches();
 
@@ -94,28 +86,6 @@ namespace panda {
 
   public:
     /* BEGIN CUSTOM Event.h.classdef */
-
-    //! Current run object.
-    Run run;
-
-    //! Use to declare a trigger path to be used in the analysis. Returns a token for the path.
-    /*!
-     * Call this function before the event loop for each trigger you will be using. The return value
-     * is an integer unique to the path, and can be passed to triggerFired() in the event loop to retrieve
-     * the trigger decision of the event.
-     *
-     * \param path   HLT path
-     */
-    UInt_t registerTrigger(char const* path) { return run.registerTrigger(path); }
-
-    //! Trigger decision of the event.
-    /*!
-     * Pass the trigger token returned by registerTrigger().
-     *
-     * \param token   Token returned by registerTrigger()
-     */
-    Bool_t triggerFired(UInt_t token) const;
-
     /* END CUSTOM */
   };
 

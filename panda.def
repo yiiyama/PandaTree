@@ -372,16 +372,20 @@ gamma/O
 max/F
 bool any() const { return met || monoMu || monoE || diMu || diE || gamma; }
 
-{Event}
+{EventBase}
 runNumber/i
 lumiNumber/i
 eventNumber/i
 isData/O
+weight/F
+triggers/HLTBits
+#include "Run.h"
+
+{Event>EventBase}
 npv/s
 npvTrue/s
 rho/F
 rhoCentralCalo/F
-weight/F
 genReweight/GenReweight
 pfCandidates/PFCandCollection(2048)
 superClusters/SuperClusterCollection(64)
@@ -418,7 +422,6 @@ genMet/Met
 metMuOnlyFix/RecoMet
 metNoFix/RecoMet
 metFilters/MetFilters
-triggers/HLTBits
 recoil/Recoil
 electrons.superCluster->superClusters
 electrons.matchedGen->genParticles
@@ -443,7 +446,6 @@ puppiAK8Jets.matchedGenJet->ak8GenJets
 puppiCA15Jets.constituents->pfCandidates
 puppiCA15Jets.subjets->puppiCA15Subjets
 puppiCA15Jets.matchedGenJet->ca15GenJets
-#include "Run.h"
 
 {Run}
 runNumber/i

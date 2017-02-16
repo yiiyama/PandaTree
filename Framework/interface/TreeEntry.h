@@ -18,7 +18,7 @@ namespace panda {
    */
   class TreeEntry : public Object {
   public:
-    TreeEntry(char const* name) : name_(name) {}
+    TreeEntry() {}
     virtual ~TreeEntry() {}
 
     void setStatus(TTree&, utils::BranchList const& blist) final;
@@ -30,8 +30,8 @@ namespace panda {
     TTree* getInput(UInt_t treeIdx = 0) const final { return inputs_.at(treeIdx); }
     void releaseTree(TTree&) final;
     void init() final;
-    char const* getName() const final { return name_; }
-    void setName(char const* name) final { name_ = name; }
+    char const* getName() const final { return ""; }
+    void setName(char const*) final {}
 
   protected:
     virtual void doSetStatus_(TTree&, utils::BranchList const&) = 0;
@@ -42,8 +42,6 @@ namespace panda {
     virtual void doGetEntry_(Long64_t entry) = 0;
     virtual void doReleaseTree_(TTree&) = 0;
     virtual void doInit_() = 0;
-
-    TString name_{};
 
     std::vector<TTree*> inputs_{}; //!< list of bound inputs
     UInt_t currentInputIdx_{0xffffffff}; //!< index of current input tree

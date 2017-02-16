@@ -1,16 +1,17 @@
 #include "../interface/Run.h"
 
 panda::Run::Run() :
-  TreeEntry("Run")
+  TreeEntry()
 {
 }
 
 panda::Run::Run(Run const& _src) :
-  TreeEntry(_src.getName()),
+  TreeEntry(),
   runNumber(_src.runNumber),
   hltMenu(_src.hltMenu),
   hltSize(_src.hltSize)
 {
+
 }
 
 panda::Run&
