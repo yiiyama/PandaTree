@@ -6,12 +6,65 @@ gets, which means that it is slim, fast to read/write, and fully portable (no li
 the files). The library defines the interface which constructs C++ objects from this flat tree so
 that the analyis programs don't have to be dumb.
 
+<< Quickstart >>
+[Compile]
+ . With CMSSW: Just run scram b.
+ . Standalone: Run "make" and link lib/libpanda.so to your program.
+
+[Read]
+
+  #include "PandaTree/Objects/interface/Event.h"
+
+  TTree* eventsTree(static_cast<TTree*>(file->Get("events")));
+
+  panda::Event event;
+  event.setAddress(*eventsTree);
+
+  long iEntry(0);
+  while (event.getEntry(iEntry++) > 0) { // IMPORTANT: *not* eventsTree->GetEntry()
+    /* do your analysis */
+  }
+
+[Write]
+
+  #include "PandaTree/Objects/interface/Event.h"
+
+  TTree* eventsTree(new TTree("events", "Events"));
+  TTree* runsTree(new TTree("runs", "Runs"));
+
+  panda::Event event;
+  event.book(*eventsTree);
+  event.run.book(*runsTree);
+
+  for (unsigned iEntry(0); iEntry != maxEntries; ++iEntry) {
+    /* fill your event */
+
+    eventsTree->Fill();
+
+    if (is_new_run) {
+      /* fill your run */
+      runsTree->Fill();
+    }
+  }
+
+<< Objects and files structure >>
+
+Physics objects all have pt(), eta(), phi(), and m() functions. Other available variables and functions
+are listed in the format definition file panda.def (syntax documented below). Objects have inheritance
+relations, so e.g. an Electron object has all the variables of Lepton, ParticleP, and Particle objects.
+
+The actual C++ code defining the objects are all in the Objects subdirectory. This entire subdirectory
+is generated automatically from the format definition file.
+
+Objects are often stored in variable-size containers ("Collection"s), which have similar interfaces to
+std::vector. Code for Collection and other general-use objects are in the Framework subdirectory.
+
+<< Technical details >> 
+
 Tree structures are defined in tree definition files and then converted to C++ code by generate.py.
 Usage is
 generate.py panda.def [additional definition files]
 The script will write C++ source code into Objects/ and obj/ directories.
-
-<< Definition file syntax >>
 
 Tree definition file is made of various sections and blocks. A comment line starts with a '%' character.
 All typedefs, enums, constants, and classes will be defined under a namespace whose name is taken from the
@@ -35,13 +88,10 @@ C++ enums. An entry of name n{NAME}s will be automatically appended, where {NAME
 6. Objects
 This section is the core of the definition file. Each object definition is started with a line
 
-[Obj(<-Parent):SPEC]
+[Obj(>-Parent)(:SINGLE)]
 
-where Obj is the name of the class, Parent is its base class, and SPEC is either
-
- . "MAX=n" (n integer) -> define a dynamic collectable object. A class ObjCollection will be automatically created. The collection class behaves like std::vector but has a maximum size of n. 
- . "SIZE=n" (n integer) -> define a static collectable object. A class ObjCollection will be automatically created. The collection class behaves like a C array of Objs with array size n.
- . "SINGLE" -> define a non-collectable object (e.g. MET).
+where Obj is the name of the class, Parent is its base class, and SINGLE indicates that the object is not meant
+to be placed in container classes (Array and Collection).
 
 Everything that follows after the object name until the next blank line is parsed as the definition
 of the object. Within this block, object variables (i.e. ROOT branches), references (pointers to
@@ -68,9 +118,11 @@ Branch types follow the ROOT convention:
 
 References are defined by syntax
 
-name/class*
+name/classRef (single reference)
+and
+name/classRefVector (vector of references)
 
-In the ROOT file, they are represented by unsigned integers which correspond to the index of the
+In the ROOT file, the references are represented by integers which correspond to the index of the
 object that is pointed to within its owning collection. Thus one has to specify element of which
 collection this reference points to, and this is done in the Tree definition (see below).
 
@@ -79,7 +131,14 @@ collection this reference points to, and this is done in the Tree definition (se
 Tree names are specified by {Name}. Everything that follows a tree declaration until the next blank
 line is considered as tree definition.
 
-Syntax for tree blocks are identical to that for object blocks.
+Syntax for specifying simple variables of the tree object is identical to the one for physics objects.
+In addition, various arrays, collections, and singlets can be attached to the tree. If an attached physics
+object contains a reference that points to elements in another container, use the '->' symbol to
+represent referencing:
+
+photons/PhotonCollection
+superClusters/SuperClusterCollection
+photons.superCluster->superClusters
 
 << Tree input/output >>
 
@@ -87,103 +146,33 @@ Each object variable is booked an independent TBranch. The objects know how to w
 the branch values from TTree. Collections use variable names in the tree definition to book branches.
 For example, consider a file particles.def with the following content:
 ===========================
-[Particle:MAX=10]
-pt/F
-eta/F
-phi/F
+[ParticleP]
+pt_/F
+eta_/F
+phi_/F
 
 {Event}
-myparts/ParticleCollection
+myparts/ParticlePCollection
 ===========================
 
 generate.py particles.def
 will result in the following TTree structure:
 tree (name not fixed)
  L myparts.size/i
- L myparts.pt[myparts.size]/F
- L myparts.eta[myparts.size]/F
- L myparts.phi[myparts.size]/F
-
-<< Analysis code >>
-
-generate.py <conf>.def
-
-will produce multiple files under Objects and obj. In the analysis code,
-it suffices to include only
-
-#include "PandaTree/Objects/interface/Event.h"
-#include "PandaTree/Objects/interface/Run.h"
-
-as all relevant headers are included in these files.
-
-Using the example above, one can fill the tree by
-
-  TTree* tree = new TTree("mytree", "My Tree");
-  panda::Event event;
-  event.book(*tree); // creates branches
-
-  ...
-  for each event
-    for (auto&& inPart : inParticles) {
-      panda::Particles& outPart(event.myparts.create_back()); // create one particle at the end - throws if maximum size has been reached
-  
-      outPart.pt = inPart.pt();
-      outPart.eta = inPart.eta();
-      outPart.phi = inPart.phi();
-    }
-  
-    tree->Fill();
-
-or process the tree written above like
-
-  TTree* tree = static_cast<TTree*>(inputFile->Get("mytree"));
-  panda::Event event;
-  event.setAddress(*tree);
-
-  long iEntry = 0;
-  while (tree->GetEntry(iEntry++) > 0) {
-    histogram1->Fill(event.particles.size());
-    for (auto& part : event.particles) {
-      histogram2->Fill(part.pt);
-    }
-  }
-
-<< Inheritance >>
-
-When a collectable object class is declared as derived from another class, both the element and the
-collection have inheritance relations. For example, if
-
-[Particle:SIZE=10]
-pt/F
-eta/F
-phi/F
-
-[ParticleM:Particle]
-mass/F
-
-then in the resulting C++ code, ParticleM is a subclass of Particle, and ParticleMCollection is a
-subclass of ParticleCollection. This is in contrast to e.g. having a std::vector of inheriting classes;
-std::vector<ParticleM> and std::vector<Particle> are not related.
-
-These inheritance relations can be used effectively to make the analysis code compact.
+ L myparts.pt_[myparts.size]/F
+ L myparts.eta_[myparts.size]/F
+ L myparts.phi_[myparts.size]/F
 
 << Speeding up I/O >>
 
-It is possible to specify which branches to read and write. By limiting I/O to only the branches you
-actually use, it is possible to significantly speed up the analysis program. To use this feature,
-pass a list of branch names to setAddress():
+It is possible to specify which branches to read and write, by using Event::setStatus function.
+By limiting I/O to only the branches you actually use, it is possible to significantly speed up
+the analysis program.
 
-event.setStatus(*tree, false, {"*"});
-event.setAddress(*tree, {"particle.pt", "particle.eta"});
+event.setStatus(*tree, {"!*", "electrons.pt", "electrons.eta"});
+event.setAddress(*tree);
 
-In this example, the first line turns off all branches, but the branches particle.pt and
-particle.eta are turned back on for reading. Particle objects in the event will have all other
-attributes except for pt and eta set to 0.
-
-The same effect can be achieved by
-
-event.setAddress(*tree, {"!*", "particle.pt", "particle.eta"});
-
-The ! sign excludes the matching branches. Branch name matchin is evaluated in sequence, and the
-last matching name determines whether the branch is turned on or off. Similar mechanism exists for
-booking branches; in this case branches that are turned off are not written to the output file.
+The second argument of setStatus is an ordered list of "commands" to turn branches on and off.
+For each branch in the tree, the last matching command takes effect. Thus in the example above,
+all branches in the tree are disabled (by the "!" sign) but electrons.pt and electrons.eta are
+re-enabled.
