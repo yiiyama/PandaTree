@@ -22,6 +22,7 @@ namespace panda {
       Float_t* phi_{0};
       */
       /* Lepton
+      Float_t* pfPt{0};
       Char_t* charge{0};
       Bool_t* loose{0};
       Bool_t* medium{0};
@@ -46,6 +47,7 @@ namespace panda {
       Float_t* hOverE{0};
       Float_t* rawPt{0};
       Float_t* regPt{0};
+      Float_t* originalPt{0};
       Bool_t* veto{0};
       Bool_t (*triggerMatch)[nElectronTriggerObjects]{0};
       ContainerBase const* superClusterContainer_{0};
@@ -78,6 +80,7 @@ namespace panda {
     double combIso() const override { return chIso + std::max(nhIso + phIso - isoPUOffset, Float_t(0.)); }
 
     /* Lepton
+    Float_t& pfPt; // for E: Pt of the dR-closest PF candidate; for Mu: pfP4().pt()
     Char_t& charge;
     Bool_t& loose;
     Bool_t& medium;
@@ -101,6 +104,7 @@ namespace panda {
     Float_t& hOverE;
     Float_t& rawPt;
     Float_t& regPt;
+    Float_t& originalPt;
     Bool_t& veto;
     Bool_t (&triggerMatch)[nElectronTriggerObjects];
     Ref<SuperCluster> superCluster;

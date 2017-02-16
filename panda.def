@@ -173,7 +173,7 @@ eta/F
 phi/F
 
 [Lepton>ParticleP]
-pfPt/F
+pfPt/F // for E: Pt of the dR-closest PF candidate; for Mu: pfP4().pt()
 charge/B
 loose/O
 medium/O
@@ -222,7 +222,7 @@ isoDeltaBetaCorr/F
 matchedGen/GenParticleRef
 
 [Photon>ParticleP]
-pfPt/F
+pfPt/F // Pt of the dR-closest PF candidate
 chIso/F
 chIsoWorst/F
 nhIso/F

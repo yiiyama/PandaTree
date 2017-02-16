@@ -21,6 +21,7 @@ namespace panda {
       Float_t* phi_{0};
       */
       /* Photon
+      Float_t* pfPt{0};
       Float_t* chIso{0};
       Float_t* chIsoWorst{0};
       Float_t* nhIso{0};
@@ -42,6 +43,7 @@ namespace panda {
       Float_t* timeSpan{0};
       Float_t* rawPt{0};
       Float_t* regPt{0};
+      Float_t* originalPt{0};
       Bool_t* loose{0};
       Bool_t* medium{0};
       Bool_t* tight{0};
@@ -99,6 +101,7 @@ namespace panda {
     bool passPhIsoS15(UInt_t wp) const { return phIsoS15 < phIsoCuts[0][isEB ? 0 : 1][wp]; }
 
     /* Photon
+    Float_t& pfPt; // Pt of the dR-closest PF candidate
     Float_t& chIso;
     Float_t& chIsoWorst;
     Float_t& nhIso;
@@ -120,6 +123,7 @@ namespace panda {
     Float_t& timeSpan;
     Float_t& rawPt;
     Float_t& regPt;
+    Float_t& originalPt;
     Bool_t& loose;
     Bool_t& medium;
     Bool_t& tight;
