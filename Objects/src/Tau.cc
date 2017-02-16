@@ -6,7 +6,7 @@ panda::Tau::getListOfBranches()
 {
   utils::BranchList blist;
   blist += ParticleM::getListOfBranches();
-  blist += {"q", "decayMode", "decayModeNew", "looseIsoMVA", "iso", "isoDeltaBetaCorr", "matchedGen_"};
+  blist += {"charge", "decayMode", "decayModeNew", "looseIsoMVA", "iso", "isoDeltaBetaCorr", "matchedGen_"};
   return blist;
 }
 
@@ -15,7 +15,7 @@ panda::Tau::datastore::allocate(UInt_t _nmax)
 {
   ParticleM::datastore::allocate(_nmax);
 
-  q = new Short_t[nmax_];
+  charge = new Char_t[nmax_];
   decayMode = new Bool_t[nmax_];
   decayModeNew = new Bool_t[nmax_];
   looseIsoMVA = new Bool_t[nmax_];
@@ -29,8 +29,8 @@ panda::Tau::datastore::deallocate()
 {
   ParticleM::datastore::deallocate();
 
-  delete [] q;
-  q = 0;
+  delete [] charge;
+  charge = 0;
   delete [] decayMode;
   decayMode = 0;
   delete [] decayModeNew;
@@ -50,7 +50,7 @@ panda::Tau::datastore::setStatus(TTree& _tree, TString const& _name, utils::Bran
 {
   ParticleM::datastore::setStatus(_tree, _name, _branches);
 
-  utils::setStatus(_tree, _name, "q", _branches);
+  utils::setStatus(_tree, _name, "charge", _branches);
   utils::setStatus(_tree, _name, "decayMode", _branches);
   utils::setStatus(_tree, _name, "decayModeNew", _branches);
   utils::setStatus(_tree, _name, "looseIsoMVA", _branches);
@@ -64,7 +64,7 @@ panda::Tau::datastore::getStatus(TTree& _tree, TString const& _name) const
 {
   utils::BranchList blist(ParticleM::datastore::getStatus(_tree, _name));
 
-  blist.push_back(utils::getStatus(_tree, _name, "q"));
+  blist.push_back(utils::getStatus(_tree, _name, "charge"));
   blist.push_back(utils::getStatus(_tree, _name, "decayMode"));
   blist.push_back(utils::getStatus(_tree, _name, "decayModeNew"));
   blist.push_back(utils::getStatus(_tree, _name, "looseIsoMVA"));
@@ -80,7 +80,7 @@ panda::Tau::datastore::setAddress(TTree& _tree, TString const& _name, utils::Bra
 {
   ParticleM::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
-  utils::setAddress(_tree, _name, "q", q, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "charge", charge, _branches, _setStatus);
   utils::setAddress(_tree, _name, "decayMode", decayMode, _branches, _setStatus);
   utils::setAddress(_tree, _name, "decayModeNew", decayModeNew, _branches, _setStatus);
   utils::setAddress(_tree, _name, "looseIsoMVA", looseIsoMVA, _branches, _setStatus);
@@ -96,7 +96,7 @@ panda::Tau::datastore::book(TTree& _tree, TString const& _name, utils::BranchLis
 
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
-  utils::book(_tree, _name, "q", size, 'S', q, _branches);
+  utils::book(_tree, _name, "charge", size, 'B', charge, _branches);
   utils::book(_tree, _name, "decayMode", size, 'O', decayMode, _branches);
   utils::book(_tree, _name, "decayModeNew", size, 'O', decayModeNew, _branches);
   utils::book(_tree, _name, "looseIsoMVA", size, 'O', looseIsoMVA, _branches);
@@ -110,7 +110,7 @@ panda::Tau::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
   ParticleM::datastore::releaseTree(_tree, _name);
 
-  utils::resetAddress(_tree, _name, "q");
+  utils::resetAddress(_tree, _name, "charge");
   utils::resetAddress(_tree, _name, "decayMode");
   utils::resetAddress(_tree, _name, "decayModeNew");
   utils::resetAddress(_tree, _name, "looseIsoMVA");
@@ -135,7 +135,7 @@ panda::Tau::datastore::getBranchNames(TString const& _name) const
 
 panda::Tau::Tau(char const* _name/* = ""*/) :
   ParticleM(new TauArray(1, _name)),
-  q(gStore.getData(this).q[0]),
+  charge(gStore.getData(this).charge[0]),
   decayMode(gStore.getData(this).decayMode[0]),
   decayModeNew(gStore.getData(this).decayModeNew[0]),
   looseIsoMVA(gStore.getData(this).looseIsoMVA[0]),
@@ -147,7 +147,7 @@ panda::Tau::Tau(char const* _name/* = ""*/) :
 
 panda::Tau::Tau(Tau const& _src) :
   ParticleM(new TauArray(1, gStore.getName(&_src))),
-  q(gStore.getData(this).q[0]),
+  charge(gStore.getData(this).charge[0]),
   decayMode(gStore.getData(this).decayMode[0]),
   decayModeNew(gStore.getData(this).decayModeNew[0]),
   looseIsoMVA(gStore.getData(this).looseIsoMVA[0]),
@@ -157,7 +157,7 @@ panda::Tau::Tau(Tau const& _src) :
 {
   ParticleM::operator=(_src);
 
-  q = _src.q;
+  charge = _src.charge;
   decayMode = _src.decayMode;
   decayModeNew = _src.decayModeNew;
   looseIsoMVA = _src.looseIsoMVA;
@@ -168,7 +168,7 @@ panda::Tau::Tau(Tau const& _src) :
 
 panda::Tau::Tau(datastore& _data, UInt_t _idx) :
   ParticleM(_data, _idx),
-  q(_data.q[_idx]),
+  charge(_data.charge[_idx]),
   decayMode(_data.decayMode[_idx]),
   decayModeNew(_data.decayModeNew[_idx]),
   looseIsoMVA(_data.looseIsoMVA[_idx]),
@@ -180,7 +180,7 @@ panda::Tau::Tau(datastore& _data, UInt_t _idx) :
 
 panda::Tau::Tau(ArrayBase* _array) :
   ParticleM(_array),
-  q(gStore.getData(this).q[0]),
+  charge(gStore.getData(this).charge[0]),
   decayMode(gStore.getData(this).decayMode[0]),
   decayModeNew(gStore.getData(this).decayModeNew[0]),
   looseIsoMVA(gStore.getData(this).looseIsoMVA[0]),
@@ -210,7 +210,7 @@ panda::Tau::operator=(Tau const& _src)
 {
   ParticleM::operator=(_src);
 
-  q = _src.q;
+  charge = _src.charge;
   decayMode = _src.decayMode;
   decayModeNew = _src.decayModeNew;
   looseIsoMVA = _src.looseIsoMVA;
@@ -226,7 +226,7 @@ panda::Tau::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList 
 {
   ParticleM::doSetAddress_(_tree, _name, _branches, _setStatus);
 
-  utils::setAddress(_tree, _name, "q", &q, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "charge", &charge, _branches, _setStatus);
   utils::setAddress(_tree, _name, "decayMode", &decayMode, _branches, _setStatus);
   utils::setAddress(_tree, _name, "decayModeNew", &decayModeNew, _branches, _setStatus);
   utils::setAddress(_tree, _name, "looseIsoMVA", &looseIsoMVA, _branches, _setStatus);
@@ -240,7 +240,7 @@ panda::Tau::doBook_(TTree& _tree, TString const& _name, utils::BranchList const&
 {
   ParticleM::doBook_(_tree, _name, _branches);
 
-  utils::book(_tree, _name, "q", "", 'S', &q, _branches);
+  utils::book(_tree, _name, "charge", "", 'B', &charge, _branches);
   utils::book(_tree, _name, "decayMode", "", 'O', &decayMode, _branches);
   utils::book(_tree, _name, "decayModeNew", "", 'O', &decayModeNew, _branches);
   utils::book(_tree, _name, "looseIsoMVA", "", 'O', &looseIsoMVA, _branches);
@@ -254,7 +254,7 @@ panda::Tau::doReleaseTree_(TTree& _tree, TString const& _name)
 {
   ParticleM::doReleaseTree_(_tree, _name);
 
-  utils::resetAddress(_tree, _name, "q");
+  utils::resetAddress(_tree, _name, "charge");
   utils::resetAddress(_tree, _name, "decayMode");
   utils::resetAddress(_tree, _name, "decayModeNew");
   utils::resetAddress(_tree, _name, "looseIsoMVA");
@@ -268,7 +268,7 @@ panda::Tau::doInit_()
 {
   ParticleM::doInit_();
 
-  q = 0;
+  charge = 0;
   decayMode = false;
   decayModeNew = false;
   looseIsoMVA = false;

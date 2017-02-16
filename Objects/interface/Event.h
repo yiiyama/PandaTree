@@ -48,10 +48,12 @@ namespace panda {
     MicroJetCollection puppiAK8Subjets = MicroJetCollection("puppiAK8Subjets", 64);
     FatJetCollection puppiCA15Jets = FatJetCollection("puppiCA15Jets", 8);
     MicroJetCollection puppiCA15Subjets = MicroJetCollection("puppiCA15Subjets", 64);
-    GenJetCollection genJets = GenJetCollection("genJets", 64);
+    GenJetCollection ak4GenJets = GenJetCollection("ak4GenJets", 64);
+    GenJetCollection ak8GenJets = GenJetCollection("ak8GenJets", 32);
+    GenJetCollection ca15GenJets = GenJetCollection("ca15GenJets", 32);
     GenParticleCollection genParticles = GenParticleCollection("genParticles", 256);
     PartonCollection partons = PartonCollection("partons", 8);
-    RecoMet met = RecoMet("met");
+    RecoMet pfMet = RecoMet("pfMet");
     RecoMet puppiMet = RecoMet("puppiMet");
     Met rawMet = Met("rawMet");
     Met caloMet = Met("caloMet");

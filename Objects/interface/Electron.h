@@ -22,23 +22,23 @@ namespace panda {
       Float_t* phi_{0};
       */
       /* Lepton
-      Short_t* q{0};
+      Char_t* charge{0};
       Bool_t* loose{0};
       Bool_t* medium{0};
       Bool_t* tight{0};
-      Float_t* chiso{0};
-      Float_t* nhiso{0};
-      Float_t* phoiso{0};
-      Float_t* puiso{0};
+      Float_t* chIso{0};
+      Float_t* nhIso{0};
+      Float_t* phoIso{0};
+      Float_t* puIso{0};
       ContainerBase const* matchedGenContainer_{0};
       Short_t* matchedGen_{0};
       */
       Bool_t* hltsafe{0};
-      Float_t* chisoPh{0};
-      Float_t* nhisoPh{0};
-      Float_t* phisoPh{0};
-      Float_t* ecaliso{0};
-      Float_t* hcaliso{0};
+      Float_t* chIsoPh{0};
+      Float_t* nhIsoPh{0};
+      Float_t* phIsoPh{0};
+      Float_t* ecalIso{0};
+      Float_t* hcalIso{0};
       Float_t* isoPUOffset{0};
       Float_t* sieie{0};
       Float_t* sipip{0};
@@ -75,25 +75,25 @@ namespace panda {
     void print(std::ostream& = std::cout) const override;
 
     double m() const override { return 5.109989e-4; }
-    double combiso() const override { return chiso + std::max(nhiso + phoiso - isoPUOffset, Float_t(0.)); }
+    double combIso() const override { return chIso + std::max(nhIso + phoIso - isoPUOffset, Float_t(0.)); }
 
     /* Lepton
-    Short_t& q;
+    Char_t& charge;
     Bool_t& loose;
     Bool_t& medium;
     Bool_t& tight;
-    Float_t& chiso;
-    Float_t& nhiso;
-    Float_t& phoiso;
-    Float_t& puiso;
+    Float_t& chIso;
+    Float_t& nhIso;
+    Float_t& phoIso;
+    Float_t& puIso;
     Ref<GenParticle> matchedGen;
     */
     Bool_t& hltsafe;
-    Float_t& chisoPh;
-    Float_t& nhisoPh;
-    Float_t& phisoPh;
-    Float_t& ecaliso;
-    Float_t& hcaliso;
+    Float_t& chIsoPh;
+    Float_t& nhIsoPh;
+    Float_t& phIsoPh;
+    Float_t& ecalIso;
+    Float_t& hcalIso;
     Float_t& isoPUOffset;
     Float_t& sieie;
     Float_t& sipip;

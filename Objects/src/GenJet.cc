@@ -15,7 +15,7 @@ panda::GenJet::datastore::allocate(UInt_t _nmax)
 {
   ParticleM::datastore::allocate(_nmax);
 
-  pdgid = new UShort_t[nmax_];
+  pdgid = new Short_t[nmax_];
 }
 
 void
@@ -60,7 +60,7 @@ panda::GenJet::datastore::book(TTree& _tree, TString const& _name, utils::Branch
 
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
-  utils::book(_tree, _name, "pdgid", size, 's', pdgid, _branches);
+  utils::book(_tree, _name, "pdgid", size, 'S', pdgid, _branches);
 }
 
 void
@@ -150,7 +150,7 @@ panda::GenJet::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
 {
   ParticleM::doBook_(_tree, _name, _branches);
 
-  utils::book(_tree, _name, "pdgid", "", 's', &pdgid, _branches);
+  utils::book(_tree, _name, "pdgid", "", 'S', &pdgid, _branches);
 }
 
 void

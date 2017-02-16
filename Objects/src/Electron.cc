@@ -6,7 +6,7 @@ panda::Electron::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Lepton::getListOfBranches();
-  blist += {"hltsafe", "chisoPh", "nhisoPh", "phisoPh", "ecaliso", "hcaliso", "isoPUOffset", "sieie", "sipip", "eseed", "hOverE", "rawPt", "regPt", "veto", "triggerMatch", "superCluster_"};
+  blist += {"hltsafe", "chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "isoPUOffset", "sieie", "sipip", "eseed", "hOverE", "rawPt", "regPt", "veto", "triggerMatch", "superCluster_"};
   return blist;
 }
 
@@ -16,11 +16,11 @@ panda::Electron::datastore::allocate(UInt_t _nmax)
   Lepton::datastore::allocate(_nmax);
 
   hltsafe = new Bool_t[nmax_];
-  chisoPh = new Float_t[nmax_];
-  nhisoPh = new Float_t[nmax_];
-  phisoPh = new Float_t[nmax_];
-  ecaliso = new Float_t[nmax_];
-  hcaliso = new Float_t[nmax_];
+  chIsoPh = new Float_t[nmax_];
+  nhIsoPh = new Float_t[nmax_];
+  phIsoPh = new Float_t[nmax_];
+  ecalIso = new Float_t[nmax_];
+  hcalIso = new Float_t[nmax_];
   isoPUOffset = new Float_t[nmax_];
   sieie = new Float_t[nmax_];
   sipip = new Float_t[nmax_];
@@ -40,16 +40,16 @@ panda::Electron::datastore::deallocate()
 
   delete [] hltsafe;
   hltsafe = 0;
-  delete [] chisoPh;
-  chisoPh = 0;
-  delete [] nhisoPh;
-  nhisoPh = 0;
-  delete [] phisoPh;
-  phisoPh = 0;
-  delete [] ecaliso;
-  ecaliso = 0;
-  delete [] hcaliso;
-  hcaliso = 0;
+  delete [] chIsoPh;
+  chIsoPh = 0;
+  delete [] nhIsoPh;
+  nhIsoPh = 0;
+  delete [] phIsoPh;
+  phIsoPh = 0;
+  delete [] ecalIso;
+  ecalIso = 0;
+  delete [] hcalIso;
+  hcalIso = 0;
   delete [] isoPUOffset;
   isoPUOffset = 0;
   delete [] sieie;
@@ -78,11 +78,11 @@ panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, utils:
   Lepton::datastore::setStatus(_tree, _name, _branches);
 
   utils::setStatus(_tree, _name, "hltsafe", _branches);
-  utils::setStatus(_tree, _name, "chisoPh", _branches);
-  utils::setStatus(_tree, _name, "nhisoPh", _branches);
-  utils::setStatus(_tree, _name, "phisoPh", _branches);
-  utils::setStatus(_tree, _name, "ecaliso", _branches);
-  utils::setStatus(_tree, _name, "hcaliso", _branches);
+  utils::setStatus(_tree, _name, "chIsoPh", _branches);
+  utils::setStatus(_tree, _name, "nhIsoPh", _branches);
+  utils::setStatus(_tree, _name, "phIsoPh", _branches);
+  utils::setStatus(_tree, _name, "ecalIso", _branches);
+  utils::setStatus(_tree, _name, "hcalIso", _branches);
   utils::setStatus(_tree, _name, "isoPUOffset", _branches);
   utils::setStatus(_tree, _name, "sieie", _branches);
   utils::setStatus(_tree, _name, "sipip", _branches);
@@ -101,11 +101,11 @@ panda::Electron::datastore::getStatus(TTree& _tree, TString const& _name) const
   utils::BranchList blist(Lepton::datastore::getStatus(_tree, _name));
 
   blist.push_back(utils::getStatus(_tree, _name, "hltsafe"));
-  blist.push_back(utils::getStatus(_tree, _name, "chisoPh"));
-  blist.push_back(utils::getStatus(_tree, _name, "nhisoPh"));
-  blist.push_back(utils::getStatus(_tree, _name, "phisoPh"));
-  blist.push_back(utils::getStatus(_tree, _name, "ecaliso"));
-  blist.push_back(utils::getStatus(_tree, _name, "hcaliso"));
+  blist.push_back(utils::getStatus(_tree, _name, "chIsoPh"));
+  blist.push_back(utils::getStatus(_tree, _name, "nhIsoPh"));
+  blist.push_back(utils::getStatus(_tree, _name, "phIsoPh"));
+  blist.push_back(utils::getStatus(_tree, _name, "ecalIso"));
+  blist.push_back(utils::getStatus(_tree, _name, "hcalIso"));
   blist.push_back(utils::getStatus(_tree, _name, "isoPUOffset"));
   blist.push_back(utils::getStatus(_tree, _name, "sieie"));
   blist.push_back(utils::getStatus(_tree, _name, "sipip"));
@@ -126,11 +126,11 @@ panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils
   Lepton::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
   utils::setAddress(_tree, _name, "hltsafe", hltsafe, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "chisoPh", chisoPh, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "nhisoPh", nhisoPh, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "phisoPh", phisoPh, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "ecaliso", ecaliso, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "hcaliso", hcaliso, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "chIsoPh", chIsoPh, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "nhIsoPh", nhIsoPh, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "phIsoPh", phIsoPh, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "ecalIso", ecalIso, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "hcalIso", hcalIso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "isoPUOffset", isoPUOffset, _branches, _setStatus);
   utils::setAddress(_tree, _name, "sieie", sieie, _branches, _setStatus);
   utils::setAddress(_tree, _name, "sipip", sipip, _branches, _setStatus);
@@ -151,11 +151,11 @@ panda::Electron::datastore::book(TTree& _tree, TString const& _name, utils::Bran
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
   utils::book(_tree, _name, "hltsafe", size, 'O', hltsafe, _branches);
-  utils::book(_tree, _name, "chisoPh", size, 'F', chisoPh, _branches);
-  utils::book(_tree, _name, "nhisoPh", size, 'F', nhisoPh, _branches);
-  utils::book(_tree, _name, "phisoPh", size, 'F', phisoPh, _branches);
-  utils::book(_tree, _name, "ecaliso", size, 'F', ecaliso, _branches);
-  utils::book(_tree, _name, "hcaliso", size, 'F', hcaliso, _branches);
+  utils::book(_tree, _name, "chIsoPh", size, 'F', chIsoPh, _branches);
+  utils::book(_tree, _name, "nhIsoPh", size, 'F', nhIsoPh, _branches);
+  utils::book(_tree, _name, "phIsoPh", size, 'F', phIsoPh, _branches);
+  utils::book(_tree, _name, "ecalIso", size, 'F', ecalIso, _branches);
+  utils::book(_tree, _name, "hcalIso", size, 'F', hcalIso, _branches);
   utils::book(_tree, _name, "isoPUOffset", size, 'F', isoPUOffset, _branches);
   utils::book(_tree, _name, "sieie", size, 'F', sieie, _branches);
   utils::book(_tree, _name, "sipip", size, 'F', sipip, _branches);
@@ -174,11 +174,11 @@ panda::Electron::datastore::releaseTree(TTree& _tree, TString const& _name)
   Lepton::datastore::releaseTree(_tree, _name);
 
   utils::resetAddress(_tree, _name, "hltsafe");
-  utils::resetAddress(_tree, _name, "chisoPh");
-  utils::resetAddress(_tree, _name, "nhisoPh");
-  utils::resetAddress(_tree, _name, "phisoPh");
-  utils::resetAddress(_tree, _name, "ecaliso");
-  utils::resetAddress(_tree, _name, "hcaliso");
+  utils::resetAddress(_tree, _name, "chIsoPh");
+  utils::resetAddress(_tree, _name, "nhIsoPh");
+  utils::resetAddress(_tree, _name, "phIsoPh");
+  utils::resetAddress(_tree, _name, "ecalIso");
+  utils::resetAddress(_tree, _name, "hcalIso");
   utils::resetAddress(_tree, _name, "isoPUOffset");
   utils::resetAddress(_tree, _name, "sieie");
   utils::resetAddress(_tree, _name, "sipip");
@@ -208,11 +208,11 @@ panda::Electron::datastore::getBranchNames(TString const& _name) const
 panda::Electron::Electron(char const* _name/* = ""*/) :
   Lepton(new ElectronArray(1, _name)),
   hltsafe(gStore.getData(this).hltsafe[0]),
-  chisoPh(gStore.getData(this).chisoPh[0]),
-  nhisoPh(gStore.getData(this).nhisoPh[0]),
-  phisoPh(gStore.getData(this).phisoPh[0]),
-  ecaliso(gStore.getData(this).ecaliso[0]),
-  hcaliso(gStore.getData(this).hcaliso[0]),
+  chIsoPh(gStore.getData(this).chIsoPh[0]),
+  nhIsoPh(gStore.getData(this).nhIsoPh[0]),
+  phIsoPh(gStore.getData(this).phIsoPh[0]),
+  ecalIso(gStore.getData(this).ecalIso[0]),
+  hcalIso(gStore.getData(this).hcalIso[0]),
   isoPUOffset(gStore.getData(this).isoPUOffset[0]),
   sieie(gStore.getData(this).sieie[0]),
   sipip(gStore.getData(this).sipip[0]),
@@ -229,11 +229,11 @@ panda::Electron::Electron(char const* _name/* = ""*/) :
 panda::Electron::Electron(Electron const& _src) :
   Lepton(new ElectronArray(1, gStore.getName(&_src))),
   hltsafe(gStore.getData(this).hltsafe[0]),
-  chisoPh(gStore.getData(this).chisoPh[0]),
-  nhisoPh(gStore.getData(this).nhisoPh[0]),
-  phisoPh(gStore.getData(this).phisoPh[0]),
-  ecaliso(gStore.getData(this).ecaliso[0]),
-  hcaliso(gStore.getData(this).hcaliso[0]),
+  chIsoPh(gStore.getData(this).chIsoPh[0]),
+  nhIsoPh(gStore.getData(this).nhIsoPh[0]),
+  phIsoPh(gStore.getData(this).phIsoPh[0]),
+  ecalIso(gStore.getData(this).ecalIso[0]),
+  hcalIso(gStore.getData(this).hcalIso[0]),
   isoPUOffset(gStore.getData(this).isoPUOffset[0]),
   sieie(gStore.getData(this).sieie[0]),
   sipip(gStore.getData(this).sipip[0]),
@@ -248,11 +248,11 @@ panda::Electron::Electron(Electron const& _src) :
   Lepton::operator=(_src);
 
   hltsafe = _src.hltsafe;
-  chisoPh = _src.chisoPh;
-  nhisoPh = _src.nhisoPh;
-  phisoPh = _src.phisoPh;
-  ecaliso = _src.ecaliso;
-  hcaliso = _src.hcaliso;
+  chIsoPh = _src.chIsoPh;
+  nhIsoPh = _src.nhIsoPh;
+  phIsoPh = _src.phIsoPh;
+  ecalIso = _src.ecalIso;
+  hcalIso = _src.hcalIso;
   isoPUOffset = _src.isoPUOffset;
   sieie = _src.sieie;
   sipip = _src.sipip;
@@ -268,11 +268,11 @@ panda::Electron::Electron(Electron const& _src) :
 panda::Electron::Electron(datastore& _data, UInt_t _idx) :
   Lepton(_data, _idx),
   hltsafe(_data.hltsafe[_idx]),
-  chisoPh(_data.chisoPh[_idx]),
-  nhisoPh(_data.nhisoPh[_idx]),
-  phisoPh(_data.phisoPh[_idx]),
-  ecaliso(_data.ecaliso[_idx]),
-  hcaliso(_data.hcaliso[_idx]),
+  chIsoPh(_data.chIsoPh[_idx]),
+  nhIsoPh(_data.nhIsoPh[_idx]),
+  phIsoPh(_data.phIsoPh[_idx]),
+  ecalIso(_data.ecalIso[_idx]),
+  hcalIso(_data.hcalIso[_idx]),
   isoPUOffset(_data.isoPUOffset[_idx]),
   sieie(_data.sieie[_idx]),
   sipip(_data.sipip[_idx]),
@@ -289,11 +289,11 @@ panda::Electron::Electron(datastore& _data, UInt_t _idx) :
 panda::Electron::Electron(ArrayBase* _array) :
   Lepton(_array),
   hltsafe(gStore.getData(this).hltsafe[0]),
-  chisoPh(gStore.getData(this).chisoPh[0]),
-  nhisoPh(gStore.getData(this).nhisoPh[0]),
-  phisoPh(gStore.getData(this).phisoPh[0]),
-  ecaliso(gStore.getData(this).ecaliso[0]),
-  hcaliso(gStore.getData(this).hcaliso[0]),
+  chIsoPh(gStore.getData(this).chIsoPh[0]),
+  nhIsoPh(gStore.getData(this).nhIsoPh[0]),
+  phIsoPh(gStore.getData(this).phIsoPh[0]),
+  ecalIso(gStore.getData(this).ecalIso[0]),
+  hcalIso(gStore.getData(this).hcalIso[0]),
   isoPUOffset(gStore.getData(this).isoPUOffset[0]),
   sieie(gStore.getData(this).sieie[0]),
   sipip(gStore.getData(this).sipip[0]),
@@ -328,11 +328,11 @@ panda::Electron::operator=(Electron const& _src)
   Lepton::operator=(_src);
 
   hltsafe = _src.hltsafe;
-  chisoPh = _src.chisoPh;
-  nhisoPh = _src.nhisoPh;
-  phisoPh = _src.phisoPh;
-  ecaliso = _src.ecaliso;
-  hcaliso = _src.hcaliso;
+  chIsoPh = _src.chIsoPh;
+  nhIsoPh = _src.nhIsoPh;
+  phIsoPh = _src.phIsoPh;
+  ecalIso = _src.ecalIso;
+  hcalIso = _src.hcalIso;
   isoPUOffset = _src.isoPUOffset;
   sieie = _src.sieie;
   sipip = _src.sipip;
@@ -353,11 +353,11 @@ panda::Electron::doSetAddress_(TTree& _tree, TString const& _name, utils::Branch
   Lepton::doSetAddress_(_tree, _name, _branches, _setStatus);
 
   utils::setAddress(_tree, _name, "hltsafe", &hltsafe, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "chisoPh", &chisoPh, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "nhisoPh", &nhisoPh, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "phisoPh", &phisoPh, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "ecaliso", &ecaliso, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "hcaliso", &hcaliso, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "chIsoPh", &chIsoPh, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "nhIsoPh", &nhIsoPh, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "phIsoPh", &phIsoPh, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "ecalIso", &ecalIso, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "hcalIso", &hcalIso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "isoPUOffset", &isoPUOffset, _branches, _setStatus);
   utils::setAddress(_tree, _name, "sieie", &sieie, _branches, _setStatus);
   utils::setAddress(_tree, _name, "sipip", &sipip, _branches, _setStatus);
@@ -376,11 +376,11 @@ panda::Electron::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
   Lepton::doBook_(_tree, _name, _branches);
 
   utils::book(_tree, _name, "hltsafe", "", 'O', &hltsafe, _branches);
-  utils::book(_tree, _name, "chisoPh", "", 'F', &chisoPh, _branches);
-  utils::book(_tree, _name, "nhisoPh", "", 'F', &nhisoPh, _branches);
-  utils::book(_tree, _name, "phisoPh", "", 'F', &phisoPh, _branches);
-  utils::book(_tree, _name, "ecaliso", "", 'F', &ecaliso, _branches);
-  utils::book(_tree, _name, "hcaliso", "", 'F', &hcaliso, _branches);
+  utils::book(_tree, _name, "chIsoPh", "", 'F', &chIsoPh, _branches);
+  utils::book(_tree, _name, "nhIsoPh", "", 'F', &nhIsoPh, _branches);
+  utils::book(_tree, _name, "phIsoPh", "", 'F', &phIsoPh, _branches);
+  utils::book(_tree, _name, "ecalIso", "", 'F', &ecalIso, _branches);
+  utils::book(_tree, _name, "hcalIso", "", 'F', &hcalIso, _branches);
   utils::book(_tree, _name, "isoPUOffset", "", 'F', &isoPUOffset, _branches);
   utils::book(_tree, _name, "sieie", "", 'F', &sieie, _branches);
   utils::book(_tree, _name, "sipip", "", 'F', &sipip, _branches);
@@ -399,11 +399,11 @@ panda::Electron::doReleaseTree_(TTree& _tree, TString const& _name)
   Lepton::doReleaseTree_(_tree, _name);
 
   utils::resetAddress(_tree, _name, "hltsafe");
-  utils::resetAddress(_tree, _name, "chisoPh");
-  utils::resetAddress(_tree, _name, "nhisoPh");
-  utils::resetAddress(_tree, _name, "phisoPh");
-  utils::resetAddress(_tree, _name, "ecaliso");
-  utils::resetAddress(_tree, _name, "hcaliso");
+  utils::resetAddress(_tree, _name, "chIsoPh");
+  utils::resetAddress(_tree, _name, "nhIsoPh");
+  utils::resetAddress(_tree, _name, "phIsoPh");
+  utils::resetAddress(_tree, _name, "ecalIso");
+  utils::resetAddress(_tree, _name, "hcalIso");
   utils::resetAddress(_tree, _name, "isoPUOffset");
   utils::resetAddress(_tree, _name, "sieie");
   utils::resetAddress(_tree, _name, "sipip");
@@ -422,11 +422,11 @@ panda::Electron::doInit_()
   Lepton::doInit_();
 
   hltsafe = false;
-  chisoPh = 0.;
-  nhisoPh = 0.;
-  phisoPh = 0.;
-  ecaliso = 0.;
-  hcaliso = 0.;
+  chIsoPh = 0.;
+  nhIsoPh = 0.;
+  phIsoPh = 0.;
+  ecalIso = 0.;
+  hcalIso = 0.;
   isoPUOffset = 0.;
   sieie = 0.;
   sipip = 0.;

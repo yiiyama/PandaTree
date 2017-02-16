@@ -21,14 +21,14 @@ namespace panda {
       Float_t* eta_{0};
       Float_t* phi_{0};
       */
-      Short_t* q{0};
+      Char_t* charge{0};
       Bool_t* loose{0};
       Bool_t* medium{0};
       Bool_t* tight{0};
-      Float_t* chiso{0};
-      Float_t* nhiso{0};
-      Float_t* phoiso{0};
-      Float_t* puiso{0};
+      Float_t* chIso{0};
+      Float_t* nhIso{0};
+      Float_t* phoIso{0};
+      Float_t* puIso{0};
       ContainerBase const* matchedGenContainer_{0};
       Short_t* matchedGen_{0};
 
@@ -55,16 +55,16 @@ namespace panda {
     Lepton& operator=(Lepton const&);
     void print(std::ostream& = std::cout) const override;
 
-    virtual double combiso() const { return 0.; }
+    virtual double combIso() const { return 0.; }
 
-    Short_t& q;
+    Char_t& charge;
     Bool_t& loose;
     Bool_t& medium;
     Bool_t& tight;
-    Float_t& chiso;
-    Float_t& nhiso;
-    Float_t& phoiso;
-    Float_t& puiso;
+    Float_t& chIso;
+    Float_t& nhIso;
+    Float_t& phoIso;
+    Float_t& puIso;
     Ref<GenParticle> matchedGen;
 
   protected:

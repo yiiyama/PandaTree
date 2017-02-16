@@ -24,7 +24,7 @@ namespace panda {
       /* ParticleM
       Float_t* mass_{0};
       */
-      Short_t* q{0};
+      Char_t* charge{0};
       Bool_t* decayMode{0};
       Bool_t* decayModeNew{0};
       Bool_t* looseIsoMVA{0};
@@ -56,7 +56,7 @@ namespace panda {
     Tau& operator=(Tau const&);
     void print(std::ostream& = std::cout) const override;
 
-    Short_t& q;
+    Char_t& charge;
     Bool_t& decayMode;
     Bool_t& decayModeNew;
     Bool_t& looseIsoMVA;

@@ -23,7 +23,7 @@ namespace panda {
       /* ParticleM
       Float_t* mass_{0};
       */
-      UShort_t* pdgid{0};
+      Short_t* pdgid{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -48,7 +48,7 @@ namespace panda {
     GenJet& operator=(GenJet const&);
     void print(std::ostream& = std::cout) const override;
 
-    UShort_t& pdgid;
+    Short_t& pdgid;
 
   protected:
     /* ParticleP

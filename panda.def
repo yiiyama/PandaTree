@@ -173,24 +173,24 @@ eta/F
 phi/F
 
 [Lepton>ParticleP]
-q/S
+charge/B
 loose/O
 medium/O
 tight/O
-chiso/F
-nhiso/F
-phoiso/F
-puiso/F
+chIso/F
+nhIso/F
+phoIso/F
+puIso/F
 matchedGen/GenParticleRef
-virtual double combiso() const { return 0.; }
+virtual double combIso() const { return 0.; }
 
 [Electron>Lepton]
 hltsafe/O
-chisoPh/F
-nhisoPh/F
-phisoPh/F
-ecaliso/F
-hcaliso/F
+chIsoPh/F
+nhIsoPh/F
+phIsoPh/F
+ecalIso/F
+hcalIso/F
 isoPUOffset/F
 sieie/F
 sipip/F
@@ -202,16 +202,16 @@ veto/O
 triggerMatch[nElectronTriggerObjects]/O
 superCluster/SuperClusterRef
 double m() const override { return 5.109989e-4; }
-double combiso() const override { return chiso + std::max(nhiso + phoiso - isoPUOffset, Float_t(0.)); }
+double combIso() const override { return chIso + std::max(nhIso + phoIso - isoPUOffset, Float_t(0.)); }
 
 [Muon>Lepton]
 mediumBtoF/O
 triggerMatch[nMuonTriggerObjects]/O
 double m() const override { return 1.05658e-2; }
-double combiso() const override { return chiso + std::max(nhiso + phoiso - 0.5 * puiso, 0.); }
+double combIso() const override { return chIso + std::max(nhIso + phoIso - 0.5 * puIso, 0.); }
 
 [Tau>ParticleM]
-q/S
+charge/B
 decayMode/O
 decayModeNew/O
 looseIsoMVA/O
@@ -220,20 +220,20 @@ isoDeltaBetaCorr/F
 matchedGen/GenParticleRef
 
 [Photon>ParticleP]
-chiso/F
-chisoWorst/F
-nhiso/F
-phoiso/F
+chIso/F
+chIsoWorst/F
+nhIso/F
+phoIso/F
 sieie/F
 sipip/F
 hOverE/F
-geniso/F
+genIso/F
 mipEnergy/F
-e33/F
-e4/F
-eseed/F
 emax/F
-e2nd/F
+eleft/F
+eright/F
+etop/F
+ebottom/F
 r9/F
 etaWidth/F
 phiWidth/F
@@ -252,7 +252,7 @@ superCluster/SuperClusterRef
 matchedGen/GenParticleRef
 
 [GenJet>ParticleM]
-pdgid/s
+pdgid/S
 
 [MicroJet>ParticleM]
 csv/F
@@ -399,10 +399,12 @@ puppiAK8Jets/FatJetCollection(8)
 puppiAK8Subjets/MicroJetCollection(64)
 puppiCA15Jets/FatJetCollection(8)
 puppiCA15Subjets/MicroJetCollection(64)
-genJets/GenJetCollection(64)
+ak4GenJets/GenJetCollection(64)
+ak8GenJets/GenJetCollection(32)
+ca15GenJets/GenJetCollection(32)
 genParticles/GenParticleCollection(256)
 partons/PartonCollection(8)
-met/RecoMet
+pfMet/RecoMet
 puppiMet/RecoMet
 rawMet/Met
 caloMet/Met
@@ -426,17 +428,21 @@ photons.superCluster->superClusters
 photons.matchedGen->genParticles
 genParticles.parent->genParticles
 chsAK4Jets.constituents->pfCandidates
-chsAK4Jets.matchedGenJet->genJets
+chsAK4Jets.matchedGenJet->ak4GenJets
 puppiAK4Jets.constituents->pfCandidates
-puppiAK4Jets.matchedGenJet->genJets
+puppiAK4Jets.matchedGenJet->ak4GenJets
 chsAK8Jets.constituents->pfCandidates
 chsAK8Jets.subjets->chsAK8Subjets
+chsAK8Jets.matchedGenJet->ak8GenJets
 chsCA15Jets.constituents->pfCandidates
 chsCA15Jets.subjets->chsCA15Subjets
+chsCA15Jets.matchedGenJet->ca15GenJets
 puppiAK8Jets.constituents->pfCandidates
 puppiAK8Jets.subjets->puppiAK8Subjets
+puppiAK8Jets.matchedGenJet->ak8GenJets
 puppiCA15Jets.constituents->pfCandidates
 puppiCA15Jets.subjets->puppiCA15Subjets
+puppiCA15Jets.matchedGenJet->ca15GenJets
 #include "Run.h"
 
 {Run}
