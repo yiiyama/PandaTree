@@ -224,7 +224,7 @@ matchedGen/GenParticleRef
 [Photon>ParticleP]
 pfPt/F = -1. // Pt of the dR-closest PF candidate
 chIso/F
-chIsoWorst/F
+chIsoMax/F
 nhIso/F
 phIso/F
 sieie/F
@@ -233,6 +233,7 @@ hOverE/F
 genIso/F
 mipEnergy/F
 emax/F
+e2nd/F
 eleft/F
 eright/F
 etop/F

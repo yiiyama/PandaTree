@@ -23,7 +23,7 @@ namespace panda {
       /* Photon
       Float_t* pfPt{0};
       Float_t* chIso{0};
-      Float_t* chIsoWorst{0};
+      Float_t* chIsoMax{0};
       Float_t* nhIso{0};
       Float_t* phIso{0};
       Float_t* sieie{0};
@@ -32,6 +32,7 @@ namespace panda {
       Float_t* genIso{0};
       Float_t* mipEnergy{0};
       Float_t* emax{0};
+      Float_t* e2nd{0};
       Float_t* eleft{0};
       Float_t* eright{0};
       Float_t* etop{0};
@@ -61,6 +62,7 @@ namespace panda {
       Float_t* chIsoS15{0};
       Float_t* nhIsoS15{0};
       Float_t* phIsoS15{0};
+      Float_t* e4{0};
       Bool_t* isEB{0};
 
       void allocate(UInt_t n) override;
@@ -104,7 +106,7 @@ namespace panda {
     /* Photon
     Float_t& pfPt; // Pt of the dR-closest PF candidate
     Float_t& chIso;
-    Float_t& chIsoWorst;
+    Float_t& chIsoMax;
     Float_t& nhIso;
     Float_t& phIso;
     Float_t& sieie;
@@ -113,6 +115,7 @@ namespace panda {
     Float_t& genIso;
     Float_t& mipEnergy;
     Float_t& emax;
+    Float_t& e2nd;
     Float_t& eleft;
     Float_t& eright;
     Float_t& etop;
@@ -140,6 +143,7 @@ namespace panda {
     Float_t& chIsoS15;
     Float_t& nhIsoS15;
     Float_t& phIsoS15;
+    Float_t& e4;
     Bool_t& isEB;
 
   protected:

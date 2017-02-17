@@ -17,7 +17,7 @@ panda::XPhoton::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Photon::getListOfBranches();
-  blist += {"scEta", "scRawPt", "chIsoS15", "nhIsoS15", "phIsoS15", "isEB"};
+  blist += {"scEta", "scRawPt", "chIsoS15", "nhIsoS15", "phIsoS15", "e4", "isEB"};
   return blist;
 }
 
@@ -31,6 +31,7 @@ panda::XPhoton::datastore::allocate(UInt_t _nmax)
   chIsoS15 = new Float_t[nmax_];
   nhIsoS15 = new Float_t[nmax_];
   phIsoS15 = new Float_t[nmax_];
+  e4 = new Float_t[nmax_];
   isEB = new Bool_t[nmax_];
 }
 
@@ -49,6 +50,8 @@ panda::XPhoton::datastore::deallocate()
   nhIsoS15 = 0;
   delete [] phIsoS15;
   phIsoS15 = 0;
+  delete [] e4;
+  e4 = 0;
   delete [] isEB;
   isEB = 0;
 }
@@ -63,6 +66,7 @@ panda::XPhoton::datastore::setStatus(TTree& _tree, TString const& _name, utils::
   utils::setStatus(_tree, _name, "chIsoS15", _branches);
   utils::setStatus(_tree, _name, "nhIsoS15", _branches);
   utils::setStatus(_tree, _name, "phIsoS15", _branches);
+  utils::setStatus(_tree, _name, "e4", _branches);
   utils::setStatus(_tree, _name, "isEB", _branches);
 }
 
@@ -76,6 +80,7 @@ panda::XPhoton::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "chIsoS15"));
   blist.push_back(utils::getStatus(_tree, _name, "nhIsoS15"));
   blist.push_back(utils::getStatus(_tree, _name, "phIsoS15"));
+  blist.push_back(utils::getStatus(_tree, _name, "e4"));
   blist.push_back(utils::getStatus(_tree, _name, "isEB"));
 
   return blist;
@@ -91,6 +96,7 @@ panda::XPhoton::datastore::setAddress(TTree& _tree, TString const& _name, utils:
   utils::setAddress(_tree, _name, "chIsoS15", chIsoS15, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nhIsoS15", nhIsoS15, _branches, _setStatus);
   utils::setAddress(_tree, _name, "phIsoS15", phIsoS15, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "e4", e4, _branches, _setStatus);
   utils::setAddress(_tree, _name, "isEB", isEB, _branches, _setStatus);
 }
 
@@ -106,6 +112,7 @@ panda::XPhoton::datastore::book(TTree& _tree, TString const& _name, utils::Branc
   utils::book(_tree, _name, "chIsoS15", size, 'F', chIsoS15, _branches);
   utils::book(_tree, _name, "nhIsoS15", size, 'F', nhIsoS15, _branches);
   utils::book(_tree, _name, "phIsoS15", size, 'F', phIsoS15, _branches);
+  utils::book(_tree, _name, "e4", size, 'F', e4, _branches);
   utils::book(_tree, _name, "isEB", size, 'O', isEB, _branches);
 }
 
@@ -119,6 +126,7 @@ panda::XPhoton::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "chIsoS15");
   utils::resetAddress(_tree, _name, "nhIsoS15");
   utils::resetAddress(_tree, _name, "phIsoS15");
+  utils::resetAddress(_tree, _name, "e4");
   utils::resetAddress(_tree, _name, "isEB");
 }
 
@@ -143,6 +151,7 @@ panda::XPhoton::XPhoton(char const* _name/* = ""*/) :
   chIsoS15(gStore.getData(this).chIsoS15[0]),
   nhIsoS15(gStore.getData(this).nhIsoS15[0]),
   phIsoS15(gStore.getData(this).phIsoS15[0]),
+  e4(gStore.getData(this).e4[0]),
   isEB(gStore.getData(this).isEB[0])
 {
 }
@@ -154,6 +163,7 @@ panda::XPhoton::XPhoton(XPhoton const& _src) :
   chIsoS15(gStore.getData(this).chIsoS15[0]),
   nhIsoS15(gStore.getData(this).nhIsoS15[0]),
   phIsoS15(gStore.getData(this).phIsoS15[0]),
+  e4(gStore.getData(this).e4[0]),
   isEB(gStore.getData(this).isEB[0])
 {
   Photon::operator=(_src);
@@ -163,6 +173,7 @@ panda::XPhoton::XPhoton(XPhoton const& _src) :
   chIsoS15 = _src.chIsoS15;
   nhIsoS15 = _src.nhIsoS15;
   phIsoS15 = _src.phIsoS15;
+  e4 = _src.e4;
   isEB = _src.isEB;
 }
 
@@ -173,6 +184,7 @@ panda::XPhoton::XPhoton(datastore& _data, UInt_t _idx) :
   chIsoS15(_data.chIsoS15[_idx]),
   nhIsoS15(_data.nhIsoS15[_idx]),
   phIsoS15(_data.phIsoS15[_idx]),
+  e4(_data.e4[_idx]),
   isEB(_data.isEB[_idx])
 {
 }
@@ -184,6 +196,7 @@ panda::XPhoton::XPhoton(ArrayBase* _array) :
   chIsoS15(gStore.getData(this).chIsoS15[0]),
   nhIsoS15(gStore.getData(this).nhIsoS15[0]),
   phIsoS15(gStore.getData(this).phIsoS15[0]),
+  e4(gStore.getData(this).e4[0]),
   isEB(gStore.getData(this).isEB[0])
 {
 }
@@ -213,6 +226,7 @@ panda::XPhoton::operator=(XPhoton const& _src)
   chIsoS15 = _src.chIsoS15;
   nhIsoS15 = _src.nhIsoS15;
   phIsoS15 = _src.phIsoS15;
+  e4 = _src.e4;
   isEB = _src.isEB;
 
   return *this;
@@ -228,6 +242,7 @@ panda::XPhoton::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchL
   utils::setAddress(_tree, _name, "chIsoS15", &chIsoS15, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nhIsoS15", &nhIsoS15, _branches, _setStatus);
   utils::setAddress(_tree, _name, "phIsoS15", &phIsoS15, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "e4", &e4, _branches, _setStatus);
   utils::setAddress(_tree, _name, "isEB", &isEB, _branches, _setStatus);
 }
 
@@ -241,6 +256,7 @@ panda::XPhoton::doBook_(TTree& _tree, TString const& _name, utils::BranchList co
   utils::book(_tree, _name, "chIsoS15", "", 'F', &chIsoS15, _branches);
   utils::book(_tree, _name, "nhIsoS15", "", 'F', &nhIsoS15, _branches);
   utils::book(_tree, _name, "phIsoS15", "", 'F', &phIsoS15, _branches);
+  utils::book(_tree, _name, "e4", "", 'F', &e4, _branches);
   utils::book(_tree, _name, "isEB", "", 'O', &isEB, _branches);
 }
 
@@ -254,6 +270,7 @@ panda::XPhoton::doReleaseTree_(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "chIsoS15");
   utils::resetAddress(_tree, _name, "nhIsoS15");
   utils::resetAddress(_tree, _name, "phIsoS15");
+  utils::resetAddress(_tree, _name, "e4");
   utils::resetAddress(_tree, _name, "isEB");
 }
 
@@ -267,6 +284,7 @@ panda::XPhoton::doInit_()
   chIsoS15 = 0.;
   nhIsoS15 = 0.;
   phIsoS15 = 0.;
+  e4 = 0.;
   isEB = false;
 
   /* BEGIN CUSTOM XPhoton.cc.doInit_ */

@@ -6,7 +6,7 @@ panda::Photon::getListOfBranches()
 {
   utils::BranchList blist;
   blist += ParticleP::getListOfBranches();
-  blist += {"pfPt", "chIso", "chIsoWorst", "nhIso", "phIso", "sieie", "sipip", "hOverE", "genIso", "mipEnergy", "emax", "eleft", "eright", "etop", "ebottom", "r9", "etaWidth", "phiWidth", "time", "timeSpan", "rawPt", "regPt", "originalPt", "loose", "medium", "tight", "highpt", "pixelVeto", "csafeVeto", "triggerMatch", "superCluster_", "matchedGen_"};
+  blist += {"pfPt", "chIso", "chIsoMax", "nhIso", "phIso", "sieie", "sipip", "hOverE", "genIso", "mipEnergy", "emax", "e2nd", "eleft", "eright", "etop", "ebottom", "r9", "etaWidth", "phiWidth", "time", "timeSpan", "rawPt", "regPt", "originalPt", "loose", "medium", "tight", "highpt", "pixelVeto", "csafeVeto", "triggerMatch", "superCluster_", "matchedGen_"};
   return blist;
 }
 
@@ -17,7 +17,7 @@ panda::Photon::datastore::allocate(UInt_t _nmax)
 
   pfPt = new Float_t[nmax_];
   chIso = new Float_t[nmax_];
-  chIsoWorst = new Float_t[nmax_];
+  chIsoMax = new Float_t[nmax_];
   nhIso = new Float_t[nmax_];
   phIso = new Float_t[nmax_];
   sieie = new Float_t[nmax_];
@@ -26,6 +26,7 @@ panda::Photon::datastore::allocate(UInt_t _nmax)
   genIso = new Float_t[nmax_];
   mipEnergy = new Float_t[nmax_];
   emax = new Float_t[nmax_];
+  e2nd = new Float_t[nmax_];
   eleft = new Float_t[nmax_];
   eright = new Float_t[nmax_];
   etop = new Float_t[nmax_];
@@ -58,8 +59,8 @@ panda::Photon::datastore::deallocate()
   pfPt = 0;
   delete [] chIso;
   chIso = 0;
-  delete [] chIsoWorst;
-  chIsoWorst = 0;
+  delete [] chIsoMax;
+  chIsoMax = 0;
   delete [] nhIso;
   nhIso = 0;
   delete [] phIso;
@@ -76,6 +77,8 @@ panda::Photon::datastore::deallocate()
   mipEnergy = 0;
   delete [] emax;
   emax = 0;
+  delete [] e2nd;
+  e2nd = 0;
   delete [] eleft;
   eleft = 0;
   delete [] eright;
@@ -127,7 +130,7 @@ panda::Photon::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
 
   utils::setStatus(_tree, _name, "pfPt", _branches);
   utils::setStatus(_tree, _name, "chIso", _branches);
-  utils::setStatus(_tree, _name, "chIsoWorst", _branches);
+  utils::setStatus(_tree, _name, "chIsoMax", _branches);
   utils::setStatus(_tree, _name, "nhIso", _branches);
   utils::setStatus(_tree, _name, "phIso", _branches);
   utils::setStatus(_tree, _name, "sieie", _branches);
@@ -136,6 +139,7 @@ panda::Photon::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
   utils::setStatus(_tree, _name, "genIso", _branches);
   utils::setStatus(_tree, _name, "mipEnergy", _branches);
   utils::setStatus(_tree, _name, "emax", _branches);
+  utils::setStatus(_tree, _name, "e2nd", _branches);
   utils::setStatus(_tree, _name, "eleft", _branches);
   utils::setStatus(_tree, _name, "eright", _branches);
   utils::setStatus(_tree, _name, "etop", _branches);
@@ -166,7 +170,7 @@ panda::Photon::datastore::getStatus(TTree& _tree, TString const& _name) const
 
   blist.push_back(utils::getStatus(_tree, _name, "pfPt"));
   blist.push_back(utils::getStatus(_tree, _name, "chIso"));
-  blist.push_back(utils::getStatus(_tree, _name, "chIsoWorst"));
+  blist.push_back(utils::getStatus(_tree, _name, "chIsoMax"));
   blist.push_back(utils::getStatus(_tree, _name, "nhIso"));
   blist.push_back(utils::getStatus(_tree, _name, "phIso"));
   blist.push_back(utils::getStatus(_tree, _name, "sieie"));
@@ -175,6 +179,7 @@ panda::Photon::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "genIso"));
   blist.push_back(utils::getStatus(_tree, _name, "mipEnergy"));
   blist.push_back(utils::getStatus(_tree, _name, "emax"));
+  blist.push_back(utils::getStatus(_tree, _name, "e2nd"));
   blist.push_back(utils::getStatus(_tree, _name, "eleft"));
   blist.push_back(utils::getStatus(_tree, _name, "eright"));
   blist.push_back(utils::getStatus(_tree, _name, "etop"));
@@ -207,7 +212,7 @@ panda::Photon::datastore::setAddress(TTree& _tree, TString const& _name, utils::
 
   utils::setAddress(_tree, _name, "pfPt", pfPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "chIso", chIso, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "chIsoWorst", chIsoWorst, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "chIsoMax", chIsoMax, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nhIso", nhIso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "phIso", phIso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "sieie", sieie, _branches, _setStatus);
@@ -216,6 +221,7 @@ panda::Photon::datastore::setAddress(TTree& _tree, TString const& _name, utils::
   utils::setAddress(_tree, _name, "genIso", genIso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "mipEnergy", mipEnergy, _branches, _setStatus);
   utils::setAddress(_tree, _name, "emax", emax, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "e2nd", e2nd, _branches, _setStatus);
   utils::setAddress(_tree, _name, "eleft", eleft, _branches, _setStatus);
   utils::setAddress(_tree, _name, "eright", eright, _branches, _setStatus);
   utils::setAddress(_tree, _name, "etop", etop, _branches, _setStatus);
@@ -248,7 +254,7 @@ panda::Photon::datastore::book(TTree& _tree, TString const& _name, utils::Branch
 
   utils::book(_tree, _name, "pfPt", size, 'F', pfPt, _branches);
   utils::book(_tree, _name, "chIso", size, 'F', chIso, _branches);
-  utils::book(_tree, _name, "chIsoWorst", size, 'F', chIsoWorst, _branches);
+  utils::book(_tree, _name, "chIsoMax", size, 'F', chIsoMax, _branches);
   utils::book(_tree, _name, "nhIso", size, 'F', nhIso, _branches);
   utils::book(_tree, _name, "phIso", size, 'F', phIso, _branches);
   utils::book(_tree, _name, "sieie", size, 'F', sieie, _branches);
@@ -257,6 +263,7 @@ panda::Photon::datastore::book(TTree& _tree, TString const& _name, utils::Branch
   utils::book(_tree, _name, "genIso", size, 'F', genIso, _branches);
   utils::book(_tree, _name, "mipEnergy", size, 'F', mipEnergy, _branches);
   utils::book(_tree, _name, "emax", size, 'F', emax, _branches);
+  utils::book(_tree, _name, "e2nd", size, 'F', e2nd, _branches);
   utils::book(_tree, _name, "eleft", size, 'F', eleft, _branches);
   utils::book(_tree, _name, "eright", size, 'F', eright, _branches);
   utils::book(_tree, _name, "etop", size, 'F', etop, _branches);
@@ -287,7 +294,7 @@ panda::Photon::datastore::releaseTree(TTree& _tree, TString const& _name)
 
   utils::resetAddress(_tree, _name, "pfPt");
   utils::resetAddress(_tree, _name, "chIso");
-  utils::resetAddress(_tree, _name, "chIsoWorst");
+  utils::resetAddress(_tree, _name, "chIsoMax");
   utils::resetAddress(_tree, _name, "nhIso");
   utils::resetAddress(_tree, _name, "phIso");
   utils::resetAddress(_tree, _name, "sieie");
@@ -296,6 +303,7 @@ panda::Photon::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "genIso");
   utils::resetAddress(_tree, _name, "mipEnergy");
   utils::resetAddress(_tree, _name, "emax");
+  utils::resetAddress(_tree, _name, "e2nd");
   utils::resetAddress(_tree, _name, "eleft");
   utils::resetAddress(_tree, _name, "eright");
   utils::resetAddress(_tree, _name, "etop");
@@ -337,7 +345,7 @@ panda::Photon::Photon(char const* _name/* = ""*/) :
   ParticleP(new PhotonArray(1, _name)),
   pfPt(gStore.getData(this).pfPt[0]),
   chIso(gStore.getData(this).chIso[0]),
-  chIsoWorst(gStore.getData(this).chIsoWorst[0]),
+  chIsoMax(gStore.getData(this).chIsoMax[0]),
   nhIso(gStore.getData(this).nhIso[0]),
   phIso(gStore.getData(this).phIso[0]),
   sieie(gStore.getData(this).sieie[0]),
@@ -346,6 +354,7 @@ panda::Photon::Photon(char const* _name/* = ""*/) :
   genIso(gStore.getData(this).genIso[0]),
   mipEnergy(gStore.getData(this).mipEnergy[0]),
   emax(gStore.getData(this).emax[0]),
+  e2nd(gStore.getData(this).e2nd[0]),
   eleft(gStore.getData(this).eleft[0]),
   eright(gStore.getData(this).eright[0]),
   etop(gStore.getData(this).etop[0]),
@@ -374,7 +383,7 @@ panda::Photon::Photon(Photon const& _src) :
   ParticleP(new PhotonArray(1, gStore.getName(&_src))),
   pfPt(gStore.getData(this).pfPt[0]),
   chIso(gStore.getData(this).chIso[0]),
-  chIsoWorst(gStore.getData(this).chIsoWorst[0]),
+  chIsoMax(gStore.getData(this).chIsoMax[0]),
   nhIso(gStore.getData(this).nhIso[0]),
   phIso(gStore.getData(this).phIso[0]),
   sieie(gStore.getData(this).sieie[0]),
@@ -383,6 +392,7 @@ panda::Photon::Photon(Photon const& _src) :
   genIso(gStore.getData(this).genIso[0]),
   mipEnergy(gStore.getData(this).mipEnergy[0]),
   emax(gStore.getData(this).emax[0]),
+  e2nd(gStore.getData(this).e2nd[0]),
   eleft(gStore.getData(this).eleft[0]),
   eright(gStore.getData(this).eright[0]),
   etop(gStore.getData(this).etop[0]),
@@ -409,7 +419,7 @@ panda::Photon::Photon(Photon const& _src) :
 
   pfPt = _src.pfPt;
   chIso = _src.chIso;
-  chIsoWorst = _src.chIsoWorst;
+  chIsoMax = _src.chIsoMax;
   nhIso = _src.nhIso;
   phIso = _src.phIso;
   sieie = _src.sieie;
@@ -418,6 +428,7 @@ panda::Photon::Photon(Photon const& _src) :
   genIso = _src.genIso;
   mipEnergy = _src.mipEnergy;
   emax = _src.emax;
+  e2nd = _src.e2nd;
   eleft = _src.eleft;
   eright = _src.eright;
   etop = _src.etop;
@@ -445,7 +456,7 @@ panda::Photon::Photon(datastore& _data, UInt_t _idx) :
   ParticleP(_data, _idx),
   pfPt(_data.pfPt[_idx]),
   chIso(_data.chIso[_idx]),
-  chIsoWorst(_data.chIsoWorst[_idx]),
+  chIsoMax(_data.chIsoMax[_idx]),
   nhIso(_data.nhIso[_idx]),
   phIso(_data.phIso[_idx]),
   sieie(_data.sieie[_idx]),
@@ -454,6 +465,7 @@ panda::Photon::Photon(datastore& _data, UInt_t _idx) :
   genIso(_data.genIso[_idx]),
   mipEnergy(_data.mipEnergy[_idx]),
   emax(_data.emax[_idx]),
+  e2nd(_data.e2nd[_idx]),
   eleft(_data.eleft[_idx]),
   eright(_data.eright[_idx]),
   etop(_data.etop[_idx]),
@@ -482,7 +494,7 @@ panda::Photon::Photon(ArrayBase* _array) :
   ParticleP(_array),
   pfPt(gStore.getData(this).pfPt[0]),
   chIso(gStore.getData(this).chIso[0]),
-  chIsoWorst(gStore.getData(this).chIsoWorst[0]),
+  chIsoMax(gStore.getData(this).chIsoMax[0]),
   nhIso(gStore.getData(this).nhIso[0]),
   phIso(gStore.getData(this).phIso[0]),
   sieie(gStore.getData(this).sieie[0]),
@@ -491,6 +503,7 @@ panda::Photon::Photon(ArrayBase* _array) :
   genIso(gStore.getData(this).genIso[0]),
   mipEnergy(gStore.getData(this).mipEnergy[0]),
   emax(gStore.getData(this).emax[0]),
+  e2nd(gStore.getData(this).e2nd[0]),
   eleft(gStore.getData(this).eleft[0]),
   eright(gStore.getData(this).eright[0]),
   etop(gStore.getData(this).etop[0]),
@@ -537,7 +550,7 @@ panda::Photon::operator=(Photon const& _src)
 
   pfPt = _src.pfPt;
   chIso = _src.chIso;
-  chIsoWorst = _src.chIsoWorst;
+  chIsoMax = _src.chIsoMax;
   nhIso = _src.nhIso;
   phIso = _src.phIso;
   sieie = _src.sieie;
@@ -546,6 +559,7 @@ panda::Photon::operator=(Photon const& _src)
   genIso = _src.genIso;
   mipEnergy = _src.mipEnergy;
   emax = _src.emax;
+  e2nd = _src.e2nd;
   eleft = _src.eleft;
   eright = _src.eright;
   etop = _src.etop;
@@ -578,7 +592,7 @@ panda::Photon::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchLi
 
   utils::setAddress(_tree, _name, "pfPt", &pfPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "chIso", &chIso, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "chIsoWorst", &chIsoWorst, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "chIsoMax", &chIsoMax, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nhIso", &nhIso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "phIso", &phIso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "sieie", &sieie, _branches, _setStatus);
@@ -587,6 +601,7 @@ panda::Photon::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchLi
   utils::setAddress(_tree, _name, "genIso", &genIso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "mipEnergy", &mipEnergy, _branches, _setStatus);
   utils::setAddress(_tree, _name, "emax", &emax, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "e2nd", &e2nd, _branches, _setStatus);
   utils::setAddress(_tree, _name, "eleft", &eleft, _branches, _setStatus);
   utils::setAddress(_tree, _name, "eright", &eright, _branches, _setStatus);
   utils::setAddress(_tree, _name, "etop", &etop, _branches, _setStatus);
@@ -617,7 +632,7 @@ panda::Photon::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
 
   utils::book(_tree, _name, "pfPt", "", 'F', &pfPt, _branches);
   utils::book(_tree, _name, "chIso", "", 'F', &chIso, _branches);
-  utils::book(_tree, _name, "chIsoWorst", "", 'F', &chIsoWorst, _branches);
+  utils::book(_tree, _name, "chIsoMax", "", 'F', &chIsoMax, _branches);
   utils::book(_tree, _name, "nhIso", "", 'F', &nhIso, _branches);
   utils::book(_tree, _name, "phIso", "", 'F', &phIso, _branches);
   utils::book(_tree, _name, "sieie", "", 'F', &sieie, _branches);
@@ -626,6 +641,7 @@ panda::Photon::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
   utils::book(_tree, _name, "genIso", "", 'F', &genIso, _branches);
   utils::book(_tree, _name, "mipEnergy", "", 'F', &mipEnergy, _branches);
   utils::book(_tree, _name, "emax", "", 'F', &emax, _branches);
+  utils::book(_tree, _name, "e2nd", "", 'F', &e2nd, _branches);
   utils::book(_tree, _name, "eleft", "", 'F', &eleft, _branches);
   utils::book(_tree, _name, "eright", "", 'F', &eright, _branches);
   utils::book(_tree, _name, "etop", "", 'F', &etop, _branches);
@@ -656,7 +672,7 @@ panda::Photon::doReleaseTree_(TTree& _tree, TString const& _name)
 
   utils::resetAddress(_tree, _name, "pfPt");
   utils::resetAddress(_tree, _name, "chIso");
-  utils::resetAddress(_tree, _name, "chIsoWorst");
+  utils::resetAddress(_tree, _name, "chIsoMax");
   utils::resetAddress(_tree, _name, "nhIso");
   utils::resetAddress(_tree, _name, "phIso");
   utils::resetAddress(_tree, _name, "sieie");
@@ -665,6 +681,7 @@ panda::Photon::doReleaseTree_(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "genIso");
   utils::resetAddress(_tree, _name, "mipEnergy");
   utils::resetAddress(_tree, _name, "emax");
+  utils::resetAddress(_tree, _name, "e2nd");
   utils::resetAddress(_tree, _name, "eleft");
   utils::resetAddress(_tree, _name, "eright");
   utils::resetAddress(_tree, _name, "etop");
@@ -695,7 +712,7 @@ panda::Photon::doInit_()
 
   pfPt = -1.;
   chIso = 0.;
-  chIsoWorst = 0.;
+  chIsoMax = 0.;
   nhIso = 0.;
   phIso = 0.;
   sieie = 0.;
@@ -704,6 +721,7 @@ panda::Photon::doInit_()
   genIso = 0.;
   mipEnergy = 0.;
   emax = 0.;
+  e2nd = 0.;
   eleft = 0.;
   eright = 0.;
   etop = 0.;

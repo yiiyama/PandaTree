@@ -24,7 +24,7 @@ namespace panda {
       */
       Float_t* pfPt{0};
       Float_t* chIso{0};
-      Float_t* chIsoWorst{0};
+      Float_t* chIsoMax{0};
       Float_t* nhIso{0};
       Float_t* phIso{0};
       Float_t* sieie{0};
@@ -33,6 +33,7 @@ namespace panda {
       Float_t* genIso{0};
       Float_t* mipEnergy{0};
       Float_t* emax{0};
+      Float_t* e2nd{0};
       Float_t* eleft{0};
       Float_t* eright{0};
       Float_t* etop{0};
@@ -82,7 +83,7 @@ namespace panda {
 
     Float_t& pfPt; // Pt of the dR-closest PF candidate
     Float_t& chIso;
-    Float_t& chIsoWorst;
+    Float_t& chIsoMax;
     Float_t& nhIso;
     Float_t& phIso;
     Float_t& sieie;
@@ -91,6 +92,7 @@ namespace panda {
     Float_t& genIso;
     Float_t& mipEnergy;
     Float_t& emax;
+    Float_t& e2nd;
     Float_t& eleft;
     Float_t& eright;
     Float_t& etop;
