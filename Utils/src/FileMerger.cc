@@ -136,8 +136,6 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
       auto blist(inEvent->getStatus(*inEventTree));
       blist += branchList_[kEvent];
 
-      std::cout << blist << std::endl;
-
       outputFile->cd();
       outEventTree = new TTree("events", "Events");
       outEvent_->book(*outEventTree, blist);
