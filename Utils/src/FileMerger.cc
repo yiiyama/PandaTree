@@ -81,6 +81,8 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
   // will book only at the first valid input
   TTree* outEventTree(0);
   if (!outEvent_) {
+    if (printLevel_ >= 2)
+      std::cout << "Createing an output event internally" << std::endl;
     outEvent_ = new panda::Event;
     ownsOutEvent_ = true;
     inEvent = static_cast<panda::Event*>(outEvent_);
