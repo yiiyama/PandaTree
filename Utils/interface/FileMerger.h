@@ -65,6 +65,9 @@ namespace panda {
      */
     void setSkim(SkimFunction const& skim) { skimFunction_ = skim; }
 
+    //! Set print level.
+    void setPrintLevel(UInt_t l) { printLevel_ = l; }
+
   private:
     std::vector<TString> paths_{};
     utils::BranchList branchList_[nTreeTypes]{};
@@ -72,6 +75,8 @@ namespace panda {
     EventBase* outEvent_{0};
     Bool_t ownsOutEvent_{kFALSE};
     SkimFunction skimFunction_{};
+
+    UInt_t printLevel_{1};
   };
 
 }

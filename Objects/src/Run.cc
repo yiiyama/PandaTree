@@ -193,6 +193,8 @@ panda::Run::update(UInt_t _runNumber, TTree& _eventTree)
     throw std::runtime_error("InputError");
   }
 
+  releaseTree(*runTree);
+
   delete runTree;
 
   key = inputFile->GetKey("hlt");
