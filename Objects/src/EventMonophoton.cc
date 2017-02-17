@@ -179,24 +179,12 @@ panda::EventMonophoton::doBook_(TTree& _tree, utils::BranchList const& _branches
 
 /*protected*/
 void
-panda::EventMonophoton::doGetEntry_(Long64_t _entry)
+panda::EventMonophoton::doGetEntry_(TTree& _tree, Long64_t _entry)
 {
-  EventBase::doGetEntry_(_entry);
+  EventBase::doGetEntry_(_tree, _entry);
 
   /* BEGIN CUSTOM EventMonophoton.cc.doGetEntry_ */
   /* END CUSTOM */
-}
-
-/*protected*/
-void
-panda::EventMonophoton::doReleaseTree_(TTree& _tree)
-{
-  utils::resetAddress(_tree, "", "npv");
-  utils::resetAddress(_tree, "", "npvTrue");
-  utils::resetAddress(_tree, "", "rho");
-  utils::resetAddress(_tree, "", "rhoCentralCalo");
-
-  EventBase::doReleaseTree_(_tree);
 }
 
 void

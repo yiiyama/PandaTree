@@ -2,13 +2,21 @@
 #include "../interface/IOUtils.h"
 
 Int_t
-panda::CollectionBase::getEntry(Long64_t _iEntry, UInt_t _treeIdx)
+panda::CollectionBase::getEntry(TTree& _tree, Long64_t _iEntry)
 {
   init();
 
-  prepareGetEntry(_iEntry, _treeIdx);
+  prepareGetEntry(_tree, _iEntry);
 
-  return ContainerBase::getEntry(_iEntry, _treeIdx);
+  return ContainerBase::getEntry(_tree, _iEntry);
+}
+
+Int_t
+panda::CollectionBase::fill(TTree& _tree)
+{
+  prepareFill(_tree);
+
+  return _tree.Fill();
 }
 
 void
@@ -20,6 +28,12 @@ panda::CollectionBase::resize(UInt_t _size)
       nmax *= 2;
 
     reallocate_(nmax);
+
+    // signal address change
+    for (auto& input : inputs_)
+      input.second.second = false;
+    for (auto& output : outputs_)
+      output.second = false;
   }
 
   unsigned oldSize(size_);
@@ -32,25 +46,33 @@ panda::CollectionBase::resize(UInt_t _size)
 }
 
 void
-panda::CollectionBase::prepareGetEntry(Long64_t _iEntry, UInt_t _treeIdx)
+panda::CollectionBase::prepareGetEntry(TTree& _tree, Long64_t _iEntry)
 {
-  if (_treeIdx >= inputs_.size() || !inputs_[_treeIdx] || !sizeIn_[_treeIdx].first)
+  auto&& iItr(inputs_.find(&_tree));
+  if (iItr == inputs_.end())
     return;
 
-  sizeIn_[_treeIdx].first->GetEntry(_iEntry);
-  resize(sizeIn_[_treeIdx].second);
+  iItr->second.first->GetEntry(_iEntry);
+  resize(sizeIn_);
+
+  // in-synch flag may be reset during resize()
+  if (!iItr->second.second) {
+    doSetAddress_(_tree, {"*"}, false, true);
+    iItr->second.second = true;
+  }
 }
 
-/*protected*/
 void
-panda::CollectionBase::resetAddress_()
+panda::CollectionBase::prepareFill(TTree& _tree)
 {
-  for (auto* tree : inputs_) {
-    if (tree)
-      doSetAddress_(*tree, {"*"}, false, true);
+  auto&& iItr(outputs_.find(&_tree));
+  if (iItr == outputs_.end())
+    return;
+
+  if (!iItr->second) {
+    doSetAddress_(_tree, {"*"}, false, false);
+    iItr->second = true;
   }
-  for (auto* tree : outputs_)
-    doSetAddress_(*tree, {"*"}, false, false);
 }
 
 /*private*/
@@ -91,16 +113,14 @@ panda::CollectionBase::doSetAddress_(TTree& _tree, utils::BranchList const& _bra
 {
   if (_asInput) {
     auto* branch(_tree.GetBranch(name_ + ".size"));
-    sizeIn_.emplace_back(branch, 0);
-
     if (!branch)
       return;
 
-    auto& sz(sizeIn_.back());
-
-    Int_t sizeStatus(utils::setAddress(_tree, name_, "size", &sz.second, {"size"}, _setStatus));
+    Int_t sizeStatus(utils::setAddress(_tree, name_, "size", &sizeIn_, {"size"}, _setStatus));
     if (sizeStatus != 1)
       return;
+
+    inputs_[&_tree] = std::make_pair(branch, true);
   }
   else {
     Int_t sizeStatus(utils::setAddress(_tree, name_, "size", &size_, {"size"}, _setStatus));
@@ -122,31 +142,5 @@ panda::CollectionBase::doBook_(TTree& _tree, utils::BranchList const& _branches)
 
   getData().book(_tree, name_, _branches, true);
 
-  outputs_.push_back(&_tree);
-}
-
-/*private*/
-void
-panda::CollectionBase::doReleaseTree_(TTree& _tree)
-{
-  auto* branch(_tree.GetBranch(name_ + ".size"));
-  if (!branch)
-    return;
-
-  for (auto& sz : sizeIn_) {
-    if (sz.first == branch) {
-      branch->ResetAddress();
-      sz.first = 0;
-      break;
-    }
-  }
-
-  getData().releaseTree(_tree, name_);
-
-  for (auto&& oItr(outputs_.begin()); oItr != outputs_.end(); ++oItr) {
-    if (*oItr == &_tree) {
-      outputs_.erase(oItr);
-      break;
-    }
-  }
+  outputs_[&_tree] = true;
 }

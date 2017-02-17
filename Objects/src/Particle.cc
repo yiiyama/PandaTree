@@ -118,11 +118,6 @@ panda::Particle::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
 }
 
 void
-panda::Particle::doReleaseTree_(TTree& _tree, TString const& _name)
-{
-}
-
-void
 panda::Particle::doInit_()
 {
 

@@ -271,7 +271,6 @@ class PhysicsObject(Definition, Object):
             header.writeline('utils::BranchList doGetBranchNames_(Bool_t) const override;')
             header.writeline('void doSetAddress_(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
             header.writeline('void doBook_(TTree&, utils::BranchList const& = {"*"}) override;')
-            header.writeline('void doReleaseTree_(TTree&) override;')
             header.writeline('void doInit_() override;')
             header.indent -= 1
         else:
@@ -285,7 +284,6 @@ class PhysicsObject(Definition, Object):
             header.newline()
             header.writeline('void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
             header.writeline('void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;')
-            header.writeline('void doReleaseTree_(TTree&, TString const&) override;')
             header.writeline('void doInit_() override;')
             header.indent -= 1
 
@@ -458,7 +456,6 @@ class PhysicsObject(Definition, Object):
                 ('doGetStatus_ const', 'panda::utils::BranchList', [('TTree&', '_tree')], 'write_get_status', 'blist', [], 'utils::BranchList blist'),
                 ('doSetAddress_', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
                 ('doBook_', 'void', [('TTree&', '_tree'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', None),
-                ('doReleaseTree_', 'void', [('TTree&', '_tree')], 'write_release_tree', None),
                 ('doInit_', 'void', [], 'write_init', None)
             ]
 
@@ -595,7 +592,6 @@ class PhysicsObject(Definition, Object):
                 ('operator=', '{NAMESPACE}::{name}&'.format(**subst), [('{name} const&'.format(**subst), '_src')], 'write_assign', '*this'),
                 ('doSetAddress_', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
                 ('doBook_', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', None),
-                ('doReleaseTree_', 'void', [('TTree&', '_tree'), ('TString const&', '_name')], 'write_release_tree', None),
                 ('doInit_', 'void', [], 'write_init', None)
             ]
 

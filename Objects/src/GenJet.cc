@@ -154,14 +154,6 @@ panda::GenJet::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
 }
 
 void
-panda::GenJet::doReleaseTree_(TTree& _tree, TString const& _name)
-{
-  ParticleM::doReleaseTree_(_tree, _name);
-
-  utils::resetAddress(_tree, _name, "pdgid");
-}
-
-void
 panda::GenJet::doInit_()
 {
   ParticleM::doInit_();

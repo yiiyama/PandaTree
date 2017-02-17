@@ -101,22 +101,11 @@ panda::EventBase::doBook_(TTree& _tree, utils::BranchList const& _branches)
 
 /*protected*/
 void
-panda::EventBase::doGetEntry_(Long64_t _entry)
+panda::EventBase::doGetEntry_(TTree& _tree, Long64_t _entry)
 {
   /* BEGIN CUSTOM EventBase.cc.doGetEntry_ */
-  run.update(runNumber, *inputs_[currentInputIdx_]);
+  run.update(runNumber, _tree);
   /* END CUSTOM */
-}
-
-/*protected*/
-void
-panda::EventBase::doReleaseTree_(TTree& _tree)
-{
-  utils::resetAddress(_tree, "", "runNumber");
-  utils::resetAddress(_tree, "", "lumiNumber");
-  utils::resetAddress(_tree, "", "eventNumber");
-  utils::resetAddress(_tree, "", "isData");
-  utils::resetAddress(_tree, "", "weight");
 }
 
 void

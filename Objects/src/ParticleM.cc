@@ -154,14 +154,6 @@ panda::ParticleM::doBook_(TTree& _tree, TString const& _name, utils::BranchList 
 }
 
 void
-panda::ParticleM::doReleaseTree_(TTree& _tree, TString const& _name)
-{
-  ParticleP::doReleaseTree_(_tree, _name);
-
-  utils::resetAddress(_tree, _name, "mass_");
-}
-
-void
 panda::ParticleM::doInit_()
 {
   ParticleP::doInit_();

@@ -170,15 +170,6 @@ panda::MicroJet::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
 }
 
 void
-panda::MicroJet::doReleaseTree_(TTree& _tree, TString const& _name)
-{
-  ParticleM::doReleaseTree_(_tree, _name);
-
-  utils::resetAddress(_tree, _name, "csv");
-  utils::resetAddress(_tree, _name, "qgl");
-}
-
-void
 panda::MicroJet::doInit_()
 {
   ParticleM::doInit_();

@@ -331,25 +331,6 @@ panda::FatJet::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
 }
 
 void
-panda::FatJet::doReleaseTree_(TTree& _tree, TString const& _name)
-{
-  Jet::doReleaseTree_(_tree, _name);
-
-  utils::resetAddress(_tree, _name, "tau1");
-  utils::resetAddress(_tree, _name, "tau2");
-  utils::resetAddress(_tree, _name, "tau3");
-  utils::resetAddress(_tree, _name, "mSD");
-  utils::resetAddress(_tree, _name, "tau1SD");
-  utils::resetAddress(_tree, _name, "tau2SD");
-  utils::resetAddress(_tree, _name, "tau3SD");
-  utils::resetAddress(_tree, _name, "htt_mass");
-  utils::resetAddress(_tree, _name, "htt_frec");
-  utils::resetAddress(_tree, _name, "double_sub");
-  utils::resetAddress(_tree, _name, "ecfs");
-  utils::resetAddress(_tree, _name, "subjets_");
-}
-
-void
 panda::FatJet::doInit_()
 {
   Jet::doInit_();

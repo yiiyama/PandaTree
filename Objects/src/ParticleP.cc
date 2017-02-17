@@ -186,16 +186,6 @@ panda::ParticleP::doBook_(TTree& _tree, TString const& _name, utils::BranchList 
 }
 
 void
-panda::ParticleP::doReleaseTree_(TTree& _tree, TString const& _name)
-{
-  Particle::doReleaseTree_(_tree, _name);
-
-  utils::resetAddress(_tree, _name, "pt_");
-  utils::resetAddress(_tree, _name, "eta_");
-  utils::resetAddress(_tree, _name, "phi_");
-}
-
-void
 panda::ParticleP::doInit_()
 {
   Particle::doInit_();

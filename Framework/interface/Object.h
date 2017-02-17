@@ -2,6 +2,7 @@
 #define PandaTree_Framework_Object_h
 
 #include "IOUtils.h"
+#include "TTree.h"
 #include <iostream>
 
 class TTree;
@@ -28,9 +29,10 @@ namespace panda {
      * Sets the status of the branch to true (branch is in the list) or false (branch is vetoed in the list).
      * Branches not mentioned in the branch list are untouched.
      *
+     * \param tree
      * \param blist   List of branches. The status of a branch is set to true (false) if BranchName::in(blist) (BranchName::vetoed(blist)) evaluates to true for the branch.
      */
-    virtual void setStatus(TTree&, utils::BranchList const&) {}
+    virtual void setStatus(TTree& tree, utils::BranchList const&) {}
 
     //! Get status of branches in the tree
     virtual utils::BranchList getStatus(TTree&) const { return utils::BranchList(); }
@@ -40,33 +42,34 @@ namespace panda {
 
     //! Bind the tree branches to the elements of this object.
     /*!
+     * \param tree
      * \param blist      List of branches to bind. Vetoed or unmentioned branches are not bound.
      * \param setStatus  If true, set the status of the branch to true before binding.
-     * \return Token (serial number) of the input tree.
      */
-    virtual UInt_t setAddress(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) { return -1; }
+    virtual void setAddress(TTree& tree, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) {}
 
     //! Book new branches bound to this object on the tree.
     /*!
+     * \param tree
      * \param blist   List of branches to book. Vetoed or unmentioned branches are not booked.
      */
-    virtual void book(TTree&, utils::BranchList const& = {"*"}) {}
+    virtual void book(TTree& tree, utils::BranchList const& = {"*"}) {}
 
     //! Read an entry from an input tree.
     /*!
-      \param entry   Entry number in the input tree.
-      \param treeIdx Token for the input tree as returned by setAddress().
+     * \param tree    Tree to get the entry from.
+     * \param entry   Entry number in the input tree.
     */
-    virtual Int_t getEntry(Long64_t entry, UInt_t treeIdx = 0);
+    virtual Int_t getEntry(TTree& tree, Long64_t entry) { init(); return tree.GetEntry(entry); }
 
-    //! Get the input tree identified by the token.
+    //! Fill a tree.
     /*!
-     * \param treeIdx Token for the input tree as returned by setAddress().
+     * In most of the objects this will just call tree.Fill(). The function takes care of the semi-rare
+     * case of internal address change after the call to book().
+     *
+     * \param tree
      */
-    virtual TTree* getInput(UInt_t treeIdx = 0) const { return 0; }
-
-    //! Unbind the tree.
-    virtual void releaseTree(TTree&) {}
+    virtual Int_t fill(TTree& tree) { return tree.Fill(); }
 
     //! Reset the object state.
     virtual void init() {}

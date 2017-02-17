@@ -118,20 +118,6 @@ panda::MetFilters::doBook_(TTree& _tree, utils::BranchList const& _branches/* = 
 }
 
 void
-panda::MetFilters::doReleaseTree_(TTree& _tree)
-{
-  utils::resetAddress(_tree, name_, "globalHalo16");
-  utils::resetAddress(_tree, name_, "hbhe");
-  utils::resetAddress(_tree, name_, "hbheIso");
-  utils::resetAddress(_tree, name_, "ecalDeadCell");
-  utils::resetAddress(_tree, name_, "badsc");
-  utils::resetAddress(_tree, name_, "badMuons");
-  utils::resetAddress(_tree, name_, "duplicateMuons");
-  utils::resetAddress(_tree, name_, "dupECALClusters");
-  utils::resetAddress(_tree, name_, "unfixedECALHits");
-}
-
-void
 panda::MetFilters::doInit_()
 {
   globalHalo16 = false;

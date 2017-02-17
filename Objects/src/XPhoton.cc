@@ -261,20 +261,6 @@ panda::XPhoton::doBook_(TTree& _tree, TString const& _name, utils::BranchList co
 }
 
 void
-panda::XPhoton::doReleaseTree_(TTree& _tree, TString const& _name)
-{
-  Photon::doReleaseTree_(_tree, _name);
-
-  utils::resetAddress(_tree, _name, "scEta");
-  utils::resetAddress(_tree, _name, "scRawPt");
-  utils::resetAddress(_tree, _name, "chIsoS15");
-  utils::resetAddress(_tree, _name, "nhIsoS15");
-  utils::resetAddress(_tree, _name, "phIsoS15");
-  utils::resetAddress(_tree, _name, "e4");
-  utils::resetAddress(_tree, _name, "isEB");
-}
-
-void
 panda::XPhoton::doInit_()
 {
   Photon::doInit_();

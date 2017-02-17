@@ -202,17 +202,6 @@ panda::PackedParticle::doBook_(TTree& _tree, TString const& _name, utils::Branch
 }
 
 void
-panda::PackedParticle::doReleaseTree_(TTree& _tree, TString const& _name)
-{
-  Particle::doReleaseTree_(_tree, _name);
-
-  utils::resetAddress(_tree, _name, "packedPt");
-  utils::resetAddress(_tree, _name, "packedEta");
-  utils::resetAddress(_tree, _name, "packedPhi");
-  utils::resetAddress(_tree, _name, "packedM");
-}
-
-void
 panda::PackedParticle::doInit_()
 {
   Particle::doInit_();

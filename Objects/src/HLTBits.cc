@@ -61,12 +61,6 @@ panda::HLTBits::doBook_(TTree& _tree, utils::BranchList const& _branches/* = {"*
 }
 
 void
-panda::HLTBits::doReleaseTree_(TTree& _tree)
-{
-  utils::resetAddress(_tree, name_, "words");
-}
-
-void
 panda::HLTBits::doInit_()
 {
   for (auto& p0 : words) p0 = 0;

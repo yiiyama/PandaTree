@@ -77,18 +77,10 @@ panda::Run::doBook_(TTree& _tree, utils::BranchList const& _branches)
 
 /*protected*/
 void
-panda::Run::doGetEntry_(Long64_t _entry)
+panda::Run::doGetEntry_(TTree& _tree, Long64_t _entry)
 {
   /* BEGIN CUSTOM Run.cc.doGetEntry_ */
   /* END CUSTOM */
-}
-
-/*protected*/
-void
-panda::Run::doReleaseTree_(TTree& _tree)
-{
-  utils::resetAddress(_tree, "", "runNumber");
-  utils::resetAddress(_tree, "", "hltMenu");
 }
 
 void
@@ -192,8 +184,6 @@ panda::Run::update(UInt_t _runNumber, TTree& _eventTree)
     std::cerr << "Run " << _runNumber << " not found in " << inputFile->GetName() << std::endl;
     throw std::runtime_error("InputError");
   }
-
-  releaseTree(*runTree);
 
   delete runTree;
 

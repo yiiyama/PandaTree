@@ -18,7 +18,8 @@ namespace panda {
     CollectionBase(CollectionBase const& src) : ContainerBase(src), size_(src.size_) {}
     ~CollectionBase() {}
 
-    Int_t getEntry(Long64_t entry, UInt_t = 0) final;
+    Int_t getEntry(TTree&, Long64_t entry) final;
+    Int_t fill(TTree&) final;
     void init() final { clear(); }
     UInt_t size() const final { return size_; }
 
@@ -40,15 +41,17 @@ namespace panda {
      * Since ROOT cannot automatically take care of resizing the array, we need to load the "size"
      * branch first and reallocate memory if necessary.
      *
+     * \param tree    Tree to read the entry from.
      * \param entry   Entry number in the input tree.
-     * \param treeIdx Input tree ID (as returned by setAddress).
      */
-    void prepareGetEntry(Long64_t entry, UInt_t treeIdx = 0);
+    void prepareGetEntry(TTree& tree, Long64_t entry);
+
+    //! Check for address change before fill.
+    void prepareFill(TTree&);
 
   protected:
     CollectionBase(char const* name, UInt_t unitSize, Bool_t dummy) : ContainerBase(name, unitSize) {}
 
-    void resetAddress_();
     virtual void reallocate_(UInt_t) = 0;
 
   private:
@@ -56,23 +59,27 @@ namespace panda {
     utils::BranchList doGetStatus_(TTree&) const final;
     void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus, Bool_t asInput) final;
     void doBook_(TTree&, utils::BranchList const&) final;
-    void doReleaseTree_(TTree&) final;
 
     //! Collection size
     UInt_t size_{0};
 
     //! Size information lookahead
-    /*!
-     * Collection size must be prefetched (in doPrepareGetEntry) to expand the collection in memory if necessary.
-     * For each input tree, we keep the branch for size and its bound integer.
-     */
-    std::vector<std::pair<TBranch*, UInt_t>> sizeIn_{};
+    UInt_t sizeIn_{0};
 
-    //! List of bound outputs
+    //! List of inputs
+    /*!
+     * Store a map of tree -> (size branch, in-sync flag). Size branch is for convenience
+     * (don't have to GetBranch() at every call to getEntry) and the in-synch flag indicates
+     * whether the tree has the most up-to-date branch addresses. The flag is reset at each
+     * call to reallocate.
+     */
+    std::map<TTree*, std::pair<TBranch*, Bool_t>> inputs_;
+
+    //! List of outputs
     /*!
      * When resize & reallocation happens, we need to update the addresses at the output trees too.
      */
-    std::vector<TTree*> outputs_{};
+    std::map<TTree*, Bool_t> outputs_{};
   };
 
 }

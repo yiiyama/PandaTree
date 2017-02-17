@@ -666,46 +666,6 @@ panda::Photon::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
 }
 
 void
-panda::Photon::doReleaseTree_(TTree& _tree, TString const& _name)
-{
-  ParticleP::doReleaseTree_(_tree, _name);
-
-  utils::resetAddress(_tree, _name, "pfPt");
-  utils::resetAddress(_tree, _name, "chIso");
-  utils::resetAddress(_tree, _name, "chIsoMax");
-  utils::resetAddress(_tree, _name, "nhIso");
-  utils::resetAddress(_tree, _name, "phIso");
-  utils::resetAddress(_tree, _name, "sieie");
-  utils::resetAddress(_tree, _name, "sipip");
-  utils::resetAddress(_tree, _name, "hOverE");
-  utils::resetAddress(_tree, _name, "genIso");
-  utils::resetAddress(_tree, _name, "mipEnergy");
-  utils::resetAddress(_tree, _name, "emax");
-  utils::resetAddress(_tree, _name, "e2nd");
-  utils::resetAddress(_tree, _name, "eleft");
-  utils::resetAddress(_tree, _name, "eright");
-  utils::resetAddress(_tree, _name, "etop");
-  utils::resetAddress(_tree, _name, "ebottom");
-  utils::resetAddress(_tree, _name, "r9");
-  utils::resetAddress(_tree, _name, "etaWidth");
-  utils::resetAddress(_tree, _name, "phiWidth");
-  utils::resetAddress(_tree, _name, "time");
-  utils::resetAddress(_tree, _name, "timeSpan");
-  utils::resetAddress(_tree, _name, "rawPt");
-  utils::resetAddress(_tree, _name, "regPt");
-  utils::resetAddress(_tree, _name, "originalPt");
-  utils::resetAddress(_tree, _name, "loose");
-  utils::resetAddress(_tree, _name, "medium");
-  utils::resetAddress(_tree, _name, "tight");
-  utils::resetAddress(_tree, _name, "highpt");
-  utils::resetAddress(_tree, _name, "pixelVeto");
-  utils::resetAddress(_tree, _name, "csafeVeto");
-  utils::resetAddress(_tree, _name, "triggerMatch");
-  utils::resetAddress(_tree, _name, "superCluster_");
-  utils::resetAddress(_tree, _name, "matchedGen_");
-}
-
-void
 panda::Photon::doInit_()
 {
   ParticleP::doInit_();

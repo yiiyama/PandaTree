@@ -250,9 +250,6 @@ namespace panda {
 
     // deallocate old space
     deallocate_(tmpArray, tmpStore);
-
-    // update input and output pointers
-    CollectionBase::resetAddress_();
   }
 
   /*private*/

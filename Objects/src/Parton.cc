@@ -154,14 +154,6 @@ panda::Parton::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
 }
 
 void
-panda::Parton::doReleaseTree_(TTree& _tree, TString const& _name)
-{
-  ParticleM::doReleaseTree_(_tree, _name);
-
-  utils::resetAddress(_tree, _name, "pdgid");
-}
-
-void
 panda::Parton::doInit_()
 {
   ParticleM::doInit_();

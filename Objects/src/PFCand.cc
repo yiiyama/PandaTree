@@ -191,16 +191,6 @@ panda::PFCand::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
 }
 
 void
-panda::PFCand::doReleaseTree_(TTree& _tree, TString const& _name)
-{
-  PackedParticle::doReleaseTree_(_tree, _name);
-
-  utils::resetAddress(_tree, _name, "packedPuppiW");
-  utils::resetAddress(_tree, _name, "packedPuppiWNoLepDiff");
-  utils::resetAddress(_tree, _name, "ptype");
-}
-
-void
 panda::PFCand::doInit_()
 {
   PackedParticle::doInit_();

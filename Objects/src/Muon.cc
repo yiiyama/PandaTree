@@ -170,15 +170,6 @@ panda::Muon::doBook_(TTree& _tree, TString const& _name, utils::BranchList const
 }
 
 void
-panda::Muon::doReleaseTree_(TTree& _tree, TString const& _name)
-{
-  Lepton::doReleaseTree_(_tree, _name);
-
-  utils::resetAddress(_tree, _name, "mediumBtoF");
-  utils::resetAddress(_tree, _name, "triggerMatch");
-}
-
-void
 panda::Muon::doInit_()
 {
   Lepton::doInit_();

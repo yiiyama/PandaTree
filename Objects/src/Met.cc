@@ -69,13 +69,6 @@ panda::Met::doBook_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/
 }
 
 void
-panda::Met::doReleaseTree_(TTree& _tree)
-{
-  utils::resetAddress(_tree, name_, "pt");
-  utils::resetAddress(_tree, name_, "phi");
-}
-
-void
 panda::Met::doInit_()
 {
   pt = 0.;

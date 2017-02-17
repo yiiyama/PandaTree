@@ -179,14 +179,6 @@ panda::SuperCluster::doBook_(TTree& _tree, TString const& _name, utils::BranchLi
 }
 
 void
-panda::SuperCluster::doReleaseTree_(TTree& _tree, TString const& _name)
-{
-  utils::resetAddress(_tree, _name, "rawPt");
-  utils::resetAddress(_tree, _name, "eta");
-  utils::resetAddress(_tree, _name, "phi");
-}
-
-void
 panda::SuperCluster::doInit_()
 {
   rawPt = 0.;

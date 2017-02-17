@@ -56,8 +56,7 @@ namespace panda {
     utils::BranchList doGetBranchNames_() const override;
     void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;
     void doBook_(TTree&, utils::BranchList const&) override;
-    void doGetEntry_(Long64_t) override;
-    void doReleaseTree_(TTree&) override;
+    void doGetEntry_(TTree&, Long64_t) override;
     void doInit_() override;
 
   public:
