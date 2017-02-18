@@ -42,6 +42,9 @@ namespace panda {
      */
     void selectBranches(utils::BranchList const& blist, Bool_t onRead = kFALSE, TreeType treeType = kEvent);
 
+    //! Set event selection (as interpreted by TTree::Draw)
+    void setEventSelection(char const* sel) { eventSelection_ = sel; }
+
     //! Run the merger.
     /*!
      * \param outPath   Output file name.
@@ -65,6 +68,9 @@ namespace panda {
      */
     void setSkim(SkimFunction const& skim) { skimFunction_ = skim; }
 
+    //! Set the number of seconds to wait before an input file appears (default 0).
+    void setInputTimeout(UInt_t t) { timeout_ = t; }
+
     //! Set print level.
     void setPrintLevel(UInt_t l) { printLevel_ = l; }
 
@@ -72,9 +78,13 @@ namespace panda {
     std::vector<TString> paths_{};
     utils::BranchList branchList_[nTreeTypes]{};
     Bool_t applyBranchListOnRead_[nTreeTypes]{};
+    TString eventSelection_{};
+
     EventBase* outEvent_{0};
     Bool_t ownsOutEvent_{kFALSE};
     SkimFunction skimFunction_{};
+
+    UInt_t timeout_{0};
 
     UInt_t printLevel_{1};
   };

@@ -5,6 +5,8 @@
 #include "TFile.h"
 #include "TSystem.h"
 #include "TRegexp.h"
+#include "TError.h"
+#include "TEntryList.h"
 
 #include <iostream>
 
@@ -108,7 +110,33 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
     if (printLevel_ >= 2)
       std::cout << "Opening " << path << std::endl;
 
-    auto* source(TFile::Open(path));
+    TFile* source(0);
+
+    if (timeout_ > 0) {
+      // silence the TFile error message
+      auto originalErrorIgnoreLevel(gErrorIgnoreLevel);
+      gErrorIgnoreLevel = kError + 1;
+
+      unsigned const tryEvery(30);
+      for (unsigned iAtt(0); iAtt <= timeout_ / tryEvery; ++iAtt) {
+        source = TFile::Open(path);
+        if (source) {
+          if (!source->IsZombie())
+            break;
+          delete source;
+        }
+
+        gSystem->Sleep(tryEvery * 1000.);
+      }
+
+      if (!source || source->IsZombie())
+        std::cerr << "Timeout while attempting to open " << path << std::endl;
+
+      gErrorIgnoreLevel = originalErrorIgnoreLevel;
+    }
+    else
+      source = TFile::Open(path);
+
     if (!source || source->IsZombie()) {
       std::cerr << "Skipping file " << path << std::endl;
       delete source;
@@ -121,8 +149,21 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
       throw std::runtime_error("events");
     }
 
-    if (printLevel_ >= 2)
-      std::cout << "Event tree has " << inEventTree->GetEntries() << " events" << std::endl;
+    if (eventSelection_ != "") {
+      inEventTree->Draw(">>elist", eventSelection_, "entrylist");
+      auto* elist(static_cast<TEntryList*>(gDirectory->Get("elist")));
+      if (elist)
+        inEventTree->SetEntryList(elist);
+      else
+        std::cerr << "Failed to compile event selection " << eventSelection_ << std::endl;
+    }
+
+    if (printLevel_ >= 2) {
+      std::cout << "Event tree has " << inEventTree->GetEntries();
+      if (inEventTree->GetEntryList())
+        std::cout << " (" << inEventTree->GetEntryList()->GetN() << " selected)";
+      std::cout << " events" << std::endl;
+    }
 
     if (!outEventTree) {
       // pick up everything that is not events, runs, or hlt
@@ -177,7 +218,7 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
       std::cout << "Processing events" << std::endl;
     
     long iEntry(0);
-    while (nTotal != _nEvents && inEvent->getEntry(*inEventTree, iEntry++) > 0) {
+    while (nTotal != _nEvents && inEvent->getEntry(*inEventTree, inEventTree->GetEntryNumber(iEntry++)) > 0) {
       switch (printLevel_) {
       case 0:
         break;
@@ -264,17 +305,20 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
             std::cout << "  HLT menu name " << *run.hlt.menu << std::endl;
 
           auto mItr(std::find(hltMenuList.begin(), hltMenuList.end(), *run.hlt.menu));
+          unsigned menuId(0);
           if (mItr == hltMenuList.end()) {
             hltMenuList.push_back(*run.hlt.menu);
             hltPathsList.emplace_back(run.hlt.paths->begin(), run.hlt.paths->end());
+            menuId = hltMenuList.size() - 1;
           }
-
-          unsigned menuId(mItr - hltMenuList.begin());
+          else
+            menuId = mItr - hltMenuList.begin();
 
           auto hltItr(runToMenuMap.find(run.runNumber));
           if (hltItr == runToMenuMap.end())
             runToMenuMap.emplace(run.runNumber, menuId);
           else if (hltItr->second != menuId) {
+            std::cerr << hltItr->second << " " << menuId << std::endl;
             std::cerr << "Inconsistent HLT menu found for run " << run.runNumber << " in file " << path << std::endl;
             throw std::runtime_error("HLT");
           }
