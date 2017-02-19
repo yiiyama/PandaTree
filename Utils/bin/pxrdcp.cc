@@ -14,17 +14,12 @@
 void
 copyTree(TTree& _tree, panda::utils::BranchList const& _allBranches, panda::utils::BranchList const& _blist, TFile& _outputFile)
 {
-  std::cout << "setbranch * false" << std::endl;
   _tree.SetBranchStatus("*", false);
 
   for (auto& bname : _allBranches) {
     TString name(bname.fullName());
-    std::cout << name;
-    if (!_tree.GetBranch(name) || !bname.in(_blist)) {
-      std::cout << " vetoed" << std::endl;
+    if (!_tree.GetBranch(name) || !bname.in(_blist))
       continue;
-    }
-    std::cout << " pass" << std::endl;
 
     _tree.SetBranchStatus(name, true);
   }
@@ -128,7 +123,17 @@ main(int _argc, char const* _argv[])
   for (auto* keyobj : keys) {
     auto* obj(static_cast<TKey*>(keyobj)->ReadObj());
     outputFile->cd();
-    obj->Write();
+    TObject* clone(0);
+    if (obj->InheritsFrom(TTree::Class())) {
+      // if the obj is a tree, a simple clone will only copy the keys but not the tree data
+      clone = static_cast<TTree*>(obj)->CloneTree(-1, "fast");
+    }
+    else
+      clone = outputFile->CloneObject(obj);
+
+    clone->Write();
+    delete clone;
+
     delete obj;
   }
 
