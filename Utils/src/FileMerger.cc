@@ -182,7 +182,16 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
 
         outputFile->cd();
         auto* obj(source->Get(keyName));
-        obj->Write();
+        TObject* clone(0);
+        if (obj->InheritsFrom(TTree::Class())) {
+          // if the obj is a tree, a simple clone will only copy the keys but not the tree data
+          clone = static_cast<TTree*>(obj)->CloneTree(-1, "fast");
+        }
+        else
+          clone = outputFile->CloneObject(obj);
+
+        clone->Write();
+        delete clone;
         delete obj;
       }
 
@@ -248,7 +257,7 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
       savedRuns.insert(inEvent->runNumber);
     }
 
-    if (printLevel_ > 0)
+    if (printLevel_ >= 2)
       std::cout << std::endl;
 
     // inEvent->run was not used during the event loop because no trigger information was requested
