@@ -81,7 +81,7 @@ namespace panda {
     TString eventSelection_{};
 
     EventBase* outEvent_{0};
-    Bool_t ownsOutEvent_{kFALSE};
+    Bool_t extOutEvent_{kFALSE};
     SkimFunction skimFunction_{};
 
     UInt_t timeout_{0};

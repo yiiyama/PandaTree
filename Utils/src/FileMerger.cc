@@ -78,23 +78,17 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
   std::vector<TString> hltMenuList{};
   std::vector<std::vector<TString>> hltPathsList{};
 
-  panda::Event* inEvent(0);
+  panda::Event inEvent;
 
   // will book only at the first valid input
   TTree* outEventTree(0);
-  if (!outEvent_) {
+  if (!extOutEvent_) {
     if (printLevel_ >= 2)
-      std::cout << "Createing an output event internally" << std::endl;
-    outEvent_ = new panda::Event;
-    ownsOutEvent_ = true;
-    inEvent = static_cast<panda::Event*>(outEvent_);
-  }
-  else {
-    // if the output event object is passed from outside, we cannot assume that it's a panda::Event
-    inEvent = new panda::Event;
+      std::cout << "Using the default output event" << std::endl;
+    outEvent_ = &inEvent;
   }
 
-  inEvent->run.hlt.create();
+  inEvent.run.hlt.create();
 
   // loop over files to
   // . fill events (simple)
@@ -196,7 +190,7 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
       }
 
       // list of branches in the original tree filtered by branchList_
-      auto blist(inEvent->getStatus(*inEventTree));
+      auto blist(inEvent.getStatus(*inEventTree));
       blist += branchList_[kEvent];
 
       if (printLevel_ >= 2)
@@ -216,62 +210,88 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
     if (applyBranchListOnRead_[kEvent]) {
       utils::BranchList blist({"*"});
       blist += branchList_[kEvent];
-      inEvent->setAddress(*inEventTree, blist, true);
+      inEvent.setAddress(*inEventTree, blist, true);
     }
     else
-      inEvent->setAddress(*inEventTree);
+      inEvent.setAddress(*inEventTree);
+
+    auto* inRunTree(static_cast<TTree*>(source->Get("runs")));
 
     std::set<UInt_t> savedRuns;
 
     if (printLevel_ >= 3)
       std::cout << "Processing events" << std::endl;
-    
-    long iEntry(0);
-    while (nTotal != _nEvents && inEvent->getEntry(*inEventTree, inEventTree->GetEntryNumber(iEntry++)) > 0) {
-      switch (printLevel_) {
-      case 0:
-        break;
-      case 1:
-        if (nTotal % 100000 != 0)
-          break;
-      case 2:
-        if (nTotal % 1000 != 0)
-          break;
-      case 3:
-        if (nTotal % 10 != 0)
-          break;
-      default:
-        std::cout << "\rProcessed " << nTotal << " events";
-        std::cout.flush();
+
+    if (eventSelection_ == "" && !skimFunction_) {
+      // No event selection whatsoever; just copying entries one-to-one.
+      // We can speed up the copy in this case by simply copying the baskets without decompression
+
+      outEventTree->CopyEntries(inEventTree, -1, "fast");
+      nTotal += inEventTree->GetEntries();
+      nWritten += inEventTree->GetEntries();
+
+      if (printLevel_ > 0)
+        (std::cout << "\rProcessed " << nTotal << " events").flush();
+
+      if (inRunTree) {
+        // All runs are saved - just read the full list of runs from the runs tree
+
+        auto& run(inEvent.run);
+        run.setAddress(*inRunTree, {"runNumber"});
+        long iEntry(0);
+        while (inRunTree->GetEntry(iEntry++) > 0)
+          savedRuns.insert(run.runNumber);
+
+        inRunTree->ResetBranchAddresses();
       }
+    }
+    else {
+      // Some sort of event selection exists. Need to unpack and process each event.
 
-      ++nTotal;
-
-      if (skimFunction_ && !skimFunction_(*inEvent))
-        continue;
-
-      // If outEvent is supplied externally, values from the inEvent must be copied within the skimFunction
-      outEvent_->fill(*outEventTree);
-      ++nWritten;
-
-      savedRuns.insert(inEvent->runNumber);
+      long iEntry(0);
+      while (nTotal != _nEvents && inEvent.getEntry(*inEventTree, inEventTree->GetEntryNumber(iEntry++)) > 0) {
+        switch (printLevel_) {
+        case 0:
+          break;
+        case 1:
+          if (nTotal % 100000 != 0)
+            break;
+        case 2:
+          if (nTotal % 1000 != 0)
+            break;
+        case 3:
+          if (nTotal % 10 != 0)
+            break;
+        default:
+          (std::cout << "\rProcessed " << nTotal << " events").flush();
+        }
+  
+        ++nTotal;
+  
+        if (skimFunction_ && !skimFunction_(inEvent))
+          continue;
+  
+        // If outEvent is supplied externally, values from the inEvent must be copied within the skimFunction
+        outEvent_->fill(*outEventTree);
+        ++nWritten;
+  
+        savedRuns.insert(inEvent.runNumber);
+      }
     }
 
     if (printLevel_ >= 2)
       std::cout << std::endl;
 
-    // inEvent->run was not used during the event loop because no trigger information was requested
-    // Now we process the runs
-
-    auto* inRunTree(static_cast<TTree*>(source->Get("runs")));
-
-    if (printLevel_ >= 3)
-      std::cout << "Run tree found" << std::endl;
-
     if (inRunTree) {
+      // inEvent.run was not used during the event loop because no trigger information was requested
+      // Now we process the runs
+
       // collect HLT and run info
+
+      if (printLevel_ >= 3)
+        std::cout << "Run tree found" << std::endl;
       
-      auto& run(inEvent->run);
+      auto& run(inEvent.run);
 
       if (runBranches.size() == 0) {
         runBranches = run.getStatus(*inRunTree);
@@ -296,7 +316,7 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
       if (printLevel_ >= 3)
         std::cout << "Processing runs" << std::endl;
 
-      iEntry = 0;
+      long iEntry(0);
       while (run.getEntry(*inRunTree, iEntry++) > 0) {
         if (savedRuns.count(run.runNumber) == 0)
           continue;
@@ -355,7 +375,7 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
   }
 
   if (runSources.size() != 0) {
-    auto& run(inEvent->run);
+    auto& run(inEvent.run);
 
     outputFile->cd();
     TTree* outRunTree(new TTree("runs", "Runs"));
@@ -406,13 +426,8 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
 
   delete outputFile;
 
-  if (ownsOutEvent_) {
-    delete outEvent_;
+  if (!extOutEvent_)
     outEvent_ = 0;
-    ownsOutEvent_ = false;
-  }
-  else
-    delete inEvent;
 
   return nWritten;
 }
@@ -420,9 +435,10 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
 void
 panda::FileMerger::setOutEvent(panda::EventBase* _evt)
 {
-  if (ownsOutEvent_)
-    delete outEvent_;
-
   outEvent_ = _evt;
-  ownsOutEvent_ = false;
+  if (_evt) {
+    extOutEvent_ = true;
+  }
+  else
+    extOutEvent_ = false;
 }
