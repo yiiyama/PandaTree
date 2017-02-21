@@ -186,16 +186,6 @@ panda::GenParticle::doBook_(TTree& _tree, TString const& _name, utils::BranchLis
 }
 
 void
-panda::GenParticle::doReleaseTree_(TTree& _tree, TString const& _name)
-{
-  PackedParticle::doReleaseTree_(_tree, _name);
-
-  utils::resetAddress(_tree, _name, "pdgid");
-  utils::resetAddress(_tree, _name, "statusFlags");
-  utils::resetAddress(_tree, _name, "parent_");
-}
-
-void
 panda::GenParticle::doInit_()
 {
   PackedParticle::doInit_();

@@ -104,18 +104,6 @@ panda::Recoil::doBook_(TTree& _tree, utils::BranchList const& _branches/* = {"*"
 }
 
 void
-panda::Recoil::doReleaseTree_(TTree& _tree)
-{
-  utils::resetAddress(_tree, name_, "met");
-  utils::resetAddress(_tree, name_, "monoMu");
-  utils::resetAddress(_tree, name_, "monoE");
-  utils::resetAddress(_tree, name_, "diMu");
-  utils::resetAddress(_tree, name_, "diE");
-  utils::resetAddress(_tree, name_, "gamma");
-  utils::resetAddress(_tree, name_, "max");
-}
-
-void
 panda::Recoil::doInit_()
 {
   met = false;

@@ -40,7 +40,6 @@ namespace panda {
     utils::BranchList doGetBranchNames_(Bool_t) const override;
     void doSetAddress_(TTree&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
     void doBook_(TTree&, utils::BranchList const& = {"*"}) override;
-    void doReleaseTree_(TTree&) override;
     void doInit_() override;
   };
 

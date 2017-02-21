@@ -24,11 +24,10 @@ namespace panda {
     void setStatus(TTree&, utils::BranchList const& blist) final;
     utils::BranchList getStatus(TTree&) const final;
     utils::BranchList getBranchNames(Bool_t = kTRUE) const final;
-    UInt_t setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
+    void setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
     void book(TTree&, utils::BranchList const& blist = {"*"}) final;
-    Int_t getEntry(Long64_t entry, UInt_t treeIdx = 0) final;
-    TTree* getInput(UInt_t treeIdx = 0) const final { return inputs_.at(treeIdx); }
-    void releaseTree(TTree&) final;
+    Int_t getEntry(TTree&, Long64_t entry) final;
+    Int_t fill(TTree&) final;
     void init() final;
     char const* getName() const final { return ""; }
     void setName(char const*) final {}
@@ -39,13 +38,8 @@ namespace panda {
     virtual utils::BranchList doGetBranchNames_() const = 0;
     virtual void doSetAddress_(TTree& tree, utils::BranchList const&, Bool_t setStatus) = 0;
     virtual void doBook_(TTree&, utils::BranchList const&) = 0;
-    virtual void doGetEntry_(Long64_t entry) = 0;
-    virtual void doReleaseTree_(TTree&) = 0;
+    virtual void doGetEntry_(TTree&, Long64_t entry) = 0;
     virtual void doInit_() = 0;
-
-    std::vector<TTree*> inputs_{}; //!< list of bound inputs
-    UInt_t currentInputIdx_{0xffffffff}; //!< index of current input tree
-    std::vector<std::vector<UInt_t>> collInputTokens_{}; //!< list of input tokens for collection branches
 
     std::vector<Object*> objects_{}; //!< list of object branches (containers and singlets)
     std::vector<CollectionBase*> collections_{}; //!< list of collections (overlaps with objects_)

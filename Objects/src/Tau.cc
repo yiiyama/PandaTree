@@ -250,20 +250,6 @@ panda::Tau::doBook_(TTree& _tree, TString const& _name, utils::BranchList const&
 }
 
 void
-panda::Tau::doReleaseTree_(TTree& _tree, TString const& _name)
-{
-  ParticleM::doReleaseTree_(_tree, _name);
-
-  utils::resetAddress(_tree, _name, "charge");
-  utils::resetAddress(_tree, _name, "decayMode");
-  utils::resetAddress(_tree, _name, "decayModeNew");
-  utils::resetAddress(_tree, _name, "looseIsoMVA");
-  utils::resetAddress(_tree, _name, "iso");
-  utils::resetAddress(_tree, _name, "isoDeltaBetaCorr");
-  utils::resetAddress(_tree, _name, "matchedGen_");
-}
-
-void
 panda::Tau::doInit_()
 {
   ParticleM::doInit_();

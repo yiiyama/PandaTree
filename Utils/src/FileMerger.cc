@@ -5,6 +5,8 @@
 #include "TFile.h"
 #include "TSystem.h"
 #include "TRegexp.h"
+#include "TError.h"
+#include "TEntryList.h"
 
 #include <iostream>
 
@@ -17,7 +19,8 @@ panda::FileMerger::addInput(char const* _path)
 
   // case with one single file
   if (!basename.MaybeWildcard()) {
-    std::cout << " " << basename << std::endl;
+    if (printLevel_ >= 1)
+      std::cout << " " << basename << std::endl;
     paths_.push_back(basename);
     return;
   }
@@ -43,7 +46,8 @@ panda::FileMerger::addInput(char const* _path)
       if (!strcmp(file,".") || !strcmp(file,"..")) continue;
       TString s = file;
       if ( (basename!=file) && s.Index(re) == kNPOS) continue;
-      std::cout << " " << directory << "/" << s << std::endl;
+      if (printLevel_ >= 1)
+        std::cout << " " << directory << "/" << s << std::endl;
       paths_.push_back(directory + "/" + s);
     }
     gSystem->FreeDirectory(dir);
@@ -79,6 +83,8 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
   // will book only at the first valid input
   TTree* outEventTree(0);
   if (!outEvent_) {
+    if (printLevel_ >= 2)
+      std::cout << "Createing an output event internally" << std::endl;
     outEvent_ = new panda::Event;
     ownsOutEvent_ = true;
     inEvent = static_cast<panda::Event*>(outEvent_);
@@ -87,6 +93,8 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
     // if the output event object is passed from outside, we cannot assume that it's a panda::Event
     inEvent = new panda::Event;
   }
+
+  inEvent->run.hlt.create();
 
   // loop over files to
   // . fill events (simple)
@@ -99,8 +107,38 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
   for (unsigned iS(0); iS != paths_.size(); ++iS) {
     auto& path(paths_[iS]);
 
-    auto* source(TFile::Open(path));
+    if (printLevel_ >= 2)
+      std::cout << "Opening " << path << std::endl;
+
+    TFile* source(0);
+
+    if (timeout_ > 0) {
+      // silence the TFile error message
+      auto originalErrorIgnoreLevel(gErrorIgnoreLevel);
+      gErrorIgnoreLevel = kError + 1;
+
+      unsigned const tryEvery(30);
+      for (unsigned iAtt(0); iAtt <= timeout_ / tryEvery; ++iAtt) {
+        source = TFile::Open(path);
+        if (source) {
+          if (!source->IsZombie())
+            break;
+          delete source;
+        }
+
+        gSystem->Sleep(tryEvery * 1000.);
+      }
+
+      if (!source || source->IsZombie())
+        std::cerr << "Timeout while attempting to open " << path << std::endl;
+
+      gErrorIgnoreLevel = originalErrorIgnoreLevel;
+    }
+    else
+      source = TFile::Open(path);
+
     if (!source || source->IsZombie()) {
+      std::cerr << "Skipping file " << path << std::endl;
       delete source;
       continue;
     }
@@ -109,6 +147,22 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
     if (!inEventTree) {
       std::cerr << "File " << path << " is not a valid input" << std::endl;
       throw std::runtime_error("events");
+    }
+
+    if (eventSelection_ != "") {
+      inEventTree->Draw(">>elist", eventSelection_, "entrylist");
+      auto* elist(static_cast<TEntryList*>(gDirectory->Get("elist")));
+      if (elist)
+        inEventTree->SetEntryList(elist);
+      else
+        std::cerr << "Failed to compile event selection " << eventSelection_ << std::endl;
+    }
+
+    if (printLevel_ >= 2) {
+      std::cout << "Event tree has " << inEventTree->GetEntries();
+      if (inEventTree->GetEntryList())
+        std::cout << " (" << inEventTree->GetEntryList()->GetN() << " selected)";
+      std::cout << " events" << std::endl;
     }
 
     if (!outEventTree) {
@@ -128,7 +182,16 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
 
         outputFile->cd();
         auto* obj(source->Get(keyName));
-        obj->Write();
+        TObject* clone(0);
+        if (obj->InheritsFrom(TTree::Class())) {
+          // if the obj is a tree, a simple clone will only copy the keys but not the tree data
+          clone = static_cast<TTree*>(obj)->CloneTree(-1, "fast");
+        }
+        else
+          clone = outputFile->CloneObject(obj);
+
+        clone->Write();
+        delete clone;
         delete obj;
       }
 
@@ -136,12 +199,18 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
       auto blist(inEvent->getStatus(*inEventTree));
       blist += branchList_[kEvent];
 
-      std::cout << blist << std::endl;
+      if (printLevel_ >= 2)
+        std::cout << "Creating output event tree" << std::endl;
+      if (printLevel_ >= 3)
+        std::cout << blist << std::endl;
 
       outputFile->cd();
       outEventTree = new TTree("events", "Events");
       outEvent_->book(*outEventTree, blist);
     }
+
+    if (printLevel_ >= 2)
+      std::cout << "Binding input" << std::endl;
 
     // fill events
     if (applyBranchListOnRead_[kEvent]) {
@@ -153,27 +222,56 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
       inEvent->setAddress(*inEventTree);
 
     std::set<UInt_t> savedRuns;
+
+    if (printLevel_ >= 3)
+      std::cout << "Processing events" << std::endl;
     
     long iEntry(0);
-    while (nTotal != _nEvents && inEvent->getEntry(iEntry++) > 0) {
+    while (nTotal != _nEvents && inEvent->getEntry(*inEventTree, inEventTree->GetEntryNumber(iEntry++)) > 0) {
+      switch (printLevel_) {
+      case 0:
+        break;
+      case 1:
+        if (nTotal % 100000 != 0)
+          break;
+      case 2:
+        if (nTotal % 1000 != 0)
+          break;
+      case 3:
+        if (nTotal % 10 != 0)
+          break;
+      default:
+        std::cout << "\rProcessed " << nTotal << " events";
+        std::cout.flush();
+      }
+
       ++nTotal;
 
       if (skimFunction_ && !skimFunction_(*inEvent))
         continue;
 
       // If outEvent is supplied externally, values from the inEvent must be copied within the skimFunction
-      outEventTree->Fill();
+      outEvent_->fill(*outEventTree);
       ++nWritten;
 
       savedRuns.insert(inEvent->runNumber);
     }
 
+    if (printLevel_ >= 2)
+      std::cout << std::endl;
+
+    // inEvent->run was not used during the event loop because no trigger information was requested
+    // Now we process the runs
+
     auto* inRunTree(static_cast<TTree*>(source->Get("runs")));
+
+    if (printLevel_ >= 3)
+      std::cout << "Run tree found" << std::endl;
 
     if (inRunTree) {
       // collect HLT and run info
-
-      panda::Run run;
+      
+      auto& run(inEvent->run);
 
       if (runBranches.size() == 0) {
         runBranches = run.getStatus(*inRunTree);
@@ -186,21 +284,25 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
         run.setAddress(*inRunTree);
 
       auto* inHLTTree(static_cast<TTree*>(source->Get("hlt")));
-      TString* hltMenu(0);
-      std::vector<TString>* hltPaths(0);
 
       if (inHLTTree) {
-        hltMenu = new TString;
-        hltPaths = new std::vector<TString>;
+        if (printLevel_ >= 3)
+          std::cout << "HLT tree found" << std::endl;
 
-        inHLTTree->SetBranchAddress("menu", &hltMenu);
-        inHLTTree->SetBranchAddress("paths", &hltPaths);
+        inHLTTree->SetBranchAddress("menu", &run.hlt.menu);
+        inHLTTree->SetBranchAddress("paths", &run.hlt.paths);
       }
 
+      if (printLevel_ >= 3)
+        std::cout << "Processing runs" << std::endl;
+
       iEntry = 0;
-      while (run.getEntry(iEntry++) > 0) {
+      while (run.getEntry(*inRunTree, iEntry++) > 0) {
         if (savedRuns.count(run.runNumber) == 0)
           continue;
+
+        if (printLevel_ >= 3)
+          std::cout << " run " << run.runNumber << std::endl;
 
         if (runSources.count(run.runNumber) == 0)
           runSources.emplace(run.runNumber, std::make_pair(iS, iEntry - 1));
@@ -208,26 +310,29 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
         if (inHLTTree) {
           inHLTTree->GetEntry(run.hltMenu);
 
-          auto mItr(std::find(hltMenuList.begin(), hltMenuList.end(), *hltMenu));
-          if (mItr == hltMenuList.end()) {
-            hltMenuList.push_back(*hltMenu);
-            hltPathsList.emplace_back(hltPaths->begin(), hltPaths->end());
-          }
+          if (printLevel_ >= 3)
+            std::cout << "  HLT menu name " << *run.hlt.menu << std::endl;
 
-          unsigned menuId(mItr - hltMenuList.begin());
+          auto mItr(std::find(hltMenuList.begin(), hltMenuList.end(), *run.hlt.menu));
+          unsigned menuId(0);
+          if (mItr == hltMenuList.end()) {
+            hltMenuList.push_back(*run.hlt.menu);
+            hltPathsList.emplace_back(run.hlt.paths->begin(), run.hlt.paths->end());
+            menuId = hltMenuList.size() - 1;
+          }
+          else
+            menuId = mItr - hltMenuList.begin();
 
           auto hltItr(runToMenuMap.find(run.runNumber));
           if (hltItr == runToMenuMap.end())
             runToMenuMap.emplace(run.runNumber, menuId);
           else if (hltItr->second != menuId) {
+            std::cerr << hltItr->second << " " << menuId << std::endl;
             std::cerr << "Inconsistent HLT menu found for run " << run.runNumber << " in file " << path << std::endl;
             throw std::runtime_error("HLT");
           }
         }
       }
-
-      delete hltMenu;
-      delete hltPaths;
     }
     else if (runSources.size() != 0) {
       std::cerr << "Run tree missing in file " << path << std::endl;
@@ -235,6 +340,9 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
     }
 
     delete source;
+
+    if (printLevel_ >= 2)
+      std::cout << "Closed " << path << std::endl;
   }
 
   std::cout << "Number of events in : " << nTotal << std::endl;
@@ -247,10 +355,10 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
   }
 
   if (runSources.size() != 0) {
+    auto& run(inEvent->run);
+
     outputFile->cd();
     TTree* outRunTree(new TTree("runs", "Runs"));
-
-    panda::Run run;
     run.book(*outRunTree, runBranches);
 
     for (auto& runSource : runSources) {
@@ -264,7 +372,9 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
       if (runToMenuMap.size() != 0)
         run.hltMenu = runToMenuMap[runSource.first];
 
-      outRunTree->Fill();
+      run.fill(*outRunTree);
+
+      delete source;
     }
 
     outputFile->cd();
@@ -275,16 +385,14 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
     if (runToMenuMap.size() != 0) {
       outputFile->cd();
       TTree* outHLTTree(new TTree("hlt", "HLT"));
-      TString* hltMenu(new TString);
-      std::vector<TString>* hltPaths(new std::vector<TString>);
 
-      outHLTTree->Branch("menu", "TString", &hltMenu);
-      outHLTTree->Branch("paths", "std::vector<TString>", &hltPaths);
+      outHLTTree->Branch("menu", "TString", &run.hlt.menu);
+      outHLTTree->Branch("paths", "std::vector<TString>", &run.hlt.paths);
 
       for (unsigned iH(0); iH != hltMenuList.size(); ++iH) {
-        *hltMenu = hltMenuList[iH];
+        *run.hlt.menu = hltMenuList[iH];
         auto& paths(hltPathsList[iH]);
-        hltPaths->assign(paths.begin(), paths.end());
+        run.hlt.paths->assign(paths.begin(), paths.end());
 
         outHLTTree->Fill();
       }
@@ -293,9 +401,6 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
       outHLTTree->Write();
 
       delete outHLTTree;
-
-      delete hltMenu;
-      delete hltPaths;
     }
   }
 

@@ -410,30 +410,6 @@ panda::Electron::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
 }
 
 void
-panda::Electron::doReleaseTree_(TTree& _tree, TString const& _name)
-{
-  Lepton::doReleaseTree_(_tree, _name);
-
-  utils::resetAddress(_tree, _name, "hltsafe");
-  utils::resetAddress(_tree, _name, "chIsoPh");
-  utils::resetAddress(_tree, _name, "nhIsoPh");
-  utils::resetAddress(_tree, _name, "phIsoPh");
-  utils::resetAddress(_tree, _name, "ecalIso");
-  utils::resetAddress(_tree, _name, "hcalIso");
-  utils::resetAddress(_tree, _name, "isoPUOffset");
-  utils::resetAddress(_tree, _name, "sieie");
-  utils::resetAddress(_tree, _name, "sipip");
-  utils::resetAddress(_tree, _name, "eseed");
-  utils::resetAddress(_tree, _name, "hOverE");
-  utils::resetAddress(_tree, _name, "rawPt");
-  utils::resetAddress(_tree, _name, "regPt");
-  utils::resetAddress(_tree, _name, "originalPt");
-  utils::resetAddress(_tree, _name, "veto");
-  utils::resetAddress(_tree, _name, "triggerMatch");
-  utils::resetAddress(_tree, _name, "superCluster_");
-}
-
-void
 panda::Electron::doInit_()
 {
   Lepton::doInit_();

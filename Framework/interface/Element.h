@@ -77,10 +77,8 @@ namespace panda {
     void setStatus(TTree&, utils::BranchList const& blist) final;
     utils::BranchList getStatus(TTree&) const final;
     utils::BranchList getBranchNames(Bool_t fullName = kTRUE) const final;
-    UInt_t setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
+    void setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
     void book(TTree&, utils::BranchList const& blist = {"*"}) final;
-    TTree* getInput(UInt_t treeIdx = 0) const final;
-    void releaseTree(TTree&) final;
     void init() final { doInit_(); }
     char const* getName() const final;
     void setName(char const*) final;
@@ -105,7 +103,6 @@ namespace panda {
 
     virtual void doSetAddress_(TTree&, TString const&, utils::BranchList const&, Bool_t setStatus) = 0;
     virtual void doBook_(TTree&, TString const&, utils::BranchList const&) = 0;
-    virtual void doReleaseTree_(TTree&, TString const&) = 0;
     virtual void doInit_() = 0;
 
   private:

@@ -36,22 +36,13 @@ panda::TreeEntry::getBranchNames(Bool_t/* = kTRUE*/) const
   return blist;
 }
 
-UInt_t
+void
 panda::TreeEntry::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  collInputTokens_.emplace_back(collections_.size(), -1);
-  for (auto* obj : objects_) {
-    UInt_t token(obj->setAddress(_tree, _branches.subList(obj->getName()), _setStatus));
-    for (unsigned iC(0); iC != collections_.size(); ++iC) {
-      if (collections_[iC] == obj)
-        collInputTokens_.back()[iC] = token;
-    }
-  }
+  for (auto* obj : objects_)
+    obj->setAddress(_tree, _branches.subList(obj->getName()), _setStatus);
 
   doSetAddress_(_tree, _branches, _setStatus);
-  inputs_.push_back(&_tree);
-
-  return inputs_.size() - 1;
 }
 
 void
@@ -64,23 +55,6 @@ panda::TreeEntry::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"
 }
 
 void
-panda::TreeEntry::releaseTree(TTree& _tree)
-{
-  if (inputs_[currentInputIdx_] == &_tree)
-    currentInputIdx_ = -1;
-
-  for (auto*& tree : inputs_) {
-    if (tree == &_tree)
-      tree = 0;
-  }
-
-  for (auto* obj : objects_)
-    obj->releaseTree(_tree);
-
-  doReleaseTree_(_tree);
-}
-
-void
 panda::TreeEntry::init()
 {
   for (auto* obj : objects_)
@@ -90,20 +64,23 @@ panda::TreeEntry::init()
 }
 
 Int_t
-panda::TreeEntry::getEntry(Long64_t _entry, UInt_t _treeIdx/* = 0*/)
+panda::TreeEntry::getEntry(TTree& _tree, Long64_t _entry)
 {
-  if (_treeIdx >= inputs_.size() || !inputs_[_treeIdx])
-    return -1;
-
-  currentInputIdx_ = _treeIdx;
-
   init();
 
-  // call prepareGetEntry on collections
   for (unsigned iC(0); iC != collections_.size(); ++iC)
-    collections_[iC]->prepareGetEntry(_entry, collInputTokens_[_treeIdx][iC]);
+    collections_[iC]->prepareGetEntry(_tree, _entry);
 
-  doGetEntry_(_entry);
+  doGetEntry_(_tree, _entry);
 
-  return inputs_[_treeIdx]->GetEntry(_entry);
+  return _tree.GetEntry(_entry);
+}
+
+Int_t
+panda::TreeEntry::fill(TTree& _tree)
+{
+  for (unsigned iC(0); iC != collections_.size(); ++iC)
+    collections_[iC]->prepareFill(_tree);
+
+  return _tree.Fill();
 }

@@ -28,7 +28,6 @@ namespace panda {
     utils::BranchList doGetStatus_(TTree&) const final;
     void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus, Bool_t asInput) final;
     void doBook_(TTree&, utils::BranchList const&) final;
-    void doReleaseTree_(TTree&) final;
 
     //! To be called only from Element::setAddress
     UInt_t addInput_(TTree&);

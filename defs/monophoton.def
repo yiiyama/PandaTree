@@ -4,6 +4,7 @@ scRawPt/F
 chIsoS15/F
 nhIsoS15/F
 phIsoS15/F
+e4/F
 isEB/O
 bool passCHIso(UInt_t wp) const { return chIso < chIsoCuts[1][isEB ? 0 : 1][wp]; }
 bool passNHIso(UInt_t wp) const { return nhIso < nhIsoCuts[1][isEB ? 0 : 1][wp]; }

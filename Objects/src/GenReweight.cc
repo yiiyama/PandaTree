@@ -110,19 +110,6 @@ panda::GenReweight::doBook_(TTree& _tree, utils::BranchList const& _branches/* =
 }
 
 void
-panda::GenReweight::doReleaseTree_(TTree& _tree)
-{
-  utils::resetAddress(_tree, name_, "r1f2DW");
-  utils::resetAddress(_tree, name_, "r1f5DW");
-  utils::resetAddress(_tree, name_, "r2f1DW");
-  utils::resetAddress(_tree, name_, "r2f2DW");
-  utils::resetAddress(_tree, name_, "r5f1DW");
-  utils::resetAddress(_tree, name_, "r5f5DW");
-  utils::resetAddress(_tree, name_, "pdfDW");
-  utils::resetAddress(_tree, name_, "genParam");
-}
-
-void
 panda::GenReweight::doInit_()
 {
   r1f2DW = 0.;

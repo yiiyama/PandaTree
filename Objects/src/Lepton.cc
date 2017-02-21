@@ -298,23 +298,6 @@ panda::Lepton::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
 }
 
 void
-panda::Lepton::doReleaseTree_(TTree& _tree, TString const& _name)
-{
-  ParticleP::doReleaseTree_(_tree, _name);
-
-  utils::resetAddress(_tree, _name, "pfPt");
-  utils::resetAddress(_tree, _name, "charge");
-  utils::resetAddress(_tree, _name, "loose");
-  utils::resetAddress(_tree, _name, "medium");
-  utils::resetAddress(_tree, _name, "tight");
-  utils::resetAddress(_tree, _name, "chIso");
-  utils::resetAddress(_tree, _name, "nhIso");
-  utils::resetAddress(_tree, _name, "phIso");
-  utils::resetAddress(_tree, _name, "puIso");
-  utils::resetAddress(_tree, _name, "matchedGen_");
-}
-
-void
 panda::Lepton::doInit_()
 {
   ParticleP::doInit_();

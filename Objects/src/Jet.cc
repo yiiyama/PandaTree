@@ -379,28 +379,6 @@ panda::Jet::doBook_(TTree& _tree, TString const& _name, utils::BranchList const&
 }
 
 void
-panda::Jet::doReleaseTree_(TTree& _tree, TString const& _name)
-{
-  MicroJet::doReleaseTree_(_tree, _name);
-
-  utils::resetAddress(_tree, _name, "rawPt");
-  utils::resetAddress(_tree, _name, "ptCorrUp");
-  utils::resetAddress(_tree, _name, "ptCorrDown");
-  utils::resetAddress(_tree, _name, "ptSmear");
-  utils::resetAddress(_tree, _name, "ptSmearUp");
-  utils::resetAddress(_tree, _name, "ptSmearDown");
-  utils::resetAddress(_tree, _name, "area");
-  utils::resetAddress(_tree, _name, "nhf");
-  utils::resetAddress(_tree, _name, "chf");
-  utils::resetAddress(_tree, _name, "puid");
-  utils::resetAddress(_tree, _name, "loose");
-  utils::resetAddress(_tree, _name, "tight");
-  utils::resetAddress(_tree, _name, "monojet");
-  utils::resetAddress(_tree, _name, "matchedGenJet_");
-  utils::resetAddress(_tree, _name, "constituents_");
-}
-
-void
 panda::Jet::doInit_()
 {
   MicroJet::doInit_();

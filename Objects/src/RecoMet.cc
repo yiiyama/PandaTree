@@ -127,22 +127,6 @@ panda::RecoMet::doBook_(TTree& _tree, utils::BranchList const& _branches/* = {"*
 }
 
 void
-panda::RecoMet::doReleaseTree_(TTree& _tree)
-{
-  Met::doReleaseTree_(_tree);
-
-  utils::resetAddress(_tree, name_, "sumETRaw");
-  utils::resetAddress(_tree, name_, "ptCorrUp");
-  utils::resetAddress(_tree, name_, "phiCorrUp");
-  utils::resetAddress(_tree, name_, "ptCorrDown");
-  utils::resetAddress(_tree, name_, "phiCorrDown");
-  utils::resetAddress(_tree, name_, "ptUnclUp");
-  utils::resetAddress(_tree, name_, "phiUnclUp");
-  utils::resetAddress(_tree, name_, "ptUnclDown");
-  utils::resetAddress(_tree, name_, "phiUnclDown");
-}
-
-void
 panda::RecoMet::doInit_()
 {
   Met::doInit_();

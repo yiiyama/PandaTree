@@ -44,31 +44,17 @@ panda::Element::getBranchNames(Bool_t _fullName/* = kTRUE*/) const
     return gStore.getData(this).getBranchNames();
 }
 
-UInt_t
+void
 panda::Element::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   auto& arr(gStore.getArray(this));
   doSetAddress_(_tree, arr.getName(), _branches, _setStatus);
-
-  return arr.addInput_(_tree);
 }
 
 void
 panda::Element::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   doBook_(_tree, gStore.getName(this), _branches);
-}
-
-TTree*
-panda::Element::getInput(UInt_t treeIdx/* = 0*/) const
-{
-  return gStore.getArray(this).getInput(treeIdx);
-}
-
-void
-panda::Element::releaseTree(TTree& _tree)
-{
-  doReleaseTree_(_tree, gStore.getName(this));
 }
 
 char const*

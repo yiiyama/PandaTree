@@ -18,23 +18,14 @@ panda::Singlet::getBranchNames(Bool_t _fullName/* = kTRUE*/) const
   return doGetBranchNames_(_fullName);
 }
 
-UInt_t
+void
 panda::Singlet::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
   doSetAddress_(_tree, _branches, _setStatus);
-  inputs_.push_back(&_tree);
-
-  return inputs_.size() - 1;
 }
 
 void
 panda::Singlet::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   doBook_(_tree, _branches);
-}
-
-void
-panda::Singlet::releaseTree(TTree& _tree)
-{
-  doReleaseTree_(_tree);
 }
