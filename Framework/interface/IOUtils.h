@@ -70,6 +70,8 @@ namespace panda {
       BranchList& operator+=(BranchList const&);
       //! Prepend the branch names with <objName.>.
       BranchList fullNames(TString const& objName = "") const;
+      //! Create a branchlist object from the branches in the tree
+      static BranchList makeList(TTree&);
     };
 
     //! Check status of a branch

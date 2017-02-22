@@ -1,5 +1,7 @@
 #include "../interface/IOUtils.h"
 
+#include "TObjArray.h"
+
 #include <stdexcept>
 
 panda::utils::BranchName::BranchName(BranchName const& _src) :
@@ -162,6 +164,19 @@ panda::utils::BranchList::fullNames(TString const& _objName/* = ""*/) const
   BranchList blist;
   for (auto& name : *this)
     blist.emplace_back(name.fullName(_objName));
+
+  return blist;
+}
+
+/*static*/
+panda::utils::BranchList
+panda::utils::BranchList::makeList(TTree& _tree)
+{
+  BranchList blist;
+
+  auto* branches(_tree.GetListOfBranches());
+  for (auto* br : *branches)
+    blist.emplace_back(br->GetName());
 
   return blist;
 }

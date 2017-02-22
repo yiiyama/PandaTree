@@ -73,7 +73,6 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
   // we save the first occurence (file index, entry number) and read them out later
   // (currently Run only has the run number and HLT index, so this is a total overkill)
   std::map<UInt_t, std::pair<unsigned, long>> runSources{};
-  utils::BranchList runBranches;
   std::map<UInt_t, unsigned> runToMenuMap{};
   std::vector<TString> hltMenuList{};
   std::vector<std::vector<TString>> hltPathsList{};
@@ -165,6 +164,7 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
       std::cout << " events" << std::endl;
     }
 
+    // first event - book a tree
     if (!outEventTree) {
       // pick up everything that is not events, runs, or hlt
 
@@ -195,9 +195,8 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
         delete obj;
       }
 
-      // list of branches in the original tree filtered by branchList_
-      // using the outEvent object because we may have a list of branches different from that in panda::Event
-      auto blist(outEvent_->getStatus(*inEventTree));
+      // list of branches in the original tree filtered/augmented by branchList_
+      auto blist(utils::BranchList::makeList(*inEventTree));
       blist += branchList_[kEvent];
 
       if (printLevel_ >= 2)
@@ -213,7 +212,7 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
     if (printLevel_ >= 2)
       std::cout << "Binding input" << std::endl;
 
-    // fill events
+    // set input
     if (applyBranchListOnRead_[kEvent]) {
       utils::BranchList blist({"*"});
       blist += branchList_[kEvent];
@@ -229,6 +228,7 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
     if (printLevel_ >= 3)
       std::cout << "Processing events" << std::endl;
 
+    // fill events
     if (eventSelection_ == "" && !skimFunction_ && inEvent_ == outEvent_) {
       // No event selection whatsoever; just copying entries one-to-one.
       // We can speed up the copy in this case by simply copying the baskets without decompression
@@ -302,11 +302,6 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
         std::cout << "Run tree found" << std::endl;
       
       auto& run(inEvent_->run);
-
-      if (runBranches.size() == 0) {
-        runBranches = run.getStatus(*inRunTree);
-        runBranches += branchList_[kRun];
-      }
 
       if (applyBranchListOnRead_[kRun])
         run.setAddress(*inRunTree, branchList_[kRun]);
@@ -390,15 +385,26 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
   if (runSources.size() != 0) {
     auto& run(inEvent_->run);
 
-    outputFile->cd();
-    TTree* outRunTree(new TTree("runs", "Runs"));
-    run.book(*outRunTree, runBranches);
+    TTree* outRunTree(0);
 
     for (auto& runSource : runSources) {
       auto* source(TFile::Open(paths_[runSource.second.first]));
-
       auto* inRunTree(static_cast<TTree*>(source->Get("runs")));
-      run.setAddress(*inRunTree);
+
+      if (!outRunTree) {
+        outputFile->cd();
+        outRunTree = new TTree("runs", "Runs");
+
+        auto blist(utils::BranchList::makeList(*inRunTree));
+        blist += branchList_[kRun];
+
+        run.book(*outRunTree, blist);
+      }
+
+      if (applyBranchListOnRead_[kRun])
+        run.setAddress(*inRunTree, branchList_[kRun]);
+      else
+        run.setAddress(*inRunTree);
 
       inRunTree->GetEntry(runSource.second.second);
 
