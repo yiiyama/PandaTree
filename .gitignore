@@ -9,3 +9,5 @@ data
 *.pcm
 *.so
 *.d
+*.o
+obj/dict.cc
