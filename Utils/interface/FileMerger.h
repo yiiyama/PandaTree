@@ -54,7 +54,10 @@ namespace panda {
      */
     unsigned merge(char const* outPath, long nEvents = -1);
 
-    typedef std::function<Bool_t(panda::Event&)> SkimFunction;
+    typedef std::function<Bool_t(panda::EventBase&)> SkimFunction;
+
+    //! Set the input event object (an Event will be created if nothing is set)
+    void setInEvent(EventBase*);
 
     //! Set the output event object (an Event will be created if nothing is set)
     void setOutEvent(EventBase*);
@@ -80,8 +83,10 @@ namespace panda {
     Bool_t applyBranchListOnRead_[nTreeTypes]{};
     TString eventSelection_{};
 
+    EventBase* inEvent_{0};
     EventBase* outEvent_{0};
-    Bool_t ownsOutEvent_{kFALSE};
+    Bool_t extInEvent_{kFALSE};
+    Bool_t extOutEvent_{kFALSE};
     SkimFunction skimFunction_{};
 
     UInt_t timeout_{0};
