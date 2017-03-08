@@ -239,6 +239,7 @@ panda::EventMonophoton::operator=(Event const& _src)
   photons.data.matchedGenContainer_ = &genParticles;
   genParticles.data.parentContainer_ = &genParticles;
   jets.data.matchedGenJetContainer_ = &genJets;
+  jets.data.constituentsContainer_ = 0;
 
   return *this;
 }

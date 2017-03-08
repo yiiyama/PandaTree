@@ -8,7 +8,7 @@ panda::CollectionBase::getEntry(TTree& _tree, Long64_t _iEntry)
 
   prepareGetEntry(_tree, _iEntry);
 
-  return ContainerBase::getEntry(_tree, _iEntry);
+  return _tree.GetEntry(_iEntry);
 }
 
 Int_t
