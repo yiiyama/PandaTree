@@ -77,21 +77,9 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
   std::vector<TString> hltMenuList{};
   std::vector<std::vector<TString>> hltPathsList{};
 
-  panda::Event event;
-
-  if (!extInEvent_) {
-    if (printLevel_ >= 2)
-      std::cout << "Using the default input event" << std::endl;
-    inEvent_ = &event;
-  }
-
-  if (!extOutEvent_) {
-    if (printLevel_ >= 2)
-      std::cout << "Setting the output event identical to input event" << std::endl;
-    outEvent_ = inEvent_;
-  }
-
-  inEvent_->run.hlt.create();
+  // Assuming the runs and hlt tree contents are unchanged
+  panda::Run run;
+  run.hlt.create();
 
   // loop over files to
   // . fill events (simple)
@@ -205,21 +193,38 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
         std::cout << blist << std::endl;
 
       outputFile->cd();
-      outEventTree = new TTree("events", "Events");
-      outEvent_->book(*outEventTree, blist);
+
+      if (skimmer_) {
+        // when a skimmer is given, book branches using the event object it uses
+        outEventTree = new TTree("events", "Events");
+        skimmer_->getEvent()->book(*outEventTree, blist);
+      }
+      else {
+        // otherwise copy the branches
+        for (auto* br : *inEventTree->GetListOfBranches()) {
+          if (!utils::BranchName(br->GetName()).in(blist))
+            inEventTree->SetBranchStatus(br->GetName(), false);
+        }
+
+        // branches vetoed in blist are turned off
+        outEventTree = inEventTree->CloneTree(0);
+
+        inEventTree->SetBranchStatus("*", true);
+      }
     }
 
     if (printLevel_ >= 2)
       std::cout << "Binding input" << std::endl;
 
     // set input
-    if (applyBranchListOnRead_[kEvent]) {
-      utils::BranchList blist({"*"});
+    utils::BranchList blist({"*"});
+    if (applyBranchListOnRead_[kEvent])
       blist += branchList_[kEvent];
-      inEvent_->setAddress(*inEventTree, blist, true);
+
+    if (skimmer_) {
+      // when a skimmer is given, set branch addresses to the event object it uses
+      skimmer_->getEvent()->setAddress(*inEventTree, blist, true);
     }
-    else
-      inEvent_->setAddress(*inEventTree);
 
     auto* inRunTree(static_cast<TTree*>(source->Get("runs")));
 
@@ -228,14 +233,15 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
     if (printLevel_ >= 3)
       std::cout << "Processing events" << std::endl;
 
+    nTotal += inEventTree->GetEntries();
+
     // fill events
-    if (eventSelection_ == "" && !skimFunction_ && inEvent_ == outEvent_) {
+    if (eventSelection_ == "" && !skimmer_) {
       // No event selection whatsoever; just copying entries one-to-one.
       // We can speed up the copy in this case by simply copying the baskets without decompression
 
       outEventTree->CopyEntries(inEventTree, -1, "fast");
       nRead += inEventTree->GetEntries();
-      nTotal += inEventTree->GetEntries();
       nWritten += inEventTree->GetEntries();
 
       if (printLevel_ > 0)
@@ -244,7 +250,6 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
       if (inRunTree) {
         // All runs are saved - just read the full list of runs from the runs tree
 
-        auto& run(inEvent_->run);
         run.setAddress(*inRunTree, {"runNumber"});
         long iEntry(0);
         while (inRunTree->GetEntry(iEntry++) > 0)
@@ -256,10 +261,16 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
     else {
       // Some sort of event selection exists. Need to unpack and process each event.
 
-      nTotal += inEventTree->GetEntries();
+      unsigned runNumber(0);
+      if (!skimmer_)
+        inEventTree->SetBranchAddress("runNumber", &runNumber);
 
-      long iEntry(0);
-      while (nRead != _nEvents && inEvent_->getEntry(*inEventTree, inEventTree->GetEntryNumber(iEntry++)) > 0) {
+      Long64_t iEntry(0);
+      while (nRead != _nEvents) {
+        Long64_t entryNumber(inEventTree->GetEntryNumber(iEntry++));
+        if (entryNumber < 0)
+          break;
+
         switch (printLevel_) {
         case 0:
           break;
@@ -277,15 +288,28 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
         }
   
         ++nRead;
-  
-        if (skimFunction_ && !skimFunction_(*inEvent_))
-          continue;
-  
-        // If outEvent is supplied externally, values from the inEvent must be copied within the skimFunction
-        outEvent_->fill(*outEventTree);
+
+        if (skimmer_) {
+          auto& event(*skimmer_->getEvent());
+          if (event.getEntry(*inEventTree, entryNumber) <= 0)
+            break;
+          if (!skimmer_->skim())
+            continue;
+
+          event.fill(*outEventTree);
+
+          runNumber = event.runNumber;
+        }
+        else {
+          if (inEventTree->GetEntry(entryNumber) <= 0)
+            break;
+
+          outEventTree->Fill();
+        }
+
         ++nWritten;
   
-        savedRuns.insert(inEvent_->runNumber);
+        savedRuns.insert(runNumber);
       }
     }
 
@@ -293,7 +317,6 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
       std::cout << std::endl;
 
     if (inRunTree) {
-      // inEvent_->run was not used during the event loop because no trigger information was requested
       // Now we process the runs
 
       // collect HLT and run info
@@ -301,8 +324,6 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
       if (printLevel_ >= 3)
         std::cout << "Run tree found" << std::endl;
       
-      auto& run(inEvent_->run);
-
       if (applyBranchListOnRead_[kRun])
         run.setAddress(*inRunTree, branchList_[kRun]);
       else
@@ -383,8 +404,6 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
   }
 
   if (runSources.size() != 0) {
-    auto& run(inEvent_->run);
-
     TTree* outRunTree(0);
 
     for (auto& runSource : runSources) {
@@ -445,33 +464,5 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
 
   delete outputFile;
 
-  if (!extInEvent_)
-    inEvent_ = 0;
-
-  if (!extOutEvent_)
-    outEvent_ = 0;
-
   return nWritten;
-}
-
-void
-panda::FileMerger::setInEvent(panda::EventBase* _evt)
-{
-  inEvent_ = _evt;
-  if (_evt) {
-    extInEvent_ = true;
-  }
-  else
-    extInEvent_ = false;
-}
-
-void
-panda::FileMerger::setOutEvent(panda::EventBase* _evt)
-{
-  outEvent_ = _evt;
-  if (_evt) {
-    extOutEvent_ = true;
-  }
-  else
-    extOutEvent_ = false;
 }

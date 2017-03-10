@@ -11,8 +11,20 @@
 namespace panda {
 
   class EventBase;
-  class Event;
-  class Run;
+
+  //! Skimmer base class
+  /*!
+   * Pass a child class of Skimmer to FileMerger to run skimming during file merge process.
+   * When a skimmer is present FileMerger, will read and write using the event object returned by getEvent().
+   */
+  class Skimmer {
+  public:
+    Skimmer() {}
+    virtual ~Skimmer() {}
+
+    virtual Bool_t skim() = 0;
+    virtual EventBase* getEvent() = 0;
+  };
 
   //! Merge multiple panda files with optional skimming, slimming, and editing.
   class FileMerger {
@@ -54,22 +66,13 @@ namespace panda {
      */
     unsigned merge(char const* outPath, long nEvents = -1);
 
-    typedef std::function<Bool_t(panda::EventBase&)> SkimFunction;
-
-    //! Set the input event object (an Event will be created if nothing is set)
-    void setInEvent(EventBase*);
-
-    //! Set the output event object (an Event will be created if nothing is set)
-    void setOutEvent(EventBase*);
-
     //! Introduce a skim.
     /*!
-     * SkimFunction is any callable object (functions or classes with operator())
-     * that can take panda::Event& as an argument and return a bool.
+     * Pass a subclass of Skimmer. This will change the I/O behavior in addition to enabling skim.
      *
-     * \param skim   Skim function.
+     * \param skimmer   Skimmer object.
      */
-    void setSkim(SkimFunction const& skim) { skimFunction_ = skim; }
+    void setSkimmer(Skimmer& skimmer) { skimmer_ = &skimmer; }
 
     //! Set the number of seconds to wait before an input file appears (default 0).
     void setInputTimeout(UInt_t t) { timeout_ = t; }
@@ -81,13 +84,9 @@ namespace panda {
     std::vector<TString> paths_{};
     utils::BranchList branchList_[nTreeTypes]{};
     Bool_t applyBranchListOnRead_[nTreeTypes]{};
-    TString eventSelection_{};
 
-    EventBase* inEvent_{0};
-    EventBase* outEvent_{0};
-    Bool_t extInEvent_{kFALSE};
-    Bool_t extOutEvent_{kFALSE};
-    SkimFunction skimFunction_{};
+    TString eventSelection_{};
+    Skimmer* skimmer_{0};
 
     UInt_t timeout_{0};
 
