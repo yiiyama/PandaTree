@@ -355,7 +355,7 @@ virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDe
 [HLTBits:SINGLE]
 words[16]/l
 void set(unsigned iB) { if (iB >= 1024) return; words[iB / 64] |= (1 << (iB % 64)); }
-bool pass(unsigned iB) const { if (iB >= 1024) return false; return ((words[iB / 64] >> (iB % 64)) & 1) != 0; }
+bool pass(unsigned iB) const { if (iB >= 1024) return false; return (words[iB / 64] & (1 << (iB % 64))) != 0; }
 
 [GenReweight:SINGLE]
 r1f2DW/F
