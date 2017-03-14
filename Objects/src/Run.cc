@@ -180,7 +180,7 @@ panda::Run::update(UInt_t _runNumber, TTree& _eventTree)
     if (runNumber == _runNumber)
       break;
   }
-  if (iEntry == runTree->GetEntries()) {
+  if (iEntry == runTree->GetEntries()+1) {
     std::cerr << "Run " << _runNumber << " not found in " << inputFile->GetName() << std::endl;
     throw std::runtime_error("InputError");
   }

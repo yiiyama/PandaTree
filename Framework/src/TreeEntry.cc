@@ -71,9 +71,11 @@ panda::TreeEntry::getEntry(TTree& _tree, Long64_t _entry)
   for (unsigned iC(0); iC != collections_.size(); ++iC)
     collections_[iC]->prepareGetEntry(_tree, _entry);
 
+  Int_t retcode = _tree.GetEntry(_entry);
+
   doGetEntry_(_tree, _entry);
 
-  return _tree.GetEntry(_entry);
+  return retcode;
 }
 
 Int_t
