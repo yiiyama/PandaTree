@@ -31,6 +31,8 @@ panda::EventBase::operator=(EventBase const& _src)
   isData = _src.isData;
   weight = _src.weight;
 
+  run = _src.run;
+
   triggers = _src.triggers;
 
   return *this;
