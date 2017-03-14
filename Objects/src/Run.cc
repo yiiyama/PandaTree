@@ -18,6 +18,17 @@ panda::Run&
 panda::Run::operator=(Run const& _src)
 {
   TreeEntry::operator=(_src);
+
+  /* BEGIN CUSTOM Run.cc.operator= */
+  if (!hlt.menu && _src.hlt.menu)
+    hlt.create();
+
+  if (hlt.menu && *_src.hlt.menu != !hlt.menu) {
+    *hlt.menu = *_src.hlt.menu;
+    hlt.paths->assign(_src.hlt.paths->begin(), _src.hlt.paths->end());
+  }
+  /* END CUSTOM */
+
   runNumber = _src.runNumber;
   hltMenu = _src.hltMenu;
   hltSize = _src.hltSize;
@@ -33,6 +44,7 @@ panda::Run::getListOfBranches()
   blist += {"runNumber", "hltMenu"};
   return blist;
 }
+
 /*protected*/
 void
 panda::Run::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)

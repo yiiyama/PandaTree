@@ -112,6 +112,10 @@ panda::Event&
 panda::Event::operator=(Event const& _src)
 {
   EventBase::operator=(_src);
+
+  /* BEGIN CUSTOM Event.cc.operator= */
+  /* END CUSTOM */
+
   npv = _src.npv;
   npvTrue = _src.npvTrue;
   rho = _src.rho;
@@ -229,6 +233,7 @@ panda::Event::getListOfBranches()
   blist += Recoil::getListOfBranches().fullNames("recoil");
   return blist;
 }
+
 /*protected*/
 void
 panda::Event::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)

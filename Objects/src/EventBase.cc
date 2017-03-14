@@ -25,13 +25,16 @@ panda::EventBase&
 panda::EventBase::operator=(EventBase const& _src)
 {
   TreeEntry::operator=(_src);
+
+  /* BEGIN CUSTOM EventBase.cc.operator= */
+  run = _src.run;
+  /* END CUSTOM */
+
   runNumber = _src.runNumber;
   lumiNumber = _src.lumiNumber;
   eventNumber = _src.eventNumber;
   isData = _src.isData;
   weight = _src.weight;
-
-  run = _src.run;
 
   triggers = _src.triggers;
 
@@ -47,6 +50,7 @@ panda::EventBase::getListOfBranches()
   blist += HLTBits::getListOfBranches().fullNames("triggers");
   return blist;
 }
+
 /*protected*/
 void
 panda::EventBase::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
