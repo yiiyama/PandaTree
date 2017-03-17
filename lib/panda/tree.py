@@ -174,6 +174,8 @@ class Tree(Definition, Object):
             for ref in self.references:
                 ref.write_def(src, self.objbranches)
 
+        src.write_custom_block('{name}.cc.copy_ctor'.format(name = self.name))
+
         src.indent -= 1
         src.writeline('}')
         src.newline()

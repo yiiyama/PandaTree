@@ -19,6 +19,8 @@ panda::EventBase::EventBase(EventBase const& _src) :
   std::vector<Object*> myObjects{{&triggers}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
 
+  /* BEGIN CUSTOM EventBase.cc.copy_ctor */
+  /* END CUSTOM */
 }
 
 panda::EventBase&

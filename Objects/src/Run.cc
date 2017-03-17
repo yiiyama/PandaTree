@@ -12,6 +12,17 @@ panda::Run::Run(Run const& _src) :
   hltSize(_src.hltSize)
 {
 
+  /* BEGIN CUSTOM Run.cc.copy_ctor */
+  loadTrigger_ = _src.loadTrigger_;
+  registeredTriggers_ = _src.registeredTriggers_;
+  triggerIndices_ = _src.triggerIndices_;
+
+  if (_src.hlt.menu) {
+    hlt.create();
+    *hlt.menu = *_src.hlt.menu;
+    hlt.paths->assign(_src.hlt.paths->begin(), _src.hlt.paths->end());
+  }
+  /* END CUSTOM */
 }
 
 panda::Run&
@@ -20,10 +31,14 @@ panda::Run::operator=(Run const& _src)
   TreeEntry::operator=(_src);
 
   /* BEGIN CUSTOM Run.cc.operator= */
+  loadTrigger_ = _src.loadTrigger_;
+  registeredTriggers_ = _src.registeredTriggers_;
+  triggerIndices_ = _src.triggerIndices_;
+
   if (!hlt.menu && _src.hlt.menu)
     hlt.create();
 
-  if (hlt.menu && *_src.hlt.menu != !hlt.menu) {
+  if (hlt.menu && *_src.hlt.menu != *hlt.menu) {
     *hlt.menu = *_src.hlt.menu;
     hlt.paths->assign(_src.hlt.paths->begin(), _src.hlt.paths->end());
   }
@@ -127,12 +142,18 @@ panda::Run::registerTrigger(char const* _path)
 
   TString path(_path);
   path += "_v";
-  registeredTriggers_.push_back(path);
 
-  // need to update the input
-  hlt.destroy();
+  auto itr(std::find(registeredTriggers_.begin(), registeredTriggers_.end(), path));
+  if (itr == registeredTriggers_.end()) {
+    registeredTriggers_.push_back(path);
 
-  return registeredTriggers_.size() - 1;
+    // need to update the input
+    hlt.destroy();
+
+    return registeredTriggers_.size() - 1;
+  }
+  else
+    return itr -registeredTriggers_.begin();
 }
 
 char const*

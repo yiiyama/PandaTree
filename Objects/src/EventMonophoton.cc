@@ -55,6 +55,8 @@ panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
   photons.data.matchedGenContainer_ = &genParticles;
   genParticles.data.parentContainer_ = &genParticles;
   jets.data.matchedGenJetContainer_ = &genJets;
+  /* BEGIN CUSTOM EventMonophoton.cc.copy_ctor */
+  /* END CUSTOM */
 }
 
 panda::EventMonophoton&
