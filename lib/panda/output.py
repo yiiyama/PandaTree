@@ -56,9 +56,11 @@ class FileOutput(object):
 
         self._file.write((line_end + '\n').join(indented_lines) + '\n')
 
-    def write_custom_block(self, block_name):
+    def write_custom_block(self, block_name, default = ''):
         try:
             self.write(self.custom_blocks[block_name])
         except KeyError:
             self.writeline('/* BEGIN CUSTOM ' + block_name + ' */')
+            if default:
+                self.writeline(default)
             self.writeline('/* END CUSTOM */')

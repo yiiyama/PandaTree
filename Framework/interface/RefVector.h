@@ -69,6 +69,8 @@ namespace panda {
      * Invalidates the index by setting it to 0xffffffff.
      */
     void init() { clear(); }
+    //! Validity check. Both container and idx must be valid, and idx must not be 0xffffffff.
+    Bool_t isValid() const { return container_ && *container_ && indices_; }
     //! Accessor to indices
     /*!
      * Throws a runtime_error if indices is NULL.
@@ -249,6 +251,19 @@ namespace panda {
     return *container_;
   }
 
+}
+
+template<class E>
+std::ostream& operator<<(std::ostream& _out, panda::RefVector<E> const& _ref)
+{
+  _out << "RefVector<" << E::typeName() << ">";
+  if (_ref.isValid())
+    _out << " " << _ref.container()->getName();
+  else
+    _out << " <null>";
+  _out << std::endl;
+
+  return _out;
 }
 
 #endif

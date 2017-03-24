@@ -46,7 +46,11 @@ namespace panda {
     GenJet(datastore&, UInt_t idx);
     ~GenJet();
     GenJet& operator=(GenJet const&);
-    void print(std::ostream& = std::cout) const override;
+
+    static char const* typeName() { return "GenJet"; }
+
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     Short_t& pdgid;
 

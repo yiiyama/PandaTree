@@ -82,7 +82,11 @@ namespace panda {
     FatJet(datastore&, UInt_t idx);
     ~FatJet();
     FatJet& operator=(FatJet const&);
-    void print(std::ostream& = std::cout) const override;
+
+    static char const* typeName() { return "FatJet"; }
+
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     double get_ecf(int o_, int N_, int ib_) const;
     bool set_ecf(int o_, int N_, int ib_, float x_);

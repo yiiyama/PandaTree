@@ -267,10 +267,25 @@ panda::Tau::doInit_()
 }
 
 void
-panda::Tau::print(std::ostream& _out/* = std::cout*/) const
+panda::Tau::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM Tau.cc.print */
   /* END CUSTOM */
+}
+
+void
+panda::Tau::dump(std::ostream& _out/* = std::cout*/) const
+{
+  _out << "<" << typeName() << ">" << std::endl;
+  ParticleM::dump(_out);
+
+  _out << "charge" << charge << std::endl;
+  _out << "decayMode" << decayMode << std::endl;
+  _out << "decayModeNew" << decayModeNew << std::endl;
+  _out << "looseIsoMVA" << looseIsoMVA << std::endl;
+  _out << "iso" << iso << std::endl;
+  _out << "isoDeltaBetaCorr" << isoDeltaBetaCorr << std::endl;
+  _out << "matchedGen" << matchedGen << std::endl;
 }
 
 /* BEGIN CUSTOM Tau.cc.global */

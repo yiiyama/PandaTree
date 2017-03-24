@@ -182,10 +182,20 @@ panda::Muon::doInit_()
 }
 
 void
-panda::Muon::print(std::ostream& _out/* = std::cout*/) const
+panda::Muon::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM Muon.cc.print */
   /* END CUSTOM */
+}
+
+void
+panda::Muon::dump(std::ostream& _out/* = std::cout*/) const
+{
+  _out << "<" << typeName() << ">" << std::endl;
+  Lepton::dump(_out);
+
+  _out << "mediumBtoF" << mediumBtoF << std::endl;
+  _out << "triggerMatch" << triggerMatch << std::endl;
 }
 
 

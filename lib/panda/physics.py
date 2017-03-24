@@ -169,7 +169,15 @@ class PhysicsObject(Definition, Object):
 
         header.writeline('~{name}();'.format(name = self.name)) # destructor
         header.writeline('{name}& operator=({name} const&);'.format(name = self.name)) # assignment operator
-        header.writeline('void print(std::ostream& = std::cout) const override;')
+
+        header.newline()
+
+        header.writeline('static char const* typeName() {{ return "{name}"; }}'.format(name = self.name))
+
+        header.newline()
+
+        header.writeline('void print(std::ostream& = std::cout, UInt_t level = 1) const override;')
+        header.writeline('void dump(std::ostream& = std::cout) const override;')
 
         header.newline()
 
@@ -587,7 +595,6 @@ class PhysicsObject(Definition, Object):
             src.indent -= 1
             src.writeline('}')
 
-
             methods = [
                 ('operator=', '{NAMESPACE}::{name}&'.format(**subst), [('{name} const&'.format(**subst), '_src')], 'write_assign', '*this'),
                 ('doSetAddress_', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
@@ -601,10 +608,29 @@ class PhysicsObject(Definition, Object):
 
         src.newline()
         src.writeline('void')
-        src.writeline('{NAMESPACE}::{name}::print(std::ostream& _out/* = std::cout*/) const'.format(**subst))
+        src.writeline('{NAMESPACE}::{name}::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const'.format(**subst))
         src.writeline('{')
         src.indent += 1
-        src.write_custom_block('{name}.cc.print'.format(**subst))
+        src.write_custom_block('{name}.cc.print'.format(**subst), default = 'dump(_out);')
+        src.indent -= 1
+        src.writeline('}')
+
+        src.newline()
+        src.writeline('void')
+        src.writeline('{NAMESPACE}::{name}::dump(std::ostream& _out/* = std::cout*/) const'.format(**subst))
+        src.writeline('{')
+        src.indent += 1
+
+        src.writeline('_out << "<" << typeName() << ">" << std::endl;')
+
+        if self.parent not in ['Singlet', 'Element']:
+            src.writeline('{parent}::dump(_out);'.format(parent = self.parent))
+            src.newline()
+
+        if len(self.branches) != 0:
+            for branch in self.branches:
+                branch.write_dump(src)
+        
         src.indent -= 1
         src.writeline('}')
 

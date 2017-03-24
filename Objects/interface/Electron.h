@@ -74,7 +74,11 @@ namespace panda {
     Electron(datastore&, UInt_t idx);
     ~Electron();
     Electron& operator=(Electron const&);
-    void print(std::ostream& = std::cout) const override;
+
+    static char const* typeName() { return "Electron"; }
+
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     double m() const override { return 5.109989e-4; }
     double combIso() const override { return chIso + std::max(nhIso + phIso - isoPUOffset, Float_t(0.)); }

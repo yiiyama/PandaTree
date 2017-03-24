@@ -23,6 +23,9 @@ namespace panda {
     void init() final { clear(); }
     UInt_t size() const final { return size_; }
 
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
+
     //! Resize the container.
     /*!
      * If expanding, init() is invoked on all new elements.

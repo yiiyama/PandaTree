@@ -160,3 +160,6 @@ class RefBranch(Branch):
         for depth in range(len(self.arrdef)):
             out.indent -= 1
             out.writeline('}')
+
+    def write_dump(self, out):
+        out.writeline('_out << "{name}" << {name} << std::endl;'.format(name = self.refname))

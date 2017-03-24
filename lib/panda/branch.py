@@ -240,3 +240,6 @@ class Branch(Definition):
 
     def write_init(self, out, context):
         out.writeline(self.initializer)
+
+    def write_dump(self, out):
+        out.writeline('_out << "{name}" << {name} << std::endl;'.format(name = self.name))

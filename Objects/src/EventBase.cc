@@ -43,6 +43,27 @@ panda::EventBase::operator=(EventBase const& _src)
   return *this;
 }
 
+
+void
+panda::EventBase::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
+{
+  /* BEGIN CUSTOM EventBase.cc.print */
+  dump(_out);
+  /* END CUSTOM */
+}
+
+void
+panda::EventBase::dump(std::ostream& _out/* = std::cout*/) const
+{
+  _out << "runNumber" << runNumber << std::endl;
+  _out << "lumiNumber" << lumiNumber << std::endl;
+  _out << "eventNumber" << eventNumber << std::endl;
+  _out << "isData" << isData << std::endl;
+  _out << "weight" << weight << std::endl;
+
+  triggers.dump(_out);
+
+}
 /*static*/
 panda::utils::BranchList
 panda::EventBase::getListOfBranches()
@@ -112,7 +133,6 @@ void
 panda::EventBase::doGetEntry_(TTree& _tree, Long64_t _entry)
 {
   /* BEGIN CUSTOM EventBase.cc.doGetEntry_ */
-  run.update(runNumber, _tree);
   /* END CUSTOM */
 }
 
@@ -130,15 +150,4 @@ panda::EventBase::doInit_()
 
 
 /* BEGIN CUSTOM EventBase.cc.global */
-
-Bool_t
-panda::EventBase::triggerFired(UInt_t _token) const
-{
-  UInt_t idx(run.getTriggerIndex(_token));
-  if (idx < run.triggerSize())
-    return triggers.pass(idx);
-  else
-    return false;
-}
-
 /* END CUSTOM */

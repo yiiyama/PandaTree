@@ -17,7 +17,11 @@ namespace panda {
     GenReweight(GenReweight const&);
     ~GenReweight();
     GenReweight& operator=(GenReweight const&);
-    void print(std::ostream& = std::cout) const override;
+
+    static char const* typeName() { return "GenReweight"; }
+
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     Float_t r1f2DW{};
     Float_t r1f5DW{};

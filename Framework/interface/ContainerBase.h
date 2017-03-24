@@ -28,6 +28,8 @@ namespace panda {
     void book(TTree&, utils::BranchList const& blist = {"*"}) final;
     char const* getName() const final { return name_; }
     void setName(char const* name) final { name_ = name; }
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     virtual UInt_t size() const = 0;
     virtual Element::datastore& getData() = 0;

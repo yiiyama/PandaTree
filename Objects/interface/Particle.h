@@ -34,7 +34,11 @@ namespace panda {
     Particle(datastore&, UInt_t idx);
     ~Particle();
     Particle& operator=(Particle const&);
-    void print(std::ostream& = std::cout) const override;
+
+    static char const* typeName() { return "Particle"; }
+
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     TLorentzVector p4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt(), eta(), phi(), m()); return p4; }
     double e() const { return std::sqrt(std::pow(pt() * std::cosh(eta()), 2.) + m() * m()); }
@@ -54,15 +58,6 @@ namespace panda {
     virtual void setXYZE(double px, double py, double pz, double e) = 0;
 
     /* BEGIN CUSTOM Particle.h.classdef */
-
-    //! sort comparison by pt
-    /*!
-     * This function takes Elements as arguments to conform with ContainerBase::Comparison
-     * but assumes that both arguments are static_castable to Particle.
-     */
-    static Bool_t PtGreater(Element const& p1, Element const& p2) {
-      return static_cast<Particle const&>(p1).pt() > static_cast<Particle const&>(p2).pt();
-    }
     /* END CUSTOM */
 
     static utils::BranchList getListOfBranches();

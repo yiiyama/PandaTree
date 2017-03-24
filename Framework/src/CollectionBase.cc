@@ -20,6 +20,23 @@ panda::CollectionBase::fill(TTree& _tree)
 }
 
 void
+panda::CollectionBase::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
+{
+  _out << "size: " << size() << ", allocated size: " << getData().nmax() << std::endl;
+  ContainerBase::print(_out, _level);
+}
+
+void
+panda::CollectionBase::dump(std::ostream& _out/* = std::cout*/) const
+{
+  _out << "size_ = " << size_ << std::endl;
+  _out << "sizeIn_ = " << sizeIn_ << std::endl;
+  _out << "inputs_  = map(" << inputs_.size() << ")" << std::endl;
+  _out << "outputs_  = map(" << outputs_.size() << ")" << std::endl;
+  ContainerBase::dump(_out);
+}
+
+void
 panda::CollectionBase::resize(UInt_t _size)
 {
   if (_size > getData().nmax()) {

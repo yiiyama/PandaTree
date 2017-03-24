@@ -57,7 +57,11 @@ namespace panda {
     Muon(datastore&, UInt_t idx);
     ~Muon();
     Muon& operator=(Muon const&);
-    void print(std::ostream& = std::cout) const override;
+
+    static char const* typeName() { return "Muon"; }
+
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     double m() const override { return 1.05658e-2; }
     double combIso() const override { return chIso + std::max(nhIso + phIso - 0.5 * puIso, 0.); }

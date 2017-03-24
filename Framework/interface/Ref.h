@@ -107,7 +107,7 @@ namespace panda {
       return true;
     }
     //! Validity check. Both container and idx must be valid, and idx must not be 0xffffffff.
-    Bool_t isValid() const { return container_ && *container_ && idx_ && (*idx_) < (*container_)->size(); }
+    Bool_t isValid() const { return container_ && *container_ && idx_ && unsigned(*idx_) < (*container_)->size(); }
     //! Initializer
     /*!
      * Invalidates the index by setting it to 0xffffffff.
@@ -128,6 +128,17 @@ namespace panda {
     /*!
      * Throws a runtime_error if container is not valid.
      */
+    //! Accessor to idx
+    /*!
+     * Throws a runtime_error if idx is not valid.
+     */
+    index_type idx() const
+    {
+      if (!idx_)
+        throw std::runtime_error("Invalid index ref");
+  
+      return *idx_;
+    }
     ContainerBase const* container() const
     {
       if (!container_)
@@ -200,12 +211,23 @@ namespace panda {
       return static_cast<E const&>((*container_)->elemAt(*idx_));
     }
     //! Validity check. Both container and idx must be valid, and idx must not be 0xffffffff.
-    Bool_t isValid() const { return container_ && *container_ && idx_ && (*idx_) < (*container_)->size(); }
+    Bool_t isValid() const { return container_ && *container_ && idx_ && unsigned(*idx_) < (*container_)->size(); }
     //! Accessor to idx
     /*!
      * Throws a runtime_error if idx is not valid.
      */
     index_type& idx()
+    {
+      if (!idx_)
+        throw std::runtime_error("Invalid index ref");
+  
+      return *idx_;
+    }
+    //! Accessor to idx
+    /*!
+     * Throws a runtime_error if idx is not valid.
+     */
+    index_type idx() const
     {
       if (!idx_)
         throw std::runtime_error("Invalid index ref");
@@ -231,6 +253,32 @@ namespace panda {
     index_type* idx_{0};
   };
 
+}
+
+template<class E>
+std::ostream& operator<<(std::ostream& _out, panda::Ref<E> const& _ref)
+{
+  _out << "Ref<" << E::typeName() << ">";
+  if (_ref.isValid())
+    _out << " " << _ref.container()->getName() << "(" << _ref.idx() << ")";
+  else
+    _out << " (null)";
+  _out << std::endl;
+
+  return _out;
+}
+
+template<class E>
+std::ostream& operator<<(std::ostream& _out, panda::ConstRef<E> const& _ref)
+{
+  _out << "Ref<" << E::typeName() << ">";
+  if (_ref.isValid())
+    _out << " " << _ref.container()->getName() << "(" << _ref.idx() << ")";
+  else
+    _out << " (null)";
+  _out << std::endl;
+
+  return _out;
 }
 
 #endif

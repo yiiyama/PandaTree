@@ -144,10 +144,25 @@ panda::MetFilters::doGetBranchNames_(Bool_t _fullName) const
 }
 
 void
-panda::MetFilters::print(std::ostream& _out/* = std::cout*/) const
+panda::MetFilters::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM MetFilters.cc.print */
   /* END CUSTOM */
+}
+
+void
+panda::MetFilters::dump(std::ostream& _out/* = std::cout*/) const
+{
+  _out << "<" << typeName() << ">" << std::endl;
+  _out << "globalHalo16" << globalHalo16 << std::endl;
+  _out << "hbhe" << hbhe << std::endl;
+  _out << "hbheIso" << hbheIso << std::endl;
+  _out << "ecalDeadCell" << ecalDeadCell << std::endl;
+  _out << "badsc" << badsc << std::endl;
+  _out << "badMuons" << badMuons << std::endl;
+  _out << "duplicateMuons" << duplicateMuons << std::endl;
+  _out << "dupECALClusters" << dupECALClusters << std::endl;
+  _out << "unfixedECALHits" << unfixedECALHits << std::endl;
 }
 
 

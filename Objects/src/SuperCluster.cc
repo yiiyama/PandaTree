@@ -190,10 +190,19 @@ panda::SuperCluster::doInit_()
 }
 
 void
-panda::SuperCluster::print(std::ostream& _out/* = std::cout*/) const
+panda::SuperCluster::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM SuperCluster.cc.print */
   /* END CUSTOM */
+}
+
+void
+panda::SuperCluster::dump(std::ostream& _out/* = std::cout*/) const
+{
+  _out << "<" << typeName() << ">" << std::endl;
+  _out << "rawPt" << rawPt << std::endl;
+  _out << "eta" << eta << std::endl;
+  _out << "phi" << phi << std::endl;
 }
 
 /* BEGIN CUSTOM SuperCluster.cc.global */

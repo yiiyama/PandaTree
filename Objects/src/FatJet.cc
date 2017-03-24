@@ -353,10 +353,30 @@ panda::FatJet::doInit_()
 }
 
 void
-panda::FatJet::print(std::ostream& _out/* = std::cout*/) const
+panda::FatJet::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM FatJet.cc.print */
   /* END CUSTOM */
+}
+
+void
+panda::FatJet::dump(std::ostream& _out/* = std::cout*/) const
+{
+  _out << "<" << typeName() << ">" << std::endl;
+  Jet::dump(_out);
+
+  _out << "tau1" << tau1 << std::endl;
+  _out << "tau2" << tau2 << std::endl;
+  _out << "tau3" << tau3 << std::endl;
+  _out << "mSD" << mSD << std::endl;
+  _out << "tau1SD" << tau1SD << std::endl;
+  _out << "tau2SD" << tau2SD << std::endl;
+  _out << "tau3SD" << tau3SD << std::endl;
+  _out << "htt_mass" << htt_mass << std::endl;
+  _out << "htt_frec" << htt_frec << std::endl;
+  _out << "double_sub" << double_sub << std::endl;
+  _out << "ecfs" << ecfs << std::endl;
+  _out << "subjets" << subjets << std::endl;
 }
 
 double

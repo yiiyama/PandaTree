@@ -204,10 +204,21 @@ panda::PFCand::doInit_()
 }
 
 void
-panda::PFCand::print(std::ostream& _out/* = std::cout*/) const
+panda::PFCand::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM PFCand.cc.print */
   /* END CUSTOM */
+}
+
+void
+panda::PFCand::dump(std::ostream& _out/* = std::cout*/) const
+{
+  _out << "<" << typeName() << ">" << std::endl;
+  PackedParticle::dump(_out);
+
+  _out << "packedPuppiW" << packedPuppiW << std::endl;
+  _out << "packedPuppiWNoLepDiff" << packedPuppiWNoLepDiff << std::endl;
+  _out << "ptype" << ptype << std::endl;
 }
 
 

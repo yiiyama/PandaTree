@@ -88,10 +88,18 @@ panda::Met::doGetBranchNames_(Bool_t _fullName) const
 }
 
 void
-panda::Met::print(std::ostream& _out/* = std::cout*/) const
+panda::Met::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM Met.cc.print */
   /* END CUSTOM */
+}
+
+void
+panda::Met::dump(std::ostream& _out/* = std::cout*/) const
+{
+  _out << "<" << typeName() << ">" << std::endl;
+  _out << "pt" << pt << std::endl;
+  _out << "phi" << phi << std::endl;
 }
 
 

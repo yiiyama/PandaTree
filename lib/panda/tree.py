@@ -58,6 +58,11 @@ class Tree(Definition, Object):
         header.writeline('~{name}() {{}}'.format(name = self.name)) # destructor
         header.writeline('{name}& operator=({name} const&);'.format(name = self.name)) # assignment operator
 
+        header.newline()
+
+        header.writeline('void print(std::ostream& = std::cout, UInt_t level = 1) const override;')
+        header.writeline('void dump(std::ostream& = std::cout) const override;')
+
         if len(self.functions) != 0:
             header.newline()
             for function in self.functions:
@@ -207,6 +212,37 @@ class Tree(Definition, Object):
         src.indent -= 1
         src.writeline('}')
         src.newline()
+
+        src.newline()
+        src.writeline('void')
+        src.writeline('{NAMESPACE}::{name}::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{')
+        src.indent += 1
+        src.write_custom_block('{name}.cc.print'.format(name = self.name), default = 'dump(_out);')
+        src.indent -= 1
+        src.writeline('}')
+
+        src.newline()
+        src.writeline('void')
+        src.writeline('{NAMESPACE}::{name}::dump(std::ostream& _out/* = std::cout*/) const'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{')
+        src.indent += 1
+
+        if self.parent != 'TreeEntry':
+            src.writeline('{parent}::dump(_out);'.format(parent = self.parent))
+            src.newline()
+
+        if len(self.branches) != 0:
+            for branch in self.branches:
+                branch.write_dump(src)
+            src.newline()
+        if len(self.objbranches) != 0:
+            for objbranch in self.objbranches:
+                objbranch.write_dump(src)
+            src.newline()
+        
+        src.indent -= 1
+        src.writeline('}')
 
         src.writeline('/*static*/')
         src.writeline('panda::utils::BranchList')
