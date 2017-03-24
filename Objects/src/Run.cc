@@ -63,9 +63,9 @@ panda::Run::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) con
 void
 panda::Run::dump(std::ostream& _out/* = std::cout*/) const
 {
-  _out << "runNumber" << runNumber << std::endl;
-  _out << "hltMenu" << hltMenu << std::endl;
-  _out << "hltSize" << hltSize << std::endl;
+  _out << "runNumber = " << runNumber << std::endl;
+  _out << "hltMenu = " << hltMenu << std::endl;
+  _out << "hltSize = " << hltSize << std::endl;
 
 }
 /*static*/

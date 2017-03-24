@@ -321,6 +321,7 @@ void
 panda::Lepton::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM Lepton.cc.print */
+  dump(_out);
   /* END CUSTOM */
 }
 
@@ -330,16 +331,16 @@ panda::Lepton::dump(std::ostream& _out/* = std::cout*/) const
   _out << "<" << typeName() << ">" << std::endl;
   ParticleP::dump(_out);
 
-  _out << "pfPt" << pfPt << std::endl;
-  _out << "charge" << charge << std::endl;
-  _out << "loose" << loose << std::endl;
-  _out << "medium" << medium << std::endl;
-  _out << "tight" << tight << std::endl;
-  _out << "chIso" << chIso << std::endl;
-  _out << "nhIso" << nhIso << std::endl;
-  _out << "phIso" << phIso << std::endl;
-  _out << "puIso" << puIso << std::endl;
-  _out << "matchedGen" << matchedGen << std::endl;
+  _out << "pfPt = " << pfPt << std::endl;
+  _out << "charge = " << charge << std::endl;
+  _out << "loose = " << loose << std::endl;
+  _out << "medium = " << medium << std::endl;
+  _out << "tight = " << tight << std::endl;
+  _out << "chIso = " << chIso << std::endl;
+  _out << "nhIso = " << nhIso << std::endl;
+  _out << "phIso = " << phIso << std::endl;
+  _out << "puIso = " << puIso << std::endl;
+  _out << "matchedGen = " << matchedGen << std::endl;
 }
 
 

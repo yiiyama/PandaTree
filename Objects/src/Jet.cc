@@ -407,6 +407,7 @@ void
 panda::Jet::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM Jet.cc.print */
+  dump(_out);
   /* END CUSTOM */
 }
 
@@ -416,21 +417,21 @@ panda::Jet::dump(std::ostream& _out/* = std::cout*/) const
   _out << "<" << typeName() << ">" << std::endl;
   MicroJet::dump(_out);
 
-  _out << "rawPt" << rawPt << std::endl;
-  _out << "ptCorrUp" << ptCorrUp << std::endl;
-  _out << "ptCorrDown" << ptCorrDown << std::endl;
-  _out << "ptSmear" << ptSmear << std::endl;
-  _out << "ptSmearUp" << ptSmearUp << std::endl;
-  _out << "ptSmearDown" << ptSmearDown << std::endl;
-  _out << "area" << area << std::endl;
-  _out << "nhf" << nhf << std::endl;
-  _out << "chf" << chf << std::endl;
-  _out << "puid" << puid << std::endl;
-  _out << "loose" << loose << std::endl;
-  _out << "tight" << tight << std::endl;
-  _out << "monojet" << monojet << std::endl;
-  _out << "matchedGenJet" << matchedGenJet << std::endl;
-  _out << "constituents" << constituents << std::endl;
+  _out << "rawPt = " << rawPt << std::endl;
+  _out << "ptCorrUp = " << ptCorrUp << std::endl;
+  _out << "ptCorrDown = " << ptCorrDown << std::endl;
+  _out << "ptSmear = " << ptSmear << std::endl;
+  _out << "ptSmearUp = " << ptSmearUp << std::endl;
+  _out << "ptSmearDown = " << ptSmearDown << std::endl;
+  _out << "area = " << area << std::endl;
+  _out << "nhf = " << nhf << std::endl;
+  _out << "chf = " << chf << std::endl;
+  _out << "puid = " << puid << std::endl;
+  _out << "loose = " << loose << std::endl;
+  _out << "tight = " << tight << std::endl;
+  _out << "monojet = " << monojet << std::endl;
+  _out << "matchedGenJet = " << matchedGenJet << std::endl;
+  _out << "constituents = " << constituents << std::endl;
 }
 
 /* BEGIN CUSTOM Jet.cc.global */

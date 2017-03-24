@@ -82,6 +82,7 @@ void
 panda::HLTBits::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM HLTBits.cc.print */
+  dump(_out);
   /* END CUSTOM */
 }
 
@@ -89,7 +90,7 @@ void
 panda::HLTBits::dump(std::ostream& _out/* = std::cout*/) const
 {
   _out << "<" << typeName() << ">" << std::endl;
-  _out << "words" << words << std::endl;
+  _out << "words = " << words << std::endl;
 }
 
 

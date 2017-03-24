@@ -216,9 +216,9 @@ panda::GenParticle::dump(std::ostream& _out/* = std::cout*/) const
   _out << "<" << typeName() << ">" << std::endl;
   PackedParticle::dump(_out);
 
-  _out << "pdgid" << pdgid << std::endl;
-  _out << "statusFlags" << statusFlags << std::endl;
-  _out << "parent" << parent << std::endl;
+  _out << "pdgid = " << pdgid << std::endl;
+  _out << "statusFlags = " << statusFlags << std::endl;
+  _out << "parent = " << parent << std::endl;
 }
 
 /* BEGIN CUSTOM GenParticle.cc.global */

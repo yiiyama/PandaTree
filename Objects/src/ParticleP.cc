@@ -202,6 +202,7 @@ void
 panda::ParticleP::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM ParticleP.cc.print */
+  dump(_out);
   /* END CUSTOM */
 }
 
@@ -211,9 +212,9 @@ panda::ParticleP::dump(std::ostream& _out/* = std::cout*/) const
   _out << "<" << typeName() << ">" << std::endl;
   Particle::dump(_out);
 
-  _out << "pt_" << pt_ << std::endl;
-  _out << "eta_" << eta_ << std::endl;
-  _out << "phi_" << phi_ << std::endl;
+  _out << "pt_ = " << pt_ << std::endl;
+  _out << "eta_ = " << eta_ << std::endl;
+  _out << "phi_ = " << phi_ << std::endl;
 }
 
 void

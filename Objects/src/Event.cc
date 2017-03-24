@@ -202,10 +202,10 @@ panda::Event::dump(std::ostream& _out/* = std::cout*/) const
 {
   EventBase::dump(_out);
 
-  _out << "npv" << npv << std::endl;
-  _out << "npvTrue" << npvTrue << std::endl;
-  _out << "rho" << rho << std::endl;
-  _out << "rhoCentralCalo" << rhoCentralCalo << std::endl;
+  _out << "npv = " << npv << std::endl;
+  _out << "npvTrue = " << npvTrue << std::endl;
+  _out << "rho = " << rho << std::endl;
+  _out << "rhoCentralCalo = " << rhoCentralCalo << std::endl;
 
   genReweight.dump(_out);
   pfCandidates.dump(_out);

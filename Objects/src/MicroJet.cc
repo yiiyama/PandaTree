@@ -185,6 +185,7 @@ void
 panda::MicroJet::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM MicroJet.cc.print */
+  dump(_out);
   /* END CUSTOM */
 }
 
@@ -194,8 +195,8 @@ panda::MicroJet::dump(std::ostream& _out/* = std::cout*/) const
   _out << "<" << typeName() << ">" << std::endl;
   ParticleM::dump(_out);
 
-  _out << "csv" << csv << std::endl;
-  _out << "qgl" << qgl << std::endl;
+  _out << "csv = " << csv << std::endl;
+  _out << "qgl = " << qgl << std::endl;
 }
 
 /* BEGIN CUSTOM MicroJet.cc.global */

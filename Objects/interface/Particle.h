@@ -58,6 +58,14 @@ namespace panda {
     virtual void setXYZE(double px, double py, double pz, double e) = 0;
 
     /* BEGIN CUSTOM Particle.h.classdef */
+    //! sort comparison by pt
+    /*!
+     * This function takes Elements as arguments to conform with ContainerBase::Comparison
+     * but assumes that both arguments are static_castable to Particle.
+     */
+    static Bool_t PtGreater(Element const& p1, Element const& p2) {
+      return static_cast<Particle const&>(p1).pt() > static_cast<Particle const&>(p2).pt();
+    }
     /* END CUSTOM */
 
     static utils::BranchList getListOfBranches();

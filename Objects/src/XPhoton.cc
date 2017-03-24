@@ -281,6 +281,7 @@ void
 panda::XPhoton::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM XPhoton.cc.print */
+  dump(_out);
   /* END CUSTOM */
 }
 
@@ -290,13 +291,13 @@ panda::XPhoton::dump(std::ostream& _out/* = std::cout*/) const
   _out << "<" << typeName() << ">" << std::endl;
   Photon::dump(_out);
 
-  _out << "scEta" << scEta << std::endl;
-  _out << "scRawPt" << scRawPt << std::endl;
-  _out << "chIsoS15" << chIsoS15 << std::endl;
-  _out << "nhIsoS15" << nhIsoS15 << std::endl;
-  _out << "phIsoS15" << phIsoS15 << std::endl;
-  _out << "e4" << e4 << std::endl;
-  _out << "isEB" << isEB << std::endl;
+  _out << "scEta = " << scEta << std::endl;
+  _out << "scRawPt = " << scRawPt << std::endl;
+  _out << "chIsoS15 = " << chIsoS15 << std::endl;
+  _out << "nhIsoS15 = " << nhIsoS15 << std::endl;
+  _out << "phIsoS15 = " << phIsoS15 << std::endl;
+  _out << "e4 = " << e4 << std::endl;
+  _out << "isEB = " << isEB << std::endl;
 }
 
 

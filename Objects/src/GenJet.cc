@@ -168,6 +168,7 @@ void
 panda::GenJet::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM GenJet.cc.print */
+  dump(_out);
   /* END CUSTOM */
 }
 
@@ -177,7 +178,7 @@ panda::GenJet::dump(std::ostream& _out/* = std::cout*/) const
   _out << "<" << typeName() << ">" << std::endl;
   ParticleM::dump(_out);
 
-  _out << "pdgid" << pdgid << std::endl;
+  _out << "pdgid = " << pdgid << std::endl;
 }
 
 /* BEGIN CUSTOM GenJet.cc.global */

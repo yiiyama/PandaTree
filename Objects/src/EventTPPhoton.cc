@@ -68,10 +68,10 @@ panda::EventTPPhoton::dump(std::ostream& _out/* = std::cout*/) const
 {
   EventBase::dump(_out);
 
-  _out << "npv" << npv << std::endl;
-  _out << "npvTrue" << npvTrue << std::endl;
-  _out << "rho" << rho << std::endl;
-  _out << "sample" << sample << std::endl;
+  _out << "npv = " << npv << std::endl;
+  _out << "npvTrue = " << npvTrue << std::endl;
+  _out << "rho = " << rho << std::endl;
+  _out << "sample = " << sample << std::endl;
 
   tp.dump(_out);
   tags.dump(_out);
