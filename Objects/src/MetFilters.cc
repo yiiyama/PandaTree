@@ -154,7 +154,6 @@ panda::MetFilters::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1
 void
 panda::MetFilters::dump(std::ostream& _out/* = std::cout*/) const
 {
-  _out << "<" << typeName() << ">" << std::endl;
   _out << "globalHalo16 = " << globalHalo16 << std::endl;
   _out << "hbhe = " << hbhe << std::endl;
   _out << "hbheIso = " << hbheIso << std::endl;

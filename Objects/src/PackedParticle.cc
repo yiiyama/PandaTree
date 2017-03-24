@@ -231,7 +231,6 @@ panda::PackedParticle::print(std::ostream& _out/* = std::cout*/, UInt_t _level/*
 void
 panda::PackedParticle::dump(std::ostream& _out/* = std::cout*/) const
 {
-  _out << "<" << typeName() << ">" << std::endl;
   Particle::dump(_out);
 
   _out << "packedPt = " << packedPt << std::endl;

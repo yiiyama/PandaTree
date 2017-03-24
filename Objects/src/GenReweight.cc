@@ -145,7 +145,6 @@ panda::GenReweight::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 
 void
 panda::GenReweight::dump(std::ostream& _out/* = std::cout*/) const
 {
-  _out << "<" << typeName() << ">" << std::endl;
   _out << "r1f2DW = " << r1f2DW << std::endl;
   _out << "r1f5DW = " << r1f5DW << std::endl;
   _out << "r2f1DW = " << r2f1DW << std::endl;

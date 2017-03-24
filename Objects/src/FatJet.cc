@@ -363,7 +363,6 @@ panda::FatJet::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) 
 void
 panda::FatJet::dump(std::ostream& _out/* = std::cout*/) const
 {
-  _out << "<" << typeName() << ">" << std::endl;
   Jet::dump(_out);
 
   _out << "tau1 = " << tau1 << std::endl;

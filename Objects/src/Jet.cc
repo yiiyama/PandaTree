@@ -414,7 +414,6 @@ panda::Jet::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) con
 void
 panda::Jet::dump(std::ostream& _out/* = std::cout*/) const
 {
-  _out << "<" << typeName() << ">" << std::endl;
   MicroJet::dump(_out);
 
   _out << "rawPt = " << rawPt << std::endl;

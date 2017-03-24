@@ -192,7 +192,6 @@ panda::MicroJet::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/
 void
 panda::MicroJet::dump(std::ostream& _out/* = std::cout*/) const
 {
-  _out << "<" << typeName() << ">" << std::endl;
   ParticleM::dump(_out);
 
   _out << "csv = " << csv << std::endl;

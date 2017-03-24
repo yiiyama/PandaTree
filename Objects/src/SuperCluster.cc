@@ -200,7 +200,6 @@ panda::SuperCluster::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* =
 void
 panda::SuperCluster::dump(std::ostream& _out/* = std::cout*/) const
 {
-  _out << "<" << typeName() << ">" << std::endl;
   _out << "rawPt = " << rawPt << std::endl;
   _out << "eta = " << eta << std::endl;
   _out << "phi = " << phi << std::endl;

@@ -719,7 +719,6 @@ panda::Photon::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) 
 void
 panda::Photon::dump(std::ostream& _out/* = std::cout*/) const
 {
-  _out << "<" << typeName() << ">" << std::endl;
   ParticleP::dump(_out);
 
   _out << "pfPt = " << pfPt << std::endl;

@@ -165,7 +165,6 @@ panda::RecoMet::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/)
 void
 panda::RecoMet::dump(std::ostream& _out/* = std::cout*/) const
 {
-  _out << "<" << typeName() << ">" << std::endl;
   Met::dump(_out);
 
   _out << "sumETRaw = " << sumETRaw << std::endl;

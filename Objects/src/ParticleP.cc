@@ -209,7 +209,6 @@ panda::ParticleP::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*
 void
 panda::ParticleP::dump(std::ostream& _out/* = std::cout*/) const
 {
-  _out << "<" << typeName() << ">" << std::endl;
   Particle::dump(_out);
 
   _out << "pt_ = " << pt_ << std::endl;

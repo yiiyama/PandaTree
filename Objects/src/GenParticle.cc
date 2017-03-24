@@ -213,7 +213,6 @@ panda::GenParticle::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 
 void
 panda::GenParticle::dump(std::ostream& _out/* = std::cout*/) const
 {
-  _out << "<" << typeName() << ">" << std::endl;
   PackedParticle::dump(_out);
 
   _out << "pdgid = " << pdgid << std::endl;

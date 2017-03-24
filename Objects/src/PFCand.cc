@@ -214,7 +214,6 @@ panda::PFCand::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) 
 void
 panda::PFCand::dump(std::ostream& _out/* = std::cout*/) const
 {
-  _out << "<" << typeName() << ">" << std::endl;
   PackedParticle::dump(_out);
 
   _out << "packedPuppiW = " << packedPuppiW << std::endl;

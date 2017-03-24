@@ -447,7 +447,6 @@ panda::Electron::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/
 void
 panda::Electron::dump(std::ostream& _out/* = std::cout*/) const
 {
-  _out << "<" << typeName() << ">" << std::endl;
   Lepton::dump(_out);
 
   _out << "hltsafe = " << hltsafe << std::endl;

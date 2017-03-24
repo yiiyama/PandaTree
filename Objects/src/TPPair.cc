@@ -183,7 +183,6 @@ panda::TPPair::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) 
 void
 panda::TPPair::dump(std::ostream& _out/* = std::cout*/) const
 {
-  _out << "<" << typeName() << ">" << std::endl;
   _out << "mass = " << mass << std::endl;
   _out << "mass2 = " << mass2 << std::endl;
 }

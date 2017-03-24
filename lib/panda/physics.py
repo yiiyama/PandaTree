@@ -621,8 +621,6 @@ class PhysicsObject(Definition, Object):
         src.writeline('{')
         src.indent += 1
 
-        src.writeline('_out << "<" << typeName() << ">" << std::endl;')
-
         if self.parent not in ['Singlet', 'Element']:
             src.writeline('{parent}::dump(_out);'.format(parent = self.parent))
             src.newline()

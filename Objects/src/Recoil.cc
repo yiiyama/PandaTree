@@ -138,7 +138,6 @@ panda::Recoil::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) 
 void
 panda::Recoil::dump(std::ostream& _out/* = std::cout*/) const
 {
-  _out << "<" << typeName() << ">" << std::endl;
   _out << "met = " << met << std::endl;
   _out << "monoMu = " << monoMu << std::endl;
   _out << "monoE = " << monoE << std::endl;

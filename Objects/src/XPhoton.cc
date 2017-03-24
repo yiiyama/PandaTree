@@ -288,7 +288,6 @@ panda::XPhoton::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/)
 void
 panda::XPhoton::dump(std::ostream& _out/* = std::cout*/) const
 {
-  _out << "<" << typeName() << ">" << std::endl;
   Photon::dump(_out);
 
   _out << "scEta = " << scEta << std::endl;
