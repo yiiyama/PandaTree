@@ -47,7 +47,11 @@ namespace panda {
     MicroJet(datastore&, UInt_t idx);
     ~MicroJet();
     MicroJet& operator=(MicroJet const&);
-    void print(std::ostream& = std::cout) const override;
+
+    static char const* typeName() { return "MicroJet"; }
+
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     Float_t& csv;
     Float_t& qgl;

@@ -437,10 +437,35 @@ panda::Electron::doInit_()
 }
 
 void
-panda::Electron::print(std::ostream& _out/* = std::cout*/) const
+panda::Electron::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM Electron.cc.print */
+  dump(_out);
   /* END CUSTOM */
+}
+
+void
+panda::Electron::dump(std::ostream& _out/* = std::cout*/) const
+{
+  Lepton::dump(_out);
+
+  _out << "hltsafe = " << hltsafe << std::endl;
+  _out << "chIsoPh = " << chIsoPh << std::endl;
+  _out << "nhIsoPh = " << nhIsoPh << std::endl;
+  _out << "phIsoPh = " << phIsoPh << std::endl;
+  _out << "ecalIso = " << ecalIso << std::endl;
+  _out << "hcalIso = " << hcalIso << std::endl;
+  _out << "isoPUOffset = " << isoPUOffset << std::endl;
+  _out << "sieie = " << sieie << std::endl;
+  _out << "sipip = " << sipip << std::endl;
+  _out << "eseed = " << eseed << std::endl;
+  _out << "hOverE = " << hOverE << std::endl;
+  _out << "rawPt = " << rawPt << std::endl;
+  _out << "regPt = " << regPt << std::endl;
+  _out << "originalPt = " << originalPt << std::endl;
+  _out << "veto = " << veto << std::endl;
+  _out << "triggerMatch = " << triggerMatch << std::endl;
+  _out << "superCluster = " << superCluster << std::endl;
 }
 
 

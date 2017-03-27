@@ -34,7 +34,11 @@ namespace panda {
     Particle(datastore&, UInt_t idx);
     ~Particle();
     Particle& operator=(Particle const&);
-    void print(std::ostream& = std::cout) const override;
+
+    static char const* typeName() { return "Particle"; }
+
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     TLorentzVector p4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt(), eta(), phi(), m()); return p4; }
     double e() const { return std::sqrt(std::pow(pt() * std::cosh(eta()), 2.) + m() * m()); }

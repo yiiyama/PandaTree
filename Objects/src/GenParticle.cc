@@ -199,7 +199,7 @@ panda::GenParticle::doInit_()
 }
 
 void
-panda::GenParticle::print(std::ostream& _out/* = std::cout*/) const
+panda::GenParticle::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM GenParticle.cc.print */
   _out << "GenParticle " << pdgid << " (" << pt() << ", " << eta() << ", " << phi() << ") "
@@ -208,6 +208,16 @@ panda::GenParticle::print(std::ostream& _out/* = std::cout*/) const
     _out << ((statusFlags >> i) & 1);
   _out << std::endl;
   /* END CUSTOM */
+}
+
+void
+panda::GenParticle::dump(std::ostream& _out/* = std::cout*/) const
+{
+  PackedParticle::dump(_out);
+
+  _out << "pdgid = " << pdgid << std::endl;
+  _out << "statusFlags = " << statusFlags << std::endl;
+  _out << "parent = " << parent << std::endl;
 }
 
 /* BEGIN CUSTOM GenParticle.cc.global */

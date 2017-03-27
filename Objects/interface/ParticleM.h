@@ -43,7 +43,11 @@ namespace panda {
     ParticleM(datastore&, UInt_t idx);
     ~ParticleM();
     ParticleM& operator=(ParticleM const&);
-    void print(std::ostream& = std::cout) const override;
+
+    static char const* typeName() { return "ParticleM"; }
+
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     double m() const override { return mass_; }
     void setPtEtaPhiM(double pt, double eta, double phi, double m) override;

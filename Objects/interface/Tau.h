@@ -54,7 +54,11 @@ namespace panda {
     Tau(datastore&, UInt_t idx);
     ~Tau();
     Tau& operator=(Tau const&);
-    void print(std::ostream& = std::cout) const override;
+
+    static char const* typeName() { return "Tau"; }
+
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     Char_t& charge;
     Bool_t& decayMode;

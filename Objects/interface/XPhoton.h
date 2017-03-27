@@ -86,7 +86,11 @@ namespace panda {
     XPhoton(datastore&, UInt_t idx);
     ~XPhoton();
     XPhoton& operator=(XPhoton const&);
-    void print(std::ostream& = std::cout) const override;
+
+    static char const* typeName() { return "XPhoton"; }
+
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     static double chIsoCuts[2][2][4];
     static double nhIsoCuts[2][2][4];

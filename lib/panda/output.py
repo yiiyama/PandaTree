@@ -21,12 +21,13 @@ class FileOutput(object):
                     if matches is None:
                         continue
     
-                    block = line
+                    block = []
                     while True:
                         line = original.readline()
-                        block += line
                         if not line or '/* END CUSTOM */' in line:
                             break
+
+                        block.append(line[:-1]) # remove the trailing newline character
     
                     self.custom_blocks[matches.group(1)] = block
                 
@@ -56,9 +57,13 @@ class FileOutput(object):
 
         self._file.write((line_end + '\n').join(indented_lines) + '\n')
 
-    def write_custom_block(self, block_name):
-        try:
-            self.write(self.custom_blocks[block_name])
-        except KeyError:
-            self.writeline('/* BEGIN CUSTOM ' + block_name + ' */')
-            self.writeline('/* END CUSTOM */')
+    def write_custom_block(self, block_name, default = ''):
+        self.writeline('/* BEGIN CUSTOM ' + block_name + ' */')
+
+        if block_name not in self.custom_blocks or len(self.custom_blocks[block_name]) == 0:
+            if default:
+                self.writeline(default)
+        else:
+            self.write('\n'.join(self.custom_blocks[block_name]) + '\n')
+
+        self.writeline('/* END CUSTOM */')

@@ -17,7 +17,11 @@ namespace panda {
     MetFilters(MetFilters const&);
     ~MetFilters();
     MetFilters& operator=(MetFilters const&);
-    void print(std::ostream& = std::cout) const override;
+
+    static char const* typeName() { return "MetFilters"; }
+
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc; }
 

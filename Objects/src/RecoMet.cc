@@ -155,10 +155,27 @@ panda::RecoMet::doGetBranchNames_(Bool_t _fullName) const
 }
 
 void
-panda::RecoMet::print(std::ostream& _out/* = std::cout*/) const
+panda::RecoMet::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM RecoMet.cc.print */
+  dump(_out);
   /* END CUSTOM */
+}
+
+void
+panda::RecoMet::dump(std::ostream& _out/* = std::cout*/) const
+{
+  Met::dump(_out);
+
+  _out << "sumETRaw = " << sumETRaw << std::endl;
+  _out << "ptCorrUp = " << ptCorrUp << std::endl;
+  _out << "phiCorrUp = " << phiCorrUp << std::endl;
+  _out << "ptCorrDown = " << ptCorrDown << std::endl;
+  _out << "phiCorrDown = " << phiCorrDown << std::endl;
+  _out << "ptUnclUp = " << ptUnclUp << std::endl;
+  _out << "phiUnclUp = " << phiUnclUp << std::endl;
+  _out << "ptUnclDown = " << ptUnclDown << std::endl;
+  _out << "phiUnclDown = " << phiUnclDown << std::endl;
 }
 
 TVector2

@@ -165,10 +165,19 @@ panda::Parton::doInit_()
 }
 
 void
-panda::Parton::print(std::ostream& _out/* = std::cout*/) const
+panda::Parton::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM Parton.cc.print */
+  dump(_out);
   /* END CUSTOM */
+}
+
+void
+panda::Parton::dump(std::ostream& _out/* = std::cout*/) const
+{
+  ParticleM::dump(_out);
+
+  _out << "pdgid = " << pdgid << std::endl;
 }
 
 /* BEGIN CUSTOM Parton.cc.global */

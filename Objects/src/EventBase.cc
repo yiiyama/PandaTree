@@ -43,6 +43,26 @@ panda::EventBase::operator=(EventBase const& _src)
   return *this;
 }
 
+void
+panda::EventBase::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
+{
+  /* BEGIN CUSTOM EventBase.cc.print */
+  dump(_out);
+  /* END CUSTOM */
+}
+
+void
+panda::EventBase::dump(std::ostream& _out/* = std::cout*/) const
+{
+  _out << "runNumber = " << runNumber << std::endl;
+  _out << "lumiNumber = " << lumiNumber << std::endl;
+  _out << "eventNumber = " << eventNumber << std::endl;
+  _out << "isData = " << isData << std::endl;
+  _out << "weight = " << weight << std::endl;
+
+  triggers.dump(_out);
+
+}
 /*static*/
 panda::utils::BranchList
 panda::EventBase::getListOfBranches()

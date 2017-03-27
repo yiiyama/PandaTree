@@ -54,7 +54,11 @@ namespace panda {
     Lepton(datastore&, UInt_t idx);
     ~Lepton();
     Lepton& operator=(Lepton const&);
-    void print(std::ostream& = std::cout) const override;
+
+    static char const* typeName() { return "Lepton"; }
+
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     virtual double combIso() const { return 0.; }
 

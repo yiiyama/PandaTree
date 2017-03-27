@@ -46,7 +46,11 @@ namespace panda {
     Parton(datastore&, UInt_t idx);
     ~Parton();
     Parton& operator=(Parton const&);
-    void print(std::ostream& = std::cout) const override;
+
+    static char const* typeName() { return "Parton"; }
+
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     Int_t& pdgid;
 

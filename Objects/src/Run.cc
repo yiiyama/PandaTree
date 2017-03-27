@@ -51,6 +51,22 @@ panda::Run::operator=(Run const& _src)
   return *this;
 }
 
+void
+panda::Run::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
+{
+  /* BEGIN CUSTOM Run.cc.print */
+  dump(_out);
+  /* END CUSTOM */
+}
+
+void
+panda::Run::dump(std::ostream& _out/* = std::cout*/) const
+{
+  _out << "runNumber = " << runNumber << std::endl;
+  _out << "hltMenu = " << hltMenu << std::endl;
+  _out << "hltSize = " << hltSize << std::endl;
+
+}
 /*static*/
 panda::utils::BranchList
 panda::Run::getListOfBranches()

@@ -26,6 +26,9 @@ namespace panda {
     ~EventMonophoton() {}
     EventMonophoton& operator=(EventMonophoton const&);
 
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
+
     GenReweight genReweight = GenReweight("genReweight");
     SuperClusterCollection superClusters = SuperClusterCollection("superClusters", 64);
     ElectronCollection electrons = ElectronCollection("electrons", 32);

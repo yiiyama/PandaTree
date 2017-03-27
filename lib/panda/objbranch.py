@@ -70,3 +70,6 @@ class ObjBranch(Definition):
 
     def write_init(self, out):
         out.writeline('{name}.init();'.format(name = self.name))
+
+    def write_dump(self, out):
+        out.writeline('{name}.dump(_out);'.format(name = self.name))

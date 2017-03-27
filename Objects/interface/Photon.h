@@ -79,7 +79,11 @@ namespace panda {
     Photon(datastore&, UInt_t idx);
     ~Photon();
     Photon& operator=(Photon const&);
-    void print(std::ostream& = std::cout) const override;
+
+    static char const* typeName() { return "Photon"; }
+
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     Float_t& pfPt; // Pt of the dR-closest PF candidate
     Float_t& chIso;

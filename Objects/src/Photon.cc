@@ -709,10 +709,51 @@ panda::Photon::doInit_()
 }
 
 void
-panda::Photon::print(std::ostream& _out/* = std::cout*/) const
+panda::Photon::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM Photon.cc.print */
+  dump(_out);
   /* END CUSTOM */
+}
+
+void
+panda::Photon::dump(std::ostream& _out/* = std::cout*/) const
+{
+  ParticleP::dump(_out);
+
+  _out << "pfPt = " << pfPt << std::endl;
+  _out << "chIso = " << chIso << std::endl;
+  _out << "chIsoMax = " << chIsoMax << std::endl;
+  _out << "nhIso = " << nhIso << std::endl;
+  _out << "phIso = " << phIso << std::endl;
+  _out << "sieie = " << sieie << std::endl;
+  _out << "sipip = " << sipip << std::endl;
+  _out << "hOverE = " << hOverE << std::endl;
+  _out << "genIso = " << genIso << std::endl;
+  _out << "mipEnergy = " << mipEnergy << std::endl;
+  _out << "emax = " << emax << std::endl;
+  _out << "e2nd = " << e2nd << std::endl;
+  _out << "eleft = " << eleft << std::endl;
+  _out << "eright = " << eright << std::endl;
+  _out << "etop = " << etop << std::endl;
+  _out << "ebottom = " << ebottom << std::endl;
+  _out << "r9 = " << r9 << std::endl;
+  _out << "etaWidth = " << etaWidth << std::endl;
+  _out << "phiWidth = " << phiWidth << std::endl;
+  _out << "time = " << time << std::endl;
+  _out << "timeSpan = " << timeSpan << std::endl;
+  _out << "rawPt = " << rawPt << std::endl;
+  _out << "regPt = " << regPt << std::endl;
+  _out << "originalPt = " << originalPt << std::endl;
+  _out << "loose = " << loose << std::endl;
+  _out << "medium = " << medium << std::endl;
+  _out << "tight = " << tight << std::endl;
+  _out << "highpt = " << highpt << std::endl;
+  _out << "pixelVeto = " << pixelVeto << std::endl;
+  _out << "csafeVeto = " << csafeVeto << std::endl;
+  _out << "triggerMatch = " << triggerMatch << std::endl;
+  _out << "superCluster = " << superCluster << std::endl;
+  _out << "matchedGen = " << matchedGen << std::endl;
 }
 
 /* BEGIN CUSTOM Photon.cc.global */
