@@ -83,6 +83,9 @@ namespace panda {
 
     std::vector<UInt_t> sort(ContainerBase::Comparison const&) override;
 
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
+
     data_type data{};
 
   protected:
@@ -225,6 +228,22 @@ namespace panda {
       (*this)[iP] = tmpCollection[sortedIndices[iP]];
 
     return sortedIndices;
+  }
+
+  template<class E>
+  void
+  Collection<E>::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
+  {
+    _out << E::typeName() << "Collection" << std::endl;
+    CollectionBase::print(_out, _level);
+  }
+
+  template<class E>
+  void
+  Collection<E>::dump(std::ostream& _out/* = std::cout*/) const
+  {
+    _out << E::typeName() << "Collection" << std::endl;
+    CollectionBase::dump(_out);
   }
 
   /*protected*/

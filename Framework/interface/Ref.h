@@ -107,7 +107,7 @@ namespace panda {
       return true;
     }
     //! Validity check. Both container and idx must be valid, and idx must not be 0xffffffff.
-    Bool_t isValid() const { return container_ && *container_ && idx_ && (*idx_) < (*container_)->size(); }
+    Bool_t isValid() const { return container_ && *container_ && idx_ && unsigned(*idx_) < (*container_)->size(); }
     //! Initializer
     /*!
      * Invalidates the index by setting it to 0xffffffff.
@@ -118,6 +118,17 @@ namespace panda {
      * Throws a runtime_error if idx is not valid.
      */
     index_type& idx()
+    {
+      if (!idx_)
+        throw std::runtime_error("Invalid index ref");
+  
+      return *idx_;
+    }
+    //! Accessor to idx
+    /*!
+     * Throws a runtime_error if idx is not valid.
+     */
+    index_type idx() const
     {
       if (!idx_)
         throw std::runtime_error("Invalid index ref");
@@ -154,7 +165,7 @@ namespace panda {
   public:
     typedef ConstRef<E> self_type;
     typedef E value_type;
-    typedef Short_t const index_type;
+    typedef Short_t index_type;
 
     //! Default constructor.
     ConstRef() {}
@@ -163,14 +174,14 @@ namespace panda {
      * The container must be a derived class of Array<E> or Collection<E>. There is no protection against
      * assigning a wrong type of container.
      */
-    ConstRef(ContainerBase const*& c, index_type& idx) : container_(&c), idx_(&idx) {}
+    ConstRef(ContainerBase const*& c, index_type const& idx) : container_(&c), idx_(&idx) {}
     //! Copy constructor.
     ConstRef(self_type const& orig) : container_(orig.container_), idx_(orig.idx_) {}
 
     self_type& operator=(self_type const&) = delete;
 
     //! Set the index.
-    void setIndex(index_type& idx) { idx_ = &idx; }
+    void setIndex(index_type const& idx) { idx_ = &idx; }
     //! Set the container.
     /*!
      * The container must be a derived class of Array<E> or Collection<E>. There is no protection against
@@ -200,12 +211,12 @@ namespace panda {
       return static_cast<E const&>((*container_)->elemAt(*idx_));
     }
     //! Validity check. Both container and idx must be valid, and idx must not be 0xffffffff.
-    Bool_t isValid() const { return container_ && *container_ && idx_ && (*idx_) < (*container_)->size(); }
+    Bool_t isValid() const { return container_ && *container_ && idx_ && unsigned(*idx_) < (*container_)->size(); }
     //! Accessor to idx
     /*!
      * Throws a runtime_error if idx is not valid.
      */
-    index_type& idx()
+    index_type const& idx() const
     {
       if (!idx_)
         throw std::runtime_error("Invalid index ref");
@@ -228,9 +239,35 @@ namespace panda {
 
   private:
     ContainerBase const** container_{0};
-    index_type* idx_{0};
+    index_type const* idx_{0};
   };
 
+}
+
+template<class E>
+std::ostream& operator<<(std::ostream& _out, panda::Ref<E> const& _ref)
+{
+  _out << "Ref<" << E::typeName() << ">";
+  if (_ref.isValid())
+    _out << " " << _ref.container()->getName() << "(" << _ref.idx() << ")";
+  else
+    _out << " (null)";
+  _out << std::endl;
+
+  return _out;
+}
+
+template<class E>
+std::ostream& operator<<(std::ostream& _out, panda::ConstRef<E> const& _ref)
+{
+  _out << "Ref<" << E::typeName() << ">";
+  if (_ref.isValid())
+    _out << " " << _ref.container()->getName() << "(" << _ref.idx() << ")";
+  else
+    _out << " (null)";
+  _out << std::endl;
+
+  return _out;
 }
 
 #endif
