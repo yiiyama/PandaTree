@@ -193,11 +193,10 @@ void
 panda::Event::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM Event.cc.print */
-  if (_level > 2) {
-    _out << "why am I here?" << std::endl;
-    dump(_out);
+  if (_level >= 3) {
+    Event::dump(_out);
   }
-  else if (_level > 1) {
+  else if (_level == 2) {
     // debug level
     EventBase::print(_out, _level);
     

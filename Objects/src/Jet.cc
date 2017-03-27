@@ -407,7 +407,23 @@ void
 panda::Jet::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM Jet.cc.print */
-  dump(_out);
+  if (_level >= 3) {
+    Jet::dump(_out);
+  }
+  else if (_level == 2) {
+    MicroJet::print(_out, _level);
+
+    _out << "rawPt = " << rawPt << std::endl;
+    _out << "area = " << area << std::endl;
+    _out << "nhf = " << nhf << std::endl;
+    _out << "chf = " << chf << std::endl;
+    _out << "puid = " << puid << std::endl;
+    _out << "loose = " << loose << std::endl;
+    _out << "tight = " << tight << std::endl;
+    _out << "monojet = " << monojet << std::endl;
+  }
+  else
+    return;
   /* END CUSTOM */
 }
 

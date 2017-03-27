@@ -48,10 +48,10 @@ void
 panda::EventBase::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM EventBase.cc.print */
-  if (_level > 2) {
-    dump(_out);
+  if (_level >= 3) {
+    EventBase::dump(_out);
   }
-  else if (_level > 1) {
+  else if (_level == 2) {
     // debug level
     _out << "runNumber = " << runNumber << std::endl;
     _out << "lumiNumber = " << lumiNumber << std::endl;

@@ -712,13 +712,10 @@ void
 panda::Photon::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM Photon.cc.print */
-  /*
   if (_level >= 3) {
-    dump(_out);
+    Photon::dump(_out);
   }
-  else
-  */ 
-  if (_level == 2) {
+  else if (_level == 2) {
     ParticleP::print(_out, _level);
     
     _out << "pfPt = " << pfPt << std::endl;

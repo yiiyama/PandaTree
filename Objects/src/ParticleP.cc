@@ -202,7 +202,7 @@ void
 panda::ParticleP::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM ParticleP.cc.print */
-  dump(_out);
+  ParticleP::dump(_out);
   /* END CUSTOM */
 }
 

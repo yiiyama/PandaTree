@@ -158,7 +158,15 @@ void
 panda::RecoMet::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM RecoMet.cc.print */
-  dump(_out);
+  if (_level >= 3) {
+    _out << getName() << std::endl;
+    RecoMet::dump(_out);
+  }
+  else if (_level == 2) {
+    Met::print(_out, _level);
+    
+    _out << "sumETRaw = " << sumETRaw << std::endl;
+  }
   /* END CUSTOM */
 }
 

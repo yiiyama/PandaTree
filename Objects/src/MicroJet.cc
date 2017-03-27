@@ -185,7 +185,7 @@ void
 panda::MicroJet::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM MicroJet.cc.print */
-  dump(_out);
+  MicroJet::dump(_out);
   /* END CUSTOM */
 }
 

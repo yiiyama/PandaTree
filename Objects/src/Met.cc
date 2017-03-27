@@ -91,7 +91,8 @@ void
 panda::Met::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM Met.cc.print */
-  dump(_out);
+  _out << getName() << std::endl;
+  Met::dump(_out);
   /* END CUSTOM */
 }
 

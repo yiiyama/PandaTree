@@ -281,13 +281,10 @@ void
 panda::XPhoton::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM XPhoton.cc.print */
-  /*
   if (_level >= 3) {
-    dump(_out);
+    XPhoton::dump(_out);
   }
-  else
-  */ 
-  if (_level == 2) {
+  else if (_level == 2) {
     Photon::print(_out, _level);
 
     _out << "scEta = " << scEta << std::endl;
