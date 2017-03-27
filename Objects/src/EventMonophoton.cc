@@ -55,12 +55,18 @@ panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
   photons.data.matchedGenContainer_ = &genParticles;
   genParticles.data.parentContainer_ = &genParticles;
   jets.data.matchedGenJetContainer_ = &genJets;
+  /* BEGIN CUSTOM EventMonophoton.cc.copy_ctor */
+  /* END CUSTOM */
 }
 
 panda::EventMonophoton&
 panda::EventMonophoton::operator=(EventMonophoton const& _src)
 {
   EventBase::operator=(_src);
+
+  /* BEGIN CUSTOM EventMonophoton.cc.operator= */
+  /* END CUSTOM */
+
   npv = _src.npv;
   npvTrue = _src.npvTrue;
   rho = _src.rho;
@@ -121,6 +127,7 @@ panda::EventMonophoton::getListOfBranches()
   blist += MetFilters::getListOfBranches().fullNames("metFilters");
   return blist;
 }
+
 /*protected*/
 void
 panda::EventMonophoton::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)

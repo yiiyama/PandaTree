@@ -174,6 +174,8 @@ class Tree(Definition, Object):
             for ref in self.references:
                 ref.write_def(src, self.objbranches)
 
+        src.write_custom_block('{name}.cc.copy_ctor'.format(name = self.name))
+
         src.indent -= 1
         src.writeline('}')
         src.newline()
@@ -183,6 +185,11 @@ class Tree(Definition, Object):
         src.writeline('{')
         src.indent += 1
         src.writeline('{parent}::operator=(_src);'.format(parent = self.parent))
+
+        src.newline()
+        src.write_custom_block('{name}.cc.operator='.format(name = self.name))
+        src.newline()
+
         if len(self.branches) != 0:
             for branch in self.branches:
                 branch.write_assign(src, context = 'TreeEntry')
@@ -195,6 +202,7 @@ class Tree(Definition, Object):
             for ref in self.references:
                 ref.write_def(src, self.objbranches)
             src.newline()
+
         src.writeline('return *this;')
         src.indent -= 1
         src.writeline('}')
@@ -216,6 +224,7 @@ class Tree(Definition, Object):
         src.writeline('return blist;')
         src.indent -= 1
         src.writeline('}')
+        src.newline()
 
         src.writeline('/*protected*/')
         src.writeline('void')

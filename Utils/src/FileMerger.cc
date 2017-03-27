@@ -7,6 +7,8 @@
 #include "TRegexp.h"
 #include "TError.h"
 #include "TEntryList.h"
+#include "TObjArray.h"
+#include "TH1.h"
 
 #include <iostream>
 
@@ -89,6 +91,8 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
   long nTotal(0);
   long nRead(0);
   long nWritten(0);
+
+  TObjArray mergeables;
 
   // output tree constructed only at the first valid input
   TTree* outEventTree(0);
@@ -178,9 +182,13 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
         else
           clone = outputFile->CloneObject(obj);
 
-        clone->Write();
-        delete clone;
-        delete obj;
+        if (obj->InheritsFrom(TTree::Class()) || obj->InheritsFrom(TH1::Class()))
+          mergeables.Add(clone);
+        else {
+          clone->Write();
+          delete clone;
+          delete obj;
+        }
       }
 
       // list of branches in the original tree filtered/augmented by branchList_
@@ -210,6 +218,26 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
         outEventTree = inEventTree->CloneTree(0);
 
         inEventTree->SetBranchStatus("*", true);
+      }
+    }
+    else {
+      // >= second input tree. Merge mergeable objects
+
+      for (auto* mergeable : mergeables) {
+        TString objName(mergeable->GetName());
+
+        auto* obj(source->Get(objName));
+        if (!obj) {
+          std::cerr << objName << " missing from " << path << std::endl;
+          continue;
+        }
+
+        if (obj->InheritsFrom(TTree::Class())) {
+          // if the obj is a tree, a simple clone will only copy the keys but not the tree data
+          static_cast<TTree*>(mergeable)->CopyEntries(static_cast<TTree*>(obj), -1, "fast");
+        }
+        else if (obj->InheritsFrom(TH1::Class()))
+          static_cast<TH1*>(mergeable)->Add(static_cast<TH1*>(obj));
       }
     }
 
@@ -401,6 +429,11 @@ panda::FileMerger::merge(char const* _outPath, long _nEvents/* = -1*/)
     outputFile->cd();
     outEventTree->Write();
     delete outEventTree;
+  }
+
+  for (auto* mergeable : mergeables) {
+    outputFile->cd();
+    mergeable->Write();
   }
 
   if (runSources.size() != 0) {

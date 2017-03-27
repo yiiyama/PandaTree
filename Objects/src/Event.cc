@@ -106,12 +106,18 @@ panda::Event::Event(Event const& _src) :
   puppiCA15Jets.data.constituentsContainer_ = &pfCandidates;
   puppiCA15Jets.data.subjetsContainer_ = &puppiCA15Subjets;
   puppiCA15Jets.data.matchedGenJetContainer_ = &ca15GenJets;
+  /* BEGIN CUSTOM Event.cc.copy_ctor */
+  /* END CUSTOM */
 }
 
 panda::Event&
 panda::Event::operator=(Event const& _src)
 {
   EventBase::operator=(_src);
+
+  /* BEGIN CUSTOM Event.cc.operator= */
+  /* END CUSTOM */
+
   npv = _src.npv;
   npvTrue = _src.npvTrue;
   rho = _src.rho;
@@ -229,6 +235,7 @@ panda::Event::getListOfBranches()
   blist += Recoil::getListOfBranches().fullNames("recoil");
   return blist;
 }
+
 /*protected*/
 void
 panda::Event::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
