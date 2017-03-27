@@ -106,7 +106,21 @@ void
 panda::EventMonophoton::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM EventMonophoton.cc.print */
-  dump(_out);
+  if (_level > 2) {
+    _out << "why am I here?" << std::endl;
+    dump(_out);
+  }
+  else if (_level > 1) {
+    // debug level
+    EventBase::print(_out, _level);
+
+    _out << "npv = " << npv << std::endl;
+    _out << "npvTrue = " << npvTrue << std::endl;
+    _out << "rho = " << rho << std::endl;
+    _out << "rhoCentralCalo = " << rhoCentralCalo << std::endl;
+  }
+  else 
+    return;
   /* END CUSTOM */
 }
 
