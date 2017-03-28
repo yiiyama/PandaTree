@@ -408,6 +408,7 @@ rho/F
 rhoCentralCalo/F
 genReweight/GenReweight
 pfCandidates/PFCandCollection(2048)
+vertices/VertexCollection(64)
 superClusters/SuperClusterCollection(64)
 electrons/ElectronCollection(32)
 muons/MuonCollection(32)
@@ -427,6 +428,7 @@ ak4GenJets/GenJetCollection(64)
 ak8GenJets/GenJetCollection(32)
 ca15GenJets/GenJetCollection(32)
 genParticles/GenParticleCollection(256)
+genVertex/Vertex
 partons/PartonCollection(8)
 pfMet/RecoMet
 puppiMet/RecoMet
@@ -445,8 +447,11 @@ metFilters/MetFilters
 recoil/Recoil
 electrons.superCluster->superClusters
 electrons.matchedGen->genParticles
+electrons.vertex->vertices
 muons.matchedGen->genParticles
+muons.vertex->vertices
 taus.matchedGen->genParticles
+taus.vertex->vertices
 photons.superCluster->superClusters
 photons.matchedGen->genParticles
 genParticles.parent->genParticles
