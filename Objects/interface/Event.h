@@ -4,7 +4,7 @@
 #include "Constants.h"
 #include "GenReweight.h"
 #include "PFCand.h"
-#include "Vertex.h"
+#include "RecoVertex.h"
 #include "SuperCluster.h"
 #include "Electron.h"
 #include "Muon.h"
@@ -15,6 +15,7 @@
 #include "MicroJet.h"
 #include "GenJet.h"
 #include "GenParticle.h"
+#include "Vertex.h"
 #include "Parton.h"
 #include "RecoMet.h"
 #include "Met.h"
@@ -35,7 +36,7 @@ namespace panda {
 
     GenReweight genReweight = GenReweight("genReweight");
     PFCandCollection pfCandidates = PFCandCollection("pfCandidates", 2048);
-    VertexCollection vertices = VertexCollection("vertices", 64);
+    RecoVertexCollection vertices = RecoVertexCollection("vertices", 64);
     SuperClusterCollection superClusters = SuperClusterCollection("superClusters", 64);
     ElectronCollection electrons = ElectronCollection("electrons", 32);
     MuonCollection muons = MuonCollection("muons", 32);

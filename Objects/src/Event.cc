@@ -283,7 +283,7 @@ panda::Event::getListOfBranches()
   blist += {"npv", "npvTrue", "rho", "rhoCentralCalo"};
   blist += GenReweight::getListOfBranches().fullNames("genReweight");
   blist += PFCand::getListOfBranches().fullNames("pfCandidates");
-  blist += Vertex::getListOfBranches().fullNames("vertices");
+  blist += RecoVertex::getListOfBranches().fullNames("vertices");
   blist += SuperCluster::getListOfBranches().fullNames("superClusters");
   blist += Electron::getListOfBranches().fullNames("electrons");
   blist += Muon::getListOfBranches().fullNames("muons");
