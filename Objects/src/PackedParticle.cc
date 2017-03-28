@@ -241,7 +241,6 @@ panda::PackedParticle::dump(std::ostream& _out/* = std::cout*/) const
 
 
 /* BEGIN CUSTOM PackedParticle.cc.global */
-
 panda::PackingHelper::PackingHelper()
 {
   // ==== mantissatable ===
@@ -443,4 +442,5 @@ panda::PackedParticle::unpack_() const
 
   unpacked_ = true;
 }
+
 /* END CUSTOM */

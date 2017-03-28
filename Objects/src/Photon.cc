@@ -712,7 +712,27 @@ void
 panda::Photon::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM Photon.cc.print */
-  dump(_out);
+  if (_level >= 3) {
+    Photon::dump(_out);
+  }
+  else if (_level == 2) {
+    ParticleP::print(_out, _level);
+    
+    _out << "pfPt = " << pfPt << std::endl;
+    _out << "rawPt = " << rawPt << std::endl;
+    _out << "hOverE = " << hOverE << std::endl;
+    _out << "chIso = " << chIso << std::endl;
+    _out << "chIsoMax = " << chIsoMax << std::endl;
+    _out << "nhIso = " << nhIso << std::endl;
+    _out << "phIso = " << phIso << std::endl;
+    _out << "sieie = " << sieie << std::endl;
+    _out << "sipip = " << sipip << std::endl;
+    _out << "mipEnergy = " << mipEnergy << std::endl;
+    _out << "time = " << time << std::endl;
+    _out << "pixelVeto = " << pixelVeto << std::endl;
+  }
+  else
+    return;
   /* END CUSTOM */
 }
 

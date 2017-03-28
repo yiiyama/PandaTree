@@ -321,7 +321,20 @@ void
 panda::Lepton::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM Lepton.cc.print */
-  dump(_out);
+  if (_level >= 3) {
+    Lepton::dump(_out);
+  }
+  else if (_level == 2) {
+    ParticleP::print(_out, _level);
+
+    _out << "pfPt = " << pfPt << std::endl;
+    _out << "charge = " << charge << std::endl;
+    _out << "loose = " << loose << std::endl;
+    _out << "medium = " << medium << std::endl;
+    _out << "tight = " << tight << std::endl;
+  }
+  else
+    return;
   /* END CUSTOM */
 }
 

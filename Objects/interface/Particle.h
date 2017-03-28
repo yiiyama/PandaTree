@@ -58,7 +58,6 @@ namespace panda {
     virtual void setXYZE(double px, double py, double pz, double e) = 0;
 
     /* BEGIN CUSTOM Particle.h.classdef */
-
     //! sort comparison by pt
     /*!
      * This function takes Elements as arguments to conform with ContainerBase::Comparison
