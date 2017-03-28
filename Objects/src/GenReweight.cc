@@ -135,10 +135,24 @@ panda::GenReweight::doGetBranchNames_(Bool_t _fullName) const
 }
 
 void
-panda::GenReweight::print(std::ostream& _out/* = std::cout*/) const
+panda::GenReweight::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM GenReweight.cc.print */
+  dump(_out);
   /* END CUSTOM */
+}
+
+void
+panda::GenReweight::dump(std::ostream& _out/* = std::cout*/) const
+{
+  _out << "r1f2DW = " << r1f2DW << std::endl;
+  _out << "r1f5DW = " << r1f5DW << std::endl;
+  _out << "r2f1DW = " << r2f1DW << std::endl;
+  _out << "r2f2DW = " << r2f2DW << std::endl;
+  _out << "r5f1DW = " << r5f1DW << std::endl;
+  _out << "r5f5DW = " << r5f5DW << std::endl;
+  _out << "pdfDW = " << pdfDW << std::endl;
+  _out << "genParam = " << genParam << std::endl;
 }
 
 /* BEGIN CUSTOM GenReweight.cc.global */

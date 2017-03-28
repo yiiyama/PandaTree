@@ -14,6 +14,9 @@ namespace panda {
     ~EventBase() {}
     EventBase& operator=(EventBase const&);
 
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
+
     HLTBits triggers = HLTBits("triggers");
 
     UInt_t runNumber{};

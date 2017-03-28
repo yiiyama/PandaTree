@@ -221,15 +221,26 @@ panda::PackedParticle::doInit_()
 }
 
 void
-panda::PackedParticle::print(std::ostream& _out/* = std::cout*/) const
+panda::PackedParticle::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM PackedParticle.cc.print */
+  dump(_out);
   /* END CUSTOM */
+}
+
+void
+panda::PackedParticle::dump(std::ostream& _out/* = std::cout*/) const
+{
+  Particle::dump(_out);
+
+  _out << "packedPt = " << packedPt << std::endl;
+  _out << "packedEta = " << packedEta << std::endl;
+  _out << "packedPhi = " << packedPhi << std::endl;
+  _out << "packedM = " << packedM << std::endl;
 }
 
 
 /* BEGIN CUSTOM PackedParticle.cc.global */
-
 panda::PackingHelper::PackingHelper()
 {
   // ==== mantissatable ===
@@ -431,4 +442,5 @@ panda::PackedParticle::unpack_() const
 
   unpacked_ = true;
 }
+
 /* END CUSTOM */

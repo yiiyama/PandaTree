@@ -12,6 +12,9 @@ namespace panda {
     ~Run() {}
     Run& operator=(Run const&);
 
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
+
     UInt_t runNumber{};
     UInt_t hltMenu{};
     UShort_t hltSize{}; // transient

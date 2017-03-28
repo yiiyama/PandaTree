@@ -46,7 +46,11 @@ namespace panda {
     PFCand(datastore&, UInt_t idx);
     ~PFCand();
     PFCand& operator=(PFCand const&);
-    void print(std::ostream& = std::cout) const override;
+
+    static char const* typeName() { return "PFCand"; }
+
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     enum PType {
       hp,

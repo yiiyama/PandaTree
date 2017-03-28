@@ -182,10 +182,33 @@ panda::Muon::doInit_()
 }
 
 void
-panda::Muon::print(std::ostream& _out/* = std::cout*/) const
+panda::Muon::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM Muon.cc.print */
+  if (_level >= 3) {
+    Muon::dump(_out);
+    
+    _out << "combIso = " << combIso() << std::endl;
+    _out << "combRelIso = " << combIso() / pt() << std::endl;
+  }
+  else if (_level == 2) {
+    Lepton::print(_out, _level);
+    
+    _out << "combIso = " << combIso() << std::endl;
+    _out << "combRelIso = " << combIso() / pt() << std::endl;
+  }
+  else
+    return;
   /* END CUSTOM */
+}
+
+void
+panda::Muon::dump(std::ostream& _out/* = std::cout*/) const
+{
+  Lepton::dump(_out);
+
+  _out << "mediumBtoF = " << mediumBtoF << std::endl;
+  _out << "triggerMatch = " << triggerMatch << std::endl;
 }
 
 

@@ -1,7 +1,7 @@
-#ifndef PandaTree_Objects_Parton_h
-#define PandaTree_Objects_Parton_h
+#ifndef PandaTree_Objects_TPPair_h
+#define PandaTree_Objects_TPPair_h
 #include "Constants.h"
-#include "ParticleM.h"
+#include "../../Framework/interface/Element.h"
 #include "../../Framework/interface/Array.h"
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
@@ -9,21 +9,14 @@
 
 namespace panda {
 
-  class Parton : public ParticleM {
+  class TPPair : public Element {
   public:
-    struct datastore : public ParticleM::datastore {
-      datastore() : ParticleM::datastore() {}
+    struct datastore : public Element::datastore {
+      datastore() : Element::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* ParticleP
-      Float_t* pt_{0};
-      Float_t* eta_{0};
-      Float_t* phi_{0};
-      */
-      /* ParticleM
-      Float_t* mass_{0};
-      */
-      Int_t* pdgid{0};
+      Float_t* mass{0};
+      Float_t* mass2{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -36,36 +29,26 @@ namespace panda {
       void resizeVectors_(UInt_t) override;
     };
 
-    typedef Array<Parton> array_type;
-    typedef Collection<Parton> collection_type;
+    typedef Array<TPPair> array_type;
+    typedef Collection<TPPair> collection_type;
 
-    typedef ParticleM base_type;
+    typedef Element base_type;
 
-    Parton(char const* name = "");
-    Parton(Parton const&);
-    Parton(datastore&, UInt_t idx);
-    ~Parton();
-    Parton& operator=(Parton const&);
+    TPPair(char const* name = "");
+    TPPair(TPPair const&);
+    TPPair(datastore&, UInt_t idx);
+    ~TPPair();
+    TPPair& operator=(TPPair const&);
 
-    static char const* typeName() { return "Parton"; }
+    static char const* typeName() { return "TPPair"; }
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    Int_t& pdgid;
+    Float_t& mass;
+    Float_t& mass2;
 
-  protected:
-    /* ParticleP
-    Float_t& pt_;
-    Float_t& eta_;
-    Float_t& phi_;
-    */
-    /* ParticleM
-    Float_t& mass_;
-    */
-
-  public:
-    /* BEGIN CUSTOM Parton.h.classdef */
+    /* BEGIN CUSTOM TPPair.h.classdef */
     /* END CUSTOM */
 
     static utils::BranchList getListOfBranches();
@@ -73,19 +56,19 @@ namespace panda {
     void destructor() override;
 
   protected:
-    Parton(ArrayBase*);
+    TPPair(ArrayBase*);
 
     void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doInit_() override;
   };
 
-  typedef Array<Parton> PartonArray;
-  typedef Collection<Parton> PartonCollection;
-  typedef Ref<Parton> PartonRef;
-  typedef RefVector<Parton> PartonRefVector;
+  typedef Array<TPPair> TPPairArray;
+  typedef Collection<TPPair> TPPairCollection;
+  typedef Ref<TPPair> TPPairRef;
+  typedef RefVector<TPPair> TPPairRefVector;
 
-  /* BEGIN CUSTOM Parton.h.global */
+  /* BEGIN CUSTOM TPPair.h.global */
   /* END CUSTOM */
 
 }

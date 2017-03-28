@@ -20,6 +20,10 @@ static double const phIsoCuts[2][2][4]{{{0.81, 0.28, 0.08, 2.75}, {0.83, 0.39, 0
 static double const sieieCuts[2][2][4]{{{0.0102, 0.0102, 0.0100, 0.0105}, {0.0274, 0.0268, 0.0268, 0.028}}, {{0.01031, 0.01022, 0.00994, 0.0105}, {0.03013, 0.03001, 0.03000, 0.028}}};
 static double const hOverECuts[2][2][4]{{{0.05, 0.05, 0.05, 0.05}, {0.05, 0.05, 0.05, 0.05}},               {{0.0597, 0.0396, 0.0269, 0.05}, {0.0481, 0.0219, 0.0213, 0.05}}};
 
+[TPPair]
+mass/F
+mass2/F
+
 {EventMonophoton>EventBase}
 npv/s
 npvTrue/s
@@ -50,3 +54,17 @@ photons.matchedGen->genParticles
 genParticles.parent->genParticles
 jets.matchedGenJet->genJets
 #include "Event.h"
+
+{EventTPPhoton>EventBase}
+npv/s
+npvTrue/s
+rho/F
+sample/i
+tp/TPPairCollection(32)
+tags/LeptonCollection(32)
+looseTags/LeptonCollection(32)
+probes/XPhotonCollection(32)
+jets/JetCollection(64)
+t1Met/RecoMet
+#include "Event.h"
+#include "EventMonophoton.h"

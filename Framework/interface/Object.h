@@ -81,7 +81,10 @@ namespace panda {
     virtual void setName(char const*) {}
 
     //! Print the object content.
-    virtual void print(std::ostream& = std::cout) const {}
+    virtual void print(std::ostream& out = std::cout, UInt_t level = 1) const { dump(out); }
+
+    //! Dump the object content.
+    virtual void dump(std::ostream& = std::cout) const {}
   };
 
 }

@@ -128,10 +128,23 @@ panda::Recoil::doGetBranchNames_(Bool_t _fullName) const
 }
 
 void
-panda::Recoil::print(std::ostream& _out/* = std::cout*/) const
+panda::Recoil::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM Recoil.cc.print */
+  dump(_out);
   /* END CUSTOM */
+}
+
+void
+panda::Recoil::dump(std::ostream& _out/* = std::cout*/) const
+{
+  _out << "met = " << met << std::endl;
+  _out << "monoMu = " << monoMu << std::endl;
+  _out << "monoE = " << monoE << std::endl;
+  _out << "diMu = " << diMu << std::endl;
+  _out << "diE = " << diE << std::endl;
+  _out << "gamma = " << gamma << std::endl;
+  _out << "max = " << max << std::endl;
 }
 
 

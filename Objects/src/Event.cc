@@ -188,6 +188,76 @@ panda::Event::operator=(Event const& _src)
   return *this;
 }
 
+void
+panda::Event::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
+{
+  /* BEGIN CUSTOM Event.cc.print */
+  if (_level >= 3) {
+    Event::dump(_out);
+  }
+  else if (_level == 2) {
+    // debug level
+    EventBase::print(_out, _level);
+    
+    _out << "npv = " << npv << std::endl;
+    _out << "npvTrue = " << npvTrue << std::endl;
+    _out << "rho = " << rho << std::endl;
+    _out << "rhoCentralCalo = " << rhoCentralCalo << std::endl;
+  }
+  else 
+    return;
+  /* END CUSTOM */
+}
+
+void
+panda::Event::dump(std::ostream& _out/* = std::cout*/) const
+{
+  EventBase::dump(_out);
+
+  _out << "npv = " << npv << std::endl;
+  _out << "npvTrue = " << npvTrue << std::endl;
+  _out << "rho = " << rho << std::endl;
+  _out << "rhoCentralCalo = " << rhoCentralCalo << std::endl;
+
+  genReweight.dump(_out);
+  pfCandidates.dump(_out);
+  superClusters.dump(_out);
+  electrons.dump(_out);
+  muons.dump(_out);
+  taus.dump(_out);
+  photons.dump(_out);
+  chsAK4Jets.dump(_out);
+  puppiAK4Jets.dump(_out);
+  chsAK8Jets.dump(_out);
+  chsAK8Subjets.dump(_out);
+  chsCA15Jets.dump(_out);
+  chsCA15Subjets.dump(_out);
+  puppiAK8Jets.dump(_out);
+  puppiAK8Subjets.dump(_out);
+  puppiCA15Jets.dump(_out);
+  puppiCA15Subjets.dump(_out);
+  ak4GenJets.dump(_out);
+  ak8GenJets.dump(_out);
+  ca15GenJets.dump(_out);
+  genParticles.dump(_out);
+  partons.dump(_out);
+  pfMet.dump(_out);
+  puppiMet.dump(_out);
+  rawMet.dump(_out);
+  caloMet.dump(_out);
+  noMuMet.dump(_out);
+  noHFMet.dump(_out);
+  trkMet.dump(_out);
+  neutralMet.dump(_out);
+  photonMet.dump(_out);
+  hfMet.dump(_out);
+  genMet.dump(_out);
+  metMuOnlyFix.dump(_out);
+  metNoFix.dump(_out);
+  metFilters.dump(_out);
+  recoil.dump(_out);
+
+}
 /*static*/
 panda::utils::BranchList
 panda::Event::getListOfBranches()

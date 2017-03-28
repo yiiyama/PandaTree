@@ -17,7 +17,11 @@ namespace panda {
     HLTBits(HLTBits const&);
     ~HLTBits();
     HLTBits& operator=(HLTBits const&);
-    void print(std::ostream& = std::cout) const override;
+
+    static char const* typeName() { return "HLTBits"; }
+
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     void set(unsigned iB) { if (iB >= 1024) return; words[iB / 64] |= (1 << (iB % 64)); }
     bool pass(unsigned iB) const { if (iB >= 1024) return false; return (words[iB / 64] & (1 << (iB % 64))) != 0; }

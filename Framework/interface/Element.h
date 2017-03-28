@@ -74,6 +74,8 @@ namespace panda {
     ~Element() {}
     Element& operator=(Element const&) { return *this; }
 
+    static char const* typeName() { return "Element"; }
+
     void setStatus(TTree&, utils::BranchList const& blist) final;
     utils::BranchList getStatus(TTree&) const final;
     utils::BranchList getBranchNames(Bool_t fullName = kTRUE) const final;

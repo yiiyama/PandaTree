@@ -165,10 +165,19 @@ panda::GenJet::doInit_()
 }
 
 void
-panda::GenJet::print(std::ostream& _out/* = std::cout*/) const
+panda::GenJet::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM GenJet.cc.print */
+  dump(_out);
   /* END CUSTOM */
+}
+
+void
+panda::GenJet::dump(std::ostream& _out/* = std::cout*/) const
+{
+  ParticleM::dump(_out);
+
+  _out << "pdgid = " << pdgid << std::endl;
 }
 
 /* BEGIN CUSTOM GenJet.cc.global */

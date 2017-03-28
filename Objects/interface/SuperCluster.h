@@ -40,7 +40,11 @@ namespace panda {
     SuperCluster(datastore&, UInt_t idx);
     ~SuperCluster();
     SuperCluster& operator=(SuperCluster const&);
-    void print(std::ostream& = std::cout) const override;
+
+    static char const* typeName() { return "SuperCluster"; }
+
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
 
     Float_t& rawPt;
     Float_t& eta;

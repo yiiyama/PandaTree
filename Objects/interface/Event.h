@@ -29,6 +29,9 @@ namespace panda {
     ~Event() {}
     Event& operator=(Event const&);
 
+    void print(std::ostream& = std::cout, UInt_t level = 1) const override;
+    void dump(std::ostream& = std::cout) const override;
+
     GenReweight genReweight = GenReweight("genReweight");
     PFCandCollection pfCandidates = PFCandCollection("pfCandidates", 2048);
     SuperClusterCollection superClusters = SuperClusterCollection("superClusters", 64);
