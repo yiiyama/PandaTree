@@ -261,7 +261,6 @@ std::ostream& operator<<(std::ostream& _out, panda::RefVector<E> const& _ref)
     _out << " " << _ref.container()->getName();
   else
     _out << " <null>";
-  _out << std::endl;
 
   return _out;
 }

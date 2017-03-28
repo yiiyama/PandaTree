@@ -139,17 +139,6 @@ namespace panda {
     /*!
      * Throws a runtime_error if container is not valid.
      */
-    //! Accessor to idx
-    /*!
-     * Throws a runtime_error if idx is not valid.
-     */
-    index_type idx() const
-    {
-      if (!idx_)
-        throw std::runtime_error("Invalid index ref");
-  
-      return *idx_;
-    }
     ContainerBase const* container() const
     {
       if (!container_)
@@ -234,17 +223,6 @@ namespace panda {
   
       return *idx_;
     }
-    //! Accessor to idx
-    /*!
-     * Throws a runtime_error if idx is not valid.
-     */
-    index_type idx() const
-    {
-      if (!idx_)
-        throw std::runtime_error("Invalid index ref");
-  
-      return *idx_;
-    }
     //! Accessor to container
     /*!
      * Throws a runtime_error if container is not valid.
@@ -274,7 +252,6 @@ std::ostream& operator<<(std::ostream& _out, panda::Ref<E> const& _ref)
     _out << " " << _ref.container()->getName() << "(" << _ref.idx() << ")";
   else
     _out << " (null)";
-  _out << std::endl;
 
   return _out;
 }
@@ -287,7 +264,6 @@ std::ostream& operator<<(std::ostream& _out, panda::ConstRef<E> const& _ref)
     _out << " " << _ref.container()->getName() << "(" << _ref.idx() << ")";
   else
     _out << " (null)";
-  _out << std::endl;
 
   return _out;
 }
