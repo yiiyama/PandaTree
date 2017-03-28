@@ -77,6 +77,19 @@ double dR(Particle const& p) const { return std::sqrt(dR2(p)); }
 virtual void setPtEtaPhiM(double pt, double eta, double phi, double m) = 0;
 virtual void setXYZE(double px, double py, double pz, double e) = 0;
 
+[Vertex]
+x/F
+y/F
+z/F
+TVector3 position() const { return TVector3(x, y, z); }
+
+[RecoVertex>Vertex]
+score/F
+ntrk/s
+ndof/F
+chi2/F
+double normChi2() const { return ndof != 0. ? chi2 / ndof : chi2 * 1.e+6; }
+
 [PackedParticle>Particle]
 packedPt/s
 packedEta/S
@@ -183,6 +196,7 @@ nhIso/F
 phIso/F
 puIso/F
 matchedGen/GenParticleRef
+vertex/VertexRef
 virtual double combIso() const { return 0.; }
 
 [Electron>Lepton]
@@ -219,6 +233,7 @@ decayModeNew/O
 looseIsoMVA/O
 iso/F
 isoDeltaBetaCorr/F
+vertex/VertexRef
 matchedGen/GenParticleRef
 
 [Photon>ParticleP]

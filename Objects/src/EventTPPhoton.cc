@@ -54,7 +54,6 @@ panda::EventTPPhoton::operator=(EventTPPhoton const& _src)
   return *this;
 }
 
-
 void
 panda::EventTPPhoton::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {

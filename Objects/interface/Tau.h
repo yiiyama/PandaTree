@@ -6,6 +6,7 @@
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
+#include "Vertex.h"
 #include "GenParticle.h"
 
 namespace panda {
@@ -30,6 +31,8 @@ namespace panda {
       Bool_t* looseIsoMVA{0};
       Float_t* iso{0};
       Float_t* isoDeltaBetaCorr{0};
+      ContainerBase const* vertexContainer_{0};
+      Short_t* vertex_{0};
       ContainerBase const* matchedGenContainer_{0};
       Short_t* matchedGen_{0};
 
@@ -66,6 +69,7 @@ namespace panda {
     Bool_t& looseIsoMVA;
     Float_t& iso;
     Float_t& isoDeltaBetaCorr;
+    Ref<Vertex> vertex;
     Ref<GenParticle> matchedGen;
 
   protected:
