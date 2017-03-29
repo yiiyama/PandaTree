@@ -195,6 +195,7 @@ chIso/F
 nhIso/F
 phIso/F
 puIso/F
+matchedPF/PFCandRef
 matchedGen/GenParticleRef
 vertex/VertexRef
 virtual double combIso() const { return 0.; }
