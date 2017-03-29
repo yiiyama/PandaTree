@@ -40,10 +40,6 @@
 #pragma link C++ nestedtypedef;
 #pragma link C++ namespace panda;
 
-#pragma link C++ enum panda::PhotonTriggerObject;
-#pragma link C++ enum panda::ElectronTriggerObject;
-#pragma link C++ enum panda::MuonTriggerObject;
-#pragma link C++ enum panda::RecoilCategory;
 #pragma link C++ class panda::Object;
 #pragma link C++ class panda::Singlet;
 #pragma link C++ class panda::Element;

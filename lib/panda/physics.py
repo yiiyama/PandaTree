@@ -183,7 +183,7 @@ class PhysicsObject(Definition, Object):
 
         if len(self.enums) != 0:
             for enum in self.enums:
-                enum.write_decl(header, names = False)
+                enum.write_decl(header, context = 'class')
             header.newline()
 
         if len(self.constants) != 0:
@@ -399,6 +399,11 @@ class PhysicsObject(Definition, Object):
 
         src = FileOutput('{PACKDIR}/Objects/src/{name}.cc'.format(PACKDIR = PACKDIR, **subst))
         src.writeline('#include "../interface/{name}.h"'.format(**subst))
+
+        if len(self.enums) != 0:
+            src.newline()
+            for enum in self.enums:
+                enum.write_def(src, cls = '{NAMESPACE}::{name}'.format(**subst))
 
         if len(self.constants) != 0:
             src.newline()

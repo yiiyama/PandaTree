@@ -23,6 +23,18 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
+    enum Category {
+      rMET,
+      rMonoMu,
+      rMonoE,
+      rDiMu,
+      rDiE,
+      rGamma,
+      nCategories
+    };
+
+    static TString CategoryName[nCategories];
+
     bool any() const { return met || monoMu || monoE || diMu || diE || gamma; }
 
     Bool_t met{};

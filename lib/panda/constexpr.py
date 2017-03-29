@@ -43,8 +43,9 @@ class Assert(Definition):
         for ia, assertion in enumerate(assertions):
             asserts.append('AST{i} = sizeof(char[({expr}) ? 1 : -1])'.format(i = ia, expr = assertion.matches.group(1)))
 
-        enum = Enum('enum Assertions {', asserts)
-        enum.write_decl(out, names = False)
+        if len(asserts) != 0:
+            enum = Enum('enum Assertions {', asserts)
+            enum.write_decl(out, context = 'global')
 
     def __init__(self, line):
         Definition.__init__(self, line, 'ASSERT +(.+)')
@@ -92,46 +93,31 @@ class Enum(Definition):
 
         self.elements.append(last_name)
 
-    def write_decl(self, out, names = True):
+    def write_decl(self, out, context):
         out.writeline('enum ' + self.name + ' {')
         out.indent += 1
         out.writelines(self.elements, ',')
         out.indent -= 1
         out.writeline('};')
 
-        if names:
-            out.newline()
-            out.writeline('extern TString {name}Name[{size}];'.format(name = self.name, size = self.elements[-1]))
-            out.writeline('TTree* make{name}Tree();'.format(name = self.name))
+        out.newline()
 
-    def write_def(self, out):
+        if context == 'global':
+            out.writeline('extern TString {name}Name[{size}];'.format(name = self.name, size = self.elements[-1]))
+        elif context == 'class':
+            out.writeline('static TString {name}Name[{size}];'.format(name = self.name, size = self.elements[-1]))
+
+    def write_def(self, out, cls = ''):
         enum_names = []
         for elem in self.elements[:-1]:
             enum_names.append('"{elem}"'.format(elem = elem))
 
-        out.writeline('TString {NAMESPACE}::{name}Name[] = {{'.format(NAMESPACE = NAMESPACE, name = self.name))
+        if cls == '':
+            out.writeline('TString {NAMESPACE}::{name}Name[] = {{'.format(NAMESPACE = NAMESPACE, name = self.name))
+        else:
+            out.writeline('TString {cls}::{name}Name[] = {{'.format(cls = cls, name = self.name))
         out.indent += 1
         out.writelines(enum_names, ',')
         out.indent -= 1
         out.writeline('};')
-
-        out.newline()
-        out.writeline('TTree*')
-        out.writeline('{NAMESPACE}::make{name}Tree()'.format(NAMESPACE = NAMESPACE, name = self.name))
-        out.writeline('{')
-        out.indent += 1
-        out.writeline('auto* tree(new TTree("{name}", "{name}"));'.format(name = self.name))
-        out.writeline('TString* name(new TString);')
-        out.writeline('tree->Branch("name", "TString", &name);')
-        out.writeline('for (auto&& n : {name}Name) {{'.format(name = self.name))
-        out.indent += 1
-        out.writeline('*name = n;')
-        out.writeline('tree->Fill();')
-        out.indent -= 1
-        out.writeline('}')
-        out.writeline('tree->ResetBranchAddresses();')
-        out.writeline('delete name;')
-        out.writeline('return tree;')
-        out.indent -= 1
-        out.writeline('}')
 

@@ -80,6 +80,24 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
+    enum TriggerObject {
+      fEl23Loose,
+      fEl27Loose,
+      fEl120Ph,
+      fEl135Ph,
+      fEl165HE10Ph,
+      fEl175Ph,
+      fEl22EBR9IsoPh,
+      fEl36EBR9IsoPh,
+      fEl50EBR9IsoPh,
+      fEl75EBR9IsoPh,
+      fEl90EBR9IsoPh,
+      fEl120EBR9IsoPh,
+      nTriggerObjects
+    };
+
+    static TString TriggerObjectName[nTriggerObjects];
+
     double m() const override { return 5.109989e-4; }
     double combIso() const override { return chIso + std::max(nhIso + phIso - isoPUOffset, Float_t(0.)); }
 

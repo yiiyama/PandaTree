@@ -1,5 +1,23 @@
 #include "../interface/GenParticle.h"
 
+TString panda::GenParticle::StatusFlagName[] = {
+  "kIsPrompt",
+  "kIsDecayedLeptonHadron",
+  "kIsTauDecayProduct",
+  "kIsPromptTauDecayProduct",
+  "kIsDirectTauDecayProduct",
+  "kIsDirectPromptTauDecayProduct",
+  "kIsDirectHadronDecayProduct",
+  "kIsHardProcess",
+  "kFromHardProcess",
+  "kIsHardProcessTauDecayProduct",
+  "kIsDirectHardProcessTauDecayProduct",
+  "kFromHardProcessBeforeFSR",
+  "kIsFirstCopy",
+  "kIsLastCopy",
+  "kIsLastCopyBeforeFSR"
+};
+
 /*static*/
 panda::utils::BranchList
 panda::GenParticle::getListOfBranches()

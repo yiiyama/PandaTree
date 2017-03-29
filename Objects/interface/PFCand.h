@@ -69,6 +69,8 @@ namespace panda {
       nPTypes
     };
 
+    static TString PTypeName[nPTypes];
+
     static int q_[nPTypes];
     static int pdgId_[nPTypes];
 

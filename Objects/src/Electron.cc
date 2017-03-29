@@ -1,5 +1,20 @@
 #include "../interface/Electron.h"
 
+TString panda::Electron::TriggerObjectName[] = {
+  "fEl23Loose",
+  "fEl27Loose",
+  "fEl120Ph",
+  "fEl135Ph",
+  "fEl165HE10Ph",
+  "fEl175Ph",
+  "fEl22EBR9IsoPh",
+  "fEl36EBR9IsoPh",
+  "fEl50EBR9IsoPh",
+  "fEl75EBR9IsoPh",
+  "fEl90EBR9IsoPh",
+  "fEl120EBR9IsoPh"
+};
+
 /*static*/
 panda::utils::BranchList
 panda::Electron::getListOfBranches()

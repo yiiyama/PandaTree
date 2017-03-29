@@ -85,6 +85,28 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
+    enum TriggerObject {
+      fSEG34IorSEG40,
+      fSEG40IorSJet200,
+      fSEG34IorSEG40IorSJet200,
+      fSEG24,
+      fSEG30,
+      fSEG40,
+      fPh120,
+      fPh135,
+      fPh165HE10,
+      fPh175,
+      fPh22EBR9Iso,
+      fPh36EBR9Iso,
+      fPh50EBR9Iso,
+      fPh75EBR9Iso,
+      fPh90EBR9Iso,
+      fPh120EBR9Iso,
+      nTriggerObjects
+    };
+
+    static TString TriggerObjectName[nTriggerObjects];
+
     Float_t& pfPt; // Pt of the dR-closest PF candidate
     Float_t& chIso;
     Float_t& chIsoMax;

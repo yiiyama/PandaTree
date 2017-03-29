@@ -53,6 +53,27 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
+    enum StatusFlag {
+      kIsPrompt,
+      kIsDecayedLeptonHadron,
+      kIsTauDecayProduct,
+      kIsPromptTauDecayProduct,
+      kIsDirectTauDecayProduct,
+      kIsDirectPromptTauDecayProduct,
+      kIsDirectHadronDecayProduct,
+      kIsHardProcess,
+      kFromHardProcess,
+      kIsHardProcessTauDecayProduct,
+      kIsDirectHardProcessTauDecayProduct,
+      kFromHardProcessBeforeFSR,
+      kIsFirstCopy,
+      kIsLastCopy,
+      kIsLastCopyBeforeFSR,
+      nStatusFlags
+    };
+
+    static TString StatusFlagName[nStatusFlags];
+
     /* PackedParticle
     UShort_t& packedPt;
     Short_t& packedEta;

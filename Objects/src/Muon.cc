@@ -1,5 +1,12 @@
 #include "../interface/Muon.h"
 
+TString panda::Muon::TriggerObjectName[] = {
+  "fMu20",
+  "fMuTrk20",
+  "fMu24",
+  "fMu27"
+};
+
 /*static*/
 panda::utils::BranchList
 panda::Muon::getListOfBranches()

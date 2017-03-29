@@ -1,5 +1,14 @@
 #include "../interface/Recoil.h"
 
+TString panda::Recoil::CategoryName[] = {
+  "rMET",
+  "rMonoMu",
+  "rMonoE",
+  "rDiMu",
+  "rDiE",
+  "rGamma"
+};
+
 /*static*/
 panda::utils::BranchList
 panda::Recoil::getListOfBranches()
