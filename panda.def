@@ -270,6 +270,7 @@ pixelVeto/O
 csafeVeto/O
 triggerMatch[nPhotonTriggerObjects]/O
 superCluster/SuperClusterRef
+matchedPF/PFCandRef
 matchedGen/GenParticleRef
 
 [GenJet>ParticleM]
@@ -456,6 +457,7 @@ muons.vertex->vertices
 taus.matchedGen->genParticles
 taus.vertex->vertices
 photons.superCluster->superClusters
+photons.matchedPF->pfCandidates
 photons.matchedGen->genParticles
 genParticles.parent->genParticles
 chsAK4Jets.constituents->pfCandidates

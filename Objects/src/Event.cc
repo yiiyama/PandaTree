@@ -18,6 +18,7 @@ panda::Event::Event() :
   taus.data.matchedGenContainer_ = &genParticles;
   taus.data.vertexContainer_ = &vertices;
   photons.data.superClusterContainer_ = &superClusters;
+  photons.data.matchedPFContainer_ = &pfCandidates;
   photons.data.matchedGenContainer_ = &genParticles;
   genParticles.data.parentContainer_ = &genParticles;
   chsAK4Jets.data.constituentsContainer_ = &pfCandidates;
@@ -100,6 +101,7 @@ panda::Event::Event(Event const& _src) :
   taus.data.matchedGenContainer_ = &genParticles;
   taus.data.vertexContainer_ = &vertices;
   photons.data.superClusterContainer_ = &superClusters;
+  photons.data.matchedPFContainer_ = &pfCandidates;
   photons.data.matchedGenContainer_ = &genParticles;
   genParticles.data.parentContainer_ = &genParticles;
   chsAK4Jets.data.constituentsContainer_ = &pfCandidates;
@@ -185,6 +187,7 @@ panda::Event::operator=(Event const& _src)
   taus.data.matchedGenContainer_ = &genParticles;
   taus.data.vertexContainer_ = &vertices;
   photons.data.superClusterContainer_ = &superClusters;
+  photons.data.matchedPFContainer_ = &pfCandidates;
   photons.data.matchedGenContainer_ = &genParticles;
   genParticles.data.parentContainer_ = &genParticles;
   chsAK4Jets.data.constituentsContainer_ = &pfCandidates;
