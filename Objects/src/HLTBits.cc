@@ -17,7 +17,7 @@ panda::HLTBits::HLTBits(char const* _name/* = ""*/) :
 panda::HLTBits::HLTBits(HLTBits const& _src) :
   Singlet(_src.name_)
 {
-  std::memcpy(words, _src.words, sizeof(ULong64_t) * 16);
+  std::memcpy(words, _src.words, sizeof(UInt_t) * 32);
 }
 
 panda::HLTBits::~HLTBits()
@@ -27,7 +27,7 @@ panda::HLTBits::~HLTBits()
 panda::HLTBits&
 panda::HLTBits::operator=(HLTBits const& _src)
 {
-  std::memcpy(words, _src.words, sizeof(ULong64_t) * 16);
+  std::memcpy(words, _src.words, sizeof(UInt_t) * 32);
 
   return *this;
 }
@@ -57,7 +57,7 @@ panda::HLTBits::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/*
 void
 panda::HLTBits::doBook_(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  utils::book(_tree, name_, "words", TString::Format("[16]"), 'l', words, _branches);
+  utils::book(_tree, name_, "words", TString::Format("[32]"), 'i', words, _branches);
 }
 
 void
