@@ -447,8 +447,10 @@ metNoFix/RecoMet
 metFilters/MetFilters
 recoil/Recoil
 electrons.superCluster->superClusters
+electrons.matchedPF->pfCandidates
 electrons.matchedGen->genParticles
 electrons.vertex->vertices
+muons.matchedPF->pfCandidates
 muons.matchedGen->genParticles
 muons.vertex->vertices
 taus.matchedGen->genParticles

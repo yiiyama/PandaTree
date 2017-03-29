@@ -9,8 +9,10 @@ panda::Event::Event() :
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
   electrons.data.superClusterContainer_ = &superClusters;
+  electrons.data.matchedPFContainer_ = &pfCandidates;
   electrons.data.matchedGenContainer_ = &genParticles;
   electrons.data.vertexContainer_ = &vertices;
+  muons.data.matchedPFContainer_ = &pfCandidates;
   muons.data.matchedGenContainer_ = &genParticles;
   muons.data.vertexContainer_ = &vertices;
   taus.data.matchedGenContainer_ = &genParticles;
@@ -89,8 +91,10 @@ panda::Event::Event(Event const& _src) :
 
 
   electrons.data.superClusterContainer_ = &superClusters;
+  electrons.data.matchedPFContainer_ = &pfCandidates;
   electrons.data.matchedGenContainer_ = &genParticles;
   electrons.data.vertexContainer_ = &vertices;
+  muons.data.matchedPFContainer_ = &pfCandidates;
   muons.data.matchedGenContainer_ = &genParticles;
   muons.data.vertexContainer_ = &vertices;
   taus.data.matchedGenContainer_ = &genParticles;
@@ -172,8 +176,10 @@ panda::Event::operator=(Event const& _src)
   recoil = _src.recoil;
 
   electrons.data.superClusterContainer_ = &superClusters;
+  electrons.data.matchedPFContainer_ = &pfCandidates;
   electrons.data.matchedGenContainer_ = &genParticles;
   electrons.data.vertexContainer_ = &vertices;
+  muons.data.matchedPFContainer_ = &pfCandidates;
   muons.data.matchedGenContainer_ = &genParticles;
   muons.data.vertexContainer_ = &vertices;
   taus.data.matchedGenContainer_ = &genParticles;
