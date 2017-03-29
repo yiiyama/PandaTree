@@ -291,7 +291,7 @@ panda::utils::resetAddress(TTree& _tree, TString const& _objName, BranchName con
 }
 
 TTree*
-panda::utils::makeDocTree(TString const& _treeName, TString [] _names, UInt_t _size)
+panda::utils::makeDocTree(TString const& _treeName, TString _names[], UInt_t _size)
 {
   auto* tree(new TTree(_treeName, _treeName));
   TString* name(new TString);

@@ -23,7 +23,7 @@ panda::Muon::datastore::allocate(UInt_t _nmax)
   Lepton::datastore::allocate(_nmax);
 
   mediumBtoF = new Bool_t[nmax_];
-  triggerMatch = new Bool_t[nmax_][nMuonTriggerObjects];
+  triggerMatch = new Bool_t[nmax_][nTriggerObjects];
 }
 
 void
@@ -74,7 +74,7 @@ panda::Muon::datastore::book(TTree& _tree, TString const& _name, utils::BranchLi
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
   utils::book(_tree, _name, "mediumBtoF", size, 'O', mediumBtoF, _branches);
-  utils::book(_tree, _name, "triggerMatch", size + TString::Format("[%d]", nMuonTriggerObjects), 'O', triggerMatch, _branches);
+  utils::book(_tree, _name, "triggerMatch", size + TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
 }
 
 void
@@ -115,7 +115,7 @@ panda::Muon::Muon(Muon const& _src) :
   Lepton::operator=(_src);
 
   mediumBtoF = _src.mediumBtoF;
-  std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nMuonTriggerObjects);
+  std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
 }
 
 panda::Muon::Muon(datastore& _data, UInt_t _idx) :
@@ -153,7 +153,7 @@ panda::Muon::operator=(Muon const& _src)
   Lepton::operator=(_src);
 
   mediumBtoF = _src.mediumBtoF;
-  std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nMuonTriggerObjects);
+  std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
 
   return *this;
 }
@@ -173,7 +173,7 @@ panda::Muon::doBook_(TTree& _tree, TString const& _name, utils::BranchList const
   Lepton::doBook_(_tree, _name, _branches);
 
   utils::book(_tree, _name, "mediumBtoF", "", 'O', &mediumBtoF, _branches);
-  utils::book(_tree, _name, "triggerMatch", TString::Format("[%d]", nMuonTriggerObjects), 'O', triggerMatch, _branches);
+  utils::book(_tree, _name, "triggerMatch", TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
 }
 
 void

@@ -182,7 +182,7 @@ rawPt/F
 regPt/F
 originalPt/F = -1.
 veto/O
-triggerMatch[nElectronTriggerObjects]/O
+triggerMatch[nTriggerObjects]/O
 superCluster/SuperClusterRef
 double m() const override { return 5.109989e-4; }
 double combIso() const override { return chIso + std::max(nhIso + phIso - isoPUOffset, Float_t(0.)); }
@@ -195,7 +195,7 @@ enum TriggerObject {
   fMu27
 };
 mediumBtoF/O
-triggerMatch[nMuonTriggerObjects]/O
+triggerMatch[nTriggerObjects]/O
 double m() const override { return 1.05658e-2; }
 double combIso() const override { return chIso + std::max(nhIso + phIso - 0.5 * puIso, 0.); }
 
@@ -257,7 +257,7 @@ tight/O
 highpt/O
 pixelVeto/O
 csafeVeto/O
-triggerMatch[nPhotonTriggerObjects]/O
+triggerMatch[nTriggerObjects]/O
 superCluster/SuperClusterRef
 matchedGen/GenParticleRef
 

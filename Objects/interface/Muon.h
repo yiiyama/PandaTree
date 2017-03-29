@@ -11,6 +11,16 @@ namespace panda {
 
   class Muon : public Lepton {
   public:
+    enum TriggerObject {
+      fMu20,
+      fMuTrk20,
+      fMu24,
+      fMu27,
+      nTriggerObjects
+    };
+
+    static TString TriggerObjectName[nTriggerObjects];
+
     struct datastore : public Lepton::datastore {
       datastore() : Lepton::datastore() {}
       ~datastore() { deallocate(); }
@@ -34,7 +44,7 @@ namespace panda {
       Short_t* matchedGen_{0};
       */
       Bool_t* mediumBtoF{0};
-      Bool_t (*triggerMatch)[nMuonTriggerObjects]{0};
+      Bool_t (*triggerMatch)[nTriggerObjects]{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -63,16 +73,6 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    enum TriggerObject {
-      fMu20,
-      fMuTrk20,
-      fMu24,
-      fMu27,
-      nTriggerObjects
-    };
-
-    static TString TriggerObjectName[nTriggerObjects];
-
     double m() const override { return 1.05658e-2; }
     double combIso() const override { return chIso + std::max(nhIso + phIso - 0.5 * puIso, 0.); }
 
@@ -89,7 +89,7 @@ namespace panda {
     Ref<GenParticle> matchedGen;
     */
     Bool_t& mediumBtoF;
-    Bool_t (&triggerMatch)[nMuonTriggerObjects];
+    Bool_t (&triggerMatch)[nTriggerObjects];
 
   protected:
     /* ParticleP

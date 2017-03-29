@@ -13,6 +13,28 @@ namespace panda {
 
   class Photon : public ParticleP {
   public:
+    enum TriggerObject {
+      fSEG34IorSEG40,
+      fSEG40IorSJet200,
+      fSEG34IorSEG40IorSJet200,
+      fSEG24,
+      fSEG30,
+      fSEG40,
+      fPh120,
+      fPh135,
+      fPh165HE10,
+      fPh175,
+      fPh22EBR9Iso,
+      fPh36EBR9Iso,
+      fPh50EBR9Iso,
+      fPh75EBR9Iso,
+      fPh90EBR9Iso,
+      fPh120EBR9Iso,
+      nTriggerObjects
+    };
+
+    static TString TriggerObjectName[nTriggerObjects];
+
     struct datastore : public ParticleP::datastore {
       datastore() : ParticleP::datastore() {}
       ~datastore() { deallocate(); }
@@ -52,7 +74,7 @@ namespace panda {
       Bool_t* highpt{0};
       Bool_t* pixelVeto{0};
       Bool_t* csafeVeto{0};
-      Bool_t (*triggerMatch)[nPhotonTriggerObjects]{0};
+      Bool_t (*triggerMatch)[nTriggerObjects]{0};
       ContainerBase const* superClusterContainer_{0};
       Short_t* superCluster_{0};
       ContainerBase const* matchedGenContainer_{0};
@@ -85,28 +107,6 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    enum TriggerObject {
-      fSEG34IorSEG40,
-      fSEG40IorSJet200,
-      fSEG34IorSEG40IorSJet200,
-      fSEG24,
-      fSEG30,
-      fSEG40,
-      fPh120,
-      fPh135,
-      fPh165HE10,
-      fPh175,
-      fPh22EBR9Iso,
-      fPh36EBR9Iso,
-      fPh50EBR9Iso,
-      fPh75EBR9Iso,
-      fPh90EBR9Iso,
-      fPh120EBR9Iso,
-      nTriggerObjects
-    };
-
-    static TString TriggerObjectName[nTriggerObjects];
-
     Float_t& pfPt; // Pt of the dR-closest PF candidate
     Float_t& chIso;
     Float_t& chIsoMax;
@@ -137,7 +137,7 @@ namespace panda {
     Bool_t& highpt;
     Bool_t& pixelVeto;
     Bool_t& csafeVeto;
-    Bool_t (&triggerMatch)[nPhotonTriggerObjects];
+    Bool_t (&triggerMatch)[nTriggerObjects];
     Ref<SuperCluster> superCluster;
     Ref<GenParticle> matchedGen;
 

@@ -109,6 +109,16 @@ class PhysicsObject(Definition, Object):
         header.writeline('class {name} : public {parent} {{'.format(name = self.name, parent = self.parent))
         header.writeline('public:')
         header.indent += 1
+
+        if len(self.enums) != 0:
+            for enum in self.enums:
+                enum.write_decl(header, context = 'class')
+            header.newline()
+
+        if len(self.constants) != 0:
+            for constant in self.constants:
+                constant.write_decl(header, context = 'class')
+            header.newline()
         
         if not self.is_singlet():
             header.writeline('struct datastore : public {parent}::datastore {{'.format(parent = self.parent))
@@ -180,16 +190,6 @@ class PhysicsObject(Definition, Object):
         header.writeline('void dump(std::ostream& = std::cout) const override;')
 
         header.newline()
-
-        if len(self.enums) != 0:
-            for enum in self.enums:
-                enum.write_decl(header, context = 'class')
-            header.newline()
-
-        if len(self.constants) != 0:
-            for constant in self.constants:
-                constant.write_decl(header, context = 'class')
-            header.newline()
 
         if len(self.functions) != 0:
             for function in self.functions:

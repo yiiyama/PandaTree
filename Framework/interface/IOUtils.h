@@ -136,7 +136,7 @@ namespace panda {
      * Used to document enum contents.
      */
     TTree*
-    makeDocTree(TString const& treeName, TString [] names, UInt_t size);
+    makeDocTree(TString const& treeName, TString names[], UInt_t size);
   }
 }
 

@@ -11,6 +11,27 @@ namespace panda {
 
   class GenParticle : public PackedParticle {
   public:
+    enum StatusFlag {
+      kIsPrompt,
+      kIsDecayedLeptonHadron,
+      kIsTauDecayProduct,
+      kIsPromptTauDecayProduct,
+      kIsDirectTauDecayProduct,
+      kIsDirectPromptTauDecayProduct,
+      kIsDirectHadronDecayProduct,
+      kIsHardProcess,
+      kFromHardProcess,
+      kIsHardProcessTauDecayProduct,
+      kIsDirectHardProcessTauDecayProduct,
+      kFromHardProcessBeforeFSR,
+      kIsFirstCopy,
+      kIsLastCopy,
+      kIsLastCopyBeforeFSR,
+      nStatusFlags
+    };
+
+    static TString StatusFlagName[nStatusFlags];
+
     struct datastore : public PackedParticle::datastore {
       datastore() : PackedParticle::datastore() {}
       ~datastore() { deallocate(); }
@@ -52,27 +73,6 @@ namespace panda {
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
-
-    enum StatusFlag {
-      kIsPrompt,
-      kIsDecayedLeptonHadron,
-      kIsTauDecayProduct,
-      kIsPromptTauDecayProduct,
-      kIsDirectTauDecayProduct,
-      kIsDirectPromptTauDecayProduct,
-      kIsDirectHadronDecayProduct,
-      kIsHardProcess,
-      kFromHardProcess,
-      kIsHardProcessTauDecayProduct,
-      kIsDirectHardProcessTauDecayProduct,
-      kFromHardProcessBeforeFSR,
-      kIsFirstCopy,
-      kIsLastCopy,
-      kIsLastCopyBeforeFSR,
-      nStatusFlags
-    };
-
-    static TString StatusFlagName[nStatusFlags];
 
     /* PackedParticle
     UShort_t& packedPt;
