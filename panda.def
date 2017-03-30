@@ -58,6 +58,7 @@ enum StatusFlag {
   kIsLastCopyBeforeFSR
 };
 pdgid/I
+status/B
 statusFlags/s
 parent/GenParticleRef
 
