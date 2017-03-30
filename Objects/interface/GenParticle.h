@@ -43,7 +43,7 @@ namespace panda {
       UShort_t* packedM{0};
       */
       Int_t* pdgid{0};
-      Char_t* status{0};
+      Bool_t* finalState{0};
       UShort_t* statusFlags{0};
       ContainerBase const* parentContainer_{0};
       Short_t* parent_{0};
@@ -82,7 +82,7 @@ namespace panda {
     UShort_t& packedM;
     */
     Int_t& pdgid;
-    Char_t& status;
+    Bool_t& finalState;
     UShort_t& statusFlags;
     Ref<GenParticle> parent;
 
