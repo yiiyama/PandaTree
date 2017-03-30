@@ -10,7 +10,7 @@ class RefBranch(Branch):
     """
 
     def __init__(self, line):
-        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ ]+)Ref$')
+        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ ]+)Ref(?:|/([!m]+))$')
         self.refname = self.matches.group(1)
         arrdef = self.matches.group(2)
         self.objname = self.matches.group(3)
@@ -22,8 +22,14 @@ class RefBranch(Branch):
         if objdef.is_singlet():
             raise RuntimeError('Cannot create reference to single object ' + objdef.name)
 
+        modifier = self.matches.group(4)
+        if modifier is None:
+            mod = ''
+        else:
+            mod = '/' + modifier
+
         # create a branch for the index with name {name}_
-        Branch.__init__(self, '{name}_{arrdef}/S = -1'.format(name = self.refname, arrdef = arrdef, type = self.objname))
+        Branch.__init__(self, '{name}_{arrdef}/S{mod} = -1'.format(name = self.refname, arrdef = arrdef, mod = mod))
 
     def write_decl(self, out, context):
         if context == 'datastore':
@@ -46,12 +52,18 @@ class RefBranch(Branch):
                 out.writeline('Ref<{type}> {name};'.format(type = self.objname, name = self.refname))
 
     def write_set_address(self, out, context):
+        if '!' in self.modifier:
+            return
+
         if context == 'Element':
             out.writeline('utils::setAddress(_tree, _name, "{name}", gStore.getData(this).{name}, _branches, true);'.format(name = self.name))
         else:
             Branch.write_set_address(self, out, context)
 
     def write_book(self, out, context):
+        if '!' in self.modifier:
+            return
+
         if context == 'Element':
             out.writeline('utils::book(_tree, _name, "{name}", "{arrdef}", \'{type}\', gStore.getData(this).{name}, _branches);'.format(name = self.name, arrdef = self.arrdef_text(), type = self.type, refname = self.refname))
         else:

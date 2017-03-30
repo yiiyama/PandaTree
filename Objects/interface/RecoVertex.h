@@ -24,6 +24,7 @@ namespace panda {
       UShort_t* ntrk{0};
       Float_t* ndof{0};
       Float_t* chi2{0};
+      UShort_t* pfRangeMax{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -63,6 +64,7 @@ namespace panda {
     UShort_t& ntrk;
     Float_t& ndof;
     Float_t& chi2;
+    UShort_t& pfRangeMax;
 
     /* BEGIN CUSTOM RecoVertex.h.classdef */
     /* END CUSTOM */

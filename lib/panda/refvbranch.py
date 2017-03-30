@@ -11,7 +11,7 @@ class RefVectorBranch(RefBranch, GenericBranch):
     """
 
     def __init__(self, line):
-        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ ]+)RefVector$')
+        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ ]+)RefVector(?:|/([!m]+))$')
         self.refname = self.matches.group(1)
         arrdef = self.matches.group(2)
         self.objname = self.matches.group(3)
@@ -23,8 +23,14 @@ class RefVectorBranch(RefBranch, GenericBranch):
         if objdef.is_singlet():
             raise RuntimeError('Cannot create reference to single object ' + objdef.name)
 
+        modifier = self.matches.group(4)
+        if modifier is None:
+            mod = ''
+        else:
+            mod = '/' + modifier
+
         # create a branch for the indices with name {name}_
-        GenericBranch.__init__(self, '{name}_{arrdef}/std::vector<Short_t>'.format(name = self.refname, arrdef = arrdef, type = self.objname))
+        GenericBranch.__init__(self, '{name}_{arrdef}/std::vector<Short_t>{mod}'.format(name = self.refname, arrdef = arrdef, mod = mod))
 
     def write_decl(self, out, context):
         if context == 'datastore':

@@ -6,6 +6,7 @@
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
+#include "Vertex.h"
 
 namespace panda {
 
@@ -24,6 +25,8 @@ namespace panda {
       Char_t* packedPuppiW{0};
       Char_t* packedPuppiWNoLepDiff{0};
       UChar_t* ptype{0};
+      ContainerBase const* vertexContainer_{0};
+      Short_t* vertex_{0}; // transient
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -89,6 +92,7 @@ namespace panda {
     Char_t& packedPuppiW;
     Char_t& packedPuppiWNoLepDiff;
     UChar_t& ptype;
+    Ref<Vertex> vertex;
 
     /* BEGIN CUSTOM PFCand.h.classdef */
   protected:

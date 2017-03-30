@@ -8,6 +8,7 @@ panda::Event::Event() :
   std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
+  pfCandidates.data.vertexContainer_ = &vertices;
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedPFContainer_ = &pfCandidates;
   electrons.data.matchedGenContainer_ = &genParticles;
@@ -91,6 +92,7 @@ panda::Event::Event(Event const& _src) :
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
 
+  pfCandidates.data.vertexContainer_ = &vertices;
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedPFContainer_ = &pfCandidates;
   electrons.data.matchedGenContainer_ = &genParticles;
@@ -177,6 +179,7 @@ panda::Event::operator=(Event const& _src)
   metFilters = _src.metFilters;
   recoil = _src.recoil;
 
+  pfCandidates.data.vertexContainer_ = &vertices;
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedPFContainer_ = &pfCandidates;
   electrons.data.matchedGenContainer_ = &genParticles;

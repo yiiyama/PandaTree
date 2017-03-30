@@ -70,19 +70,21 @@ class Branch(Definition):
     def write_decl(self, out, context):
         if context == 'datastore':
             if self.is_array():
-                line = '{type} (*{name}){arrdef}{{0}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text())
+                template = '{type} (*{name}){arrdef}{{0}};'
             else:
-                line = '{type}* {name}{{0}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text())
+                template = '{type}* {name}{{0}};'
         elif context == 'Singlet' or context == 'TreeEntry':
             if 'm' in self.modifier:
-                line = 'mutable {type} {name}{arrdef}{{{init}}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text(), init = self.init)
+                template = 'mutable {type} {name}{arrdef}{{{init}}};'
             else:
-                line = '{type} {name}{arrdef}{{{init}}};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text(), init = self.init)
+                template = '{type} {name}{arrdef}{{{init}}};'
         elif context == 'Element':
             if self.is_array():
-                line = '{type} (&{name}){arrdef};'.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text())
+                template = '{type} (&{name}){arrdef};'
             else:
-                line = '{type}& {name};'.format(type = self.typename(), name = self.name)
+                template = '{type}& {name};'
+
+        line = template.format(type = self.typename(), name = self.name, arrdef = self.arrdef_text(), init = self.init)
 
         if '!' in self.modifier:
             line += ' // transient'

@@ -23,6 +23,7 @@ panda::PFCand::datastore::allocate(UInt_t _nmax)
   packedPuppiW = new Char_t[nmax_];
   packedPuppiWNoLepDiff = new Char_t[nmax_];
   ptype = new UChar_t[nmax_];
+  vertex_ = new Short_t[nmax_];
 }
 
 void
@@ -36,6 +37,8 @@ panda::PFCand::datastore::deallocate()
   packedPuppiWNoLepDiff = 0;
   delete [] ptype;
   ptype = 0;
+  delete [] vertex_;
+  vertex_ = 0;
 }
 
 void
@@ -110,7 +113,8 @@ panda::PFCand::PFCand(char const* _name/* = ""*/) :
   PackedParticle(new PFCandArray(1, _name)),
   packedPuppiW(gStore.getData(this).packedPuppiW[0]),
   packedPuppiWNoLepDiff(gStore.getData(this).packedPuppiWNoLepDiff[0]),
-  ptype(gStore.getData(this).ptype[0])
+  ptype(gStore.getData(this).ptype[0]),
+  vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0])
 {
 }
 
@@ -118,20 +122,23 @@ panda::PFCand::PFCand(PFCand const& _src) :
   PackedParticle(new PFCandArray(1, gStore.getName(&_src))),
   packedPuppiW(gStore.getData(this).packedPuppiW[0]),
   packedPuppiWNoLepDiff(gStore.getData(this).packedPuppiWNoLepDiff[0]),
-  ptype(gStore.getData(this).ptype[0])
+  ptype(gStore.getData(this).ptype[0]),
+  vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0])
 {
   PackedParticle::operator=(_src);
 
   packedPuppiW = _src.packedPuppiW;
   packedPuppiWNoLepDiff = _src.packedPuppiWNoLepDiff;
   ptype = _src.ptype;
+  vertex = _src.vertex;
 }
 
 panda::PFCand::PFCand(datastore& _data, UInt_t _idx) :
   PackedParticle(_data, _idx),
   packedPuppiW(_data.packedPuppiW[_idx]),
   packedPuppiWNoLepDiff(_data.packedPuppiWNoLepDiff[_idx]),
-  ptype(_data.ptype[_idx])
+  ptype(_data.ptype[_idx]),
+  vertex(_data.vertexContainer_, _data.vertex_[_idx])
 {
 }
 
@@ -139,7 +146,8 @@ panda::PFCand::PFCand(ArrayBase* _array) :
   PackedParticle(_array),
   packedPuppiW(gStore.getData(this).packedPuppiW[0]),
   packedPuppiWNoLepDiff(gStore.getData(this).packedPuppiWNoLepDiff[0]),
-  ptype(gStore.getData(this).ptype[0])
+  ptype(gStore.getData(this).ptype[0]),
+  vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0])
 {
 }
 
@@ -166,6 +174,7 @@ panda::PFCand::operator=(PFCand const& _src)
   packedPuppiW = _src.packedPuppiW;
   packedPuppiWNoLepDiff = _src.packedPuppiWNoLepDiff;
   ptype = _src.ptype;
+  vertex = _src.vertex;
 
   return *this;
 }
@@ -198,6 +207,7 @@ panda::PFCand::doInit_()
   packedPuppiW = 0;
   packedPuppiWNoLepDiff = 0;
   ptype = 0;
+  vertex.init();
 
   /* BEGIN CUSTOM PFCand.cc.doInit_ */
   /* END CUSTOM */
@@ -219,6 +229,7 @@ panda::PFCand::dump(std::ostream& _out/* = std::cout*/) const
   _out << "packedPuppiW = " << packedPuppiW << std::endl;
   _out << "packedPuppiWNoLepDiff = " << packedPuppiWNoLepDiff << std::endl;
   _out << "ptype = " << ptype << std::endl;
+  _out << "vertex = " << vertex << std::endl;
 }
 
 
