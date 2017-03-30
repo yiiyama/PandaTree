@@ -398,6 +398,18 @@ panda::Event::doGetEntry_(TTree& _tree, Long64_t _entry)
   EventBase::doGetEntry_(_tree, _entry);
 
   /* BEGIN CUSTOM Event.cc.doGetEntry_ */
+  if (pfCandidates.size() != 0 && vertices.size() != 0) {
+    unsigned iVtx(0);
+    for (unsigned iC(0); iC != pfCandidates.size(); ++iC) {
+      if (iC == vertices[iVtx].pfRangeMax) {
+        ++iVtx;
+        if (iVtx == vertices.size())
+          break;
+      }
+
+      pfCandidates[iC].vertex.idx() = iVtx;
+    }
+  }
   /* END CUSTOM */
 }
 
