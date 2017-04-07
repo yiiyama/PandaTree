@@ -1,8 +1,11 @@
 #include "../interface/Electron.h"
 
 TString panda::Electron::TriggerObjectName[] = {
-  "fEl23Loose",
+  "fEl23El12FirstLeg",
+  "fEl23El12SecondLeg",
+  "fEl25Tight",
   "fEl27Loose",
+  "fEl27Tight",
   "fEl120Ph",
   "fEl135Ph",
   "fEl165HE10Ph",

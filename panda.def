@@ -155,8 +155,11 @@ virtual double combIso() const { return 0.; }
 
 [Electron>Lepton]
 enum TriggerObject {
-  fEl23Loose,
+  fEl23El12FirstLeg,
+  fEl23El12SecondLeg,
+  fEl25Tight,
   fEl27Loose,
+  fEl27Tight,
   fEl120Ph,
   fEl135Ph,
   fEl165HE10Ph,
@@ -190,10 +193,12 @@ double combIso() const override { return chIso + std::max(nhIso + phIso - isoPUO
 
 [Muon>Lepton]
 enum TriggerObject {
-  fMu20,
-  fMuTrk20,
-  fMu24,
-  fMu27
+  fMu17Mu8FirstLeg,
+  fMu17Mu8SecondLeg,
+  fIsoMu22er,
+  fIsoTkMu22er,
+  fIsoMu24,
+  fIsoTkMu24
 };
 mediumBtoF/O
 triggerMatch[nTriggerObjects]/O

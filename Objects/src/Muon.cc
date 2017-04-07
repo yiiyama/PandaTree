@@ -1,10 +1,12 @@
 #include "../interface/Muon.h"
 
 TString panda::Muon::TriggerObjectName[] = {
-  "fMu20",
-  "fMuTrk20",
-  "fMu24",
-  "fMu27"
+  "fMu17Mu8FirstLeg",
+  "fMu17Mu8SecondLeg",
+  "fIsoMu22er",
+  "fIsoTkMu22er",
+  "fIsoMu24",
+  "fIsoTkMu24"
 };
 
 /*static*/
