@@ -6,7 +6,7 @@ panda::Lepton::getListOfBranches()
 {
   utils::BranchList blist;
   blist += ParticleP::getListOfBranches();
-  blist += {"pfPt", "charge", "loose", "medium", "tight", "chIso", "nhIso", "phIso", "puIso", "matchedGen_"};
+  blist += {"pfPt", "charge", "loose", "medium", "tight", "chIso", "nhIso", "phIso", "puIso", "matchedPF_", "matchedGen_", "vertex_"};
   return blist;
 }
 
@@ -24,7 +24,9 @@ panda::Lepton::datastore::allocate(UInt_t _nmax)
   nhIso = new Float_t[nmax_];
   phIso = new Float_t[nmax_];
   puIso = new Float_t[nmax_];
+  matchedPF_ = new Short_t[nmax_];
   matchedGen_ = new Short_t[nmax_];
+  vertex_ = new Short_t[nmax_];
 }
 
 void
@@ -50,8 +52,12 @@ panda::Lepton::datastore::deallocate()
   phIso = 0;
   delete [] puIso;
   puIso = 0;
+  delete [] matchedPF_;
+  matchedPF_ = 0;
   delete [] matchedGen_;
   matchedGen_ = 0;
+  delete [] vertex_;
+  vertex_ = 0;
 }
 
 void
@@ -68,7 +74,9 @@ panda::Lepton::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
   utils::setStatus(_tree, _name, "nhIso", _branches);
   utils::setStatus(_tree, _name, "phIso", _branches);
   utils::setStatus(_tree, _name, "puIso", _branches);
+  utils::setStatus(_tree, _name, "matchedPF_", _branches);
   utils::setStatus(_tree, _name, "matchedGen_", _branches);
+  utils::setStatus(_tree, _name, "vertex_", _branches);
 }
 
 panda::utils::BranchList
@@ -85,7 +93,9 @@ panda::Lepton::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "nhIso"));
   blist.push_back(utils::getStatus(_tree, _name, "phIso"));
   blist.push_back(utils::getStatus(_tree, _name, "puIso"));
+  blist.push_back(utils::getStatus(_tree, _name, "matchedPF_"));
   blist.push_back(utils::getStatus(_tree, _name, "matchedGen_"));
+  blist.push_back(utils::getStatus(_tree, _name, "vertex_"));
 
   return blist;
 }
@@ -104,7 +114,9 @@ panda::Lepton::datastore::setAddress(TTree& _tree, TString const& _name, utils::
   utils::setAddress(_tree, _name, "nhIso", nhIso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "phIso", phIso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "puIso", puIso, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "matchedPF_", matchedPF_, _branches, _setStatus);
   utils::setAddress(_tree, _name, "matchedGen_", matchedGen_, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "vertex_", vertex_, _branches, _setStatus);
 }
 
 void
@@ -123,7 +135,9 @@ panda::Lepton::datastore::book(TTree& _tree, TString const& _name, utils::Branch
   utils::book(_tree, _name, "nhIso", size, 'F', nhIso, _branches);
   utils::book(_tree, _name, "phIso", size, 'F', phIso, _branches);
   utils::book(_tree, _name, "puIso", size, 'F', puIso, _branches);
+  utils::book(_tree, _name, "matchedPF_", size, 'S', matchedPF_, _branches);
   utils::book(_tree, _name, "matchedGen_", size, 'S', matchedGen_, _branches);
+  utils::book(_tree, _name, "vertex_", size, 'S', vertex_, _branches);
 }
 
 void
@@ -140,7 +154,9 @@ panda::Lepton::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "nhIso");
   utils::resetAddress(_tree, _name, "phIso");
   utils::resetAddress(_tree, _name, "puIso");
+  utils::resetAddress(_tree, _name, "matchedPF_");
   utils::resetAddress(_tree, _name, "matchedGen_");
+  utils::resetAddress(_tree, _name, "vertex_");
 }
 
 void
@@ -168,7 +184,9 @@ panda::Lepton::Lepton(char const* _name/* = ""*/) :
   nhIso(gStore.getData(this).nhIso[0]),
   phIso(gStore.getData(this).phIso[0]),
   puIso(gStore.getData(this).puIso[0]),
-  matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
+  matchedPF(gStore.getData(this).matchedPFContainer_, gStore.getData(this).matchedPF_[0]),
+  matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0]),
+  vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0])
 {
 }
 
@@ -183,7 +201,9 @@ panda::Lepton::Lepton(Lepton const& _src) :
   nhIso(gStore.getData(this).nhIso[0]),
   phIso(gStore.getData(this).phIso[0]),
   puIso(gStore.getData(this).puIso[0]),
-  matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
+  matchedPF(gStore.getData(this).matchedPFContainer_, gStore.getData(this).matchedPF_[0]),
+  matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0]),
+  vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0])
 {
   ParticleP::operator=(_src);
 
@@ -196,7 +216,9 @@ panda::Lepton::Lepton(Lepton const& _src) :
   nhIso = _src.nhIso;
   phIso = _src.phIso;
   puIso = _src.puIso;
+  matchedPF = _src.matchedPF;
   matchedGen = _src.matchedGen;
+  vertex = _src.vertex;
 }
 
 panda::Lepton::Lepton(datastore& _data, UInt_t _idx) :
@@ -210,7 +232,9 @@ panda::Lepton::Lepton(datastore& _data, UInt_t _idx) :
   nhIso(_data.nhIso[_idx]),
   phIso(_data.phIso[_idx]),
   puIso(_data.puIso[_idx]),
-  matchedGen(_data.matchedGenContainer_, _data.matchedGen_[_idx])
+  matchedPF(_data.matchedPFContainer_, _data.matchedPF_[_idx]),
+  matchedGen(_data.matchedGenContainer_, _data.matchedGen_[_idx]),
+  vertex(_data.vertexContainer_, _data.vertex_[_idx])
 {
 }
 
@@ -225,7 +249,9 @@ panda::Lepton::Lepton(ArrayBase* _array) :
   nhIso(gStore.getData(this).nhIso[0]),
   phIso(gStore.getData(this).phIso[0]),
   puIso(gStore.getData(this).puIso[0]),
-  matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
+  matchedPF(gStore.getData(this).matchedPFContainer_, gStore.getData(this).matchedPF_[0]),
+  matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0]),
+  vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0])
 {
 }
 
@@ -258,7 +284,9 @@ panda::Lepton::operator=(Lepton const& _src)
   nhIso = _src.nhIso;
   phIso = _src.phIso;
   puIso = _src.puIso;
+  matchedPF = _src.matchedPF;
   matchedGen = _src.matchedGen;
+  vertex = _src.vertex;
 
   return *this;
 }
@@ -277,7 +305,9 @@ panda::Lepton::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchLi
   utils::setAddress(_tree, _name, "nhIso", &nhIso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "phIso", &phIso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "puIso", &puIso, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "matchedPF_", gStore.getData(this).matchedPF_, _branches, true);
   utils::setAddress(_tree, _name, "matchedGen_", gStore.getData(this).matchedGen_, _branches, true);
+  utils::setAddress(_tree, _name, "vertex_", gStore.getData(this).vertex_, _branches, true);
 }
 
 void
@@ -294,7 +324,9 @@ panda::Lepton::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
   utils::book(_tree, _name, "nhIso", "", 'F', &nhIso, _branches);
   utils::book(_tree, _name, "phIso", "", 'F', &phIso, _branches);
   utils::book(_tree, _name, "puIso", "", 'F', &puIso, _branches);
+  utils::book(_tree, _name, "matchedPF_", "", 'S', gStore.getData(this).matchedPF_, _branches);
   utils::book(_tree, _name, "matchedGen_", "", 'S', gStore.getData(this).matchedGen_, _branches);
+  utils::book(_tree, _name, "vertex_", "", 'S', gStore.getData(this).vertex_, _branches);
 }
 
 void
@@ -311,7 +343,9 @@ panda::Lepton::doInit_()
   nhIso = 0.;
   phIso = 0.;
   puIso = 0.;
+  matchedPF.init();
   matchedGen.init();
+  vertex.init();
 
   /* BEGIN CUSTOM Lepton.cc.doInit_ */
   /* END CUSTOM */
@@ -352,7 +386,9 @@ panda::Lepton::dump(std::ostream& _out/* = std::cout*/) const
   _out << "nhIso = " << nhIso << std::endl;
   _out << "phIso = " << phIso << std::endl;
   _out << "puIso = " << puIso << std::endl;
+  _out << "matchedPF = " << matchedPF << std::endl;
   _out << "matchedGen = " << matchedGen << std::endl;
+  _out << "vertex = " << vertex << std::endl;
 }
 
 

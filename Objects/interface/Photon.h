@@ -7,6 +7,7 @@
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
 #include "SuperCluster.h"
+#include "PFCand.h"
 #include "GenParticle.h"
 
 namespace panda {
@@ -55,6 +56,8 @@ namespace panda {
       Bool_t (*triggerMatch)[nPhotonTriggerObjects]{0};
       ContainerBase const* superClusterContainer_{0};
       Short_t* superCluster_{0};
+      ContainerBase const* matchedPFContainer_{0};
+      Short_t* matchedPF_{0};
       ContainerBase const* matchedGenContainer_{0};
       Short_t* matchedGen_{0};
 
@@ -117,6 +120,7 @@ namespace panda {
     Bool_t& csafeVeto;
     Bool_t (&triggerMatch)[nPhotonTriggerObjects];
     Ref<SuperCluster> superCluster;
+    Ref<PFCand> matchedPF;
     Ref<GenParticle> matchedGen;
 
   protected:

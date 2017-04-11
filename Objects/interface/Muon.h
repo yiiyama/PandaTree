@@ -30,8 +30,12 @@ namespace panda {
       Float_t* nhIso{0};
       Float_t* phIso{0};
       Float_t* puIso{0};
+      ContainerBase const* matchedPFContainer_{0};
+      Short_t* matchedPF_{0};
       ContainerBase const* matchedGenContainer_{0};
       Short_t* matchedGen_{0};
+      ContainerBase const* vertexContainer_{0};
+      Short_t* vertex_{0};
       */
       Bool_t* mediumBtoF{0};
       Bool_t (*triggerMatch)[nMuonTriggerObjects]{0};
@@ -76,7 +80,9 @@ namespace panda {
     Float_t& nhIso;
     Float_t& phIso;
     Float_t& puIso;
+    Ref<PFCand> matchedPF;
     Ref<GenParticle> matchedGen;
+    Ref<Vertex> vertex;
     */
     Bool_t& mediumBtoF;
     Bool_t (&triggerMatch)[nMuonTriggerObjects];

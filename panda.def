@@ -77,6 +77,20 @@ double dR(Particle const& p) const { return std::sqrt(dR2(p)); }
 virtual void setPtEtaPhiM(double pt, double eta, double phi, double m) = 0;
 virtual void setXYZE(double px, double py, double pz, double e) = 0;
 
+[Vertex]
+x/F
+y/F
+z/F
+TVector3 position() const { return TVector3(x, y, z); }
+
+[RecoVertex>Vertex]
+score/F
+ntrk/s
+ndof/F
+chi2/F
+pfRangeMax/s
+double normChi2() const { return ndof != 0. ? chi2 / ndof : chi2 * 1.e+6; }
+
 [PackedParticle>Particle]
 packedPt/s
 packedEta/S
@@ -98,6 +112,7 @@ parent/GenParticleRef
 packedPuppiW/B
 packedPuppiWNoLepDiff/B
 ptype/b
+vertex/VertexRef/!
 double puppiW() const { unpack_(); return puppiW_; }
 double puppiWNoLep() const { unpack_(); return puppiWNoLep_; }
 void setPuppiW(double w, double wnl);
@@ -182,7 +197,9 @@ chIso/F
 nhIso/F
 phIso/F
 puIso/F
+matchedPF/PFCandRef
 matchedGen/GenParticleRef
+vertex/VertexRef
 virtual double combIso() const { return 0.; }
 
 [Electron>Lepton]
@@ -219,6 +236,7 @@ decayModeNew/O
 looseIsoMVA/O
 iso/F
 isoDeltaBetaCorr/F
+vertex/VertexRef
 matchedGen/GenParticleRef
 
 [Photon>ParticleP]
@@ -254,6 +272,7 @@ pixelVeto/O
 csafeVeto/O
 triggerMatch[nPhotonTriggerObjects]/O
 superCluster/SuperClusterRef
+matchedPF/PFCandRef
 matchedGen/GenParticleRef
 
 [GenJet>ParticleM]
@@ -393,6 +412,7 @@ rho/F
 rhoCentralCalo/F
 genReweight/GenReweight
 pfCandidates/PFCandCollection(2048)
+vertices/RecoVertexCollection(64)
 superClusters/SuperClusterCollection(64)
 electrons/ElectronCollection(32)
 muons/MuonCollection(32)
@@ -412,6 +432,7 @@ ak4GenJets/GenJetCollection(64)
 ak8GenJets/GenJetCollection(32)
 ca15GenJets/GenJetCollection(32)
 genParticles/GenParticleCollection(256)
+genVertex/Vertex
 partons/PartonCollection(8)
 pfMet/RecoMet
 puppiMet/RecoMet
@@ -428,11 +449,18 @@ metMuOnlyFix/RecoMet
 metNoFix/RecoMet
 metFilters/MetFilters
 recoil/Recoil
+pfCandidates.vertex->vertices
 electrons.superCluster->superClusters
+electrons.matchedPF->pfCandidates
 electrons.matchedGen->genParticles
+electrons.vertex->vertices
+muons.matchedPF->pfCandidates
 muons.matchedGen->genParticles
+muons.vertex->vertices
 taus.matchedGen->genParticles
+taus.vertex->vertices
 photons.superCluster->superClusters
+photons.matchedPF->pfCandidates
 photons.matchedGen->genParticles
 genParticles.parent->genParticles
 chsAK4Jets.constituents->pfCandidates
