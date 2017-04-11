@@ -23,10 +23,10 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    void set(unsigned iB) { if (iB >= 1024) return; words[iB / 64] |= (1 << (iB % 64)); }
-    bool pass(unsigned iB) const { if (iB >= 1024) return false; return (words[iB / 64] & (1 << (iB % 64))) != 0; }
+    void set(unsigned iB) { if (iB >= 1024) return; words[iB / 32] |= (1 << (iB % 32)); }
+    bool pass(unsigned iB) const { if (iB >= 1024) return false; return (words[iB / 32] & (1 << (iB % 32))) != 0; }
 
-    ULong64_t words[16]{};
+    UInt_t words[32]{};
 
     /* BEGIN CUSTOM HLTBits.h.classdef */
     /* END CUSTOM */
