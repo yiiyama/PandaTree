@@ -1,5 +1,23 @@
 #include "../interface/Electron.h"
 
+TString panda::Electron::TriggerObjectName[] = {
+  "fEl23El12FirstLeg",
+  "fEl23El12SecondLeg",
+  "fEl25Tight",
+  "fEl27Loose",
+  "fEl27Tight",
+  "fEl120Ph",
+  "fEl135Ph",
+  "fEl165HE10Ph",
+  "fEl175Ph",
+  "fEl22EBR9IsoPh",
+  "fEl36EBR9IsoPh",
+  "fEl50EBR9IsoPh",
+  "fEl75EBR9IsoPh",
+  "fEl90EBR9IsoPh",
+  "fEl120EBR9IsoPh"
+};
+
 /*static*/
 panda::utils::BranchList
 panda::Electron::getListOfBranches()
@@ -30,7 +48,7 @@ panda::Electron::datastore::allocate(UInt_t _nmax)
   regPt = new Float_t[nmax_];
   originalPt = new Float_t[nmax_];
   veto = new Bool_t[nmax_];
-  triggerMatch = new Bool_t[nmax_][nElectronTriggerObjects];
+  triggerMatch = new Bool_t[nmax_][nTriggerObjects];
   superCluster_ = new Short_t[nmax_];
 }
 
@@ -171,7 +189,7 @@ panda::Electron::datastore::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "regPt", size, 'F', regPt, _branches);
   utils::book(_tree, _name, "originalPt", size, 'F', originalPt, _branches);
   utils::book(_tree, _name, "veto", size, 'O', veto, _branches);
-  utils::book(_tree, _name, "triggerMatch", size + TString::Format("[%d]", nElectronTriggerObjects), 'O', triggerMatch, _branches);
+  utils::book(_tree, _name, "triggerMatch", size + TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
   utils::book(_tree, _name, "superCluster_", size, 'S', superCluster_, _branches);
 }
 
@@ -272,7 +290,7 @@ panda::Electron::Electron(Electron const& _src) :
   regPt = _src.regPt;
   originalPt = _src.originalPt;
   veto = _src.veto;
-  std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nElectronTriggerObjects);
+  std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
   superCluster = _src.superCluster;
 }
 
@@ -355,7 +373,7 @@ panda::Electron::operator=(Electron const& _src)
   regPt = _src.regPt;
   originalPt = _src.originalPt;
   veto = _src.veto;
-  std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nElectronTriggerObjects);
+  std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
   superCluster = _src.superCluster;
 
   return *this;
@@ -405,7 +423,7 @@ panda::Electron::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
   utils::book(_tree, _name, "regPt", "", 'F', &regPt, _branches);
   utils::book(_tree, _name, "originalPt", "", 'F', &originalPt, _branches);
   utils::book(_tree, _name, "veto", "", 'O', &veto, _branches);
-  utils::book(_tree, _name, "triggerMatch", TString::Format("[%d]", nElectronTriggerObjects), 'O', triggerMatch, _branches);
+  utils::book(_tree, _name, "triggerMatch", TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
   utils::book(_tree, _name, "superCluster_", "", 'S', gStore.getData(this).superCluster_, _branches);
 }
 

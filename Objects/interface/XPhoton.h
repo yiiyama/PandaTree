@@ -11,6 +11,12 @@ namespace panda {
 
   class XPhoton : public Photon {
   public:
+    static double chIsoCuts[2][2][4];
+    static double nhIsoCuts[2][2][4];
+    static double phIsoCuts[2][2][4];
+    static double sieieCuts[2][2][4];
+    static double hOverECuts[2][2][4];
+
     struct datastore : public Photon::datastore {
       datastore() : Photon::datastore() {}
       ~datastore() { deallocate(); }
@@ -51,7 +57,7 @@ namespace panda {
       Bool_t* highpt{0};
       Bool_t* pixelVeto{0};
       Bool_t* csafeVeto{0};
-      Bool_t (*triggerMatch)[nPhotonTriggerObjects]{0};
+      Bool_t (*triggerMatch)[nTriggerObjects]{0};
       ContainerBase const* superClusterContainer_{0};
       Short_t* superCluster_{0};
       ContainerBase const* matchedPFContainer_{0};
@@ -94,12 +100,6 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    static double chIsoCuts[2][2][4];
-    static double nhIsoCuts[2][2][4];
-    static double phIsoCuts[2][2][4];
-    static double sieieCuts[2][2][4];
-    static double hOverECuts[2][2][4];
-
     bool passCHIso(UInt_t wp) const { return chIso < chIsoCuts[1][isEB ? 0 : 1][wp]; }
     bool passNHIso(UInt_t wp) const { return nhIso < nhIsoCuts[1][isEB ? 0 : 1][wp]; }
     bool passPhIso(UInt_t wp) const { return phIso < phIsoCuts[1][isEB ? 0 : 1][wp]; }
@@ -140,7 +140,7 @@ namespace panda {
     Bool_t& highpt;
     Bool_t& pixelVeto;
     Bool_t& csafeVeto;
-    Bool_t (&triggerMatch)[nPhotonTriggerObjects];
+    Bool_t (&triggerMatch)[nTriggerObjects];
     Ref<SuperCluster> superCluster;
     Ref<PFCand> matchedPF;
     Ref<GenParticle> matchedGen;

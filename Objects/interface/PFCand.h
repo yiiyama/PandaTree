@@ -12,6 +12,28 @@ namespace panda {
 
   class PFCand : public PackedParticle {
   public:
+    enum PType {
+      hp,
+      hm,
+      ep,
+      em,
+      mup,
+      mum,
+      gamma,
+      h0,
+      h_HF,
+      egamma_HF,
+      Xp,
+      Xm,
+      X,
+      nPTypes
+    };
+
+    static TString PTypeName[nPTypes];
+
+    static int q_[nPTypes];
+    static int pdgId_[nPTypes];
+
     struct datastore : public PackedParticle::datastore {
       datastore() : PackedParticle::datastore() {}
       ~datastore() { deallocate(); }
@@ -54,26 +76,6 @@ namespace panda {
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
-
-    enum PType {
-      hp,
-      hm,
-      ep,
-      em,
-      mup,
-      mum,
-      gamma,
-      h0,
-      h_HF,
-      egamma_HF,
-      Xp,
-      Xm,
-      X,
-      nPTypes
-    };
-
-    static int q_[nPTypes];
-    static int pdgId_[nPTypes];
 
     double puppiW() const { unpack_(); return puppiW_; }
     double puppiWNoLep() const { unpack_(); return puppiWNoLep_; }

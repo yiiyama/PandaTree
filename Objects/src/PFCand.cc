@@ -1,5 +1,21 @@
 #include "../interface/PFCand.h"
 
+TString panda::PFCand::PTypeName[] = {
+  "hp",
+  "hm",
+  "ep",
+  "em",
+  "mup",
+  "mum",
+  "gamma",
+  "h0",
+  "h_HF",
+  "egamma_HF",
+  "Xp",
+  "Xm",
+  "X"
+};
+
 /*static*/
 int panda::PFCand::q_[nPTypes] = {1, -1, 1, -1, 1, -1, 0, 0, 0, 0, 1, -1, 0};
 /*static*/

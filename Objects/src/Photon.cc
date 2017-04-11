@@ -1,5 +1,24 @@
 #include "../interface/Photon.h"
 
+TString panda::Photon::TriggerObjectName[] = {
+  "fSEG34IorSEG40",
+  "fSEG40IorSJet200",
+  "fSEG34IorSEG40IorSJet200",
+  "fSEG24",
+  "fSEG30",
+  "fSEG40",
+  "fPh120",
+  "fPh135",
+  "fPh165HE10",
+  "fPh175",
+  "fPh22EBR9Iso",
+  "fPh36EBR9Iso",
+  "fPh50EBR9Iso",
+  "fPh75EBR9Iso",
+  "fPh90EBR9Iso",
+  "fPh120EBR9Iso"
+};
+
 /*static*/
 panda::utils::BranchList
 panda::Photon::getListOfBranches()
@@ -45,7 +64,7 @@ panda::Photon::datastore::allocate(UInt_t _nmax)
   highpt = new Bool_t[nmax_];
   pixelVeto = new Bool_t[nmax_];
   csafeVeto = new Bool_t[nmax_];
-  triggerMatch = new Bool_t[nmax_][nPhotonTriggerObjects];
+  triggerMatch = new Bool_t[nmax_][nTriggerObjects];
   superCluster_ = new Short_t[nmax_];
   matchedPF_ = new Short_t[nmax_];
   matchedGen_ = new Short_t[nmax_];
@@ -288,7 +307,7 @@ panda::Photon::datastore::book(TTree& _tree, TString const& _name, utils::Branch
   utils::book(_tree, _name, "highpt", size, 'O', highpt, _branches);
   utils::book(_tree, _name, "pixelVeto", size, 'O', pixelVeto, _branches);
   utils::book(_tree, _name, "csafeVeto", size, 'O', csafeVeto, _branches);
-  utils::book(_tree, _name, "triggerMatch", size + TString::Format("[%d]", nPhotonTriggerObjects), 'O', triggerMatch, _branches);
+  utils::book(_tree, _name, "triggerMatch", size + TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
   utils::book(_tree, _name, "superCluster_", size, 'S', superCluster_, _branches);
   utils::book(_tree, _name, "matchedPF_", size, 'S', matchedPF_, _branches);
   utils::book(_tree, _name, "matchedGen_", size, 'S', matchedGen_, _branches);
@@ -457,7 +476,7 @@ panda::Photon::Photon(Photon const& _src) :
   highpt = _src.highpt;
   pixelVeto = _src.pixelVeto;
   csafeVeto = _src.csafeVeto;
-  std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nPhotonTriggerObjects);
+  std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
   superCluster = _src.superCluster;
   matchedPF = _src.matchedPF;
   matchedGen = _src.matchedGen;
@@ -591,7 +610,7 @@ panda::Photon::operator=(Photon const& _src)
   highpt = _src.highpt;
   pixelVeto = _src.pixelVeto;
   csafeVeto = _src.csafeVeto;
-  std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nPhotonTriggerObjects);
+  std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
   superCluster = _src.superCluster;
   matchedPF = _src.matchedPF;
   matchedGen = _src.matchedGen;
@@ -675,7 +694,7 @@ panda::Photon::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
   utils::book(_tree, _name, "highpt", "", 'O', &highpt, _branches);
   utils::book(_tree, _name, "pixelVeto", "", 'O', &pixelVeto, _branches);
   utils::book(_tree, _name, "csafeVeto", "", 'O', &csafeVeto, _branches);
-  utils::book(_tree, _name, "triggerMatch", TString::Format("[%d]", nPhotonTriggerObjects), 'O', triggerMatch, _branches);
+  utils::book(_tree, _name, "triggerMatch", TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
   utils::book(_tree, _name, "superCluster_", "", 'S', gStore.getData(this).superCluster_, _branches);
   utils::book(_tree, _name, "matchedPF_", "", 'S', gStore.getData(this).matchedPF_, _branches);
   utils::book(_tree, _name, "matchedGen_", "", 'S', gStore.getData(this).matchedGen_, _branches);

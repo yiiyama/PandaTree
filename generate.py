@@ -142,7 +142,7 @@ if len(typedefs) != 0:
     header.newline()
 
 for enum in enums:
-    enum.write_decl(header)
+    enum.write_decl(header, context = 'global')
     header.newline()
 
 if len(constants) != 0:

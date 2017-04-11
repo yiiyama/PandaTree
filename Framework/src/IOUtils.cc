@@ -290,6 +290,21 @@ panda::utils::resetAddress(TTree& _tree, TString const& _objName, BranchName con
   return 0;
 }
 
+TTree*
+panda::utils::makeDocTree(TString const& _treeName, TString _names[], UInt_t _size)
+{
+  auto* tree(new TTree(_treeName, _treeName));
+  TString* name(new TString);
+  tree->Branch("name", "TString", &name);
+  for (unsigned iN(0); iN != _size; ++iN) {
+    *name = _names[iN];
+    tree->Fill();
+  }
+  tree->ResetBranchAddresses();
+  delete name;
+  return tree;
+}
+
 std::ostream&
 operator<<(std::ostream& os, panda::utils::BranchName const& bn)
 {

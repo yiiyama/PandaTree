@@ -12,6 +12,27 @@ namespace panda {
 
   class Electron : public Lepton {
   public:
+    enum TriggerObject {
+      fEl23El12FirstLeg,
+      fEl23El12SecondLeg,
+      fEl25Tight,
+      fEl27Loose,
+      fEl27Tight,
+      fEl120Ph,
+      fEl135Ph,
+      fEl165HE10Ph,
+      fEl175Ph,
+      fEl22EBR9IsoPh,
+      fEl36EBR9IsoPh,
+      fEl50EBR9IsoPh,
+      fEl75EBR9IsoPh,
+      fEl90EBR9IsoPh,
+      fEl120EBR9IsoPh,
+      nTriggerObjects
+    };
+
+    static TString TriggerObjectName[nTriggerObjects];
+
     struct datastore : public Lepton::datastore {
       datastore() : Lepton::datastore() {}
       ~datastore() { deallocate(); }
@@ -53,7 +74,7 @@ namespace panda {
       Float_t* regPt{0};
       Float_t* originalPt{0};
       Bool_t* veto{0};
-      Bool_t (*triggerMatch)[nElectronTriggerObjects]{0};
+      Bool_t (*triggerMatch)[nTriggerObjects]{0};
       ContainerBase const* superClusterContainer_{0};
       Short_t* superCluster_{0};
 
@@ -116,7 +137,7 @@ namespace panda {
     Float_t& regPt;
     Float_t& originalPt;
     Bool_t& veto;
-    Bool_t (&triggerMatch)[nElectronTriggerObjects];
+    Bool_t (&triggerMatch)[nTriggerObjects];
     Ref<SuperCluster> superCluster;
 
   protected:
