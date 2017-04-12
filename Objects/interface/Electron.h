@@ -70,8 +70,8 @@ namespace panda {
       Float_t* sipip{0};
       Float_t* eseed{0};
       Float_t* hOverE{0};
-      Float_t* rawPt{0};
       Float_t* regPt{0};
+      Float_t* smearedPt{0};
       Float_t* originalPt{0};
       Bool_t* veto{0};
       Bool_t (*triggerMatch)[nTriggerObjects]{0};
@@ -133,8 +133,8 @@ namespace panda {
     Float_t& sipip;
     Float_t& eseed;
     Float_t& hOverE;
-    Float_t& rawPt;
     Float_t& regPt;
+    Float_t& smearedPt;
     Float_t& originalPt;
     Bool_t& veto;
     Bool_t (&triggerMatch)[nTriggerObjects];
