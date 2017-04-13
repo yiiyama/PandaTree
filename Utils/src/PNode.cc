@@ -33,6 +33,8 @@ PNode::operator=(PNode const& _rhs)
   pt = _rhs.pt;
   eta = _rhs.eta;
   phi = _rhs.phi;
+
+  ownDaughters = _rhs.ownDaughters;
   info_ = "";
   return *this;
 }
@@ -170,7 +172,7 @@ PNode::generateInfo_() const
   std::stringstream ss;
   ss << std::setw(9) << pdgId;
 
-  if (gMassDispMode == kShowAllM || (gMassDispMode == kShowHardScatM && (statusBits[kIsHardProcess] || statusBits[kFromHardProcess])))
+  if (gMassDispMode == kShowAllM || (gMassDispMode == kShowHardScatM && (statusBits[panda::GenParticle::kIsHardProcess] || statusBits[panda::GenParticle::kFromHardProcess])))
     ss << " [" << std::setw(6) << std::fixed << std::setprecision(2) << mass << "]";
 
   if (gMomentumDispMode == kShowAllP || (gMomentumDispMode == kShowFinalP && status == 1)) {
@@ -211,7 +213,7 @@ PNode::generateInfo_() const
   else {
     ss << " " << status << " ";
     bool first(true);
-    for (unsigned iB(0); iB != nStatusBits; ++iB) {
+    for (unsigned iB(0); iB != panda::GenParticle::nStatusFlags; ++iB) {
       if (!statusBits[iB])
         continue;
 

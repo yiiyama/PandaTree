@@ -1,6 +1,8 @@
 #ifndef PandaProd_Utilities_PNode_h
 #define PandaProd_Utilities_PNode_h
 
+#include "PandaTree/Objects/interface/GenParticle.h"
+
 #include <vector>
 #include <bitset>
 #include <string>
@@ -40,25 +42,6 @@ struct PNode {
   static double gMatchEta;
   static double gMatchPhi;
   static double gMatchDR;
-
-  enum StatusBits {
-    kIsPrompt = 0,
-    kIsDecayedLeptonHadron,
-    kIsTauDecayProduct,
-    kIsPromptTauDecayProduct,
-    kIsDirectTauDecayProduct,
-    kIsDirectPromptTauDecayProduct,
-    kIsDirectHadronDecayProduct,
-    kIsHardProcess,
-    kFromHardProcess,
-    kIsHardProcessTauDecayProduct,
-    kIsDirectHardProcessTauDecayProduct,
-    kFromHardProcessBeforeFSR,
-    kIsFirstCopy,
-    kIsLastCopy,
-    kIsLastCopyBeforeFSR,
-    nStatusBits
-  };
 
   PNode() {}
   ~PNode();
