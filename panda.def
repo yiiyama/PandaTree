@@ -199,8 +199,8 @@ sieie/F
 sipip/F
 eseed/F
 hOverE/F
-rawPt/F
 regPt/F
+smearedPt/F
 originalPt/F = -1.
 veto/O
 triggerMatch[nTriggerObjects]/O
@@ -272,8 +272,8 @@ etaWidth/F
 phiWidth/F
 time/F
 timeSpan/F
-rawPt/F
 regPt/F
+smearedPt/F
 originalPt/F = -1.
 loose/O
 medium/O

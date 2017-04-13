@@ -24,7 +24,7 @@ panda::Electron::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Lepton::getListOfBranches();
-  blist += {"hltsafe", "chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "isoPUOffset", "sieie", "sipip", "eseed", "hOverE", "rawPt", "regPt", "originalPt", "veto", "triggerMatch", "superCluster_"};
+  blist += {"hltsafe", "chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "isoPUOffset", "sieie", "sipip", "eseed", "hOverE", "regPt", "smearedPt", "originalPt", "veto", "triggerMatch", "superCluster_"};
   return blist;
 }
 
@@ -44,8 +44,8 @@ panda::Electron::datastore::allocate(UInt_t _nmax)
   sipip = new Float_t[nmax_];
   eseed = new Float_t[nmax_];
   hOverE = new Float_t[nmax_];
-  rawPt = new Float_t[nmax_];
   regPt = new Float_t[nmax_];
+  smearedPt = new Float_t[nmax_];
   originalPt = new Float_t[nmax_];
   veto = new Bool_t[nmax_];
   triggerMatch = new Bool_t[nmax_][nTriggerObjects];
@@ -79,10 +79,10 @@ panda::Electron::datastore::deallocate()
   eseed = 0;
   delete [] hOverE;
   hOverE = 0;
-  delete [] rawPt;
-  rawPt = 0;
   delete [] regPt;
   regPt = 0;
+  delete [] smearedPt;
+  smearedPt = 0;
   delete [] originalPt;
   originalPt = 0;
   delete [] veto;
@@ -109,8 +109,8 @@ panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, utils:
   utils::setStatus(_tree, _name, "sipip", _branches);
   utils::setStatus(_tree, _name, "eseed", _branches);
   utils::setStatus(_tree, _name, "hOverE", _branches);
-  utils::setStatus(_tree, _name, "rawPt", _branches);
   utils::setStatus(_tree, _name, "regPt", _branches);
+  utils::setStatus(_tree, _name, "smearedPt", _branches);
   utils::setStatus(_tree, _name, "originalPt", _branches);
   utils::setStatus(_tree, _name, "veto", _branches);
   utils::setStatus(_tree, _name, "triggerMatch", _branches);
@@ -133,8 +133,8 @@ panda::Electron::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "sipip"));
   blist.push_back(utils::getStatus(_tree, _name, "eseed"));
   blist.push_back(utils::getStatus(_tree, _name, "hOverE"));
-  blist.push_back(utils::getStatus(_tree, _name, "rawPt"));
   blist.push_back(utils::getStatus(_tree, _name, "regPt"));
+  blist.push_back(utils::getStatus(_tree, _name, "smearedPt"));
   blist.push_back(utils::getStatus(_tree, _name, "originalPt"));
   blist.push_back(utils::getStatus(_tree, _name, "veto"));
   blist.push_back(utils::getStatus(_tree, _name, "triggerMatch"));
@@ -159,8 +159,8 @@ panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils
   utils::setAddress(_tree, _name, "sipip", sipip, _branches, _setStatus);
   utils::setAddress(_tree, _name, "eseed", eseed, _branches, _setStatus);
   utils::setAddress(_tree, _name, "hOverE", hOverE, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "rawPt", rawPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "regPt", regPt, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "smearedPt", smearedPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "originalPt", originalPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "veto", veto, _branches, _setStatus);
   utils::setAddress(_tree, _name, "triggerMatch", triggerMatch, _branches, _setStatus);
@@ -185,8 +185,8 @@ panda::Electron::datastore::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "sipip", size, 'F', sipip, _branches);
   utils::book(_tree, _name, "eseed", size, 'F', eseed, _branches);
   utils::book(_tree, _name, "hOverE", size, 'F', hOverE, _branches);
-  utils::book(_tree, _name, "rawPt", size, 'F', rawPt, _branches);
   utils::book(_tree, _name, "regPt", size, 'F', regPt, _branches);
+  utils::book(_tree, _name, "smearedPt", size, 'F', smearedPt, _branches);
   utils::book(_tree, _name, "originalPt", size, 'F', originalPt, _branches);
   utils::book(_tree, _name, "veto", size, 'O', veto, _branches);
   utils::book(_tree, _name, "triggerMatch", size + TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
@@ -209,8 +209,8 @@ panda::Electron::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "sipip");
   utils::resetAddress(_tree, _name, "eseed");
   utils::resetAddress(_tree, _name, "hOverE");
-  utils::resetAddress(_tree, _name, "rawPt");
   utils::resetAddress(_tree, _name, "regPt");
+  utils::resetAddress(_tree, _name, "smearedPt");
   utils::resetAddress(_tree, _name, "originalPt");
   utils::resetAddress(_tree, _name, "veto");
   utils::resetAddress(_tree, _name, "triggerMatch");
@@ -244,8 +244,8 @@ panda::Electron::Electron(char const* _name/* = ""*/) :
   sipip(gStore.getData(this).sipip[0]),
   eseed(gStore.getData(this).eseed[0]),
   hOverE(gStore.getData(this).hOverE[0]),
-  rawPt(gStore.getData(this).rawPt[0]),
   regPt(gStore.getData(this).regPt[0]),
+  smearedPt(gStore.getData(this).smearedPt[0]),
   originalPt(gStore.getData(this).originalPt[0]),
   veto(gStore.getData(this).veto[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0]),
@@ -266,8 +266,8 @@ panda::Electron::Electron(Electron const& _src) :
   sipip(gStore.getData(this).sipip[0]),
   eseed(gStore.getData(this).eseed[0]),
   hOverE(gStore.getData(this).hOverE[0]),
-  rawPt(gStore.getData(this).rawPt[0]),
   regPt(gStore.getData(this).regPt[0]),
+  smearedPt(gStore.getData(this).smearedPt[0]),
   originalPt(gStore.getData(this).originalPt[0]),
   veto(gStore.getData(this).veto[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0]),
@@ -286,8 +286,8 @@ panda::Electron::Electron(Electron const& _src) :
   sipip = _src.sipip;
   eseed = _src.eseed;
   hOverE = _src.hOverE;
-  rawPt = _src.rawPt;
   regPt = _src.regPt;
+  smearedPt = _src.smearedPt;
   originalPt = _src.originalPt;
   veto = _src.veto;
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
@@ -307,8 +307,8 @@ panda::Electron::Electron(datastore& _data, UInt_t _idx) :
   sipip(_data.sipip[_idx]),
   eseed(_data.eseed[_idx]),
   hOverE(_data.hOverE[_idx]),
-  rawPt(_data.rawPt[_idx]),
   regPt(_data.regPt[_idx]),
+  smearedPt(_data.smearedPt[_idx]),
   originalPt(_data.originalPt[_idx]),
   veto(_data.veto[_idx]),
   triggerMatch(_data.triggerMatch[_idx]),
@@ -329,8 +329,8 @@ panda::Electron::Electron(ArrayBase* _array) :
   sipip(gStore.getData(this).sipip[0]),
   eseed(gStore.getData(this).eseed[0]),
   hOverE(gStore.getData(this).hOverE[0]),
-  rawPt(gStore.getData(this).rawPt[0]),
   regPt(gStore.getData(this).regPt[0]),
+  smearedPt(gStore.getData(this).smearedPt[0]),
   originalPt(gStore.getData(this).originalPt[0]),
   veto(gStore.getData(this).veto[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0]),
@@ -369,8 +369,8 @@ panda::Electron::operator=(Electron const& _src)
   sipip = _src.sipip;
   eseed = _src.eseed;
   hOverE = _src.hOverE;
-  rawPt = _src.rawPt;
   regPt = _src.regPt;
+  smearedPt = _src.smearedPt;
   originalPt = _src.originalPt;
   veto = _src.veto;
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
@@ -395,8 +395,8 @@ panda::Electron::doSetAddress_(TTree& _tree, TString const& _name, utils::Branch
   utils::setAddress(_tree, _name, "sipip", &sipip, _branches, _setStatus);
   utils::setAddress(_tree, _name, "eseed", &eseed, _branches, _setStatus);
   utils::setAddress(_tree, _name, "hOverE", &hOverE, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "rawPt", &rawPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "regPt", &regPt, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "smearedPt", &smearedPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "originalPt", &originalPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "veto", &veto, _branches, _setStatus);
   utils::setAddress(_tree, _name, "triggerMatch", triggerMatch, _branches, _setStatus);
@@ -419,8 +419,8 @@ panda::Electron::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
   utils::book(_tree, _name, "sipip", "", 'F', &sipip, _branches);
   utils::book(_tree, _name, "eseed", "", 'F', &eseed, _branches);
   utils::book(_tree, _name, "hOverE", "", 'F', &hOverE, _branches);
-  utils::book(_tree, _name, "rawPt", "", 'F', &rawPt, _branches);
   utils::book(_tree, _name, "regPt", "", 'F', &regPt, _branches);
+  utils::book(_tree, _name, "smearedPt", "", 'F', &smearedPt, _branches);
   utils::book(_tree, _name, "originalPt", "", 'F', &originalPt, _branches);
   utils::book(_tree, _name, "veto", "", 'O', &veto, _branches);
   utils::book(_tree, _name, "triggerMatch", TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
@@ -443,8 +443,8 @@ panda::Electron::doInit_()
   sipip = 0.;
   eseed = 0.;
   hOverE = 0.;
-  rawPt = 0.;
   regPt = 0.;
+  smearedPt = 0.;
   originalPt = -1.;
   veto = false;
   for (auto& p0 : triggerMatch) p0 = false;
@@ -467,7 +467,8 @@ panda::Electron::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/
   else if (_level == 2) {
     Lepton::print(_out, _level);
     
-    _out << "rawPt = " << rawPt << std::endl;
+    _out << "smearedPt = " << smearedPt << std::endl;
+    _out << "regPt = " << regPt << std::endl;
     _out << "hltsafe = " << hltsafe << std::endl;
     _out << "veto = " << veto << std::endl;
 
@@ -495,8 +496,8 @@ panda::Electron::dump(std::ostream& _out/* = std::cout*/) const
   _out << "sipip = " << sipip << std::endl;
   _out << "eseed = " << eseed << std::endl;
   _out << "hOverE = " << hOverE << std::endl;
-  _out << "rawPt = " << rawPt << std::endl;
   _out << "regPt = " << regPt << std::endl;
+  _out << "smearedPt = " << smearedPt << std::endl;
   _out << "originalPt = " << originalPt << std::endl;
   _out << "veto = " << veto << std::endl;
   _out << "triggerMatch = " << triggerMatch << std::endl;
