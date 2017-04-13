@@ -13,6 +13,13 @@ double PNode::gMatchEta(0.);
 double PNode::gMatchPhi(0.);
 double PNode::gMatchDR(0.);
 
+std::function<bool(PNode const&)> PNode::gPruningFunction([](PNode const& node)->bool {
+    return node.isIntermediateTerminal() ||
+      node.isNoDecay() ||
+      (node.isHadronicIntermediate() && !node.isFirstHeavyHadron()) ||
+      node.isLightDecayingToLight();
+  });
+
 PNode::~PNode()
 {
   if (ownDaughters) {
@@ -145,10 +152,7 @@ PNode::pruneDaughters()
     PNode* dnode(daughters[iD]);
     dnode->pruneDaughters();
 
-    if (dnode->isIntermediateTerminal() ||
-        dnode->isNoDecay() ||
-        (dnode->isHadronicIntermediate() && !dnode->isFirstHeavyHadron()) ||
-        dnode->isLightDecayingToLight()) {
+    if (gPruningFunction(*dnode)) {
       for (auto* gd : dnode->daughters)
         gd->mother = this;
 
