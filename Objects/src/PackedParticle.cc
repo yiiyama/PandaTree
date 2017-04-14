@@ -418,7 +418,7 @@ panda::PackedParticle::pack_()
   packedPt = PackingHelper::singleton().packUnbound(pt_);
   packedEta = std::round(eta_ / 6.0f * std::numeric_limits<Short_t>::max());
   packedPhi = std::round(phi_/3.2f*std::numeric_limits<Short_t>::max());
-  packedM = PackingHelper::singleton().packUnbound(pt_);
+  packedM = PackingHelper::singleton().packUnbound(mass_);
 
   packMore_();
 }

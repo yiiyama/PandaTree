@@ -11,6 +11,18 @@ namespace panda {
 
   class Recoil : public Singlet {
   public:
+    enum Category {
+      rMET,
+      rMonoMu,
+      rMonoE,
+      rDiMu,
+      rDiE,
+      rGamma,
+      nCategories
+    };
+
+    static TString CategoryName[nCategories];
+
     typedef Singlet base_type;
 
     Recoil(char const* name = "");

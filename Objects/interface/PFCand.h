@@ -6,11 +6,34 @@
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
+#include "Vertex.h"
 
 namespace panda {
 
   class PFCand : public PackedParticle {
   public:
+    enum PType {
+      hp,
+      hm,
+      ep,
+      em,
+      mup,
+      mum,
+      gamma,
+      h0,
+      h_HF,
+      egamma_HF,
+      Xp,
+      Xm,
+      X,
+      nPTypes
+    };
+
+    static TString PTypeName[nPTypes];
+
+    static int q_[nPTypes];
+    static int pdgId_[nPTypes];
+
     struct datastore : public PackedParticle::datastore {
       datastore() : PackedParticle::datastore() {}
       ~datastore() { deallocate(); }
@@ -24,6 +47,8 @@ namespace panda {
       Char_t* packedPuppiW{0};
       Char_t* packedPuppiWNoLepDiff{0};
       UChar_t* ptype{0};
+      ContainerBase const* vertexContainer_{0};
+      Short_t* vertex_{0}; // transient
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -52,26 +77,6 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    enum PType {
-      hp,
-      hm,
-      ep,
-      em,
-      mup,
-      mum,
-      gamma,
-      h0,
-      h_HF,
-      egamma_HF,
-      Xp,
-      Xm,
-      X,
-      nPTypes
-    };
-
-    static int q_[nPTypes];
-    static int pdgId_[nPTypes];
-
     double puppiW() const { unpack_(); return puppiW_; }
     double puppiWNoLep() const { unpack_(); return puppiWNoLep_; }
     void setPuppiW(double w, double wnl);
@@ -89,6 +94,7 @@ namespace panda {
     Char_t& packedPuppiW;
     Char_t& packedPuppiWNoLepDiff;
     UChar_t& ptype;
+    Ref<Vertex> vertex;
 
     /* BEGIN CUSTOM PFCand.h.classdef */
   protected:

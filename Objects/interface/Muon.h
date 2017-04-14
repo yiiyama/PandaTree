@@ -11,6 +11,18 @@ namespace panda {
 
   class Muon : public Lepton {
   public:
+    enum TriggerObject {
+      fMu17Mu8FirstLeg,
+      fMu17Mu8SecondLeg,
+      fIsoMu22er,
+      fIsoTkMu22er,
+      fIsoMu24,
+      fIsoTkMu24,
+      nTriggerObjects
+    };
+
+    static TString TriggerObjectName[nTriggerObjects];
+
     struct datastore : public Lepton::datastore {
       datastore() : Lepton::datastore() {}
       ~datastore() { deallocate(); }
@@ -30,11 +42,15 @@ namespace panda {
       Float_t* nhIso{0};
       Float_t* phIso{0};
       Float_t* puIso{0};
+      ContainerBase const* matchedPFContainer_{0};
+      Short_t* matchedPF_{0};
       ContainerBase const* matchedGenContainer_{0};
       Short_t* matchedGen_{0};
+      ContainerBase const* vertexContainer_{0};
+      Short_t* vertex_{0};
       */
       Bool_t* mediumBtoF{0};
-      Bool_t (*triggerMatch)[nMuonTriggerObjects]{0};
+      Bool_t (*triggerMatch)[nTriggerObjects]{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -76,10 +92,12 @@ namespace panda {
     Float_t& nhIso;
     Float_t& phIso;
     Float_t& puIso;
+    Ref<PFCand> matchedPF;
     Ref<GenParticle> matchedGen;
+    Ref<Vertex> vertex;
     */
     Bool_t& mediumBtoF;
-    Bool_t (&triggerMatch)[nMuonTriggerObjects];
+    Bool_t (&triggerMatch)[nTriggerObjects];
 
   protected:
     /* ParticleP

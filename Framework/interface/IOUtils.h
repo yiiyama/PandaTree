@@ -72,6 +72,18 @@ namespace panda {
       BranchList fullNames(TString const& objName = "") const;
       //! Create a branchlist object from the branches in the tree
       static BranchList makeList(TTree&);
+      //! Set the verbosity level
+      /*!
+       * Reports individual branches when reading from tree:
+       * 0 = silent [default]
+       * 1 = report requested, vetoed, missing branches
+       * 2 = report all branches
+       */
+      void setVerbosity(int i) { verbosity = i; }
+      //! Get the verbosity level
+      int getVerbosity() const { return verbosity; }
+    private:
+      int verbosity{0};
     };
 
     //! Check status of a branch
@@ -131,6 +143,12 @@ namespace panda {
       return 0;
     }
 
+    //! Make a tree from a TString array
+    /*!
+     * Used to document enum contents.
+     */
+    TTree*
+    makeDocTree(TString const& treeName, TString names[], UInt_t size);
   }
 }
 

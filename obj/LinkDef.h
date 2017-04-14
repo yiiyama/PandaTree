@@ -2,6 +2,8 @@
 #include "../Framework/interface/Array.h"
 #include "../Framework/interface/Collection.h"
 #include "../Objects/interface/Particle.h"
+#include "../Objects/interface/Vertex.h"
+#include "../Objects/interface/RecoVertex.h"
 #include "../Objects/interface/PackedParticle.h"
 #include "../Objects/interface/GenParticle.h"
 #include "../Objects/interface/PFCand.h"
@@ -40,10 +42,6 @@
 #pragma link C++ nestedtypedef;
 #pragma link C++ namespace panda;
 
-#pragma link C++ enum panda::PhotonTriggerObject;
-#pragma link C++ enum panda::ElectronTriggerObject;
-#pragma link C++ enum panda::MuonTriggerObject;
-#pragma link C++ enum panda::RecoilCategory;
 #pragma link C++ class panda::Object;
 #pragma link C++ class panda::Singlet;
 #pragma link C++ class panda::Element;
@@ -52,6 +50,8 @@
 #pragma link C++ class panda::CollectionBase;
 #pragma link C++ class panda::TreeEntry;
 #pragma link C++ class panda::Particle;
+#pragma link C++ class panda::Vertex;
+#pragma link C++ class panda::RecoVertex;
 #pragma link C++ class panda::PackedParticle;
 #pragma link C++ class panda::GenParticle;
 #pragma link C++ class panda::PFCand;
@@ -78,6 +78,10 @@
 #pragma link C++ class panda::TPPair;
 #pragma link C++ class panda::Array<panda::Particle>;
 #pragma link C++ class panda::Collection<panda::Particle>;
+#pragma link C++ class panda::Array<panda::Vertex>;
+#pragma link C++ class panda::Collection<panda::Vertex>;
+#pragma link C++ class panda::Array<panda::RecoVertex>;
+#pragma link C++ class panda::Collection<panda::RecoVertex>;
 #pragma link C++ class panda::Array<panda::PackedParticle>;
 #pragma link C++ class panda::Collection<panda::PackedParticle>;
 #pragma link C++ class panda::Array<panda::GenParticle>;
@@ -116,6 +120,10 @@
 #pragma link C++ class panda::Collection<panda::TPPair>;
 #pragma link C++ typedef panda::ParticleArray;
 #pragma link C++ typedef panda::ParticleCollection;
+#pragma link C++ typedef panda::VertexArray;
+#pragma link C++ typedef panda::VertexCollection;
+#pragma link C++ typedef panda::RecoVertexArray;
+#pragma link C++ typedef panda::RecoVertexCollection;
 #pragma link C++ typedef panda::PackedParticleArray;
 #pragma link C++ typedef panda::PackedParticleCollection;
 #pragma link C++ typedef panda::GenParticleArray;

@@ -9,7 +9,7 @@ class GenericBranch(Branch):
     """
 
     def __init__(self, line):
-        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ ]+)(?:|/([m]+))(?:| += +(.*))$')
+        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)(|\\[.+\\])/([^ ]+)(?:|/([!m]+))(?:| += +(.*))$')
 
         self.name = self.matches.group(1)
         # is this an array branch?
@@ -52,11 +52,18 @@ class GenericBranch(Branch):
 
     def write_decl(self, out, context):
         if context == 'datastore':
-            out.writeline('std::vector<{type}>* {name}{{0}};'.format(type = self.type, name = self.name))
+            template = 'std::vector<{type}>* {name}{{0}};'
         elif context == 'Singlet' or context == 'TreeEntry':
-            out.writeline('{type}* {name}{{0}};'.format(type = self.type, name = self.name, arrdef = self.arrdef_text()))
+            template = '{type}* {name}{{0}};'
         elif context == 'Element':
-            out.writeline('{type}* {name};'.format(type = self.type, name = self.name))
+            template = '{type}* {name};'.format(type = self.type, name = self.name)
+
+        line = template.format(type = self.type, name = self.name, arrdef = self.arrdef_text())
+
+        if '!' in self.modifier:
+            line += ' // transient'
+
+        out.writeline(line)
 
     def write_allocate(self, out, context):
         # context must be datastore
@@ -68,6 +75,9 @@ class GenericBranch(Branch):
         out.writeline('{name} = 0;'.format(name = self.name))
 
     def write_set_address(self, out, context):
+        if '!' in self.modifier:
+            return
+
         if context == 'datastore':
             namevar = '_name'
         elif context == 'Singlet':
@@ -80,6 +90,9 @@ class GenericBranch(Branch):
         out.writeline('utils::setAddress(_tree, {namevar}, "{name}", &{name}, _branches, _setStatus);'.format(namevar = namevar, name = self.name))
 
     def write_book(self, out, context):
+        if '!' in self.modifier:
+            return
+
         if context == 'datastore':
             namevar = '_name'
         elif context == 'Singlet':
@@ -120,3 +133,6 @@ class GenericBranch(Branch):
 
     def write_init(self, out, context):
         out.writeline(self.initializer)
+
+    def write_dump(self, out):
+        out.writeline('_out << "{name} = ({type} object)" << std::endl;'.format(name = self.name, type = self.type))

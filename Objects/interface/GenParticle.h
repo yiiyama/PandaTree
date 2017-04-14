@@ -11,6 +11,27 @@ namespace panda {
 
   class GenParticle : public PackedParticle {
   public:
+    enum StatusFlag {
+      kIsPrompt,
+      kIsDecayedLeptonHadron,
+      kIsTauDecayProduct,
+      kIsPromptTauDecayProduct,
+      kIsDirectTauDecayProduct,
+      kIsDirectPromptTauDecayProduct,
+      kIsDirectHadronDecayProduct,
+      kIsHardProcess,
+      kFromHardProcess,
+      kIsHardProcessTauDecayProduct,
+      kIsDirectHardProcessTauDecayProduct,
+      kFromHardProcessBeforeFSR,
+      kIsFirstCopy,
+      kIsLastCopy,
+      kIsLastCopyBeforeFSR,
+      nStatusFlags
+    };
+
+    static TString StatusFlagName[nStatusFlags];
+
     struct datastore : public PackedParticle::datastore {
       datastore() : PackedParticle::datastore() {}
       ~datastore() { deallocate(); }
@@ -22,6 +43,7 @@ namespace panda {
       UShort_t* packedM{0};
       */
       Int_t* pdgid{0};
+      Bool_t* finalState{0};
       UShort_t* statusFlags{0};
       ContainerBase const* parentContainer_{0};
       Short_t* parent_{0};
@@ -60,6 +82,7 @@ namespace panda {
     UShort_t& packedM;
     */
     Int_t& pdgid;
+    Bool_t& finalState;
     UShort_t& statusFlags;
     Ref<GenParticle> parent;
 
