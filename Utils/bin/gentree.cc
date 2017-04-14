@@ -28,7 +28,7 @@ struct PNodePanda : public PNode {
 int
 main(int argc, char* argv[])
 {
-  PNode::gMomentumDispMode = PNode::kShowFinalP;
+  PNode::gMomentumDispMode = PNode::kShowAllP;
   PNode::gMassDispMode = PNode::kShowHardScatM;
 
   if (argc != 3) {

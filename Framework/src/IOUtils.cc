@@ -94,8 +94,9 @@ panda::utils::BranchName::in(BranchList const& _list) const
 
   bool included(false);
   for (auto& bname : _list) {
-    if (match(bname))
+    if (match(bname)) {
       included = !bname.isVeto();
+    }
   }
   return included;
 }
@@ -117,6 +118,7 @@ panda::utils::BranchList
 panda::utils::BranchList::subList(TString const& _objName) const
 {
   BranchList list;
+  list.setVerbosity(getVerbosity());
 
   // loop over my branch names
   for (auto& b : *this) {
@@ -237,8 +239,22 @@ panda::utils::setAddress(TTree& _tree, TString const& _objName, BranchName const
 
   if (_setStatus) {
     returnCode = setStatus(_tree, _objName, _bName, _bList);
-    if (returnCode < 0) // branch does not exist or is not in the list (includes vetoed case)
+
+    if (returnCode < 0) { // branch does not exist or is not in the list (includes vetoed case)
+      // diagnose the failure for dump
+      if (_bList.getVerbosity() > 0) {
+        if (returnCode == -2) {
+          if (_bList.getVerbosity() > 1) 
+            std::cout << "Branch " << fullName.Data() << " was not requested" << std::endl;
+        } else if (returnCode == -1) {
+          std::cout << "Branch " << fullName.Data() << " does not exist" << std::endl;
+        } else if (_bName.vetoed(_bList)) {
+          std::cout << "Branch " << fullName.Data() << " was vetoed" << std::endl;
+        }
+      }
+
       return returnCode;
+    }
   }
   else {
     if (!_bName.in(_bList))
@@ -248,6 +264,13 @@ panda::utils::setAddress(TTree& _tree, TString const& _objName, BranchName const
     returnCode = checkStatus(_tree, fullName, true);
     if (returnCode != 0)
       return returnCode;
+  }
+  
+  if (_bList.getVerbosity() > 0) {
+    if (_bName.vetoed(_bList)) 
+      std::cout << "Branch " << fullName.Data() << " was vetoed" << std::endl;
+    else
+      std::cout << "Branch " << fullName.Data() << " will be read" << std::endl;
   }
 
   _tree.SetBranchAddress(fullName, _bPtr);
