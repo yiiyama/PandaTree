@@ -63,6 +63,20 @@ panda::CollectionBase::resize(UInt_t _size)
 }
 
 void
+panda::CollectionBase::reserve(UInt_t _size)
+{
+  if (_size > getData().nmax()) {
+    reallocate_(_size);
+
+    // signal address change
+    for (auto& input : inputs_)
+      input.second.second = false;
+    for (auto& output : outputs_)
+      output.second = false;
+  }
+}
+
+void
 panda::CollectionBase::prepareGetEntry(TTree& _tree, Long64_t _iEntry)
 {
   auto&& iItr(inputs_.find(&_tree));
