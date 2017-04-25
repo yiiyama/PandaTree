@@ -35,6 +35,14 @@ namespace panda {
      */
     void resize(UInt_t size);
 
+    //! Pre-allocate space for the container.
+    /*!
+     * If the new size is greater than nmax, data will be reallocated, making all references invalid.
+     * 
+     * \param size   New collection allocation size.
+     */
+    void reserve(UInt_t size);
+
     //! Clear the container (set size = 0)
     void clear() { size_ = 0; getData().resizeVectors_(0); }
 
