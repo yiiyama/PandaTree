@@ -6,6 +6,7 @@
 #include "PFCand.h"
 #include "RecoVertex.h"
 #include "SuperCluster.h"
+#include "EBRecHit.h"
 #include "Electron.h"
 #include "Muon.h"
 #include "Tau.h"
@@ -38,10 +39,13 @@ namespace panda {
     PFCandCollection pfCandidates = PFCandCollection("pfCandidates", 2048);
     RecoVertexCollection vertices = RecoVertexCollection("vertices", 64);
     SuperClusterCollection superClusters = SuperClusterCollection("superClusters", 64);
+    SuperClusterCollection superClustersFT = SuperClusterCollection("superClustersFT", 64);
+    EBRecHitCollection ebRecHitsFT = EBRecHitCollection("ebRecHitsFT", 256);
     ElectronCollection electrons = ElectronCollection("electrons", 32);
     MuonCollection muons = MuonCollection("muons", 32);
     TauCollection taus = TauCollection("taus", 64);
     PhotonCollection photons = PhotonCollection("photons", 32);
+    PhotonCollection photonsFT = PhotonCollection("photonsFT", 32);
     JetCollection chsAK4Jets = JetCollection("chsAK4Jets", 64);
     JetCollection puppiAK4Jets = JetCollection("puppiAK4Jets", 64);
     FatJetCollection chsAK8Jets = FatJetCollection("chsAK8Jets", 8);

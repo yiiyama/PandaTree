@@ -11,6 +11,7 @@
 #include "../Objects/interface/ParticleM.h"
 #include "../Objects/interface/Parton.h"
 #include "../Objects/interface/SuperCluster.h"
+#include "../Objects/interface/EBRecHit.h"
 #include "../Objects/interface/Lepton.h"
 #include "../Objects/interface/Electron.h"
 #include "../Objects/interface/Muon.h"
@@ -59,6 +60,7 @@
 #pragma link C++ class panda::ParticleM;
 #pragma link C++ class panda::Parton;
 #pragma link C++ class panda::SuperCluster;
+#pragma link C++ class panda::EBRecHit;
 #pragma link C++ class panda::Lepton;
 #pragma link C++ class panda::Electron;
 #pragma link C++ class panda::Muon;
@@ -96,6 +98,8 @@
 #pragma link C++ class panda::Collection<panda::Parton>;
 #pragma link C++ class panda::Array<panda::SuperCluster>;
 #pragma link C++ class panda::Collection<panda::SuperCluster>;
+#pragma link C++ class panda::Array<panda::EBRecHit>;
+#pragma link C++ class panda::Collection<panda::EBRecHit>;
 #pragma link C++ class panda::Array<panda::Lepton>;
 #pragma link C++ class panda::Collection<panda::Lepton>;
 #pragma link C++ class panda::Array<panda::Electron>;
@@ -138,6 +142,8 @@
 #pragma link C++ typedef panda::PartonCollection;
 #pragma link C++ typedef panda::SuperClusterArray;
 #pragma link C++ typedef panda::SuperClusterCollection;
+#pragma link C++ typedef panda::EBRecHitArray;
+#pragma link C++ typedef panda::EBRecHitCollection;
 #pragma link C++ typedef panda::LeptonArray;
 #pragma link C++ typedef panda::LeptonCollection;
 #pragma link C++ typedef panda::ElectronArray;
