@@ -40,7 +40,7 @@ namespace panda {
     RecoVertexCollection vertices = RecoVertexCollection("vertices", 64);
     SuperClusterCollection superClusters = SuperClusterCollection("superClusters", 64);
     SuperClusterCollection superClustersFT = SuperClusterCollection("superClustersFT", 64);
-    EBRecHitCollection ebRecHitsFT = EBRecHitCollection("ebRecHitsFT", 256);
+    EBRecHitCollection ebRecHits = EBRecHitCollection("ebRecHits", 256);
     ElectronCollection electrons = ElectronCollection("electrons", 32);
     MuonCollection muons = MuonCollection("muons", 32);
     TauCollection taus = TauCollection("taus", 64);

@@ -176,6 +176,7 @@ timeError/F
 ieta/S
 iphi/S
 superCluster/SuperClusterRef
+superClusterFT/SuperClusterRef
 
 [Lepton>ParticleP]
 pfPt/F = -1. // for E: Pt of the dR-closest PF candidate; for Mu: pfP4().pt()
@@ -456,7 +457,7 @@ pfCandidates/PFCandCollection(2048)
 vertices/RecoVertexCollection(64)
 superClusters/SuperClusterCollection(64)
 superClustersFT/SuperClusterCollection(64)
-ebRecHitsFT/EBRecHitCollection(256)
+ebRecHits/EBRecHitCollection(256)
 electrons/ElectronCollection(32)
 muons/MuonCollection(32)
 taus/TauCollection(64)
@@ -494,7 +495,8 @@ metNoFix/RecoMet
 metFilters/MetFilters
 recoil/Recoil
 pfCandidates.vertex->vertices
-ebRecHitsFT.superCluster->superClustersFT
+ebRecHits.superCluster->superClusters
+ebRecHits.superClusterFT->superClustersFT
 electrons.superCluster->superClusters
 electrons.matchedPF->pfCandidates
 electrons.matchedGen->genParticles

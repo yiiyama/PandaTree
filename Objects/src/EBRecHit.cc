@@ -5,7 +5,7 @@ panda::utils::BranchList
 panda::EBRecHit::getListOfBranches()
 {
   utils::BranchList blist;
-  blist += {"energy", "time", "timeError", "ieta", "iphi", "superCluster_"};
+  blist += {"energy", "time", "timeError", "ieta", "iphi", "superCluster_", "superClusterFT_"};
   return blist;
 }
 
@@ -20,6 +20,7 @@ panda::EBRecHit::datastore::allocate(UInt_t _nmax)
   ieta = new Short_t[nmax_];
   iphi = new Short_t[nmax_];
   superCluster_ = new Short_t[nmax_];
+  superClusterFT_ = new Short_t[nmax_];
 }
 
 void
@@ -39,6 +40,8 @@ panda::EBRecHit::datastore::deallocate()
   iphi = 0;
   delete [] superCluster_;
   superCluster_ = 0;
+  delete [] superClusterFT_;
+  superClusterFT_ = 0;
 }
 
 void
@@ -52,6 +55,7 @@ panda::EBRecHit::datastore::setStatus(TTree& _tree, TString const& _name, utils:
   utils::setStatus(_tree, _name, "ieta", _branches);
   utils::setStatus(_tree, _name, "iphi", _branches);
   utils::setStatus(_tree, _name, "superCluster_", _branches);
+  utils::setStatus(_tree, _name, "superClusterFT_", _branches);
 }
 
 panda::utils::BranchList
@@ -65,6 +69,7 @@ panda::EBRecHit::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "ieta"));
   blist.push_back(utils::getStatus(_tree, _name, "iphi"));
   blist.push_back(utils::getStatus(_tree, _name, "superCluster_"));
+  blist.push_back(utils::getStatus(_tree, _name, "superClusterFT_"));
 
   return blist;
 }
@@ -80,6 +85,7 @@ panda::EBRecHit::datastore::setAddress(TTree& _tree, TString const& _name, utils
   utils::setAddress(_tree, _name, "ieta", ieta, _branches, _setStatus);
   utils::setAddress(_tree, _name, "iphi", iphi, _branches, _setStatus);
   utils::setAddress(_tree, _name, "superCluster_", superCluster_, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "superClusterFT_", superClusterFT_, _branches, _setStatus);
 }
 
 void
@@ -95,6 +101,7 @@ panda::EBRecHit::datastore::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "ieta", size, 'S', ieta, _branches);
   utils::book(_tree, _name, "iphi", size, 'S', iphi, _branches);
   utils::book(_tree, _name, "superCluster_", size, 'S', superCluster_, _branches);
+  utils::book(_tree, _name, "superClusterFT_", size, 'S', superClusterFT_, _branches);
 }
 
 void
@@ -108,6 +115,7 @@ panda::EBRecHit::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "ieta");
   utils::resetAddress(_tree, _name, "iphi");
   utils::resetAddress(_tree, _name, "superCluster_");
+  utils::resetAddress(_tree, _name, "superClusterFT_");
 }
 
 void
@@ -131,7 +139,8 @@ panda::EBRecHit::EBRecHit(char const* _name/* = ""*/) :
   timeError(gStore.getData(this).timeError[0]),
   ieta(gStore.getData(this).ieta[0]),
   iphi(gStore.getData(this).iphi[0]),
-  superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
+  superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0]),
+  superClusterFT(gStore.getData(this).superClusterFTContainer_, gStore.getData(this).superClusterFT_[0])
 {
 }
 
@@ -142,7 +151,8 @@ panda::EBRecHit::EBRecHit(EBRecHit const& _src) :
   timeError(gStore.getData(this).timeError[0]),
   ieta(gStore.getData(this).ieta[0]),
   iphi(gStore.getData(this).iphi[0]),
-  superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
+  superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0]),
+  superClusterFT(gStore.getData(this).superClusterFTContainer_, gStore.getData(this).superClusterFT_[0])
 {
   Element::operator=(_src);
 
@@ -152,6 +162,7 @@ panda::EBRecHit::EBRecHit(EBRecHit const& _src) :
   ieta = _src.ieta;
   iphi = _src.iphi;
   superCluster = _src.superCluster;
+  superClusterFT = _src.superClusterFT;
 }
 
 panda::EBRecHit::EBRecHit(datastore& _data, UInt_t _idx) :
@@ -161,7 +172,8 @@ panda::EBRecHit::EBRecHit(datastore& _data, UInt_t _idx) :
   timeError(_data.timeError[_idx]),
   ieta(_data.ieta[_idx]),
   iphi(_data.iphi[_idx]),
-  superCluster(_data.superClusterContainer_, _data.superCluster_[_idx])
+  superCluster(_data.superClusterContainer_, _data.superCluster_[_idx]),
+  superClusterFT(_data.superClusterFTContainer_, _data.superClusterFT_[_idx])
 {
 }
 
@@ -172,7 +184,8 @@ panda::EBRecHit::EBRecHit(ArrayBase* _array) :
   timeError(gStore.getData(this).timeError[0]),
   ieta(gStore.getData(this).ieta[0]),
   iphi(gStore.getData(this).iphi[0]),
-  superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
+  superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0]),
+  superClusterFT(gStore.getData(this).superClusterFTContainer_, gStore.getData(this).superClusterFT_[0])
 {
 }
 
@@ -200,6 +213,7 @@ panda::EBRecHit::operator=(EBRecHit const& _src)
   ieta = _src.ieta;
   iphi = _src.iphi;
   superCluster = _src.superCluster;
+  superClusterFT = _src.superClusterFT;
 
   return *this;
 }
@@ -213,6 +227,7 @@ panda::EBRecHit::doSetAddress_(TTree& _tree, TString const& _name, utils::Branch
   utils::setAddress(_tree, _name, "ieta", &ieta, _branches, _setStatus);
   utils::setAddress(_tree, _name, "iphi", &iphi, _branches, _setStatus);
   utils::setAddress(_tree, _name, "superCluster_", gStore.getData(this).superCluster_, _branches, true);
+  utils::setAddress(_tree, _name, "superClusterFT_", gStore.getData(this).superClusterFT_, _branches, true);
 }
 
 void
@@ -224,6 +239,7 @@ panda::EBRecHit::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
   utils::book(_tree, _name, "ieta", "", 'S', &ieta, _branches);
   utils::book(_tree, _name, "iphi", "", 'S', &iphi, _branches);
   utils::book(_tree, _name, "superCluster_", "", 'S', gStore.getData(this).superCluster_, _branches);
+  utils::book(_tree, _name, "superClusterFT_", "", 'S', gStore.getData(this).superClusterFT_, _branches);
 }
 
 void
@@ -235,6 +251,7 @@ panda::EBRecHit::doInit_()
   ieta = 0;
   iphi = 0;
   superCluster.init();
+  superClusterFT.init();
 
   /* BEGIN CUSTOM EBRecHit.cc.doInit_ */
   /* END CUSTOM */
@@ -257,6 +274,7 @@ panda::EBRecHit::dump(std::ostream& _out/* = std::cout*/) const
   _out << "ieta = " << ieta << std::endl;
   _out << "iphi = " << iphi << std::endl;
   _out << "superCluster = " << superCluster << std::endl;
+  _out << "superClusterFT = " << superClusterFT << std::endl;
 }
 
 /* BEGIN CUSTOM EBRecHit.cc.global */

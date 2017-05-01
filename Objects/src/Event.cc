@@ -3,13 +3,14 @@
 panda::Event::Event() :
   EventBase()
 {
-  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &superClusters, &superClustersFT, &ebRecHitsFT, &electrons, &muons, &taus, &photons, &photonsFT, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &genVertex, &partons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &recoil}};
+  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &superClusters, &superClustersFT, &ebRecHits, &electrons, &muons, &taus, &photons, &photonsFT, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &genVertex, &partons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &recoil}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &superClustersFT, &ebRecHitsFT, &electrons, &muons, &taus, &photons, &photonsFT, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons}};
+  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &superClustersFT, &ebRecHits, &electrons, &muons, &taus, &photons, &photonsFT, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
   pfCandidates.data.vertexContainer_ = &vertices;
-  ebRecHitsFT.data.superClusterContainer_ = &superClustersFT;
+  ebRecHits.data.superClusterContainer_ = &superClusters;
+  ebRecHits.data.superClusterFTContainer_ = &superClustersFT;
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedPFContainer_ = &pfCandidates;
   electrons.data.matchedGenContainer_ = &genParticles;
@@ -51,7 +52,7 @@ panda::Event::Event(Event const& _src) :
   vertices(_src.vertices),
   superClusters(_src.superClusters),
   superClustersFT(_src.superClustersFT),
-  ebRecHitsFT(_src.ebRecHitsFT),
+  ebRecHits(_src.ebRecHits),
   electrons(_src.electrons),
   muons(_src.muons),
   taus(_src.taus),
@@ -93,14 +94,15 @@ panda::Event::Event(Event const& _src) :
   rho(_src.rho),
   rhoCentralCalo(_src.rhoCentralCalo)
 {
-  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &superClusters, &superClustersFT, &ebRecHitsFT, &electrons, &muons, &taus, &photons, &photonsFT, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &genVertex, &partons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &recoil}};
+  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &superClusters, &superClustersFT, &ebRecHits, &electrons, &muons, &taus, &photons, &photonsFT, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &genVertex, &partons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &recoil}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &superClustersFT, &ebRecHitsFT, &electrons, &muons, &taus, &photons, &photonsFT, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons}};
+  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &superClustersFT, &ebRecHits, &electrons, &muons, &taus, &photons, &photonsFT, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
 
   pfCandidates.data.vertexContainer_ = &vertices;
-  ebRecHitsFT.data.superClusterContainer_ = &superClustersFT;
+  ebRecHits.data.superClusterContainer_ = &superClusters;
+  ebRecHits.data.superClusterFTContainer_ = &superClustersFT;
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedPFContainer_ = &pfCandidates;
   electrons.data.matchedGenContainer_ = &genParticles;
@@ -155,7 +157,7 @@ panda::Event::operator=(Event const& _src)
   vertices = _src.vertices;
   superClusters = _src.superClusters;
   superClustersFT = _src.superClustersFT;
-  ebRecHitsFT = _src.ebRecHitsFT;
+  ebRecHits = _src.ebRecHits;
   electrons = _src.electrons;
   muons = _src.muons;
   taus = _src.taus;
@@ -194,7 +196,8 @@ panda::Event::operator=(Event const& _src)
   recoil = _src.recoil;
 
   pfCandidates.data.vertexContainer_ = &vertices;
-  ebRecHitsFT.data.superClusterContainer_ = &superClustersFT;
+  ebRecHits.data.superClusterContainer_ = &superClusters;
+  ebRecHits.data.superClusterFTContainer_ = &superClustersFT;
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedPFContainer_ = &pfCandidates;
   electrons.data.matchedGenContainer_ = &genParticles;
@@ -235,20 +238,7 @@ void
 panda::Event::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
   /* BEGIN CUSTOM Event.cc.print */
-  if (_level >= 3) {
-    Event::dump(_out);
-  }
-  else if (_level == 2) {
-    // debug level
-    EventBase::print(_out, _level);
-    
-    _out << "npv = " << npv << std::endl;
-    _out << "npvTrue = " << npvTrue << std::endl;
-    _out << "rho = " << rho << std::endl;
-    _out << "rhoCentralCalo = " << rhoCentralCalo << std::endl;
-  }
-  else 
-    return;
+  dump(_out);
   /* END CUSTOM */
 }
 
@@ -267,7 +257,7 @@ panda::Event::dump(std::ostream& _out/* = std::cout*/) const
   vertices.dump(_out);
   superClusters.dump(_out);
   superClustersFT.dump(_out);
-  ebRecHitsFT.dump(_out);
+  ebRecHits.dump(_out);
   electrons.dump(_out);
   muons.dump(_out);
   taus.dump(_out);
@@ -319,7 +309,7 @@ panda::Event::getListOfBranches()
   blist += RecoVertex::getListOfBranches().fullNames("vertices");
   blist += SuperCluster::getListOfBranches().fullNames("superClusters");
   blist += SuperCluster::getListOfBranches().fullNames("superClustersFT");
-  blist += EBRecHit::getListOfBranches().fullNames("ebRecHitsFT");
+  blist += EBRecHit::getListOfBranches().fullNames("ebRecHits");
   blist += Electron::getListOfBranches().fullNames("electrons");
   blist += Muon::getListOfBranches().fullNames("muons");
   blist += Tau::getListOfBranches().fullNames("taus");
@@ -422,18 +412,6 @@ panda::Event::doGetEntry_(TTree& _tree, Long64_t _entry)
   EventBase::doGetEntry_(_tree, _entry);
 
   /* BEGIN CUSTOM Event.cc.doGetEntry_ */
-  if (pfCandidates.size() != 0 && vertices.size() != 0) {
-    unsigned iVtx(0);
-    for (unsigned iC(0); iC != pfCandidates.size(); ++iC) {
-      if (iC == vertices[iVtx].pfRangeMax) {
-        ++iVtx;
-        if (iVtx == vertices.size())
-          break;
-      }
-
-      pfCandidates[iC].vertex.idx() = iVtx;
-    }
-  }
   /* END CUSTOM */
 }
 

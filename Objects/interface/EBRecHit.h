@@ -23,6 +23,8 @@ namespace panda {
       Short_t* iphi{0};
       ContainerBase const* superClusterContainer_{0};
       Short_t* superCluster_{0};
+      ContainerBase const* superClusterFTContainer_{0};
+      Short_t* superClusterFT_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -57,6 +59,7 @@ namespace panda {
     Short_t& ieta;
     Short_t& iphi;
     Ref<SuperCluster> superCluster;
+    Ref<SuperCluster> superClusterFT;
 
     /* BEGIN CUSTOM EBRecHit.h.classdef */
     /* END CUSTOM */
