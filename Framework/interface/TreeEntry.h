@@ -18,8 +18,11 @@ namespace panda {
    */
   class TreeEntry : public Object {
   public:
-    TreeEntry() {}
+    TreeEntry() : Object() {}
+    TreeEntry(TreeEntry const& src) : Object (src) {}
     virtual ~TreeEntry() {}
+    // Important to have this implemented - otherwise the TreeEntries will start copying the objects_ vectors!
+    TreeEntry& operator=(TreeEntry const&) { return *this; }
 
     void setStatus(TTree&, utils::BranchList const& blist) final;
     utils::BranchList getStatus(TTree&) const final;

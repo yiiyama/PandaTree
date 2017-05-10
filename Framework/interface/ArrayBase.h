@@ -14,8 +14,10 @@ namespace panda {
     friend class Element;
 
   public:
-    ArrayBase(ArrayBase const& src) : ContainerBase(src) {}
+    ArrayBase() = delete;
+    ArrayBase(ArrayBase const& src) = delete;
     ~ArrayBase() {}
+    ArrayBase& operator=(ArrayBase const&) = delete;
 
     void init() final;
     UInt_t size() const final { return getData().nmax(); }
