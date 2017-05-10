@@ -15,7 +15,8 @@ namespace panda {
    */
   class CollectionBase : public ContainerBase {
   public:
-    CollectionBase(CollectionBase const& src) : ContainerBase(src), size_(src.size_) {}
+    CollectionBase() = delete;
+    CollectionBase(CollectionBase const& src) = delete;
     ~CollectionBase() {}
 
     Int_t getEntry(TTree&, Long64_t entry) final;

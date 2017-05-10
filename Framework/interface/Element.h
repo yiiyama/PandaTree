@@ -64,6 +64,8 @@ namespace panda {
     typedef ArrayBase array_type;
     typedef CollectionBase collection_type;
 
+    //! Disabled default constructor.
+    Element() = delete;
     //! Standard constructor.
     Element(datastore&, UInt_t) {}
     //! Copy constructor.
@@ -106,10 +108,6 @@ namespace panda {
     virtual void doSetAddress_(TTree&, TString const&, utils::BranchList const&, Bool_t setStatus) = 0;
     virtual void doBook_(TTree&, TString const&, utils::BranchList const&) = 0;
     virtual void doInit_() = 0;
-
-  private:
-    //! Hidden default constructor.
-    Element() {}
   };
 
   namespace utils {

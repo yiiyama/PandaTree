@@ -17,9 +17,10 @@ namespace panda {
    */
   class ContainerBase : public Object {
   public:
-    ContainerBase() {}
-    ContainerBase(ContainerBase const& src) : Object(), name_(src.name_), unitSize_(src.unitSize_) {}
+    ContainerBase() = delete;
+    ContainerBase(ContainerBase const&) = delete;
     virtual ~ContainerBase() {}
+    ContainerBase& operator=(ContainerBase const&) = delete;
 
     void setStatus(TTree&, utils::BranchList const& blist) final;
     utils::BranchList getStatus(TTree&) const final;
