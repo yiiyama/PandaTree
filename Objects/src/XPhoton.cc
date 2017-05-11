@@ -17,7 +17,7 @@ panda::XPhoton::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Photon::getListOfBranches();
-  blist += {"scEta", "scRawPt", "chIsoS15", "nhIsoS15", "phIsoS15", "e4", "isEB"};
+  blist += {"scEta", "scRawPt", "chIsoS15", "nhIsoS15", "phIsoS15", "e4", "isEB", "matchedGenId"};
   return blist;
 }
 
@@ -33,6 +33,7 @@ panda::XPhoton::datastore::allocate(UInt_t _nmax)
   phIsoS15 = new Float_t[nmax_];
   e4 = new Float_t[nmax_];
   isEB = new Bool_t[nmax_];
+  matchedGenId = new Int_t[nmax_];
 }
 
 void
@@ -54,6 +55,8 @@ panda::XPhoton::datastore::deallocate()
   e4 = 0;
   delete [] isEB;
   isEB = 0;
+  delete [] matchedGenId;
+  matchedGenId = 0;
 }
 
 void
@@ -68,6 +71,7 @@ panda::XPhoton::datastore::setStatus(TTree& _tree, TString const& _name, utils::
   utils::setStatus(_tree, _name, "phIsoS15", _branches);
   utils::setStatus(_tree, _name, "e4", _branches);
   utils::setStatus(_tree, _name, "isEB", _branches);
+  utils::setStatus(_tree, _name, "matchedGenId", _branches);
 }
 
 panda::utils::BranchList
@@ -82,6 +86,7 @@ panda::XPhoton::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "phIsoS15"));
   blist.push_back(utils::getStatus(_tree, _name, "e4"));
   blist.push_back(utils::getStatus(_tree, _name, "isEB"));
+  blist.push_back(utils::getStatus(_tree, _name, "matchedGenId"));
 
   return blist;
 }
@@ -98,6 +103,7 @@ panda::XPhoton::datastore::setAddress(TTree& _tree, TString const& _name, utils:
   utils::setAddress(_tree, _name, "phIsoS15", phIsoS15, _branches, _setStatus);
   utils::setAddress(_tree, _name, "e4", e4, _branches, _setStatus);
   utils::setAddress(_tree, _name, "isEB", isEB, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "matchedGenId", matchedGenId, _branches, _setStatus);
 }
 
 void
@@ -114,6 +120,7 @@ panda::XPhoton::datastore::book(TTree& _tree, TString const& _name, utils::Branc
   utils::book(_tree, _name, "phIsoS15", size, 'F', phIsoS15, _branches);
   utils::book(_tree, _name, "e4", size, 'F', e4, _branches);
   utils::book(_tree, _name, "isEB", size, 'O', isEB, _branches);
+  utils::book(_tree, _name, "matchedGenId", size, 'I', matchedGenId, _branches);
 }
 
 void
@@ -128,6 +135,7 @@ panda::XPhoton::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "phIsoS15");
   utils::resetAddress(_tree, _name, "e4");
   utils::resetAddress(_tree, _name, "isEB");
+  utils::resetAddress(_tree, _name, "matchedGenId");
 }
 
 void
@@ -152,7 +160,8 @@ panda::XPhoton::XPhoton(char const* _name/* = ""*/) :
   nhIsoS15(gStore.getData(this).nhIsoS15[0]),
   phIsoS15(gStore.getData(this).phIsoS15[0]),
   e4(gStore.getData(this).e4[0]),
-  isEB(gStore.getData(this).isEB[0])
+  isEB(gStore.getData(this).isEB[0]),
+  matchedGenId(gStore.getData(this).matchedGenId[0])
 {
 }
 
@@ -164,7 +173,8 @@ panda::XPhoton::XPhoton(XPhoton const& _src) :
   nhIsoS15(gStore.getData(this).nhIsoS15[0]),
   phIsoS15(gStore.getData(this).phIsoS15[0]),
   e4(gStore.getData(this).e4[0]),
-  isEB(gStore.getData(this).isEB[0])
+  isEB(gStore.getData(this).isEB[0]),
+  matchedGenId(gStore.getData(this).matchedGenId[0])
 {
   Photon::operator=(_src);
 
@@ -175,6 +185,7 @@ panda::XPhoton::XPhoton(XPhoton const& _src) :
   phIsoS15 = _src.phIsoS15;
   e4 = _src.e4;
   isEB = _src.isEB;
+  matchedGenId = _src.matchedGenId;
 }
 
 panda::XPhoton::XPhoton(datastore& _data, UInt_t _idx) :
@@ -185,7 +196,8 @@ panda::XPhoton::XPhoton(datastore& _data, UInt_t _idx) :
   nhIsoS15(_data.nhIsoS15[_idx]),
   phIsoS15(_data.phIsoS15[_idx]),
   e4(_data.e4[_idx]),
-  isEB(_data.isEB[_idx])
+  isEB(_data.isEB[_idx]),
+  matchedGenId(_data.matchedGenId[_idx])
 {
 }
 
@@ -197,7 +209,8 @@ panda::XPhoton::XPhoton(ArrayBase* _array) :
   nhIsoS15(gStore.getData(this).nhIsoS15[0]),
   phIsoS15(gStore.getData(this).phIsoS15[0]),
   e4(gStore.getData(this).e4[0]),
-  isEB(gStore.getData(this).isEB[0])
+  isEB(gStore.getData(this).isEB[0]),
+  matchedGenId(gStore.getData(this).matchedGenId[0])
 {
 }
 
@@ -228,6 +241,7 @@ panda::XPhoton::operator=(XPhoton const& _src)
   phIsoS15 = _src.phIsoS15;
   e4 = _src.e4;
   isEB = _src.isEB;
+  matchedGenId = _src.matchedGenId;
 
   return *this;
 }
@@ -244,6 +258,7 @@ panda::XPhoton::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchL
   utils::setAddress(_tree, _name, "phIsoS15", &phIsoS15, _branches, _setStatus);
   utils::setAddress(_tree, _name, "e4", &e4, _branches, _setStatus);
   utils::setAddress(_tree, _name, "isEB", &isEB, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "matchedGenId", &matchedGenId, _branches, _setStatus);
 }
 
 void
@@ -258,6 +273,7 @@ panda::XPhoton::doBook_(TTree& _tree, TString const& _name, utils::BranchList co
   utils::book(_tree, _name, "phIsoS15", "", 'F', &phIsoS15, _branches);
   utils::book(_tree, _name, "e4", "", 'F', &e4, _branches);
   utils::book(_tree, _name, "isEB", "", 'O', &isEB, _branches);
+  utils::book(_tree, _name, "matchedGenId", "", 'I', &matchedGenId, _branches);
 }
 
 void
@@ -272,6 +288,7 @@ panda::XPhoton::doInit_()
   phIsoS15 = 0.;
   e4 = 0.;
   isEB = false;
+  matchedGenId = 0;
 
   /* BEGIN CUSTOM XPhoton.cc.doInit_ */
   /* END CUSTOM */
@@ -312,6 +329,7 @@ panda::XPhoton::dump(std::ostream& _out/* = std::cout*/) const
   _out << "phIsoS15 = " << phIsoS15 << std::endl;
   _out << "e4 = " << e4 << std::endl;
   _out << "isEB = " << isEB << std::endl;
+  _out << "matchedGenId = " << matchedGenId << std::endl;
 }
 
 

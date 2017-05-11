@@ -9,7 +9,9 @@
 #include "../Objects/interface/PFCand.h"
 #include "../Objects/interface/ParticleP.h"
 #include "../Objects/interface/ParticleM.h"
+#include "../Objects/interface/UnpackedPFCand.h"
 #include "../Objects/interface/Parton.h"
+#include "../Objects/interface/UnpackedGenParticle.h"
 #include "../Objects/interface/SuperCluster.h"
 #include "../Objects/interface/Lepton.h"
 #include "../Objects/interface/Electron.h"
@@ -57,7 +59,9 @@
 #pragma link C++ class panda::PFCand;
 #pragma link C++ class panda::ParticleP;
 #pragma link C++ class panda::ParticleM;
+#pragma link C++ class panda::UnpackedPFCand;
 #pragma link C++ class panda::Parton;
+#pragma link C++ class panda::UnpackedGenParticle;
 #pragma link C++ class panda::SuperCluster;
 #pragma link C++ class panda::Lepton;
 #pragma link C++ class panda::Electron;
@@ -92,8 +96,12 @@
 #pragma link C++ class panda::Collection<panda::ParticleP>;
 #pragma link C++ class panda::Array<panda::ParticleM>;
 #pragma link C++ class panda::Collection<panda::ParticleM>;
+#pragma link C++ class panda::Array<panda::UnpackedPFCand>;
+#pragma link C++ class panda::Collection<panda::UnpackedPFCand>;
 #pragma link C++ class panda::Array<panda::Parton>;
 #pragma link C++ class panda::Collection<panda::Parton>;
+#pragma link C++ class panda::Array<panda::UnpackedGenParticle>;
+#pragma link C++ class panda::Collection<panda::UnpackedGenParticle>;
 #pragma link C++ class panda::Array<panda::SuperCluster>;
 #pragma link C++ class panda::Collection<panda::SuperCluster>;
 #pragma link C++ class panda::Array<panda::Lepton>;
@@ -134,8 +142,12 @@
 #pragma link C++ typedef panda::ParticlePCollection;
 #pragma link C++ typedef panda::ParticleMArray;
 #pragma link C++ typedef panda::ParticleMCollection;
+#pragma link C++ typedef panda::UnpackedPFCandArray;
+#pragma link C++ typedef panda::UnpackedPFCandCollection;
 #pragma link C++ typedef panda::PartonArray;
 #pragma link C++ typedef panda::PartonCollection;
+#pragma link C++ typedef panda::UnpackedGenParticleArray;
+#pragma link C++ typedef panda::UnpackedGenParticleCollection;
 #pragma link C++ typedef panda::SuperClusterArray;
 #pragma link C++ typedef panda::SuperClusterCollection;
 #pragma link C++ typedef panda::LeptonArray;

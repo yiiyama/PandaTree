@@ -6,6 +6,7 @@ nhIsoS15/F
 phIsoS15/F
 e4/F
 isEB/O
+matchedGenId/I
 bool passCHIso(UInt_t wp) const { return chIso < chIsoCuts[1][isEB ? 0 : 1][wp]; }
 bool passNHIso(UInt_t wp) const { return nhIso < nhIsoCuts[1][isEB ? 0 : 1][wp]; }
 bool passPhIso(UInt_t wp) const { return phIso < phIsoCuts[1][isEB ? 0 : 1][wp]; }
@@ -20,16 +21,13 @@ static double const phIsoCuts[2][2][4]{{{0.81, 0.28, 0.08, 2.75}, {0.83, 0.39, 0
 static double const sieieCuts[2][2][4]{{{0.0102, 0.0102, 0.0100, 0.0105}, {0.0274, 0.0268, 0.0268, 0.028}}, {{0.01031, 0.01022, 0.00994, 0.0105}, {0.03013, 0.03001, 0.03000, 0.028}}};
 static double const hOverECuts[2][2][4]{{{0.05, 0.05, 0.05, 0.05}, {0.05, 0.05, 0.05, 0.05}},               {{0.0597, 0.0396, 0.0269, 0.05}, {0.0481, 0.0219, 0.0213, 0.05}}};
 
-[TPPair]
-mass/F
-mass2/F
-
 {EventMonophoton>EventBase}
 npv/s
 npvTrue/s
 rho/F
 rhoCentralCalo/F
 genReweight/GenReweight
+vertices/RecoVertexCollection(64)
 superClusters/SuperClusterCollection(64)
 electrons/ElectronCollection(32)
 muons/MuonCollection(32)
@@ -37,7 +35,8 @@ taus/TauCollection(64)
 photons/XPhotonCollection(32)
 jets/JetCollection(64)
 genJets/GenJetCollection(64)
-genParticles/GenParticleCollection(256)
+genParticles/UnpackedGenParticleCollection(256)
+genVertex/Vertex
 partons/PartonCollection(8)
 t1Met/RecoMet
 rawMet/Met
@@ -46,14 +45,14 @@ metMuOnlyFix/RecoMet
 metNoFix/RecoMet
 metFilters/MetFilters
 electrons.superCluster->superClusters
-electrons.matchedGen->genParticles
-muons.matchedGen->genParticles
-taus.matchedGen->genParticles
 photons.superCluster->superClusters
-photons.matchedGen->genParticles
 genParticles.parent->genParticles
 jets.matchedGenJet->genJets
 #include "Event.h"
+
+[TPPair]
+mass/F
+mass2/F
 
 {EventTPPhoton>EventBase}
 npv/s
