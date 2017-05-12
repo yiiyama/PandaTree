@@ -66,6 +66,13 @@ panda::utils::StoreManager::getName(Element const* _obj) const
 void
 panda::utils::StoreManager::free(Element const* _obj)
 {
-  delete store_.at(_obj);
-  store_.erase(_obj);
+  // Since virtual destructors are called recursively, destruction of one derived object
+  // will result in multiple calls of free(). Not very efficient, but the alternative
+  // is to add some "freed" flag to the objects.
+  auto itr(store_.find(_obj));
+  if (itr == store_.end())
+    return;
+
+  delete itr->second;
+  store_.erase(itr);
 }
