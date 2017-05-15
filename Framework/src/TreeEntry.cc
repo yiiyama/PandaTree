@@ -68,14 +68,17 @@ panda::TreeEntry::getEntry(TTree& _tree, Long64_t _entry)
 {
   init();
 
+  Long64_t localEntry(_tree.LoadTree(_entry));
+
   for (unsigned iC(0); iC != collections_.size(); ++iC)
-    collections_[iC]->prepareGetEntry(_tree, _entry);
+    collections_[iC]->prepareGetEntry(_tree, _entry, localEntry);
 
-  Int_t retcode = _tree.GetEntry(_entry);
+  Int_t bytes(_tree.GetEntry(_entry));
 
-  doGetEntry_(_tree, _entry);
+  if (bytes > 0)
+    doGetEntry_(_tree, _entry);
 
-  return retcode;
+  return bytes;
 }
 
 Int_t

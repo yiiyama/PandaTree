@@ -17,7 +17,7 @@ namespace panda {
   public:
     CollectionBase() = delete;
     CollectionBase(CollectionBase const& src) = delete;
-    ~CollectionBase() {}
+    ~CollectionBase();
 
     Int_t getEntry(TTree&, Long64_t entry) final;
     Int_t fill(TTree&) final;
@@ -53,10 +53,11 @@ namespace panda {
      * Since ROOT cannot automatically take care of resizing the array, we need to load the "size"
      * branch first and reallocate memory if necessary.
      *
-     * \param tree    Tree to read the entry from.
-     * \param entry   Entry number in the input tree.
+     * \param tree       Tree to read the entry from.
+     * \param entry      Entry number in the input tree.
+     * \param localEntry If >= 0, used for GetEntry from the size branch (in place of LoadTree(entry))
      */
-    void prepareGetEntry(TTree& tree, Long64_t entry);
+    void prepareGetEntry(TTree& tree, Long64_t entry, Long64_t localEntry = -1);
 
     //! Check for address change before fill.
     void prepareFill(TTree&);
@@ -78,20 +79,45 @@ namespace panda {
     //! Size information lookahead
     UInt_t sizeIn_{0};
 
+    //! Helper class that takes care of cleaning up invalid tree pointers
+    /*!
+      CollectionBase needs to store pointers to the input/output trees and their branches
+      to be able to automatically update the linked addresses when reallocation happens.
+      We need a mechanism clean up stale pointers to trees that are already deleted.
+      TTree has a UserInfo list which can store arbitrary data. All heap-based object
+      in the list are deleted at the destruction of the tree.
+     */
+    class TreePointerCleaner : public TObject {
+    public:
+      TreePointerCleaner(CollectionBase*, TTree*, bool input);
+      ~TreePointerCleaner(); //! called in TTree destructor when UserInfo list is deleted
+
+      char const* GetName() const override { return coll_->getName(); }
+      
+      CollectionBase* getColl() const { return coll_; }
+    private:
+      CollectionBase* coll_;
+      TTree* tree_;
+      bool input_;
+    };
+
+    friend class TreePointerCleaner;
+
     //! List of inputs
     /*!
      * Store a map of tree -> (size branch, in-sync flag). Size branch is for convenience
      * (don't have to GetBranch() at every call to getEntry) and the in-synch flag indicates
-     * whether the tree has the most up-to-date branch addresses. The flag is reset at each
+     * whether the tree has the most up-to-date branch addresses. If in-synch flag equals the
+     * current TreeNumber of the tree, addresses are in synch. The flag is reset to -1 at each
      * call to reallocate.
      */
-    std::map<TTree*, std::pair<TBranch*, Bool_t>> inputs_;
+    std::map<TTree*, std::pair<TBranch*, Int_t>> inputs_;
 
     //! List of outputs
     /*!
      * When resize & reallocation happens, we need to update the addresses at the output trees too.
      */
-    std::map<TTree*, Bool_t> outputs_{};
+    std::map<TTree*, Int_t> outputs_{};
   };
 
 }
