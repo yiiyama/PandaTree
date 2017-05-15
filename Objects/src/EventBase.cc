@@ -29,7 +29,18 @@ panda::EventBase::operator=(EventBase const& _src)
   TreeEntry::operator=(_src);
 
   /* BEGIN CUSTOM EventBase.cc.operator= */
-  run = _src.run;
+  if (run_) {
+    if (_src.run_)
+      *run_ = *_src.run_;
+    else {
+      delete run_;
+      run_ = 0;
+    }
+  }
+  else if (_src.run_) {
+    run_ = new Run;
+    *run_ = *_src.run_;
+  }
   /* END CUSTOM */
 
   runNumber = _src.runNumber;
@@ -144,7 +155,34 @@ void
 panda::EventBase::doGetEntry_(TTree& _tree, Long64_t _entry)
 {
   /* BEGIN CUSTOM EventBase.cc.doGetEntry_ */
-  run.update(runNumber, _tree);
+  if (run_ && _tree.GetCurrentFile()) {
+    auto rItr(runTrees_.find(&_tree));
+    if (rItr == runTrees_.end()) {
+      // First time dealing with this tree
+      rItr = runTrees_.emplace(&_tree, std::make_pair<Int_t, TTree*>(_tree.GetTreeNumber(), 0)).first;
+    }
+
+    if (!rItr->second.second || _tree.GetTreeNumber() != rItr->second.first) {
+      auto& file(*_tree.GetCurrentFile());
+
+      // read out the runs tree
+      // using GetKey to create a "fresh" object - Get can fetch an in-memory object that may already be in use
+      auto* key(file.GetKey("runs"));
+      if (!key) {
+        std::cerr << "File " << file.GetName() << " does not have a run tree" << std::endl;
+        throw std::runtime_error("InputError");
+      }
+
+      auto* runTree(static_cast<TTree*>(key->ReadObj()));
+
+      run_->setAddress(*runTree);
+
+      rItr->second.first = _tree.GetTreeNumber();
+      rItr->second.second = runTree;
+    }
+
+    run_->findEntry(*rItr->second.second, runNumber);
+  }
   /* END CUSTOM */
 }
 
@@ -162,6 +200,16 @@ panda::EventBase::doInit_()
 
 
 /* BEGIN CUSTOM EventBase.cc.global */
+
+UInt_t
+  panda::EventBase::registerTrigger(char const* _path)
+{
+  if (!run)
+    run = new Run;
+
+  return run->registerTrigger(path);
+}
+
 Bool_t
 panda::EventBase::triggerFired(UInt_t _token) const
 {

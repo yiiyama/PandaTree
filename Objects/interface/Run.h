@@ -61,7 +61,10 @@ namespace panda {
     UInt_t triggerSize() const { return triggerPaths().size(); }
 
     //! Check for updates
-    void update(UInt_t runNumber, TTree& eventTree);
+    void findEntry(TTree& runTree, UInt_t runNumber);
+
+    //! Update trigger information
+    void loadTriggerTable(TFile&);
 
     struct HLTTreeEntry {
       ~HLTTreeEntry() { destroy(); }
@@ -85,6 +88,9 @@ namespace panda {
   private:
     //! Switch to enable trigger loading
     Bool_t loadTrigger_{kFALSE};
+
+    //! Cached menu number to detect menu change
+    UInt_t hltMenuCache_{-1};
 
     //! List of registered paths
     std::vector<TString> registeredTriggers_{};

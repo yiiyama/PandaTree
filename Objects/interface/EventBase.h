@@ -39,9 +39,6 @@ namespace panda {
   public:
     /* BEGIN CUSTOM EventBase.h.classdef */
 
-    //! Current run object.
-    Run run;
-
     //! Use to declare a trigger path to be used in the analysis. Returns a token for the path.
     /*!
      * Call this function before the event loop for each trigger you will be using. The return value
@@ -50,7 +47,7 @@ namespace panda {
      *
      * \param path   HLT path
      */
-    UInt_t registerTrigger(char const* path) { return run.registerTrigger(path); }
+    UInt_t registerTrigger(char const* path);
 
     //! Trigger decision of the event.
     /*!
@@ -59,6 +56,34 @@ namespace panda {
      * \param token   Token returned by registerTrigger()
      */
     Bool_t triggerFired(UInt_t token) const;
+
+  private:
+    
+    //! Helper class for cleaning up runTrees_
+    /*!
+      See CollectionBase for details.
+     */
+    class TreePointerCleaner : public TObject {
+    public:
+      TreePointerCleaner(EventBase*, TTree*);
+      ~TreePointerCleaner(); //! called in TTree destructor when UserInfo list is deleted
+
+      char const* GetName() const override { return coll_->getName(); }
+      
+      EventBase* getEvent() const { return event_; }
+    private:
+      EventBase* event_;
+      TTree* tree_;
+    };
+
+    //! List of run trees linked to the run object.
+    /*!
+     event tree -> tree number, run tree 
+     */
+    std::map<TTree*, std::pair<Int_t, TTree*>> runTrees_;
+
+    //! Run object to deal with trigger menu
+    Run* run_{0};
 
     /* END CUSTOM */
   };

@@ -123,6 +123,13 @@ void
 panda::Run::doGetEntry_(TTree& _tree, Long64_t _entry)
 {
   /* BEGIN CUSTOM Run.cc.doGetEntry_ */
+  if (loadTrigger_ && hltMenu != hltMenuCache_) {
+    hltMenuCache_ = hltMenu;
+    
+    auto* file(_tree.GetCurrentFile());
+    if (file)
+      loadTriggerTable(*file);
+  }
   /* END CUSTOM */
 }
 
@@ -191,54 +198,29 @@ panda::Run::triggerPaths() const
 }
 
 void
-panda::Run::update(UInt_t _runNumber, TTree& _eventTree)
+panda::Run::findEntry(TTree& _runTree, UInt_t _runNumber)
 {
-  bool needRead(false);
-
   if (_runNumber != runNumber) {
-    // gets overwritten again later, but if !loadTrigger_ this is the only place to set run number
-    runNumber = _runNumber;
-    needRead = true;
+    long iEntry(0);
+    while (_runTree.GetEntry(iEntry++) > 0) {
+      if (runNumber == _runNumber)
+        break;
+    }
+    if (iEntry == _runTree.GetEntries()+1) {
+      std::cerr << "Run " << _runNumber << " not found in run tree" << std::endl;
+      throw std::runtime_error("InputError");
+    }
+
+    doGetEntry_(_runTree, iEntry);
   }
+}
 
-  if (!loadTrigger_)
-    return;
-
-  if (!hlt.menu)
-    needRead = true;
-
-  if (!needRead)
-    return;
-
-  auto* inputFile(_eventTree.GetCurrentFile());
-  if (!inputFile)
-    return;
-
-  // read out runs and hlt trees (using GetKey to create a "fresh" object - Get can fetch an in-memory object that may already be in use)
-  auto* key(inputFile->GetKey("runs"));
+void
+panda::Run::loadTriggerTable(TFile& _inputFile)
+{
+  auto* key(_inputFile.GetKey("hlt"));
   if (!key) {
-    std::cerr << "File " << inputFile->GetName() << " does not have a run tree" << std::endl;
-    throw std::runtime_error("InputError");
-  }
-  auto* runTree(static_cast<TTree*>(key->ReadObj()));
-
-  setAddress(*runTree);
-
-  long iEntry(0);
-  while (runTree->GetEntry(iEntry++) > 0) {
-    if (runNumber == _runNumber)
-      break;
-  }
-  if (iEntry == runTree->GetEntries()+1) {
-    std::cerr << "Run " << _runNumber << " not found in " << inputFile->GetName() << std::endl;
-    throw std::runtime_error("InputError");
-  }
-
-  delete runTree;
-
-  key = inputFile->GetKey("hlt");
-  if (!key) {
-    std::cerr << "File " << inputFile->GetName() << " does not have an hlt tree" << std::endl;
+    std::cerr << "File " << _inputFile.GetName() << " does not have an hlt tree" << std::endl;
     throw std::runtime_error("InputError");
   }
   auto* hltTree(static_cast<TTree*>(key->ReadObj()));
@@ -250,7 +232,7 @@ panda::Run::update(UInt_t _runNumber, TTree& _eventTree)
   hltTree->SetBranchAddress("paths", &hlt.paths);
 
   if (hltTree->GetEntry(hltMenu) <= 0) {
-    std::cerr << "Failed to read HLT menu " << hltMenu << " from " << inputFile->GetName() << std::endl;
+    std::cerr << "Failed to read HLT menu " << hltMenu << " from " << _inputFile.GetName() << std::endl;
     throw std::runtime_error("InputError");
   }
 
