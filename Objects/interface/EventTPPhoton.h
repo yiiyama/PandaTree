@@ -47,8 +47,8 @@ namespace panda {
 
   public:
     /* BEGIN CUSTOM EventTPPhoton.h.classdef */
-    EventTPPhoton& operator=(Event const&);
-    EventTPPhoton& operator=(EventMonophoton const&);
+    EventTPPhoton& copy(Event const&);
+    EventTPPhoton& copy(EventMonophoton const&);
     /* END CUSTOM */
   };
 

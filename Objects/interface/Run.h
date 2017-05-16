@@ -40,6 +40,12 @@ namespace panda {
     //! See description on Event::registerTrigger
     UInt_t registerTrigger(char const* path);
 
+    //! Get the registered path name for the token
+    /*!
+     * Returns an empty string for an invalid token.
+     */
+    char const* getRegisteredPath(UInt_t token) const;
+
     //! Get the trigger index for the given token
     UInt_t getTriggerIndex(UInt_t token) const;
 

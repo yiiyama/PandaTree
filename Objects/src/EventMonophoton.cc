@@ -263,9 +263,15 @@ panda::EventMonophoton::doInit_()
 #include <map>
 
 panda::EventMonophoton&
-panda::EventMonophoton::operator=(Event const& _src)
+panda::EventMonophoton::copy(Event const& _src)
 {
-  EventBase::operator=(_src);
+  runNumber = _src.runNumber;
+  lumiNumber = _src.lumiNumber;
+  eventNumber = _src.eventNumber;
+  isData = _src.isData;
+  weight = _src.weight;
+
+  triggers = _src.triggers;
 
   npv = _src.npv;
   npvTrue = _src.npvTrue;
