@@ -29,6 +29,7 @@ namespace panda {
       Bool_t* decayMode{0};
       Bool_t* decayModeNew{0};
       Bool_t* looseIsoMVA{0};
+      Bool_t* looseIsoMVAOld{0};
       Float_t* iso{0};
       Float_t* isoDeltaBetaCorr{0};
       ContainerBase const* vertexContainer_{0};
@@ -67,6 +68,7 @@ namespace panda {
     Bool_t& decayMode;
     Bool_t& decayModeNew;
     Bool_t& looseIsoMVA;
+    Bool_t& looseIsoMVAOld;
     Float_t& iso;
     Float_t& isoDeltaBetaCorr;
     Ref<Vertex> vertex;

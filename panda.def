@@ -229,6 +229,7 @@ charge/B
 decayMode/O
 decayModeNew/O
 looseIsoMVA/O
+looseIsoMVAOld/O
 iso/F
 isoDeltaBetaCorr/F
 vertex/VertexRef
