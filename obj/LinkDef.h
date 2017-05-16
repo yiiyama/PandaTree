@@ -4,13 +4,14 @@
 #include "../Objects/interface/Particle.h"
 #include "../Objects/interface/Vertex.h"
 #include "../Objects/interface/RecoVertex.h"
+#include "../Objects/interface/PackedTrack.h"
+#include "../Objects/interface/SuperCluster.h"
 #include "../Objects/interface/PackedParticle.h"
 #include "../Objects/interface/GenParticle.h"
 #include "../Objects/interface/PFCand.h"
 #include "../Objects/interface/ParticleP.h"
 #include "../Objects/interface/ParticleM.h"
 #include "../Objects/interface/Parton.h"
-#include "../Objects/interface/SuperCluster.h"
 #include "../Objects/interface/Lepton.h"
 #include "../Objects/interface/Electron.h"
 #include "../Objects/interface/Muon.h"
@@ -52,13 +53,14 @@
 #pragma link C++ class panda::Particle;
 #pragma link C++ class panda::Vertex;
 #pragma link C++ class panda::RecoVertex;
+#pragma link C++ class panda::PackedTrack;
+#pragma link C++ class panda::SuperCluster;
 #pragma link C++ class panda::PackedParticle;
 #pragma link C++ class panda::GenParticle;
 #pragma link C++ class panda::PFCand;
 #pragma link C++ class panda::ParticleP;
 #pragma link C++ class panda::ParticleM;
 #pragma link C++ class panda::Parton;
-#pragma link C++ class panda::SuperCluster;
 #pragma link C++ class panda::Lepton;
 #pragma link C++ class panda::Electron;
 #pragma link C++ class panda::Muon;
@@ -82,6 +84,10 @@
 #pragma link C++ class panda::Collection<panda::Vertex>;
 #pragma link C++ class panda::Array<panda::RecoVertex>;
 #pragma link C++ class panda::Collection<panda::RecoVertex>;
+#pragma link C++ class panda::Array<panda::PackedTrack>;
+#pragma link C++ class panda::Collection<panda::PackedTrack>;
+#pragma link C++ class panda::Array<panda::SuperCluster>;
+#pragma link C++ class panda::Collection<panda::SuperCluster>;
 #pragma link C++ class panda::Array<panda::PackedParticle>;
 #pragma link C++ class panda::Collection<panda::PackedParticle>;
 #pragma link C++ class panda::Array<panda::GenParticle>;
@@ -94,8 +100,6 @@
 #pragma link C++ class panda::Collection<panda::ParticleM>;
 #pragma link C++ class panda::Array<panda::Parton>;
 #pragma link C++ class panda::Collection<panda::Parton>;
-#pragma link C++ class panda::Array<panda::SuperCluster>;
-#pragma link C++ class panda::Collection<panda::SuperCluster>;
 #pragma link C++ class panda::Array<panda::Lepton>;
 #pragma link C++ class panda::Collection<panda::Lepton>;
 #pragma link C++ class panda::Array<panda::Electron>;
@@ -124,6 +128,10 @@
 #pragma link C++ typedef panda::VertexCollection;
 #pragma link C++ typedef panda::RecoVertexArray;
 #pragma link C++ typedef panda::RecoVertexCollection;
+#pragma link C++ typedef panda::PackedTrackArray;
+#pragma link C++ typedef panda::PackedTrackCollection;
+#pragma link C++ typedef panda::SuperClusterArray;
+#pragma link C++ typedef panda::SuperClusterCollection;
 #pragma link C++ typedef panda::PackedParticleArray;
 #pragma link C++ typedef panda::PackedParticleCollection;
 #pragma link C++ typedef panda::GenParticleArray;
@@ -136,8 +144,6 @@
 #pragma link C++ typedef panda::ParticleMCollection;
 #pragma link C++ typedef panda::PartonArray;
 #pragma link C++ typedef panda::PartonCollection;
-#pragma link C++ typedef panda::SuperClusterArray;
-#pragma link C++ typedef panda::SuperClusterCollection;
 #pragma link C++ typedef panda::LeptonArray;
 #pragma link C++ typedef panda::LeptonCollection;
 #pragma link C++ typedef panda::ElectronArray;

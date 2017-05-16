@@ -23,6 +23,7 @@ namespace panda {
     Int_t fill(TTree&) final;
     void init() final { clear(); }
     UInt_t size() const final { return size_; }
+    Bool_t empty() const { return size_ == 0; }
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
