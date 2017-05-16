@@ -75,6 +75,8 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
+    bool testFlag(StatusFlag f) const { return ((statusFlags >> f) & 1) == 1; }
+
     /* PackedParticle
     UShort_t& packedPt;
     Short_t& packedEta;
