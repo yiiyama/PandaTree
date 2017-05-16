@@ -40,6 +40,7 @@ panda::PFCand::datastore::allocate(UInt_t _nmax)
   packedPuppiWNoLepDiff = new Char_t[nmax_];
   ptype = new UChar_t[nmax_];
   vertex_ = new Short_t[nmax_];
+  track_ = new Short_t[nmax_];
 }
 
 void
@@ -55,6 +56,8 @@ panda::PFCand::datastore::deallocate()
   ptype = 0;
   delete [] vertex_;
   vertex_ = 0;
+  delete [] track_;
+  track_ = 0;
 }
 
 void
@@ -130,7 +133,8 @@ panda::PFCand::PFCand(char const* _name/* = ""*/) :
   packedPuppiW(gStore.getData(this).packedPuppiW[0]),
   packedPuppiWNoLepDiff(gStore.getData(this).packedPuppiWNoLepDiff[0]),
   ptype(gStore.getData(this).ptype[0]),
-  vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0])
+  vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0]),
+  track(gStore.getData(this).trackContainer_, gStore.getData(this).track_[0])
 {
 }
 
@@ -139,7 +143,8 @@ panda::PFCand::PFCand(PFCand const& _src) :
   packedPuppiW(gStore.getData(this).packedPuppiW[0]),
   packedPuppiWNoLepDiff(gStore.getData(this).packedPuppiWNoLepDiff[0]),
   ptype(gStore.getData(this).ptype[0]),
-  vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0])
+  vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0]),
+  track(gStore.getData(this).trackContainer_, gStore.getData(this).track_[0])
 {
   PackedParticle::operator=(_src);
 
@@ -147,6 +152,7 @@ panda::PFCand::PFCand(PFCand const& _src) :
   packedPuppiWNoLepDiff = _src.packedPuppiWNoLepDiff;
   ptype = _src.ptype;
   vertex = _src.vertex;
+  track = _src.track;
 }
 
 panda::PFCand::PFCand(datastore& _data, UInt_t _idx) :
@@ -154,7 +160,8 @@ panda::PFCand::PFCand(datastore& _data, UInt_t _idx) :
   packedPuppiW(_data.packedPuppiW[_idx]),
   packedPuppiWNoLepDiff(_data.packedPuppiWNoLepDiff[_idx]),
   ptype(_data.ptype[_idx]),
-  vertex(_data.vertexContainer_, _data.vertex_[_idx])
+  vertex(_data.vertexContainer_, _data.vertex_[_idx]),
+  track(_data.trackContainer_, _data.track_[_idx])
 {
 }
 
@@ -163,7 +170,8 @@ panda::PFCand::PFCand(ArrayBase* _array) :
   packedPuppiW(gStore.getData(this).packedPuppiW[0]),
   packedPuppiWNoLepDiff(gStore.getData(this).packedPuppiWNoLepDiff[0]),
   ptype(gStore.getData(this).ptype[0]),
-  vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0])
+  vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0]),
+  track(gStore.getData(this).trackContainer_, gStore.getData(this).track_[0])
 {
 }
 
@@ -191,6 +199,7 @@ panda::PFCand::operator=(PFCand const& _src)
   packedPuppiWNoLepDiff = _src.packedPuppiWNoLepDiff;
   ptype = _src.ptype;
   vertex = _src.vertex;
+  track = _src.track;
 
   return *this;
 }
@@ -224,6 +233,7 @@ panda::PFCand::doInit_()
   packedPuppiWNoLepDiff = 0;
   ptype = 0;
   vertex.init();
+  track.init();
 
   /* BEGIN CUSTOM PFCand.cc.doInit_ */
   /* END CUSTOM */
@@ -246,10 +256,55 @@ panda::PFCand::dump(std::ostream& _out/* = std::cout*/) const
   _out << "packedPuppiWNoLepDiff = " << packedPuppiWNoLepDiff << std::endl;
   _out << "ptype = " << ptype << std::endl;
   _out << "vertex = " << vertex << std::endl;
+  _out << "track = " << track << std::endl;
 }
 
 
 /* BEGIN CUSTOM PFCand.cc.global */
+TVector3
+panda::PFCand::pca() const
+{
+  if (!vertex.isValid() || !track.isValid())
+    return TVector3();
+
+  unpack_();
+  
+  double trkPhi(phi_ + track->dPhi());
+
+  // dir(pca - pv) is perpendicular to trkPhi by definition
+  // -> relation between pca and pv simplifies
+
+  return TVector3(vertex->x - track->dxy() * std::sin(trkPhi), vertex->y + track->dxy() * std::cos(trkPhi), vertex->z + track->dz());
+}
+
+double
+panda::PFCand::dxy(TVector3 const& point) const
+{
+  if (!vertex.isValid() || !track.isValid())
+    return 0.;
+
+  auto ref(pca());
+
+  double trkPhi(phi_ + track->dPhi());
+
+  return -(ref.X() - point.X()) * std::sin(trkPhi) + (ref.Y() - point.Y()) * std::cos(trkPhi);
+}
+
+double
+panda::PFCand::dz(TVector3 const& point) const
+{
+  if (!vertex.isValid() || !track.isValid())
+    return 0.;
+
+  auto ref(pca());
+
+  double trkPhi(phi_ + track->dPhi());
+
+  return (ref.Z() - point.Z()) - ((ref.X() - point.X()) * std::cos(trkPhi) + (ref.Y() - point.Y()) * std::sin(trkPhi)) * pz() / pt_;
+}
+
+#include "../interface/PackingHelper.h"
+
 void
 panda::PFCand::packMore_()
 {

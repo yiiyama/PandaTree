@@ -41,6 +41,22 @@ chi2/F
 pfRangeMax/s
 double normChi2() const { return ndof != 0. ? chi2 / ndof : chi2 * 1.e+6; }
 
+[PackedTrack]
+packedPtError/s
+packedDxy/S
+packedDz/S
+packedDPhi/S
+void setPtError(double e) { ptError_ = e; packPtError_(); }
+double ptError() const { unpack_(); return ptError_; }
+double dxy() const { unpack_(); return dxy_; }
+double dz() const { unpack_(); return dz_; }
+double dPhi() const { unpack_(); return dPhi_; }
+
+[SuperCluster]
+rawPt/F
+eta/F
+phi/F
+
 [PackedParticle>Particle]
 packedPt/s
 packedEta/S
@@ -80,7 +96,8 @@ parent/GenParticleRef
 packedPuppiW/B
 packedPuppiWNoLepDiff/B
 ptype/b
-vertex/VertexRef/!
+vertex/RecoVertexRef/!
+track/PackedTrackRef/!
 double puppiW() const { unpack_(); return puppiW_; }
 double puppiWNoLep() const { unpack_(); return puppiWNoLep_; }
 void setPuppiW(double w, double wnl);
@@ -88,6 +105,9 @@ TLorentzVector puppiP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppi
 TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep(), eta(), phi(), m() * puppiWNoLep()); return p4; }
 int q() const { return q_[ptype]; }
 int pdgId() const { return pdgId_[ptype]; }
+TVector3 pca() const;
+double dxy(TVector3 const&) const;
+double dz(TVector3 const&) const;
 enum PType {
   hp,
   hm,
@@ -149,11 +169,6 @@ void setXYZE(double px, double py, double pz, double e) override
 
 [Parton>ParticleM]
 pdgid/I
-
-[SuperCluster]
-rawPt/F
-eta/F
-phi/F
 
 [Lepton>ParticleP]
 pfPt/F = -1. // for E: Pt of the dR-closest PF candidate; for Mu: pfP4().pt()
@@ -439,6 +454,7 @@ rhoCentralCalo/F
 genReweight/GenReweight
 pfCandidates/PFCandCollection(2048)
 vertices/RecoVertexCollection(64)
+tracks/PackedTrackCollection(1024)
 superClusters/SuperClusterCollection(64)
 electrons/ElectronCollection(32)
 muons/MuonCollection(32)
@@ -476,6 +492,7 @@ metNoFix/RecoMet
 metFilters/MetFilters
 recoil/Recoil
 pfCandidates.vertex->vertices
+pfCandidates.track->tracks
 electrons.superCluster->superClusters
 electrons.matchedPF->pfCandidates
 electrons.matchedGen->genParticles

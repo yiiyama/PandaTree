@@ -3,12 +3,13 @@
 panda::Event::Event() :
   EventBase()
 {
-  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &genVertex, &partons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &recoil}};
+  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &genVertex, &partons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &recoil}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons}};
+  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
   pfCandidates.data.vertexContainer_ = &vertices;
+  pfCandidates.data.trackContainer_ = &tracks;
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedPFContainer_ = &pfCandidates;
   electrons.data.matchedGenContainer_ = &genParticles;
@@ -45,6 +46,7 @@ panda::Event::Event(Event const& _src) :
   genReweight(_src.genReweight),
   pfCandidates(_src.pfCandidates),
   vertices(_src.vertices),
+  tracks(_src.tracks),
   superClusters(_src.superClusters),
   electrons(_src.electrons),
   muons(_src.muons),
@@ -86,13 +88,14 @@ panda::Event::Event(Event const& _src) :
   rho(_src.rho),
   rhoCentralCalo(_src.rhoCentralCalo)
 {
-  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &genVertex, &partons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &recoil}};
+  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &genVertex, &partons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &recoil}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons}};
+  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
 
   pfCandidates.data.vertexContainer_ = &vertices;
+  pfCandidates.data.trackContainer_ = &tracks;
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedPFContainer_ = &pfCandidates;
   electrons.data.matchedGenContainer_ = &genParticles;
@@ -142,6 +145,7 @@ panda::Event::operator=(Event const& _src)
   genReweight = _src.genReweight;
   pfCandidates = _src.pfCandidates;
   vertices = _src.vertices;
+  tracks = _src.tracks;
   superClusters = _src.superClusters;
   electrons = _src.electrons;
   muons = _src.muons;
@@ -180,6 +184,7 @@ panda::Event::operator=(Event const& _src)
   recoil = _src.recoil;
 
   pfCandidates.data.vertexContainer_ = &vertices;
+  pfCandidates.data.trackContainer_ = &tracks;
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedPFContainer_ = &pfCandidates;
   electrons.data.matchedGenContainer_ = &genParticles;
@@ -247,6 +252,7 @@ panda::Event::dump(std::ostream& _out/* = std::cout*/) const
   genReweight.dump(_out);
   pfCandidates.dump(_out);
   vertices.dump(_out);
+  tracks.dump(_out);
   superClusters.dump(_out);
   electrons.dump(_out);
   muons.dump(_out);
@@ -296,6 +302,7 @@ panda::Event::getListOfBranches()
   blist += GenReweight::getListOfBranches().fullNames("genReweight");
   blist += PFCand::getListOfBranches().fullNames("pfCandidates");
   blist += RecoVertex::getListOfBranches().fullNames("vertices");
+  blist += PackedTrack::getListOfBranches().fullNames("tracks");
   blist += SuperCluster::getListOfBranches().fullNames("superClusters");
   blist += Electron::getListOfBranches().fullNames("electrons");
   blist += Muon::getListOfBranches().fullNames("muons");
@@ -398,16 +405,40 @@ panda::Event::doGetEntry_(TTree& _tree, Long64_t _entry)
   EventBase::doGetEntry_(_tree, _entry);
 
   /* BEGIN CUSTOM Event.cc.doGetEntry_ */
-  if (pfCandidates.size() != 0 && vertices.size() != 0) {
+  bool hasVertices(!vertices.empty());
+  bool hasTracks(!tracks.empty());
+
+  if (!pfCandidates.empty() && (hasVertices || hasTracks)) {
     unsigned iVtx(0);
+    unsigned iTrk(0);
+
     for (unsigned iC(0); iC != pfCandidates.size(); ++iC) {
-      if (iC == vertices[iVtx].pfRangeMax) {
-        ++iVtx;
-        if (iVtx == vertices.size())
-          break;
+      auto& cand(pfCandidates[iC]);
+
+      if (hasVertices) {
+        if (iC == vertices[iVtx].pfRangeMax) {
+          ++iVtx;
+          if (iVtx == vertices.size())
+            break;
+        }
+
+        cand.vertex.idx() = iVtx;
       }
 
-      pfCandidates[iC].vertex.idx() = iVtx;
+      if (hasTracks) {
+        switch (cand.ptype) {
+        case PFCand::hp:
+        case PFCand::hm:
+        case PFCand::ep:
+        case PFCand::em:
+        case PFCand::mup:
+        case PFCand::mum:
+          cand.track.idx() = iTrk++;
+          break;
+        default:
+          break;
+        }
+      }
     }
   }
   /* END CUSTOM */
