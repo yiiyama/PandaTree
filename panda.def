@@ -46,7 +46,7 @@ packedPtError/s
 packedDxy/S
 packedDz/S
 packedDPhi/S
-vertex/RecoVertexRef/!
+void setPtError(double e) { ptError_ = e; packPtError_(); }
 double ptError() const { unpack_(); return ptError_; }
 double dxy() const { unpack_(); return dxy_; }
 double dz() const { unpack_(); return dz_; }

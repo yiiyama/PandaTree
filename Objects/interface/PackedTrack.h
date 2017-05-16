@@ -6,7 +6,6 @@
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
-#include "RecoVertex.h"
 
 namespace panda {
 
@@ -20,8 +19,6 @@ namespace panda {
       Short_t* packedDxy{0};
       Short_t* packedDz{0};
       Short_t* packedDPhi{0};
-      ContainerBase const* vertexContainer_{0};
-      Short_t* vertex_{0}; // transient
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -50,6 +47,7 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
+    void setPtError(double e) { ptError_ = e; packPtError_(); }
     double ptError() const { unpack_(); return ptError_; }
     double dxy() const { unpack_(); return dxy_; }
     double dz() const { unpack_(); return dz_; }
@@ -59,11 +57,11 @@ namespace panda {
     Short_t& packedDxy;
     Short_t& packedDz;
     Short_t& packedDPhi;
-    Ref<RecoVertex> vertex;
 
     /* BEGIN CUSTOM PackedTrack.h.classdef */
   protected:
     void pack_();
+    void packPtError_();
     void unpack_() const;
 
     mutable Double_t ptError_{0.};

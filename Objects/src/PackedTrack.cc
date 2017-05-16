@@ -18,7 +18,6 @@ panda::PackedTrack::datastore::allocate(UInt_t _nmax)
   packedDxy = new Short_t[nmax_];
   packedDz = new Short_t[nmax_];
   packedDPhi = new Short_t[nmax_];
-  vertex_ = new Short_t[nmax_];
 }
 
 void
@@ -34,8 +33,6 @@ panda::PackedTrack::datastore::deallocate()
   packedDz = 0;
   delete [] packedDPhi;
   packedDPhi = 0;
-  delete [] vertex_;
-  vertex_ = 0;
 }
 
 void
@@ -116,8 +113,7 @@ panda::PackedTrack::PackedTrack(char const* _name/* = ""*/) :
   packedPtError(gStore.getData(this).packedPtError[0]),
   packedDxy(gStore.getData(this).packedDxy[0]),
   packedDz(gStore.getData(this).packedDz[0]),
-  packedDPhi(gStore.getData(this).packedDPhi[0]),
-  vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0])
+  packedDPhi(gStore.getData(this).packedDPhi[0])
 {
 }
 
@@ -126,8 +122,7 @@ panda::PackedTrack::PackedTrack(PackedTrack const& _src) :
   packedPtError(gStore.getData(this).packedPtError[0]),
   packedDxy(gStore.getData(this).packedDxy[0]),
   packedDz(gStore.getData(this).packedDz[0]),
-  packedDPhi(gStore.getData(this).packedDPhi[0]),
-  vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0])
+  packedDPhi(gStore.getData(this).packedDPhi[0])
 {
   Element::operator=(_src);
 
@@ -135,7 +130,6 @@ panda::PackedTrack::PackedTrack(PackedTrack const& _src) :
   packedDxy = _src.packedDxy;
   packedDz = _src.packedDz;
   packedDPhi = _src.packedDPhi;
-  vertex = _src.vertex;
 }
 
 panda::PackedTrack::PackedTrack(datastore& _data, UInt_t _idx) :
@@ -143,8 +137,7 @@ panda::PackedTrack::PackedTrack(datastore& _data, UInt_t _idx) :
   packedPtError(_data.packedPtError[_idx]),
   packedDxy(_data.packedDxy[_idx]),
   packedDz(_data.packedDz[_idx]),
-  packedDPhi(_data.packedDPhi[_idx]),
-  vertex(_data.vertexContainer_, _data.vertex_[_idx])
+  packedDPhi(_data.packedDPhi[_idx])
 {
 }
 
@@ -153,8 +146,7 @@ panda::PackedTrack::PackedTrack(ArrayBase* _array) :
   packedPtError(gStore.getData(this).packedPtError[0]),
   packedDxy(gStore.getData(this).packedDxy[0]),
   packedDz(gStore.getData(this).packedDz[0]),
-  packedDPhi(gStore.getData(this).packedDPhi[0]),
-  vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0])
+  packedDPhi(gStore.getData(this).packedDPhi[0])
 {
 }
 
@@ -180,7 +172,6 @@ panda::PackedTrack::operator=(PackedTrack const& _src)
   packedDxy = _src.packedDxy;
   packedDz = _src.packedDz;
   packedDPhi = _src.packedDPhi;
-  vertex = _src.vertex;
 
   return *this;
 }
@@ -210,9 +201,13 @@ panda::PackedTrack::doInit_()
   packedDxy = 0;
   packedDz = 0;
   packedDPhi = 0;
-  vertex.init();
 
   /* BEGIN CUSTOM PackedTrack.cc.doInit_ */
+  ptError_ = 0.;
+  dxy_ = 0.;
+  dz_ = 0.;
+  dPhi_ = 0.;
+  unpacked_ = kFALSE;
   /* END CUSTOM */
 }
 
@@ -231,7 +226,6 @@ panda::PackedTrack::dump(std::ostream& _out/* = std::cout*/) const
   _out << "packedDxy = " << packedDxy << std::endl;
   _out << "packedDz = " << packedDz << std::endl;
   _out << "packedDPhi = " << packedDPhi << std::endl;
-  _out << "vertex = " << vertex << std::endl;
 }
 
 
@@ -241,10 +235,16 @@ panda::PackedTrack::dump(std::ostream& _out/* = std::cout*/) const
 void
 panda::PackedTrack::pack_()
 {
-  packedPtError = PackingHelper::singleton().packUnbound(ptError_);
+  packPtError_();
   packedDxy = PackingHelper::singleton().packUnbound(dxy_ * 100.);
   packedDz = PackingHelper::singleton().packUnbound(dz_ * 100.);
   packedDPhi = std::round(dPhi_/3.2f*std::numeric_limits<Short_t>::max());
+}
+
+void
+panda::PackedTrack::packPtError_()
+{
+  packedPtError = PackingHelper::singleton().packUnbound(ptError_);
 }
 
 void

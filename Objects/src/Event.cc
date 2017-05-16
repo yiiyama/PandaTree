@@ -425,8 +425,20 @@ panda::Event::doGetEntry_(TTree& _tree, Long64_t _entry)
         cand.vertex.idx() = iVtx;
       }
 
-      if (hasTracks && (cand.ptype == PFCand::hp || cand.ptype == PFCand::hm))
-        cand.track.idx() = iTrk++;
+      if (hasTracks) {
+        switch (cand.ptype) {
+        case PFCand::hp:
+        case PFCand::hm:
+        case PFCand::ep:
+        case PFCand::em:
+        case PFCand::mup:
+        case PFCand::mum:
+          cand.track.idx() = iTrk++;
+          break;
+        default:
+          break;
+        }
+      }
     }
   }
   /* END CUSTOM */
