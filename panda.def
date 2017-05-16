@@ -375,11 +375,14 @@ globalHalo16/O
 hbhe/O
 hbheIso/O
 ecalDeadCell/O
+goodVertices/O
 badsc/O
 badMuons/O
 duplicateMuons/O
 dupECALClusters/O
 unfixedECALHits/O
+badPFMuons/O
+badChargedHadrons/O
 virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc; }
 
 [HLTBits:SINGLE]
