@@ -59,6 +59,12 @@ panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
   /* END CUSTOM */
 }
 
+panda::EventMonophoton::~EventMonophoton()
+{
+  /* BEGIN CUSTOM EventMonophoton.cc.dtor */
+  /* END CUSTOM */
+}
+
 panda::EventMonophoton&
 panda::EventMonophoton::operator=(EventMonophoton const& _src)
 {

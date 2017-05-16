@@ -23,7 +23,7 @@ namespace panda {
   public:
     EventMonophoton();
     EventMonophoton(EventMonophoton const&);
-    ~EventMonophoton() {}
+    ~EventMonophoton();
     EventMonophoton& operator=(EventMonophoton const&);
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;

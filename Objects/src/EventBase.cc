@@ -20,6 +20,27 @@ panda::EventBase::EventBase(EventBase const& _src) :
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
 
   /* BEGIN CUSTOM EventBase.cc.copy_ctor */
+  run = _src.run;
+  /* END CUSTOM */
+}
+
+panda::EventBase::~EventBase()
+{
+  /* BEGIN CUSTOM EventBase.cc.dtor */
+  for (auto& tt : runTrees_) {
+    auto* uinfo(tt.first->GetUserInfo());
+    for (TObject* obj : *uinfo) {
+      if (obj->GetName() != this->getName())
+        continue;
+
+      auto* cleaner(dynamic_cast<TreePointerCleaner*>(obj));
+      if (cleaner && cleaner->getEvent() == this) {
+        uinfo->Remove(obj);
+        delete obj;
+        break;
+      }
+    }
+  }
   /* END CUSTOM */
 }
 
@@ -29,18 +50,7 @@ panda::EventBase::operator=(EventBase const& _src)
   TreeEntry::operator=(_src);
 
   /* BEGIN CUSTOM EventBase.cc.operator= */
-  if (run_) {
-    if (_src.run_)
-      *run_ = *_src.run_;
-    else {
-      delete run_;
-      run_ = 0;
-    }
-  }
-  else if (_src.run_) {
-    run_ = new Run;
-    *run_ = *_src.run_;
-  }
+  run = _src.run;
   /* END CUSTOM */
 
   runNumber = _src.runNumber;
@@ -155,33 +165,50 @@ void
 panda::EventBase::doGetEntry_(TTree& _tree, Long64_t _entry)
 {
   /* BEGIN CUSTOM EventBase.cc.doGetEntry_ */
-  if (run_ && _tree.GetCurrentFile()) {
+  if (_tree.GetCurrentFile() && runNumber != 0) {
+    // If our Run object is enabled, we need to check for file transitions
+
     auto rItr(runTrees_.find(&_tree));
     if (rItr == runTrees_.end()) {
       // First time dealing with this tree
-      rItr = runTrees_.emplace(&_tree, std::make_pair<Int_t, TTree*>(_tree.GetTreeNumber(), 0)).first;
+      rItr = runTrees_.emplace(&_tree, std::make_pair<Int_t, TTree*>(-1, 0)).first;
+
+      // Register this EventBase to the tree user info for automatic cleanup when tree is destroyed
+      _tree.GetUserInfo()->Add(new TreePointerCleaner(this, &_tree));
     }
 
-    if (!rItr->second.second || _tree.GetTreeNumber() != rItr->second.first) {
-      auto& file(*_tree.GetCurrentFile());
-
-      // read out the runs tree
-      // using GetKey to create a "fresh" object - Get can fetch an in-memory object that may already be in use
-      auto* key(file.GetKey("runs"));
-      if (!key) {
-        std::cerr << "File " << file.GetName() << " does not have a run tree" << std::endl;
-        throw std::runtime_error("InputError");
-      }
-
-      auto* runTree(static_cast<TTree*>(key->ReadObj()));
-
-      run_->setAddress(*runTree);
-
+    if (_tree.GetTreeNumber() != rItr->second.first) {
       rItr->second.first = _tree.GetTreeNumber();
-      rItr->second.second = runTree;
-    }
 
-    run_->findEntry(*rItr->second.second, runNumber);
+      // First check that the runNumber branch is turned on
+      if (_tree.GetBranchStatus("runNumber")) {
+        // There was a file transition in the input
+
+        auto& file(*_tree.GetCurrentFile());
+
+        // read out the runs tree
+        // using GetKey to create a "fresh" object - Get can fetch an in-memory object that may already be in use
+        auto* key(file.GetKey("runs"));
+        if (!key) {
+          std::cerr << "File " << file.GetName() << " does not have a run tree" << std::endl;
+          throw std::runtime_error("InputError");
+        }
+
+        auto* runTree(static_cast<TTree*>(key->ReadObj()));
+
+        rItr->second.second = runTree;
+
+        run.setAddress(*runTree);
+        run.init();
+        run.resetCache();
+
+        // Now cue the run object to the given run number
+        // Does nothing if the run number is unchanged
+        run.findEntry(*rItr->second.second, runNumber);
+      }
+      else
+        std::cerr << "Branch runNumber is turned off in the input events tree. Skipping run update." << std::endl;
+    }
   }
   /* END CUSTOM */
 }
@@ -201,15 +228,6 @@ panda::EventBase::doInit_()
 
 /* BEGIN CUSTOM EventBase.cc.global */
 
-UInt_t
-  panda::EventBase::registerTrigger(char const* _path)
-{
-  if (!run)
-    run = new Run;
-
-  return run->registerTrigger(path);
-}
-
 Bool_t
 panda::EventBase::triggerFired(UInt_t _token) const
 {
@@ -219,4 +237,19 @@ panda::EventBase::triggerFired(UInt_t _token) const
   else
     return false;
 }
+
+
+panda::EventBase::TreePointerCleaner::TreePointerCleaner(EventBase* event, TTree* tree) :
+  event_(event),
+  tree_(tree)
+{
+  // TTree will delete this object in UserInfo if this bit is set
+  SetBit(kIsOnHeap);
+}
+
+panda::EventBase::TreePointerCleaner::~TreePointerCleaner()
+{
+  event_->runTrees_.erase(tree_);
+}
+
 /* END CUSTOM */

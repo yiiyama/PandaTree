@@ -2,6 +2,7 @@
 #define PandaTree_Objects_Run_h
 #include "../../Framework/interface/TreeEntry.h"
 #include "Constants.h"
+#include "TList.h"
 
 namespace panda {
 
@@ -9,7 +10,7 @@ namespace panda {
   public:
     Run();
     Run(Run const&);
-    ~Run() {}
+    ~Run();
     Run& operator=(Run const&);
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
@@ -40,7 +41,7 @@ namespace panda {
     UInt_t registerTrigger(char const* path);
 
     //! Get the trigger index for the given token
-    UInt_t getTriggerIndex(UInt_t token) const { return triggerIndices_.at(token); }
+    UInt_t getTriggerIndex(UInt_t token) const;
 
     //! Current trigger menu name
     /*!
@@ -63,8 +64,8 @@ namespace panda {
     //! Check for updates
     void findEntry(TTree& runTree, UInt_t runNumber);
 
-    //! Update trigger information
-    void loadTriggerTable(TFile&);
+    //! Reset inputTree_, inputTreeNumber_, and hltMenuCache_
+    void resetCache();
 
     struct HLTTreeEntry {
       ~HLTTreeEntry() { destroy(); }
@@ -86,17 +87,50 @@ namespace panda {
     } hlt;
 
   private:
+
+    //! Helper class for cleaning up runTrees_
+    /*!
+      See CollectionBase for details.
+     */
+    class TreePointerCleaner : public TObject {
+    public:
+      TreePointerCleaner(Run*, TTree*);
+      ~TreePointerCleaner(); //! called in TTree destructor when UserInfo list is deleted
+
+      char const* GetName() const override { return run_->getName(); }
+      
+      Run* getRun() const { return run_; }
+    private:
+      Run* run_;
+      TTree* tree_;
+    };
+
+    friend class TreePointerCleaner;
+
+    //! Update trigger information
+    void updateTriggerTable_(TTree& _tree);
+
     //! Switch to enable trigger loading
     Bool_t loadTrigger_{kFALSE};
-
-    //! Cached menu number to detect menu change
-    UInt_t hltMenuCache_{-1};
 
     //! List of registered paths
     std::vector<TString> registeredTriggers_{};
 
     //! List of indices of registered triggers in the current menu
     std::vector<UInt_t> triggerIndices_{};
+
+    //! Current input tree (used in updateTriggerTable_ to detect input file change)
+    /*!
+      Unlike CollectionBase and EventBase, Run does not carry pointers to multiple input trees.
+      If we want to be able to handle multiple trees, we will need to vectorize the "hlt" data member.
+    */
+    TTree* inputTree_{0};
+
+    //! Current input tree number
+    Int_t inputTreeNumber_{-1};
+
+    //! Cached menu number to detect menu change
+    UInt_t hltMenuCache_{0xffffffff};
 
     /* END CUSTOM */
   };

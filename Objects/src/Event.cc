@@ -126,6 +126,12 @@ panda::Event::Event(Event const& _src) :
   /* END CUSTOM */
 }
 
+panda::Event::~Event()
+{
+  /* BEGIN CUSTOM Event.cc.dtor */
+  /* END CUSTOM */
+}
+
 panda::Event&
 panda::Event::operator=(Event const& _src)
 {

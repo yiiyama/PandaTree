@@ -31,6 +31,12 @@ panda::EventTPPhoton::EventTPPhoton(EventTPPhoton const& _src) :
   /* END CUSTOM */
 }
 
+panda::EventTPPhoton::~EventTPPhoton()
+{
+  /* BEGIN CUSTOM EventTPPhoton.cc.dtor */
+  /* END CUSTOM */
+}
+
 panda::EventTPPhoton&
 panda::EventTPPhoton::operator=(EventTPPhoton const& _src)
 {

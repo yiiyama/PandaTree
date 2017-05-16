@@ -16,7 +16,7 @@ namespace panda {
   public:
     EventTPPhoton();
     EventTPPhoton(EventTPPhoton const&);
-    ~EventTPPhoton() {}
+    ~EventTPPhoton();
     EventTPPhoton& operator=(EventTPPhoton const&);
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;

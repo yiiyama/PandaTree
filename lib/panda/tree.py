@@ -55,7 +55,7 @@ class Tree(Definition, Object):
         
         header.writeline('{name}();'.format(name = self.name)) # default constructor
         header.writeline('{name}({name} const&);'.format(name = self.name)) # copy constructor
-        header.writeline('~{name}() {{}}'.format(name = self.name)) # destructor
+        header.writeline('~{name}();'.format(name = self.name)) # destructor
         header.writeline('{name}& operator=({name} const&);'.format(name = self.name)) # assignment operator
 
         header.newline()
@@ -180,6 +180,16 @@ class Tree(Definition, Object):
                 ref.write_def(src, self.objbranches)
 
         src.write_custom_block('{name}.cc.copy_ctor'.format(name = self.name))
+
+        src.indent -= 1
+        src.writeline('}')
+        src.newline()
+
+        src.writeline('{NAMESPACE}::{name}::~{name}()'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{')
+        src.indent += 1
+
+        src.write_custom_block('{name}.cc.dtor'.format(name = self.name))
 
         src.indent -= 1
         src.writeline('}')

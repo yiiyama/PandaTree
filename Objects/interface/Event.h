@@ -28,7 +28,7 @@ namespace panda {
   public:
     Event();
     Event(Event const&);
-    ~Event() {}
+    ~Event();
     Event& operator=(Event const&);
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;

@@ -4,6 +4,9 @@
 #include "Constants.h"
 #include "HLTBits.h"
 #include "Run.h"
+#include "TList.h"
+#include "TFile.h"
+#include "TKey.h"
 
 namespace panda {
 
@@ -11,7 +14,7 @@ namespace panda {
   public:
     EventBase();
     EventBase(EventBase const&);
-    ~EventBase() {}
+    ~EventBase();
     EventBase& operator=(EventBase const&);
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
@@ -39,6 +42,9 @@ namespace panda {
   public:
     /* BEGIN CUSTOM EventBase.h.classdef */
 
+    //! Current run object.
+    Run run;
+
     //! Use to declare a trigger path to be used in the analysis. Returns a token for the path.
     /*!
      * Call this function before the event loop for each trigger you will be using. The return value
@@ -47,7 +53,7 @@ namespace panda {
      *
      * \param path   HLT path
      */
-    UInt_t registerTrigger(char const* path);
+    UInt_t registerTrigger(char const* path) { return run.registerTrigger(path); }
 
     //! Trigger decision of the event.
     /*!
@@ -58,17 +64,16 @@ namespace panda {
     Bool_t triggerFired(UInt_t token) const;
 
   private:
-    
     //! Helper class for cleaning up runTrees_
     /*!
-      See CollectionBase for details.
+      See CollectionBase for the basic idea.
      */
     class TreePointerCleaner : public TObject {
     public:
       TreePointerCleaner(EventBase*, TTree*);
       ~TreePointerCleaner(); //! called in TTree destructor when UserInfo list is deleted
 
-      char const* GetName() const override { return coll_->getName(); }
+      char const* GetName() const override { return event_->getName(); }
       
       EventBase* getEvent() const { return event_; }
     private:
@@ -76,14 +81,13 @@ namespace panda {
       TTree* tree_;
     };
 
+    friend class TreePointerCleaner;
+
     //! List of run trees linked to the run object.
     /*!
      event tree -> tree number, run tree 
      */
     std::map<TTree*, std::pair<Int_t, TTree*>> runTrees_;
-
-    //! Run object to deal with trigger menu
-    Run* run_{0};
 
     /* END CUSTOM */
   };
