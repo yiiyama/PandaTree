@@ -3,6 +3,7 @@
 #include "EventBase.h"
 #include "Constants.h"
 #include "GenReweight.h"
+#include "RecoVertex.h"
 #include "SuperCluster.h"
 #include "Electron.h"
 #include "Muon.h"
@@ -10,7 +11,8 @@
 #include "XPhoton.h"
 #include "Jet.h"
 #include "GenJet.h"
-#include "GenParticle.h"
+#include "UnpackedGenParticle.h"
+#include "Vertex.h"
 #include "Parton.h"
 #include "RecoMet.h"
 #include "Met.h"
@@ -30,6 +32,7 @@ namespace panda {
     void dump(std::ostream& = std::cout) const override;
 
     GenReweight genReweight = GenReweight("genReweight");
+    RecoVertexCollection vertices = RecoVertexCollection("vertices", 64);
     SuperClusterCollection superClusters = SuperClusterCollection("superClusters", 64);
     ElectronCollection electrons = ElectronCollection("electrons", 32);
     MuonCollection muons = MuonCollection("muons", 32);
@@ -37,7 +40,8 @@ namespace panda {
     XPhotonCollection photons = XPhotonCollection("photons", 32);
     JetCollection jets = JetCollection("jets", 64);
     GenJetCollection genJets = GenJetCollection("genJets", 64);
-    GenParticleCollection genParticles = GenParticleCollection("genParticles", 256);
+    UnpackedGenParticleCollection genParticles = UnpackedGenParticleCollection("genParticles", 256);
+    Vertex genVertex = Vertex("genVertex");
     PartonCollection partons = PartonCollection("partons", 8);
     RecoMet t1Met = RecoMet("t1Met");
     Met rawMet = Met("rawMet");
@@ -65,6 +69,7 @@ namespace panda {
   public:
     /* BEGIN CUSTOM EventMonophoton.h.classdef */
     EventMonophoton& operator=(Event const&);
+    void copyGenParticles(GenParticleCollection const&);
     /* END CUSTOM */
   };
 
