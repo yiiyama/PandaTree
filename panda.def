@@ -383,7 +383,7 @@ dupECALClusters/O
 unfixedECALHits/O
 badPFMuons/O
 badChargedHadrons/O
-virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc; }
+virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !goodVertices; }
 
 [HLTBits:SINGLE]
 words[32]/i
