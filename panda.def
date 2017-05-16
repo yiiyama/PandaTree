@@ -318,6 +318,7 @@ tau1/F
 tau2/F
 tau3/F
 mSD/F
+mPruned/F
 tau1SD/F = -1.
 tau2SD/F = -1.
 tau3SD/F = -1.

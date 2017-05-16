@@ -6,7 +6,7 @@ panda::FatJet::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Jet::getListOfBranches();
-  blist += {"tau1", "tau2", "tau3", "mSD", "tau1SD", "tau2SD", "tau3SD", "htt_mass", "htt_frec", "double_sub", "ecfs", "subjets_"};
+  blist += {"tau1", "tau2", "tau3", "mSD", "mPruned", "tau1SD", "tau2SD", "tau3SD", "htt_mass", "htt_frec", "double_sub", "ecfs", "subjets_"};
   return blist;
 }
 
@@ -19,6 +19,7 @@ panda::FatJet::datastore::allocate(UInt_t _nmax)
   tau2 = new Float_t[nmax_];
   tau3 = new Float_t[nmax_];
   mSD = new Float_t[nmax_];
+  mPruned = new Float_t[nmax_];
   tau1SD = new Float_t[nmax_];
   tau2SD = new Float_t[nmax_];
   tau3SD = new Float_t[nmax_];
@@ -42,6 +43,8 @@ panda::FatJet::datastore::deallocate()
   tau3 = 0;
   delete [] mSD;
   mSD = 0;
+  delete [] mPruned;
+  mPruned = 0;
   delete [] tau1SD;
   tau1SD = 0;
   delete [] tau2SD;
@@ -69,6 +72,7 @@ panda::FatJet::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
   utils::setStatus(_tree, _name, "tau2", _branches);
   utils::setStatus(_tree, _name, "tau3", _branches);
   utils::setStatus(_tree, _name, "mSD", _branches);
+  utils::setStatus(_tree, _name, "mPruned", _branches);
   utils::setStatus(_tree, _name, "tau1SD", _branches);
   utils::setStatus(_tree, _name, "tau2SD", _branches);
   utils::setStatus(_tree, _name, "tau3SD", _branches);
@@ -88,6 +92,7 @@ panda::FatJet::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "tau2"));
   blist.push_back(utils::getStatus(_tree, _name, "tau3"));
   blist.push_back(utils::getStatus(_tree, _name, "mSD"));
+  blist.push_back(utils::getStatus(_tree, _name, "mPruned"));
   blist.push_back(utils::getStatus(_tree, _name, "tau1SD"));
   blist.push_back(utils::getStatus(_tree, _name, "tau2SD"));
   blist.push_back(utils::getStatus(_tree, _name, "tau3SD"));
@@ -109,6 +114,7 @@ panda::FatJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::
   utils::setAddress(_tree, _name, "tau2", tau2, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tau3", tau3, _branches, _setStatus);
   utils::setAddress(_tree, _name, "mSD", mSD, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "mPruned", mPruned, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tau1SD", tau1SD, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tau2SD", tau2SD, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tau3SD", tau3SD, _branches, _setStatus);
@@ -130,6 +136,7 @@ panda::FatJet::datastore::book(TTree& _tree, TString const& _name, utils::Branch
   utils::book(_tree, _name, "tau2", size, 'F', tau2, _branches);
   utils::book(_tree, _name, "tau3", size, 'F', tau3, _branches);
   utils::book(_tree, _name, "mSD", size, 'F', mSD, _branches);
+  utils::book(_tree, _name, "mPruned", size, 'F', mPruned, _branches);
   utils::book(_tree, _name, "tau1SD", size, 'F', tau1SD, _branches);
   utils::book(_tree, _name, "tau2SD", size, 'F', tau2SD, _branches);
   utils::book(_tree, _name, "tau3SD", size, 'F', tau3SD, _branches);
@@ -149,6 +156,7 @@ panda::FatJet::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "tau2");
   utils::resetAddress(_tree, _name, "tau3");
   utils::resetAddress(_tree, _name, "mSD");
+  utils::resetAddress(_tree, _name, "mPruned");
   utils::resetAddress(_tree, _name, "tau1SD");
   utils::resetAddress(_tree, _name, "tau2SD");
   utils::resetAddress(_tree, _name, "tau3SD");
@@ -180,6 +188,7 @@ panda::FatJet::FatJet(char const* _name/* = ""*/) :
   tau2(gStore.getData(this).tau2[0]),
   tau3(gStore.getData(this).tau3[0]),
   mSD(gStore.getData(this).mSD[0]),
+  mPruned(gStore.getData(this).mPruned[0]),
   tau1SD(gStore.getData(this).tau1SD[0]),
   tau2SD(gStore.getData(this).tau2SD[0]),
   tau3SD(gStore.getData(this).tau3SD[0]),
@@ -197,6 +206,7 @@ panda::FatJet::FatJet(FatJet const& _src) :
   tau2(gStore.getData(this).tau2[0]),
   tau3(gStore.getData(this).tau3[0]),
   mSD(gStore.getData(this).mSD[0]),
+  mPruned(gStore.getData(this).mPruned[0]),
   tau1SD(gStore.getData(this).tau1SD[0]),
   tau2SD(gStore.getData(this).tau2SD[0]),
   tau3SD(gStore.getData(this).tau3SD[0]),
@@ -212,6 +222,7 @@ panda::FatJet::FatJet(FatJet const& _src) :
   tau2 = _src.tau2;
   tau3 = _src.tau3;
   mSD = _src.mSD;
+  mPruned = _src.mPruned;
   tau1SD = _src.tau1SD;
   tau2SD = _src.tau2SD;
   tau3SD = _src.tau3SD;
@@ -228,6 +239,7 @@ panda::FatJet::FatJet(datastore& _data, UInt_t _idx) :
   tau2(_data.tau2[_idx]),
   tau3(_data.tau3[_idx]),
   mSD(_data.mSD[_idx]),
+  mPruned(_data.mPruned[_idx]),
   tau1SD(_data.tau1SD[_idx]),
   tau2SD(_data.tau2SD[_idx]),
   tau3SD(_data.tau3SD[_idx]),
@@ -245,6 +257,7 @@ panda::FatJet::FatJet(ArrayBase* _array) :
   tau2(gStore.getData(this).tau2[0]),
   tau3(gStore.getData(this).tau3[0]),
   mSD(gStore.getData(this).mSD[0]),
+  mPruned(gStore.getData(this).mPruned[0]),
   tau1SD(gStore.getData(this).tau1SD[0]),
   tau2SD(gStore.getData(this).tau2SD[0]),
   tau3SD(gStore.getData(this).tau3SD[0]),
@@ -280,6 +293,7 @@ panda::FatJet::operator=(FatJet const& _src)
   tau2 = _src.tau2;
   tau3 = _src.tau3;
   mSD = _src.mSD;
+  mPruned = _src.mPruned;
   tau1SD = _src.tau1SD;
   tau2SD = _src.tau2SD;
   tau3SD = _src.tau3SD;
@@ -301,6 +315,7 @@ panda::FatJet::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchLi
   utils::setAddress(_tree, _name, "tau2", &tau2, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tau3", &tau3, _branches, _setStatus);
   utils::setAddress(_tree, _name, "mSD", &mSD, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "mPruned", &mPruned, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tau1SD", &tau1SD, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tau2SD", &tau2SD, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tau3SD", &tau3SD, _branches, _setStatus);
@@ -320,6 +335,7 @@ panda::FatJet::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
   utils::book(_tree, _name, "tau2", "", 'F', &tau2, _branches);
   utils::book(_tree, _name, "tau3", "", 'F', &tau3, _branches);
   utils::book(_tree, _name, "mSD", "", 'F', &mSD, _branches);
+  utils::book(_tree, _name, "mPruned", "", 'F', &mPruned, _branches);
   utils::book(_tree, _name, "tau1SD", "", 'F', &tau1SD, _branches);
   utils::book(_tree, _name, "tau2SD", "", 'F', &tau2SD, _branches);
   utils::book(_tree, _name, "tau3SD", "", 'F', &tau3SD, _branches);
@@ -339,6 +355,7 @@ panda::FatJet::doInit_()
   tau2 = 0.;
   tau3 = 0.;
   mSD = 0.;
+  mPruned = 0.;
   tau1SD = -1.;
   tau2SD = -1.;
   tau3SD = -1.;
@@ -369,6 +386,7 @@ panda::FatJet::dump(std::ostream& _out/* = std::cout*/) const
   _out << "tau2 = " << tau2 << std::endl;
   _out << "tau3 = " << tau3 << std::endl;
   _out << "mSD = " << mSD << std::endl;
+  _out << "mPruned = " << mPruned << std::endl;
   _out << "tau1SD = " << tau1SD << std::endl;
   _out << "tau2SD = " << tau2SD << std::endl;
   _out << "tau3SD = " << tau3SD << std::endl;
