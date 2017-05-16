@@ -202,6 +202,8 @@ hOverE/F
 regPt/F
 smearedPt/F
 originalPt/F = -1.
+dxy/F
+dz/F
 veto/O
 triggerMatch[nTriggerObjects]/O
 superCluster/SuperClusterRef
