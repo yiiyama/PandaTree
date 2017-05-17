@@ -72,6 +72,7 @@ namespace panda {
       Float_t* phIsoS15{0};
       Float_t* e4{0};
       Bool_t* isEB{0};
+      Int_t* matchedGenId{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -152,6 +153,7 @@ namespace panda {
     Float_t& phIsoS15;
     Float_t& e4;
     Bool_t& isEB;
+    Int_t& matchedGenId;
 
   protected:
     /* ParticleP

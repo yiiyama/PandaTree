@@ -91,6 +91,7 @@ pdgid/I
 finalState/O
 statusFlags/s
 parent/GenParticleRef
+bool testFlag(StatusFlag f) const { return ((statusFlags >> f) & 1) == 1; }
 
 [PFCand>PackedParticle]
 packedPuppiW/B
@@ -167,8 +168,43 @@ void setXYZE(double px, double py, double pz, double e) override
   mass_ = std::sqrt(e * e - p * p);
 }
 
+[UnpackedPFCand>ParticleM]
+puppiW/B
+puppiWNoLep/B
+ptype/b
+vertex/VertexRef
+TLorentzVector puppiP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiW, eta(), phi(), m() * puppiW); return p4; }
+TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep, eta(), phi(), m() * puppiWNoLep); return p4; }
+int q() const { return q_[ptype]; }
+int pdgId() const { return pdgId_[ptype]; }
+enum PType {
+  hp,
+  hm,
+  ep,
+  em,
+  mup,
+  mum,
+  gamma,
+  h0,
+  h_HF,
+  egamma_HF,
+  Xp,
+  Xm,
+  X
+};
+static const int q_[nPTypes] = {1, -1, 1, -1, 1, -1, 0, 0, 0, 0, 1, -1, 0};
+static const int pdgId_[nPTypes] = {211, -211, -11, 11, -13, 13, 22, 130, 1, 2, 0, 0, 0};
+#include "PFCand.h"
+
 [Parton>ParticleM]
 pdgid/I
+
+[UnpackedGenParticle>ParticleM]
+pdgid/I
+finalState/O
+statusFlags/s
+parent/UnpackedGenParticleRef
+#include "GenParticle.h"
 
 [Lepton>ParticleP]
 pfPt/F = -1. // for E: Pt of the dR-closest PF candidate; for Mu: pfP4().pt()
