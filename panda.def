@@ -41,6 +41,22 @@ chi2/F
 pfRangeMax/s
 double normChi2() const { return ndof != 0. ? chi2 / ndof : chi2 * 1.e+6; }
 
+[PackedTrack]
+packedPtError/s
+packedDxy/S
+packedDz/S
+packedDPhi/S
+void setPtError(double e) { ptError_ = e; packPtError_(); }
+double ptError() const { unpack_(); return ptError_; }
+double dxy() const { unpack_(); return dxy_; }
+double dz() const { unpack_(); return dz_; }
+double dPhi() const { unpack_(); return dPhi_; }
+
+[SuperCluster]
+rawPt/F
+eta/F
+phi/F
+
 [PackedParticle>Particle]
 packedPt/s
 packedEta/S
@@ -75,12 +91,14 @@ pdgid/I
 finalState/O
 statusFlags/s
 parent/GenParticleRef
+bool testFlag(StatusFlag f) const { return ((statusFlags >> f) & 1) == 1; }
 
 [PFCand>PackedParticle]
 packedPuppiW/B
 packedPuppiWNoLepDiff/B
 ptype/b
-vertex/VertexRef/!
+vertex/RecoVertexRef/!
+track/PackedTrackRef/!
 double puppiW() const { unpack_(); return puppiW_; }
 double puppiWNoLep() const { unpack_(); return puppiWNoLep_; }
 void setPuppiW(double w, double wnl);
@@ -88,6 +106,9 @@ TLorentzVector puppiP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppi
 TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep(), eta(), phi(), m() * puppiWNoLep()); return p4; }
 int q() const { return q_[ptype]; }
 int pdgId() const { return pdgId_[ptype]; }
+TVector3 pca() const;
+double dxy(TVector3 const&) const;
+double dz(TVector3 const&) const;
 enum PType {
   hp,
   hm,
@@ -147,13 +168,43 @@ void setXYZE(double px, double py, double pz, double e) override
   mass_ = std::sqrt(e * e - p * p);
 }
 
+[UnpackedPFCand>ParticleM]
+puppiW/B
+puppiWNoLep/B
+ptype/b
+vertex/RecoVertexRef
+TLorentzVector puppiP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiW, eta(), phi(), m() * puppiW); return p4; }
+TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep, eta(), phi(), m() * puppiWNoLep); return p4; }
+int q() const { return q_[ptype]; }
+int pdgId() const { return pdgId_[ptype]; }
+enum PType {
+  hp,
+  hm,
+  ep,
+  em,
+  mup,
+  mum,
+  gamma,
+  h0,
+  h_HF,
+  egamma_HF,
+  Xp,
+  Xm,
+  X
+};
+static const int q_[nPTypes] = {1, -1, 1, -1, 1, -1, 0, 0, 0, 0, 1, -1, 0};
+static const int pdgId_[nPTypes] = {211, -211, -11, 11, -13, 13, 22, 130, 1, 2, 0, 0, 0};
+#include "PFCand.h"
+
 [Parton>ParticleM]
 pdgid/I
 
-[SuperCluster]
-rawPt/F
-eta/F
-phi/F
+[UnpackedGenParticle>ParticleM]
+pdgid/I
+finalState/O
+statusFlags/s
+parent/UnpackedGenParticleRef
+#include "GenParticle.h"
 
 [Lepton>ParticleP]
 pfPt/F = -1. // for E: Pt of the dR-closest PF candidate; for Mu: pfP4().pt()
@@ -202,6 +253,8 @@ hOverE/F
 regPt/F
 smearedPt/F
 originalPt/F = -1.
+dxy/F
+dz/F
 veto/O
 triggerMatch[nTriggerObjects]/O
 superCluster/SuperClusterRef
@@ -227,6 +280,7 @@ charge/B
 decayMode/O
 decayModeNew/O
 looseIsoMVA/O
+looseIsoMVAOld/O
 iso/F
 isoDeltaBetaCorr/F
 vertex/VertexRef
@@ -315,6 +369,7 @@ tau1/F
 tau2/F
 tau3/F
 mSD/F
+mPruned/F
 tau1SD/F = -1.
 tau2SD/F = -1.
 tau3SD/F = -1.
@@ -375,12 +430,15 @@ globalHalo16/O
 hbhe/O
 hbheIso/O
 ecalDeadCell/O
+goodVertices/O
 badsc/O
 badMuons/O
 duplicateMuons/O
 dupECALClusters/O
 unfixedECALHits/O
-virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc; }
+badPFMuons/O
+badChargedHadrons/O
+virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !goodVertices; }
 
 [HLTBits:SINGLE]
 words[32]/i
@@ -435,6 +493,7 @@ rhoCentralCalo/F
 genReweight/GenReweight
 pfCandidates/PFCandCollection(2048)
 vertices/RecoVertexCollection(64)
+tracks/PackedTrackCollection(1024)
 superClusters/SuperClusterCollection(64)
 electrons/ElectronCollection(32)
 muons/MuonCollection(32)
@@ -472,6 +531,7 @@ metNoFix/RecoMet
 metFilters/MetFilters
 recoil/Recoil
 pfCandidates.vertex->vertices
+pfCandidates.track->tracks
 electrons.superCluster->superClusters
 electrons.matchedPF->pfCandidates
 electrons.matchedGen->genParticles

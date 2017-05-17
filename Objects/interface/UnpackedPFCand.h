@@ -1,18 +1,40 @@
-#ifndef PandaTree_Objects_Tau_h
-#define PandaTree_Objects_Tau_h
+#ifndef PandaTree_Objects_UnpackedPFCand_h
+#define PandaTree_Objects_UnpackedPFCand_h
 #include "Constants.h"
 #include "ParticleM.h"
 #include "../../Framework/interface/Array.h"
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
-#include "Vertex.h"
-#include "GenParticle.h"
+#include "PFCand.h"
+#include "RecoVertex.h"
 
 namespace panda {
 
-  class Tau : public ParticleM {
+  class UnpackedPFCand : public ParticleM {
   public:
+    enum PType {
+      hp,
+      hm,
+      ep,
+      em,
+      mup,
+      mum,
+      gamma,
+      h0,
+      h_HF,
+      egamma_HF,
+      Xp,
+      Xm,
+      X,
+      nPTypes
+    };
+
+    static TString PTypeName[nPTypes];
+
+    static int q_[nPTypes];
+    static int pdgId_[nPTypes];
+
     struct datastore : public ParticleM::datastore {
       datastore() : ParticleM::datastore() {}
       ~datastore() { deallocate(); }
@@ -25,17 +47,11 @@ namespace panda {
       /* ParticleM
       Float_t* mass_{0};
       */
-      Char_t* charge{0};
-      Bool_t* decayMode{0};
-      Bool_t* decayModeNew{0};
-      Bool_t* looseIsoMVA{0};
-      Bool_t* looseIsoMVAOld{0};
-      Float_t* iso{0};
-      Float_t* isoDeltaBetaCorr{0};
+      Char_t* puppiW{0};
+      Char_t* puppiWNoLep{0};
+      UChar_t* ptype{0};
       ContainerBase const* vertexContainer_{0};
       Short_t* vertex_{0};
-      ContainerBase const* matchedGenContainer_{0};
-      Short_t* matchedGen_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -48,31 +64,31 @@ namespace panda {
       void resizeVectors_(UInt_t) override;
     };
 
-    typedef Array<Tau> array_type;
-    typedef Collection<Tau> collection_type;
+    typedef Array<UnpackedPFCand> array_type;
+    typedef Collection<UnpackedPFCand> collection_type;
 
     typedef ParticleM base_type;
 
-    Tau(char const* name = "");
-    Tau(Tau const&);
-    Tau(datastore&, UInt_t idx);
-    ~Tau();
-    Tau& operator=(Tau const&);
+    UnpackedPFCand(char const* name = "");
+    UnpackedPFCand(UnpackedPFCand const&);
+    UnpackedPFCand(datastore&, UInt_t idx);
+    ~UnpackedPFCand();
+    UnpackedPFCand& operator=(UnpackedPFCand const&);
 
-    static char const* typeName() { return "Tau"; }
+    static char const* typeName() { return "UnpackedPFCand"; }
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    Char_t& charge;
-    Bool_t& decayMode;
-    Bool_t& decayModeNew;
-    Bool_t& looseIsoMVA;
-    Bool_t& looseIsoMVAOld;
-    Float_t& iso;
-    Float_t& isoDeltaBetaCorr;
-    Ref<Vertex> vertex;
-    Ref<GenParticle> matchedGen;
+    TLorentzVector puppiP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiW, eta(), phi(), m() * puppiW); return p4; }
+    TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep, eta(), phi(), m() * puppiWNoLep); return p4; }
+    int q() const { return q_[ptype]; }
+    int pdgId() const { return pdgId_[ptype]; }
+
+    Char_t& puppiW;
+    Char_t& puppiWNoLep;
+    UChar_t& ptype;
+    Ref<RecoVertex> vertex;
 
   protected:
     /* ParticleP
@@ -85,7 +101,8 @@ namespace panda {
     */
 
   public:
-    /* BEGIN CUSTOM Tau.h.classdef */
+    /* BEGIN CUSTOM UnpackedPFCand.h.classdef */
+    UnpackedPFCand& operator=(PFCand const&);
     /* END CUSTOM */
 
     static utils::BranchList getListOfBranches();
@@ -93,19 +110,19 @@ namespace panda {
     void destructor() override;
 
   protected:
-    Tau(ArrayBase*);
+    UnpackedPFCand(ArrayBase*);
 
     void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doInit_() override;
   };
 
-  typedef Array<Tau> TauArray;
-  typedef Collection<Tau> TauCollection;
-  typedef Ref<Tau> TauRef;
-  typedef RefVector<Tau> TauRefVector;
+  typedef Array<UnpackedPFCand> UnpackedPFCandArray;
+  typedef Collection<UnpackedPFCand> UnpackedPFCandCollection;
+  typedef Ref<UnpackedPFCand> UnpackedPFCandRef;
+  typedef RefVector<UnpackedPFCand> UnpackedPFCandRefVector;
 
-  /* BEGIN CUSTOM Tau.h.global */
+  /* BEGIN CUSTOM UnpackedPFCand.h.global */
   /* END CUSTOM */
 
 }

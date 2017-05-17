@@ -1,17 +1,16 @@
-#ifndef PandaTree_Objects_Tau_h
-#define PandaTree_Objects_Tau_h
+#ifndef PandaTree_Objects_UnpackedGenParticle_h
+#define PandaTree_Objects_UnpackedGenParticle_h
 #include "Constants.h"
 #include "ParticleM.h"
 #include "../../Framework/interface/Array.h"
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
-#include "Vertex.h"
 #include "GenParticle.h"
 
 namespace panda {
 
-  class Tau : public ParticleM {
+  class UnpackedGenParticle : public ParticleM {
   public:
     struct datastore : public ParticleM::datastore {
       datastore() : ParticleM::datastore() {}
@@ -25,17 +24,11 @@ namespace panda {
       /* ParticleM
       Float_t* mass_{0};
       */
-      Char_t* charge{0};
-      Bool_t* decayMode{0};
-      Bool_t* decayModeNew{0};
-      Bool_t* looseIsoMVA{0};
-      Bool_t* looseIsoMVAOld{0};
-      Float_t* iso{0};
-      Float_t* isoDeltaBetaCorr{0};
-      ContainerBase const* vertexContainer_{0};
-      Short_t* vertex_{0};
-      ContainerBase const* matchedGenContainer_{0};
-      Short_t* matchedGen_{0};
+      Int_t* pdgid{0};
+      Bool_t* finalState{0};
+      UShort_t* statusFlags{0};
+      ContainerBase const* parentContainer_{0};
+      Short_t* parent_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -48,31 +41,26 @@ namespace panda {
       void resizeVectors_(UInt_t) override;
     };
 
-    typedef Array<Tau> array_type;
-    typedef Collection<Tau> collection_type;
+    typedef Array<UnpackedGenParticle> array_type;
+    typedef Collection<UnpackedGenParticle> collection_type;
 
     typedef ParticleM base_type;
 
-    Tau(char const* name = "");
-    Tau(Tau const&);
-    Tau(datastore&, UInt_t idx);
-    ~Tau();
-    Tau& operator=(Tau const&);
+    UnpackedGenParticle(char const* name = "");
+    UnpackedGenParticle(UnpackedGenParticle const&);
+    UnpackedGenParticle(datastore&, UInt_t idx);
+    ~UnpackedGenParticle();
+    UnpackedGenParticle& operator=(UnpackedGenParticle const&);
 
-    static char const* typeName() { return "Tau"; }
+    static char const* typeName() { return "UnpackedGenParticle"; }
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    Char_t& charge;
-    Bool_t& decayMode;
-    Bool_t& decayModeNew;
-    Bool_t& looseIsoMVA;
-    Bool_t& looseIsoMVAOld;
-    Float_t& iso;
-    Float_t& isoDeltaBetaCorr;
-    Ref<Vertex> vertex;
-    Ref<GenParticle> matchedGen;
+    Int_t& pdgid;
+    Bool_t& finalState;
+    UShort_t& statusFlags;
+    Ref<UnpackedGenParticle> parent;
 
   protected:
     /* ParticleP
@@ -85,7 +73,8 @@ namespace panda {
     */
 
   public:
-    /* BEGIN CUSTOM Tau.h.classdef */
+    /* BEGIN CUSTOM UnpackedGenParticle.h.classdef */
+    UnpackedGenParticle& operator=(GenParticle const&);
     /* END CUSTOM */
 
     static utils::BranchList getListOfBranches();
@@ -93,19 +82,19 @@ namespace panda {
     void destructor() override;
 
   protected:
-    Tau(ArrayBase*);
+    UnpackedGenParticle(ArrayBase*);
 
     void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doInit_() override;
   };
 
-  typedef Array<Tau> TauArray;
-  typedef Collection<Tau> TauCollection;
-  typedef Ref<Tau> TauRef;
-  typedef RefVector<Tau> TauRefVector;
+  typedef Array<UnpackedGenParticle> UnpackedGenParticleArray;
+  typedef Collection<UnpackedGenParticle> UnpackedGenParticleCollection;
+  typedef Ref<UnpackedGenParticle> UnpackedGenParticleRef;
+  typedef RefVector<UnpackedGenParticle> UnpackedGenParticleRefVector;
 
-  /* BEGIN CUSTOM Tau.h.global */
+  /* BEGIN CUSTOM UnpackedGenParticle.h.global */
   /* END CUSTOM */
 
 }
