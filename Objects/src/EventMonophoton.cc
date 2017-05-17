@@ -3,9 +3,9 @@
 panda::EventMonophoton::EventMonophoton() :
   EventBase()
 {
-  std::vector<Object*> myObjects{{&genReweight, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &genVertex, &partons, &t1Met, &rawMet, &caloMet, &metMuOnlyFix, &metNoFix, &metFilters}};
+  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &genVertex, &partons, &t1Met, &rawMet, &caloMet, &metMuOnlyFix, &metNoFix, &metFilters}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &partons}};
+  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &partons}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
   electrons.data.superClusterContainer_ = &superClusters;
@@ -17,6 +17,7 @@ panda::EventMonophoton::EventMonophoton() :
 panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
   EventBase(_src),
   genReweight(_src.genReweight),
+  pfCandidates(_src.pfCandidates),
   vertices(_src.vertices),
   superClusters(_src.superClusters),
   electrons(_src.electrons),
@@ -39,9 +40,9 @@ panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
   rho(_src.rho),
   rhoCentralCalo(_src.rhoCentralCalo)
 {
-  std::vector<Object*> myObjects{{&genReweight, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &genVertex, &partons, &t1Met, &rawMet, &caloMet, &metMuOnlyFix, &metNoFix, &metFilters}};
+  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &genVertex, &partons, &t1Met, &rawMet, &caloMet, &metMuOnlyFix, &metNoFix, &metFilters}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &partons}};
+  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &partons}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
 
@@ -73,6 +74,7 @@ panda::EventMonophoton::operator=(EventMonophoton const& _src)
   rhoCentralCalo = _src.rhoCentralCalo;
 
   genReweight = _src.genReweight;
+  pfCandidates = _src.pfCandidates;
   vertices = _src.vertices;
   superClusters = _src.superClusters;
   electrons = _src.electrons;
@@ -131,6 +133,7 @@ panda::EventMonophoton::dump(std::ostream& _out/* = std::cout*/) const
   _out << "rhoCentralCalo = " << rhoCentralCalo << std::endl;
 
   genReweight.dump(_out);
+  pfCandidates.dump(_out);
   vertices.dump(_out);
   superClusters.dump(_out);
   electrons.dump(_out);
@@ -159,6 +162,7 @@ panda::EventMonophoton::getListOfBranches()
 
   blist += {"npv", "npvTrue", "rho", "rhoCentralCalo"};
   blist += GenReweight::getListOfBranches().fullNames("genReweight");
+  blist += PFCand::getListOfBranches().fullNames("pfCandidates");
   blist += RecoVertex::getListOfBranches().fullNames("vertices");
   blist += SuperCluster::getListOfBranches().fullNames("superClusters");
   blist += Electron::getListOfBranches().fullNames("electrons");
@@ -279,6 +283,7 @@ panda::EventMonophoton::copy(Event const& _src)
   rhoCentralCalo = _src.rhoCentralCalo;
 
   genReweight = _src.genReweight;
+  pfCandidates = _src.pfCandidates;
   vertices = _src.vertices;
   superClusters = _src.superClusters;
   electrons = _src.electrons;

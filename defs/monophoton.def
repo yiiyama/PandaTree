@@ -27,6 +27,7 @@ npvTrue/s
 rho/F
 rhoCentralCalo/F
 genReweight/GenReweight
+pfCandidates/PFCandCollection(2048)
 vertices/RecoVertexCollection(64)
 superClusters/SuperClusterCollection(64)
 electrons/ElectronCollection(32)

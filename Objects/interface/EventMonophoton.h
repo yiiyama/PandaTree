@@ -3,6 +3,7 @@
 #include "EventBase.h"
 #include "Constants.h"
 #include "GenReweight.h"
+#include "PFCand.h"
 #include "RecoVertex.h"
 #include "SuperCluster.h"
 #include "Electron.h"
@@ -32,6 +33,7 @@ namespace panda {
     void dump(std::ostream& = std::cout) const override;
 
     GenReweight genReweight = GenReweight("genReweight");
+    PFCandCollection pfCandidates = PFCandCollection("pfCandidates", 2048);
     RecoVertexCollection vertices = RecoVertexCollection("vertices", 64);
     SuperClusterCollection superClusters = SuperClusterCollection("superClusters", 64);
     ElectronCollection electrons = ElectronCollection("electrons", 32);
