@@ -8,8 +8,10 @@ panda::EventMonophoton::EventMonophoton() :
   std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &partons}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
+  pfCandidates.data.vertexContainer_ = &vertices;
   electrons.data.superClusterContainer_ = &superClusters;
   photons.data.superClusterContainer_ = &superClusters;
+  jets.data.constituentsContainer_ = &pfCandidates;
   genParticles.data.parentContainer_ = &genParticles;
   jets.data.matchedGenJetContainer_ = &genJets;
 }
@@ -46,8 +48,10 @@ panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
 
+  pfCandidates.data.vertexContainer_ = &vertices;
   electrons.data.superClusterContainer_ = &superClusters;
   photons.data.superClusterContainer_ = &superClusters;
+  jets.data.constituentsContainer_ = &pfCandidates;
   genParticles.data.parentContainer_ = &genParticles;
   jets.data.matchedGenJetContainer_ = &genJets;
   /* BEGIN CUSTOM EventMonophoton.cc.copy_ctor */
@@ -93,8 +97,10 @@ panda::EventMonophoton::operator=(EventMonophoton const& _src)
   metNoFix = _src.metNoFix;
   metFilters = _src.metFilters;
 
+  pfCandidates.data.vertexContainer_ = &vertices;
   electrons.data.superClusterContainer_ = &superClusters;
   photons.data.superClusterContainer_ = &superClusters;
+  jets.data.constituentsContainer_ = &pfCandidates;
   genParticles.data.parentContainer_ = &genParticles;
   jets.data.matchedGenJetContainer_ = &genJets;
 
@@ -246,6 +252,21 @@ panda::EventMonophoton::doGetEntry_(TTree& _tree, Long64_t _entry)
   EventBase::doGetEntry_(_tree, _entry);
 
   /* BEGIN CUSTOM EventMonophoton.cc.doGetEntry_ */
+  if (!pfCandidates.empty() && !vertices.empty()) {
+    unsigned iVtx(0);
+
+    for (unsigned iC(0); iC != pfCandidates.size(); ++iC) {
+      auto& cand(pfCandidates[iC]);
+
+      if (iC == vertices[iVtx].pfRangeMax) {
+        ++iVtx;
+        if (iVtx == vertices.size())
+          break;
+      }
+
+      cand.vertex.idx() = iVtx;
+    }
+  }
   /* END CUSTOM */
 }
 
