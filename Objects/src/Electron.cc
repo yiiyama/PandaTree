@@ -24,7 +24,7 @@ panda::Electron::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Lepton::getListOfBranches();
-  blist += {"hltsafe", "chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "isoPUOffset", "sieie", "sipip", "eseed", "hOverE", "regPt", "smearedPt", "originalPt", "veto", "triggerMatch", "superCluster_"};
+  blist += {"hltsafe", "chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "isoPUOffset", "sieie", "sipip", "eseed", "hOverE", "regPt", "smearedPt", "originalPt", "dxy", "dz", "veto", "triggerMatch", "superCluster_"};
   return blist;
 }
 
@@ -47,6 +47,8 @@ panda::Electron::datastore::allocate(UInt_t _nmax)
   regPt = new Float_t[nmax_];
   smearedPt = new Float_t[nmax_];
   originalPt = new Float_t[nmax_];
+  dxy = new Float_t[nmax_];
+  dz = new Float_t[nmax_];
   veto = new Bool_t[nmax_];
   triggerMatch = new Bool_t[nmax_][nTriggerObjects];
   superCluster_ = new Short_t[nmax_];
@@ -85,6 +87,10 @@ panda::Electron::datastore::deallocate()
   smearedPt = 0;
   delete [] originalPt;
   originalPt = 0;
+  delete [] dxy;
+  dxy = 0;
+  delete [] dz;
+  dz = 0;
   delete [] veto;
   veto = 0;
   delete [] triggerMatch;
@@ -112,6 +118,8 @@ panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, utils:
   utils::setStatus(_tree, _name, "regPt", _branches);
   utils::setStatus(_tree, _name, "smearedPt", _branches);
   utils::setStatus(_tree, _name, "originalPt", _branches);
+  utils::setStatus(_tree, _name, "dxy", _branches);
+  utils::setStatus(_tree, _name, "dz", _branches);
   utils::setStatus(_tree, _name, "veto", _branches);
   utils::setStatus(_tree, _name, "triggerMatch", _branches);
   utils::setStatus(_tree, _name, "superCluster_", _branches);
@@ -136,6 +144,8 @@ panda::Electron::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "regPt"));
   blist.push_back(utils::getStatus(_tree, _name, "smearedPt"));
   blist.push_back(utils::getStatus(_tree, _name, "originalPt"));
+  blist.push_back(utils::getStatus(_tree, _name, "dxy"));
+  blist.push_back(utils::getStatus(_tree, _name, "dz"));
   blist.push_back(utils::getStatus(_tree, _name, "veto"));
   blist.push_back(utils::getStatus(_tree, _name, "triggerMatch"));
   blist.push_back(utils::getStatus(_tree, _name, "superCluster_"));
@@ -162,6 +172,8 @@ panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils
   utils::setAddress(_tree, _name, "regPt", regPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "smearedPt", smearedPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "originalPt", originalPt, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "dxy", dxy, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "dz", dz, _branches, _setStatus);
   utils::setAddress(_tree, _name, "veto", veto, _branches, _setStatus);
   utils::setAddress(_tree, _name, "triggerMatch", triggerMatch, _branches, _setStatus);
   utils::setAddress(_tree, _name, "superCluster_", superCluster_, _branches, _setStatus);
@@ -188,6 +200,8 @@ panda::Electron::datastore::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "regPt", size, 'F', regPt, _branches);
   utils::book(_tree, _name, "smearedPt", size, 'F', smearedPt, _branches);
   utils::book(_tree, _name, "originalPt", size, 'F', originalPt, _branches);
+  utils::book(_tree, _name, "dxy", size, 'F', dxy, _branches);
+  utils::book(_tree, _name, "dz", size, 'F', dz, _branches);
   utils::book(_tree, _name, "veto", size, 'O', veto, _branches);
   utils::book(_tree, _name, "triggerMatch", size + TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
   utils::book(_tree, _name, "superCluster_", size, 'S', superCluster_, _branches);
@@ -212,6 +226,8 @@ panda::Electron::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "regPt");
   utils::resetAddress(_tree, _name, "smearedPt");
   utils::resetAddress(_tree, _name, "originalPt");
+  utils::resetAddress(_tree, _name, "dxy");
+  utils::resetAddress(_tree, _name, "dz");
   utils::resetAddress(_tree, _name, "veto");
   utils::resetAddress(_tree, _name, "triggerMatch");
   utils::resetAddress(_tree, _name, "superCluster_");
@@ -247,6 +263,8 @@ panda::Electron::Electron(char const* _name/* = ""*/) :
   regPt(gStore.getData(this).regPt[0]),
   smearedPt(gStore.getData(this).smearedPt[0]),
   originalPt(gStore.getData(this).originalPt[0]),
+  dxy(gStore.getData(this).dxy[0]),
+  dz(gStore.getData(this).dz[0]),
   veto(gStore.getData(this).veto[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
@@ -269,6 +287,8 @@ panda::Electron::Electron(Electron const& _src) :
   regPt(gStore.getData(this).regPt[0]),
   smearedPt(gStore.getData(this).smearedPt[0]),
   originalPt(gStore.getData(this).originalPt[0]),
+  dxy(gStore.getData(this).dxy[0]),
+  dz(gStore.getData(this).dz[0]),
   veto(gStore.getData(this).veto[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
@@ -289,6 +309,8 @@ panda::Electron::Electron(Electron const& _src) :
   regPt = _src.regPt;
   smearedPt = _src.smearedPt;
   originalPt = _src.originalPt;
+  dxy = _src.dxy;
+  dz = _src.dz;
   veto = _src.veto;
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
   superCluster = _src.superCluster;
@@ -310,6 +332,8 @@ panda::Electron::Electron(datastore& _data, UInt_t _idx) :
   regPt(_data.regPt[_idx]),
   smearedPt(_data.smearedPt[_idx]),
   originalPt(_data.originalPt[_idx]),
+  dxy(_data.dxy[_idx]),
+  dz(_data.dz[_idx]),
   veto(_data.veto[_idx]),
   triggerMatch(_data.triggerMatch[_idx]),
   superCluster(_data.superClusterContainer_, _data.superCluster_[_idx])
@@ -332,6 +356,8 @@ panda::Electron::Electron(ArrayBase* _array) :
   regPt(gStore.getData(this).regPt[0]),
   smearedPt(gStore.getData(this).smearedPt[0]),
   originalPt(gStore.getData(this).originalPt[0]),
+  dxy(gStore.getData(this).dxy[0]),
+  dz(gStore.getData(this).dz[0]),
   veto(gStore.getData(this).veto[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
@@ -372,6 +398,8 @@ panda::Electron::operator=(Electron const& _src)
   regPt = _src.regPt;
   smearedPt = _src.smearedPt;
   originalPt = _src.originalPt;
+  dxy = _src.dxy;
+  dz = _src.dz;
   veto = _src.veto;
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
   superCluster = _src.superCluster;
@@ -398,6 +426,8 @@ panda::Electron::doSetAddress_(TTree& _tree, TString const& _name, utils::Branch
   utils::setAddress(_tree, _name, "regPt", &regPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "smearedPt", &smearedPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "originalPt", &originalPt, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "dxy", &dxy, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "dz", &dz, _branches, _setStatus);
   utils::setAddress(_tree, _name, "veto", &veto, _branches, _setStatus);
   utils::setAddress(_tree, _name, "triggerMatch", triggerMatch, _branches, _setStatus);
   utils::setAddress(_tree, _name, "superCluster_", gStore.getData(this).superCluster_, _branches, true);
@@ -422,6 +452,8 @@ panda::Electron::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
   utils::book(_tree, _name, "regPt", "", 'F', &regPt, _branches);
   utils::book(_tree, _name, "smearedPt", "", 'F', &smearedPt, _branches);
   utils::book(_tree, _name, "originalPt", "", 'F', &originalPt, _branches);
+  utils::book(_tree, _name, "dxy", "", 'F', &dxy, _branches);
+  utils::book(_tree, _name, "dz", "", 'F', &dz, _branches);
   utils::book(_tree, _name, "veto", "", 'O', &veto, _branches);
   utils::book(_tree, _name, "triggerMatch", TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
   utils::book(_tree, _name, "superCluster_", "", 'S', gStore.getData(this).superCluster_, _branches);
@@ -446,6 +478,8 @@ panda::Electron::doInit_()
   regPt = 0.;
   smearedPt = 0.;
   originalPt = -1.;
+  dxy = 0.;
+  dz = 0.;
   veto = false;
   for (auto& p0 : triggerMatch) p0 = false;
   superCluster.init();
@@ -499,6 +533,8 @@ panda::Electron::dump(std::ostream& _out/* = std::cout*/) const
   _out << "regPt = " << regPt << std::endl;
   _out << "smearedPt = " << smearedPt << std::endl;
   _out << "originalPt = " << originalPt << std::endl;
+  _out << "dxy = " << dxy << std::endl;
+  _out << "dz = " << dz << std::endl;
   _out << "veto = " << veto << std::endl;
   _out << "triggerMatch = " << triggerMatch << std::endl;
   _out << "superCluster = " << superCluster << std::endl;

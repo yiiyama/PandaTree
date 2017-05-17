@@ -6,7 +6,8 @@
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
-#include "Vertex.h"
+#include "RecoVertex.h"
+#include "PackedTrack.h"
 
 namespace panda {
 
@@ -49,6 +50,8 @@ namespace panda {
       UChar_t* ptype{0};
       ContainerBase const* vertexContainer_{0};
       Short_t* vertex_{0}; // transient
+      ContainerBase const* trackContainer_{0};
+      Short_t* track_{0}; // transient
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -84,6 +87,9 @@ namespace panda {
     TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep(), eta(), phi(), m() * puppiWNoLep()); return p4; }
     int q() const { return q_[ptype]; }
     int pdgId() const { return pdgId_[ptype]; }
+    TVector3 pca() const;
+    double dxy(TVector3 const&) const;
+    double dz(TVector3 const&) const;
 
     /* PackedParticle
     UShort_t& packedPt;
@@ -94,7 +100,8 @@ namespace panda {
     Char_t& packedPuppiW;
     Char_t& packedPuppiWNoLepDiff;
     UChar_t& ptype;
-    Ref<Vertex> vertex;
+    Ref<RecoVertex> vertex;
+    Ref<PackedTrack> track;
 
     /* BEGIN CUSTOM PFCand.h.classdef */
   protected:

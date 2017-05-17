@@ -5,6 +5,7 @@
 #include "GenReweight.h"
 #include "PFCand.h"
 #include "RecoVertex.h"
+#include "PackedTrack.h"
 #include "SuperCluster.h"
 #include "Electron.h"
 #include "Muon.h"
@@ -37,6 +38,7 @@ namespace panda {
     GenReweight genReweight = GenReweight("genReweight");
     PFCandCollection pfCandidates = PFCandCollection("pfCandidates", 2048);
     RecoVertexCollection vertices = RecoVertexCollection("vertices", 64);
+    PackedTrackCollection tracks = PackedTrackCollection("tracks", 1024);
     SuperClusterCollection superClusters = SuperClusterCollection("superClusters", 64);
     ElectronCollection electrons = ElectronCollection("electrons", 32);
     MuonCollection muons = MuonCollection("muons", 32);
