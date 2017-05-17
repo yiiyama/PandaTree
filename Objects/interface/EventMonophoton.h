@@ -68,7 +68,7 @@ namespace panda {
 
   public:
     /* BEGIN CUSTOM EventMonophoton.h.classdef */
-    EventMonophoton& operator=(Event const&);
+    EventMonophoton& copy(Event const&);
     void copyGenParticles(GenParticleCollection const&);
     /* END CUSTOM */
   };

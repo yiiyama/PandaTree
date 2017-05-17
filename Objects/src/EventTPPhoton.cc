@@ -185,9 +185,15 @@ panda::EventTPPhoton::doInit_()
 
 /* BEGIN CUSTOM EventTPPhoton.cc.global */
 panda::EventTPPhoton&
-panda::EventTPPhoton::operator=(Event const& _src)
+panda::EventTPPhoton::copy(Event const& _src)
 {
-  EventBase::operator=(_src);
+  runNumber = _src.runNumber;
+  lumiNumber = _src.lumiNumber;
+  eventNumber = _src.eventNumber;
+  isData = _src.isData;
+  weight = _src.weight;
+
+  triggers = _src.triggers;
 
   npv = _src.npv;
   npvTrue = _src.npvTrue;
@@ -203,9 +209,15 @@ panda::EventTPPhoton::operator=(Event const& _src)
 }
 
 panda::EventTPPhoton&
-panda::EventTPPhoton::operator=(EventMonophoton const& _src)
+panda::EventTPPhoton::copy(EventMonophoton const& _src)
 {
-  EventBase::operator=(_src);
+  runNumber = _src.runNumber;
+  lumiNumber = _src.lumiNumber;
+  eventNumber = _src.eventNumber;
+  isData = _src.isData;
+  weight = _src.weight;
+
+  triggers = _src.triggers;
 
   npv = _src.npv;
   npvTrue = _src.npvTrue;

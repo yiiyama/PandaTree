@@ -55,6 +55,9 @@ panda::Run::operator=(Run const& _src)
     hlt.paths->assign(_src.hlt.paths->begin(), _src.hlt.paths->end());
   }
 
+  if (_src.inputTree_ && _src.inputTree_ != inputTree_)
+    _src.inputTree_->GetUserInfo()->Add(new TreePointerCleaner(this, _src.inputTree_));
+
   inputTree_ = _src.inputTree_;
   inputTreeNumber_ = _src.inputTreeNumber_;
   /* END CUSTOM */
@@ -186,6 +189,17 @@ panda::Run::registerTrigger(char const* _path)
   }
   else
     return itr -registeredTriggers_.begin();
+}
+
+char const*
+panda::Run::getRegisteredPath(UInt_t _token) const
+{
+  if (_token < registeredTriggers_.size()) {
+    auto& path(registeredTriggers_[_token]);
+    return path(0, path.Length() - 2).Data();
+  }
+  else
+    return "";
 }
 
 UInt_t
