@@ -165,7 +165,7 @@ void
 panda::EventBase::doGetEntry_(TTree& _tree, Long64_t _entry)
 {
   /* BEGIN CUSTOM EventBase.cc.doGetEntry_ */
-  if (_tree.GetCurrentFile() && runNumber != 0) {
+  if (readRunTree_ && _tree.GetCurrentFile() && runNumber != 0) {
     // If our Run object is enabled, we need to check for file transitions
 
     auto rItr(runTrees_.find(&_tree));
@@ -190,7 +190,9 @@ panda::EventBase::doGetEntry_(TTree& _tree, Long64_t _entry)
         // using GetKey to create a "fresh" object - Get can fetch an in-memory object that may already be in use
         auto* key(file.GetKey("runs"));
         if (!key) {
-          std::cerr << "File " << file.GetName() << " does not have a run tree" << std::endl;
+          std::cerr << "File " << file.GetName() << " does not have a run tree." << std::endl;
+          std::cerr << "If this is not a problem, turn off run tree synchronization" << std::endl;
+          std::cerr << "by calling setReadRunTree(false) on the event object." << std::endl;
           throw std::runtime_error("InputError");
         }
 

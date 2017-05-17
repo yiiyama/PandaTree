@@ -45,6 +45,9 @@ namespace panda {
     //! Current run object.
     Run run;
 
+    //! Turn run synch feature on/off (default on)
+    void setReadRunTree(Bool_t s) { readRunTree_ = s; }
+
     //! Use to declare a trigger path to be used in the analysis. Returns a token for the path.
     /*!
      * Call this function before the event loop for each trigger you will be using. The return value
@@ -82,6 +85,9 @@ namespace panda {
     };
 
     friend class TreePointerCleaner;
+
+    //! Flag to set run synch feature on/off
+    Bool_t readRunTree_{kTRUE};
 
     //! List of run trees linked to the run object.
     /*!
