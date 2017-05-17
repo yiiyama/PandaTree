@@ -172,7 +172,7 @@ void setXYZE(double px, double py, double pz, double e) override
 puppiW/B
 puppiWNoLep/B
 ptype/b
-vertex/VertexRef
+vertex/RecoVertexRef
 TLorentzVector puppiP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiW, eta(), phi(), m() * puppiW); return p4; }
 TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep, eta(), phi(), m() * puppiWNoLep); return p4; }
 int q() const { return q_[ptype]; }

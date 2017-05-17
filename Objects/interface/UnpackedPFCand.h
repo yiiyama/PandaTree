@@ -7,7 +7,7 @@
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
 #include "PFCand.h"
-#include "Vertex.h"
+#include "RecoVertex.h"
 
 namespace panda {
 
@@ -88,7 +88,7 @@ namespace panda {
     Char_t& puppiW;
     Char_t& puppiWNoLep;
     UChar_t& ptype;
-    Ref<Vertex> vertex;
+    Ref<RecoVertex> vertex;
 
   protected:
     /* ParticleP

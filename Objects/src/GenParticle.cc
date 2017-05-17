@@ -256,5 +256,6 @@ panda::GenParticle::dump(std::ostream& _out/* = std::cout*/) const
   _out << "parent = " << parent << std::endl;
 }
 
+
 /* BEGIN CUSTOM GenParticle.cc.global */
 /* END CUSTOM */
