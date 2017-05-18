@@ -39,25 +39,25 @@ namespace panda {
     //! Element accessor with range check
     const_reference at(UInt_t idx) const;
     //! Element accessor with no range check
-    reference operator[](UInt_t);
+    reference operator[](UInt_t idx) { return *addr_(idx); }
     //! Element accessor with no range check
-    const_reference operator[](UInt_t) const;
+    const_reference operator[](UInt_t idx) const { return *const_addr_(idx); }
     //! Return an iterator pointing to the first element
     iterator begin() { return iterator(addr_(), ContainerBase::unitSize_); }
     //! Return an iterator pointing to the first element
     const_iterator begin() const { return const_iterator(const_addr_(), ContainerBase::unitSize_); }
     //! Return an iterator pointing to the end of the array (invalid address)
-    iterator end() { return iterator(addr_() + data.nmax(), ArrayBase::ContainerBase::unitSize_); }
+    iterator end() { return iterator(addr_(data.nmax()), ArrayBase::ContainerBase::unitSize_); }
     //! Return an iterator pointing to the end of the array (invalid address)
-    const_iterator end() const { return const_iterator(const_addr_() + data.nmax(), ContainerBase::unitSize_); }
+    const_iterator end() const { return const_iterator(const_addr_(data.nmax()), ContainerBase::unitSize_); }
     //! Reference to the first element
-    reference front() { return operator[](0); }
+    reference front() { return *addr_(); }
     //! Reference to the first element
-    const_reference front() const { return operator[](0); }
+    const_reference front() const { return *const_addr_(); }
     //! Reference to the last element
-    reference back() { return operator[](data.nmax() - 1); }
+    reference back() { return *addr_(data.nmax() - 1); }
     //! Reference to the last element
-    const_reference back() const { return operator[](data.nmax() - 1); }
+    const_reference back() const { return *const_addr_(data.nmax() - 1); }
     //! Copy the array contents.
     void copy(self_type const&);
 
@@ -77,8 +77,8 @@ namespace panda {
     Array(char const* name, UInt_t unitSize, Bool_t dummy) : base_type(name, unitSize, kFALSE) {}
 
   private:
-    value_type* addr_() const { return reinterpret_cast<value_type*>(ContainerBase::array_); }
-    value_type const* const_addr_() const { return reinterpret_cast<value_type const*>(ContainerBase::array_); }
+    value_type* addr_(UInt_t idx = 0);
+    value_type const* const_addr_(UInt_t idx = 0) const;
 
     template<class T = E>
     typename std::enable_if<std::is_constructible<T>::value>::type allocate_(UInt_t);
@@ -110,12 +110,7 @@ namespace panda {
     if (_idx >= data.nmax())
       throw std::out_of_range((ContainerBase::name_ + "::at").Data());
 
-    // Here we may be calling from a base class (when E0 <- E1, (Array<E0>*)(&t1_array)->at(i) should properly point to the second *E1*, not E0),
-    // which means we must shift by _idx * unitSize_ instead of _idx * sizeof(value_type).
-    Char_t* p(ContainerBase::array_);
-    p += _idx * ContainerBase::unitSize_;
-
-    return *reinterpret_cast<value_type*>(p);
+    return *addr_(_idx);
   }
 
   template<class E>
@@ -125,36 +120,7 @@ namespace panda {
     if (_idx >= data.nmax())
       throw std::out_of_range((ContainerBase::name_ + "::at").Data());
   
-    // Here we may be calling from a base class (when E0 <- E1, (Array<E0>*)(&t1_array)->at(i) should properly point to the second *E1*, not E0),
-    // which means we must shift by _idx * unitSize_ instead of _idx * sizeof(value_type).
-    Char_t* p(ContainerBase::array_);
-    p += _idx * ContainerBase::unitSize_;
-
-    return *reinterpret_cast<value_type const*>(p);
-  }
-
-  template<class E>
-  typename Array<E>::reference
-  Array<E>::operator[](UInt_t _idx)
-  {
-    // Here we may be calling from a base class (when E0 <- E1, (Array<E0>*)(&t1_array)->at(i) should properly point to the second *E1*, not E0),
-    // which means we must shift by _idx * unitSize_ instead of _idx * sizeof(value_type).
-    Char_t* p(ContainerBase::array_);
-    p += _idx * ContainerBase::unitSize_;
-
-    return *reinterpret_cast<value_type*>(p);
-  }
-
-  template<class E>
-  typename Array<E>::const_reference
-  Array<E>::operator[](UInt_t _idx) const
-  {
-    // Here we may be calling from a base class (when E0 <- E1, (Array<E0>*)(&t1_array)->at(i) should properly point to the second *E1*, not E0),
-    // which means we must shift by _idx * unitSize_ instead of _idx * sizeof(value_type).
-    Char_t* p(ContainerBase::array_);
-    p += _idx * ContainerBase::unitSize_;
-
-    return *reinterpret_cast<value_type const*>(p);
+    return *const_addr_(_idx);
   }
 
   template<class E>
@@ -209,6 +175,28 @@ namespace panda {
   {
     _out << E::typeName() << "Array(" << ArrayBase::size() << ")" << std::endl;
     ContainerBase::dump(_out);
+  }
+
+  /*private*/
+  template<class E>
+  typename Array<E>::value_type*
+  Array<E>::addr_(unsigned _idx/* = 0*/)
+  {
+    // Here we may be calling from a base class (when E0 <- E1, (Array<E0>*)(&t1_array)->addr_(i) should properly point to the second *E1*, not E0),
+    // which means we must shift by _idx * unitSize_ instead of _idx * sizeof(value_type).
+
+    return reinterpret_cast<value_type*>(ContainerBase::array_ + _idx * ContainerBase::unitSize_);
+  }
+
+  /*private*/
+  template<class E>
+  typename Array<E>::value_type const*
+  Array<E>::const_addr_(unsigned _idx/* = 0*/) const
+  {
+    // Here we may be calling from a base class (when E0 <- E1, (Array<E0>*)(&t1_array)->addr_(i) should properly point to the second *E1*, not E0),
+    // which means we must shift by _idx * unitSize_ instead of _idx * sizeof(value_type).
+
+    return reinterpret_cast<value_type const*>(ContainerBase::array_ + _idx * ContainerBase::unitSize_);
   }
 
   /*private*/
