@@ -139,7 +139,7 @@ panda::PFCand::PFCand(char const* _name/* = ""*/) :
 }
 
 panda::PFCand::PFCand(PFCand const& _src) :
-  PackedParticle(new PFCandArray(1, gStore.getName(&_src))),
+  PackedParticle(new PFCandArray(1, _src.getName())),
   packedPuppiW(gStore.getData(this).packedPuppiW[0]),
   packedPuppiWNoLepDiff(gStore.getData(this).packedPuppiWNoLepDiff[0]),
   ptype(gStore.getData(this).ptype[0]),
@@ -178,16 +178,16 @@ panda::PFCand::PFCand(ArrayBase* _array) :
 panda::PFCand::~PFCand()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::PFCand::destructor()
+panda::PFCand::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM PFCand.cc.destructor */
   /* END CUSTOM */
 
-  PackedParticle::destructor();
+  if (_recursive)
+    PackedParticle::destructor(kTRUE);
 }
 
 panda::PFCand&

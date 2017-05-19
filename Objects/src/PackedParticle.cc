@@ -119,7 +119,7 @@ panda::PackedParticle::PackedParticle(char const* _name/* = ""*/) :
 }
 
 panda::PackedParticle::PackedParticle(PackedParticle const& _src) :
-  Particle(new PackedParticleArray(1, gStore.getName(&_src))),
+  Particle(new PackedParticleArray(1, _src.getName())),
   packedPt(gStore.getData(this).packedPt[0]),
   packedEta(gStore.getData(this).packedEta[0]),
   packedPhi(gStore.getData(this).packedPhi[0]),
@@ -154,16 +154,16 @@ panda::PackedParticle::PackedParticle(ArrayBase* _array) :
 panda::PackedParticle::~PackedParticle()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::PackedParticle::destructor()
+panda::PackedParticle::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM PackedParticle.cc.destructor */
   /* END CUSTOM */
 
-  Particle::destructor();
+  if (_recursive)
+    Particle::destructor(kTRUE);
 }
 
 panda::PackedParticle&

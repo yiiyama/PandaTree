@@ -118,7 +118,7 @@ panda::PackedTrack::PackedTrack(char const* _name/* = ""*/) :
 }
 
 panda::PackedTrack::PackedTrack(PackedTrack const& _src) :
-  Element(new PackedTrackArray(1, gStore.getName(&_src))),
+  Element(new PackedTrackArray(1, _src.getName())),
   packedPtError(gStore.getData(this).packedPtError[0]),
   packedDxy(gStore.getData(this).packedDxy[0]),
   packedDz(gStore.getData(this).packedDz[0]),
@@ -153,16 +153,13 @@ panda::PackedTrack::PackedTrack(ArrayBase* _array) :
 panda::PackedTrack::~PackedTrack()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::PackedTrack::destructor()
+panda::PackedTrack::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM PackedTrack.cc.destructor */
   /* END CUSTOM */
-
-  Element::destructor();
 }
 
 panda::PackedTrack&

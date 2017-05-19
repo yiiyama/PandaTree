@@ -93,7 +93,7 @@ namespace panda {
       // Call the destructor of the array elements
       auto* p(addr_());
       for (UInt_t iP(0); iP != data.nmax(); ++iP, ++p)
-        p->destructor();
+        p->destructor(true);
 
       std::allocator<value_type>().deallocate(addr_(), data.nmax());
       data.deallocate();

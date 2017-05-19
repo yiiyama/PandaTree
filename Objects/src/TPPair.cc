@@ -100,7 +100,7 @@ panda::TPPair::TPPair(char const* _name/* = ""*/) :
 }
 
 panda::TPPair::TPPair(TPPair const& _src) :
-  Element(new TPPairArray(1, gStore.getName(&_src))),
+  Element(new TPPairArray(1, _src.getName())),
   mass(gStore.getData(this).mass[0]),
   mass2(gStore.getData(this).mass2[0])
 {
@@ -127,16 +127,13 @@ panda::TPPair::TPPair(ArrayBase* _array) :
 panda::TPPair::~TPPair()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::TPPair::destructor()
+panda::TPPair::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM TPPair.cc.destructor */
   /* END CUSTOM */
-
-  Element::destructor();
 }
 
 panda::TPPair&

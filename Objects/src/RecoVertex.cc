@@ -128,7 +128,7 @@ panda::RecoVertex::RecoVertex(char const* _name/* = ""*/) :
 }
 
 panda::RecoVertex::RecoVertex(RecoVertex const& _src) :
-  Vertex(new RecoVertexArray(1, gStore.getName(&_src))),
+  Vertex(new RecoVertexArray(1, _src.getName())),
   score(gStore.getData(this).score[0]),
   ntrk(gStore.getData(this).ntrk[0]),
   ndof(gStore.getData(this).ndof[0]),
@@ -167,16 +167,16 @@ panda::RecoVertex::RecoVertex(ArrayBase* _array) :
 panda::RecoVertex::~RecoVertex()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::RecoVertex::destructor()
+panda::RecoVertex::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM RecoVertex.cc.destructor */
   /* END CUSTOM */
 
-  Vertex::destructor();
+  if (_recursive)
+    Vertex::destructor(kTRUE);
 }
 
 panda::RecoVertex&

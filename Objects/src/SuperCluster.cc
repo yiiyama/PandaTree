@@ -109,7 +109,7 @@ panda::SuperCluster::SuperCluster(char const* _name/* = ""*/) :
 }
 
 panda::SuperCluster::SuperCluster(SuperCluster const& _src) :
-  Element(new SuperClusterArray(1, gStore.getName(&_src))),
+  Element(new SuperClusterArray(1, _src.getName())),
   rawPt(gStore.getData(this).rawPt[0]),
   eta(gStore.getData(this).eta[0]),
   phi(gStore.getData(this).phi[0])
@@ -140,16 +140,13 @@ panda::SuperCluster::SuperCluster(ArrayBase* _array) :
 panda::SuperCluster::~SuperCluster()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::SuperCluster::destructor()
+panda::SuperCluster::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM SuperCluster.cc.destructor */
   /* END CUSTOM */
-
-  Element::destructor();
 }
 
 panda::SuperCluster&
