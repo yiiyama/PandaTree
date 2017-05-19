@@ -166,7 +166,7 @@ panda::XPhoton::XPhoton(char const* _name/* = ""*/) :
 }
 
 panda::XPhoton::XPhoton(XPhoton const& _src) :
-  Photon(new XPhotonArray(1, gStore.getName(&_src))),
+  Photon(new XPhotonArray(1, _src.getName())),
   scEta(gStore.getData(this).scEta[0]),
   scRawPt(gStore.getData(this).scRawPt[0]),
   chIsoS15(gStore.getData(this).chIsoS15[0]),
@@ -217,16 +217,16 @@ panda::XPhoton::XPhoton(ArrayBase* _array) :
 panda::XPhoton::~XPhoton()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::XPhoton::destructor()
+panda::XPhoton::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM XPhoton.cc.destructor */
   /* END CUSTOM */
 
-  Photon::destructor();
+  if (_recursive)
+    Photon::destructor(kTRUE);
 }
 
 panda::XPhoton&

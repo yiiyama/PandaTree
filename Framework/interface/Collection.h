@@ -292,7 +292,7 @@ namespace panda {
     // Call the destructor of the array elements
     value_type* p(_addr);
     for (UInt_t iP(0); iP != _data.nmax(); ++iP, ++p)
-      p->destructor();
+      p->destructor(true);
 
     std::allocator<value_type>().deallocate(_addr, _data.nmax());
     _data.deallocate();

@@ -92,7 +92,7 @@ panda::ParticleM::ParticleM(char const* _name/* = ""*/) :
 }
 
 panda::ParticleM::ParticleM(ParticleM const& _src) :
-  ParticleP(new ParticleMArray(1, gStore.getName(&_src))),
+  ParticleP(new ParticleMArray(1, _src.getName())),
   mass_(gStore.getData(this).mass_[0])
 {
   ParticleP::operator=(_src);
@@ -115,16 +115,16 @@ panda::ParticleM::ParticleM(ArrayBase* _array) :
 panda::ParticleM::~ParticleM()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::ParticleM::destructor()
+panda::ParticleM::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM ParticleM.cc.destructor */
   /* END CUSTOM */
 
-  ParticleP::destructor();
+  if (_recursive)
+    ParticleP::destructor(kTRUE);
 }
 
 panda::ParticleM&

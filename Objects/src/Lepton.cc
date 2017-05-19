@@ -191,7 +191,7 @@ panda::Lepton::Lepton(char const* _name/* = ""*/) :
 }
 
 panda::Lepton::Lepton(Lepton const& _src) :
-  ParticleP(new LeptonArray(1, gStore.getName(&_src))),
+  ParticleP(new LeptonArray(1, _src.getName())),
   pfPt(gStore.getData(this).pfPt[0]),
   charge(gStore.getData(this).charge[0]),
   loose(gStore.getData(this).loose[0]),
@@ -258,16 +258,16 @@ panda::Lepton::Lepton(ArrayBase* _array) :
 panda::Lepton::~Lepton()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::Lepton::destructor()
+panda::Lepton::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM Lepton.cc.destructor */
   /* END CUSTOM */
 
-  ParticleP::destructor();
+  if (_recursive)
+    ParticleP::destructor(kTRUE);
 }
 
 panda::Lepton&

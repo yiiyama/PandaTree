@@ -408,7 +408,7 @@ panda::Photon::Photon(char const* _name/* = ""*/) :
 }
 
 panda::Photon::Photon(Photon const& _src) :
-  ParticleP(new PhotonArray(1, gStore.getName(&_src))),
+  ParticleP(new PhotonArray(1, _src.getName())),
   pfPt(gStore.getData(this).pfPt[0]),
   chIso(gStore.getData(this).chIso[0]),
   chIsoMax(gStore.getData(this).chIsoMax[0]),
@@ -563,16 +563,16 @@ panda::Photon::Photon(ArrayBase* _array) :
 panda::Photon::~Photon()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::Photon::destructor()
+panda::Photon::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM Photon.cc.destructor */
   /* END CUSTOM */
 
-  ParticleP::destructor();
+  if (_recursive)
+    ParticleP::destructor(kTRUE);
 }
 
 panda::Photon&
