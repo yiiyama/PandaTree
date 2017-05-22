@@ -156,6 +156,9 @@ panda::Vertex::operator=(Vertex const& _src)
   y = _src.y;
   z = _src.z;
 
+  /* BEGIN CUSTOM Vertex.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

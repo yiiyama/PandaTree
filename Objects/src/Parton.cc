@@ -134,6 +134,9 @@ panda::Parton::operator=(Parton const& _src)
 
   pdgid = _src.pdgid;
 
+  /* BEGIN CUSTOM Parton.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

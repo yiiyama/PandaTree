@@ -101,6 +101,9 @@ panda::Particle&
 panda::Particle::operator=(Particle const& _src)
 {
 
+  /* BEGIN CUSTOM Particle.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

@@ -134,6 +134,9 @@ panda::ParticleM::operator=(ParticleM const& _src)
 
   mass_ = _src.mass_;
 
+  /* BEGIN CUSTOM ParticleM.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

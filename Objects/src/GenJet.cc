@@ -134,6 +134,9 @@ panda::GenJet::operator=(GenJet const& _src)
 
   pdgid = _src.pdgid;
 
+  /* BEGIN CUSTOM GenJet.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

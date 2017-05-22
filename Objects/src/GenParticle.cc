@@ -194,6 +194,9 @@ panda::GenParticle::operator=(GenParticle const& _src)
   statusFlags = _src.statusFlags;
   parent = _src.parent;
 
+  /* BEGIN CUSTOM GenParticle.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

@@ -243,6 +243,9 @@ panda::XPhoton::operator=(XPhoton const& _src)
   isEB = _src.isEB;
   matchedGenId = _src.matchedGenId;
 
+  /* BEGIN CUSTOM XPhoton.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

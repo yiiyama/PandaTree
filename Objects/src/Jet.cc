@@ -331,6 +331,9 @@ panda::Jet::operator=(Jet const& _src)
   matchedGenJet = _src.matchedGenJet;
   constituents = _src.constituents;
 
+  /* BEGIN CUSTOM Jet.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

@@ -404,6 +404,9 @@ panda::Electron::operator=(Electron const& _src)
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
   superCluster = _src.superCluster;
 
+  /* BEGIN CUSTOM Electron.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

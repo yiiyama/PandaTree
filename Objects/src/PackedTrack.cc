@@ -170,6 +170,14 @@ panda::PackedTrack::operator=(PackedTrack const& _src)
   packedDz = _src.packedDz;
   packedDPhi = _src.packedDPhi;
 
+  /* BEGIN CUSTOM PackedTrack.cc.operator= */
+  ptError_ = _src.ptError_;
+  dxy_ = _src.dxy_;
+  dz_ = _src.dz_;
+  dPhi_ = _src.dPhi_;
+  unpacked_ = _src.unpacked_;
+  /* END CUSTOM */
+
   return *this;
 }
 

@@ -142,6 +142,9 @@ panda::TPPair::operator=(TPPair const& _src)
   mass = _src.mass;
   mass2 = _src.mass2;
 
+  /* BEGIN CUSTOM TPPair.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

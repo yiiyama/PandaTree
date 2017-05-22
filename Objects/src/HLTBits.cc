@@ -29,6 +29,9 @@ panda::HLTBits::operator=(HLTBits const& _src)
 {
   std::memcpy(words, _src.words, sizeof(UInt_t) * 32);
 
+  /* BEGIN CUSTOM HLTBits.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

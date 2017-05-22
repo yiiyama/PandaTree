@@ -57,6 +57,9 @@ panda::Recoil::operator=(Recoil const& _src)
   gamma = _src.gamma;
   max = _src.max;
 
+  /* BEGIN CUSTOM Recoil.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

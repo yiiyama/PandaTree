@@ -57,6 +57,9 @@ panda::RecoMet::operator=(RecoMet const& _src)
   ptUnclDown = _src.ptUnclDown;
   phiUnclDown = _src.phiUnclDown;
 
+  /* BEGIN CUSTOM RecoMet.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

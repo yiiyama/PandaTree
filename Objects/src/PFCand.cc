@@ -201,6 +201,9 @@ panda::PFCand::operator=(PFCand const& _src)
   vertex = _src.vertex;
   track = _src.track;
 
+  /* BEGIN CUSTOM PFCand.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

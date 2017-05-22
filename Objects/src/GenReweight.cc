@@ -50,6 +50,9 @@ panda::GenReweight::operator=(GenReweight const& _src)
   pdfDW = _src.pdfDW;
   std::memcpy(genParam, _src.genParam, sizeof(Float_t) * 1024);
 
+  /* BEGIN CUSTOM GenReweight.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

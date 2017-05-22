@@ -474,7 +474,7 @@ class PhysicsObject(Definition, Object):
 
             for method in methods:
                 src.newline()
-                self._write_method(src, 'Singlet', method, custom_block = (method[0] in ['doInit_']))
+                self._write_method(src, 'Singlet', method, custom_block = (method[0] in ['operator=', 'doInit_']))
 
             src.newline()
             src.writeline('panda::utils::BranchList')
@@ -612,7 +612,7 @@ class PhysicsObject(Definition, Object):
 
             for method in methods:
                 src.newline()
-                self._write_method(src, 'Element', method, custom_block = (method[0] in ['doInit_']))
+                self._write_method(src, 'Element', method, custom_block = (method[0] in ['operator=', 'doInit_']))
 
         src.newline()
         src.writeline('void')

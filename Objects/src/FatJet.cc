@@ -303,6 +303,9 @@ panda::FatJet::operator=(FatJet const& _src)
   std::memcpy(ecfs, _src.ecfs, sizeof(Float_t) * 3 * 4 * 4);
   subjets = _src.subjets;
 
+  /* BEGIN CUSTOM FatJet.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

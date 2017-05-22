@@ -148,6 +148,9 @@ panda::MicroJet::operator=(MicroJet const& _src)
   csv = _src.csv;
   qgl = _src.qgl;
 
+  /* BEGIN CUSTOM MicroJet.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

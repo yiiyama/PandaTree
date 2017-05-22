@@ -288,6 +288,9 @@ panda::Lepton::operator=(Lepton const& _src)
   matchedGen = _src.matchedGen;
   vertex = _src.vertex;
 
+  /* BEGIN CUSTOM Lepton.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

@@ -615,6 +615,9 @@ panda::Photon::operator=(Photon const& _src)
   matchedPF = _src.matchedPF;
   matchedGen = _src.matchedGen;
 
+  /* BEGIN CUSTOM Photon.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 
