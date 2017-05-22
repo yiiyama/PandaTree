@@ -162,6 +162,9 @@ panda::ParticleP::operator=(ParticleP const& _src)
   eta_ = _src.eta_;
   phi_ = _src.phi_;
 
+  /* BEGIN CUSTOM ParticleP.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

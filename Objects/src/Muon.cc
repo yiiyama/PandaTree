@@ -157,6 +157,9 @@ panda::Muon::operator=(Muon const& _src)
   mediumBtoF = _src.mediumBtoF;
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
 
+  /* BEGIN CUSTOM Muon.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

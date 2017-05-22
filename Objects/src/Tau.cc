@@ -246,6 +246,9 @@ panda::Tau::operator=(Tau const& _src)
   vertex = _src.vertex;
   matchedGen = _src.matchedGen;
 
+  /* BEGIN CUSTOM Tau.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

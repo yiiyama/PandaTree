@@ -197,6 +197,9 @@ panda::UnpackedPFCand::operator=(UnpackedPFCand const& _src)
   ptype = _src.ptype;
   vertex = _src.vertex;
 
+  /* BEGIN CUSTOM UnpackedPFCand.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

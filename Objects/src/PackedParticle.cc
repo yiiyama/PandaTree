@@ -176,6 +176,14 @@ panda::PackedParticle::operator=(PackedParticle const& _src)
   packedPhi = _src.packedPhi;
   packedM = _src.packedM;
 
+  /* BEGIN CUSTOM PackedParticle.cc.operator= */
+  pt_ = _src.pt_;
+  eta_ = _src.eta_;
+  phi_ = _src.phi_;
+  mass_ = _src.mass_;
+  unpacked_ = _src.unpacked_;
+  /* END CUSTOM */
+
   return *this;
 }
 

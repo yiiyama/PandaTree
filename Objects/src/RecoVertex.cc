@@ -190,6 +190,9 @@ panda::RecoVertex::operator=(RecoVertex const& _src)
   chi2 = _src.chi2;
   pfRangeMax = _src.pfRangeMax;
 
+  /* BEGIN CUSTOM RecoVertex.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

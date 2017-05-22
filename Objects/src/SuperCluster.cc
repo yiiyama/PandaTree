@@ -156,6 +156,9 @@ panda::SuperCluster::operator=(SuperCluster const& _src)
   eta = _src.eta;
   phi = _src.phi;
 
+  /* BEGIN CUSTOM SuperCluster.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

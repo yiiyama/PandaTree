@@ -63,6 +63,9 @@ panda::MetFilters::operator=(MetFilters const& _src)
   badPFMuons = _src.badPFMuons;
   badChargedHadrons = _src.badChargedHadrons;
 
+  /* BEGIN CUSTOM MetFilters.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

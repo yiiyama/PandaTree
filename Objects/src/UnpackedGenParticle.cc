@@ -176,6 +176,9 @@ panda::UnpackedGenParticle::operator=(UnpackedGenParticle const& _src)
   statusFlags = _src.statusFlags;
   parent = _src.parent;
 
+  /* BEGIN CUSTOM UnpackedGenParticle.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 
