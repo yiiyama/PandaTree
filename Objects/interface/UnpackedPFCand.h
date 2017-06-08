@@ -13,28 +13,6 @@ namespace panda {
 
   class UnpackedPFCand : public ParticleM {
   public:
-    enum PType {
-      hp,
-      hm,
-      ep,
-      em,
-      mup,
-      mum,
-      gamma,
-      h0,
-      h_HF,
-      egamma_HF,
-      Xp,
-      Xm,
-      X,
-      nPTypes
-    };
-
-    static TString PTypeName[nPTypes];
-
-    static int q_[nPTypes];
-    static int pdgId_[nPTypes];
-
     struct datastore : public ParticleM::datastore {
       datastore() : ParticleM::datastore() {}
       ~datastore() { deallocate(); }
@@ -82,8 +60,8 @@ namespace panda {
 
     TLorentzVector puppiP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiW, eta(), phi(), m() * puppiW); return p4; }
     TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep, eta(), phi(), m() * puppiWNoLep); return p4; }
-    int q() const { return q_[ptype]; }
-    int pdgId() const { return pdgId_[ptype]; }
+    int q() const { return PFCand::q_[ptype]; }
+    int pdgId() const { return PFCand::pdgId_[ptype]; }
 
     Char_t& puppiW;
     Char_t& puppiWNoLep;
