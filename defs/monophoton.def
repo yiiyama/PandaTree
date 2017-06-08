@@ -4,8 +4,16 @@ scRawPt/F
 chIsoS15/F
 nhIsoS15/F
 phIsoS15/F
+chIsoZG/F
+nhIsoZG/F
+phIsoZG/F
 e4/F
 isEB/O
+loose15/O
+medium15/O
+tight15/O
+mediumZG/O
+mediumZGMax/O
 matchedGenId/I
 bool passCHIso(UInt_t wp) const { return chIso < chIsoCuts[1][isEB ? 0 : 1][wp]; }
 bool passNHIso(UInt_t wp) const { return nhIso < nhIsoCuts[1][isEB ? 0 : 1][wp]; }
@@ -27,6 +35,7 @@ npvTrue/s
 rho/F
 rhoCentralCalo/F
 genReweight/GenReweight
+pfCandidates/PFCandCollection(2048)
 vertices/RecoVertexCollection(64)
 superClusters/SuperClusterCollection(64)
 electrons/ElectronCollection(32)
@@ -44,8 +53,10 @@ caloMet/Met
 metMuOnlyFix/RecoMet
 metNoFix/RecoMet
 metFilters/MetFilters
+pfCandidates.vertex->vertices
 electrons.superCluster->superClusters
 photons.superCluster->superClusters
+jets.constituents->pfCandidates
 genParticles.parent->genParticles
 jets.matchedGenJet->genJets
 #include "Event.h"

@@ -70,8 +70,16 @@ namespace panda {
       Float_t* chIsoS15{0};
       Float_t* nhIsoS15{0};
       Float_t* phIsoS15{0};
+      Float_t* chIsoZG{0};
+      Float_t* nhIsoZG{0};
+      Float_t* phIsoZG{0};
       Float_t* e4{0};
       Bool_t* isEB{0};
+      Bool_t* loose15{0};
+      Bool_t* medium15{0};
+      Bool_t* tight15{0};
+      Bool_t* mediumZG{0};
+      Bool_t* mediumZGMax{0};
       Int_t* matchedGenId{0};
 
       void allocate(UInt_t n) override;
@@ -151,8 +159,16 @@ namespace panda {
     Float_t& chIsoS15;
     Float_t& nhIsoS15;
     Float_t& phIsoS15;
+    Float_t& chIsoZG;
+    Float_t& nhIsoZG;
+    Float_t& phIsoZG;
     Float_t& e4;
     Bool_t& isEB;
+    Bool_t& loose15;
+    Bool_t& medium15;
+    Bool_t& tight15;
+    Bool_t& mediumZG;
+    Bool_t& mediumZGMax;
     Int_t& matchedGenId;
 
   protected:

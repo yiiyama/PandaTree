@@ -3,13 +3,15 @@
 panda::EventMonophoton::EventMonophoton() :
   EventBase()
 {
-  std::vector<Object*> myObjects{{&genReweight, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &genVertex, &partons, &t1Met, &rawMet, &caloMet, &metMuOnlyFix, &metNoFix, &metFilters}};
+  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &genVertex, &partons, &t1Met, &rawMet, &caloMet, &metMuOnlyFix, &metNoFix, &metFilters}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &partons}};
+  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &partons}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
+  pfCandidates.data.vertexContainer_ = &vertices;
   electrons.data.superClusterContainer_ = &superClusters;
   photons.data.superClusterContainer_ = &superClusters;
+  jets.data.constituentsContainer_ = &pfCandidates;
   genParticles.data.parentContainer_ = &genParticles;
   jets.data.matchedGenJetContainer_ = &genJets;
 }
@@ -17,6 +19,7 @@ panda::EventMonophoton::EventMonophoton() :
 panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
   EventBase(_src),
   genReweight(_src.genReweight),
+  pfCandidates(_src.pfCandidates),
   vertices(_src.vertices),
   superClusters(_src.superClusters),
   electrons(_src.electrons),
@@ -39,17 +42,25 @@ panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
   rho(_src.rho),
   rhoCentralCalo(_src.rhoCentralCalo)
 {
-  std::vector<Object*> myObjects{{&genReweight, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &genVertex, &partons, &t1Met, &rawMet, &caloMet, &metMuOnlyFix, &metNoFix, &metFilters}};
+  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &genVertex, &partons, &t1Met, &rawMet, &caloMet, &metMuOnlyFix, &metNoFix, &metFilters}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &partons}};
+  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &partons}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
 
+  pfCandidates.data.vertexContainer_ = &vertices;
   electrons.data.superClusterContainer_ = &superClusters;
   photons.data.superClusterContainer_ = &superClusters;
+  jets.data.constituentsContainer_ = &pfCandidates;
   genParticles.data.parentContainer_ = &genParticles;
   jets.data.matchedGenJetContainer_ = &genJets;
   /* BEGIN CUSTOM EventMonophoton.cc.copy_ctor */
+  /* END CUSTOM */
+}
+
+panda::EventMonophoton::~EventMonophoton()
+{
+  /* BEGIN CUSTOM EventMonophoton.cc.dtor */
   /* END CUSTOM */
 }
 
@@ -67,6 +78,7 @@ panda::EventMonophoton::operator=(EventMonophoton const& _src)
   rhoCentralCalo = _src.rhoCentralCalo;
 
   genReweight = _src.genReweight;
+  pfCandidates = _src.pfCandidates;
   vertices = _src.vertices;
   superClusters = _src.superClusters;
   electrons = _src.electrons;
@@ -85,8 +97,10 @@ panda::EventMonophoton::operator=(EventMonophoton const& _src)
   metNoFix = _src.metNoFix;
   metFilters = _src.metFilters;
 
+  pfCandidates.data.vertexContainer_ = &vertices;
   electrons.data.superClusterContainer_ = &superClusters;
   photons.data.superClusterContainer_ = &superClusters;
+  jets.data.constituentsContainer_ = &pfCandidates;
   genParticles.data.parentContainer_ = &genParticles;
   jets.data.matchedGenJetContainer_ = &genJets;
 
@@ -125,6 +139,7 @@ panda::EventMonophoton::dump(std::ostream& _out/* = std::cout*/) const
   _out << "rhoCentralCalo = " << rhoCentralCalo << std::endl;
 
   genReweight.dump(_out);
+  pfCandidates.dump(_out);
   vertices.dump(_out);
   superClusters.dump(_out);
   electrons.dump(_out);
@@ -153,6 +168,7 @@ panda::EventMonophoton::getListOfBranches()
 
   blist += {"npv", "npvTrue", "rho", "rhoCentralCalo"};
   blist += GenReweight::getListOfBranches().fullNames("genReweight");
+  blist += PFCand::getListOfBranches().fullNames("pfCandidates");
   blist += RecoVertex::getListOfBranches().fullNames("vertices");
   blist += SuperCluster::getListOfBranches().fullNames("superClusters");
   blist += Electron::getListOfBranches().fullNames("electrons");
@@ -236,6 +252,21 @@ panda::EventMonophoton::doGetEntry_(TTree& _tree, Long64_t _entry)
   EventBase::doGetEntry_(_tree, _entry);
 
   /* BEGIN CUSTOM EventMonophoton.cc.doGetEntry_ */
+  if (!pfCandidates.empty() && !vertices.empty()) {
+    unsigned iVtx(0);
+
+    for (unsigned iC(0); iC != pfCandidates.size(); ++iC) {
+      auto& cand(pfCandidates[iC]);
+
+      if (iC == vertices[iVtx].pfRangeMax) {
+        ++iVtx;
+        if (iVtx == vertices.size())
+          break;
+      }
+
+      cand.vertex.idx() = iVtx;
+    }
+  }
   /* END CUSTOM */
 }
 
@@ -257,9 +288,15 @@ panda::EventMonophoton::doInit_()
 #include <map>
 
 panda::EventMonophoton&
-panda::EventMonophoton::operator=(Event const& _src)
+panda::EventMonophoton::copy(Event const& _src)
 {
-  EventBase::operator=(_src);
+  runNumber = _src.runNumber;
+  lumiNumber = _src.lumiNumber;
+  eventNumber = _src.eventNumber;
+  isData = _src.isData;
+  weight = _src.weight;
+
+  triggers = _src.triggers;
 
   npv = _src.npv;
   npvTrue = _src.npvTrue;
@@ -267,6 +304,7 @@ panda::EventMonophoton::operator=(Event const& _src)
   rhoCentralCalo = _src.rhoCentralCalo;
 
   genReweight = _src.genReweight;
+  pfCandidates = _src.pfCandidates;
   vertices = _src.vertices;
   superClusters = _src.superClusters;
   electrons = _src.electrons;
@@ -299,18 +337,23 @@ panda::EventMonophoton::operator=(Event const& _src)
 void
 panda::EventMonophoton::copyGenParticles(GenParticleCollection const& _src)
 {
+  genParticles.clear();
+
   // only save leptons, prompt photons, and their ancestors
   std::map<short, unsigned> parentMap;
-  genParticles.clear();
+
+  int iGen(-1);
   for (auto& part : _src) {
+    ++iGen;
     if (!part.finalState)
       continue;
 
     switch (std::abs(part.pdgid)) {
     case 22:
-      if (!part.testFlag(GenParticle::kIsPrompt))
-        continue;
-      break;
+      if (part.testFlag(GenParticle::kIsPrompt) ||
+          (part.parent.isValid() && part.parent->pdgid == 22 && part.parent->testFlag(GenParticle::kIsPrompt)))
+        break;
+      continue;
     case 11:
     case 12:
     case 13:
@@ -325,27 +368,33 @@ panda::EventMonophoton::copyGenParticles(GenParticleCollection const& _src)
     auto& out(genParticles.create_back());
     out = part;
 
-    auto* p(&out);
-    
+    // save the first mother
     short parentIdx(part.parent.idx());
     while (parentIdx != -1) {
+      auto& parent(_src[parentIdx]);
+
+      if (parent.pdgid == part.pdgid) {
+        // skip if it's the same particle
+        parentIdx = parent.parent.idx();
+        continue;
+      }
+      
       auto itr(parentMap.find(parentIdx));
       if (itr == parentMap.end()) {
-        // parent particle not yet in genParticles
+        // parent particle not yet in output genParticles
         parentMap[parentIdx] = genParticles.size();
 
         auto& srcParent(_src[parentIdx]);
         auto& outParent(genParticles.create_back());
         outParent = srcParent;
-        p->parent.setRef(&outParent);
-        p = &outParent;
-        parentIdx = srcParent.parent.idx();
+        out.parent.setRef(&outParent);
       }
       else {
         // already recorded particle; just set the parent ref
-        p->parent.setRef(&genParticles[itr->second]);
-        break;
+        out.parent.setRef(&genParticles[itr->second]);
       }
+
+      break;
     }
   }
 }

@@ -31,6 +31,12 @@ panda::EventTPPhoton::EventTPPhoton(EventTPPhoton const& _src) :
   /* END CUSTOM */
 }
 
+panda::EventTPPhoton::~EventTPPhoton()
+{
+  /* BEGIN CUSTOM EventTPPhoton.cc.dtor */
+  /* END CUSTOM */
+}
+
 panda::EventTPPhoton&
 panda::EventTPPhoton::operator=(EventTPPhoton const& _src)
 {
@@ -179,16 +185,19 @@ panda::EventTPPhoton::doInit_()
 
 /* BEGIN CUSTOM EventTPPhoton.cc.global */
 panda::EventTPPhoton&
-panda::EventTPPhoton::operator=(Event const& _src)
+panda::EventTPPhoton::copy(Event const& _src)
 {
-  EventBase::operator=(_src);
+  runNumber = _src.runNumber;
+  lumiNumber = _src.lumiNumber;
+  eventNumber = _src.eventNumber;
+  isData = _src.isData;
+  weight = _src.weight;
+
+  triggers = _src.triggers;
 
   npv = _src.npv;
   npvTrue = _src.npvTrue;
   rho = _src.rho;
-
-  jets = _src.chsAK4Jets;
-  t1Met = _src.pfMet;
 
   jets.data.matchedGenJetContainer_ = 0;
   jets.data.constituentsContainer_ = 0;
@@ -197,16 +206,19 @@ panda::EventTPPhoton::operator=(Event const& _src)
 }
 
 panda::EventTPPhoton&
-panda::EventTPPhoton::operator=(EventMonophoton const& _src)
+panda::EventTPPhoton::copy(EventMonophoton const& _src)
 {
-  EventBase::operator=(_src);
+  runNumber = _src.runNumber;
+  lumiNumber = _src.lumiNumber;
+  eventNumber = _src.eventNumber;
+  isData = _src.isData;
+  weight = _src.weight;
+
+  triggers = _src.triggers;
 
   npv = _src.npv;
   npvTrue = _src.npvTrue;
   rho = _src.rho;
-
-  jets = _src.jets;
-  t1Met = _src.t1Met;
 
   jets.data.matchedGenJetContainer_ = 0;
   jets.data.constituentsContainer_ = 0;
