@@ -1,5 +1,7 @@
 #include "../interface/ContainerBase.h"
 
+#include "TTree.h"
+
 #include <algorithm>
 #include <stdexcept>
 

@@ -198,20 +198,31 @@ panda::utils::checkStatus(TTree& _tree, TString const& _fullName, Bool_t _status
 Int_t
 panda::utils::setStatus(TTree& _tree, TString const& _objName, BranchName const& _bName, BranchList const& _bList)
 {
+  TString fullName(_bName.fullName(_objName));
+
   bool status;
   if (_bName.in(_bList))
     status = true;
   else if (_bName.vetoed(_bList))
     status = false;
-  else
-    return -2;
+  else {
+    if (_bList.getVerbosity() > 1)
+      std::cout << "Branch " << fullName << " status change not requested" << std::endl;
 
-  TString fullName(_bName.fullName(_objName));
+    return -2;
+  }
 
   // -1 -> branch does not exist; 0 -> status is already set; 1 -> status is different
   Int_t returnCode(checkStatus(_tree, fullName, status));
-  if (returnCode != 1)
+  if (returnCode != 1) {
+    if (_bList.getVerbosity() > 0)
+      std::cout << "Branch " << fullName << " status unchanged at " << status << std::endl;
+
     return returnCode;
+  }
+
+  if (_bList.getVerbosity() > 0)
+    std::cout << "Setting branch " << fullName << " status to " << status << std::endl;
 
   _tree.SetBranchStatus(fullName, status);
   return 1;

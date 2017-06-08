@@ -69,6 +69,8 @@ panda::TreeEntry::getEntry(TTree& _tree, Long64_t _entry)
   init();
 
   Long64_t localEntry(_tree.LoadTree(_entry));
+  if (localEntry < 0)
+    return 0;
 
   for (unsigned iC(0); iC != collections_.size(); ++iC)
     collections_[iC]->prepareGetEntry(_tree, _entry, localEntry);
