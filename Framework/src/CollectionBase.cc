@@ -115,6 +115,8 @@ panda::CollectionBase::prepareGetEntry(TTree& _tree, Long64_t _iEntry, Long64_t 
   if (_localEntry < 0) {
     // LoadTree returns the entry number on the current tree.
     _localEntry = _tree.LoadTree(_iEntry);
+    if (_localEntry < 0)
+      return;
   }
   // if _localEntry is non-negative, we assume that LoadTree is already called and therefore
   // _tree.GetTreeNumber() returns the correct tree number for the given _iEntry.
