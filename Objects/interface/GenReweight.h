@@ -11,6 +11,8 @@ namespace panda {
 
   class GenReweight : public Singlet {
   public:
+    static unsigned const NMAX = 1024;
+
     typedef Singlet base_type;
 
     GenReweight(char const* name = "");
@@ -30,7 +32,7 @@ namespace panda {
     Float_t r5f1DW{};
     Float_t r5f5DW{};
     Float_t pdfDW{};
-    Float_t genParam[1024]{};
+    Float_t genParam[NMAX]{};
 
     /* BEGIN CUSTOM GenReweight.h.classdef */
     /* END CUSTOM */

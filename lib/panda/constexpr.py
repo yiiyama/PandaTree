@@ -1,5 +1,5 @@
 from common import NAMESPACE
-from base import Definition
+from base import Definition, integral_types
 
 class Constant(Definition):
     """
@@ -16,16 +16,19 @@ class Constant(Definition):
         self.value = self.matches.group(4)
 
     def write_decl(self, out, context):
-        if context == 'class':
-            out.writeline('static {type} {decl};'.format(type = self.type, decl = self.decl))
-        elif context == 'global':
-            # in global (non-class) context, const values can be directly written in the header
-            out.writeline('{type} {decl}{value};'.format(type = self.type, decl = self.decl, value = self.value))
+        if context == 'global':
+            out.writeline('{type} const {decl}{value};'.format(type = self.type, decl = self.decl, value = self.value))
+        else:
+            if self.type in integral_types and '[' not in self.decl:
+                out.writeline('static {type} const {decl}{value};'.format(type = self.type, decl = self.decl, value = self.value))
+            else:
+                out.writeline('static {type} const {decl};'.format(type = self.type, decl = self.decl))
 
     def write_def(self, out, cls):
         # called only by PhysicsObject to define the values of class static const in the global scope
-        out.writeline('/*static*/')
-        out.writeline('{type} {cls}::{decl}{value};'.format(type = self.type, cls = cls, decl = self.decl, value = self.value))
+        if self.type not in integral_types or '[' in self.decl:
+            out.writeline('/*static*/')
+            out.writeline('{type} const {cls}::{decl}{value};'.format(type = self.type, cls = cls, decl = self.decl, value = self.value))
 
 
 class Assert(Definition):

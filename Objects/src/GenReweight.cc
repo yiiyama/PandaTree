@@ -1,5 +1,6 @@
 #include "../interface/GenReweight.h"
 
+
 /*static*/
 panda::utils::BranchList
 panda::GenReweight::getListOfBranches()
@@ -31,7 +32,7 @@ panda::GenReweight::GenReweight(GenReweight const& _src) :
   r5f1DW = _src.r5f1DW;
   r5f5DW = _src.r5f5DW;
   pdfDW = _src.pdfDW;
-  std::memcpy(genParam, _src.genParam, sizeof(Float_t) * 1024);
+  std::memcpy(genParam, _src.genParam, sizeof(Float_t) * NMAX);
 }
 
 panda::GenReweight::~GenReweight()
@@ -48,7 +49,7 @@ panda::GenReweight::operator=(GenReweight const& _src)
   r5f1DW = _src.r5f1DW;
   r5f5DW = _src.r5f5DW;
   pdfDW = _src.pdfDW;
-  std::memcpy(genParam, _src.genParam, sizeof(Float_t) * 1024);
+  std::memcpy(genParam, _src.genParam, sizeof(Float_t) * NMAX);
 
   /* BEGIN CUSTOM GenReweight.cc.operator= */
   /* END CUSTOM */
@@ -109,7 +110,7 @@ panda::GenReweight::doBook_(TTree& _tree, utils::BranchList const& _branches/* =
   utils::book(_tree, name_, "r5f1DW", "", 'F', &r5f1DW, _branches);
   utils::book(_tree, name_, "r5f5DW", "", 'F', &r5f5DW, _branches);
   utils::book(_tree, name_, "pdfDW", "", 'F', &pdfDW, _branches);
-  utils::book(_tree, name_, "genParam", TString::Format("[1024]"), 'F', genParam, _branches);
+  utils::book(_tree, name_, "genParam", TString::Format("[%d]", NMAX), 'F', genParam, _branches);
 }
 
 void
