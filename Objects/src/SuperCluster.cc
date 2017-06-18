@@ -163,14 +163,6 @@ panda::SuperCluster::operator=(SuperCluster const& _src)
 }
 
 void
-panda::SuperCluster::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  utils::setAddress(_tree, _name, "rawPt", &rawPt, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "eta", &eta, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "phi", &phi, _branches, _setStatus);
-}
-
-void
 panda::SuperCluster::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   utils::book(_tree, _name, "rawPt", "", 'F', &rawPt, _branches);

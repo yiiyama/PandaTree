@@ -622,47 +622,6 @@ panda::Photon::operator=(Photon const& _src)
 }
 
 void
-panda::Photon::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  ParticleP::doSetAddress_(_tree, _name, _branches, _setStatus);
-
-  utils::setAddress(_tree, _name, "pfPt", &pfPt, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "chIso", &chIso, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "chIsoMax", &chIsoMax, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "nhIso", &nhIso, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "phIso", &phIso, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "sieie", &sieie, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "sipip", &sipip, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "hOverE", &hOverE, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "genIso", &genIso, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "mipEnergy", &mipEnergy, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "emax", &emax, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "e2nd", &e2nd, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "eleft", &eleft, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "eright", &eright, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "etop", &etop, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "ebottom", &ebottom, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "r9", &r9, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "etaWidth", &etaWidth, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "phiWidth", &phiWidth, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "time", &time, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "timeSpan", &timeSpan, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "regPt", &regPt, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "smearedPt", &smearedPt, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "originalPt", &originalPt, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "loose", &loose, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "medium", &medium, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "tight", &tight, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "highpt", &highpt, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "pixelVeto", &pixelVeto, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "csafeVeto", &csafeVeto, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "triggerMatch", triggerMatch, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "superCluster_", gStore.getData(this).superCluster_, _branches, true);
-  utils::setAddress(_tree, _name, "matchedPF_", gStore.getData(this).matchedPF_, _branches, true);
-  utils::setAddress(_tree, _name, "matchedGen_", gStore.getData(this).matchedGen_, _branches, true);
-}
-
-void
 panda::Photon::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ParticleP::doBook_(_tree, _name, _branches);

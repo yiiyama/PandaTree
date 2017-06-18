@@ -1,6 +1,10 @@
 #include "../interface/IOUtils.h"
+#include "../interface/ReaderObject.h"
 
 #include "TObjArray.h"
+#include "TList.h"
+#include "TChain.h"
+#include "TChainElement.h"
 
 #include <stdexcept>
 
@@ -186,7 +190,7 @@ panda::utils::BranchList::makeList(TTree& _tree)
 Int_t
 panda::utils::checkStatus(TTree& _tree, TString const& _fullName, Bool_t _status)
 {
-  if (!_tree.GetBranch(_fullName))
+  if (_tree.GetTreeNumber() >= 0 && !_tree.GetBranch(_fullName))
     return -1;
 
   if (_tree.GetBranchStatus(_fullName) == _status)
@@ -198,20 +202,31 @@ panda::utils::checkStatus(TTree& _tree, TString const& _fullName, Bool_t _status
 Int_t
 panda::utils::setStatus(TTree& _tree, TString const& _objName, BranchName const& _bName, BranchList const& _bList)
 {
+  TString fullName(_bName.fullName(_objName));
+
   bool status;
   if (_bName.in(_bList))
     status = true;
   else if (_bName.vetoed(_bList))
     status = false;
-  else
-    return -2;
+  else {
+    if (_bList.getVerbosity() > 1)
+      std::cout << "Branch " << fullName << " status change not requested" << std::endl;
 
-  TString fullName(_bName.fullName(_objName));
+    return -2;
+  }
 
   // -1 -> branch does not exist; 0 -> status is already set; 1 -> status is different
   Int_t returnCode(checkStatus(_tree, fullName, status));
-  if (returnCode != 1)
+  if (returnCode != 1) {
+    if (_bList.getVerbosity() > 0)
+      std::cout << "Branch " << fullName << " status unchanged at " << status << std::endl;
+
     return returnCode;
+  }
+
+  if (_bList.getVerbosity() > 0)
+    std::cout << "Setting branch " << fullName << " status to " << status << std::endl;
 
   _tree.SetBranchStatus(fullName, status);
   return 1;
@@ -246,9 +261,11 @@ panda::utils::setAddress(TTree& _tree, TString const& _objName, BranchName const
         if (returnCode == -2) {
           if (_bList.getVerbosity() > 1) 
             std::cout << "Branch " << fullName.Data() << " was not requested" << std::endl;
-        } else if (returnCode == -1) {
+        }
+        else if (returnCode == -1) {
           std::cout << "Branch " << fullName.Data() << " does not exist" << std::endl;
-        } else if (_bName.vetoed(_bList)) {
+        }
+        else if (_bName.vetoed(_bList)) {
           std::cout << "Branch " << fullName.Data() << " was vetoed" << std::endl;
         }
       }
@@ -310,6 +327,13 @@ panda::utils::resetAddress(TTree& _tree, TString const& _objName, BranchName con
   if (branch)
     branch->ResetAddress();
 
+  if (_tree.InheritsFrom(TChain::Class())) {
+    auto& chain(static_cast<TChain&>(_tree));
+    auto* elem(static_cast<TChainElement*>(chain.GetStatus()->FindObject(_bName.fullName(_objName))));
+    if (elem)
+      elem->SetBaddress(0);
+  }
+
   return 0;
 }
 
@@ -326,6 +350,66 @@ panda::utils::makeDocTree(TString const& _treeName, TString _names[], UInt_t _si
   tree->ResetBranchAddresses();
   delete name;
   return tree;
+}
+
+panda::utils::TNotify::TNotify()
+{
+  SetBit(kIsOnHeap); // this object is added to tree UserInfo, which deletes all IsOnHeap objects at the end
+}
+
+Bool_t
+panda::utils::TNotify::Notify()
+{
+  for (int iN(0); iN != GetEntriesFast(); ++iN)
+    UncheckedAt(iN)->Notify();
+
+  return true;
+}
+
+panda::utils::BranchArrayUpdator::BranchArrayUpdator(ReaderObject& _obj, TTree& _tree) :
+  obj_(_obj),
+  tree_(_tree)
+{
+  SetBit(kIsOnHeap);
+  tree_.GetUserInfo()->Add(this);
+}
+
+panda::utils::BranchArrayUpdator::~BranchArrayUpdator()
+{
+  obj_.unlink(tree_);
+}
+
+char const*
+panda::utils::BranchArrayUpdator::GetName() const
+{
+  return obj_.getName();
+}
+
+Bool_t
+panda::utils::BranchArrayUpdator::Notify()
+{
+  obj_.updateBranchArray(tree_);
+
+  return true;
+}
+
+Bool_t
+panda::utils::removeBranchArrayUpdator(ReaderObject& _obj, TTree& _tree)
+{
+  auto* uinfo(_tree.GetUserInfo());
+  for (auto* uobj : *uinfo) {
+    if (uobj->GetName() != _obj.getName())
+      continue;
+
+    auto* cleaner(dynamic_cast<BranchArrayUpdator*>(uobj));
+    if (cleaner && &cleaner->getObject() == &_obj) {
+      uinfo->Remove(uobj);
+      delete uobj; // calls _obj.unlink(_tree)
+      return true;
+    }
+  }
+
+  return false;
 }
 
 std::ostream&

@@ -149,13 +149,6 @@ panda::TPPair::operator=(TPPair const& _src)
 }
 
 void
-panda::TPPair::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  utils::setAddress(_tree, _name, "mass", &mass, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "mass2", &mass2, _branches, _setStatus);
-}
-
-void
 panda::TPPair::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   utils::book(_tree, _name, "mass", "", 'F', &mass, _branches);

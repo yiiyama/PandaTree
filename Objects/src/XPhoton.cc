@@ -8,42 +8,6 @@ TString panda::XPhoton::IDTuneName[] = {
 };
 
 /*static*/
-double const panda::XPhoton::chIsoCuts[nIDTunes][2][4]{
-  {{3.32, 1.37, 0.76, 5.0}, {1.97, 1.10, 0.56, 5.0}},
-  {{1.295, 0.441, 0.202, 5.0}, {1.011, 0.442, 0.034, 5.0}},
-  {{1.146, 1.146, 1.146, 1.146}, {1.146, 1.146, 1.146, 1.146}},
-  {{1.163, 1.163, 1.163, 1.163}, {1.163, 1.163, 1.163, 1.163}}
-};
-/*static*/
-double const panda::XPhoton::nhIsoCuts[nIDTunes][2][4]{
-  {{1.92, 1.06, 0.97, 100000.}, {11.86, 2.69, 2.09, 100000.}},
-  {{10.910, 2.725, 0.264, 100000.}, {5.931, 1.715, 0.586, 100000.}},
-  {{2.792, 2.792, 2.792, 2.792}, {2.792, 2.792, 2.792, 2.792}},
-  {{7.005, 7.005, 7.005, 7.005}, {7.005, 7.005, 7.005, 7.005}}
-};
-/*static*/
-double const panda::XPhoton::phIsoCuts[nIDTunes][2][4]{
-  {{0.81, 0.28, 0.08, 2.75}, {0.83, 0.39, 0.16, 2.00}},
-  {{3.630, 2.571, 2.362, 2.75}, {6.641, 3.863, 2.617, 2.00}},
-  {{2.176, 2.176, 2.176, 2.176}, {2.176, 2.176, 2.176, 2.176}},
-  {{3.271, 3.271, 3.271, 3.271}, {3.271, 3.271, 3.271, 3.271}}
-};
-/*static*/
-double const panda::XPhoton::sieieCuts[nIDTunes][2][4]{
-  {{0.0102, 0.0102, 0.0100, 0.0105}, {0.0274, 0.0268, 0.0268, 0.028}},
-  {{0.01031, 0.01022, 0.00994, 0.0105}, {0.03013, 0.03001, 0.03000, 0.028}},
-  {{0.0104, 0.0104, 0.0104, 0.0104}, {0.0104, 0.0104, 0.0104, 0.0104}},
-  {{0.01002, 0.01002, 0.01002, 0.01002}, {0.01002, 0.01002, 0.01002, 0.01002}}
-};
-/*static*/
-double const panda::XPhoton::hOverECuts[nIDTunes][2][4]{
-  {{0.05, 0.05, 0.05, 0.05}, {0.05, 0.05, 0.05, 0.05}},
-  {{0.0597, 0.0396, 0.0269, 0.05}, {0.0481, 0.0219, 0.0213, 0.05}},
-  {{0.026, 0.026, 0.026, 0.026}, {0.026, 0.026, 0.026, 0.026}},
-  {{0.0263, 0.0263, 0.0263, 0.0263}, {0.0263, 0.0263, 0.0263, 0.0263}}
-};
-
-/*static*/
 panda::utils::BranchList
 panda::XPhoton::getListOfBranches()
 {
@@ -335,25 +299,6 @@ panda::XPhoton::operator=(XPhoton const& _src)
   /* END CUSTOM */
 
   return *this;
-}
-
-void
-panda::XPhoton::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  Photon::doSetAddress_(_tree, _name, _branches, _setStatus);
-
-  utils::setAddress(_tree, _name, "scEta", &scEta, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "scRawPt", &scRawPt, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "chIsoX", chIsoX, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "chIsoMaxX", chIsoMaxX, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "nhIsoX", nhIsoX, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "phIsoX", phIsoX, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "e4", &e4, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "isEB", &isEB, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "looseX", looseX, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "mediumX", mediumX, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "tightX", tightX, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "matchedGenId", &matchedGenId, _branches, _setStatus);
 }
 
 void

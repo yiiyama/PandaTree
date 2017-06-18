@@ -21,12 +21,6 @@ namespace panda {
 
     static TString IDTuneName[nIDTunes];
 
-    static double const chIsoCuts[nIDTunes][2][4];
-    static double const nhIsoCuts[nIDTunes][2][4];
-    static double const phIsoCuts[nIDTunes][2][4];
-    static double const sieieCuts[nIDTunes][2][4];
-    static double const hOverECuts[nIDTunes][2][4];
-
     struct datastore : public Photon::datastore {
       datastore() : Photon::datastore() {}
       ~datastore() { deallocate(); }
@@ -189,7 +183,6 @@ namespace panda {
   protected:
     XPhoton(ArrayBase*);
 
-    void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doInit_() override;
   };

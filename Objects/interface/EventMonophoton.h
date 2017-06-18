@@ -3,6 +3,7 @@
 #include "EventBase.h"
 #include "Constants.h"
 #include "GenReweight.h"
+#include "PFCand.h"
 #include "RecoVertex.h"
 #include "SuperCluster.h"
 #include "Electron.h"
@@ -25,13 +26,14 @@ namespace panda {
   public:
     EventMonophoton();
     EventMonophoton(EventMonophoton const&);
-    ~EventMonophoton() {}
+    ~EventMonophoton();
     EventMonophoton& operator=(EventMonophoton const&);
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
     GenReweight genReweight = GenReweight("genReweight");
+    PFCandCollection pfCandidates = PFCandCollection("pfCandidates", 2048);
     RecoVertexCollection vertices = RecoVertexCollection("vertices", 64);
     SuperClusterCollection superClusters = SuperClusterCollection("superClusters", 64);
     ElectronCollection electrons = ElectronCollection("electrons", 32);
@@ -55,7 +57,7 @@ namespace panda {
     Float_t rho{};
     Float_t rhoCentralCalo{};
 
-    static utils::BranchList getListOfBranches();
+    static utils::BranchList getListOfBranches(Bool_t direct = kFALSE);
 
   protected:
     void doSetStatus_(TTree&, utils::BranchList const&) override;
@@ -65,10 +67,11 @@ namespace panda {
     void doBook_(TTree&, utils::BranchList const&) override;
     void doGetEntry_(TTree&, Long64_t) override;
     void doInit_() override;
+    void doUnlink_(TTree&) override;
 
   public:
     /* BEGIN CUSTOM EventMonophoton.h.classdef */
-    EventMonophoton& operator=(Event const&);
+    EventMonophoton& copy(Event const&);
     void copyGenParticles(GenParticleCollection const&);
     /* END CUSTOM */
   };

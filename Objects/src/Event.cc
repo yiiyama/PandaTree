@@ -129,6 +129,12 @@ panda::Event::Event(Event const& _src) :
   /* END CUSTOM */
 }
 
+panda::Event::~Event()
+{
+  /* BEGIN CUSTOM Event.cc.dtor */
+  /* END CUSTOM */
+}
+
 panda::Event&
 panda::Event::operator=(Event const& _src)
 {
@@ -293,52 +299,54 @@ panda::Event::dump(std::ostream& _out/* = std::cout*/) const
 }
 /*static*/
 panda::utils::BranchList
-panda::Event::getListOfBranches()
+panda::Event::getListOfBranches(Bool_t _direct/* = kFALSE*/)
 {
   utils::BranchList blist;
-  blist += EventBase::getListOfBranches();
+  blist += EventBase::getListOfBranches(_direct);
 
   blist += {"npv", "npvTrue", "rho", "rhoCentralCalo"};
-  blist += GenReweight::getListOfBranches().fullNames("genReweight");
-  blist += PFCand::getListOfBranches().fullNames("pfCandidates");
-  blist += RecoVertex::getListOfBranches().fullNames("vertices");
-  blist += PackedTrack::getListOfBranches().fullNames("tracks");
-  blist += SuperCluster::getListOfBranches().fullNames("superClusters");
-  blist += Electron::getListOfBranches().fullNames("electrons");
-  blist += Muon::getListOfBranches().fullNames("muons");
-  blist += Tau::getListOfBranches().fullNames("taus");
-  blist += Photon::getListOfBranches().fullNames("photons");
-  blist += Jet::getListOfBranches().fullNames("chsAK4Jets");
-  blist += Jet::getListOfBranches().fullNames("puppiAK4Jets");
-  blist += FatJet::getListOfBranches().fullNames("chsAK8Jets");
-  blist += MicroJet::getListOfBranches().fullNames("chsAK8Subjets");
-  blist += FatJet::getListOfBranches().fullNames("chsCA15Jets");
-  blist += MicroJet::getListOfBranches().fullNames("chsCA15Subjets");
-  blist += FatJet::getListOfBranches().fullNames("puppiAK8Jets");
-  blist += MicroJet::getListOfBranches().fullNames("puppiAK8Subjets");
-  blist += FatJet::getListOfBranches().fullNames("puppiCA15Jets");
-  blist += MicroJet::getListOfBranches().fullNames("puppiCA15Subjets");
-  blist += GenJet::getListOfBranches().fullNames("ak4GenJets");
-  blist += GenJet::getListOfBranches().fullNames("ak8GenJets");
-  blist += GenJet::getListOfBranches().fullNames("ca15GenJets");
-  blist += GenParticle::getListOfBranches().fullNames("genParticles");
-  blist += Vertex::getListOfBranches().fullNames("genVertex");
-  blist += Parton::getListOfBranches().fullNames("partons");
-  blist += RecoMet::getListOfBranches().fullNames("pfMet");
-  blist += RecoMet::getListOfBranches().fullNames("puppiMet");
-  blist += Met::getListOfBranches().fullNames("rawMet");
-  blist += Met::getListOfBranches().fullNames("caloMet");
-  blist += Met::getListOfBranches().fullNames("noMuMet");
-  blist += Met::getListOfBranches().fullNames("noHFMet");
-  blist += Met::getListOfBranches().fullNames("trkMet");
-  blist += Met::getListOfBranches().fullNames("neutralMet");
-  blist += Met::getListOfBranches().fullNames("photonMet");
-  blist += Met::getListOfBranches().fullNames("hfMet");
-  blist += Met::getListOfBranches().fullNames("genMet");
-  blist += RecoMet::getListOfBranches().fullNames("metMuOnlyFix");
-  blist += RecoMet::getListOfBranches().fullNames("metNoFix");
-  blist += MetFilters::getListOfBranches().fullNames("metFilters");
-  blist += Recoil::getListOfBranches().fullNames("recoil");
+  if (!_direct) {
+    blist += GenReweight::getListOfBranches().fullNames("genReweight");
+    blist += PFCand::getListOfBranches().fullNames("pfCandidates");
+    blist += RecoVertex::getListOfBranches().fullNames("vertices");
+    blist += PackedTrack::getListOfBranches().fullNames("tracks");
+    blist += SuperCluster::getListOfBranches().fullNames("superClusters");
+    blist += Electron::getListOfBranches().fullNames("electrons");
+    blist += Muon::getListOfBranches().fullNames("muons");
+    blist += Tau::getListOfBranches().fullNames("taus");
+    blist += Photon::getListOfBranches().fullNames("photons");
+    blist += Jet::getListOfBranches().fullNames("chsAK4Jets");
+    blist += Jet::getListOfBranches().fullNames("puppiAK4Jets");
+    blist += FatJet::getListOfBranches().fullNames("chsAK8Jets");
+    blist += MicroJet::getListOfBranches().fullNames("chsAK8Subjets");
+    blist += FatJet::getListOfBranches().fullNames("chsCA15Jets");
+    blist += MicroJet::getListOfBranches().fullNames("chsCA15Subjets");
+    blist += FatJet::getListOfBranches().fullNames("puppiAK8Jets");
+    blist += MicroJet::getListOfBranches().fullNames("puppiAK8Subjets");
+    blist += FatJet::getListOfBranches().fullNames("puppiCA15Jets");
+    blist += MicroJet::getListOfBranches().fullNames("puppiCA15Subjets");
+    blist += GenJet::getListOfBranches().fullNames("ak4GenJets");
+    blist += GenJet::getListOfBranches().fullNames("ak8GenJets");
+    blist += GenJet::getListOfBranches().fullNames("ca15GenJets");
+    blist += GenParticle::getListOfBranches().fullNames("genParticles");
+    blist += Vertex::getListOfBranches().fullNames("genVertex");
+    blist += Parton::getListOfBranches().fullNames("partons");
+    blist += RecoMet::getListOfBranches().fullNames("pfMet");
+    blist += RecoMet::getListOfBranches().fullNames("puppiMet");
+    blist += Met::getListOfBranches().fullNames("rawMet");
+    blist += Met::getListOfBranches().fullNames("caloMet");
+    blist += Met::getListOfBranches().fullNames("noMuMet");
+    blist += Met::getListOfBranches().fullNames("noHFMet");
+    blist += Met::getListOfBranches().fullNames("trkMet");
+    blist += Met::getListOfBranches().fullNames("neutralMet");
+    blist += Met::getListOfBranches().fullNames("photonMet");
+    blist += Met::getListOfBranches().fullNames("hfMet");
+    blist += Met::getListOfBranches().fullNames("genMet");
+    blist += RecoMet::getListOfBranches().fullNames("metMuOnlyFix");
+    blist += RecoMet::getListOfBranches().fullNames("metNoFix");
+    blist += MetFilters::getListOfBranches().fullNames("metFilters");
+    blist += Recoil::getListOfBranches().fullNames("recoil");
+  }
   return blist;
 }
 
@@ -371,7 +379,7 @@ panda::Event::doGetStatus_(TTree& _tree) const
 panda::utils::BranchList
 panda::Event::doGetBranchNames_() const
 {
-  return getListOfBranches();
+  return getListOfBranches(true);
 }
 
 /*protected*/
@@ -454,6 +462,15 @@ panda::Event::doInit_()
   rho = 0.;
   rhoCentralCalo = 0.;
   /* BEGIN CUSTOM Event.cc.doInit_ */
+  /* END CUSTOM */
+}
+
+void
+panda::Event::doUnlink_(TTree& _tree)
+{
+  EventBase::doUnlink_(_tree);
+
+  /* BEGIN CUSTOM Event.cc.doUnlink_ */
   /* END CUSTOM */
 }
 

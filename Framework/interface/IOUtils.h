@@ -8,6 +8,8 @@
 #include <iostream>
 
 namespace panda {
+  class ReaderObject;
+
   namespace utils {
 
     class BranchList;
@@ -149,6 +151,53 @@ namespace panda {
      */
     TTree*
     makeDocTree(TString const& treeName, TString names[], UInt_t size);
+
+    //! One big Notify() manager for all objects
+    /*!
+     * TNotify is a simple array that calls Notify() of all elements sequentially.
+     * Whoever is the first one to register a Notify() object to an input tree must create
+     * an instance of this object. The instance must then be passed to UserInfo of the tree
+     * for automatic deletion.
+     */
+    class TNotify : public TObjArray {
+    public:
+      TNotify();
+      ~TNotify() {}
+      Bool_t Notify() override;
+    };
+
+    //! Automated branch list update for ReaderObjects.
+    /*!
+     * This class serves two purposes:
+     * 1. When reading from a TChain, use the ROOT built-in Notify() mechanism to update
+     *    the list of branches the ReaderObject holds.
+     * 2. When the tree is deleted, make use of the fact that contents of the
+     *    TTree::fUserInfo container is automatically deleted (if IsOnHeap is true) to
+     *    call unlink() on the ReaderObject.
+     */
+    class BranchArrayUpdator : public TObject {
+    public:
+      BranchArrayUpdator(ReaderObject&, TTree&);
+      ~BranchArrayUpdator();
+
+      char const* GetName() const override;
+      Bool_t Notify() override;
+
+      ReaderObject const& getObject() const { return obj_; }
+
+    private:
+      ReaderObject& obj_;
+      TTree& tree_;
+    };
+
+    //! Called when the ReaderObject is deleted before the tree.
+    /*!
+      \param obj   Object that is being deleted and therefore must be deregistered from the Tree
+      \param tree  Tree to be cleaned
+      \return true if obj is found in the tree's UserInfo
+     */
+    Bool_t removeBranchArrayUpdator(ReaderObject& obj, TTree& tree);
+
   }
 }
 

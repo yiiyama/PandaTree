@@ -295,25 +295,6 @@ panda::Lepton::operator=(Lepton const& _src)
 }
 
 void
-panda::Lepton::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  ParticleP::doSetAddress_(_tree, _name, _branches, _setStatus);
-
-  utils::setAddress(_tree, _name, "pfPt", &pfPt, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "charge", &charge, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "loose", &loose, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "medium", &medium, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "tight", &tight, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "chIso", &chIso, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "nhIso", &nhIso, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "phIso", &phIso, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "puIso", &puIso, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "matchedPF_", gStore.getData(this).matchedPF_, _branches, true);
-  utils::setAddress(_tree, _name, "matchedGen_", gStore.getData(this).matchedGen_, _branches, true);
-  utils::setAddress(_tree, _name, "vertex_", gStore.getData(this).vertex_, _branches, true);
-}
-
-void
 panda::Lepton::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ParticleP::doBook_(_tree, _name, _branches);

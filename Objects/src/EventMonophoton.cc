@@ -161,31 +161,33 @@ panda::EventMonophoton::dump(std::ostream& _out/* = std::cout*/) const
 }
 /*static*/
 panda::utils::BranchList
-panda::EventMonophoton::getListOfBranches()
+panda::EventMonophoton::getListOfBranches(Bool_t _direct/* = kFALSE*/)
 {
   utils::BranchList blist;
-  blist += EventBase::getListOfBranches();
+  blist += EventBase::getListOfBranches(_direct);
 
   blist += {"npv", "npvTrue", "rho", "rhoCentralCalo"};
-  blist += GenReweight::getListOfBranches().fullNames("genReweight");
-  blist += PFCand::getListOfBranches().fullNames("pfCandidates");
-  blist += RecoVertex::getListOfBranches().fullNames("vertices");
-  blist += SuperCluster::getListOfBranches().fullNames("superClusters");
-  blist += Electron::getListOfBranches().fullNames("electrons");
-  blist += Muon::getListOfBranches().fullNames("muons");
-  blist += Tau::getListOfBranches().fullNames("taus");
-  blist += XPhoton::getListOfBranches().fullNames("photons");
-  blist += Jet::getListOfBranches().fullNames("jets");
-  blist += GenJet::getListOfBranches().fullNames("genJets");
-  blist += UnpackedGenParticle::getListOfBranches().fullNames("genParticles");
-  blist += Vertex::getListOfBranches().fullNames("genVertex");
-  blist += Parton::getListOfBranches().fullNames("partons");
-  blist += RecoMet::getListOfBranches().fullNames("t1Met");
-  blist += Met::getListOfBranches().fullNames("rawMet");
-  blist += Met::getListOfBranches().fullNames("caloMet");
-  blist += RecoMet::getListOfBranches().fullNames("metMuOnlyFix");
-  blist += RecoMet::getListOfBranches().fullNames("metNoFix");
-  blist += MetFilters::getListOfBranches().fullNames("metFilters");
+  if (!_direct) {
+    blist += GenReweight::getListOfBranches().fullNames("genReweight");
+    blist += PFCand::getListOfBranches().fullNames("pfCandidates");
+    blist += RecoVertex::getListOfBranches().fullNames("vertices");
+    blist += SuperCluster::getListOfBranches().fullNames("superClusters");
+    blist += Electron::getListOfBranches().fullNames("electrons");
+    blist += Muon::getListOfBranches().fullNames("muons");
+    blist += Tau::getListOfBranches().fullNames("taus");
+    blist += XPhoton::getListOfBranches().fullNames("photons");
+    blist += Jet::getListOfBranches().fullNames("jets");
+    blist += GenJet::getListOfBranches().fullNames("genJets");
+    blist += UnpackedGenParticle::getListOfBranches().fullNames("genParticles");
+    blist += Vertex::getListOfBranches().fullNames("genVertex");
+    blist += Parton::getListOfBranches().fullNames("partons");
+    blist += RecoMet::getListOfBranches().fullNames("t1Met");
+    blist += Met::getListOfBranches().fullNames("rawMet");
+    blist += Met::getListOfBranches().fullNames("caloMet");
+    blist += RecoMet::getListOfBranches().fullNames("metMuOnlyFix");
+    blist += RecoMet::getListOfBranches().fullNames("metNoFix");
+    blist += MetFilters::getListOfBranches().fullNames("metFilters");
+  }
   return blist;
 }
 
@@ -218,7 +220,7 @@ panda::EventMonophoton::doGetStatus_(TTree& _tree) const
 panda::utils::BranchList
 panda::EventMonophoton::doGetBranchNames_() const
 {
-  return getListOfBranches();
+  return getListOfBranches(true);
 }
 
 /*protected*/
@@ -280,6 +282,15 @@ panda::EventMonophoton::doInit_()
   rho = 0.;
   rhoCentralCalo = 0.;
   /* BEGIN CUSTOM EventMonophoton.cc.doInit_ */
+  /* END CUSTOM */
+}
+
+void
+panda::EventMonophoton::doUnlink_(TTree& _tree)
+{
+  EventBase::doUnlink_(_tree);
+
+  /* BEGIN CUSTOM EventMonophoton.cc.doUnlink_ */
   /* END CUSTOM */
 }
 

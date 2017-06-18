@@ -20,6 +20,13 @@ panda::EventBase::EventBase(EventBase const& _src) :
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
 
   /* BEGIN CUSTOM EventBase.cc.copy_ctor */
+  run = _src.run;
+  /* END CUSTOM */
+}
+
+panda::EventBase::~EventBase()
+{
+  /* BEGIN CUSTOM EventBase.cc.dtor */
   /* END CUSTOM */
 }
 
@@ -77,11 +84,13 @@ panda::EventBase::dump(std::ostream& _out/* = std::cout*/) const
 }
 /*static*/
 panda::utils::BranchList
-panda::EventBase::getListOfBranches()
+panda::EventBase::getListOfBranches(Bool_t _direct/* = kFALSE*/)
 {
   utils::BranchList blist;
   blist += {"runNumber", "lumiNumber", "eventNumber", "isData", "weight"};
-  blist += HLTBits::getListOfBranches().fullNames("triggers");
+  if (!_direct) {
+    blist += HLTBits::getListOfBranches().fullNames("triggers");
+  }
   return blist;
 }
 
@@ -114,7 +123,7 @@ panda::EventBase::doGetStatus_(TTree& _tree) const
 panda::utils::BranchList
 panda::EventBase::doGetBranchNames_() const
 {
-  return getListOfBranches();
+  return getListOfBranches(true);
 }
 
 /*protected*/
@@ -144,7 +153,52 @@ void
 panda::EventBase::doGetEntry_(TTree& _tree, Long64_t _entry)
 {
   /* BEGIN CUSTOM EventBase.cc.doGetEntry_ */
-  run.update(runNumber, _tree);
+  if (readRunTree_ && _tree.GetCurrentFile() && runNumber != 0) {
+    // If our Run object is enabled, we need to check for file transitions
+
+    auto rItr(runTrees_.find(&_tree));
+    if (rItr == runTrees_.end()) {
+      // First time dealing with this tree
+      rItr = runTrees_.emplace(&_tree, std::make_pair<Int_t, TTree*>(-1, 0)).first;
+    }
+
+    if (_tree.GetTreeNumber() != rItr->second.first) {
+      // There was a file transition in the input
+
+      rItr->second.first = _tree.GetTreeNumber();
+
+      // First check that the runNumber branch is turned on
+      if (_tree.GetBranchStatus("runNumber")) {
+        auto& file(*_tree.GetCurrentFile());
+
+        // read out the runs tree
+        // using GetKey to create a "fresh" object - Get can fetch an in-memory object that may already be in use
+        auto* key(file.GetKey("runs"));
+        if (!key) {
+          std::cerr << "File " << file.GetName() << " does not have a run tree." << std::endl;
+          std::cerr << "If this is not a problem, turn off run tree synchronization" << std::endl;
+          std::cerr << "by calling setReadRunTree(false) on the event object." << std::endl;
+          throw std::runtime_error("InputError");
+        }
+
+        auto* runTree(static_cast<TTree*>(key->ReadObj()));
+
+        rItr->second.second = runTree;
+
+        run.setAddress(*runTree);
+        run.init();
+        run.resetCache();
+
+        // Now cue the run object to the given run number
+        // Does nothing if the run number is unchanged
+        run.findEntry(*rItr->second.second, runNumber);
+      }
+      else {
+        rItr->second.second = 0;
+        std::cerr << "Branch runNumber is turned off in the input events tree. Skipping run update." << std::endl;
+      }
+    }
+  }
   /* END CUSTOM */
 }
 
@@ -160,8 +214,17 @@ panda::EventBase::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::EventBase::doUnlink_(TTree& _tree)
+{
+  /* BEGIN CUSTOM EventBase.cc.doUnlink_ */
+  runTrees_.erase(&_tree);
+  /* END CUSTOM */
+}
+
 
 /* BEGIN CUSTOM EventBase.cc.global */
+
 Bool_t
 panda::EventBase::triggerFired(UInt_t _token) const
 {
@@ -171,4 +234,5 @@ panda::EventBase::triggerFired(UInt_t _token) const
   else
     return false;
 }
+
 /* END CUSTOM */

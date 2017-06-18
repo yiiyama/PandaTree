@@ -1,8 +1,8 @@
 #ifndef PandaTree_Interface_TreeEntry_h
 #define PandaTree_Interface_TreeEntry_h
 
+#include "ReaderObject.h"
 #include "IOUtils.h"
-#include "Object.h"
 
 #include "TTree.h"
 
@@ -16,24 +16,26 @@ namespace panda {
   /*!
    * A derived class of TreeEntry typically owns multiple Singlets, Containers, as well as its own primitive branches.
    */
-  class TreeEntry : public Object {
+  class TreeEntry : public ReaderObject {
   public:
-    TreeEntry() : Object() {}
-    TreeEntry(TreeEntry const& src) : Object (src) {}
+    TreeEntry() : ReaderObject() {}
+    TreeEntry(TreeEntry const& src) : ReaderObject (src) {}
     virtual ~TreeEntry() {}
     // Important to have this implemented - otherwise the TreeEntries will start copying the objects_ vectors!
     TreeEntry& operator=(TreeEntry const&) { return *this; }
 
     void setStatus(TTree&, utils::BranchList const& blist) final;
     utils::BranchList getStatus(TTree&) const final;
-    utils::BranchList getBranchNames(Bool_t = kTRUE) const final;
-    void setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
+    utils::BranchList getBranchNames(Bool_t = kTRUE, Bool_t direct = kFALSE) const final;
+    UInt_t setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
     void book(TTree&, utils::BranchList const& blist = {"*"}) final;
-    Int_t getEntry(TTree&, Long64_t entry) final;
+    using ReaderObject::getEntry;
+    Int_t getEntry(UInt_t, Long64_t entry, Int_t localEntry = -1) final;
     Int_t fill(TTree&) final;
     void init() final;
     char const* getName() const final { return ""; }
     void setName(char const*) final {}
+    void unlink(TTree&) final;
 
   protected:
     virtual void doSetStatus_(TTree&, utils::BranchList const&) = 0;
@@ -43,6 +45,7 @@ namespace panda {
     virtual void doBook_(TTree&, utils::BranchList const&) = 0;
     virtual void doGetEntry_(TTree&, Long64_t entry) = 0;
     virtual void doInit_() = 0;
+    virtual void doUnlink_(TTree&) = 0;
 
     std::vector<Object*> objects_{}; //!< list of object branches (containers and singlets)
     std::vector<CollectionBase*> collections_{}; //!< list of collections (overlaps with objects_)

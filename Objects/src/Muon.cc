@@ -164,15 +164,6 @@ panda::Muon::operator=(Muon const& _src)
 }
 
 void
-panda::Muon::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  Lepton::doSetAddress_(_tree, _name, _branches, _setStatus);
-
-  utils::setAddress(_tree, _name, "mediumBtoF", &mediumBtoF, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "triggerMatch", triggerMatch, _branches, _setStatus);
-}
-
-void
 panda::Muon::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Lepton::doBook_(_tree, _name, _branches);
