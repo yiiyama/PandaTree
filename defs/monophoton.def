@@ -85,21 +85,3 @@ jets.constituents->pfCandidates
 genParticles.parent->genParticles
 jets.matchedGenJet->genJets
 #include "Event.h"
-
-[TPPair]
-mass/F
-mass2/F
-
-{EventTPPhoton>EventBase}
-npv/s
-npvTrue/s
-rho/F
-sample/i
-tp/TPPairCollection(32)
-tags/LeptonCollection(32)
-looseTags/LeptonCollection(32)
-probes/XPhotonCollection(32)
-jets/JetCollection(64)
-t1Met/RecoMet
-#include "Event.h"
-#include "EventMonophoton.h"
