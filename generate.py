@@ -60,7 +60,7 @@ for fname in args.configs:
             pass
 
         try:
-            constants.append(Constant(line))
+            constants.append(Constant(line, configFile))
             continue
         except Definition.NoMatch:
             pass
