@@ -1,26 +1,5 @@
 #include "../interface/UnpackedPFCand.h"
 
-TString panda::UnpackedPFCand::PTypeName[] = {
-  "hp",
-  "hm",
-  "ep",
-  "em",
-  "mup",
-  "mum",
-  "gamma",
-  "h0",
-  "h_HF",
-  "egamma_HF",
-  "Xp",
-  "Xm",
-  "X"
-};
-
-/*static*/
-int panda::UnpackedPFCand::q_[nPTypes] = {1, -1, 1, -1, 1, -1, 0, 0, 0, 0, 1, -1, 0};
-/*static*/
-int panda::UnpackedPFCand::pdgId_[nPTypes] = {211, -211, -11, 11, -13, 13, 22, 130, 1, 2, 0, 0, 0};
-
 /*static*/
 panda::utils::BranchList
 panda::UnpackedPFCand::getListOfBranches()

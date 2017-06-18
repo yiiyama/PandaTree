@@ -32,8 +32,8 @@ namespace panda {
 
     static TString PTypeName[nPTypes];
 
-    static int q_[nPTypes];
-    static int pdgId_[nPTypes];
+    static int const q_[nPTypes];
+    static int const pdgId_[nPTypes];
 
     struct datastore : public PackedParticle::datastore {
       datastore() : PackedParticle::datastore() {}
