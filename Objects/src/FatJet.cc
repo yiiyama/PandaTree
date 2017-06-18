@@ -201,7 +201,7 @@ panda::FatJet::FatJet(char const* _name/* = ""*/) :
 }
 
 panda::FatJet::FatJet(FatJet const& _src) :
-  Jet(new FatJetArray(1, gStore.getName(&_src))),
+  Jet(new FatJetArray(1, _src.getName())),
   tau1(gStore.getData(this).tau1[0]),
   tau2(gStore.getData(this).tau2[0]),
   tau3(gStore.getData(this).tau3[0]),
@@ -272,16 +272,16 @@ panda::FatJet::FatJet(ArrayBase* _array) :
 panda::FatJet::~FatJet()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::FatJet::destructor()
+panda::FatJet::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM FatJet.cc.destructor */
   /* END CUSTOM */
 
-  Jet::destructor();
+  if (_recursive)
+    Jet::destructor(kTRUE);
 }
 
 panda::FatJet&
@@ -302,6 +302,9 @@ panda::FatJet::operator=(FatJet const& _src)
   double_sub = _src.double_sub;
   std::memcpy(ecfs, _src.ecfs, sizeof(Float_t) * 3 * 4 * 4);
   subjets = _src.subjets;
+
+  /* BEGIN CUSTOM FatJet.cc.operator= */
+  /* END CUSTOM */
 
   return *this;
 }

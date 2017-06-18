@@ -11,11 +11,11 @@ namespace panda {
 
   class XPhoton : public Photon {
   public:
-    static double chIsoCuts[2][2][4];
-    static double nhIsoCuts[2][2][4];
-    static double phIsoCuts[2][2][4];
-    static double sieieCuts[2][2][4];
-    static double hOverECuts[2][2][4];
+    static double const chIsoCuts[2][2][4];
+    static double const nhIsoCuts[2][2][4];
+    static double const phIsoCuts[2][2][4];
+    static double const sieieCuts[2][2][4];
+    static double const hOverECuts[2][2][4];
 
     struct datastore : public Photon::datastore {
       datastore() : Photon::datastore() {}
@@ -168,7 +168,7 @@ namespace panda {
 
     static utils::BranchList getListOfBranches();
 
-    void destructor() override;
+    void destructor(Bool_t recursive = kFALSE);
 
   protected:
     XPhoton(ArrayBase*);

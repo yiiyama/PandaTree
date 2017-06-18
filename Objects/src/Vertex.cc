@@ -109,7 +109,7 @@ panda::Vertex::Vertex(char const* _name/* = ""*/) :
 }
 
 panda::Vertex::Vertex(Vertex const& _src) :
-  Element(new VertexArray(1, gStore.getName(&_src))),
+  Element(new VertexArray(1, _src.getName())),
   x(gStore.getData(this).x[0]),
   y(gStore.getData(this).y[0]),
   z(gStore.getData(this).z[0])
@@ -140,16 +140,13 @@ panda::Vertex::Vertex(ArrayBase* _array) :
 panda::Vertex::~Vertex()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::Vertex::destructor()
+panda::Vertex::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM Vertex.cc.destructor */
   /* END CUSTOM */
-
-  Element::destructor();
 }
 
 panda::Vertex&
@@ -158,6 +155,9 @@ panda::Vertex::operator=(Vertex const& _src)
   x = _src.x;
   y = _src.y;
   z = _src.z;
+
+  /* BEGIN CUSTOM Vertex.cc.operator= */
+  /* END CUSTOM */
 
   return *this;
 }

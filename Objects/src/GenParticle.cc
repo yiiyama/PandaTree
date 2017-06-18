@@ -137,7 +137,7 @@ panda::GenParticle::GenParticle(char const* _name/* = ""*/) :
 }
 
 panda::GenParticle::GenParticle(GenParticle const& _src) :
-  PackedParticle(new GenParticleArray(1, gStore.getName(&_src))),
+  PackedParticle(new GenParticleArray(1, _src.getName())),
   pdgid(gStore.getData(this).pdgid[0]),
   finalState(gStore.getData(this).finalState[0]),
   statusFlags(gStore.getData(this).statusFlags[0]),
@@ -172,16 +172,16 @@ panda::GenParticle::GenParticle(ArrayBase* _array) :
 panda::GenParticle::~GenParticle()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::GenParticle::destructor()
+panda::GenParticle::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM GenParticle.cc.destructor */
   /* END CUSTOM */
 
-  PackedParticle::destructor();
+  if (_recursive)
+    PackedParticle::destructor(kTRUE);
 }
 
 panda::GenParticle&
@@ -193,6 +193,9 @@ panda::GenParticle::operator=(GenParticle const& _src)
   finalState = _src.finalState;
   statusFlags = _src.statusFlags;
   parent = _src.parent;
+
+  /* BEGIN CUSTOM GenParticle.cc.operator= */
+  /* END CUSTOM */
 
   return *this;
 }

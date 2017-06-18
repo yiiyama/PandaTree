@@ -33,6 +33,9 @@ panda::Met::operator=(Met const& _src)
   pt = _src.pt;
   phi = _src.phi;
 
+  /* BEGIN CUSTOM Met.cc.operator= */
+  /* END CUSTOM */
+
   return *this;
 }
 

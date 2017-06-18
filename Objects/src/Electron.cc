@@ -272,7 +272,7 @@ panda::Electron::Electron(char const* _name/* = ""*/) :
 }
 
 panda::Electron::Electron(Electron const& _src) :
-  Lepton(new ElectronArray(1, gStore.getName(&_src))),
+  Lepton(new ElectronArray(1, _src.getName())),
   hltsafe(gStore.getData(this).hltsafe[0]),
   chIsoPh(gStore.getData(this).chIsoPh[0]),
   nhIsoPh(gStore.getData(this).nhIsoPh[0]),
@@ -367,16 +367,16 @@ panda::Electron::Electron(ArrayBase* _array) :
 panda::Electron::~Electron()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::Electron::destructor()
+panda::Electron::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM Electron.cc.destructor */
   /* END CUSTOM */
 
-  Lepton::destructor();
+  if (_recursive)
+    Lepton::destructor(kTRUE);
 }
 
 panda::Electron&
@@ -403,6 +403,9 @@ panda::Electron::operator=(Electron const& _src)
   veto = _src.veto;
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
   superCluster = _src.superCluster;
+
+  /* BEGIN CUSTOM Electron.cc.operator= */
+  /* END CUSTOM */
 
   return *this;
 }

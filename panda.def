@@ -175,25 +175,8 @@ ptype/b
 vertex/RecoVertexRef
 TLorentzVector puppiP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiW, eta(), phi(), m() * puppiW); return p4; }
 TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep, eta(), phi(), m() * puppiWNoLep); return p4; }
-int q() const { return q_[ptype]; }
-int pdgId() const { return pdgId_[ptype]; }
-enum PType {
-  hp,
-  hm,
-  ep,
-  em,
-  mup,
-  mum,
-  gamma,
-  h0,
-  h_HF,
-  egamma_HF,
-  Xp,
-  Xm,
-  X
-};
-static const int q_[nPTypes] = {1, -1, 1, -1, 1, -1, 0, 0, 0, 0, 1, -1, 0};
-static const int pdgId_[nPTypes] = {211, -211, -11, 11, -13, 13, 22, 130, 1, 2, 0, 0, 0};
+int q() const { return PFCand::q_[ptype]; }
+int pdgId() const { return PFCand::pdgId_[ptype]; }
 #include "PFCand.h"
 
 [Parton>ParticleM]
@@ -446,6 +429,7 @@ void set(unsigned iB) { if (iB >= 1024) return; words[iB / 32] |= (1 << (iB % 32
 bool pass(unsigned iB) const { if (iB >= 1024) return false; return (words[iB / 32] & (1 << (iB % 32))) != 0; }
 
 [GenReweight:SINGLE]
+static unsigned const NMAX = 1024;
 r1f2DW/F
 r1f5DW/F
 r2f1DW/F
@@ -453,7 +437,7 @@ r2f2DW/F
 r5f1DW/F
 r5f5DW/F
 pdfDW/F
-genParam[1024]/F
+genParam[NMAX]/F
 
 [Recoil:SINGLE]
 enum Category {

@@ -1,26 +1,5 @@
 #include "../interface/UnpackedPFCand.h"
 
-TString panda::UnpackedPFCand::PTypeName[] = {
-  "hp",
-  "hm",
-  "ep",
-  "em",
-  "mup",
-  "mum",
-  "gamma",
-  "h0",
-  "h_HF",
-  "egamma_HF",
-  "Xp",
-  "Xm",
-  "X"
-};
-
-/*static*/
-int panda::UnpackedPFCand::q_[nPTypes] = {1, -1, 1, -1, 1, -1, 0, 0, 0, 0, 1, -1, 0};
-/*static*/
-int panda::UnpackedPFCand::pdgId_[nPTypes] = {211, -211, -11, 11, -13, 13, 22, 130, 1, 2, 0, 0, 0};
-
 /*static*/
 panda::utils::BranchList
 panda::UnpackedPFCand::getListOfBranches()
@@ -140,7 +119,7 @@ panda::UnpackedPFCand::UnpackedPFCand(char const* _name/* = ""*/) :
 }
 
 panda::UnpackedPFCand::UnpackedPFCand(UnpackedPFCand const& _src) :
-  ParticleM(new UnpackedPFCandArray(1, gStore.getName(&_src))),
+  ParticleM(new UnpackedPFCandArray(1, _src.getName())),
   puppiW(gStore.getData(this).puppiW[0]),
   puppiWNoLep(gStore.getData(this).puppiWNoLep[0]),
   ptype(gStore.getData(this).ptype[0]),
@@ -175,16 +154,16 @@ panda::UnpackedPFCand::UnpackedPFCand(ArrayBase* _array) :
 panda::UnpackedPFCand::~UnpackedPFCand()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::UnpackedPFCand::destructor()
+panda::UnpackedPFCand::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM UnpackedPFCand.cc.destructor */
   /* END CUSTOM */
 
-  ParticleM::destructor();
+  if (_recursive)
+    ParticleM::destructor(kTRUE);
 }
 
 panda::UnpackedPFCand&
@@ -196,6 +175,9 @@ panda::UnpackedPFCand::operator=(UnpackedPFCand const& _src)
   puppiWNoLep = _src.puppiWNoLep;
   ptype = _src.ptype;
   vertex = _src.vertex;
+
+  /* BEGIN CUSTOM UnpackedPFCand.cc.operator= */
+  /* END CUSTOM */
 
   return *this;
 }

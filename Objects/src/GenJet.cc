@@ -92,7 +92,7 @@ panda::GenJet::GenJet(char const* _name/* = ""*/) :
 }
 
 panda::GenJet::GenJet(GenJet const& _src) :
-  ParticleM(new GenJetArray(1, gStore.getName(&_src))),
+  ParticleM(new GenJetArray(1, _src.getName())),
   pdgid(gStore.getData(this).pdgid[0])
 {
   ParticleM::operator=(_src);
@@ -115,16 +115,16 @@ panda::GenJet::GenJet(ArrayBase* _array) :
 panda::GenJet::~GenJet()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::GenJet::destructor()
+panda::GenJet::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM GenJet.cc.destructor */
   /* END CUSTOM */
 
-  ParticleM::destructor();
+  if (_recursive)
+    ParticleM::destructor(kTRUE);
 }
 
 panda::GenJet&
@@ -133,6 +133,9 @@ panda::GenJet::operator=(GenJet const& _src)
   ParticleM::operator=(_src);
 
   pdgid = _src.pdgid;
+
+  /* BEGIN CUSTOM GenJet.cc.operator= */
+  /* END CUSTOM */
 
   return *this;
 }

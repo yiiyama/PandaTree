@@ -219,7 +219,7 @@ panda::Jet::Jet(char const* _name/* = ""*/) :
 }
 
 panda::Jet::Jet(Jet const& _src) :
-  MicroJet(new JetArray(1, gStore.getName(&_src))),
+  MicroJet(new JetArray(1, _src.getName())),
   rawPt(gStore.getData(this).rawPt[0]),
   ptCorrUp(gStore.getData(this).ptCorrUp[0]),
   ptCorrDown(gStore.getData(this).ptCorrDown[0]),
@@ -298,16 +298,16 @@ panda::Jet::Jet(ArrayBase* _array) :
 panda::Jet::~Jet()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::Jet::destructor()
+panda::Jet::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM Jet.cc.destructor */
   /* END CUSTOM */
 
-  MicroJet::destructor();
+  if (_recursive)
+    MicroJet::destructor(kTRUE);
 }
 
 panda::Jet&
@@ -330,6 +330,9 @@ panda::Jet::operator=(Jet const& _src)
   monojet = _src.monojet;
   matchedGenJet = _src.matchedGenJet;
   constituents = _src.constituents;
+
+  /* BEGIN CUSTOM Jet.cc.operator= */
+  /* END CUSTOM */
 
   return *this;
 }

@@ -15,13 +15,19 @@ namespace panda {
   //! Base class for elements of containers.
   /*!
    * Element is the base class of objects that are elements of containers (Array = fixed size and Collection = dynamic size).
-   * All deriving class of Element must have a subclass named datastore (which derives from Element::datastore) where
+   * All deriving class of Element must have a member class named datastore (which derives from Element::datastore) where
    * arrays of plain-old-data types and vectors of objects are held. This big chunk of memory is in turn owned by a Container, which
    * also holds an array of Elements. Individual "data members" of a Element-derived class are references to the
    * elements of their associated datastore, linked by the Container.
    * By construction, the standard usage of the Element object is therefore to define a container first and to fetch from it
    * as an element. However, it is also possible to use a Element class as a singlet. This operation is rather expensive as
    * every singlet instantiation of a Element will create a one-element Array in memory in the back end.
+   *
+   * Note on destructors:
+   * The actual destructor of the is called only if the Element is instantiated as a singlet.
+   * In the Container environment, the memory allocated for this object is directly deallocated without
+   * calling ~(Object). If subclasses need to make some calls at the destruction time of the object, they
+   * must be implemented in the destructor() function.
    */
   class Element : public Object {
   public:
@@ -73,7 +79,7 @@ namespace panda {
      * Copy construction is similar to default construction, and involves a creation of a one-element Array.
      */
     Element(Element const& src) : Object(src) {}
-    ~Element() {}
+    ~Element();
     Element& operator=(Element const&) { return *this; }
 
     static char const* typeName() { return "Element"; }
@@ -89,15 +95,6 @@ namespace panda {
     char const* getName() const final;
     void setName(char const*) final;
 
-    //! Destructor implementation
-    /*!
-     * The actual destructor of the object should be called only if the Element is constructed as a singlet.
-     * In the Container environment, the memory allocated for this object is directly deallocated without
-     * calling ~(Object). If subclasses need to make some calls at the destruction time of the object, they
-     * must be implemented in this function.
-     */
-    virtual void destructor() {}
-
   protected:
     //! Ctor for singlet instantiation
     /*!
@@ -109,9 +106,6 @@ namespace panda {
 
     virtual void doBook_(TTree&, TString const&, utils::BranchList const&) = 0;
     virtual void doInit_() = 0;
-  };
-
-  namespace utils {
 
     //! Singleton class for bookkeeping of Elements constructed as singlets.
     /*!
@@ -120,28 +114,22 @@ namespace panda {
      * referenced by singlet Elements. When a singlet Element is destructed, the slots in StoraManager
      * it referred to are freed and is recycled for the next instantiation of an Element object.
      */
-    class StoreManager {
+    class StoreManager : public std::map<Element const*, ArrayBase*> {
     public:
-      void add(Element const* obj, ArrayBase* array) { store_.emplace(obj, array); }
-      ArrayBase& getArray(Element const* obj) const { return *store_.at(obj); }
+      ArrayBase& getArray(Element const*) const;
       template<class O> typename O::datastore& getData(O const*) const;
       char const* getName(Element const*) const;
-      void free(Element const*);
-
-    private:
-      std::map<Element const*, ArrayBase*> store_{};
     };
 
-    template<class O>
-    typename O::datastore&
-    StoreManager::getData(O const* _obj) const
-    {
-      return static_cast<typename O::datastore&>(store_.at(_obj)->getData());
-    }
-    
-  }
+    static StoreManager gStore;
+  };
 
-  extern utils::StoreManager gStore;
+  template<class O>
+  typename O::datastore&
+  Element::StoreManager::getData(O const* _obj) const
+  {
+    return static_cast<typename O::datastore&>(getArray(_obj).getData());
+  }
 }
 
 #endif

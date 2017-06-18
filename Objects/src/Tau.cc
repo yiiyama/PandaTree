@@ -164,7 +164,7 @@ panda::Tau::Tau(char const* _name/* = ""*/) :
 }
 
 panda::Tau::Tau(Tau const& _src) :
-  ParticleM(new TauArray(1, gStore.getName(&_src))),
+  ParticleM(new TauArray(1, _src.getName())),
   charge(gStore.getData(this).charge[0]),
   decayMode(gStore.getData(this).decayMode[0]),
   decayModeNew(gStore.getData(this).decayModeNew[0]),
@@ -219,16 +219,16 @@ panda::Tau::Tau(ArrayBase* _array) :
 panda::Tau::~Tau()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::Tau::destructor()
+panda::Tau::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM Tau.cc.destructor */
   /* END CUSTOM */
 
-  ParticleM::destructor();
+  if (_recursive)
+    ParticleM::destructor(kTRUE);
 }
 
 panda::Tau&
@@ -245,6 +245,9 @@ panda::Tau::operator=(Tau const& _src)
   isoDeltaBetaCorr = _src.isoDeltaBetaCorr;
   vertex = _src.vertex;
   matchedGen = _src.matchedGen;
+
+  /* BEGIN CUSTOM Tau.cc.operator= */
+  /* END CUSTOM */
 
   return *this;
 }

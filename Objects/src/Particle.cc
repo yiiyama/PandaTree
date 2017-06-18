@@ -88,21 +88,21 @@ panda::Particle::Particle(ArrayBase* _array) :
 panda::Particle::~Particle()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::Particle::destructor()
+panda::Particle::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM Particle.cc.destructor */
   /* END CUSTOM */
-
-  Element::destructor();
 }
 
 panda::Particle&
 panda::Particle::operator=(Particle const& _src)
 {
+
+  /* BEGIN CUSTOM Particle.cc.operator= */
+  /* END CUSTOM */
 
   return *this;
 }

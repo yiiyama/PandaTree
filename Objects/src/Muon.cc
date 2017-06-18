@@ -110,7 +110,7 @@ panda::Muon::Muon(char const* _name/* = ""*/) :
 }
 
 panda::Muon::Muon(Muon const& _src) :
-  Lepton(new MuonArray(1, gStore.getName(&_src))),
+  Lepton(new MuonArray(1, _src.getName())),
   mediumBtoF(gStore.getData(this).mediumBtoF[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0])
 {
@@ -137,16 +137,16 @@ panda::Muon::Muon(ArrayBase* _array) :
 panda::Muon::~Muon()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::Muon::destructor()
+panda::Muon::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM Muon.cc.destructor */
   /* END CUSTOM */
 
-  Lepton::destructor();
+  if (_recursive)
+    Lepton::destructor(kTRUE);
 }
 
 panda::Muon&
@@ -156,6 +156,9 @@ panda::Muon::operator=(Muon const& _src)
 
   mediumBtoF = _src.mediumBtoF;
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
+
+  /* BEGIN CUSTOM Muon.cc.operator= */
+  /* END CUSTOM */
 
   return *this;
 }

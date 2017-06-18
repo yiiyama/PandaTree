@@ -283,7 +283,7 @@ class PhysicsObject(Definition, Object):
             header.indent -= 1
         else:
             header.newline()
-            header.writeline('void destructor() override;')
+            header.writeline('void destructor(Bool_t recursive = kFALSE);')
             header.newline()
             header.indent -= 1
             header.writeline('protected:')
@@ -473,7 +473,7 @@ class PhysicsObject(Definition, Object):
 
             for method in methods:
                 src.newline()
-                self._write_method(src, 'Singlet', method, custom_block = (method[0] in ['doInit_']))
+                self._write_method(src, 'Singlet', method, custom_block = (method[0] in ['operator=', 'doInit_']))
 
             src.newline()
             src.writeline('panda::utils::BranchList')
@@ -534,7 +534,7 @@ class PhysicsObject(Definition, Object):
                 src.newline()
                 src.writeline('{NAMESPACE}::{name}::{name}({name} const& _src) :'.format(**subst))
                 src.indent += 1
-                initializers = ['{parent}(new {name}Array(1, gStore.getName(&_src)))'.format(**subst)]
+                initializers = ['{parent}(new {name}Array(1, _src.getName()))'.format(**subst)]
                 for branch in self.branches:
                     branch.init_copy(initializers, context = 'Element')
                 src.writelines(initializers, ',')
@@ -584,18 +584,21 @@ class PhysicsObject(Definition, Object):
             src.writeline('{')
             src.indent += 1
             src.writeline('destructor();')
-            src.writeline('gStore.free(this);')
             src.indent -= 1
             src.writeline('}')
 
             src.newline()
             src.writeline('void')
-            src.writeline('{NAMESPACE}::{name}::destructor()'.format(**subst))
+            src.writeline('{NAMESPACE}::{name}::destructor(Bool_t _recursive/* = kFALSE*/)'.format(**subst))
             src.writeline('{')
             src.indent += 1
             src.write_custom_block('{name}.cc.destructor'.format(**subst))
-            src.newline()
-            src.writeline('{parent}::destructor();'.format(**subst))
+            if self.parent != 'Element':
+                src.newline()
+                src.writeline('if (_recursive)')
+                src.indent += 1
+                src.writeline('{parent}::destructor(kTRUE);'.format(**subst))
+                src.indent -= 1
             src.indent -= 1
             src.writeline('}')
 
@@ -607,7 +610,7 @@ class PhysicsObject(Definition, Object):
 
             for method in methods:
                 src.newline()
-                self._write_method(src, 'Element', method, custom_block = (method[0] in ['doInit_']))
+                self._write_method(src, 'Element', method, custom_block = (method[0] in ['operator=', 'doInit_']))
 
         src.newline()
         src.writeline('void')

@@ -110,7 +110,7 @@ panda::ParticleP::ParticleP(char const* _name/* = ""*/) :
 }
 
 panda::ParticleP::ParticleP(ParticleP const& _src) :
-  Particle(new ParticlePArray(1, gStore.getName(&_src))),
+  Particle(new ParticlePArray(1, _src.getName())),
   pt_(gStore.getData(this).pt_[0]),
   eta_(gStore.getData(this).eta_[0]),
   phi_(gStore.getData(this).phi_[0])
@@ -141,16 +141,16 @@ panda::ParticleP::ParticleP(ArrayBase* _array) :
 panda::ParticleP::~ParticleP()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::ParticleP::destructor()
+panda::ParticleP::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM ParticleP.cc.destructor */
   /* END CUSTOM */
 
-  Particle::destructor();
+  if (_recursive)
+    Particle::destructor(kTRUE);
 }
 
 panda::ParticleP&
@@ -161,6 +161,9 @@ panda::ParticleP::operator=(ParticleP const& _src)
   pt_ = _src.pt_;
   eta_ = _src.eta_;
   phi_ = _src.phi_;
+
+  /* BEGIN CUSTOM ParticleP.cc.operator= */
+  /* END CUSTOM */
 
   return *this;
 }

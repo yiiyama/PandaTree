@@ -101,7 +101,7 @@ panda::MicroJet::MicroJet(char const* _name/* = ""*/) :
 }
 
 panda::MicroJet::MicroJet(MicroJet const& _src) :
-  ParticleM(new MicroJetArray(1, gStore.getName(&_src))),
+  ParticleM(new MicroJetArray(1, _src.getName())),
   csv(gStore.getData(this).csv[0]),
   qgl(gStore.getData(this).qgl[0])
 {
@@ -128,16 +128,16 @@ panda::MicroJet::MicroJet(ArrayBase* _array) :
 panda::MicroJet::~MicroJet()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::MicroJet::destructor()
+panda::MicroJet::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM MicroJet.cc.destructor */
   /* END CUSTOM */
 
-  ParticleM::destructor();
+  if (_recursive)
+    ParticleM::destructor(kTRUE);
 }
 
 panda::MicroJet&
@@ -147,6 +147,9 @@ panda::MicroJet::operator=(MicroJet const& _src)
 
   csv = _src.csv;
   qgl = _src.qgl;
+
+  /* BEGIN CUSTOM MicroJet.cc.operator= */
+  /* END CUSTOM */
 
   return *this;
 }

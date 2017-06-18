@@ -17,9 +17,9 @@ TString panda::PFCand::PTypeName[] = {
 };
 
 /*static*/
-int panda::PFCand::q_[nPTypes] = {1, -1, 1, -1, 1, -1, 0, 0, 0, 0, 1, -1, 0};
+int const panda::PFCand::q_[nPTypes] = {1, -1, 1, -1, 1, -1, 0, 0, 0, 0, 1, -1, 0};
 /*static*/
-int panda::PFCand::pdgId_[nPTypes] = {211, -211, -11, 11, -13, 13, 22, 130, 1, 2, 0, 0, 0};
+int const panda::PFCand::pdgId_[nPTypes] = {211, -211, -11, 11, -13, 13, 22, 130, 1, 2, 0, 0, 0};
 
 /*static*/
 panda::utils::BranchList
@@ -139,7 +139,7 @@ panda::PFCand::PFCand(char const* _name/* = ""*/) :
 }
 
 panda::PFCand::PFCand(PFCand const& _src) :
-  PackedParticle(new PFCandArray(1, gStore.getName(&_src))),
+  PackedParticle(new PFCandArray(1, _src.getName())),
   packedPuppiW(gStore.getData(this).packedPuppiW[0]),
   packedPuppiWNoLepDiff(gStore.getData(this).packedPuppiWNoLepDiff[0]),
   ptype(gStore.getData(this).ptype[0]),
@@ -178,16 +178,16 @@ panda::PFCand::PFCand(ArrayBase* _array) :
 panda::PFCand::~PFCand()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::PFCand::destructor()
+panda::PFCand::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM PFCand.cc.destructor */
   /* END CUSTOM */
 
-  PackedParticle::destructor();
+  if (_recursive)
+    PackedParticle::destructor(kTRUE);
 }
 
 panda::PFCand&
@@ -200,6 +200,9 @@ panda::PFCand::operator=(PFCand const& _src)
   ptype = _src.ptype;
   vertex = _src.vertex;
   track = _src.track;
+
+  /* BEGIN CUSTOM PFCand.cc.operator= */
+  /* END CUSTOM */
 
   return *this;
 }

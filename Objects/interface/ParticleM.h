@@ -67,7 +67,7 @@ namespace panda {
 
     static utils::BranchList getListOfBranches();
 
-    void destructor() override;
+    void destructor(Bool_t recursive = kFALSE);
 
   protected:
     ParticleM(ArrayBase*);

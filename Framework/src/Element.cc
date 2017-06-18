@@ -1,20 +1,29 @@
 #include "../interface/Element.h"
 #include "../interface/ArrayBase.h"
 
-namespace panda {
-  panda::utils::StoreManager gStore;
-}
+panda::Element::StoreManager panda::Element::gStore;
 
 /*protected*/
 panda::Element::Element(ArrayBase* _array)
 {
-  gStore.add(this, _array);
+  gStore.emplace(this, _array);
+}
+
+panda::Element::~Element()
+{
+  delete &gStore.getArray(this);
+  gStore.erase(this);
 }
 
 char const*
 panda::Element::getName() const
 {
-  return gStore.getName(this);
+  // Must return an empty string when called for a non-singlet instance (i.e. a member of a Container)
+  auto oItr(gStore.find(this));
+  if (oItr == gStore.end())
+    return "";
+  else
+    return oItr->second->getName();
 }
 
 void
@@ -26,22 +35,25 @@ panda::Element::setName(char const* _name)
 void
 panda::Element::setStatus(TTree& _tree, utils::BranchList const& _branches)
 {
-  gStore.getData(this).setStatus(_tree, gStore.getName(this), _branches);
+  auto& array(gStore.getArray(this));
+  array.getData().setStatus(_tree, array.getName(), _branches);
 }
 
 panda::utils::BranchList
 panda::Element::getStatus(TTree& _tree) const
 {
-  return gStore.getData(this).getStatus(_tree, gStore.getName(this));
+  auto& array(gStore.getArray(this));
+  return array.getData().getStatus(_tree, array.getName());
 }
 
 panda::utils::BranchList
 panda::Element::getBranchNames(Bool_t _fullName/* = kTRUE*/, Bool_t/* = kFALSE*/) const
 {
+  auto& array(gStore.getArray(this));
   if (_fullName)
-    return gStore.getData(this).getBranchNames(gStore.getName(this));
+    return array.getData().getBranchNames(array.getName());
   else
-    return gStore.getData(this).getBranchNames();
+    return array.getData().getBranchNames();
 }
 
 UInt_t
@@ -68,22 +80,23 @@ panda::Element::getEntry(UInt_t _treeId, Long64_t _entry, Int_t _localEntry/* = 
   return gStore.getArray(this).getEntry(_treeId, _entry, _localEntry);
 }
 
-char const*
-panda::utils::StoreManager::getName(Element const* _obj) const
+panda::ArrayBase&
+panda::Element::StoreManager::getArray(Element const* _obj) const
 {
-  return store_.at(_obj)->getName();
+  try {
+    return *at(_obj);
+  }
+  catch (std::out_of_range&) {
+    std::cerr << "!!! EXCEPTION !!!" << std::endl;
+    std::cerr << "Data was requested for a non-singlet " << _obj->typeName() << " instance." << std::endl;
+    std::cerr << "This should not happen under normal circumstances and indicates a bug in" << std::endl;
+    std::cerr << "the framework. Contact a Panda expert to fix the issue." << std::endl;
+    throw;
+  }
 }
 
-void
-panda::utils::StoreManager::free(Element const* _obj)
+char const*
+panda::Element::StoreManager::getName(Element const* _obj) const
 {
-  // Since virtual destructors are called recursively, destruction of one derived object
-  // will result in multiple calls of free(). Not very efficient, but the alternative
-  // is to add some "freed" flag to the objects.
-  auto itr(store_.find(_obj));
-  if (itr == store_.end())
-    return;
-
-  delete itr->second;
-  store_.erase(itr);
+  return getArray(_obj).getName();
 }

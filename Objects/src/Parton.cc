@@ -92,7 +92,7 @@ panda::Parton::Parton(char const* _name/* = ""*/) :
 }
 
 panda::Parton::Parton(Parton const& _src) :
-  ParticleM(new PartonArray(1, gStore.getName(&_src))),
+  ParticleM(new PartonArray(1, _src.getName())),
   pdgid(gStore.getData(this).pdgid[0])
 {
   ParticleM::operator=(_src);
@@ -115,16 +115,16 @@ panda::Parton::Parton(ArrayBase* _array) :
 panda::Parton::~Parton()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::Parton::destructor()
+panda::Parton::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM Parton.cc.destructor */
   /* END CUSTOM */
 
-  ParticleM::destructor();
+  if (_recursive)
+    ParticleM::destructor(kTRUE);
 }
 
 panda::Parton&
@@ -133,6 +133,9 @@ panda::Parton::operator=(Parton const& _src)
   ParticleM::operator=(_src);
 
   pdgid = _src.pdgid;
+
+  /* BEGIN CUSTOM Parton.cc.operator= */
+  /* END CUSTOM */
 
   return *this;
 }

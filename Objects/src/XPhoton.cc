@@ -1,15 +1,15 @@
 #include "../interface/XPhoton.h"
 
 /*static*/
-double panda::XPhoton::chIsoCuts[2][2][4]{{{3.32, 1.37, 0.76, 5.0}, {1.97, 1.10, 0.56, 5.0}},                  {{1.295, 0.441, 0.202, 5.0}, {1.011, 0.442, 0.034, 5.0}}};
+double const panda::XPhoton::chIsoCuts[2][2][4]{{{3.32, 1.37, 0.76, 5.0}, {1.97, 1.10, 0.56, 5.0}},                  {{1.295, 0.441, 0.202, 5.0}, {1.011, 0.442, 0.034, 5.0}}};
 /*static*/
-double panda::XPhoton::nhIsoCuts[2][2][4]{{{1.92, 1.06, 0.97, 100000.}, {11.86, 2.69, 2.09, 100000.}},         {{10.910, 2.725, 0.264, 100000.}, {5.931, 1.715, 0.586, 100000.}}};
+double const panda::XPhoton::nhIsoCuts[2][2][4]{{{1.92, 1.06, 0.97, 100000.}, {11.86, 2.69, 2.09, 100000.}},         {{10.910, 2.725, 0.264, 100000.}, {5.931, 1.715, 0.586, 100000.}}};
 /*static*/
-double panda::XPhoton::phIsoCuts[2][2][4]{{{0.81, 0.28, 0.08, 2.75}, {0.83, 0.39, 0.16, 2.00}},                {{3.630, 2.571, 2.362, 2.75}, {6.641, 3.863, 2.617, 2.00}}};
+double const panda::XPhoton::phIsoCuts[2][2][4]{{{0.81, 0.28, 0.08, 2.75}, {0.83, 0.39, 0.16, 2.00}},                {{3.630, 2.571, 2.362, 2.75}, {6.641, 3.863, 2.617, 2.00}}};
 /*static*/
-double panda::XPhoton::sieieCuts[2][2][4]{{{0.0102, 0.0102, 0.0100, 0.0105}, {0.0274, 0.0268, 0.0268, 0.028}}, {{0.01031, 0.01022, 0.00994, 0.0105}, {0.03013, 0.03001, 0.03000, 0.028}}};
+double const panda::XPhoton::sieieCuts[2][2][4]{{{0.0102, 0.0102, 0.0100, 0.0105}, {0.0274, 0.0268, 0.0268, 0.028}}, {{0.01031, 0.01022, 0.00994, 0.0105}, {0.03013, 0.03001, 0.03000, 0.028}}};
 /*static*/
-double panda::XPhoton::hOverECuts[2][2][4]{{{0.05, 0.05, 0.05, 0.05}, {0.05, 0.05, 0.05, 0.05}},               {{0.0597, 0.0396, 0.0269, 0.05}, {0.0481, 0.0219, 0.0213, 0.05}}};
+double const panda::XPhoton::hOverECuts[2][2][4]{{{0.05, 0.05, 0.05, 0.05}, {0.05, 0.05, 0.05, 0.05}},               {{0.0597, 0.0396, 0.0269, 0.05}, {0.0481, 0.0219, 0.0213, 0.05}}};
 
 /*static*/
 panda::utils::BranchList
@@ -166,7 +166,7 @@ panda::XPhoton::XPhoton(char const* _name/* = ""*/) :
 }
 
 panda::XPhoton::XPhoton(XPhoton const& _src) :
-  Photon(new XPhotonArray(1, gStore.getName(&_src))),
+  Photon(new XPhotonArray(1, _src.getName())),
   scEta(gStore.getData(this).scEta[0]),
   scRawPt(gStore.getData(this).scRawPt[0]),
   chIsoS15(gStore.getData(this).chIsoS15[0]),
@@ -217,16 +217,16 @@ panda::XPhoton::XPhoton(ArrayBase* _array) :
 panda::XPhoton::~XPhoton()
 {
   destructor();
-  gStore.free(this);
 }
 
 void
-panda::XPhoton::destructor()
+panda::XPhoton::destructor(Bool_t _recursive/* = kFALSE*/)
 {
   /* BEGIN CUSTOM XPhoton.cc.destructor */
   /* END CUSTOM */
 
-  Photon::destructor();
+  if (_recursive)
+    Photon::destructor(kTRUE);
 }
 
 panda::XPhoton&
@@ -242,6 +242,9 @@ panda::XPhoton::operator=(XPhoton const& _src)
   e4 = _src.e4;
   isEB = _src.isEB;
   matchedGenId = _src.matchedGenId;
+
+  /* BEGIN CUSTOM XPhoton.cc.operator= */
+  /* END CUSTOM */
 
   return *this;
 }
