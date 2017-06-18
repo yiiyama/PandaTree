@@ -6,7 +6,6 @@
 #include "IOUtils.h"
 
 #include "TString.h"
-#include "TTree.h"
 
 #include <vector>
 #include <functional>
