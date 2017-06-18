@@ -1,15 +1,47 @@
 #include "../interface/XPhoton.h"
 
+TString panda::XPhoton::IDTuneName[] = {
+  "kSpring15",
+  "kSpring16",
+  "kGJetsCWIso",
+  "kZGCWIso"
+};
+
 /*static*/
-double const panda::XPhoton::chIsoCuts[2][2][4]{{{3.32, 1.37, 0.76, 5.0}, {1.97, 1.10, 0.56, 5.0}},                  {{1.295, 0.441, 0.202, 5.0}, {1.011, 0.442, 0.034, 5.0}}};
+double const panda::XPhoton::chIsoCuts[nIDTunes][2][4]{
+  {{3.32, 1.37, 0.76, 5.0}, {1.97, 1.10, 0.56, 5.0}},
+  {{1.295, 0.441, 0.202, 5.0}, {1.011, 0.442, 0.034, 5.0}},
+  {{1.146, 1.146, 1.146, 1.146}, {1.146, 1.146, 1.146, 1.146}},
+  {{1.163, 1.163, 1.163, 1.163}, {1.163, 1.163, 1.163, 1.163}}
+};
 /*static*/
-double const panda::XPhoton::nhIsoCuts[2][2][4]{{{1.92, 1.06, 0.97, 100000.}, {11.86, 2.69, 2.09, 100000.}},         {{10.910, 2.725, 0.264, 100000.}, {5.931, 1.715, 0.586, 100000.}}};
+double const panda::XPhoton::nhIsoCuts[nIDTunes][2][4]{
+  {{1.92, 1.06, 0.97, 100000.}, {11.86, 2.69, 2.09, 100000.}},
+  {{10.910, 2.725, 0.264, 100000.}, {5.931, 1.715, 0.586, 100000.}},
+  {{2.792, 2.792, 2.792, 2.792}, {2.792, 2.792, 2.792, 2.792}},
+  {{7.005, 7.005, 7.005, 7.005}, {7.005, 7.005, 7.005, 7.005}}
+};
 /*static*/
-double const panda::XPhoton::phIsoCuts[2][2][4]{{{0.81, 0.28, 0.08, 2.75}, {0.83, 0.39, 0.16, 2.00}},                {{3.630, 2.571, 2.362, 2.75}, {6.641, 3.863, 2.617, 2.00}}};
+double const panda::XPhoton::phIsoCuts[nIDTunes][2][4]{
+  {{0.81, 0.28, 0.08, 2.75}, {0.83, 0.39, 0.16, 2.00}},
+  {{3.630, 2.571, 2.362, 2.75}, {6.641, 3.863, 2.617, 2.00}},
+  {{2.176, 2.176, 2.176, 2.176}, {2.176, 2.176, 2.176, 2.176}},
+  {{3.271, 3.271, 3.271, 3.271}, {3.271, 3.271, 3.271, 3.271}}
+};
 /*static*/
-double const panda::XPhoton::sieieCuts[2][2][4]{{{0.0102, 0.0102, 0.0100, 0.0105}, {0.0274, 0.0268, 0.0268, 0.028}}, {{0.01031, 0.01022, 0.00994, 0.0105}, {0.03013, 0.03001, 0.03000, 0.028}}};
+double const panda::XPhoton::sieieCuts[nIDTunes][2][4]{
+  {{0.0102, 0.0102, 0.0100, 0.0105}, {0.0274, 0.0268, 0.0268, 0.028}},
+  {{0.01031, 0.01022, 0.00994, 0.0105}, {0.03013, 0.03001, 0.03000, 0.028}},
+  {{0.0104, 0.0104, 0.0104, 0.0104}, {0.0104, 0.0104, 0.0104, 0.0104}},
+  {{0.01002, 0.01002, 0.01002, 0.01002}, {0.01002, 0.01002, 0.01002, 0.01002}}
+};
 /*static*/
-double const panda::XPhoton::hOverECuts[2][2][4]{{{0.05, 0.05, 0.05, 0.05}, {0.05, 0.05, 0.05, 0.05}},               {{0.0597, 0.0396, 0.0269, 0.05}, {0.0481, 0.0219, 0.0213, 0.05}}};
+double const panda::XPhoton::hOverECuts[nIDTunes][2][4]{
+  {{0.05, 0.05, 0.05, 0.05}, {0.05, 0.05, 0.05, 0.05}},
+  {{0.0597, 0.0396, 0.0269, 0.05}, {0.0481, 0.0219, 0.0213, 0.05}},
+  {{0.026, 0.026, 0.026, 0.026}, {0.026, 0.026, 0.026, 0.026}},
+  {{0.0263, 0.0263, 0.0263, 0.0263}, {0.0263, 0.0263, 0.0263, 0.0263}}
+};
 
 /*static*/
 panda::utils::BranchList
@@ -17,7 +49,7 @@ panda::XPhoton::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Photon::getListOfBranches();
-  blist += {"scEta", "scRawPt", "chIsoS15", "nhIsoS15", "phIsoS15", "chIsoZG", "nhIsoZG", "phIsoZG", "e4", "isEB", "loose15", "medium15", "tight15", "mediumZG", "mediumZGMax", "matchedGenId"};
+  blist += {"scEta", "scRawPt", "chIsoX", "chIsoMaxX", "nhIsoX", "phIsoX", "e4", "isEB", "looseX", "mediumX", "tightX", "matchedGenId"};
   return blist;
 }
 
@@ -28,19 +60,15 @@ panda::XPhoton::datastore::allocate(UInt_t _nmax)
 
   scEta = new Float_t[nmax_];
   scRawPt = new Float_t[nmax_];
-  chIsoS15 = new Float_t[nmax_];
-  nhIsoS15 = new Float_t[nmax_];
-  phIsoS15 = new Float_t[nmax_];
-  chIsoZG = new Float_t[nmax_];
-  nhIsoZG = new Float_t[nmax_];
-  phIsoZG = new Float_t[nmax_];
+  chIsoX = new Float_t[nmax_][nIDTunes];
+  chIsoMaxX = new Float_t[nmax_][nIDTunes];
+  nhIsoX = new Float_t[nmax_][nIDTunes];
+  phIsoX = new Float_t[nmax_][nIDTunes];
   e4 = new Float_t[nmax_];
   isEB = new Bool_t[nmax_];
-  loose15 = new Bool_t[nmax_];
-  medium15 = new Bool_t[nmax_];
-  tight15 = new Bool_t[nmax_];
-  mediumZG = new Bool_t[nmax_];
-  mediumZGMax = new Bool_t[nmax_];
+  looseX = new Bool_t[nmax_][nIDTunes];
+  mediumX = new Bool_t[nmax_][nIDTunes];
+  tightX = new Bool_t[nmax_][nIDTunes];
   matchedGenId = new Int_t[nmax_];
 }
 
@@ -53,32 +81,24 @@ panda::XPhoton::datastore::deallocate()
   scEta = 0;
   delete [] scRawPt;
   scRawPt = 0;
-  delete [] chIsoS15;
-  chIsoS15 = 0;
-  delete [] nhIsoS15;
-  nhIsoS15 = 0;
-  delete [] phIsoS15;
-  phIsoS15 = 0;
-  delete [] chIsoZG;
-  chIsoZG = 0;
-  delete [] nhIsoZG;
-  nhIsoZG = 0;
-  delete [] phIsoZG;
-  phIsoZG = 0;
+  delete [] chIsoX;
+  chIsoX = 0;
+  delete [] chIsoMaxX;
+  chIsoMaxX = 0;
+  delete [] nhIsoX;
+  nhIsoX = 0;
+  delete [] phIsoX;
+  phIsoX = 0;
   delete [] e4;
   e4 = 0;
   delete [] isEB;
   isEB = 0;
-  delete [] loose15;
-  loose15 = 0;
-  delete [] medium15;
-  medium15 = 0;
-  delete [] tight15;
-  tight15 = 0;
-  delete [] mediumZG;
-  mediumZG = 0;
-  delete [] mediumZGMax;
-  mediumZGMax = 0;
+  delete [] looseX;
+  looseX = 0;
+  delete [] mediumX;
+  mediumX = 0;
+  delete [] tightX;
+  tightX = 0;
   delete [] matchedGenId;
   matchedGenId = 0;
 }
@@ -90,19 +110,15 @@ panda::XPhoton::datastore::setStatus(TTree& _tree, TString const& _name, utils::
 
   utils::setStatus(_tree, _name, "scEta", _branches);
   utils::setStatus(_tree, _name, "scRawPt", _branches);
-  utils::setStatus(_tree, _name, "chIsoS15", _branches);
-  utils::setStatus(_tree, _name, "nhIsoS15", _branches);
-  utils::setStatus(_tree, _name, "phIsoS15", _branches);
-  utils::setStatus(_tree, _name, "chIsoZG", _branches);
-  utils::setStatus(_tree, _name, "nhIsoZG", _branches);
-  utils::setStatus(_tree, _name, "phIsoZG", _branches);
+  utils::setStatus(_tree, _name, "chIsoX", _branches);
+  utils::setStatus(_tree, _name, "chIsoMaxX", _branches);
+  utils::setStatus(_tree, _name, "nhIsoX", _branches);
+  utils::setStatus(_tree, _name, "phIsoX", _branches);
   utils::setStatus(_tree, _name, "e4", _branches);
   utils::setStatus(_tree, _name, "isEB", _branches);
-  utils::setStatus(_tree, _name, "loose15", _branches);
-  utils::setStatus(_tree, _name, "medium15", _branches);
-  utils::setStatus(_tree, _name, "tight15", _branches);
-  utils::setStatus(_tree, _name, "mediumZG", _branches);
-  utils::setStatus(_tree, _name, "mediumZGMax", _branches);
+  utils::setStatus(_tree, _name, "looseX", _branches);
+  utils::setStatus(_tree, _name, "mediumX", _branches);
+  utils::setStatus(_tree, _name, "tightX", _branches);
   utils::setStatus(_tree, _name, "matchedGenId", _branches);
 }
 
@@ -113,19 +129,15 @@ panda::XPhoton::datastore::getStatus(TTree& _tree, TString const& _name) const
 
   blist.push_back(utils::getStatus(_tree, _name, "scEta"));
   blist.push_back(utils::getStatus(_tree, _name, "scRawPt"));
-  blist.push_back(utils::getStatus(_tree, _name, "chIsoS15"));
-  blist.push_back(utils::getStatus(_tree, _name, "nhIsoS15"));
-  blist.push_back(utils::getStatus(_tree, _name, "phIsoS15"));
-  blist.push_back(utils::getStatus(_tree, _name, "chIsoZG"));
-  blist.push_back(utils::getStatus(_tree, _name, "nhIsoZG"));
-  blist.push_back(utils::getStatus(_tree, _name, "phIsoZG"));
+  blist.push_back(utils::getStatus(_tree, _name, "chIsoX"));
+  blist.push_back(utils::getStatus(_tree, _name, "chIsoMaxX"));
+  blist.push_back(utils::getStatus(_tree, _name, "nhIsoX"));
+  blist.push_back(utils::getStatus(_tree, _name, "phIsoX"));
   blist.push_back(utils::getStatus(_tree, _name, "e4"));
   blist.push_back(utils::getStatus(_tree, _name, "isEB"));
-  blist.push_back(utils::getStatus(_tree, _name, "loose15"));
-  blist.push_back(utils::getStatus(_tree, _name, "medium15"));
-  blist.push_back(utils::getStatus(_tree, _name, "tight15"));
-  blist.push_back(utils::getStatus(_tree, _name, "mediumZG"));
-  blist.push_back(utils::getStatus(_tree, _name, "mediumZGMax"));
+  blist.push_back(utils::getStatus(_tree, _name, "looseX"));
+  blist.push_back(utils::getStatus(_tree, _name, "mediumX"));
+  blist.push_back(utils::getStatus(_tree, _name, "tightX"));
   blist.push_back(utils::getStatus(_tree, _name, "matchedGenId"));
 
   return blist;
@@ -138,19 +150,15 @@ panda::XPhoton::datastore::setAddress(TTree& _tree, TString const& _name, utils:
 
   utils::setAddress(_tree, _name, "scEta", scEta, _branches, _setStatus);
   utils::setAddress(_tree, _name, "scRawPt", scRawPt, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "chIsoS15", chIsoS15, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "nhIsoS15", nhIsoS15, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "phIsoS15", phIsoS15, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "chIsoZG", chIsoZG, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "nhIsoZG", nhIsoZG, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "phIsoZG", phIsoZG, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "chIsoX", chIsoX, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "chIsoMaxX", chIsoMaxX, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "nhIsoX", nhIsoX, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "phIsoX", phIsoX, _branches, _setStatus);
   utils::setAddress(_tree, _name, "e4", e4, _branches, _setStatus);
   utils::setAddress(_tree, _name, "isEB", isEB, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "loose15", loose15, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "medium15", medium15, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "tight15", tight15, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "mediumZG", mediumZG, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "mediumZGMax", mediumZGMax, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "looseX", looseX, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "mediumX", mediumX, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "tightX", tightX, _branches, _setStatus);
   utils::setAddress(_tree, _name, "matchedGenId", matchedGenId, _branches, _setStatus);
 }
 
@@ -163,19 +171,15 @@ panda::XPhoton::datastore::book(TTree& _tree, TString const& _name, utils::Branc
 
   utils::book(_tree, _name, "scEta", size, 'F', scEta, _branches);
   utils::book(_tree, _name, "scRawPt", size, 'F', scRawPt, _branches);
-  utils::book(_tree, _name, "chIsoS15", size, 'F', chIsoS15, _branches);
-  utils::book(_tree, _name, "nhIsoS15", size, 'F', nhIsoS15, _branches);
-  utils::book(_tree, _name, "phIsoS15", size, 'F', phIsoS15, _branches);
-  utils::book(_tree, _name, "chIsoZG", size, 'F', chIsoZG, _branches);
-  utils::book(_tree, _name, "nhIsoZG", size, 'F', nhIsoZG, _branches);
-  utils::book(_tree, _name, "phIsoZG", size, 'F', phIsoZG, _branches);
+  utils::book(_tree, _name, "chIsoX", size + TString::Format("[%d]", nIDTunes), 'F', chIsoX, _branches);
+  utils::book(_tree, _name, "chIsoMaxX", size + TString::Format("[%d]", nIDTunes), 'F', chIsoMaxX, _branches);
+  utils::book(_tree, _name, "nhIsoX", size + TString::Format("[%d]", nIDTunes), 'F', nhIsoX, _branches);
+  utils::book(_tree, _name, "phIsoX", size + TString::Format("[%d]", nIDTunes), 'F', phIsoX, _branches);
   utils::book(_tree, _name, "e4", size, 'F', e4, _branches);
   utils::book(_tree, _name, "isEB", size, 'O', isEB, _branches);
-  utils::book(_tree, _name, "loose15", size, 'O', loose15, _branches);
-  utils::book(_tree, _name, "medium15", size, 'O', medium15, _branches);
-  utils::book(_tree, _name, "tight15", size, 'O', tight15, _branches);
-  utils::book(_tree, _name, "mediumZG", size, 'O', mediumZG, _branches);
-  utils::book(_tree, _name, "mediumZGMax", size, 'O', mediumZGMax, _branches);
+  utils::book(_tree, _name, "looseX", size + TString::Format("[%d]", nIDTunes), 'O', looseX, _branches);
+  utils::book(_tree, _name, "mediumX", size + TString::Format("[%d]", nIDTunes), 'O', mediumX, _branches);
+  utils::book(_tree, _name, "tightX", size + TString::Format("[%d]", nIDTunes), 'O', tightX, _branches);
   utils::book(_tree, _name, "matchedGenId", size, 'I', matchedGenId, _branches);
 }
 
@@ -186,19 +190,15 @@ panda::XPhoton::datastore::releaseTree(TTree& _tree, TString const& _name)
 
   utils::resetAddress(_tree, _name, "scEta");
   utils::resetAddress(_tree, _name, "scRawPt");
-  utils::resetAddress(_tree, _name, "chIsoS15");
-  utils::resetAddress(_tree, _name, "nhIsoS15");
-  utils::resetAddress(_tree, _name, "phIsoS15");
-  utils::resetAddress(_tree, _name, "chIsoZG");
-  utils::resetAddress(_tree, _name, "nhIsoZG");
-  utils::resetAddress(_tree, _name, "phIsoZG");
+  utils::resetAddress(_tree, _name, "chIsoX");
+  utils::resetAddress(_tree, _name, "chIsoMaxX");
+  utils::resetAddress(_tree, _name, "nhIsoX");
+  utils::resetAddress(_tree, _name, "phIsoX");
   utils::resetAddress(_tree, _name, "e4");
   utils::resetAddress(_tree, _name, "isEB");
-  utils::resetAddress(_tree, _name, "loose15");
-  utils::resetAddress(_tree, _name, "medium15");
-  utils::resetAddress(_tree, _name, "tight15");
-  utils::resetAddress(_tree, _name, "mediumZG");
-  utils::resetAddress(_tree, _name, "mediumZGMax");
+  utils::resetAddress(_tree, _name, "looseX");
+  utils::resetAddress(_tree, _name, "mediumX");
+  utils::resetAddress(_tree, _name, "tightX");
   utils::resetAddress(_tree, _name, "matchedGenId");
 }
 
@@ -220,19 +220,15 @@ panda::XPhoton::XPhoton(char const* _name/* = ""*/) :
   Photon(new XPhotonArray(1, _name)),
   scEta(gStore.getData(this).scEta[0]),
   scRawPt(gStore.getData(this).scRawPt[0]),
-  chIsoS15(gStore.getData(this).chIsoS15[0]),
-  nhIsoS15(gStore.getData(this).nhIsoS15[0]),
-  phIsoS15(gStore.getData(this).phIsoS15[0]),
-  chIsoZG(gStore.getData(this).chIsoZG[0]),
-  nhIsoZG(gStore.getData(this).nhIsoZG[0]),
-  phIsoZG(gStore.getData(this).phIsoZG[0]),
+  chIsoX(gStore.getData(this).chIsoX[0]),
+  chIsoMaxX(gStore.getData(this).chIsoMaxX[0]),
+  nhIsoX(gStore.getData(this).nhIsoX[0]),
+  phIsoX(gStore.getData(this).phIsoX[0]),
   e4(gStore.getData(this).e4[0]),
   isEB(gStore.getData(this).isEB[0]),
-  loose15(gStore.getData(this).loose15[0]),
-  medium15(gStore.getData(this).medium15[0]),
-  tight15(gStore.getData(this).tight15[0]),
-  mediumZG(gStore.getData(this).mediumZG[0]),
-  mediumZGMax(gStore.getData(this).mediumZGMax[0]),
+  looseX(gStore.getData(this).looseX[0]),
+  mediumX(gStore.getData(this).mediumX[0]),
+  tightX(gStore.getData(this).tightX[0]),
   matchedGenId(gStore.getData(this).matchedGenId[0])
 {
 }
@@ -241,38 +237,30 @@ panda::XPhoton::XPhoton(XPhoton const& _src) :
   Photon(new XPhotonArray(1, _src.getName())),
   scEta(gStore.getData(this).scEta[0]),
   scRawPt(gStore.getData(this).scRawPt[0]),
-  chIsoS15(gStore.getData(this).chIsoS15[0]),
-  nhIsoS15(gStore.getData(this).nhIsoS15[0]),
-  phIsoS15(gStore.getData(this).phIsoS15[0]),
-  chIsoZG(gStore.getData(this).chIsoZG[0]),
-  nhIsoZG(gStore.getData(this).nhIsoZG[0]),
-  phIsoZG(gStore.getData(this).phIsoZG[0]),
+  chIsoX(gStore.getData(this).chIsoX[0]),
+  chIsoMaxX(gStore.getData(this).chIsoMaxX[0]),
+  nhIsoX(gStore.getData(this).nhIsoX[0]),
+  phIsoX(gStore.getData(this).phIsoX[0]),
   e4(gStore.getData(this).e4[0]),
   isEB(gStore.getData(this).isEB[0]),
-  loose15(gStore.getData(this).loose15[0]),
-  medium15(gStore.getData(this).medium15[0]),
-  tight15(gStore.getData(this).tight15[0]),
-  mediumZG(gStore.getData(this).mediumZG[0]),
-  mediumZGMax(gStore.getData(this).mediumZGMax[0]),
+  looseX(gStore.getData(this).looseX[0]),
+  mediumX(gStore.getData(this).mediumX[0]),
+  tightX(gStore.getData(this).tightX[0]),
   matchedGenId(gStore.getData(this).matchedGenId[0])
 {
   Photon::operator=(_src);
 
   scEta = _src.scEta;
   scRawPt = _src.scRawPt;
-  chIsoS15 = _src.chIsoS15;
-  nhIsoS15 = _src.nhIsoS15;
-  phIsoS15 = _src.phIsoS15;
-  chIsoZG = _src.chIsoZG;
-  nhIsoZG = _src.nhIsoZG;
-  phIsoZG = _src.phIsoZG;
+  std::memcpy(chIsoX, _src.chIsoX, sizeof(Float_t) * nIDTunes);
+  std::memcpy(chIsoMaxX, _src.chIsoMaxX, sizeof(Float_t) * nIDTunes);
+  std::memcpy(nhIsoX, _src.nhIsoX, sizeof(Float_t) * nIDTunes);
+  std::memcpy(phIsoX, _src.phIsoX, sizeof(Float_t) * nIDTunes);
   e4 = _src.e4;
   isEB = _src.isEB;
-  loose15 = _src.loose15;
-  medium15 = _src.medium15;
-  tight15 = _src.tight15;
-  mediumZG = _src.mediumZG;
-  mediumZGMax = _src.mediumZGMax;
+  std::memcpy(looseX, _src.looseX, sizeof(Bool_t) * nIDTunes);
+  std::memcpy(mediumX, _src.mediumX, sizeof(Bool_t) * nIDTunes);
+  std::memcpy(tightX, _src.tightX, sizeof(Bool_t) * nIDTunes);
   matchedGenId = _src.matchedGenId;
 }
 
@@ -280,19 +268,15 @@ panda::XPhoton::XPhoton(datastore& _data, UInt_t _idx) :
   Photon(_data, _idx),
   scEta(_data.scEta[_idx]),
   scRawPt(_data.scRawPt[_idx]),
-  chIsoS15(_data.chIsoS15[_idx]),
-  nhIsoS15(_data.nhIsoS15[_idx]),
-  phIsoS15(_data.phIsoS15[_idx]),
-  chIsoZG(_data.chIsoZG[_idx]),
-  nhIsoZG(_data.nhIsoZG[_idx]),
-  phIsoZG(_data.phIsoZG[_idx]),
+  chIsoX(_data.chIsoX[_idx]),
+  chIsoMaxX(_data.chIsoMaxX[_idx]),
+  nhIsoX(_data.nhIsoX[_idx]),
+  phIsoX(_data.phIsoX[_idx]),
   e4(_data.e4[_idx]),
   isEB(_data.isEB[_idx]),
-  loose15(_data.loose15[_idx]),
-  medium15(_data.medium15[_idx]),
-  tight15(_data.tight15[_idx]),
-  mediumZG(_data.mediumZG[_idx]),
-  mediumZGMax(_data.mediumZGMax[_idx]),
+  looseX(_data.looseX[_idx]),
+  mediumX(_data.mediumX[_idx]),
+  tightX(_data.tightX[_idx]),
   matchedGenId(_data.matchedGenId[_idx])
 {
 }
@@ -301,19 +285,15 @@ panda::XPhoton::XPhoton(ArrayBase* _array) :
   Photon(_array),
   scEta(gStore.getData(this).scEta[0]),
   scRawPt(gStore.getData(this).scRawPt[0]),
-  chIsoS15(gStore.getData(this).chIsoS15[0]),
-  nhIsoS15(gStore.getData(this).nhIsoS15[0]),
-  phIsoS15(gStore.getData(this).phIsoS15[0]),
-  chIsoZG(gStore.getData(this).chIsoZG[0]),
-  nhIsoZG(gStore.getData(this).nhIsoZG[0]),
-  phIsoZG(gStore.getData(this).phIsoZG[0]),
+  chIsoX(gStore.getData(this).chIsoX[0]),
+  chIsoMaxX(gStore.getData(this).chIsoMaxX[0]),
+  nhIsoX(gStore.getData(this).nhIsoX[0]),
+  phIsoX(gStore.getData(this).phIsoX[0]),
   e4(gStore.getData(this).e4[0]),
   isEB(gStore.getData(this).isEB[0]),
-  loose15(gStore.getData(this).loose15[0]),
-  medium15(gStore.getData(this).medium15[0]),
-  tight15(gStore.getData(this).tight15[0]),
-  mediumZG(gStore.getData(this).mediumZG[0]),
-  mediumZGMax(gStore.getData(this).mediumZGMax[0]),
+  looseX(gStore.getData(this).looseX[0]),
+  mediumX(gStore.getData(this).mediumX[0]),
+  tightX(gStore.getData(this).tightX[0]),
   matchedGenId(gStore.getData(this).matchedGenId[0])
 {
 }
@@ -340,19 +320,15 @@ panda::XPhoton::operator=(XPhoton const& _src)
 
   scEta = _src.scEta;
   scRawPt = _src.scRawPt;
-  chIsoS15 = _src.chIsoS15;
-  nhIsoS15 = _src.nhIsoS15;
-  phIsoS15 = _src.phIsoS15;
-  chIsoZG = _src.chIsoZG;
-  nhIsoZG = _src.nhIsoZG;
-  phIsoZG = _src.phIsoZG;
+  std::memcpy(chIsoX, _src.chIsoX, sizeof(Float_t) * nIDTunes);
+  std::memcpy(chIsoMaxX, _src.chIsoMaxX, sizeof(Float_t) * nIDTunes);
+  std::memcpy(nhIsoX, _src.nhIsoX, sizeof(Float_t) * nIDTunes);
+  std::memcpy(phIsoX, _src.phIsoX, sizeof(Float_t) * nIDTunes);
   e4 = _src.e4;
   isEB = _src.isEB;
-  loose15 = _src.loose15;
-  medium15 = _src.medium15;
-  tight15 = _src.tight15;
-  mediumZG = _src.mediumZG;
-  mediumZGMax = _src.mediumZGMax;
+  std::memcpy(looseX, _src.looseX, sizeof(Bool_t) * nIDTunes);
+  std::memcpy(mediumX, _src.mediumX, sizeof(Bool_t) * nIDTunes);
+  std::memcpy(tightX, _src.tightX, sizeof(Bool_t) * nIDTunes);
   matchedGenId = _src.matchedGenId;
 
   /* BEGIN CUSTOM XPhoton.cc.operator= */
@@ -368,19 +344,15 @@ panda::XPhoton::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchL
 
   utils::setAddress(_tree, _name, "scEta", &scEta, _branches, _setStatus);
   utils::setAddress(_tree, _name, "scRawPt", &scRawPt, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "chIsoS15", &chIsoS15, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "nhIsoS15", &nhIsoS15, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "phIsoS15", &phIsoS15, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "chIsoZG", &chIsoZG, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "nhIsoZG", &nhIsoZG, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "phIsoZG", &phIsoZG, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "chIsoX", chIsoX, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "chIsoMaxX", chIsoMaxX, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "nhIsoX", nhIsoX, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "phIsoX", phIsoX, _branches, _setStatus);
   utils::setAddress(_tree, _name, "e4", &e4, _branches, _setStatus);
   utils::setAddress(_tree, _name, "isEB", &isEB, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "loose15", &loose15, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "medium15", &medium15, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "tight15", &tight15, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "mediumZG", &mediumZG, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "mediumZGMax", &mediumZGMax, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "looseX", looseX, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "mediumX", mediumX, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "tightX", tightX, _branches, _setStatus);
   utils::setAddress(_tree, _name, "matchedGenId", &matchedGenId, _branches, _setStatus);
 }
 
@@ -391,19 +363,15 @@ panda::XPhoton::doBook_(TTree& _tree, TString const& _name, utils::BranchList co
 
   utils::book(_tree, _name, "scEta", "", 'F', &scEta, _branches);
   utils::book(_tree, _name, "scRawPt", "", 'F', &scRawPt, _branches);
-  utils::book(_tree, _name, "chIsoS15", "", 'F', &chIsoS15, _branches);
-  utils::book(_tree, _name, "nhIsoS15", "", 'F', &nhIsoS15, _branches);
-  utils::book(_tree, _name, "phIsoS15", "", 'F', &phIsoS15, _branches);
-  utils::book(_tree, _name, "chIsoZG", "", 'F', &chIsoZG, _branches);
-  utils::book(_tree, _name, "nhIsoZG", "", 'F', &nhIsoZG, _branches);
-  utils::book(_tree, _name, "phIsoZG", "", 'F', &phIsoZG, _branches);
+  utils::book(_tree, _name, "chIsoX", TString::Format("[%d]", nIDTunes), 'F', chIsoX, _branches);
+  utils::book(_tree, _name, "chIsoMaxX", TString::Format("[%d]", nIDTunes), 'F', chIsoMaxX, _branches);
+  utils::book(_tree, _name, "nhIsoX", TString::Format("[%d]", nIDTunes), 'F', nhIsoX, _branches);
+  utils::book(_tree, _name, "phIsoX", TString::Format("[%d]", nIDTunes), 'F', phIsoX, _branches);
   utils::book(_tree, _name, "e4", "", 'F', &e4, _branches);
   utils::book(_tree, _name, "isEB", "", 'O', &isEB, _branches);
-  utils::book(_tree, _name, "loose15", "", 'O', &loose15, _branches);
-  utils::book(_tree, _name, "medium15", "", 'O', &medium15, _branches);
-  utils::book(_tree, _name, "tight15", "", 'O', &tight15, _branches);
-  utils::book(_tree, _name, "mediumZG", "", 'O', &mediumZG, _branches);
-  utils::book(_tree, _name, "mediumZGMax", "", 'O', &mediumZGMax, _branches);
+  utils::book(_tree, _name, "looseX", TString::Format("[%d]", nIDTunes), 'O', looseX, _branches);
+  utils::book(_tree, _name, "mediumX", TString::Format("[%d]", nIDTunes), 'O', mediumX, _branches);
+  utils::book(_tree, _name, "tightX", TString::Format("[%d]", nIDTunes), 'O', tightX, _branches);
   utils::book(_tree, _name, "matchedGenId", "", 'I', &matchedGenId, _branches);
 }
 
@@ -414,19 +382,15 @@ panda::XPhoton::doInit_()
 
   scEta = 0.;
   scRawPt = 0.;
-  chIsoS15 = 0.;
-  nhIsoS15 = 0.;
-  phIsoS15 = 0.;
-  chIsoZG = 0.;
-  nhIsoZG = 0.;
-  phIsoZG = 0.;
+  for (auto& p0 : chIsoX) p0 = 0.;
+  for (auto& p0 : chIsoMaxX) p0 = 0.;
+  for (auto& p0 : nhIsoX) p0 = 0.;
+  for (auto& p0 : phIsoX) p0 = 0.;
   e4 = 0.;
   isEB = false;
-  loose15 = false;
-  medium15 = false;
-  tight15 = false;
-  mediumZG = false;
-  mediumZGMax = false;
+  for (auto& p0 : looseX) p0 = false;
+  for (auto& p0 : mediumX) p0 = false;
+  for (auto& p0 : tightX) p0 = false;
   matchedGenId = 0;
 
   /* BEGIN CUSTOM XPhoton.cc.doInit_ */
@@ -445,9 +409,9 @@ panda::XPhoton::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/)
 
     _out << "scEta = " << scEta << std::endl;
     _out << "scRawPt = " << scRawPt << std::endl;
-    _out << "chIsoS15 = " << chIsoS15 << std::endl;
-    _out << "nhIsoS15 = " << nhIsoS15 << std::endl;
-    _out << "phIsoS15 = " << phIsoS15 << std::endl;
+    _out << "chIso[S15] = " << chIsoX[kSpring15] << std::endl;
+    _out << "nhIso[S15] = " << nhIsoX[kSpring15] << std::endl;
+    _out << "phIso[S15] = " << phIsoX[kSpring15] << std::endl;
     _out << "e4 = " << e4 << std::endl;
     _out << "isEB = " << isEB << std::endl;
   }
@@ -463,19 +427,15 @@ panda::XPhoton::dump(std::ostream& _out/* = std::cout*/) const
 
   _out << "scEta = " << scEta << std::endl;
   _out << "scRawPt = " << scRawPt << std::endl;
-  _out << "chIsoS15 = " << chIsoS15 << std::endl;
-  _out << "nhIsoS15 = " << nhIsoS15 << std::endl;
-  _out << "phIsoS15 = " << phIsoS15 << std::endl;
-  _out << "chIsoZG = " << chIsoZG << std::endl;
-  _out << "nhIsoZG = " << nhIsoZG << std::endl;
-  _out << "phIsoZG = " << phIsoZG << std::endl;
+  _out << "chIsoX = " << chIsoX << std::endl;
+  _out << "chIsoMaxX = " << chIsoMaxX << std::endl;
+  _out << "nhIsoX = " << nhIsoX << std::endl;
+  _out << "phIsoX = " << phIsoX << std::endl;
   _out << "e4 = " << e4 << std::endl;
   _out << "isEB = " << isEB << std::endl;
-  _out << "loose15 = " << loose15 << std::endl;
-  _out << "medium15 = " << medium15 << std::endl;
-  _out << "tight15 = " << tight15 << std::endl;
-  _out << "mediumZG = " << mediumZG << std::endl;
-  _out << "mediumZGMax = " << mediumZGMax << std::endl;
+  _out << "looseX = " << looseX << std::endl;
+  _out << "mediumX = " << mediumX << std::endl;
+  _out << "tightX = " << tightX << std::endl;
   _out << "matchedGenId = " << matchedGenId << std::endl;
 }
 

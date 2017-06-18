@@ -11,11 +11,21 @@ namespace panda {
 
   class XPhoton : public Photon {
   public:
-    static double const chIsoCuts[2][2][4];
-    static double const nhIsoCuts[2][2][4];
-    static double const phIsoCuts[2][2][4];
-    static double const sieieCuts[2][2][4];
-    static double const hOverECuts[2][2][4];
+    enum IDTune {
+      kSpring15,
+      kSpring16,
+      kGJetsCWIso,
+      kZGCWIso,
+      nIDTunes
+    };
+
+    static TString IDTuneName[nIDTunes];
+
+    static double const chIsoCuts[nIDTunes][2][4];
+    static double const nhIsoCuts[nIDTunes][2][4];
+    static double const phIsoCuts[nIDTunes][2][4];
+    static double const sieieCuts[nIDTunes][2][4];
+    static double const hOverECuts[nIDTunes][2][4];
 
     struct datastore : public Photon::datastore {
       datastore() : Photon::datastore() {}
@@ -67,19 +77,15 @@ namespace panda {
       */
       Float_t* scEta{0};
       Float_t* scRawPt{0};
-      Float_t* chIsoS15{0};
-      Float_t* nhIsoS15{0};
-      Float_t* phIsoS15{0};
-      Float_t* chIsoZG{0};
-      Float_t* nhIsoZG{0};
-      Float_t* phIsoZG{0};
+      Float_t (*chIsoX)[nIDTunes]{0};
+      Float_t (*chIsoMaxX)[nIDTunes]{0};
+      Float_t (*nhIsoX)[nIDTunes]{0};
+      Float_t (*phIsoX)[nIDTunes]{0};
       Float_t* e4{0};
       Bool_t* isEB{0};
-      Bool_t* loose15{0};
-      Bool_t* medium15{0};
-      Bool_t* tight15{0};
-      Bool_t* mediumZG{0};
-      Bool_t* mediumZGMax{0};
+      Bool_t (*looseX)[nIDTunes]{0};
+      Bool_t (*mediumX)[nIDTunes]{0};
+      Bool_t (*tightX)[nIDTunes]{0};
       Int_t* matchedGenId{0};
 
       void allocate(UInt_t n) override;
@@ -109,14 +115,12 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    bool passCHIso(UInt_t wp) const { return chIso < chIsoCuts[1][isEB ? 0 : 1][wp]; }
-    bool passNHIso(UInt_t wp) const { return nhIso < nhIsoCuts[1][isEB ? 0 : 1][wp]; }
-    bool passPhIso(UInt_t wp) const { return phIso < phIsoCuts[1][isEB ? 0 : 1][wp]; }
-    bool passSieie(UInt_t wp, UInt_t era) const { return sieie < sieieCuts[era][isEB ? 0 : 1][wp]; }
-    bool passHOverE(UInt_t wp, UInt_t era) const { return hOverE < hOverECuts[era][isEB ? 0 : 1][wp]; }
-    bool passCHIsoS15(UInt_t wp) const { return chIsoS15 < chIsoCuts[0][isEB ? 0 : 1][wp]; }
-    bool passNHIsoS15(UInt_t wp) const { return nhIsoS15 < nhIsoCuts[0][isEB ? 0 : 1][wp]; }
-    bool passPhIsoS15(UInt_t wp) const { return phIsoS15 < phIsoCuts[0][isEB ? 0 : 1][wp]; }
+    bool passCHIso(UInt_t wp, UInt_t t) const { return chIsoX[t] < chIsoCuts[t][isEB ? 0 : 1][wp]; }
+    bool passCHIsoMax(UInt_t wp, UInt_t t) const { return chIsoMaxX[t] < chIsoCuts[t][isEB ? 0 : 1][wp]; }
+    bool passNHIso(UInt_t wp, UInt_t t) const { return nhIsoX[t] < nhIsoCuts[t][isEB ? 0 : 1][wp]; }
+    bool passPhIso(UInt_t wp, UInt_t t) const { return phIsoX[t] < phIsoCuts[t][isEB ? 0 : 1][wp]; }
+    bool passSieie(UInt_t wp, UInt_t t) const { return sieie < sieieCuts[t][isEB ? 0 : 1][wp]; }
+    bool passHOverE(UInt_t wp, UInt_t t) const { return hOverE < hOverECuts[t][isEB ? 0 : 1][wp]; }
 
     /* Photon
     Float_t& pfPt; // Pt of the dR-closest PF candidate
@@ -156,19 +160,15 @@ namespace panda {
     */
     Float_t& scEta;
     Float_t& scRawPt;
-    Float_t& chIsoS15;
-    Float_t& nhIsoS15;
-    Float_t& phIsoS15;
-    Float_t& chIsoZG;
-    Float_t& nhIsoZG;
-    Float_t& phIsoZG;
+    Float_t (&chIsoX)[nIDTunes];
+    Float_t (&chIsoMaxX)[nIDTunes];
+    Float_t (&nhIsoX)[nIDTunes];
+    Float_t (&phIsoX)[nIDTunes];
     Float_t& e4;
     Bool_t& isEB;
-    Bool_t& loose15;
-    Bool_t& medium15;
-    Bool_t& tight15;
-    Bool_t& mediumZG;
-    Bool_t& mediumZGMax;
+    Bool_t (&looseX)[nIDTunes];
+    Bool_t (&mediumX)[nIDTunes];
+    Bool_t (&tightX)[nIDTunes];
     Int_t& matchedGenId;
 
   protected:
