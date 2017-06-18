@@ -207,6 +207,22 @@ PNode::generateInfo_() const
   }
 
   if (status == 1) {
+    bool first(true);
+    for (unsigned iB(0); iB != panda::GenParticle::nStatusFlags; ++iB) {
+      if (!statusBits[iB])
+        continue;
+
+      if (first) {
+        ss << "{";
+        first = false;
+      }
+      else
+        ss << ",";
+      ss << iB;
+    }
+    if (!first)
+      ss << "}";
+
     if (gMatchDR > 0.) {
       double dEta(eta - gMatchEta);
       double dPhi(TVector2::Phi_mpi_pi(phi - gMatchPhi));

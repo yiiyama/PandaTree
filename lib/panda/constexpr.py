@@ -6,14 +6,43 @@ class Constant(Definition):
     C++ const lines.
     """
 
-    def __init__(self, line):
-        Definition.__init__(self, line, '(?:static +|)(?:const +([^ ]+)|([^ ]+) +const) +([a-zA-Z0-9_]+(?:\[[^\]]+\])*)(.*);')
+    def __init__(self, line, source):
+        Definition.__init__(self, line, '(?:static +|)(?:const +([^ ]+)|([^ ]+) +const) +([a-zA-Z0-9_]+(?:\[[^\]]+\])*)([^\(\)]+)$')
         self.type = self.matches.group(1)
         if self.type is None:
             self.type = self.matches.group(2)
 
         self.decl = self.matches.group(3)
         self.value = self.matches.group(4)
+
+        # if value ends with semicolon in one line, either the value must be given in the .cc file or is given by a one-liner init expression
+
+        if not self.value.endswith(';'):
+            # we are in the middle of a multi-line brace-init expression
+            self.value += '\n'
+    
+            depth = self.value.count('{') - self.value.count('}')
+    
+            while True:
+                line = source.readline()
+                if line == '':
+                    break
+    
+                self.value += line
+    
+                depth += line.count('{')
+                depth -= line.count('}')
+    
+                if depth == 0:
+                    break
+    
+            self.value = self.value[:-1] # last character is \n
+    
+            if not self.value.endswith(';'):
+                raise RuntimeError('Const expression %s %s did not end with a semicolon' % (self.type, self.decl))
+
+        # remove the trailing semicolon
+        self.value = self.value[:-1]
 
     def write_decl(self, out, context):
         if context == 'global':
