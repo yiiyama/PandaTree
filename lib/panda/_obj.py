@@ -45,7 +45,7 @@ def __init__(self, name, source):
             pass
 
         try:
-            self.constants.append(Constant(line))
+            self.constants.append(Constant(line, source))
             continue
         except Definition.NoMatch:
             pass
