@@ -194,18 +194,6 @@ panda::RecoVertex::operator=(RecoVertex const& _src)
 }
 
 void
-panda::RecoVertex::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  Vertex::doSetAddress_(_tree, _name, _branches, _setStatus);
-
-  utils::setAddress(_tree, _name, "score", &score, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "ntrk", &ntrk, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "ndof", &ndof, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "chi2", &chi2, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "pfRangeMax", &pfRangeMax, _branches, _setStatus);
-}
-
-void
 panda::RecoVertex::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Vertex::doBook_(_tree, _name, _branches);

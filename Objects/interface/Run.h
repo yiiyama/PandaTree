@@ -20,7 +20,7 @@ namespace panda {
     UInt_t hltMenu{};
     UShort_t hltSize{}; // transient
 
-    static utils::BranchList getListOfBranches();
+    static utils::BranchList getListOfBranches(Bool_t direct = kFALSE);
 
   protected:
     void doSetStatus_(TTree&, utils::BranchList const&) override;
@@ -30,6 +30,7 @@ namespace panda {
     void doBook_(TTree&, utils::BranchList const&) override;
     void doGetEntry_(TTree&, Long64_t) override;
     void doInit_() override;
+    void doUnlink_(TTree&) override;
 
   public:
     /* BEGIN CUSTOM Run.h.classdef */
@@ -94,25 +95,6 @@ namespace panda {
 
   private:
 
-    //! Helper class for cleaning up runTrees_
-    /*!
-      See CollectionBase for details.
-     */
-    class TreePointerCleaner : public TObject {
-    public:
-      TreePointerCleaner(Run*, TTree*);
-      ~TreePointerCleaner(); //! called in TTree destructor when UserInfo list is deleted
-
-      char const* GetName() const override { return run_->getName(); }
-      
-      Run* getRun() const { return run_; }
-    private:
-      Run* run_;
-      TTree* tree_;
-    };
-
-    friend class TreePointerCleaner;
-
     //! Update trigger information
     void updateTriggerTable_(TTree& _tree);
 
@@ -126,10 +108,6 @@ namespace panda {
     std::vector<UInt_t> triggerIndices_{};
 
     //! Current input tree (used in updateTriggerTable_ to detect input file change)
-    /*!
-      Unlike CollectionBase and EventBase, Run does not carry pointers to multiple input trees.
-      If we want to be able to handle multiple trees, we will need to vectorize the "hlt" data member.
-    */
     TTree* inputTree_{0};
 
     //! Current input tree number

@@ -201,17 +201,6 @@ panda::UnpackedPFCand::operator=(UnpackedPFCand const& _src)
 }
 
 void
-panda::UnpackedPFCand::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  ParticleM::doSetAddress_(_tree, _name, _branches, _setStatus);
-
-  utils::setAddress(_tree, _name, "puppiW", &puppiW, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "puppiWNoLep", &puppiWNoLep, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "ptype", &ptype, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "vertex_", gStore.getData(this).vertex_, _branches, true);
-}
-
-void
 panda::UnpackedPFCand::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ParticleM::doBook_(_tree, _name, _branches);

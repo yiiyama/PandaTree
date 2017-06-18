@@ -1,7 +1,7 @@
 #ifndef PandaTree_Framework_Singlet_h
 #define PandaTree_Framework_Singlet_h
 
-#include "Object.h"
+#include "ReaderObject.h"
 
 #include "TString.h"
 
@@ -13,17 +13,17 @@ namespace panda {
   /*!
    * Singlet objects are owners of their data, in contrast to Element.
    */
-  class Singlet : public Object {
+  class Singlet : public ReaderObject {
   public:
-    Singlet(char const* name = "") : Object(), name_(name) {}
-    Singlet(Singlet const& src) : Object(src), name_(src.name_) {}
+    Singlet(char const* name = "") : ReaderObject(), name_(name) {}
+    Singlet(Singlet const& src) : ReaderObject(src), name_(src.name_) {}
     ~Singlet() {}
     Singlet& operator=(Singlet const& _src) { name_ = _src.name_; return *this; }
 
     void setStatus(TTree&, utils::BranchList const& blist) final;
     utils::BranchList getStatus(TTree&) const final;
-    utils::BranchList getBranchNames(Bool_t fullName = kTRUE) const final;
-    void setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
+    utils::BranchList getBranchNames(Bool_t fullName = kTRUE, Bool_t = kFALSE) const final;
+    UInt_t setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
     void book(TTree&, utils::BranchList const& blist = {"*"}) final;
     void init() final { doInit_(); }
     char const* getName() const final { return name_; }

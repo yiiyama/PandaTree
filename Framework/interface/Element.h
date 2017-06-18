@@ -80,9 +80,11 @@ namespace panda {
 
     void setStatus(TTree&, utils::BranchList const& blist) final;
     utils::BranchList getStatus(TTree&) const final;
-    utils::BranchList getBranchNames(Bool_t fullName = kTRUE) const final;
-    void setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
+    utils::BranchList getBranchNames(Bool_t fullName = kTRUE, Bool_t = kFALSE) const final;
+    UInt_t setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
     void book(TTree&, utils::BranchList const& blist = {"*"}) final;
+    Int_t getEntry(TTree& tree, Long64_t entry, Int_t localEntry = -1) final;
+    Int_t getEntry(UInt_t treeId, Long64_t entry, Int_t localEntry = -1) final;
     void init() final { doInit_(); }
     char const* getName() const final;
     void setName(char const*) final;
@@ -105,7 +107,6 @@ namespace panda {
      */
     Element(ArrayBase*);
 
-    virtual void doSetAddress_(TTree&, TString const&, utils::BranchList const&, Bool_t setStatus) = 0;
     virtual void doBook_(TTree&, TString const&, utils::BranchList const&) = 0;
     virtual void doInit_() = 0;
   };

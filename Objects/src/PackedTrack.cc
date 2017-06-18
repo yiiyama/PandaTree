@@ -177,15 +177,6 @@ panda::PackedTrack::operator=(PackedTrack const& _src)
 }
 
 void
-panda::PackedTrack::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  utils::setAddress(_tree, _name, "packedPtError", &packedPtError, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "packedDxy", &packedDxy, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "packedDz", &packedDz, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "packedDPhi", &packedDPhi, _branches, _setStatus);
-}
-
-void
 panda::PackedTrack::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   utils::book(_tree, _name, "packedPtError", "", 's', &packedPtError, _branches);

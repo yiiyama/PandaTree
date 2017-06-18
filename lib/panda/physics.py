@@ -290,7 +290,6 @@ class PhysicsObject(Definition, Object):
             header.indent += 1
             header.writeline('{name}(ArrayBase*);'.format(name = self.name))
             header.newline()
-            header.writeline('void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;')
             header.writeline('void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;')
             header.writeline('void doInit_() override;')
             header.indent -= 1
@@ -602,7 +601,6 @@ class PhysicsObject(Definition, Object):
 
             methods = [
                 ('operator=', '{NAMESPACE}::{name}&'.format(**subst), [('{name} const&'.format(**subst), '_src')], 'write_assign', '*this'),
-                ('doSetAddress_', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}'), ('Bool_t', '_setStatus', 'kTRUE')], 'write_set_address', None),
                 ('doBook_', 'void', [('TTree&', '_tree'), ('TString const&', '_name'), ('utils::BranchList const&', '_branches', '{"*"}')], 'write_book', None),
                 ('doInit_', 'void', [], 'write_init', None)
             ]

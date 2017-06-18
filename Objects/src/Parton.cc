@@ -138,14 +138,6 @@ panda::Parton::operator=(Parton const& _src)
 }
 
 void
-panda::Parton::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  ParticleM::doSetAddress_(_tree, _name, _branches, _setStatus);
-
-  utils::setAddress(_tree, _name, "pdgid", &pdgid, _branches, _setStatus);
-}
-
-void
 panda::Parton::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ParticleM::doBook_(_tree, _name, _branches);

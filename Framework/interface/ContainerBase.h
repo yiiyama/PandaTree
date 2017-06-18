@@ -1,6 +1,7 @@
 #ifndef PandaTree_Framework_ContainerBase_h
 #define PandaTree_Framework_ContainerBase_h
 
+#include "ReaderObject.h"
 #include "Element.h"
 #include "IOUtils.h"
 
@@ -15,18 +16,13 @@ namespace panda {
   /*!
    * Panda containers can be Array (fixed size) or Collection (dynamic size). Both inherit from ContainerBase.
    */
-  class ContainerBase : public Object {
+  class ContainerBase : public ReaderObject {
   public:
     ContainerBase() = delete;
     ContainerBase(ContainerBase const&) = delete;
     virtual ~ContainerBase() {}
     ContainerBase& operator=(ContainerBase const&) = delete;
 
-    void setStatus(TTree&, utils::BranchList const& blist) final;
-    utils::BranchList getStatus(TTree&) const final;
-    utils::BranchList getBranchNames(Bool_t fullName = kTRUE) const final;
-    void setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
-    void book(TTree&, utils::BranchList const& blist = {"*"}) final;
     char const* getName() const final { return name_; }
     void setName(char const* name) final { name_ = name; }
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
@@ -49,11 +45,6 @@ namespace panda {
 
   protected:
     ContainerBase(char const* name, UInt_t unitSize) : name_(name), unitSize_(unitSize) {}
-
-    virtual void doSetStatus_(TTree&, utils::BranchList const&) = 0;
-    virtual utils::BranchList doGetStatus_(TTree&) const = 0;
-    virtual void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus, Bool_t asInput) = 0;
-    virtual void doBook_(TTree&, utils::BranchList const&) = 0;
 
     TString name_{""};
     UInt_t const unitSize_{0};

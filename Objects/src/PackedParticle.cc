@@ -180,17 +180,6 @@ panda::PackedParticle::operator=(PackedParticle const& _src)
 }
 
 void
-panda::PackedParticle::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  Particle::doSetAddress_(_tree, _name, _branches, _setStatus);
-
-  utils::setAddress(_tree, _name, "packedPt", &packedPt, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "packedEta", &packedEta, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "packedPhi", &packedPhi, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "packedM", &packedM, _branches, _setStatus);
-}
-
-void
 panda::PackedParticle::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Particle::doBook_(_tree, _name, _branches);

@@ -88,18 +88,20 @@ panda::EventTPPhoton::dump(std::ostream& _out/* = std::cout*/) const
 }
 /*static*/
 panda::utils::BranchList
-panda::EventTPPhoton::getListOfBranches()
+panda::EventTPPhoton::getListOfBranches(Bool_t _direct/* = kFALSE*/)
 {
   utils::BranchList blist;
-  blist += EventBase::getListOfBranches();
+  blist += EventBase::getListOfBranches(_direct);
 
   blist += {"npv", "npvTrue", "rho", "sample"};
-  blist += TPPair::getListOfBranches().fullNames("tp");
-  blist += Lepton::getListOfBranches().fullNames("tags");
-  blist += Lepton::getListOfBranches().fullNames("looseTags");
-  blist += XPhoton::getListOfBranches().fullNames("probes");
-  blist += Jet::getListOfBranches().fullNames("jets");
-  blist += RecoMet::getListOfBranches().fullNames("t1Met");
+  if (!_direct) {
+    blist += TPPair::getListOfBranches().fullNames("tp");
+    blist += Lepton::getListOfBranches().fullNames("tags");
+    blist += Lepton::getListOfBranches().fullNames("looseTags");
+    blist += XPhoton::getListOfBranches().fullNames("probes");
+    blist += Jet::getListOfBranches().fullNames("jets");
+    blist += RecoMet::getListOfBranches().fullNames("t1Met");
+  }
   return blist;
 }
 
@@ -132,7 +134,7 @@ panda::EventTPPhoton::doGetStatus_(TTree& _tree) const
 panda::utils::BranchList
 panda::EventTPPhoton::doGetBranchNames_() const
 {
-  return getListOfBranches();
+  return getListOfBranches(true);
 }
 
 /*protected*/
@@ -179,6 +181,15 @@ panda::EventTPPhoton::doInit_()
   rho = 0.;
   sample = 0;
   /* BEGIN CUSTOM EventTPPhoton.cc.doInit_ */
+  /* END CUSTOM */
+}
+
+void
+panda::EventTPPhoton::doUnlink_(TTree& _tree)
+{
+  EventBase::doUnlink_(_tree);
+
+  /* BEGIN CUSTOM EventTPPhoton.cc.doUnlink_ */
   /* END CUSTOM */
 }
 

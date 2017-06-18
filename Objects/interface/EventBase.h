@@ -28,7 +28,7 @@ namespace panda {
     Bool_t isData{};
     Float_t weight{};
 
-    static utils::BranchList getListOfBranches();
+    static utils::BranchList getListOfBranches(Bool_t direct = kFALSE);
 
   protected:
     void doSetStatus_(TTree&, utils::BranchList const&) override;
@@ -38,6 +38,7 @@ namespace panda {
     void doBook_(TTree&, utils::BranchList const&) override;
     void doGetEntry_(TTree&, Long64_t) override;
     void doInit_() override;
+    void doUnlink_(TTree&) override;
 
   public:
     /* BEGIN CUSTOM EventBase.h.classdef */
@@ -67,25 +68,6 @@ namespace panda {
     Bool_t triggerFired(UInt_t token) const;
 
   private:
-    //! Helper class for cleaning up runTrees_
-    /*!
-      See CollectionBase for the basic idea.
-     */
-    class TreePointerCleaner : public TObject {
-    public:
-      TreePointerCleaner(EventBase*, TTree*);
-      ~TreePointerCleaner(); //! called in TTree destructor when UserInfo list is deleted
-
-      char const* GetName() const override { return event_->getName(); }
-      
-      EventBase* getEvent() const { return event_; }
-    private:
-      EventBase* event_;
-      TTree* tree_;
-    };
-
-    friend class TreePointerCleaner;
-
     //! Flag to set run synch feature on/off
     Bool_t readRunTree_{kTRUE};
 

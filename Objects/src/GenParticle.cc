@@ -198,17 +198,6 @@ panda::GenParticle::operator=(GenParticle const& _src)
 }
 
 void
-panda::GenParticle::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  PackedParticle::doSetAddress_(_tree, _name, _branches, _setStatus);
-
-  utils::setAddress(_tree, _name, "pdgid", &pdgid, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "finalState", &finalState, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "statusFlags", &statusFlags, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "parent_", gStore.getData(this).parent_, _branches, true);
-}
-
-void
 panda::GenParticle::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   PackedParticle::doBook_(_tree, _name, _branches);

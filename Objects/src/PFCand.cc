@@ -205,16 +205,6 @@ panda::PFCand::operator=(PFCand const& _src)
 }
 
 void
-panda::PFCand::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  PackedParticle::doSetAddress_(_tree, _name, _branches, _setStatus);
-
-  utils::setAddress(_tree, _name, "packedPuppiW", &packedPuppiW, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "packedPuppiWNoLepDiff", &packedPuppiWNoLepDiff, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "ptype", &ptype, _branches, _setStatus);
-}
-
-void
 panda::PFCand::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   PackedParticle::doBook_(_tree, _name, _branches);

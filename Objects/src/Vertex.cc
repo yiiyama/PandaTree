@@ -163,14 +163,6 @@ panda::Vertex::operator=(Vertex const& _src)
 }
 
 void
-panda::Vertex::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  utils::setAddress(_tree, _name, "x", &x, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "y", &y, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "z", &z, _branches, _setStatus);
-}
-
-void
 panda::Vertex::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   utils::book(_tree, _name, "x", "", 'F', &x, _branches);

@@ -27,20 +27,6 @@ panda::EventBase::EventBase(EventBase const& _src) :
 panda::EventBase::~EventBase()
 {
   /* BEGIN CUSTOM EventBase.cc.dtor */
-  for (auto& tt : runTrees_) {
-    auto* uinfo(tt.first->GetUserInfo());
-    for (TObject* obj : *uinfo) {
-      if (obj->GetName() != this->getName())
-        continue;
-
-      auto* cleaner(dynamic_cast<TreePointerCleaner*>(obj));
-      if (cleaner && cleaner->getEvent() == this) {
-        uinfo->Remove(obj);
-        delete obj;
-        break;
-      }
-    }
-  }
   /* END CUSTOM */
 }
 
@@ -98,11 +84,13 @@ panda::EventBase::dump(std::ostream& _out/* = std::cout*/) const
 }
 /*static*/
 panda::utils::BranchList
-panda::EventBase::getListOfBranches()
+panda::EventBase::getListOfBranches(Bool_t _direct/* = kFALSE*/)
 {
   utils::BranchList blist;
   blist += {"runNumber", "lumiNumber", "eventNumber", "isData", "weight"};
-  blist += HLTBits::getListOfBranches().fullNames("triggers");
+  if (!_direct) {
+    blist += HLTBits::getListOfBranches().fullNames("triggers");
+  }
   return blist;
 }
 
@@ -135,7 +123,7 @@ panda::EventBase::doGetStatus_(TTree& _tree) const
 panda::utils::BranchList
 panda::EventBase::doGetBranchNames_() const
 {
-  return getListOfBranches();
+  return getListOfBranches(true);
 }
 
 /*protected*/
@@ -172,18 +160,15 @@ panda::EventBase::doGetEntry_(TTree& _tree, Long64_t _entry)
     if (rItr == runTrees_.end()) {
       // First time dealing with this tree
       rItr = runTrees_.emplace(&_tree, std::make_pair<Int_t, TTree*>(-1, 0)).first;
-
-      // Register this EventBase to the tree user info for automatic cleanup when tree is destroyed
-      _tree.GetUserInfo()->Add(new TreePointerCleaner(this, &_tree));
     }
 
     if (_tree.GetTreeNumber() != rItr->second.first) {
+      // There was a file transition in the input
+
       rItr->second.first = _tree.GetTreeNumber();
 
       // First check that the runNumber branch is turned on
       if (_tree.GetBranchStatus("runNumber")) {
-        // There was a file transition in the input
-
         auto& file(*_tree.GetCurrentFile());
 
         // read out the runs tree
@@ -208,8 +193,10 @@ panda::EventBase::doGetEntry_(TTree& _tree, Long64_t _entry)
         // Does nothing if the run number is unchanged
         run.findEntry(*rItr->second.second, runNumber);
       }
-      else
+      else {
+        rItr->second.second = 0;
         std::cerr << "Branch runNumber is turned off in the input events tree. Skipping run update." << std::endl;
+      }
     }
   }
   /* END CUSTOM */
@@ -227,6 +214,14 @@ panda::EventBase::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::EventBase::doUnlink_(TTree& _tree)
+{
+  /* BEGIN CUSTOM EventBase.cc.doUnlink_ */
+  runTrees_.erase(&_tree);
+  /* END CUSTOM */
+}
+
 
 /* BEGIN CUSTOM EventBase.cc.global */
 
@@ -238,20 +233,6 @@ panda::EventBase::triggerFired(UInt_t _token) const
     return triggers.pass(idx);
   else
     return false;
-}
-
-
-panda::EventBase::TreePointerCleaner::TreePointerCleaner(EventBase* event, TTree* tree) :
-  event_(event),
-  tree_(tree)
-{
-  // TTree will delete this object in UserInfo if this bit is set
-  SetBit(kIsOnHeap);
-}
-
-panda::EventBase::TreePointerCleaner::~TreePointerCleaner()
-{
-  event_->runTrees_.erase(tree_);
 }
 
 /* END CUSTOM */

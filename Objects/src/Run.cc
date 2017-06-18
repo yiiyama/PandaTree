@@ -24,8 +24,8 @@ panda::Run::Run(Run const& _src) :
     hlt.paths->assign(_src.hlt.paths->begin(), _src.hlt.paths->end());
   }
 
-  inputTree_ = _src.inputTree_;
-  inputTreeNumber_ = _src.inputTreeNumber_;
+  inputTree_ = 0;
+  inputTreeNumber_ = -1;
   /* END CUSTOM */
 }
 
@@ -55,11 +55,8 @@ panda::Run::operator=(Run const& _src)
     hlt.paths->assign(_src.hlt.paths->begin(), _src.hlt.paths->end());
   }
 
-  if (_src.inputTree_ && _src.inputTree_ != inputTree_)
-    _src.inputTree_->GetUserInfo()->Add(new TreePointerCleaner(this, _src.inputTree_));
-
-  inputTree_ = _src.inputTree_;
-  inputTreeNumber_ = _src.inputTreeNumber_;
+  inputTree_ = 0;
+  inputTreeNumber_ = -1;
   /* END CUSTOM */
 
   runNumber = _src.runNumber;
@@ -87,7 +84,7 @@ panda::Run::dump(std::ostream& _out/* = std::cout*/) const
 }
 /*static*/
 panda::utils::BranchList
-panda::Run::getListOfBranches()
+panda::Run::getListOfBranches(Bool_t _direct/* = kFALSE*/)
 {
   utils::BranchList blist;
   blist += {"runNumber", "hltMenu"};
@@ -117,7 +114,7 @@ panda::Run::doGetStatus_(TTree& _tree) const
 panda::utils::BranchList
 panda::Run::doGetBranchNames_() const
 {
-  return getListOfBranches();
+  return getListOfBranches(true);
 }
 
 /*protected*/
@@ -156,6 +153,17 @@ panda::Run::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::Run::doUnlink_(TTree& _tree)
+{
+  /* BEGIN CUSTOM Run.cc.doUnlink_ */
+  if (inputTree_ == &_tree) {
+    inputTree_ = 0;
+    inputTreeNumber_ = -1;
+  }
+  /* END CUSTOM */
+}
+
 
 /* BEGIN CUSTOM Run.cc.global */
 
@@ -166,8 +174,10 @@ void
 panda::Run::setLoadTrigger(Bool_t _l/* = kTRUE*/)
 {
   loadTrigger_ = _l;
-  if (!_l)
+  if (!_l) {
     hlt.destroy();
+    hltMenuCache_ = -1;
+  }
 }
 
 UInt_t
@@ -184,6 +194,7 @@ panda::Run::registerTrigger(char const* _path)
 
     // need to update the input
     hlt.destroy();
+    hltMenuCache_ = -1;
 
     return registeredTriggers_.size() - 1;
   }
@@ -261,30 +272,14 @@ panda::Run::findEntry(TTree& _runTree, UInt_t _runNumber)
 void
 panda::Run::resetCache()
 {
-  if (inputTree_) {
-    auto* uinfo(inputTree_->GetUserInfo());
-    for (TObject* obj : *uinfo) {
-      if (obj->GetName() != this->getName())
-        continue;
-
-      auto* cleaner(dynamic_cast<TreePointerCleaner*>(obj));
-      if (cleaner && cleaner->getRun() == this) {
-        uinfo->Remove(obj);
-        delete obj;
-        break;
-      }
-    }
-
-    // inputTree_ is already set to 0 by the destructor of the TreePointerCleaner, but just to make sure
+  if (inputTree_)
     inputTree_ = 0;
-  }
 
   inputTreeNumber_ = -1;
   
   hltMenuCache_ = -1;
 }
     
-
 /*private*/
 void
 panda::Run::updateTriggerTable_(TTree& _tree)
@@ -292,9 +287,6 @@ panda::Run::updateTriggerTable_(TTree& _tree)
   if (&_tree != inputTree_) {
     inputTree_ = &_tree;
     inputTreeNumber_ = -1;
-
-    // add a hook to unlink this object when the tree is deleted
-    _tree.GetUserInfo()->Add(new TreePointerCleaner(this, &_tree));
   }
 
   if (_tree.GetTreeNumber() != inputTreeNumber_) {
@@ -304,7 +296,7 @@ panda::Run::updateTriggerTable_(TTree& _tree)
 
   if (hltMenu == hltMenuCache_)
     return;
-
+  
   hltMenuCache_ = hltMenu;
 
   auto* inputFile(inputTree_->GetCurrentFile());
@@ -347,21 +339,6 @@ panda::Run::updateTriggerTable_(TTree& _tree)
     if (iT == hlt.paths->size())
       triggerIndices_.push_back(-1);
   }
-}
-
-
-panda::Run::TreePointerCleaner::TreePointerCleaner(Run* run, TTree* tree) :
-  run_(run),
-  tree_(tree)
-{
-  // TTree will delete this object in UserInfo if this bit is set
-  SetBit(kIsOnHeap);
-}
-
-panda::Run::TreePointerCleaner::~TreePointerCleaner()
-{
-  if (run_->inputTree_ == tree_)
-    run_->inputTree_ = 0;
 }
 
 /* END CUSTOM */

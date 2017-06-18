@@ -247,21 +247,6 @@ panda::XPhoton::operator=(XPhoton const& _src)
 }
 
 void
-panda::XPhoton::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  Photon::doSetAddress_(_tree, _name, _branches, _setStatus);
-
-  utils::setAddress(_tree, _name, "scEta", &scEta, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "scRawPt", &scRawPt, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "chIsoS15", &chIsoS15, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "nhIsoS15", &nhIsoS15, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "phIsoS15", &phIsoS15, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "e4", &e4, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "isEB", &isEB, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "matchedGenId", &matchedGenId, _branches, _setStatus);
-}
-
-void
 panda::XPhoton::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Photon::doBook_(_tree, _name, _branches);

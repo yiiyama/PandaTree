@@ -34,7 +34,7 @@ namespace panda {
     Float_t rho{};
     UInt_t sample{};
 
-    static utils::BranchList getListOfBranches();
+    static utils::BranchList getListOfBranches(Bool_t direct = kFALSE);
 
   protected:
     void doSetStatus_(TTree&, utils::BranchList const&) override;
@@ -44,6 +44,7 @@ namespace panda {
     void doBook_(TTree&, utils::BranchList const&) override;
     void doGetEntry_(TTree&, Long64_t) override;
     void doInit_() override;
+    void doUnlink_(TTree&) override;
 
   public:
     /* BEGIN CUSTOM EventTPPhoton.h.classdef */
