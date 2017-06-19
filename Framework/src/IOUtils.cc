@@ -190,7 +190,11 @@ panda::utils::BranchList::makeList(TTree& _tree)
 Int_t
 panda::utils::checkStatus(TTree& _tree, TString const& _fullName, Bool_t _status)
 {
-  if (_tree.GetTreeNumber() >= 0 && !_tree.GetBranch(_fullName))
+  // If _tree is a TChain, paths may not be added yet. Then GetBranch returns 0
+  // but that does not necessarily mean that the branch does not exist in the trees
+  // to be added. Check GetBranch, but fail only if there is a tree loaded (GetBranch
+  // loads the first tree if it isn't yet).
+  if (!_tree.GetBranch(_fullName) && _tree.GetTreeNumber() >= 0)
     return -1;
 
   if (_tree.GetBranchStatus(_fullName) == _status)
@@ -371,7 +375,6 @@ panda::utils::BranchArrayUpdator::BranchArrayUpdator(ReaderObject& _obj, TTree& 
   tree_(_tree)
 {
   SetBit(kIsOnHeap);
-  tree_.GetUserInfo()->Add(this);
 }
 
 panda::utils::BranchArrayUpdator::~BranchArrayUpdator()
