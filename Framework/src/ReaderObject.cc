@@ -61,6 +61,7 @@ panda::ReaderObject::registerInput_(TTree& _tree)
   inputBranches_.emplace_back(&_tree, BranchArray());
 
   auto* updator(new utils::BranchArrayUpdator(*this, _tree));
+  _tree.GetUserInfo()->Add(updator);
 
   if (_tree.InheritsFrom(TChain::Class())) {
     // See if it already has a Notify object other than TNotify

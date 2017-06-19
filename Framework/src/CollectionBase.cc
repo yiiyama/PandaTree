@@ -17,6 +17,11 @@ panda::CollectionBase::~CollectionBase()
 void
 panda::CollectionBase::setStatus(TTree& _tree, utils::BranchList const& _branches)
 {
+  // If the size branch does not exist, there is nothing to read from this tree.
+  // See comments in IOUtils.cc checkStatus for the ordering of function calls here.
+  if (!_tree.GetBranch(name_ + ".size") && _tree.GetTreeNumber() >= 0)
+    return;
+
   // If explicitly instructed to turn off size -> turn size false
   if (utils::BranchName("size").vetoed(_branches))
     _tree.SetBranchStatus(name_ + ".size", false);
