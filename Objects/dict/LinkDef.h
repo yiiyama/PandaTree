@@ -35,7 +35,13 @@
 #include "PandaTree/Objects/interface/Event.h"
 #include "PandaTree/Objects/interface/Run.h"
 #include "PandaTree/Objects/interface/EventMonophoton.h"
-#include "PandaTree/Objects/interface/EventTPPhoton.h"
+#include "PandaTree/Objects/interface/EventTP.h"
+#include "PandaTree/Objects/interface/EventTPEG.h"
+#include "PandaTree/Objects/interface/EventTPEEG.h"
+#include "PandaTree/Objects/interface/EventTPMG.h"
+#include "PandaTree/Objects/interface/EventTPMMG.h"
+#include "PandaTree/Objects/interface/EventTP2E.h"
+#include "PandaTree/Objects/interface/EventTP2M.h"
 
 #ifdef __CLING__
 #pragma link off all globals;
@@ -182,6 +188,12 @@
 #pragma link C++ class panda::Event;
 #pragma link C++ class panda::Run;
 #pragma link C++ class panda::EventMonophoton;
-#pragma link C++ class panda::EventTPPhoton;
+#pragma link C++ class panda::EventTP;
+#pragma link C++ class panda::EventTPEG;
+#pragma link C++ class panda::EventTPEEG;
+#pragma link C++ class panda::EventTPMG;
+#pragma link C++ class panda::EventTPMMG;
+#pragma link C++ class panda::EventTP2E;
+#pragma link C++ class panda::EventTP2M;
 
 #endif
