@@ -89,8 +89,8 @@ namespace panda {
     utils::BranchList getBranchNames(Bool_t fullName = kTRUE, Bool_t = kFALSE) const final;
     UInt_t setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
     void book(TTree&, utils::BranchList const& blist = {"*"}) final;
-    Int_t getEntry(TTree& tree, Long64_t entry, Int_t localEntry = -1) final;
-    Int_t getEntry(UInt_t treeId, Long64_t entry, Int_t localEntry = -1) final;
+    Int_t getEntry(TTree& tree, Long64_t entry, Bool_t localEntry = kFALSE) final;
+    Int_t getEntry(UInt_t treeId, Long64_t entry, Bool_t localEntry = kFALSE) final;
     void init() final { doInit_(); }
     char const* getName() const final;
     void setName(char const*) final;

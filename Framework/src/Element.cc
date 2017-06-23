@@ -69,13 +69,13 @@ panda::Element::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*
 }
 
 Int_t
-panda::Element::getEntry(TTree& _tree, Long64_t _entry, Int_t _localEntry/* = -1*/)
+panda::Element::getEntry(TTree& _tree, Long64_t _entry, Bool_t _localEntry/* = kFALSE*/)
 {
   return gStore.getArray(this).getEntry(_tree, _entry, _localEntry);
 }
 
 Int_t
-panda::Element::getEntry(UInt_t _treeId, Long64_t _entry, Int_t _localEntry/* = -1*/)
+panda::Element::getEntry(UInt_t _treeId, Long64_t _entry, Bool_t _localEntry/* = kFALSE*/)
 {
   return gStore.getArray(this).getEntry(_treeId, _entry, _localEntry);
 }

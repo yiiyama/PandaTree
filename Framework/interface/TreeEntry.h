@@ -30,7 +30,7 @@ namespace panda {
     UInt_t setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
     void book(TTree&, utils::BranchList const& blist = {"*"}) final;
     using ReaderObject::getEntry;
-    Int_t getEntry(UInt_t, Long64_t entry, Int_t localEntry = -1) final;
+    Int_t getEntry(UInt_t, Long64_t entry, Bool_t localEntry = kFALSE) final;
     Int_t fill(TTree&) final;
     void init() final;
     char const* getName() const final { return ""; }
@@ -43,7 +43,7 @@ namespace panda {
     virtual utils::BranchList doGetBranchNames_() const = 0;
     virtual void doSetAddress_(TTree& tree, utils::BranchList const&, Bool_t setStatus) = 0;
     virtual void doBook_(TTree&, utils::BranchList const&) = 0;
-    virtual void doGetEntry_(TTree&, Long64_t entry) = 0;
+    virtual void doGetEntry_(TTree&) = 0;
     virtual void doInit_() = 0;
     virtual void doUnlink_(TTree&) = 0;
 

@@ -68,28 +68,28 @@ panda::TreeEntry::init()
 }
 
 Int_t
-panda::TreeEntry::getEntry(UInt_t _treeId, Long64_t _entry, Int_t _localEntry/* = -1*/)
+panda::TreeEntry::getEntry(UInt_t _treeId, Long64_t _entry, Bool_t _localEntry/* = kFALSE*/)
 {
   init();
 
-  if (_localEntry < 0)
-    _localEntry = inputBranches_[_treeId].first->LoadTree(_entry);
+  if (!_localEntry)
+    _entry = inputBranches_[_treeId].first->LoadTree(_entry);
 
   int bytes(0);
 
   // This breaks if setAddress is called on individual collections separately
   // (tree id must be synched between all objects and this tree entry)
   for (auto* obj : objects_)
-    bytes += obj->getEntry(_treeId, _entry, _localEntry);
+    bytes += obj->getEntry(_treeId, _entry, true);
 
   // Get data for my branches
   for (auto* branch : inputBranches_[_treeId].second) {
     if (branch && !branch->TestBit(kDoNotProcess))
-      bytes += branch->GetEntry(_localEntry);
+      bytes += branch->GetEntry(_entry);
   }
 
   if (bytes > 0)
-    doGetEntry_(*inputBranches_[_treeId].first, _entry);
+    doGetEntry_(*inputBranches_[_treeId].first);
 
   return bytes;
 }

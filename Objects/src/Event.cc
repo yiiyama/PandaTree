@@ -408,9 +408,9 @@ panda::Event::doBook_(TTree& _tree, utils::BranchList const& _branches)
 
 /*protected*/
 void
-panda::Event::doGetEntry_(TTree& _tree, Long64_t _entry)
+panda::Event::doGetEntry_(TTree& _tree)
 {
-  EventBase::doGetEntry_(_tree, _entry);
+  EventBase::doGetEntry_(_tree);
 
   /* BEGIN CUSTOM Event.cc.doGetEntry_ */
   bool hasVertices(!vertices.empty());

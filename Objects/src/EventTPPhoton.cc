@@ -163,9 +163,9 @@ panda::EventTPPhoton::doBook_(TTree& _tree, utils::BranchList const& _branches)
 
 /*protected*/
 void
-panda::EventTPPhoton::doGetEntry_(TTree& _tree, Long64_t _entry)
+panda::EventTPPhoton::doGetEntry_(TTree& _tree)
 {
-  EventBase::doGetEntry_(_tree, _entry);
+  EventBase::doGetEntry_(_tree);
 
   /* BEGIN CUSTOM EventTPPhoton.cc.doGetEntry_ */
   /* END CUSTOM */

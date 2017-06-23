@@ -67,25 +67,25 @@ namespace panda {
     /*!
      * \param tree       Tree to get the entry from.
      * \param entry      Entry number in the input tree.
-     * \param localEntry Entry number in the current tree (different from entry if tree is a TChain)
+     * \param localEntry If true, entry must be the local entry number of the current tree (i.e. return value of LoadTree)
      *
-     * Passing -1 as localEntry triggers tree.LoadTree().
+     * If localEntry is false, calls tree.LoadEntry(entry).
      *
      * \return Number of bytes read.
     */
-    virtual Int_t getEntry(TTree& tree, Long64_t entry, Int_t localEntry = -1) { return 0; }
+    virtual Int_t getEntry(TTree& tree, Long64_t entry, Bool_t localEntry = kFALSE) { return 0; }
 
     //! Read an entry from an input tree.
     /*!
      * \param treeId  Index of the tree in the inputBranches_ vector.
      * \param entry   Entry number in the input tree.
-     * \param localEntry Entry number in the current tree (different from entry if tree is a TChain)
+     * \param localEntry If true, entry must be the local entry number of the current tree (i.e. return value of LoadTree)
      *
-     * Passing -1 as localEntry triggers tree.LoadTree().
+     * If localEntry is false, calls tree.LoadEntry(entry).
      *
      * \return Number of bytes read.
     */
-    virtual Int_t getEntry(UInt_t treeId, Long64_t entry, Int_t _localEntry = -1) { return 0; }
+    virtual Int_t getEntry(UInt_t treeId, Long64_t entry, Bool_t localEntry = kFALSE) { return 0; }
 
     //! Fill a tree.
     /*!
