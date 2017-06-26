@@ -116,9 +116,9 @@ panda::EventTPMG::doBook_(TTree& _tree, utils::BranchList const& _branches)
 
 /*protected*/
 void
-panda::EventTPMG::doGetEntry_(TTree& _tree, Long64_t _entry)
+panda::EventTPMG::doGetEntry_(TTree& _tree)
 {
-  EventTP::doGetEntry_(_tree, _entry);
+  EventTP::doGetEntry_(_tree);
 
   /* BEGIN CUSTOM EventTPMG.cc.doGetEntry_ */
   /* END CUSTOM */
