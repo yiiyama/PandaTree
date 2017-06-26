@@ -1,3 +1,5 @@
+<require monophoton>
+
 [TPPair]
 mass/F
 mass2/F

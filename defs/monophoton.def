@@ -1,3 +1,5 @@
+<require panda>
+
 [XPhoton>Photon]
 enum IDTune {
   kSpring15,

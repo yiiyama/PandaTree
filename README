@@ -8,8 +8,7 @@ that the analyis programs don't have to be dumb.
 
 << Quickstart >>
 [Compile]
- . With CMSSW: Just run scram b.
- . Standalone: Run "make" and link lib/libpanda.so to your program.
+ . Just run scram b.
 
 [Read]
 
@@ -21,7 +20,7 @@ that the analyis programs don't have to be dumb.
   event.setAddress(*eventsTree);
 
   long iEntry(0);
-  while (event.getEntry(iEntry++) > 0) { // IMPORTANT: *not* eventsTree->GetEntry()
+  while (event.getEntry(*eventsTree, iEntry++) > 0) { // IMPORTANT: *not* eventsTree->GetEntry()
     /* do your analysis */
   }
 
@@ -63,12 +62,19 @@ std::vector. Code for Collection and other general-use objects are in the Framew
 
 Tree structures are defined in tree definition files and then converted to C++ code by generate.py.
 Usage is
-generate.py panda.def [additional definition files]
+generate.py [definition files]
+If no definition files are specified, all files in the defs/ directory will be read. The definition
+files must have names ending with ".def", and two files cannot share the same name even if they
+exist in different directories.
 The script will write C++ source code into Objects/ and obj/ directories.
 
 Tree definition file is made of various sections and blocks. A comment line starts with a '%' character.
 All typedefs, enums, constants, and classes will be defined under a namespace whose name is taken from the
 name of the definition file (e.g. simpletree.def --> namespace simpletree).
+
+0. Requirements
+If a definition file makes reference to objects defined in other definition files, the file must start
+with a block for each requirement line in the format <require [def name]>.
 
 1. Includes
 Define all headers to be included in the object definition headers.
@@ -165,14 +171,13 @@ tree (name not fixed)
 
 << Speeding up I/O >>
 
-It is possible to specify which branches to read and write, by using Event::setStatus function.
+It is possible to specify which branches to read and write.
 By limiting I/O to only the branches you actually use, it is possible to significantly speed up
 the analysis program.
 
-event.setStatus(*tree, {"!*", "electrons.pt", "electrons.eta"});
-event.setAddress(*tree);
+event.setAddress(*tree, {"!*", "electrons.pt_", "electrons.eta_"});
 
-The second argument of setStatus is an ordered list of "commands" to turn branches on and off.
+The second argument of setAddress is an ordered list of "commands" to turn branches on and off.
 For each branch in the tree, the last matching command takes effect. Thus in the example above,
-all branches in the tree are disabled (by the "!" sign) but electrons.pt and electrons.eta are
+all branches in the tree are disabled (by the "!" sign) but electrons.pt_ and electrons.eta_ are
 re-enabled.
