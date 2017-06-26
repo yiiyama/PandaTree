@@ -38,10 +38,13 @@ namespace panda {
       Bool_t* loose{0};
       Bool_t* medium{0};
       Bool_t* tight{0};
+      Bool_t* hltsafe{0};
       Float_t* chIso{0};
       Float_t* nhIso{0};
       Float_t* phIso{0};
       Float_t* puIso{0};
+      Float_t* dxy{0};
+      Float_t* dz{0};
       ContainerBase const* matchedPFContainer_{0};
       Short_t* matchedPF_{0};
       ContainerBase const* matchedGenContainer_{0};
@@ -49,7 +52,9 @@ namespace panda {
       ContainerBase const* vertexContainer_{0};
       Short_t* vertex_{0};
       */
+      Bool_t* soft{0};
       Bool_t* mediumBtoF{0};
+      Float_t* r03Iso{0};
       Bool_t (*triggerMatch)[nTriggerObjects]{0};
 
       void allocate(UInt_t n) override;
@@ -88,15 +93,20 @@ namespace panda {
     Bool_t& loose;
     Bool_t& medium;
     Bool_t& tight;
+    Bool_t& hltsafe;
     Float_t& chIso;
     Float_t& nhIso;
     Float_t& phIso;
     Float_t& puIso;
+    Float_t& dxy;
+    Float_t& dz;
     Ref<PFCand> matchedPF;
     Ref<GenParticle> matchedGen;
     Ref<Vertex> vertex;
     */
+    Bool_t& soft;
     Bool_t& mediumBtoF;
+    Float_t& r03Iso;
     Bool_t (&triggerMatch)[nTriggerObjects];
 
   protected:

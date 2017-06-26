@@ -195,10 +195,13 @@ charge/B
 loose/O
 medium/O
 tight/O
+hltsafe/O
 chIso/F
 nhIso/F
 phIso/F
 puIso/F
+dxy/F
+dz/F
 matchedPF/PFCandRef
 matchedGen/GenParticleRef
 vertex/VertexRef
@@ -228,6 +231,7 @@ nhIsoPh/F
 phIsoPh/F
 ecalIso/F
 hcalIso/F
+trackIso/F
 isoPUOffset/F
 sieie/F
 sipip/F
@@ -239,6 +243,8 @@ originalPt/F = -1.
 dxy/F
 dz/F
 veto/O
+tripleCharge/O
+noMissingHits/O
 triggerMatch[nTriggerObjects]/O
 superCluster/SuperClusterRef
 double m() const override { return 5.109989e-4; }
@@ -253,7 +259,9 @@ enum TriggerObject {
   fIsoMu24,
   fIsoTkMu24
 };
+soft/O
 mediumBtoF/O
+r03Iso/F
 triggerMatch[nTriggerObjects]/O
 double m() const override { return 1.05658e-2; }
 double combIso() const override { return chIso + std::max(nhIso + phIso - 0.5 * puIso, 0.); }

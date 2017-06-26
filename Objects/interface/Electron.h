@@ -48,10 +48,13 @@ namespace panda {
       Bool_t* loose{0};
       Bool_t* medium{0};
       Bool_t* tight{0};
+      Bool_t* hltsafe{0};
       Float_t* chIso{0};
       Float_t* nhIso{0};
       Float_t* phIso{0};
       Float_t* puIso{0};
+      Float_t* dxy{0};
+      Float_t* dz{0};
       ContainerBase const* matchedPFContainer_{0};
       Short_t* matchedPF_{0};
       ContainerBase const* matchedGenContainer_{0};
@@ -65,6 +68,7 @@ namespace panda {
       Float_t* phIsoPh{0};
       Float_t* ecalIso{0};
       Float_t* hcalIso{0};
+      Float_t* trackIso{0};
       Float_t* isoPUOffset{0};
       Float_t* sieie{0};
       Float_t* sipip{0};
@@ -76,6 +80,8 @@ namespace panda {
       Float_t* dxy{0};
       Float_t* dz{0};
       Bool_t* veto{0};
+      Bool_t* tripleCharge{0};
+      Bool_t* noMissingHits{0};
       Bool_t (*triggerMatch)[nTriggerObjects]{0};
       ContainerBase const* superClusterContainer_{0};
       Short_t* superCluster_{0};
@@ -116,10 +122,13 @@ namespace panda {
     Bool_t& loose;
     Bool_t& medium;
     Bool_t& tight;
+    Bool_t& hltsafe;
     Float_t& chIso;
     Float_t& nhIso;
     Float_t& phIso;
     Float_t& puIso;
+    Float_t& dxy;
+    Float_t& dz;
     Ref<PFCand> matchedPF;
     Ref<GenParticle> matchedGen;
     Ref<Vertex> vertex;
@@ -130,6 +139,7 @@ namespace panda {
     Float_t& phIsoPh;
     Float_t& ecalIso;
     Float_t& hcalIso;
+    Float_t& trackIso;
     Float_t& isoPUOffset;
     Float_t& sieie;
     Float_t& sipip;
@@ -141,6 +151,8 @@ namespace panda {
     Float_t& dxy;
     Float_t& dz;
     Bool_t& veto;
+    Bool_t& tripleCharge;
+    Bool_t& noMissingHits;
     Bool_t (&triggerMatch)[nTriggerObjects];
     Ref<SuperCluster> superCluster;
 

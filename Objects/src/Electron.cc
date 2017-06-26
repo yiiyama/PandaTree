@@ -24,7 +24,7 @@ panda::Electron::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Lepton::getListOfBranches();
-  blist += {"hltsafe", "chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "isoPUOffset", "sieie", "sipip", "eseed", "hOverE", "regPt", "smearedPt", "originalPt", "dxy", "dz", "veto", "triggerMatch", "superCluster_"};
+  blist += {"hltsafe", "chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "trackIso", "isoPUOffset", "sieie", "sipip", "eseed", "hOverE", "regPt", "smearedPt", "originalPt", "dxy", "dz", "veto", "tripleCharge", "noMissingHits", "triggerMatch", "superCluster_"};
   return blist;
 }
 
@@ -39,6 +39,7 @@ panda::Electron::datastore::allocate(UInt_t _nmax)
   phIsoPh = new Float_t[nmax_];
   ecalIso = new Float_t[nmax_];
   hcalIso = new Float_t[nmax_];
+  trackIso = new Float_t[nmax_];
   isoPUOffset = new Float_t[nmax_];
   sieie = new Float_t[nmax_];
   sipip = new Float_t[nmax_];
@@ -50,6 +51,8 @@ panda::Electron::datastore::allocate(UInt_t _nmax)
   dxy = new Float_t[nmax_];
   dz = new Float_t[nmax_];
   veto = new Bool_t[nmax_];
+  tripleCharge = new Bool_t[nmax_];
+  noMissingHits = new Bool_t[nmax_];
   triggerMatch = new Bool_t[nmax_][nTriggerObjects];
   superCluster_ = new Short_t[nmax_];
 }
@@ -71,6 +74,8 @@ panda::Electron::datastore::deallocate()
   ecalIso = 0;
   delete [] hcalIso;
   hcalIso = 0;
+  delete [] trackIso;
+  trackIso = 0;
   delete [] isoPUOffset;
   isoPUOffset = 0;
   delete [] sieie;
@@ -93,6 +98,10 @@ panda::Electron::datastore::deallocate()
   dz = 0;
   delete [] veto;
   veto = 0;
+  delete [] tripleCharge;
+  tripleCharge = 0;
+  delete [] noMissingHits;
+  noMissingHits = 0;
   delete [] triggerMatch;
   triggerMatch = 0;
   delete [] superCluster_;
@@ -110,6 +119,7 @@ panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, utils:
   utils::setStatus(_tree, _name, "phIsoPh", _branches);
   utils::setStatus(_tree, _name, "ecalIso", _branches);
   utils::setStatus(_tree, _name, "hcalIso", _branches);
+  utils::setStatus(_tree, _name, "trackIso", _branches);
   utils::setStatus(_tree, _name, "isoPUOffset", _branches);
   utils::setStatus(_tree, _name, "sieie", _branches);
   utils::setStatus(_tree, _name, "sipip", _branches);
@@ -121,6 +131,8 @@ panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, utils:
   utils::setStatus(_tree, _name, "dxy", _branches);
   utils::setStatus(_tree, _name, "dz", _branches);
   utils::setStatus(_tree, _name, "veto", _branches);
+  utils::setStatus(_tree, _name, "tripleCharge", _branches);
+  utils::setStatus(_tree, _name, "noMissingHits", _branches);
   utils::setStatus(_tree, _name, "triggerMatch", _branches);
   utils::setStatus(_tree, _name, "superCluster_", _branches);
 }
@@ -136,6 +148,7 @@ panda::Electron::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "phIsoPh"));
   blist.push_back(utils::getStatus(_tree, _name, "ecalIso"));
   blist.push_back(utils::getStatus(_tree, _name, "hcalIso"));
+  blist.push_back(utils::getStatus(_tree, _name, "trackIso"));
   blist.push_back(utils::getStatus(_tree, _name, "isoPUOffset"));
   blist.push_back(utils::getStatus(_tree, _name, "sieie"));
   blist.push_back(utils::getStatus(_tree, _name, "sipip"));
@@ -147,6 +160,8 @@ panda::Electron::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "dxy"));
   blist.push_back(utils::getStatus(_tree, _name, "dz"));
   blist.push_back(utils::getStatus(_tree, _name, "veto"));
+  blist.push_back(utils::getStatus(_tree, _name, "tripleCharge"));
+  blist.push_back(utils::getStatus(_tree, _name, "noMissingHits"));
   blist.push_back(utils::getStatus(_tree, _name, "triggerMatch"));
   blist.push_back(utils::getStatus(_tree, _name, "superCluster_"));
 
@@ -164,6 +179,7 @@ panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils
   utils::setAddress(_tree, _name, "phIsoPh", phIsoPh, _branches, _setStatus);
   utils::setAddress(_tree, _name, "ecalIso", ecalIso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "hcalIso", hcalIso, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "trackIso", trackIso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "isoPUOffset", isoPUOffset, _branches, _setStatus);
   utils::setAddress(_tree, _name, "sieie", sieie, _branches, _setStatus);
   utils::setAddress(_tree, _name, "sipip", sipip, _branches, _setStatus);
@@ -175,6 +191,8 @@ panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils
   utils::setAddress(_tree, _name, "dxy", dxy, _branches, _setStatus);
   utils::setAddress(_tree, _name, "dz", dz, _branches, _setStatus);
   utils::setAddress(_tree, _name, "veto", veto, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "tripleCharge", tripleCharge, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "noMissingHits", noMissingHits, _branches, _setStatus);
   utils::setAddress(_tree, _name, "triggerMatch", triggerMatch, _branches, _setStatus);
   utils::setAddress(_tree, _name, "superCluster_", superCluster_, _branches, _setStatus);
 }
@@ -192,6 +210,7 @@ panda::Electron::datastore::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "phIsoPh", size, 'F', phIsoPh, _branches);
   utils::book(_tree, _name, "ecalIso", size, 'F', ecalIso, _branches);
   utils::book(_tree, _name, "hcalIso", size, 'F', hcalIso, _branches);
+  utils::book(_tree, _name, "trackIso", size, 'F', trackIso, _branches);
   utils::book(_tree, _name, "isoPUOffset", size, 'F', isoPUOffset, _branches);
   utils::book(_tree, _name, "sieie", size, 'F', sieie, _branches);
   utils::book(_tree, _name, "sipip", size, 'F', sipip, _branches);
@@ -203,6 +222,8 @@ panda::Electron::datastore::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "dxy", size, 'F', dxy, _branches);
   utils::book(_tree, _name, "dz", size, 'F', dz, _branches);
   utils::book(_tree, _name, "veto", size, 'O', veto, _branches);
+  utils::book(_tree, _name, "tripleCharge", size, 'O', tripleCharge, _branches);
+  utils::book(_tree, _name, "noMissingHits", size, 'O', noMissingHits, _branches);
   utils::book(_tree, _name, "triggerMatch", size + TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
   utils::book(_tree, _name, "superCluster_", size, 'S', superCluster_, _branches);
 }
@@ -218,6 +239,7 @@ panda::Electron::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "phIsoPh");
   utils::resetAddress(_tree, _name, "ecalIso");
   utils::resetAddress(_tree, _name, "hcalIso");
+  utils::resetAddress(_tree, _name, "trackIso");
   utils::resetAddress(_tree, _name, "isoPUOffset");
   utils::resetAddress(_tree, _name, "sieie");
   utils::resetAddress(_tree, _name, "sipip");
@@ -229,6 +251,8 @@ panda::Electron::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "dxy");
   utils::resetAddress(_tree, _name, "dz");
   utils::resetAddress(_tree, _name, "veto");
+  utils::resetAddress(_tree, _name, "tripleCharge");
+  utils::resetAddress(_tree, _name, "noMissingHits");
   utils::resetAddress(_tree, _name, "triggerMatch");
   utils::resetAddress(_tree, _name, "superCluster_");
 }
@@ -255,6 +279,7 @@ panda::Electron::Electron(char const* _name/* = ""*/) :
   phIsoPh(gStore.getData(this).phIsoPh[0]),
   ecalIso(gStore.getData(this).ecalIso[0]),
   hcalIso(gStore.getData(this).hcalIso[0]),
+  trackIso(gStore.getData(this).trackIso[0]),
   isoPUOffset(gStore.getData(this).isoPUOffset[0]),
   sieie(gStore.getData(this).sieie[0]),
   sipip(gStore.getData(this).sipip[0]),
@@ -266,6 +291,8 @@ panda::Electron::Electron(char const* _name/* = ""*/) :
   dxy(gStore.getData(this).dxy[0]),
   dz(gStore.getData(this).dz[0]),
   veto(gStore.getData(this).veto[0]),
+  tripleCharge(gStore.getData(this).tripleCharge[0]),
+  noMissingHits(gStore.getData(this).noMissingHits[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
 {
@@ -279,6 +306,7 @@ panda::Electron::Electron(Electron const& _src) :
   phIsoPh(gStore.getData(this).phIsoPh[0]),
   ecalIso(gStore.getData(this).ecalIso[0]),
   hcalIso(gStore.getData(this).hcalIso[0]),
+  trackIso(gStore.getData(this).trackIso[0]),
   isoPUOffset(gStore.getData(this).isoPUOffset[0]),
   sieie(gStore.getData(this).sieie[0]),
   sipip(gStore.getData(this).sipip[0]),
@@ -290,6 +318,8 @@ panda::Electron::Electron(Electron const& _src) :
   dxy(gStore.getData(this).dxy[0]),
   dz(gStore.getData(this).dz[0]),
   veto(gStore.getData(this).veto[0]),
+  tripleCharge(gStore.getData(this).tripleCharge[0]),
+  noMissingHits(gStore.getData(this).noMissingHits[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
 {
@@ -301,6 +331,7 @@ panda::Electron::Electron(Electron const& _src) :
   phIsoPh = _src.phIsoPh;
   ecalIso = _src.ecalIso;
   hcalIso = _src.hcalIso;
+  trackIso = _src.trackIso;
   isoPUOffset = _src.isoPUOffset;
   sieie = _src.sieie;
   sipip = _src.sipip;
@@ -312,6 +343,8 @@ panda::Electron::Electron(Electron const& _src) :
   dxy = _src.dxy;
   dz = _src.dz;
   veto = _src.veto;
+  tripleCharge = _src.tripleCharge;
+  noMissingHits = _src.noMissingHits;
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
   superCluster = _src.superCluster;
 }
@@ -324,6 +357,7 @@ panda::Electron::Electron(datastore& _data, UInt_t _idx) :
   phIsoPh(_data.phIsoPh[_idx]),
   ecalIso(_data.ecalIso[_idx]),
   hcalIso(_data.hcalIso[_idx]),
+  trackIso(_data.trackIso[_idx]),
   isoPUOffset(_data.isoPUOffset[_idx]),
   sieie(_data.sieie[_idx]),
   sipip(_data.sipip[_idx]),
@@ -335,6 +369,8 @@ panda::Electron::Electron(datastore& _data, UInt_t _idx) :
   dxy(_data.dxy[_idx]),
   dz(_data.dz[_idx]),
   veto(_data.veto[_idx]),
+  tripleCharge(_data.tripleCharge[_idx]),
+  noMissingHits(_data.noMissingHits[_idx]),
   triggerMatch(_data.triggerMatch[_idx]),
   superCluster(_data.superClusterContainer_, _data.superCluster_[_idx])
 {
@@ -348,6 +384,7 @@ panda::Electron::Electron(ArrayBase* _array) :
   phIsoPh(gStore.getData(this).phIsoPh[0]),
   ecalIso(gStore.getData(this).ecalIso[0]),
   hcalIso(gStore.getData(this).hcalIso[0]),
+  trackIso(gStore.getData(this).trackIso[0]),
   isoPUOffset(gStore.getData(this).isoPUOffset[0]),
   sieie(gStore.getData(this).sieie[0]),
   sipip(gStore.getData(this).sipip[0]),
@@ -359,6 +396,8 @@ panda::Electron::Electron(ArrayBase* _array) :
   dxy(gStore.getData(this).dxy[0]),
   dz(gStore.getData(this).dz[0]),
   veto(gStore.getData(this).veto[0]),
+  tripleCharge(gStore.getData(this).tripleCharge[0]),
+  noMissingHits(gStore.getData(this).noMissingHits[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
 {
@@ -390,6 +429,7 @@ panda::Electron::operator=(Electron const& _src)
   phIsoPh = _src.phIsoPh;
   ecalIso = _src.ecalIso;
   hcalIso = _src.hcalIso;
+  trackIso = _src.trackIso;
   isoPUOffset = _src.isoPUOffset;
   sieie = _src.sieie;
   sipip = _src.sipip;
@@ -401,6 +441,8 @@ panda::Electron::operator=(Electron const& _src)
   dxy = _src.dxy;
   dz = _src.dz;
   veto = _src.veto;
+  tripleCharge = _src.tripleCharge;
+  noMissingHits = _src.noMissingHits;
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
   superCluster = _src.superCluster;
 
@@ -421,6 +463,7 @@ panda::Electron::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
   utils::book(_tree, _name, "phIsoPh", "", 'F', &phIsoPh, _branches);
   utils::book(_tree, _name, "ecalIso", "", 'F', &ecalIso, _branches);
   utils::book(_tree, _name, "hcalIso", "", 'F', &hcalIso, _branches);
+  utils::book(_tree, _name, "trackIso", "", 'F', &trackIso, _branches);
   utils::book(_tree, _name, "isoPUOffset", "", 'F', &isoPUOffset, _branches);
   utils::book(_tree, _name, "sieie", "", 'F', &sieie, _branches);
   utils::book(_tree, _name, "sipip", "", 'F', &sipip, _branches);
@@ -432,6 +475,8 @@ panda::Electron::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
   utils::book(_tree, _name, "dxy", "", 'F', &dxy, _branches);
   utils::book(_tree, _name, "dz", "", 'F', &dz, _branches);
   utils::book(_tree, _name, "veto", "", 'O', &veto, _branches);
+  utils::book(_tree, _name, "tripleCharge", "", 'O', &tripleCharge, _branches);
+  utils::book(_tree, _name, "noMissingHits", "", 'O', &noMissingHits, _branches);
   utils::book(_tree, _name, "triggerMatch", TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
   utils::book(_tree, _name, "superCluster_", "", 'S', gStore.getData(this).superCluster_, _branches);
 }
@@ -447,6 +492,7 @@ panda::Electron::doInit_()
   phIsoPh = 0.;
   ecalIso = 0.;
   hcalIso = 0.;
+  trackIso = 0.;
   isoPUOffset = 0.;
   sieie = 0.;
   sipip = 0.;
@@ -458,6 +504,8 @@ panda::Electron::doInit_()
   dxy = 0.;
   dz = 0.;
   veto = false;
+  tripleCharge = false;
+  noMissingHits = false;
   for (auto& p0 : triggerMatch) p0 = false;
   superCluster.init();
 
@@ -502,6 +550,7 @@ panda::Electron::dump(std::ostream& _out/* = std::cout*/) const
   _out << "phIsoPh = " << phIsoPh << std::endl;
   _out << "ecalIso = " << ecalIso << std::endl;
   _out << "hcalIso = " << hcalIso << std::endl;
+  _out << "trackIso = " << trackIso << std::endl;
   _out << "isoPUOffset = " << isoPUOffset << std::endl;
   _out << "sieie = " << sieie << std::endl;
   _out << "sipip = " << sipip << std::endl;
@@ -513,6 +562,8 @@ panda::Electron::dump(std::ostream& _out/* = std::cout*/) const
   _out << "dxy = " << dxy << std::endl;
   _out << "dz = " << dz << std::endl;
   _out << "veto = " << veto << std::endl;
+  _out << "tripleCharge = " << tripleCharge << std::endl;
+  _out << "noMissingHits = " << noMissingHits << std::endl;
   _out << "triggerMatch = " << triggerMatch << std::endl;
   _out << "superCluster = " << superCluster << std::endl;
 }
