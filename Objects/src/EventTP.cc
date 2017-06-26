@@ -1,20 +1,17 @@
-#include "../interface/EventTPPhoton.h"
+#include "../interface/EventTP.h"
 
-panda::EventTPPhoton::EventTPPhoton() :
+panda::EventTP::EventTP() :
   EventBase()
 {
-  std::vector<Object*> myObjects{{&tp, &tags, &looseTags, &probes, &jets, &t1Met}};
+  std::vector<Object*> myObjects{{&tp, &jets, &t1Met}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&tp, &tags, &looseTags, &probes, &jets}};
+  std::vector<CollectionBase*> myCollections{{&tp, &jets}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 }
 
-panda::EventTPPhoton::EventTPPhoton(EventTPPhoton const& _src) :
+panda::EventTP::EventTP(EventTP const& _src) :
   EventBase(_src),
   tp(_src.tp),
-  tags(_src.tags),
-  looseTags(_src.looseTags),
-  probes(_src.probes),
   jets(_src.jets),
   t1Met(_src.t1Met),
   npv(_src.npv),
@@ -22,27 +19,27 @@ panda::EventTPPhoton::EventTPPhoton(EventTPPhoton const& _src) :
   rho(_src.rho),
   sample(_src.sample)
 {
-  std::vector<Object*> myObjects{{&tp, &tags, &looseTags, &probes, &jets, &t1Met}};
+  std::vector<Object*> myObjects{{&tp, &jets, &t1Met}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&tp, &tags, &looseTags, &probes, &jets}};
+  std::vector<CollectionBase*> myCollections{{&tp, &jets}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
-  /* BEGIN CUSTOM EventTPPhoton.cc.copy_ctor */
+  /* BEGIN CUSTOM EventTP.cc.copy_ctor */
   /* END CUSTOM */
 }
 
-panda::EventTPPhoton::~EventTPPhoton()
+panda::EventTP::~EventTP()
 {
-  /* BEGIN CUSTOM EventTPPhoton.cc.dtor */
+  /* BEGIN CUSTOM EventTP.cc.dtor */
   /* END CUSTOM */
 }
 
-panda::EventTPPhoton&
-panda::EventTPPhoton::operator=(EventTPPhoton const& _src)
+panda::EventTP&
+panda::EventTP::operator=(EventTP const& _src)
 {
   EventBase::operator=(_src);
 
-  /* BEGIN CUSTOM EventTPPhoton.cc.operator= */
+  /* BEGIN CUSTOM EventTP.cc.operator= */
   /* END CUSTOM */
 
   npv = _src.npv;
@@ -51,9 +48,6 @@ panda::EventTPPhoton::operator=(EventTPPhoton const& _src)
   sample = _src.sample;
 
   tp = _src.tp;
-  tags = _src.tags;
-  looseTags = _src.looseTags;
-  probes = _src.probes;
   jets = _src.jets;
   t1Met = _src.t1Met;
 
@@ -61,15 +55,15 @@ panda::EventTPPhoton::operator=(EventTPPhoton const& _src)
 }
 
 void
-panda::EventTPPhoton::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
+panda::EventTP::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) const
 {
-  /* BEGIN CUSTOM EventTPPhoton.cc.print */
+  /* BEGIN CUSTOM EventTP.cc.print */
   dump(_out);
   /* END CUSTOM */
 }
 
 void
-panda::EventTPPhoton::dump(std::ostream& _out/* = std::cout*/) const
+panda::EventTP::dump(std::ostream& _out/* = std::cout*/) const
 {
   EventBase::dump(_out);
 
@@ -79,16 +73,13 @@ panda::EventTPPhoton::dump(std::ostream& _out/* = std::cout*/) const
   _out << "sample = " << sample << std::endl;
 
   tp.dump(_out);
-  tags.dump(_out);
-  looseTags.dump(_out);
-  probes.dump(_out);
   jets.dump(_out);
   t1Met.dump(_out);
 
 }
 /*static*/
 panda::utils::BranchList
-panda::EventTPPhoton::getListOfBranches(Bool_t _direct/* = kFALSE*/)
+panda::EventTP::getListOfBranches(Bool_t _direct/* = kFALSE*/)
 {
   utils::BranchList blist;
   blist += EventBase::getListOfBranches(_direct);
@@ -96,9 +87,6 @@ panda::EventTPPhoton::getListOfBranches(Bool_t _direct/* = kFALSE*/)
   blist += {"npv", "npvTrue", "rho", "sample"};
   if (!_direct) {
     blist += TPPair::getListOfBranches().fullNames("tp");
-    blist += Lepton::getListOfBranches().fullNames("tags");
-    blist += Lepton::getListOfBranches().fullNames("looseTags");
-    blist += XPhoton::getListOfBranches().fullNames("probes");
     blist += Jet::getListOfBranches().fullNames("jets");
     blist += RecoMet::getListOfBranches().fullNames("t1Met");
   }
@@ -107,7 +95,7 @@ panda::EventTPPhoton::getListOfBranches(Bool_t _direct/* = kFALSE*/)
 
 /*protected*/
 void
-panda::EventTPPhoton::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
+panda::EventTP::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 {
   EventBase::doSetStatus_(_tree, _branches);
   utils::setStatus(_tree, "", "npv", _branches);
@@ -118,7 +106,7 @@ panda::EventTPPhoton::doSetStatus_(TTree& _tree, utils::BranchList const& _branc
 
 /*protected*/
 panda::utils::BranchList
-panda::EventTPPhoton::doGetStatus_(TTree& _tree) const
+panda::EventTP::doGetStatus_(TTree& _tree) const
 {
   utils::BranchList blist;
   blist += EventBase::doGetStatus_(_tree);
@@ -132,14 +120,14 @@ panda::EventTPPhoton::doGetStatus_(TTree& _tree) const
 
 /*protected*/
 panda::utils::BranchList
-panda::EventTPPhoton::doGetBranchNames_() const
+panda::EventTP::doGetBranchNames_() const
 {
   return getListOfBranches(true);
 }
 
 /*protected*/
 void
-panda::EventTPPhoton::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus)
+panda::EventTP::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bool_t _setStatus)
 {
   EventBase::doSetAddress_(_tree, _branches, _setStatus);
 
@@ -151,7 +139,7 @@ panda::EventTPPhoton::doSetAddress_(TTree& _tree, utils::BranchList const& _bran
 
 /*protected*/
 void
-panda::EventTPPhoton::doBook_(TTree& _tree, utils::BranchList const& _branches)
+panda::EventTP::doBook_(TTree& _tree, utils::BranchList const& _branches)
 {
   EventBase::doBook_(_tree, _branches);
 
@@ -163,16 +151,16 @@ panda::EventTPPhoton::doBook_(TTree& _tree, utils::BranchList const& _branches)
 
 /*protected*/
 void
-panda::EventTPPhoton::doGetEntry_(TTree& _tree)
+panda::EventTP::doGetEntry_(TTree& _tree)
 {
   EventBase::doGetEntry_(_tree);
 
-  /* BEGIN CUSTOM EventTPPhoton.cc.doGetEntry_ */
+  /* BEGIN CUSTOM EventTP.cc.doGetEntry_ */
   /* END CUSTOM */
 }
 
 void
-panda::EventTPPhoton::doInit_()
+panda::EventTP::doInit_()
 {
   EventBase::doInit_();
 
@@ -180,66 +168,19 @@ panda::EventTPPhoton::doInit_()
   npvTrue = 0;
   rho = 0.;
   sample = 0;
-  /* BEGIN CUSTOM EventTPPhoton.cc.doInit_ */
+  /* BEGIN CUSTOM EventTP.cc.doInit_ */
   /* END CUSTOM */
 }
 
 void
-panda::EventTPPhoton::doUnlink_(TTree& _tree)
+panda::EventTP::doUnlink_(TTree& _tree)
 {
   EventBase::doUnlink_(_tree);
 
-  /* BEGIN CUSTOM EventTPPhoton.cc.doUnlink_ */
+  /* BEGIN CUSTOM EventTP.cc.doUnlink_ */
   /* END CUSTOM */
 }
 
 
-/* BEGIN CUSTOM EventTPPhoton.cc.global */
-panda::EventTPPhoton&
-panda::EventTPPhoton::copy(Event const& _src)
-{
-  runNumber = _src.runNumber;
-  lumiNumber = _src.lumiNumber;
-  eventNumber = _src.eventNumber;
-  isData = _src.isData;
-  weight = _src.weight;
-
-  triggers = _src.triggers;
-
-  npv = _src.npv;
-  npvTrue = _src.npvTrue;
-  rho = _src.rho;
-
-  jets = _src.chsAK4Jets;
-  t1Met = _src.pfMet;
-
-  jets.data.matchedGenJetContainer_ = 0;
-  jets.data.constituentsContainer_ = 0;
-
-  return *this;
-}
-
-panda::EventTPPhoton&
-panda::EventTPPhoton::copy(EventMonophoton const& _src)
-{
-  runNumber = _src.runNumber;
-  lumiNumber = _src.lumiNumber;
-  eventNumber = _src.eventNumber;
-  isData = _src.isData;
-  weight = _src.weight;
-
-  triggers = _src.triggers;
-
-  npv = _src.npv;
-  npvTrue = _src.npvTrue;
-  rho = _src.rho;
-
-  jets = _src.jets;
-  t1Met = _src.t1Met;
-
-  jets.data.matchedGenJetContainer_ = 0;
-  jets.data.constituentsContainer_ = 0;
-
-  return *this;
-}
+/* BEGIN CUSTOM EventTP.cc.global */
 /* END CUSTOM */

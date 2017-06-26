@@ -348,18 +348,23 @@ panda::EventMonophoton::copy(Event const& _src)
 void
 panda::EventMonophoton::copyGenParticles(GenParticleCollection const& _src)
 {
+  genParticles.clear();
+
   // only save leptons, prompt photons, and their ancestors
   std::map<short, unsigned> parentMap;
-  genParticles.clear();
+
+  int iGen(-1);
   for (auto& part : _src) {
+    ++iGen;
     if (!part.finalState)
       continue;
 
     switch (std::abs(part.pdgid)) {
     case 22:
-      if (!part.testFlag(GenParticle::kIsPrompt))
-        continue;
-      break;
+      if (part.testFlag(GenParticle::kIsPrompt) ||
+          (part.parent.isValid() && part.parent->pdgid == 22 && part.parent->testFlag(GenParticle::kIsPrompt)))
+        break;
+      continue;
     case 11:
     case 12:
     case 13:
@@ -374,27 +379,33 @@ panda::EventMonophoton::copyGenParticles(GenParticleCollection const& _src)
     auto& out(genParticles.create_back());
     out = part;
 
-    auto* p(&out);
-    
+    // save the first mother
     short parentIdx(part.parent.idx());
     while (parentIdx != -1) {
+      auto& parent(_src[parentIdx]);
+
+      if (parent.pdgid == part.pdgid) {
+        // skip if it's the same particle
+        parentIdx = parent.parent.idx();
+        continue;
+      }
+      
       auto itr(parentMap.find(parentIdx));
       if (itr == parentMap.end()) {
-        // parent particle not yet in genParticles
+        // parent particle not yet in output genParticles
         parentMap[parentIdx] = genParticles.size();
 
         auto& srcParent(_src[parentIdx]);
         auto& outParent(genParticles.create_back());
         outParent = srcParent;
-        p->parent.setRef(&outParent);
-        p = &outParent;
-        parentIdx = srcParent.parent.idx();
+        out.parent.setRef(&outParent);
       }
       else {
         // already recorded particle; just set the parent ref
-        p->parent.setRef(&genParticles[itr->second]);
-        break;
+        out.parent.setRef(&genParticles[itr->second]);
       }
+
+      break;
     }
   }
 }
