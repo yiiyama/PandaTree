@@ -116,9 +116,9 @@ panda::EventTP2E::doBook_(TTree& _tree, utils::BranchList const& _branches)
 
 /*protected*/
 void
-panda::EventTP2E::doGetEntry_(TTree& _tree, Long64_t _entry)
+panda::EventTP2E::doGetEntry_(TTree& _tree)
 {
-  EventTP::doGetEntry_(_tree, _entry);
+  EventTP::doGetEntry_(_tree);
 
   /* BEGIN CUSTOM EventTP2E.cc.doGetEntry_ */
   /* END CUSTOM */
