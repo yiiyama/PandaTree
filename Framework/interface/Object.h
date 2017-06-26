@@ -4,6 +4,8 @@
 #include "IOUtils.h"
 #include "TTree.h"
 #include <iostream>
+#include <vector>
+#include <utility>
 
 class TTree;
 
@@ -23,7 +25,7 @@ namespace panda {
     Object(Object const&) {}
     virtual ~Object() {}
     Object& operator=(Object const&) { return *this; }
-
+ 
     //! Set status of branches to true (matching branch) or false (vetoed branch)
     /*!
      * Sets the status of the branch to true (branch is in the list) or false (branch is vetoed in the list).
@@ -38,15 +40,21 @@ namespace panda {
     virtual utils::BranchList getStatus(TTree&) const { return utils::BranchList(); }
 
     //! Get the full list of branch names
-    virtual utils::BranchList getBranchNames(Bool_t fullName = kTRUE) const { return utils::BranchList(); }
+    /*!
+     * \param fullName  If true, prepend "(object name)."
+     * \param direct    If true, return only direct branches of this object (relevant only for TreeEntry)
+     */
+    virtual utils::BranchList getBranchNames(Bool_t fullName = kTRUE, Bool_t direct = kFALSE) const { return utils::BranchList(); }
 
     //! Bind the tree branches to the elements of this object.
     /*!
      * \param tree
      * \param blist      List of branches to bind. Vetoed or unmentioned branches are not bound.
      * \param setStatus  If true, set the status of the branch to true before binding.
+     *
+     * \return Index of the bound tree in the inputBranches_ vector.
      */
-    virtual void setAddress(TTree& tree, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) {}
+    virtual UInt_t setAddress(TTree& tree, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) { return -1; }
 
     //! Book new branches bound to this object on the tree.
     /*!
@@ -57,15 +65,32 @@ namespace panda {
 
     //! Read an entry from an input tree.
     /*!
-     * \param tree    Tree to get the entry from.
-     * \param entry   Entry number in the input tree.
+     * \param tree       Tree to get the entry from.
+     * \param entry      Entry number in the input tree.
+     * \param localEntry If true, entry must be the local entry number of the current tree (i.e. return value of LoadTree)
+     *
+     * If localEntry is false, calls tree.LoadEntry(entry).
+     *
+     * \return Number of bytes read.
     */
-    virtual Int_t getEntry(TTree& tree, Long64_t entry) { init(); return tree.GetEntry(entry); }
+    virtual Int_t getEntry(TTree& tree, Long64_t entry, Bool_t localEntry = kFALSE) { return 0; }
+
+    //! Read an entry from an input tree.
+    /*!
+     * \param treeId  Index of the tree in the inputBranches_ vector.
+     * \param entry   Entry number in the input tree.
+     * \param localEntry If true, entry must be the local entry number of the current tree (i.e. return value of LoadTree)
+     *
+     * If localEntry is false, calls tree.LoadEntry(entry).
+     *
+     * \return Number of bytes read.
+    */
+    virtual Int_t getEntry(UInt_t treeId, Long64_t entry, Bool_t localEntry = kFALSE) { return 0; }
 
     //! Fill a tree.
     /*!
-     * In most of the objects this will just call tree.Fill(). The function takes care of the semi-rare
-     * case of internal address change after the call to book().
+     * In most of the objects this will just call tree.Fill(). The function takes care of the case
+     * with e.g. Collection where internal address can change after the call to book().
      *
      * \param tree
      */

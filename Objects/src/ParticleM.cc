@@ -141,14 +141,6 @@ panda::ParticleM::operator=(ParticleM const& _src)
 }
 
 void
-panda::ParticleM::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  ParticleP::doSetAddress_(_tree, _name, _branches, _setStatus);
-
-  utils::setAddress(_tree, _name, "mass_", &mass_, _branches, _setStatus);
-}
-
-void
 panda::ParticleM::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ParticleP::doBook_(_tree, _name, _branches);

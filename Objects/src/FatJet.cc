@@ -310,26 +310,6 @@ panda::FatJet::operator=(FatJet const& _src)
 }
 
 void
-panda::FatJet::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  Jet::doSetAddress_(_tree, _name, _branches, _setStatus);
-
-  utils::setAddress(_tree, _name, "tau1", &tau1, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "tau2", &tau2, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "tau3", &tau3, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "mSD", &mSD, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "mPruned", &mPruned, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "tau1SD", &tau1SD, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "tau2SD", &tau2SD, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "tau3SD", &tau3SD, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "htt_mass", &htt_mass, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "htt_frec", &htt_frec, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "double_sub", &double_sub, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "ecfs", ecfs, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "subjets_", &subjets.indices(), _branches, true);
-}
-
-void
 panda::FatJet::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Jet::doBook_(_tree, _name, _branches);

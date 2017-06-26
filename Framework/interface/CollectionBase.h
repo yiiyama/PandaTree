@@ -17,16 +17,23 @@ namespace panda {
   public:
     CollectionBase() = delete;
     CollectionBase(CollectionBase const& src) = delete;
-    ~CollectionBase() {}
+    ~CollectionBase();
 
-    Int_t getEntry(TTree&, Long64_t entry) final;
+    void setStatus(TTree&, utils::BranchList const& blist) final;
+    utils::BranchList getStatus(TTree&) const final;
+    utils::BranchList getBranchNames(Bool_t fullName = kTRUE, Bool_t = kFALSE) const final;
+    UInt_t setAddress(TTree&, utils::BranchList const& blist = {"*"}, Bool_t setStatus = kTRUE) final;
+    void book(TTree&, utils::BranchList const& blist = {"*"}) final;
+    using ReaderObject::getEntry;
+    Int_t getEntry(UInt_t, Long64_t entry, Bool_t localEntry = kFALSE) final;
     Int_t fill(TTree&) final;
     void init() final { clear(); }
-    UInt_t size() const final { return size_; }
-    Bool_t empty() const { return size_ == 0; }
-
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
+    void unlink(TTree&) final;
+    UInt_t size() const final { return size_; }
+
+    Bool_t empty() const { return size_ == 0; }
 
     //! Resize the container.
     /*!
@@ -48,17 +55,6 @@ namespace panda {
     //! Clear the container (set size = 0)
     void clear() { size_ = 0; getData().resizeVectors_(0); }
 
-    //! Run a look-ahead of the entry to determine the collection resize.
-    /*!
-     * To read a collection of N objects, we must have more than N slots allocated in memory.
-     * Since ROOT cannot automatically take care of resizing the array, we need to load the "size"
-     * branch first and reallocate memory if necessary.
-     *
-     * \param tree    Tree to read the entry from.
-     * \param entry   Entry number in the input tree.
-     */
-    void prepareGetEntry(TTree& tree, Long64_t entry);
-
     //! Check for address change before fill.
     void prepareFill(TTree&);
 
@@ -68,31 +64,28 @@ namespace panda {
     virtual void reallocate_(UInt_t) = 0;
 
   private:
-    void doSetStatus_(TTree&, utils::BranchList const&) final;
-    utils::BranchList doGetStatus_(TTree&) const final;
-    void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus, Bool_t asInput) final;
-    void doBook_(TTree&, utils::BranchList const&) final;
+    void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus, Bool_t asInput);
 
     //! Collection size
     UInt_t size_{0};
 
     //! Size information lookahead
+    /*!
+     * To read a collection of N objects, we must have more than N slots allocated in memory.
+     * Since ROOT cannot automatically take care of resizing the array, we need to load the "size"
+     * branch first and reallocate memory if necessary.
+     */
     UInt_t sizeIn_{0};
 
-    //! List of inputs
-    /*!
-     * Store a map of tree -> (size branch, in-sync flag). Size branch is for convenience
-     * (don't have to GetBranch() at every call to getEntry) and the in-synch flag indicates
-     * whether the tree has the most up-to-date branch addresses. The flag is reset at each
-     * call to reallocate.
-     */
-    std::map<TTree*, std::pair<TBranch*, Bool_t>> inputs_;
+    //! Flags indicating branch re-linking when container is reallocated. Synchronized with ReaderObject::inputBranches_ vector.
+    std::vector<Bool_t> inputInSynch_{};
 
     //! List of outputs
     /*!
      * When resize & reallocation happens, we need to update the addresses at the output trees too.
+     * Using a vector of pairs instead of a map for the same reason as described in ReaderObject.
      */
-    std::map<TTree*, Bool_t> outputs_{};
+    std::vector<std::pair<TTree*, Bool_t>> outputs_{};
   };
 
 }

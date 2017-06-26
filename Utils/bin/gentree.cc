@@ -55,10 +55,12 @@ main(int argc, char* argv[])
   if (matches->GetEntries() == 0)
     nEntries = TString(argv[2]).Atoi();
   else {
+    nEntries = -1;
     runNumber = TString(matches->At(1)->GetName()).Atoi();
     lumiNumber = TString(matches->At(2)->GetName()).Atoi();
     eventNumber = TString(matches->At(3)->GetName()).Atoi();
   }
+  delete matches;
 
   panda::Event event;
   event.setAddress(*tree, {"runNumber", "lumiNumber", "eventNumber", "genParticles"});
@@ -87,8 +89,10 @@ main(int argc, char* argv[])
     }
 
     std::cout << "[" << event.runNumber << ":" << event.lumiNumber << ":" << event.eventNumber << "]" << std::endl;
-    for (auto* rootNode : rootNodes)
+    for (auto* rootNode : rootNodes) {
+      rootNode->pruneDaughters();
       std::cout << rootNode->print() << std::endl;
+    }
     std::cout << std::endl << std::endl;
   }
 

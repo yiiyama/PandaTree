@@ -155,15 +155,6 @@ panda::MicroJet::operator=(MicroJet const& _src)
 }
 
 void
-panda::MicroJet::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  ParticleM::doSetAddress_(_tree, _name, _branches, _setStatus);
-
-  utils::setAddress(_tree, _name, "csv", &csv, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "qgl", &qgl, _branches, _setStatus);
-}
-
-void
 panda::MicroJet::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ParticleM::doBook_(_tree, _name, _branches);

@@ -14,6 +14,7 @@ panda::Run::Run(Run const& _src) :
 
   /* BEGIN CUSTOM Run.cc.copy_ctor */
   loadTrigger_ = _src.loadTrigger_;
+  hltMenuCache_ = _src.hltMenuCache_;
   registeredTriggers_ = _src.registeredTriggers_;
   triggerIndices_ = _src.triggerIndices_;
 
@@ -22,6 +23,16 @@ panda::Run::Run(Run const& _src) :
     *hlt.menu = *_src.hlt.menu;
     hlt.paths->assign(_src.hlt.paths->begin(), _src.hlt.paths->end());
   }
+
+  inputTree_ = 0;
+  inputTreeNumber_ = -1;
+  /* END CUSTOM */
+}
+
+panda::Run::~Run()
+{
+  /* BEGIN CUSTOM Run.cc.dtor */
+  resetCache();
   /* END CUSTOM */
 }
 
@@ -32,6 +43,7 @@ panda::Run::operator=(Run const& _src)
 
   /* BEGIN CUSTOM Run.cc.operator= */
   loadTrigger_ = _src.loadTrigger_;
+  hltMenuCache_ = _src.hltMenuCache_;
   registeredTriggers_ = _src.registeredTriggers_;
   triggerIndices_ = _src.triggerIndices_;
 
@@ -42,6 +54,9 @@ panda::Run::operator=(Run const& _src)
     *hlt.menu = *_src.hlt.menu;
     hlt.paths->assign(_src.hlt.paths->begin(), _src.hlt.paths->end());
   }
+
+  inputTree_ = 0;
+  inputTreeNumber_ = -1;
   /* END CUSTOM */
 
   runNumber = _src.runNumber;
@@ -69,7 +84,7 @@ panda::Run::dump(std::ostream& _out/* = std::cout*/) const
 }
 /*static*/
 panda::utils::BranchList
-panda::Run::getListOfBranches()
+panda::Run::getListOfBranches(Bool_t _direct/* = kFALSE*/)
 {
   utils::BranchList blist;
   blist += {"runNumber", "hltMenu"};
@@ -99,7 +114,7 @@ panda::Run::doGetStatus_(TTree& _tree) const
 panda::utils::BranchList
 panda::Run::doGetBranchNames_() const
 {
-  return getListOfBranches();
+  return getListOfBranches(true);
 }
 
 /*protected*/
@@ -120,9 +135,11 @@ panda::Run::doBook_(TTree& _tree, utils::BranchList const& _branches)
 
 /*protected*/
 void
-panda::Run::doGetEntry_(TTree& _tree, Long64_t _entry)
+panda::Run::doGetEntry_(TTree& _tree)
 {
   /* BEGIN CUSTOM Run.cc.doGetEntry_ */
+  if (loadTrigger_)
+    updateTriggerTable_(_tree);
   /* END CUSTOM */
 }
 
@@ -133,6 +150,17 @@ panda::Run::doInit_()
   hltMenu = 0;
   hltSize = 0;
   /* BEGIN CUSTOM Run.cc.doInit_ */
+  /* END CUSTOM */
+}
+
+void
+panda::Run::doUnlink_(TTree& _tree)
+{
+  /* BEGIN CUSTOM Run.cc.doUnlink_ */
+  if (inputTree_ == &_tree) {
+    inputTree_ = 0;
+    inputTreeNumber_ = -1;
+  }
   /* END CUSTOM */
 }
 
@@ -148,6 +176,7 @@ panda::Run::setLoadTrigger(Bool_t _l/* = kTRUE*/)
   loadTrigger_ = _l;
   if (!_l) {
     hlt.destroy();
+    hltMenuCache_ = -1;
   }
 }
 
@@ -165,11 +194,38 @@ panda::Run::registerTrigger(char const* _path)
 
     // need to update the input
     hlt.destroy();
+    hltMenuCache_ = -1;
 
     return registeredTriggers_.size() - 1;
   }
   else
     return itr -registeredTriggers_.begin();
+}
+
+char const*
+panda::Run::getRegisteredPath(UInt_t _token) const
+{
+  if (_token < registeredTriggers_.size()) {
+    auto& path(registeredTriggers_[_token]);
+    return path(0, path.Length() - 2).Data();
+  }
+  else
+    return "";
+}
+
+UInt_t
+panda::Run::getTriggerIndex(UInt_t _token) const
+{
+  try {
+    return triggerIndices_.at(_token);
+  }
+  catch (std::exception& ex) {
+    std::cerr << "Trigger menu is not up to date." << std::endl;
+    std::cerr << "This happens when the runs or hlt tree is not in the input file" << std::endl;
+    std::cerr << "or runNumber branch of the events tree is not read. Please check" << std::endl;
+    std::cerr << "your input." << std::endl;
+    throw;
+  }
 }
 
 char const*
@@ -191,56 +247,70 @@ panda::Run::triggerPaths() const
 }
 
 void
-panda::Run::update(UInt_t _runNumber, TTree& _eventTree)
+panda::Run::findEntry(TTree& _runTree, UInt_t _runNumber)
 {
-  bool needRead(false);
+  // Known issue: if this function is called with a new tree but with the same run number as the previous call,
+  // nothing happens and the tree is not updated. This is such a rare situation that (in my opinion) does not warrant
+  // covering for.
 
-  if (_runNumber != runNumber) {
-    // gets overwritten again later, but if !loadTrigger_ this is the only place to set run number
-    runNumber = _runNumber;
-    needRead = true;
-  }
-
-  if (!loadTrigger_)
+  if (_runNumber == runNumber)
     return;
-
-  if (!hlt.menu)
-    needRead = true;
-
-  if (!needRead)
-    return;
-
-  auto* inputFile(_eventTree.GetCurrentFile());
-  if (!inputFile)
-    return;
-
-  // read out runs and hlt trees (using GetKey to create a "fresh" object - Get can fetch an in-memory object that may already be in use)
-  auto* key(inputFile->GetKey("runs"));
-  if (!key) {
-    std::cerr << "File " << inputFile->GetName() << " does not have a run tree" << std::endl;
-    throw std::runtime_error("InputError");
-  }
-  auto* runTree(static_cast<TTree*>(key->ReadObj()));
-
-  setAddress(*runTree);
 
   long iEntry(0);
-  while (runTree->GetEntry(iEntry++) > 0) {
+  while (_runTree.GetEntry(iEntry++) > 0) {
     if (runNumber == _runNumber)
       break;
   }
-  if (iEntry == runTree->GetEntries()+1) {
-    std::cerr << "Run " << _runNumber << " not found in " << inputFile->GetName() << std::endl;
+  if (iEntry == _runTree.GetEntries()+1) {
+    std::cerr << "Run " << _runNumber << " not found in run tree" << std::endl;
     throw std::runtime_error("InputError");
   }
 
-  delete runTree;
+  doGetEntry_(_runTree);
+}
 
-  key = inputFile->GetKey("hlt");
+void
+panda::Run::resetCache()
+{
+  if (inputTree_)
+    inputTree_ = 0;
+
+  inputTreeNumber_ = -1;
+  
+  hltMenuCache_ = -1;
+}
+    
+/*private*/
+void
+panda::Run::updateTriggerTable_(TTree& _tree)
+{
+  if (&_tree != inputTree_) {
+    inputTree_ = &_tree;
+    inputTreeNumber_ = -1;
+  }
+
+  if (_tree.GetTreeNumber() != inputTreeNumber_) {
+    inputTreeNumber_ = _tree.GetTreeNumber();
+    hltMenuCache_ = -1;
+  }
+
+  if (hltMenu == hltMenuCache_)
+    return;
+  
+  hltMenuCache_ = hltMenu;
+
+  auto* inputFile(inputTree_->GetCurrentFile());
+  if (!inputFile) {
+    std::cerr << "No input file associated to the run tree" << std::endl;
+    throw std::runtime_error("InputError");
+  }
+
+  auto* key(inputFile->GetKey("hlt"));
   if (!key) {
     std::cerr << "File " << inputFile->GetName() << " does not have an hlt tree" << std::endl;
     throw std::runtime_error("InputError");
   }
+
   auto* hltTree(static_cast<TTree*>(key->ReadObj()));
 
   if (!hlt.menu)

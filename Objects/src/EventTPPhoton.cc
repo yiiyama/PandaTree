@@ -31,6 +31,12 @@ panda::EventTPPhoton::EventTPPhoton(EventTPPhoton const& _src) :
   /* END CUSTOM */
 }
 
+panda::EventTPPhoton::~EventTPPhoton()
+{
+  /* BEGIN CUSTOM EventTPPhoton.cc.dtor */
+  /* END CUSTOM */
+}
+
 panda::EventTPPhoton&
 panda::EventTPPhoton::operator=(EventTPPhoton const& _src)
 {
@@ -82,18 +88,20 @@ panda::EventTPPhoton::dump(std::ostream& _out/* = std::cout*/) const
 }
 /*static*/
 panda::utils::BranchList
-panda::EventTPPhoton::getListOfBranches()
+panda::EventTPPhoton::getListOfBranches(Bool_t _direct/* = kFALSE*/)
 {
   utils::BranchList blist;
-  blist += EventBase::getListOfBranches();
+  blist += EventBase::getListOfBranches(_direct);
 
   blist += {"npv", "npvTrue", "rho", "sample"};
-  blist += TPPair::getListOfBranches().fullNames("tp");
-  blist += Lepton::getListOfBranches().fullNames("tags");
-  blist += Lepton::getListOfBranches().fullNames("looseTags");
-  blist += XPhoton::getListOfBranches().fullNames("probes");
-  blist += Jet::getListOfBranches().fullNames("jets");
-  blist += RecoMet::getListOfBranches().fullNames("t1Met");
+  if (!_direct) {
+    blist += TPPair::getListOfBranches().fullNames("tp");
+    blist += Lepton::getListOfBranches().fullNames("tags");
+    blist += Lepton::getListOfBranches().fullNames("looseTags");
+    blist += XPhoton::getListOfBranches().fullNames("probes");
+    blist += Jet::getListOfBranches().fullNames("jets");
+    blist += RecoMet::getListOfBranches().fullNames("t1Met");
+  }
   return blist;
 }
 
@@ -126,7 +134,7 @@ panda::EventTPPhoton::doGetStatus_(TTree& _tree) const
 panda::utils::BranchList
 panda::EventTPPhoton::doGetBranchNames_() const
 {
-  return getListOfBranches();
+  return getListOfBranches(true);
 }
 
 /*protected*/
@@ -155,9 +163,9 @@ panda::EventTPPhoton::doBook_(TTree& _tree, utils::BranchList const& _branches)
 
 /*protected*/
 void
-panda::EventTPPhoton::doGetEntry_(TTree& _tree, Long64_t _entry)
+panda::EventTPPhoton::doGetEntry_(TTree& _tree)
 {
-  EventBase::doGetEntry_(_tree, _entry);
+  EventBase::doGetEntry_(_tree);
 
   /* BEGIN CUSTOM EventTPPhoton.cc.doGetEntry_ */
   /* END CUSTOM */
@@ -176,12 +184,27 @@ panda::EventTPPhoton::doInit_()
   /* END CUSTOM */
 }
 
+void
+panda::EventTPPhoton::doUnlink_(TTree& _tree)
+{
+  EventBase::doUnlink_(_tree);
+
+  /* BEGIN CUSTOM EventTPPhoton.cc.doUnlink_ */
+  /* END CUSTOM */
+}
+
 
 /* BEGIN CUSTOM EventTPPhoton.cc.global */
 panda::EventTPPhoton&
-panda::EventTPPhoton::operator=(Event const& _src)
+panda::EventTPPhoton::copy(Event const& _src)
 {
-  EventBase::operator=(_src);
+  runNumber = _src.runNumber;
+  lumiNumber = _src.lumiNumber;
+  eventNumber = _src.eventNumber;
+  isData = _src.isData;
+  weight = _src.weight;
+
+  triggers = _src.triggers;
 
   npv = _src.npv;
   npvTrue = _src.npvTrue;
@@ -197,9 +220,15 @@ panda::EventTPPhoton::operator=(Event const& _src)
 }
 
 panda::EventTPPhoton&
-panda::EventTPPhoton::operator=(EventMonophoton const& _src)
+panda::EventTPPhoton::copy(EventMonophoton const& _src)
 {
-  EventBase::operator=(_src);
+  runNumber = _src.runNumber;
+  lumiNumber = _src.lumiNumber;
+  eventNumber = _src.eventNumber;
+  isData = _src.isData;
+  weight = _src.weight;
+
+  triggers = _src.triggers;
 
   npv = _src.npv;
   npvTrue = _src.npvTrue;

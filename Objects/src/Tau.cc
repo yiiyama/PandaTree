@@ -253,22 +253,6 @@ panda::Tau::operator=(Tau const& _src)
 }
 
 void
-panda::Tau::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  ParticleM::doSetAddress_(_tree, _name, _branches, _setStatus);
-
-  utils::setAddress(_tree, _name, "charge", &charge, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "decayMode", &decayMode, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "decayModeNew", &decayModeNew, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "looseIsoMVA", &looseIsoMVA, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "looseIsoMVAOld", &looseIsoMVAOld, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "iso", &iso, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "isoDeltaBetaCorr", &isoDeltaBetaCorr, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "vertex_", gStore.getData(this).vertex_, _branches, true);
-  utils::setAddress(_tree, _name, "matchedGen_", gStore.getData(this).matchedGen_, _branches, true);
-}
-
-void
 panda::Tau::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   ParticleM::doBook_(_tree, _name, _branches);

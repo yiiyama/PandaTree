@@ -465,6 +465,9 @@ isData/O
 weight/F
 triggers/HLTBits
 #include "Run.h"
+#include "TList.h"
+#include "TFile.h"
+#include "TKey.h"
 
 {Event>EventBase}
 npv/s
@@ -547,3 +550,4 @@ puppiCA15Jets.matchedGenJet->ca15GenJets
 runNumber/i
 hltMenu/i
 hltSize/s/!
+#include "TList.h"

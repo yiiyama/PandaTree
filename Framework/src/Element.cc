@@ -47,7 +47,7 @@ panda::Element::getStatus(TTree& _tree) const
 }
 
 panda::utils::BranchList
-panda::Element::getBranchNames(Bool_t _fullName/* = kTRUE*/) const
+panda::Element::getBranchNames(Bool_t _fullName/* = kTRUE*/, Bool_t/* = kFALSE*/) const
 {
   auto& array(gStore.getArray(this));
   if (_fullName)
@@ -56,17 +56,28 @@ panda::Element::getBranchNames(Bool_t _fullName/* = kTRUE*/) const
     return array.getData().getBranchNames();
 }
 
-void
+UInt_t
 panda::Element::setAddress(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  auto& arr(gStore.getArray(this));
-  doSetAddress_(_tree, arr.getName(), _branches, _setStatus);
+  return gStore.getArray(this).setAddress(_tree, _branches, _setStatus);
 }
 
 void
 panda::Element::book(TTree& _tree, utils::BranchList const& _branches/* = {"*"}*/)
 {
   doBook_(_tree, gStore.getName(this), _branches);
+}
+
+Int_t
+panda::Element::getEntry(TTree& _tree, Long64_t _entry, Bool_t _localEntry/* = kFALSE*/)
+{
+  return gStore.getArray(this).getEntry(_tree, _entry, _localEntry);
+}
+
+Int_t
+panda::Element::getEntry(UInt_t _treeId, Long64_t _entry, Bool_t _localEntry/* = kFALSE*/)
+{
+  return gStore.getArray(this).getEntry(_treeId, _entry, _localEntry);
 }
 
 panda::ArrayBase&

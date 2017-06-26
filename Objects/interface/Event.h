@@ -29,7 +29,7 @@ namespace panda {
   public:
     Event();
     Event(Event const&);
-    ~Event() {}
+    ~Event();
     Event& operator=(Event const&);
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
@@ -81,7 +81,7 @@ namespace panda {
     Float_t rho{};
     Float_t rhoCentralCalo{};
 
-    static utils::BranchList getListOfBranches();
+    static utils::BranchList getListOfBranches(Bool_t direct = kFALSE);
 
   protected:
     void doSetStatus_(TTree&, utils::BranchList const&) override;
@@ -89,8 +89,9 @@ namespace panda {
     utils::BranchList doGetBranchNames_() const override;
     void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;
     void doBook_(TTree&, utils::BranchList const&) override;
-    void doGetEntry_(TTree&, Long64_t) override;
+    void doGetEntry_(TTree&) override;
     void doInit_() override;
+    void doUnlink_(TTree&) override;
 
   public:
     /* BEGIN CUSTOM Event.h.classdef */

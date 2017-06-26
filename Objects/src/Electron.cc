@@ -411,32 +411,6 @@ panda::Electron::operator=(Electron const& _src)
 }
 
 void
-panda::Electron::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  Lepton::doSetAddress_(_tree, _name, _branches, _setStatus);
-
-  utils::setAddress(_tree, _name, "hltsafe", &hltsafe, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "chIsoPh", &chIsoPh, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "nhIsoPh", &nhIsoPh, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "phIsoPh", &phIsoPh, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "ecalIso", &ecalIso, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "hcalIso", &hcalIso, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "isoPUOffset", &isoPUOffset, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "sieie", &sieie, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "sipip", &sipip, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "eseed", &eseed, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "hOverE", &hOverE, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "regPt", &regPt, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "smearedPt", &smearedPt, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "originalPt", &originalPt, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "dxy", &dxy, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "dz", &dz, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "veto", &veto, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "triggerMatch", triggerMatch, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "superCluster_", gStore.getData(this).superCluster_, _branches, true);
-}
-
-void
 panda::Electron::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   Lepton::doBook_(_tree, _name, _branches);

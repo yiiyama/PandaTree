@@ -75,7 +75,6 @@ namespace panda {
   protected:
     Particle(ArrayBase*);
 
-    void doSetAddress_(TTree&, TString const&, utils::BranchList const& = {"*"}, Bool_t setStatus = kTRUE) override;
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doInit_() override;
   };

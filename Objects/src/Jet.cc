@@ -338,28 +338,6 @@ panda::Jet::operator=(Jet const& _src)
 }
 
 void
-panda::Jet::doSetAddress_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
-{
-  MicroJet::doSetAddress_(_tree, _name, _branches, _setStatus);
-
-  utils::setAddress(_tree, _name, "rawPt", &rawPt, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "ptCorrUp", &ptCorrUp, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "ptCorrDown", &ptCorrDown, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "ptSmear", &ptSmear, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "ptSmearUp", &ptSmearUp, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "ptSmearDown", &ptSmearDown, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "area", &area, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "nhf", &nhf, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "chf", &chf, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "puid", &puid, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "loose", &loose, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "tight", &tight, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "monojet", &monojet, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "matchedGenJet_", gStore.getData(this).matchedGenJet_, _branches, true);
-  utils::setAddress(_tree, _name, "constituents_", &constituents.indices(), _branches, true);
-}
-
-void
 panda::Jet::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
   MicroJet::doBook_(_tree, _name, _branches);

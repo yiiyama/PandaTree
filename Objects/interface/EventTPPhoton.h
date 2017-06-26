@@ -16,7 +16,7 @@ namespace panda {
   public:
     EventTPPhoton();
     EventTPPhoton(EventTPPhoton const&);
-    ~EventTPPhoton() {}
+    ~EventTPPhoton();
     EventTPPhoton& operator=(EventTPPhoton const&);
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
@@ -34,7 +34,7 @@ namespace panda {
     Float_t rho{};
     UInt_t sample{};
 
-    static utils::BranchList getListOfBranches();
+    static utils::BranchList getListOfBranches(Bool_t direct = kFALSE);
 
   protected:
     void doSetStatus_(TTree&, utils::BranchList const&) override;
@@ -42,13 +42,14 @@ namespace panda {
     utils::BranchList doGetBranchNames_() const override;
     void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;
     void doBook_(TTree&, utils::BranchList const&) override;
-    void doGetEntry_(TTree&, Long64_t) override;
+    void doGetEntry_(TTree&) override;
     void doInit_() override;
+    void doUnlink_(TTree&) override;
 
   public:
     /* BEGIN CUSTOM EventTPPhoton.h.classdef */
-    EventTPPhoton& operator=(Event const&);
-    EventTPPhoton& operator=(EventMonophoton const&);
+    EventTPPhoton& copy(Event const&);
+    EventTPPhoton& copy(EventMonophoton const&);
     /* END CUSTOM */
   };
 

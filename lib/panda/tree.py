@@ -55,7 +55,7 @@ class Tree(Definition, Object):
         
         header.writeline('{name}();'.format(name = self.name)) # default constructor
         header.writeline('{name}({name} const&);'.format(name = self.name)) # copy constructor
-        header.writeline('~{name}() {{}}'.format(name = self.name)) # destructor
+        header.writeline('~{name}();'.format(name = self.name)) # destructor
         header.writeline('{name}& operator=({name} const&);'.format(name = self.name)) # assignment operator
 
         header.newline()
@@ -79,7 +79,7 @@ class Tree(Definition, Object):
                 branch.write_decl(header, context = 'TreeEntry')
 
         header.newline()
-        header.writeline('static utils::BranchList getListOfBranches();')
+        header.writeline('static utils::BranchList getListOfBranches(Bool_t direct = kFALSE);')
 
         header.newline()
         header.indent -= 1
@@ -90,8 +90,9 @@ class Tree(Definition, Object):
         header.writeline('utils::BranchList doGetBranchNames_() const override;')
         header.writeline('void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;')
         header.writeline('void doBook_(TTree&, utils::BranchList const&) override;')
-        header.writeline('void doGetEntry_(TTree&, Long64_t) override;')
+        header.writeline('void doGetEntry_(TTree&) override;')
         header.writeline('void doInit_() override;')
+        header.writeline('void doUnlink_(TTree&) override;')
 
         header.newline()
         header.indent -= 1
@@ -185,6 +186,16 @@ class Tree(Definition, Object):
         src.writeline('}')
         src.newline()
 
+        src.writeline('{NAMESPACE}::{name}::~{name}()'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{')
+        src.indent += 1
+
+        src.write_custom_block('{name}.cc.dtor'.format(name = self.name))
+
+        src.indent -= 1
+        src.writeline('}')
+        src.newline()
+
         src.writeline('{NAMESPACE}::{name}&'.format(NAMESPACE = NAMESPACE, name = self.name))
         src.writeline('{NAMESPACE}::{name}::operator=({name} const& _src)'.format(NAMESPACE = NAMESPACE, name = self.name))
         src.writeline('{')
@@ -245,17 +256,25 @@ class Tree(Definition, Object):
 
         src.writeline('/*static*/')
         src.writeline('panda::utils::BranchList')
-        src.writeline('{NAMESPACE}::{name}::getListOfBranches()'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{NAMESPACE}::{name}::getListOfBranches(Bool_t _direct/* = kFALSE*/)'.format(NAMESPACE = NAMESPACE, name = self.name))
         src.writeline('{')
         src.indent += 1
         src.writeline('utils::BranchList blist;')
         if self.parent != 'TreeEntry':
-            src.writeline('blist += {parent}::getListOfBranches();'.format(parent = self.parent))
+            src.writeline('blist += {parent}::getListOfBranches(_direct);'.format(parent = self.parent))
             src.newline()
 
         src.writeline('blist += {{{bnames}}};'.format(bnames = ', '.join('"{name}"'.format(name = branch.name) for branch in self.branches if '!' not in branch.modifier)))
-        for objbranch in self.objbranches:
-            src.writeline('blist += {otype}::getListOfBranches().fullNames("{name}");'.format(otype = objbranch.objname, name = objbranch.name))
+        if len(self.objbranches) != 0:
+            src.writeline('if (!_direct) {')
+            src.indent += 1
+
+            for objbranch in self.objbranches:
+                src.writeline('blist += {otype}::getListOfBranches().fullNames("{name}");'.format(otype = objbranch.objname, name = objbranch.name))
+
+            src.indent -= 1
+            src.writeline('}')
+
         src.writeline('return blist;')
         src.indent -= 1
         src.writeline('}')
@@ -295,7 +314,7 @@ class Tree(Definition, Object):
         src.writeline('{NAMESPACE}::{name}::doGetBranchNames_() const'.format(NAMESPACE = NAMESPACE, name = self.name))
         src.writeline('{')
         src.indent += 1
-        src.writeline('return getListOfBranches();')
+        src.writeline('return getListOfBranches(true);')
         src.indent -= 1
         src.writeline('}')
         src.newline()
@@ -332,11 +351,11 @@ class Tree(Definition, Object):
 
         src.writeline('/*protected*/')
         src.writeline('void')
-        src.writeline('{NAMESPACE}::{name}::doGetEntry_(TTree& _tree, Long64_t _entry)'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{NAMESPACE}::{name}::doGetEntry_(TTree& _tree)'.format(NAMESPACE = NAMESPACE, name = self.name))
         src.writeline('{')
         src.indent += 1
         if self.parent != 'TreeEntry':
-            src.writeline('{parent}::doGetEntry_(_tree, _entry);'.format(parent = self.parent))
+            src.writeline('{parent}::doGetEntry_(_tree);'.format(parent = self.parent))
             src.newline()
 
         src.write_custom_block('{name}.cc.doGetEntry_'.format(name = self.name))
@@ -356,6 +375,19 @@ class Tree(Definition, Object):
             branch.write_init(src, context = 'TreeEntry')
 
         src.write_custom_block('{name}.cc.doInit_'.format(name = self.name))
+        src.indent -= 1
+        src.writeline('}')
+        src.newline()
+
+        src.writeline('void')
+        src.writeline('{NAMESPACE}::{name}::doUnlink_(TTree& _tree)'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{')
+        src.indent += 1
+        if self.parent != 'TreeEntry':
+            src.writeline('{parent}::doUnlink_(_tree);'.format(parent = self.parent))
+            src.newline()
+
+        src.write_custom_block('{name}.cc.doUnlink_'.format(name = self.name))
         src.indent -= 1
         src.writeline('}')
         src.newline()
