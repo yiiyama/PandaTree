@@ -249,9 +249,9 @@ panda::EventMonophoton::doBook_(TTree& _tree, utils::BranchList const& _branches
 
 /*protected*/
 void
-panda::EventMonophoton::doGetEntry_(TTree& _tree, Long64_t _entry)
+panda::EventMonophoton::doGetEntry_(TTree& _tree)
 {
-  EventBase::doGetEntry_(_tree, _entry);
+  EventBase::doGetEntry_(_tree);
 
   /* BEGIN CUSTOM EventMonophoton.cc.doGetEntry_ */
   if (!pfCandidates.empty() && !vertices.empty()) {

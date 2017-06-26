@@ -135,7 +135,7 @@ panda::Run::doBook_(TTree& _tree, utils::BranchList const& _branches)
 
 /*protected*/
 void
-panda::Run::doGetEntry_(TTree& _tree, Long64_t _entry)
+panda::Run::doGetEntry_(TTree& _tree)
 {
   /* BEGIN CUSTOM Run.cc.doGetEntry_ */
   if (loadTrigger_)
@@ -266,7 +266,7 @@ panda::Run::findEntry(TTree& _runTree, UInt_t _runNumber)
     throw std::runtime_error("InputError");
   }
 
-  doGetEntry_(_runTree, iEntry);
+  doGetEntry_(_runTree);
 }
 
 void

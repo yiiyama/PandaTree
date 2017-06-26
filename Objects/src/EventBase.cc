@@ -150,7 +150,7 @@ panda::EventBase::doBook_(TTree& _tree, utils::BranchList const& _branches)
 
 /*protected*/
 void
-panda::EventBase::doGetEntry_(TTree& _tree, Long64_t _entry)
+panda::EventBase::doGetEntry_(TTree& _tree)
 {
   /* BEGIN CUSTOM EventBase.cc.doGetEntry_ */
   if (readRunTree_ && _tree.GetCurrentFile() && runNumber != 0) {

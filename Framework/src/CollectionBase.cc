@@ -104,15 +104,15 @@ panda::CollectionBase::book(TTree& _tree, utils::BranchList const& _branches/* =
 }
 
 Int_t
-panda::CollectionBase::getEntry(UInt_t _treeId, Long64_t _entry, Int_t _localEntry/* = -1*/)
+panda::CollectionBase::getEntry(UInt_t _treeId, Long64_t _entry, Bool_t _localEntry/* = kFALSE*/)
 {
   init();
 
   auto& tree(*inputBranches_[_treeId].first);
   auto& branches(inputBranches_[_treeId].second);
 
-  if (_localEntry < 0)
-    _localEntry = tree.LoadTree(_entry);
+  if (!_localEntry)
+    _entry = tree.LoadTree(_entry);
 
   // If the input tree is a TChain and there was a tree transition, LoadTree will call Notify
   // which in turn executes BranchArrayUpdator::Notify, updating the size branch automatically.
@@ -123,7 +123,7 @@ panda::CollectionBase::getEntry(UInt_t _treeId, Long64_t _entry, Int_t _localEnt
   if (!sizeBranch || sizeBranch->TestBit(kDoNotProcess))
     return 0;
 
-  int bytes(sizeBranch->GetEntry(_localEntry));
+  int bytes(sizeBranch->GetEntry(_entry));
   if (bytes <= 0)
     return bytes;
 
@@ -140,7 +140,7 @@ panda::CollectionBase::getEntry(UInt_t _treeId, Long64_t _entry, Int_t _localEnt
   for (unsigned iB(1); iB != branches.size(); ++iB) {
     auto* branch(branches[iB]);
     if (branch && !branch->TestBit(kDoNotProcess))
-      bytes += branch->GetEntry(_localEntry);
+      bytes += branch->GetEntry(_entry);
   }
 
   return bytes;

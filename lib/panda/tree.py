@@ -90,7 +90,7 @@ class Tree(Definition, Object):
         header.writeline('utils::BranchList doGetBranchNames_() const override;')
         header.writeline('void doSetAddress_(TTree&, utils::BranchList const&, Bool_t setStatus) override;')
         header.writeline('void doBook_(TTree&, utils::BranchList const&) override;')
-        header.writeline('void doGetEntry_(TTree&, Long64_t) override;')
+        header.writeline('void doGetEntry_(TTree&) override;')
         header.writeline('void doInit_() override;')
         header.writeline('void doUnlink_(TTree&) override;')
 
@@ -351,11 +351,11 @@ class Tree(Definition, Object):
 
         src.writeline('/*protected*/')
         src.writeline('void')
-        src.writeline('{NAMESPACE}::{name}::doGetEntry_(TTree& _tree, Long64_t _entry)'.format(NAMESPACE = NAMESPACE, name = self.name))
+        src.writeline('{NAMESPACE}::{name}::doGetEntry_(TTree& _tree)'.format(NAMESPACE = NAMESPACE, name = self.name))
         src.writeline('{')
         src.indent += 1
         if self.parent != 'TreeEntry':
-            src.writeline('{parent}::doGetEntry_(_tree, _entry);'.format(parent = self.parent))
+            src.writeline('{parent}::doGetEntry_(_tree);'.format(parent = self.parent))
             src.newline()
 
         src.write_custom_block('{name}.cc.doGetEntry_'.format(name = self.name))

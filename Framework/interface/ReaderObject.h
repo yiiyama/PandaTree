@@ -14,8 +14,8 @@ namespace panda {
     ~ReaderObject();
     ReaderObject& operator=(ReaderObject const&) { return *this; }
 
-    Int_t getEntry(TTree& tree, Long64_t entry, Int_t localEntry = -1) final;
-    Int_t getEntry(UInt_t treeId, Long64_t entry, Int_t _localEntry = -1) override;
+    Int_t getEntry(TTree& tree, Long64_t entry, Bool_t localEntry = kFALSE) final;
+    Int_t getEntry(UInt_t treeId, Long64_t entry, Bool_t localEntry = kFALSE) override;
 
     //! Unlink from a tree.
     virtual void unlink(TTree&);

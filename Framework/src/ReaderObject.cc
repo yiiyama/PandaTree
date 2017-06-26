@@ -18,7 +18,7 @@ panda::ReaderObject::~ReaderObject()
 }
 
 Int_t
-panda::ReaderObject::getEntry(TTree& _tree, Long64_t _entry, Int_t _localEntry/* = -1*/)
+panda::ReaderObject::getEntry(TTree& _tree, Long64_t _entry, Bool_t _localEntry/* = kFALSE*/)
 {
   for (unsigned iT(0); iT != inputBranches_.size(); ++iT) {
     if (inputBranches_[iT].first == &_tree)
@@ -29,18 +29,18 @@ panda::ReaderObject::getEntry(TTree& _tree, Long64_t _entry, Int_t _localEntry/*
 }
 
 Int_t
-panda::ReaderObject::getEntry(UInt_t _treeId, Long64_t _entry, Int_t _localEntry/* = -1*/)
+panda::ReaderObject::getEntry(UInt_t _treeId, Long64_t _entry, Bool_t _localEntry/* = kFALSE*/)
 {
   init();
 
-  if (_localEntry < 0)
-    _localEntry = inputBranches_[_treeId].first->LoadTree(_entry);
+  if (!_localEntry)
+    _entry = inputBranches_[_treeId].first->LoadTree(_entry);
 
   int bytes(0);
 
   for (auto* branch : inputBranches_[_treeId].second) {
     if (branch && !branch->TestBit(kDoNotProcess))
-      bytes += branch->GetEntry(_localEntry);
+      bytes += branch->GetEntry(_entry);
   }
 
   return bytes;
