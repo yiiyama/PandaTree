@@ -422,11 +422,10 @@ goodVertices/O
 badsc/O
 badMuons/O
 duplicateMuons/O
-dupECALClusters/O
 unfixedECALHits/O
 badPFMuons/O
 badChargedHadrons/O
-virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !goodVertices; }
+virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !goodVertices && !badPFMuons && !badChargedHadrons; }
 
 [HLTBits:SINGLE]
 words[32]/i
