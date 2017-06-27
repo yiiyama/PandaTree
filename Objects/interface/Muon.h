@@ -18,6 +18,9 @@ namespace panda {
       fIsoTkMu22er,
       fIsoMu24,
       fIsoTkMu24,
+      fIsoMu27,
+      fIsoTkMu27,
+      fMu50,
       nTriggerObjects
     };
 

@@ -33,7 +33,6 @@ namespace panda {
     Bool_t badsc{};
     Bool_t badMuons{};
     Bool_t duplicateMuons{};
-    Bool_t unfixedECALHits{};
     Bool_t badPFMuons{};
     Bool_t badChargedHadrons{};
 

@@ -6,7 +6,10 @@ TString panda::Muon::TriggerObjectName[] = {
   "fIsoMu22er",
   "fIsoTkMu22er",
   "fIsoMu24",
-  "fIsoTkMu24"
+  "fIsoTkMu24",
+  "fIsoMu27",
+  "fIsoTkMu27",
+  "fMu50"
 };
 
 /*static*/

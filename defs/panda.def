@@ -214,16 +214,10 @@ enum TriggerObject {
   fEl25Tight,
   fEl27Loose,
   fEl27Tight,
-  fEl120Ph,
-  fEl135Ph,
+  fEl35Tight
   fEl165HE10Ph,
   fEl175Ph,
-  fEl22EBR9IsoPh,
-  fEl36EBR9IsoPh,
-  fEl50EBR9IsoPh,
-  fEl75EBR9IsoPh,
-  fEl90EBR9IsoPh,
-  fEl120EBR9IsoPh
+  fEl36EBR9IsoPh
 };
 chIsoPh/F
 nhIsoPh/F
@@ -254,7 +248,10 @@ enum TriggerObject {
   fIsoMu22er,
   fIsoTkMu22er,
   fIsoMu24,
-  fIsoTkMu24
+  fIsoTkMu24,
+  fIsoMu27,
+  fIsoTkMu27,
+  fMu50
 };
 soft/O
 mediumBtoF/O
@@ -282,10 +279,11 @@ enum TriggerObject {
   fSEG24,
   fSEG30,
   fSEG40,
-  fPh120,
+  fPh200Seed,
   fPh135,
   fPh165HE10,
   fPh175,
+  fPh200,
   fPh22EBR9Iso,
   fPh36EBR9Iso,
   fPh50EBR9Iso,
@@ -422,7 +420,6 @@ goodVertices/O
 badsc/O
 badMuons/O
 duplicateMuons/O
-unfixedECALHits/O
 badPFMuons/O
 badChargedHadrons/O
 virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !goodVertices && !badPFMuons && !badChargedHadrons; }
