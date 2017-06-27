@@ -76,8 +76,6 @@ namespace panda {
       Float_t* regPt{0};
       Float_t* smearedPt{0};
       Float_t* originalPt{0};
-      Float_t* dxy{0};
-      Float_t* dz{0};
       Bool_t* veto{0};
       Bool_t* tripleCharge{0};
       Bool_t* noMissingHits{0};
@@ -146,8 +144,6 @@ namespace panda {
     Float_t& regPt;
     Float_t& smearedPt;
     Float_t& originalPt;
-    Float_t& dxy;
-    Float_t& dz;
     Bool_t& veto;
     Bool_t& tripleCharge;
     Bool_t& noMissingHits;
