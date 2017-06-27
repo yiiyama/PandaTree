@@ -7,9 +7,10 @@ TString panda::Electron::TriggerObjectName[] = {
   "fEl27Loose",
   "fEl27Tight",
   "fEl35Tight",
-  "fEl165HE10Ph",
-  "fEl175Ph",
-  "fEl36EBR9IsoPh"
+  "fPh165HE10",
+  "fPh175",
+  "fPh200",
+  "fPh36EBR9Iso"
 };
 
 /*static*/
