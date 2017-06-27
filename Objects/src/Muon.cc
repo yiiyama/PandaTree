@@ -6,7 +6,10 @@ TString panda::Muon::TriggerObjectName[] = {
   "fIsoMu22er",
   "fIsoTkMu22er",
   "fIsoMu24",
-  "fIsoTkMu24"
+  "fIsoTkMu24",
+  "fIsoMu27",
+  "fIsoTkMu27",
+  "fMu50"
 };
 
 /*static*/
@@ -15,7 +18,7 @@ panda::Muon::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Lepton::getListOfBranches();
-  blist += {"mediumBtoF", "triggerMatch"};
+  blist += {"soft", "mediumBtoF", "r03Iso", "triggerMatch"};
   return blist;
 }
 
@@ -24,7 +27,9 @@ panda::Muon::datastore::allocate(UInt_t _nmax)
 {
   Lepton::datastore::allocate(_nmax);
 
+  soft = new Bool_t[nmax_];
   mediumBtoF = new Bool_t[nmax_];
+  r03Iso = new Float_t[nmax_];
   triggerMatch = new Bool_t[nmax_][nTriggerObjects];
 }
 
@@ -33,8 +38,12 @@ panda::Muon::datastore::deallocate()
 {
   Lepton::datastore::deallocate();
 
+  delete [] soft;
+  soft = 0;
   delete [] mediumBtoF;
   mediumBtoF = 0;
+  delete [] r03Iso;
+  r03Iso = 0;
   delete [] triggerMatch;
   triggerMatch = 0;
 }
@@ -44,7 +53,9 @@ panda::Muon::datastore::setStatus(TTree& _tree, TString const& _name, utils::Bra
 {
   Lepton::datastore::setStatus(_tree, _name, _branches);
 
+  utils::setStatus(_tree, _name, "soft", _branches);
   utils::setStatus(_tree, _name, "mediumBtoF", _branches);
+  utils::setStatus(_tree, _name, "r03Iso", _branches);
   utils::setStatus(_tree, _name, "triggerMatch", _branches);
 }
 
@@ -53,7 +64,9 @@ panda::Muon::datastore::getStatus(TTree& _tree, TString const& _name) const
 {
   utils::BranchList blist(Lepton::datastore::getStatus(_tree, _name));
 
+  blist.push_back(utils::getStatus(_tree, _name, "soft"));
   blist.push_back(utils::getStatus(_tree, _name, "mediumBtoF"));
+  blist.push_back(utils::getStatus(_tree, _name, "r03Iso"));
   blist.push_back(utils::getStatus(_tree, _name, "triggerMatch"));
 
   return blist;
@@ -64,7 +77,9 @@ panda::Muon::datastore::setAddress(TTree& _tree, TString const& _name, utils::Br
 {
   Lepton::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
+  utils::setAddress(_tree, _name, "soft", soft, _branches, _setStatus);
   utils::setAddress(_tree, _name, "mediumBtoF", mediumBtoF, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "r03Iso", r03Iso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "triggerMatch", triggerMatch, _branches, _setStatus);
 }
 
@@ -75,7 +90,9 @@ panda::Muon::datastore::book(TTree& _tree, TString const& _name, utils::BranchLi
 
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
+  utils::book(_tree, _name, "soft", size, 'O', soft, _branches);
   utils::book(_tree, _name, "mediumBtoF", size, 'O', mediumBtoF, _branches);
+  utils::book(_tree, _name, "r03Iso", size, 'F', r03Iso, _branches);
   utils::book(_tree, _name, "triggerMatch", size + TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
 }
 
@@ -84,7 +101,9 @@ panda::Muon::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
   Lepton::datastore::releaseTree(_tree, _name);
 
+  utils::resetAddress(_tree, _name, "soft");
   utils::resetAddress(_tree, _name, "mediumBtoF");
+  utils::resetAddress(_tree, _name, "r03Iso");
   utils::resetAddress(_tree, _name, "triggerMatch");
 }
 
@@ -104,32 +123,42 @@ panda::Muon::datastore::getBranchNames(TString const& _name/* = ""*/) const
 
 panda::Muon::Muon(char const* _name/* = ""*/) :
   Lepton(new MuonArray(1, _name)),
+  soft(gStore.getData(this).soft[0]),
   mediumBtoF(gStore.getData(this).mediumBtoF[0]),
+  r03Iso(gStore.getData(this).r03Iso[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0])
 {
 }
 
 panda::Muon::Muon(Muon const& _src) :
   Lepton(new MuonArray(1, _src.getName())),
+  soft(gStore.getData(this).soft[0]),
   mediumBtoF(gStore.getData(this).mediumBtoF[0]),
+  r03Iso(gStore.getData(this).r03Iso[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0])
 {
   Lepton::operator=(_src);
 
+  soft = _src.soft;
   mediumBtoF = _src.mediumBtoF;
+  r03Iso = _src.r03Iso;
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
 }
 
 panda::Muon::Muon(datastore& _data, UInt_t _idx) :
   Lepton(_data, _idx),
+  soft(_data.soft[_idx]),
   mediumBtoF(_data.mediumBtoF[_idx]),
+  r03Iso(_data.r03Iso[_idx]),
   triggerMatch(_data.triggerMatch[_idx])
 {
 }
 
 panda::Muon::Muon(ArrayBase* _array) :
   Lepton(_array),
+  soft(gStore.getData(this).soft[0]),
   mediumBtoF(gStore.getData(this).mediumBtoF[0]),
+  r03Iso(gStore.getData(this).r03Iso[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0])
 {
 }
@@ -154,7 +183,9 @@ panda::Muon::operator=(Muon const& _src)
 {
   Lepton::operator=(_src);
 
+  soft = _src.soft;
   mediumBtoF = _src.mediumBtoF;
+  r03Iso = _src.r03Iso;
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
 
   /* BEGIN CUSTOM Muon.cc.operator= */
@@ -168,7 +199,9 @@ panda::Muon::doBook_(TTree& _tree, TString const& _name, utils::BranchList const
 {
   Lepton::doBook_(_tree, _name, _branches);
 
+  utils::book(_tree, _name, "soft", "", 'O', &soft, _branches);
   utils::book(_tree, _name, "mediumBtoF", "", 'O', &mediumBtoF, _branches);
+  utils::book(_tree, _name, "r03Iso", "", 'F', &r03Iso, _branches);
   utils::book(_tree, _name, "triggerMatch", TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
 }
 
@@ -177,7 +210,9 @@ panda::Muon::doInit_()
 {
   Lepton::doInit_();
 
+  soft = false;
   mediumBtoF = false;
+  r03Iso = 0.;
   for (auto& p0 : triggerMatch) p0 = false;
 
   /* BEGIN CUSTOM Muon.cc.doInit_ */
@@ -210,7 +245,9 @@ panda::Muon::dump(std::ostream& _out/* = std::cout*/) const
 {
   Lepton::dump(_out);
 
+  _out << "soft = " << soft << std::endl;
   _out << "mediumBtoF = " << mediumBtoF << std::endl;
+  _out << "r03Iso = " << r03Iso << std::endl;
   _out << "triggerMatch = " << triggerMatch << std::endl;
 }
 

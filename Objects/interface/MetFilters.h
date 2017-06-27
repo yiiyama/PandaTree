@@ -23,7 +23,7 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !goodVertices; }
+    virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !goodVertices && !badPFMuons && !badChargedHadrons; }
 
     Bool_t globalHalo16{};
     Bool_t hbhe{};
@@ -33,8 +33,6 @@ namespace panda {
     Bool_t badsc{};
     Bool_t badMuons{};
     Bool_t duplicateMuons{};
-    Bool_t dupECALClusters{};
-    Bool_t unfixedECALHits{};
     Bool_t badPFMuons{};
     Bool_t badChargedHadrons{};
 
