@@ -69,7 +69,6 @@ namespace panda {
       Float_t* timeSpan{0};
       Float_t* regPt{0};
       Float_t* smearedPt{0};
-      Float_t* originalPt{0};
       Bool_t* loose{0};
       Bool_t* medium{0};
       Bool_t* tight{0};
@@ -134,7 +133,6 @@ namespace panda {
     Float_t& timeSpan;
     Float_t& regPt;
     Float_t& smearedPt;
-    Float_t& originalPt;
     Bool_t& loose;
     Bool_t& medium;
     Bool_t& tight;
