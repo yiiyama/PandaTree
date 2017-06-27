@@ -1,12 +1,7 @@
 #include "../interface/Photon.h"
 
 TString panda::Photon::TriggerObjectName[] = {
-  "fSEG34IorSEG40",
-  "fSEG40IorSJet200",
-  "fSEG34IorSEG40IorSJet200",
-  "fSEG24",
-  "fSEG30",
-  "fSEG40",
+  "fPh165HE10Seed",
   "fPh200Seed",
   "fPh135",
   "fPh165HE10",
