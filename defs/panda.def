@@ -255,6 +255,19 @@ enum TriggerObject {
 };
 soft/O
 mediumBtoF/O
+global/O
+pf/O
+tracker/O
+validFraction/F
+nValidMuon/s
+nValidPixel/s
+trkLayersWithMmt/s
+pixLayersWithMmt/s
+nMatched/s
+normChi2/F
+chi2LocalPosition/s
+trkKink/s
+segmentCompatibility/F
 r03Iso/F
 triggerMatch[nTriggerObjects]/O
 double m() const override { return 1.05658e-2; }

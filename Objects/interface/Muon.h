@@ -57,6 +57,19 @@ namespace panda {
       */
       Bool_t* soft{0};
       Bool_t* mediumBtoF{0};
+      Bool_t* global{0};
+      Bool_t* pf{0};
+      Bool_t* tracker{0};
+      Float_t* validFraction{0};
+      UShort_t* nValidMuon{0};
+      UShort_t* nValidPixel{0};
+      UShort_t* trkLayersWithMmt{0};
+      UShort_t* pixLayersWithMmt{0};
+      UShort_t* nMatched{0};
+      Float_t* normChi2{0};
+      UShort_t* chi2LocalPosition{0};
+      UShort_t* trkKink{0};
+      Float_t* segmentCompatibility{0};
       Float_t* r03Iso{0};
       Bool_t (*triggerMatch)[nTriggerObjects]{0};
 
@@ -109,6 +122,19 @@ namespace panda {
     */
     Bool_t& soft;
     Bool_t& mediumBtoF;
+    Bool_t& global;
+    Bool_t& pf;
+    Bool_t& tracker;
+    Float_t& validFraction;
+    UShort_t& nValidMuon;
+    UShort_t& nValidPixel;
+    UShort_t& trkLayersWithMmt;
+    UShort_t& pixLayersWithMmt;
+    UShort_t& nMatched;
+    Float_t& normChi2;
+    UShort_t& chi2LocalPosition;
+    UShort_t& trkKink;
+    Float_t& segmentCompatibility;
     Float_t& r03Iso;
     Bool_t (&triggerMatch)[nTriggerObjects];
 
