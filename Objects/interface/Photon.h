@@ -16,6 +16,7 @@ namespace panda {
   public:
     enum TriggerObject {
       fPh165HE10Seed,
+      fPh175Seed,
       fPh200Seed,
       fPh135,
       fPh165HE10,
