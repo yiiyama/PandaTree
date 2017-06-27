@@ -18,7 +18,7 @@ panda::Electron::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Lepton::getListOfBranches();
-  blist += {"chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "trackIso", "isoPUOffset", "sieie", "sipip", "eseed", "hOverE", "regPt", "smearedPt", "originalPt", "veto", "tripleCharge", "noMissingHits", "triggerMatch", "superCluster_"};
+  blist += {"chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "trackIso", "isoPUOffset", "sieie", "sipip", "eseed", "hOverE", "regPt", "smearedPt", "veto", "tripleCharge", "noMissingHits", "triggerMatch", "superCluster_"};
   return blist;
 }
 
@@ -40,7 +40,6 @@ panda::Electron::datastore::allocate(UInt_t _nmax)
   hOverE = new Float_t[nmax_];
   regPt = new Float_t[nmax_];
   smearedPt = new Float_t[nmax_];
-  originalPt = new Float_t[nmax_];
   veto = new Bool_t[nmax_];
   tripleCharge = new Bool_t[nmax_];
   noMissingHits = new Bool_t[nmax_];
@@ -79,8 +78,6 @@ panda::Electron::datastore::deallocate()
   regPt = 0;
   delete [] smearedPt;
   smearedPt = 0;
-  delete [] originalPt;
-  originalPt = 0;
   delete [] veto;
   veto = 0;
   delete [] tripleCharge;
@@ -111,7 +108,6 @@ panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, utils:
   utils::setStatus(_tree, _name, "hOverE", _branches);
   utils::setStatus(_tree, _name, "regPt", _branches);
   utils::setStatus(_tree, _name, "smearedPt", _branches);
-  utils::setStatus(_tree, _name, "originalPt", _branches);
   utils::setStatus(_tree, _name, "veto", _branches);
   utils::setStatus(_tree, _name, "tripleCharge", _branches);
   utils::setStatus(_tree, _name, "noMissingHits", _branches);
@@ -137,7 +133,6 @@ panda::Electron::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "hOverE"));
   blist.push_back(utils::getStatus(_tree, _name, "regPt"));
   blist.push_back(utils::getStatus(_tree, _name, "smearedPt"));
-  blist.push_back(utils::getStatus(_tree, _name, "originalPt"));
   blist.push_back(utils::getStatus(_tree, _name, "veto"));
   blist.push_back(utils::getStatus(_tree, _name, "tripleCharge"));
   blist.push_back(utils::getStatus(_tree, _name, "noMissingHits"));
@@ -165,7 +160,6 @@ panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils
   utils::setAddress(_tree, _name, "hOverE", hOverE, _branches, _setStatus);
   utils::setAddress(_tree, _name, "regPt", regPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "smearedPt", smearedPt, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "originalPt", originalPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "veto", veto, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tripleCharge", tripleCharge, _branches, _setStatus);
   utils::setAddress(_tree, _name, "noMissingHits", noMissingHits, _branches, _setStatus);
@@ -193,7 +187,6 @@ panda::Electron::datastore::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "hOverE", size, 'F', hOverE, _branches);
   utils::book(_tree, _name, "regPt", size, 'F', regPt, _branches);
   utils::book(_tree, _name, "smearedPt", size, 'F', smearedPt, _branches);
-  utils::book(_tree, _name, "originalPt", size, 'F', originalPt, _branches);
   utils::book(_tree, _name, "veto", size, 'O', veto, _branches);
   utils::book(_tree, _name, "tripleCharge", size, 'O', tripleCharge, _branches);
   utils::book(_tree, _name, "noMissingHits", size, 'O', noMissingHits, _branches);
@@ -219,7 +212,6 @@ panda::Electron::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "hOverE");
   utils::resetAddress(_tree, _name, "regPt");
   utils::resetAddress(_tree, _name, "smearedPt");
-  utils::resetAddress(_tree, _name, "originalPt");
   utils::resetAddress(_tree, _name, "veto");
   utils::resetAddress(_tree, _name, "tripleCharge");
   utils::resetAddress(_tree, _name, "noMissingHits");
@@ -256,7 +248,6 @@ panda::Electron::Electron(char const* _name/* = ""*/) :
   hOverE(gStore.getData(this).hOverE[0]),
   regPt(gStore.getData(this).regPt[0]),
   smearedPt(gStore.getData(this).smearedPt[0]),
-  originalPt(gStore.getData(this).originalPt[0]),
   veto(gStore.getData(this).veto[0]),
   tripleCharge(gStore.getData(this).tripleCharge[0]),
   noMissingHits(gStore.getData(this).noMissingHits[0]),
@@ -280,7 +271,6 @@ panda::Electron::Electron(Electron const& _src) :
   hOverE(gStore.getData(this).hOverE[0]),
   regPt(gStore.getData(this).regPt[0]),
   smearedPt(gStore.getData(this).smearedPt[0]),
-  originalPt(gStore.getData(this).originalPt[0]),
   veto(gStore.getData(this).veto[0]),
   tripleCharge(gStore.getData(this).tripleCharge[0]),
   noMissingHits(gStore.getData(this).noMissingHits[0]),
@@ -302,7 +292,6 @@ panda::Electron::Electron(Electron const& _src) :
   hOverE = _src.hOverE;
   regPt = _src.regPt;
   smearedPt = _src.smearedPt;
-  originalPt = _src.originalPt;
   veto = _src.veto;
   tripleCharge = _src.tripleCharge;
   noMissingHits = _src.noMissingHits;
@@ -325,7 +314,6 @@ panda::Electron::Electron(datastore& _data, UInt_t _idx) :
   hOverE(_data.hOverE[_idx]),
   regPt(_data.regPt[_idx]),
   smearedPt(_data.smearedPt[_idx]),
-  originalPt(_data.originalPt[_idx]),
   veto(_data.veto[_idx]),
   tripleCharge(_data.tripleCharge[_idx]),
   noMissingHits(_data.noMissingHits[_idx]),
@@ -349,7 +337,6 @@ panda::Electron::Electron(ArrayBase* _array) :
   hOverE(gStore.getData(this).hOverE[0]),
   regPt(gStore.getData(this).regPt[0]),
   smearedPt(gStore.getData(this).smearedPt[0]),
-  originalPt(gStore.getData(this).originalPt[0]),
   veto(gStore.getData(this).veto[0]),
   tripleCharge(gStore.getData(this).tripleCharge[0]),
   noMissingHits(gStore.getData(this).noMissingHits[0]),
@@ -391,7 +378,6 @@ panda::Electron::operator=(Electron const& _src)
   hOverE = _src.hOverE;
   regPt = _src.regPt;
   smearedPt = _src.smearedPt;
-  originalPt = _src.originalPt;
   veto = _src.veto;
   tripleCharge = _src.tripleCharge;
   noMissingHits = _src.noMissingHits;
@@ -422,7 +408,6 @@ panda::Electron::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
   utils::book(_tree, _name, "hOverE", "", 'F', &hOverE, _branches);
   utils::book(_tree, _name, "regPt", "", 'F', &regPt, _branches);
   utils::book(_tree, _name, "smearedPt", "", 'F', &smearedPt, _branches);
-  utils::book(_tree, _name, "originalPt", "", 'F', &originalPt, _branches);
   utils::book(_tree, _name, "veto", "", 'O', &veto, _branches);
   utils::book(_tree, _name, "tripleCharge", "", 'O', &tripleCharge, _branches);
   utils::book(_tree, _name, "noMissingHits", "", 'O', &noMissingHits, _branches);
@@ -448,7 +433,6 @@ panda::Electron::doInit_()
   hOverE = 0.;
   regPt = 0.;
   smearedPt = 0.;
-  originalPt = -1.;
   veto = false;
   tripleCharge = false;
   noMissingHits = false;
@@ -503,7 +487,6 @@ panda::Electron::dump(std::ostream& _out/* = std::cout*/) const
   _out << "hOverE = " << hOverE << std::endl;
   _out << "regPt = " << regPt << std::endl;
   _out << "smearedPt = " << smearedPt << std::endl;
-  _out << "originalPt = " << originalPt << std::endl;
   _out << "veto = " << veto << std::endl;
   _out << "tripleCharge = " << tripleCharge << std::endl;
   _out << "noMissingHits = " << noMissingHits << std::endl;

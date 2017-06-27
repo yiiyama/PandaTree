@@ -3,7 +3,7 @@
 panda::Event::Event() :
   EventBase()
 {
-  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &genVertex, &partons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &recoil}};
+  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &genVertex, &partons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metFilters, &recoil}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
@@ -80,7 +80,6 @@ panda::Event::Event(Event const& _src) :
   hfMet(_src.hfMet),
   genMet(_src.genMet),
   metMuOnlyFix(_src.metMuOnlyFix),
-  metNoFix(_src.metNoFix),
   metFilters(_src.metFilters),
   recoil(_src.recoil),
   npv(_src.npv),
@@ -88,7 +87,7 @@ panda::Event::Event(Event const& _src) :
   rho(_src.rho),
   rhoCentralCalo(_src.rhoCentralCalo)
 {
-  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &genVertex, &partons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metNoFix, &metFilters, &recoil}};
+  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &genVertex, &partons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metFilters, &recoil}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
@@ -185,7 +184,6 @@ panda::Event::operator=(Event const& _src)
   hfMet = _src.hfMet;
   genMet = _src.genMet;
   metMuOnlyFix = _src.metMuOnlyFix;
-  metNoFix = _src.metNoFix;
   metFilters = _src.metFilters;
   recoil = _src.recoil;
 
@@ -292,7 +290,6 @@ panda::Event::dump(std::ostream& _out/* = std::cout*/) const
   hfMet.dump(_out);
   genMet.dump(_out);
   metMuOnlyFix.dump(_out);
-  metNoFix.dump(_out);
   metFilters.dump(_out);
   recoil.dump(_out);
 
@@ -343,7 +340,6 @@ panda::Event::getListOfBranches(Bool_t _direct/* = kFALSE*/)
     blist += Met::getListOfBranches().fullNames("hfMet");
     blist += Met::getListOfBranches().fullNames("genMet");
     blist += RecoMet::getListOfBranches().fullNames("metMuOnlyFix");
-    blist += RecoMet::getListOfBranches().fullNames("metNoFix");
     blist += MetFilters::getListOfBranches().fullNames("metFilters");
     blist += Recoil::getListOfBranches().fullNames("recoil");
   }

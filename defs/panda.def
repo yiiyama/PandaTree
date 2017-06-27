@@ -232,7 +232,6 @@ eseed/F
 hOverE/F
 regPt/F
 smearedPt/F
-originalPt/F = -1.
 veto/O
 tripleCharge/O
 noMissingHits/O
@@ -314,7 +313,6 @@ time/F
 timeSpan/F
 regPt/F
 smearedPt/F
-originalPt/F = -1.
 loose/O
 medium/O
 tight/O
@@ -512,7 +510,6 @@ photonMet/Met
 hfMet/Met
 genMet/Met
 metMuOnlyFix/RecoMet
-metNoFix/RecoMet
 metFilters/MetFilters
 recoil/Recoil
 pfCandidates.vertex->vertices
