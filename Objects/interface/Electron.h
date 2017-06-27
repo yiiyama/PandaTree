@@ -62,7 +62,6 @@ namespace panda {
       ContainerBase const* vertexContainer_{0};
       Short_t* vertex_{0};
       */
-      Bool_t* hltsafe{0};
       Float_t* chIsoPh{0};
       Float_t* nhIsoPh{0};
       Float_t* phIsoPh{0};
@@ -133,7 +132,6 @@ namespace panda {
     Ref<GenParticle> matchedGen;
     Ref<Vertex> vertex;
     */
-    Bool_t& hltsafe;
     Float_t& chIsoPh;
     Float_t& nhIsoPh;
     Float_t& phIsoPh;

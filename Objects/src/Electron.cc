@@ -24,7 +24,7 @@ panda::Electron::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Lepton::getListOfBranches();
-  blist += {"hltsafe", "chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "trackIso", "isoPUOffset", "sieie", "sipip", "eseed", "hOverE", "regPt", "smearedPt", "originalPt", "dxy", "dz", "veto", "tripleCharge", "noMissingHits", "triggerMatch", "superCluster_"};
+  blist += {"chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "trackIso", "isoPUOffset", "sieie", "sipip", "eseed", "hOverE", "regPt", "smearedPt", "originalPt", "dxy", "dz", "veto", "tripleCharge", "noMissingHits", "triggerMatch", "superCluster_"};
   return blist;
 }
 
@@ -33,7 +33,6 @@ panda::Electron::datastore::allocate(UInt_t _nmax)
 {
   Lepton::datastore::allocate(_nmax);
 
-  hltsafe = new Bool_t[nmax_];
   chIsoPh = new Float_t[nmax_];
   nhIsoPh = new Float_t[nmax_];
   phIsoPh = new Float_t[nmax_];
@@ -62,8 +61,6 @@ panda::Electron::datastore::deallocate()
 {
   Lepton::datastore::deallocate();
 
-  delete [] hltsafe;
-  hltsafe = 0;
   delete [] chIsoPh;
   chIsoPh = 0;
   delete [] nhIsoPh;
@@ -113,7 +110,6 @@ panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, utils:
 {
   Lepton::datastore::setStatus(_tree, _name, _branches);
 
-  utils::setStatus(_tree, _name, "hltsafe", _branches);
   utils::setStatus(_tree, _name, "chIsoPh", _branches);
   utils::setStatus(_tree, _name, "nhIsoPh", _branches);
   utils::setStatus(_tree, _name, "phIsoPh", _branches);
@@ -142,7 +138,6 @@ panda::Electron::datastore::getStatus(TTree& _tree, TString const& _name) const
 {
   utils::BranchList blist(Lepton::datastore::getStatus(_tree, _name));
 
-  blist.push_back(utils::getStatus(_tree, _name, "hltsafe"));
   blist.push_back(utils::getStatus(_tree, _name, "chIsoPh"));
   blist.push_back(utils::getStatus(_tree, _name, "nhIsoPh"));
   blist.push_back(utils::getStatus(_tree, _name, "phIsoPh"));
@@ -173,7 +168,6 @@ panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils
 {
   Lepton::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
-  utils::setAddress(_tree, _name, "hltsafe", hltsafe, _branches, _setStatus);
   utils::setAddress(_tree, _name, "chIsoPh", chIsoPh, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nhIsoPh", nhIsoPh, _branches, _setStatus);
   utils::setAddress(_tree, _name, "phIsoPh", phIsoPh, _branches, _setStatus);
@@ -204,7 +198,6 @@ panda::Electron::datastore::book(TTree& _tree, TString const& _name, utils::Bran
 
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
-  utils::book(_tree, _name, "hltsafe", size, 'O', hltsafe, _branches);
   utils::book(_tree, _name, "chIsoPh", size, 'F', chIsoPh, _branches);
   utils::book(_tree, _name, "nhIsoPh", size, 'F', nhIsoPh, _branches);
   utils::book(_tree, _name, "phIsoPh", size, 'F', phIsoPh, _branches);
@@ -233,7 +226,6 @@ panda::Electron::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
   Lepton::datastore::releaseTree(_tree, _name);
 
-  utils::resetAddress(_tree, _name, "hltsafe");
   utils::resetAddress(_tree, _name, "chIsoPh");
   utils::resetAddress(_tree, _name, "nhIsoPh");
   utils::resetAddress(_tree, _name, "phIsoPh");
@@ -273,7 +265,6 @@ panda::Electron::datastore::getBranchNames(TString const& _name/* = ""*/) const
 
 panda::Electron::Electron(char const* _name/* = ""*/) :
   Lepton(new ElectronArray(1, _name)),
-  hltsafe(gStore.getData(this).hltsafe[0]),
   chIsoPh(gStore.getData(this).chIsoPh[0]),
   nhIsoPh(gStore.getData(this).nhIsoPh[0]),
   phIsoPh(gStore.getData(this).phIsoPh[0]),
@@ -300,7 +291,6 @@ panda::Electron::Electron(char const* _name/* = ""*/) :
 
 panda::Electron::Electron(Electron const& _src) :
   Lepton(new ElectronArray(1, _src.getName())),
-  hltsafe(gStore.getData(this).hltsafe[0]),
   chIsoPh(gStore.getData(this).chIsoPh[0]),
   nhIsoPh(gStore.getData(this).nhIsoPh[0]),
   phIsoPh(gStore.getData(this).phIsoPh[0]),
@@ -325,7 +315,6 @@ panda::Electron::Electron(Electron const& _src) :
 {
   Lepton::operator=(_src);
 
-  hltsafe = _src.hltsafe;
   chIsoPh = _src.chIsoPh;
   nhIsoPh = _src.nhIsoPh;
   phIsoPh = _src.phIsoPh;
@@ -351,7 +340,6 @@ panda::Electron::Electron(Electron const& _src) :
 
 panda::Electron::Electron(datastore& _data, UInt_t _idx) :
   Lepton(_data, _idx),
-  hltsafe(_data.hltsafe[_idx]),
   chIsoPh(_data.chIsoPh[_idx]),
   nhIsoPh(_data.nhIsoPh[_idx]),
   phIsoPh(_data.phIsoPh[_idx]),
@@ -378,7 +366,6 @@ panda::Electron::Electron(datastore& _data, UInt_t _idx) :
 
 panda::Electron::Electron(ArrayBase* _array) :
   Lepton(_array),
-  hltsafe(gStore.getData(this).hltsafe[0]),
   chIsoPh(gStore.getData(this).chIsoPh[0]),
   nhIsoPh(gStore.getData(this).nhIsoPh[0]),
   phIsoPh(gStore.getData(this).phIsoPh[0]),
@@ -423,7 +410,6 @@ panda::Electron::operator=(Electron const& _src)
 {
   Lepton::operator=(_src);
 
-  hltsafe = _src.hltsafe;
   chIsoPh = _src.chIsoPh;
   nhIsoPh = _src.nhIsoPh;
   phIsoPh = _src.phIsoPh;
@@ -457,7 +443,6 @@ panda::Electron::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
 {
   Lepton::doBook_(_tree, _name, _branches);
 
-  utils::book(_tree, _name, "hltsafe", "", 'O', &hltsafe, _branches);
   utils::book(_tree, _name, "chIsoPh", "", 'F', &chIsoPh, _branches);
   utils::book(_tree, _name, "nhIsoPh", "", 'F', &nhIsoPh, _branches);
   utils::book(_tree, _name, "phIsoPh", "", 'F', &phIsoPh, _branches);
@@ -486,7 +471,6 @@ panda::Electron::doInit_()
 {
   Lepton::doInit_();
 
-  hltsafe = false;
   chIsoPh = 0.;
   nhIsoPh = 0.;
   phIsoPh = 0.;
@@ -544,7 +528,6 @@ panda::Electron::dump(std::ostream& _out/* = std::cout*/) const
 {
   Lepton::dump(_out);
 
-  _out << "hltsafe = " << hltsafe << std::endl;
   _out << "chIsoPh = " << chIsoPh << std::endl;
   _out << "nhIsoPh = " << nhIsoPh << std::endl;
   _out << "phIsoPh = " << phIsoPh << std::endl;

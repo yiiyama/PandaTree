@@ -225,7 +225,6 @@ enum TriggerObject {
   fEl90EBR9IsoPh,
   fEl120EBR9IsoPh
 };
-hltsafe/O
 chIsoPh/F
 nhIsoPh/F
 phIsoPh/F
