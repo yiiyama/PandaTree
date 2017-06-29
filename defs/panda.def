@@ -442,6 +442,9 @@ words[32]/i
 void set(unsigned iB) { if (iB >= 1024) return; words[iB / 32] |= (1 << (iB % 32)); }
 bool pass(unsigned iB) const { if (iB >= 1024) return false; return (words[iB / 32] & (1 << (iB % 32))) != 0; }
 
+[HLTObject>PackedParticle]
+filters/std::vector<UShort_t>
+
 [GenReweight:SINGLE]
 static unsigned const NMAX = 1024;
 r1f2DW/F
@@ -482,6 +485,7 @@ triggers/HLTBits
 #include "TList.h"
 #include "TFile.h"
 #include "TKey.h"
+#include "HLTObjectStore.h"
 
 {Event>EventBase}
 npv/s

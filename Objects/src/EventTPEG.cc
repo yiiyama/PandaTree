@@ -7,6 +7,8 @@ panda::EventTPEG::EventTPEG() :
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   std::vector<CollectionBase*> myCollections{{&tags, &probes}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
+  /* BEGIN CUSTOM EventTPEG.cc.ctor */
+  /* END CUSTOM */
 }
 
 panda::EventTPEG::EventTPEG(EventTPEG const& _src) :
@@ -71,6 +73,8 @@ panda::EventTPEG::getListOfBranches(Bool_t _direct/* = kFALSE*/)
     blist += Electron::getListOfBranches().fullNames("tags");
     blist += XPhoton::getListOfBranches().fullNames("probes");
   }
+  /* BEGIN CUSTOM EventTPEG.cc.getListOfBranches_ */
+  /* END CUSTOM */
   return blist;
 }
 

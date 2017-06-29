@@ -38,6 +38,9 @@ namespace panda {
     //! Set the trigger loading switch
     void setLoadTrigger(Bool_t l = kTRUE);
 
+    //! Get the trigger loading switch
+    Bool_t getLoadTrigger() const { return loadTrigger_; }
+
     //! See description on Event::registerTrigger
     UInt_t registerTrigger(char const* path);
 
@@ -79,18 +82,23 @@ namespace panda {
       void create() {
         menu = new TString;
         paths = new std::vector<TString>;
+        filters = new std::vector<TString>;
       }
       void destroy() {
         delete menu;
         delete paths;
+        delete filters;
         menu = 0;
         paths = 0;
+        filters = 0;
       }
 
       //! Current menu name
       TString* menu{0};
       //! Current full menu
       std::vector<TString>* paths{0};
+      //! Current list of filters
+      std::vector<TString>* filters{0};
     } hlt;
 
   private:

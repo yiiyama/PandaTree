@@ -7,6 +7,8 @@ panda::EventTPEEG::EventTPEEG() :
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   std::vector<CollectionBase*> myCollections{{&looseTags}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
+  /* BEGIN CUSTOM EventTPEEG.cc.ctor */
+  /* END CUSTOM */
 }
 
 panda::EventTPEEG::EventTPEEG(EventTPEEG const& _src) :
@@ -67,6 +69,8 @@ panda::EventTPEEG::getListOfBranches(Bool_t _direct/* = kFALSE*/)
   if (!_direct) {
     blist += Electron::getListOfBranches().fullNames("looseTags");
   }
+  /* BEGIN CUSTOM EventTPEEG.cc.getListOfBranches_ */
+  /* END CUSTOM */
   return blist;
 }
 

@@ -24,6 +24,7 @@
 #include "PandaTree/Objects/interface/RecoMet.h"
 #include "PandaTree/Objects/interface/MetFilters.h"
 #include "PandaTree/Objects/interface/HLTBits.h"
+#include "PandaTree/Objects/interface/HLTObject.h"
 #include "PandaTree/Objects/interface/GenReweight.h"
 #include "PandaTree/Objects/interface/Recoil.h"
 #include "PandaTree/Objects/interface/XPhoton.h"
@@ -74,6 +75,9 @@
 #pragma link C++ class panda::RecoMet;
 #pragma link C++ class panda::MetFilters;
 #pragma link C++ class panda::HLTBits;
+#pragma link C++ class panda::HLTObject;
+#pragma link C++ class std::vector<UShort_t>+;
+#pragma link C++ class std::vector<std::vector<UShort_t>>+;
 #pragma link C++ class panda::GenReweight;
 #pragma link C++ class panda::Recoil;
 #pragma link C++ class panda::XPhoton;
@@ -166,6 +170,10 @@
 #pragma link C++ class panda::Collection<panda::FatJet>;
 #pragma link C++ class panda::Ref<panda::FatJet>;
 #pragma link C++ class panda::RefVector<panda::FatJet>;
+#pragma link C++ class panda::Array<panda::HLTObject>;
+#pragma link C++ class panda::Collection<panda::HLTObject>;
+#pragma link C++ class panda::Ref<panda::HLTObject>;
+#pragma link C++ class panda::RefVector<panda::HLTObject>;
 #pragma link C++ class panda::Array<panda::XPhoton>;
 #pragma link C++ class panda::Collection<panda::XPhoton>;
 #pragma link C++ class panda::Ref<panda::XPhoton>;
@@ -262,6 +270,10 @@
 #pragma link C++ typedef panda::FatJetCollection;
 #pragma link C++ typedef panda::FatJetRef;
 #pragma link C++ typedef panda::FatJetRefVector;
+#pragma link C++ typedef panda::HLTObjectArray;
+#pragma link C++ typedef panda::HLTObjectCollection;
+#pragma link C++ typedef panda::HLTObjectRef;
+#pragma link C++ typedef panda::HLTObjectRefVector;
 #pragma link C++ typedef panda::XPhotonArray;
 #pragma link C++ typedef panda::XPhotonCollection;
 #pragma link C++ typedef panda::XPhotonRef;

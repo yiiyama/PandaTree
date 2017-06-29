@@ -39,6 +39,8 @@ panda::Event::Event() :
   puppiCA15Jets.data.constituentsContainer_ = &pfCandidates;
   puppiCA15Jets.data.subjetsContainer_ = &puppiCA15Subjets;
   puppiCA15Jets.data.matchedGenJetContainer_ = &ca15GenJets;
+  /* BEGIN CUSTOM Event.cc.ctor */
+  /* END CUSTOM */
 }
 
 panda::Event::Event(Event const& _src) :
@@ -343,6 +345,8 @@ panda::Event::getListOfBranches(Bool_t _direct/* = kFALSE*/)
     blist += MetFilters::getListOfBranches().fullNames("metFilters");
     blist += Recoil::getListOfBranches().fullNames("recoil");
   }
+  /* BEGIN CUSTOM Event.cc.getListOfBranches_ */
+  /* END CUSTOM */
   return blist;
 }
 

@@ -7,6 +7,8 @@ panda::EventTPMG::EventTPMG() :
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   std::vector<CollectionBase*> myCollections{{&tags, &probes}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
+  /* BEGIN CUSTOM EventTPMG.cc.ctor */
+  /* END CUSTOM */
 }
 
 panda::EventTPMG::EventTPMG(EventTPMG const& _src) :
@@ -71,6 +73,8 @@ panda::EventTPMG::getListOfBranches(Bool_t _direct/* = kFALSE*/)
     blist += Muon::getListOfBranches().fullNames("tags");
     blist += XPhoton::getListOfBranches().fullNames("probes");
   }
+  /* BEGIN CUSTOM EventTPMG.cc.getListOfBranches_ */
+  /* END CUSTOM */
   return blist;
 }
 
