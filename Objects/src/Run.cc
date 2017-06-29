@@ -3,6 +3,8 @@
 panda::Run::Run() :
   TreeEntry()
 {
+  /* BEGIN CUSTOM Run.cc.ctor */
+  /* END CUSTOM */
 }
 
 panda::Run::Run(Run const& _src) :
@@ -88,6 +90,8 @@ panda::Run::getListOfBranches(Bool_t _direct/* = kFALSE*/)
 {
   utils::BranchList blist;
   blist += {"runNumber", "hltMenu"};
+  /* BEGIN CUSTOM Run.cc.getListOfBranches_ */
+  /* END CUSTOM */
   return blist;
 }
 
@@ -318,6 +322,7 @@ panda::Run::updateTriggerTable_(TTree& _tree)
 
   hltTree->SetBranchAddress("menu", &hlt.menu);
   hltTree->SetBranchAddress("paths", &hlt.paths);
+  hltTree->SetBranchAddress("filters", &hlt.filters);
 
   if (hltTree->GetEntry(hltMenu) <= 0) {
     std::cerr << "Failed to read HLT menu " << hltMenu << " from " << inputFile->GetName() << std::endl;

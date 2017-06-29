@@ -14,6 +14,8 @@ panda::EventMonophoton::EventMonophoton() :
   jets.data.constituentsContainer_ = &pfCandidates;
   genParticles.data.parentContainer_ = &genParticles;
   jets.data.matchedGenJetContainer_ = &genJets;
+  /* BEGIN CUSTOM EventMonophoton.cc.ctor */
+  /* END CUSTOM */
 }
 
 panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
@@ -184,6 +186,8 @@ panda::EventMonophoton::getListOfBranches(Bool_t _direct/* = kFALSE*/)
     blist += RecoMet::getListOfBranches().fullNames("metMuOnlyFix");
     blist += MetFilters::getListOfBranches().fullNames("metFilters");
   }
+  /* BEGIN CUSTOM EventMonophoton.cc.getListOfBranches_ */
+  /* END CUSTOM */
   return blist;
 }
 

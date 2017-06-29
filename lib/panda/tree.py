@@ -146,6 +146,8 @@ class Tree(Definition, Object):
             for ref in self.references:
                 ref.write_def(src, self.objbranches)
 
+        src.write_custom_block('{name}.cc.ctor'.format(name = self.name))
+
         src.indent -= 1
         src.writeline('}')
         src.newline()
@@ -161,6 +163,7 @@ class Tree(Definition, Object):
         src.indent -= 1
         src.writeline('{')
         src.indent += 1
+        # TODO this should be calling the copy ctor of each object
         if len(self.objbranches) != 0:
             src.writeline('std::vector<Object*> myObjects{{' + ', '.join(['&{name}'.format(name = b.name) for b in self.objbranches]) + '}};')
             src.writeline('objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());')
@@ -275,6 +278,8 @@ class Tree(Definition, Object):
             src.indent -= 1
             src.writeline('}')
 
+        src.write_custom_block('{name}.cc.getListOfBranches_'.format(name = self.name))
+
         src.writeline('return blist;')
         src.indent -= 1
         src.writeline('}')
@@ -289,6 +294,7 @@ class Tree(Definition, Object):
             src.writeline('{parent}::doSetStatus_(_tree, _branches);'.format(parent = self.parent))
         for branch in self.branches:
             branch.write_set_status(src, context = 'TreeEntry')
+
         src.indent -= 1
         src.writeline('}')
         src.newline()
@@ -304,6 +310,7 @@ class Tree(Definition, Object):
         src.newline()
         for branch in self.branches:
             branch.write_get_status(src, context = 'TreeEntry')
+
         src.writeline('return blist;')
         src.indent -= 1
         src.writeline('}')
@@ -330,6 +337,7 @@ class Tree(Definition, Object):
 
         for branch in self.branches:
             branch.write_set_address(src, context = 'TreeEntry')
+
         src.indent -= 1
         src.writeline('}')
         src.newline()
@@ -345,6 +353,7 @@ class Tree(Definition, Object):
 
         for branch in self.branches:
             branch.write_book(src, context = 'TreeEntry')
+
         src.indent -= 1
         src.writeline('}')
         src.newline()

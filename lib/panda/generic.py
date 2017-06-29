@@ -98,7 +98,7 @@ class GenericBranch(Branch):
         elif context == 'Singlet':
             namevar = 'name_'
         elif context == 'Element':
-            namevar = 'name'
+            namevar = '_name'
         elif context == 'TreeEntry':
             namevar = '""'
 

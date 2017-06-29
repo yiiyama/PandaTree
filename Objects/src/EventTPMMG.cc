@@ -7,6 +7,8 @@ panda::EventTPMMG::EventTPMMG() :
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   std::vector<CollectionBase*> myCollections{{&looseTags}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
+  /* BEGIN CUSTOM EventTPMMG.cc.ctor */
+  /* END CUSTOM */
 }
 
 panda::EventTPMMG::EventTPMMG(EventTPMMG const& _src) :
@@ -67,6 +69,8 @@ panda::EventTPMMG::getListOfBranches(Bool_t _direct/* = kFALSE*/)
   if (!_direct) {
     blist += Muon::getListOfBranches().fullNames("looseTags");
   }
+  /* BEGIN CUSTOM EventTPMMG.cc.getListOfBranches_ */
+  /* END CUSTOM */
   return blist;
 }
 
