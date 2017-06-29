@@ -1,7 +1,7 @@
 #ifndef PandaTree_Objects_HLTObject_h
 #define PandaTree_Objects_HLTObject_h
 #include "Constants.h"
-#include "ParticleP.h"
+#include "PackedParticle.h"
 #include "../../Framework/interface/Array.h"
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
@@ -9,16 +9,17 @@
 
 namespace panda {
 
-  class HLTObject : public ParticleP {
+  class HLTObject : public PackedParticle {
   public:
-    struct datastore : public ParticleP::datastore {
-      datastore() : ParticleP::datastore() {}
+    struct datastore : public PackedParticle::datastore {
+      datastore() : PackedParticle::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* ParticleP
-      Float_t* pt_{0};
-      Float_t* eta_{0};
-      Float_t* phi_{0};
+      /* PackedParticle
+      UShort_t* packedPt{0};
+      Short_t* packedEta{0};
+      Short_t* packedPhi{0};
+      UShort_t* packedM{0};
       */
       std::vector<std::vector<UShort_t>>* filters{0};
 
@@ -36,7 +37,7 @@ namespace panda {
     typedef Array<HLTObject> array_type;
     typedef Collection<HLTObject> collection_type;
 
-    typedef ParticleP base_type;
+    typedef PackedParticle base_type;
 
     HLTObject(char const* name = "");
     HLTObject(HLTObject const&);
@@ -49,16 +50,14 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
+    /* PackedParticle
+    UShort_t& packedPt;
+    Short_t& packedEta;
+    Short_t& packedPhi;
+    UShort_t& packedM;
+    */
     std::vector<UShort_t>* filters;
 
-  protected:
-    /* ParticleP
-    Float_t& pt_;
-    Float_t& eta_;
-    Float_t& phi_;
-    */
-
-  public:
     /* BEGIN CUSTOM HLTObject.h.classdef */
     /* END CUSTOM */
 
