@@ -6,7 +6,7 @@ panda::Jet::getListOfBranches()
 {
   utils::BranchList blist;
   blist += MicroJet::getListOfBranches();
-  blist += {"rawPt", "ptCorrUp", "ptCorrDown", "ptSmear", "ptSmearUp", "ptSmearDown", "area", "nhf", "chf", "puid", "loose", "tight", "monojet", "matchedGenJet_", "constituents_"};
+  blist += {"rawPt", "ptCorrUp", "ptCorrDown", "ptSmear", "ptSmearUp", "ptSmearDown", "area", "nhf", "chf", "cef", "nef", "puid", "loose", "tight", "monojet", "matchedGenJet_", "constituents_"};
   return blist;
 }
 
@@ -24,6 +24,8 @@ panda::Jet::datastore::allocate(UInt_t _nmax)
   area = new Float_t[nmax_];
   nhf = new Float_t[nmax_];
   chf = new Float_t[nmax_];
+  cef = new Float_t[nmax_];
+  nef = new Float_t[nmax_];
   puid = new Float_t[nmax_];
   loose = new Bool_t[nmax_];
   tight = new Bool_t[nmax_];
@@ -55,6 +57,10 @@ panda::Jet::datastore::deallocate()
   nhf = 0;
   delete [] chf;
   chf = 0;
+  delete [] cef;
+  cef = 0;
+  delete [] nef;
+  nef = 0;
   delete [] puid;
   puid = 0;
   delete [] loose;
@@ -83,6 +89,8 @@ panda::Jet::datastore::setStatus(TTree& _tree, TString const& _name, utils::Bran
   utils::setStatus(_tree, _name, "area", _branches);
   utils::setStatus(_tree, _name, "nhf", _branches);
   utils::setStatus(_tree, _name, "chf", _branches);
+  utils::setStatus(_tree, _name, "cef", _branches);
+  utils::setStatus(_tree, _name, "nef", _branches);
   utils::setStatus(_tree, _name, "puid", _branches);
   utils::setStatus(_tree, _name, "loose", _branches);
   utils::setStatus(_tree, _name, "tight", _branches);
@@ -105,6 +113,8 @@ panda::Jet::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "area"));
   blist.push_back(utils::getStatus(_tree, _name, "nhf"));
   blist.push_back(utils::getStatus(_tree, _name, "chf"));
+  blist.push_back(utils::getStatus(_tree, _name, "cef"));
+  blist.push_back(utils::getStatus(_tree, _name, "nef"));
   blist.push_back(utils::getStatus(_tree, _name, "puid"));
   blist.push_back(utils::getStatus(_tree, _name, "loose"));
   blist.push_back(utils::getStatus(_tree, _name, "tight"));
@@ -129,6 +139,8 @@ panda::Jet::datastore::setAddress(TTree& _tree, TString const& _name, utils::Bra
   utils::setAddress(_tree, _name, "area", area, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nhf", nhf, _branches, _setStatus);
   utils::setAddress(_tree, _name, "chf", chf, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "cef", cef, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "nef", nef, _branches, _setStatus);
   utils::setAddress(_tree, _name, "puid", puid, _branches, _setStatus);
   utils::setAddress(_tree, _name, "loose", loose, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tight", tight, _branches, _setStatus);
@@ -153,6 +165,8 @@ panda::Jet::datastore::book(TTree& _tree, TString const& _name, utils::BranchLis
   utils::book(_tree, _name, "area", size, 'F', area, _branches);
   utils::book(_tree, _name, "nhf", size, 'F', nhf, _branches);
   utils::book(_tree, _name, "chf", size, 'F', chf, _branches);
+  utils::book(_tree, _name, "cef", size, 'F', cef, _branches);
+  utils::book(_tree, _name, "nef", size, 'F', nef, _branches);
   utils::book(_tree, _name, "puid", size, 'F', puid, _branches);
   utils::book(_tree, _name, "loose", size, 'O', loose, _branches);
   utils::book(_tree, _name, "tight", size, 'O', tight, _branches);
@@ -175,6 +189,8 @@ panda::Jet::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "area");
   utils::resetAddress(_tree, _name, "nhf");
   utils::resetAddress(_tree, _name, "chf");
+  utils::resetAddress(_tree, _name, "cef");
+  utils::resetAddress(_tree, _name, "nef");
   utils::resetAddress(_tree, _name, "puid");
   utils::resetAddress(_tree, _name, "loose");
   utils::resetAddress(_tree, _name, "tight");
@@ -209,6 +225,8 @@ panda::Jet::Jet(char const* _name/* = ""*/) :
   area(gStore.getData(this).area[0]),
   nhf(gStore.getData(this).nhf[0]),
   chf(gStore.getData(this).chf[0]),
+  cef(gStore.getData(this).cef[0]),
+  nef(gStore.getData(this).nef[0]),
   puid(gStore.getData(this).puid[0]),
   loose(gStore.getData(this).loose[0]),
   tight(gStore.getData(this).tight[0]),
@@ -229,6 +247,8 @@ panda::Jet::Jet(Jet const& _src) :
   area(gStore.getData(this).area[0]),
   nhf(gStore.getData(this).nhf[0]),
   chf(gStore.getData(this).chf[0]),
+  cef(gStore.getData(this).cef[0]),
+  nef(gStore.getData(this).nef[0]),
   puid(gStore.getData(this).puid[0]),
   loose(gStore.getData(this).loose[0]),
   tight(gStore.getData(this).tight[0]),
@@ -247,6 +267,8 @@ panda::Jet::Jet(Jet const& _src) :
   area = _src.area;
   nhf = _src.nhf;
   chf = _src.chf;
+  cef = _src.cef;
+  nef = _src.nef;
   puid = _src.puid;
   loose = _src.loose;
   tight = _src.tight;
@@ -266,6 +288,8 @@ panda::Jet::Jet(datastore& _data, UInt_t _idx) :
   area(_data.area[_idx]),
   nhf(_data.nhf[_idx]),
   chf(_data.chf[_idx]),
+  cef(_data.cef[_idx]),
+  nef(_data.nef[_idx]),
   puid(_data.puid[_idx]),
   loose(_data.loose[_idx]),
   tight(_data.tight[_idx]),
@@ -286,6 +310,8 @@ panda::Jet::Jet(ArrayBase* _array) :
   area(gStore.getData(this).area[0]),
   nhf(gStore.getData(this).nhf[0]),
   chf(gStore.getData(this).chf[0]),
+  cef(gStore.getData(this).cef[0]),
+  nef(gStore.getData(this).nef[0]),
   puid(gStore.getData(this).puid[0]),
   loose(gStore.getData(this).loose[0]),
   tight(gStore.getData(this).tight[0]),
@@ -324,6 +350,8 @@ panda::Jet::operator=(Jet const& _src)
   area = _src.area;
   nhf = _src.nhf;
   chf = _src.chf;
+  cef = _src.cef;
+  nef = _src.nef;
   puid = _src.puid;
   loose = _src.loose;
   tight = _src.tight;
@@ -351,6 +379,8 @@ panda::Jet::doBook_(TTree& _tree, TString const& _name, utils::BranchList const&
   utils::book(_tree, _name, "area", "", 'F', &area, _branches);
   utils::book(_tree, _name, "nhf", "", 'F', &nhf, _branches);
   utils::book(_tree, _name, "chf", "", 'F', &chf, _branches);
+  utils::book(_tree, _name, "cef", "", 'F', &cef, _branches);
+  utils::book(_tree, _name, "nef", "", 'F', &nef, _branches);
   utils::book(_tree, _name, "puid", "", 'F', &puid, _branches);
   utils::book(_tree, _name, "loose", "", 'O', &loose, _branches);
   utils::book(_tree, _name, "tight", "", 'O', &tight, _branches);
@@ -373,6 +403,8 @@ panda::Jet::doInit_()
   area = 0.;
   nhf = 0.;
   chf = 0.;
+  cef = 0.;
+  nef = 0.;
   puid = 0.;
   loose = false;
   tight = false;
@@ -422,6 +454,8 @@ panda::Jet::dump(std::ostream& _out/* = std::cout*/) const
   _out << "area = " << area << std::endl;
   _out << "nhf = " << nhf << std::endl;
   _out << "chf = " << chf << std::endl;
+  _out << "cef = " << cef << std::endl;
+  _out << "nef = " << nef << std::endl;
   _out << "puid = " << puid << std::endl;
   _out << "loose = " << loose << std::endl;
   _out << "tight = " << tight << std::endl;
