@@ -38,6 +38,8 @@ namespace panda {
       Float_t* area{0};
       Float_t* nhf{0};
       Float_t* chf{0};
+      Float_t* cef{0};
+      Float_t* nef{0};
       Float_t* puid{0};
       Bool_t* loose{0};
       Bool_t* tight{0};
@@ -106,6 +108,8 @@ namespace panda {
     Float_t& area;
     Float_t& nhf;
     Float_t& chf;
+    Float_t& cef;
+    Float_t& nef;
     Float_t& puid;
     Bool_t& loose;
     Bool_t& tight;
