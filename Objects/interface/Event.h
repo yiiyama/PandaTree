@@ -72,7 +72,6 @@ namespace panda {
     Met hfMet = Met("hfMet");
     Met genMet = Met("genMet");
     RecoMet metMuOnlyFix = RecoMet("metMuOnlyFix");
-    RecoMet metNoFix = RecoMet("metNoFix");
     MetFilters metFilters = MetFilters("metFilters");
     Recoil recoil = Recoil("recoil");
 

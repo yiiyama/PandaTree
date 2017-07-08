@@ -195,10 +195,13 @@ charge/B
 loose/O
 medium/O
 tight/O
+hltsafe/O
 chIso/F
 nhIso/F
 phIso/F
 puIso/F
+dxy/F
+dz/F
 matchedPF/PFCandRef
 matchedGen/GenParticleRef
 vertex/VertexRef
@@ -211,34 +214,33 @@ enum TriggerObject {
   fEl25Tight,
   fEl27Loose,
   fEl27Tight,
-  fEl120Ph,
-  fEl135Ph,
-  fEl165HE10Ph,
-  fEl175Ph,
-  fEl22EBR9IsoPh,
-  fEl36EBR9IsoPh,
-  fEl50EBR9IsoPh,
-  fEl75EBR9IsoPh,
-  fEl90EBR9IsoPh,
-  fEl120EBR9IsoPh
+  fEl35Tight
+  fPh165HE10,
+  fPh175,
+  fPh200,
+  fPh36EBR9Iso
 };
-hltsafe/O
 chIsoPh/F
 nhIsoPh/F
 phIsoPh/F
 ecalIso/F
 hcalIso/F
+trackIso/F
 isoPUOffset/F
 sieie/F
 sipip/F
+dEtaInSeed/F
+dPhiIn/F
 eseed/F
 hOverE/F
+ecalE/F
+trackP/F
 regPt/F
 smearedPt/F
-originalPt/F = -1.
-dxy/F
-dz/F
+nMissingHits/s
 veto/O
+conversionVeto/O
+tripleCharge/O
 triggerMatch[nTriggerObjects]/O
 superCluster/SuperClusterRef
 double m() const override { return 5.109989e-4; }
@@ -251,9 +253,27 @@ enum TriggerObject {
   fIsoMu22er,
   fIsoTkMu22er,
   fIsoMu24,
-  fIsoTkMu24
+  fIsoTkMu24,
+  fIsoMu27,
+  fIsoTkMu27,
+  fMu50
 };
+soft/O
 mediumBtoF/O
+global/O
+pf/O
+tracker/O
+validFraction/F
+nValidMuon/s
+nValidPixel/s
+trkLayersWithMmt/s
+pixLayersWithMmt/s
+nMatched/s
+normChi2/F
+chi2LocalPosition/s
+trkKink/s
+segmentCompatibility/F
+r03Iso/F
 triggerMatch[nTriggerObjects]/O
 double m() const override { return 1.05658e-2; }
 double combIso() const override { return chIso + std::max(nhIso + phIso - 0.5 * puIso, 0.); }
@@ -271,16 +291,13 @@ matchedGen/GenParticleRef
 
 [Photon>ParticleP]
 enum TriggerObject {
-  fSEG34IorSEG40,
-  fSEG40IorSJet200,
-  fSEG34IorSEG40IorSJet200,
-  fSEG24,
-  fSEG30,
-  fSEG40,
-  fPh120,
+  fPh165HE10Seed,
+  fPh175Seed,
+  fPh200Seed,
   fPh135,
   fPh165HE10,
   fPh175,
+  fPh200,
   fPh22EBR9Iso,
   fPh36EBR9Iso,
   fPh50EBR9Iso,
@@ -311,7 +328,6 @@ time/F
 timeSpan/F
 regPt/F
 smearedPt/F
-originalPt/F = -1.
 loose/O
 medium/O
 tight/O
@@ -340,6 +356,8 @@ ptSmearDown/F
 area/F
 nhf/F
 chf/F
+cef/F
+nef/F
 puid/F
 loose/O
 tight/O
@@ -417,16 +435,17 @@ goodVertices/O
 badsc/O
 badMuons/O
 duplicateMuons/O
-dupECALClusters/O
-unfixedECALHits/O
 badPFMuons/O
 badChargedHadrons/O
-virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !goodVertices; }
+virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !goodVertices && !badPFMuons && !badChargedHadrons; }
 
 [HLTBits:SINGLE]
 words[32]/i
 void set(unsigned iB) { if (iB >= 1024) return; words[iB / 32] |= (1 << (iB % 32)); }
 bool pass(unsigned iB) const { if (iB >= 1024) return false; return (words[iB / 32] & (1 << (iB % 32))) != 0; }
+
+[HLTObject>PackedParticle]
+filters/std::vector<UShort_t>
 
 [GenReweight:SINGLE]
 static unsigned const NMAX = 1024;
@@ -468,6 +487,7 @@ triggers/HLTBits
 #include "TList.h"
 #include "TFile.h"
 #include "TKey.h"
+#include "HLTObjectStore.h"
 
 {Event>EventBase}
 npv/s
@@ -511,7 +531,6 @@ photonMet/Met
 hfMet/Met
 genMet/Met
 metMuOnlyFix/RecoMet
-metNoFix/RecoMet
 metFilters/MetFilters
 recoil/Recoil
 pfCandidates.vertex->vertices

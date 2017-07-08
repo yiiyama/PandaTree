@@ -7,6 +7,8 @@ panda::EventTP2M::EventTP2M() :
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   std::vector<CollectionBase*> myCollections{{&tags, &probes}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
+  /* BEGIN CUSTOM EventTP2M.cc.ctor */
+  /* END CUSTOM */
 }
 
 panda::EventTP2M::EventTP2M(EventTP2M const& _src) :
@@ -71,6 +73,8 @@ panda::EventTP2M::getListOfBranches(Bool_t _direct/* = kFALSE*/)
     blist += Muon::getListOfBranches().fullNames("tags");
     blist += Muon::getListOfBranches().fullNames("probes");
   }
+  /* BEGIN CUSTOM EventTP2M.cc.getListOfBranches_ */
+  /* END CUSTOM */
   return blist;
 }
 

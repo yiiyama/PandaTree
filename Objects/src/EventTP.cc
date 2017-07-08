@@ -7,6 +7,8 @@ panda::EventTP::EventTP() :
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   std::vector<CollectionBase*> myCollections{{&tp, &jets}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
+  /* BEGIN CUSTOM EventTP.cc.ctor */
+  /* END CUSTOM */
 }
 
 panda::EventTP::EventTP(EventTP const& _src) :
@@ -90,6 +92,8 @@ panda::EventTP::getListOfBranches(Bool_t _direct/* = kFALSE*/)
     blist += Jet::getListOfBranches().fullNames("jets");
     blist += RecoMet::getListOfBranches().fullNames("t1Met");
   }
+  /* BEGIN CUSTOM EventTP.cc.getListOfBranches_ */
+  /* END CUSTOM */
   return blist;
 }
 

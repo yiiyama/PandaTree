@@ -5,6 +5,9 @@ panda::EventBase::EventBase() :
 {
   std::vector<Object*> myObjects{{&triggers}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
+  /* BEGIN CUSTOM EventBase.cc.ctor */
+  objects_.push_back(&triggerObjects);
+  /* END CUSTOM */
 }
 
 panda::EventBase::EventBase(EventBase const& _src) :
@@ -21,6 +24,7 @@ panda::EventBase::EventBase(EventBase const& _src) :
 
   /* BEGIN CUSTOM EventBase.cc.copy_ctor */
   run = _src.run;
+  objects_.push_back(&triggerObjects);
   /* END CUSTOM */
 }
 
@@ -37,6 +41,7 @@ panda::EventBase::operator=(EventBase const& _src)
 
   /* BEGIN CUSTOM EventBase.cc.operator= */
   run = _src.run;
+  triggerObjects = _src.triggerObjects;
   /* END CUSTOM */
 
   runNumber = _src.runNumber;
@@ -91,6 +96,10 @@ panda::EventBase::getListOfBranches(Bool_t _direct/* = kFALSE*/)
   if (!_direct) {
     blist += HLTBits::getListOfBranches().fullNames("triggers");
   }
+  /* BEGIN CUSTOM EventBase.cc.getListOfBranches_ */
+  if (!_direct)
+    blist += HLTObject::getListOfBranches().fullNames("triggerObjects");
+  /* END CUSTOM */
   return blist;
 }
 
@@ -199,6 +208,10 @@ panda::EventBase::doGetEntry_(TTree& _tree)
       }
     }
   }
+
+  if (triggerObjects.size() != 0 && run.hlt.filters)
+    triggerObjects.makeMap(*run.hlt.filters);
+
   /* END CUSTOM */
 }
 

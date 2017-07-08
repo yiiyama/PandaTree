@@ -15,16 +15,13 @@ namespace panda {
   class Photon : public ParticleP {
   public:
     enum TriggerObject {
-      fSEG34IorSEG40,
-      fSEG40IorSJet200,
-      fSEG34IorSEG40IorSJet200,
-      fSEG24,
-      fSEG30,
-      fSEG40,
-      fPh120,
+      fPh165HE10Seed,
+      fPh175Seed,
+      fPh200Seed,
       fPh135,
       fPh165HE10,
       fPh175,
+      fPh200,
       fPh22EBR9Iso,
       fPh36EBR9Iso,
       fPh50EBR9Iso,
@@ -68,7 +65,6 @@ namespace panda {
       Float_t* timeSpan{0};
       Float_t* regPt{0};
       Float_t* smearedPt{0};
-      Float_t* originalPt{0};
       Bool_t* loose{0};
       Bool_t* medium{0};
       Bool_t* tight{0};
@@ -133,7 +129,6 @@ namespace panda {
     Float_t& timeSpan;
     Float_t& regPt;
     Float_t& smearedPt;
-    Float_t& originalPt;
     Bool_t& loose;
     Bool_t& medium;
     Bool_t& tight;

@@ -18,6 +18,9 @@ namespace panda {
       fIsoTkMu22er,
       fIsoMu24,
       fIsoTkMu24,
+      fIsoMu27,
+      fIsoTkMu27,
+      fMu50,
       nTriggerObjects
     };
 
@@ -38,10 +41,13 @@ namespace panda {
       Bool_t* loose{0};
       Bool_t* medium{0};
       Bool_t* tight{0};
+      Bool_t* hltsafe{0};
       Float_t* chIso{0};
       Float_t* nhIso{0};
       Float_t* phIso{0};
       Float_t* puIso{0};
+      Float_t* dxy{0};
+      Float_t* dz{0};
       ContainerBase const* matchedPFContainer_{0};
       Short_t* matchedPF_{0};
       ContainerBase const* matchedGenContainer_{0};
@@ -49,7 +55,22 @@ namespace panda {
       ContainerBase const* vertexContainer_{0};
       Short_t* vertex_{0};
       */
+      Bool_t* soft{0};
       Bool_t* mediumBtoF{0};
+      Bool_t* global{0};
+      Bool_t* pf{0};
+      Bool_t* tracker{0};
+      Float_t* validFraction{0};
+      UShort_t* nValidMuon{0};
+      UShort_t* nValidPixel{0};
+      UShort_t* trkLayersWithMmt{0};
+      UShort_t* pixLayersWithMmt{0};
+      UShort_t* nMatched{0};
+      Float_t* normChi2{0};
+      UShort_t* chi2LocalPosition{0};
+      UShort_t* trkKink{0};
+      Float_t* segmentCompatibility{0};
+      Float_t* r03Iso{0};
       Bool_t (*triggerMatch)[nTriggerObjects]{0};
 
       void allocate(UInt_t n) override;
@@ -88,15 +109,33 @@ namespace panda {
     Bool_t& loose;
     Bool_t& medium;
     Bool_t& tight;
+    Bool_t& hltsafe;
     Float_t& chIso;
     Float_t& nhIso;
     Float_t& phIso;
     Float_t& puIso;
+    Float_t& dxy;
+    Float_t& dz;
     Ref<PFCand> matchedPF;
     Ref<GenParticle> matchedGen;
     Ref<Vertex> vertex;
     */
+    Bool_t& soft;
     Bool_t& mediumBtoF;
+    Bool_t& global;
+    Bool_t& pf;
+    Bool_t& tracker;
+    Float_t& validFraction;
+    UShort_t& nValidMuon;
+    UShort_t& nValidPixel;
+    UShort_t& trkLayersWithMmt;
+    UShort_t& pixLayersWithMmt;
+    UShort_t& nMatched;
+    Float_t& normChi2;
+    UShort_t& chi2LocalPosition;
+    UShort_t& trkKink;
+    Float_t& segmentCompatibility;
+    Float_t& r03Iso;
     Bool_t (&triggerMatch)[nTriggerObjects];
 
   protected:

@@ -7,6 +7,8 @@ panda::EventTP2E::EventTP2E() :
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   std::vector<CollectionBase*> myCollections{{&tags, &probes}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
+  /* BEGIN CUSTOM EventTP2E.cc.ctor */
+  /* END CUSTOM */
 }
 
 panda::EventTP2E::EventTP2E(EventTP2E const& _src) :
@@ -71,6 +73,8 @@ panda::EventTP2E::getListOfBranches(Bool_t _direct/* = kFALSE*/)
     blist += Electron::getListOfBranches().fullNames("tags");
     blist += Electron::getListOfBranches().fullNames("probes");
   }
+  /* BEGIN CUSTOM EventTP2E.cc.getListOfBranches_ */
+  /* END CUSTOM */
   return blist;
 }
 

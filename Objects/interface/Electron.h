@@ -18,16 +18,11 @@ namespace panda {
       fEl25Tight,
       fEl27Loose,
       fEl27Tight,
-      fEl120Ph,
-      fEl135Ph,
-      fEl165HE10Ph,
-      fEl175Ph,
-      fEl22EBR9IsoPh,
-      fEl36EBR9IsoPh,
-      fEl50EBR9IsoPh,
-      fEl75EBR9IsoPh,
-      fEl90EBR9IsoPh,
-      fEl120EBR9IsoPh,
+      fEl35Tight,
+      fPh165HE10,
+      fPh175,
+      fPh200,
+      fPh36EBR9Iso,
       nTriggerObjects
     };
 
@@ -48,10 +43,13 @@ namespace panda {
       Bool_t* loose{0};
       Bool_t* medium{0};
       Bool_t* tight{0};
+      Bool_t* hltsafe{0};
       Float_t* chIso{0};
       Float_t* nhIso{0};
       Float_t* phIso{0};
       Float_t* puIso{0};
+      Float_t* dxy{0};
+      Float_t* dz{0};
       ContainerBase const* matchedPFContainer_{0};
       Short_t* matchedPF_{0};
       ContainerBase const* matchedGenContainer_{0};
@@ -59,23 +57,27 @@ namespace panda {
       ContainerBase const* vertexContainer_{0};
       Short_t* vertex_{0};
       */
-      Bool_t* hltsafe{0};
       Float_t* chIsoPh{0};
       Float_t* nhIsoPh{0};
       Float_t* phIsoPh{0};
       Float_t* ecalIso{0};
       Float_t* hcalIso{0};
+      Float_t* trackIso{0};
       Float_t* isoPUOffset{0};
       Float_t* sieie{0};
       Float_t* sipip{0};
+      Float_t* dEtaInSeed{0};
+      Float_t* dPhiIn{0};
       Float_t* eseed{0};
       Float_t* hOverE{0};
+      Float_t* ecalE{0};
+      Float_t* trackP{0};
       Float_t* regPt{0};
       Float_t* smearedPt{0};
-      Float_t* originalPt{0};
-      Float_t* dxy{0};
-      Float_t* dz{0};
+      UShort_t* nMissingHits{0};
       Bool_t* veto{0};
+      Bool_t* conversionVeto{0};
+      Bool_t* tripleCharge{0};
       Bool_t (*triggerMatch)[nTriggerObjects]{0};
       ContainerBase const* superClusterContainer_{0};
       Short_t* superCluster_{0};
@@ -116,31 +118,38 @@ namespace panda {
     Bool_t& loose;
     Bool_t& medium;
     Bool_t& tight;
+    Bool_t& hltsafe;
     Float_t& chIso;
     Float_t& nhIso;
     Float_t& phIso;
     Float_t& puIso;
+    Float_t& dxy;
+    Float_t& dz;
     Ref<PFCand> matchedPF;
     Ref<GenParticle> matchedGen;
     Ref<Vertex> vertex;
     */
-    Bool_t& hltsafe;
     Float_t& chIsoPh;
     Float_t& nhIsoPh;
     Float_t& phIsoPh;
     Float_t& ecalIso;
     Float_t& hcalIso;
+    Float_t& trackIso;
     Float_t& isoPUOffset;
     Float_t& sieie;
     Float_t& sipip;
+    Float_t& dEtaInSeed;
+    Float_t& dPhiIn;
     Float_t& eseed;
     Float_t& hOverE;
+    Float_t& ecalE;
+    Float_t& trackP;
     Float_t& regPt;
     Float_t& smearedPt;
-    Float_t& originalPt;
-    Float_t& dxy;
-    Float_t& dz;
+    UShort_t& nMissingHits;
     Bool_t& veto;
+    Bool_t& conversionVeto;
+    Bool_t& tripleCharge;
     Bool_t (&triggerMatch)[nTriggerObjects];
     Ref<SuperCluster> superCluster;
 
