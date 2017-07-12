@@ -251,7 +251,8 @@ panda::Run::findEntry(TTree& _runTree, UInt_t _runNumber)
 {
   // Known issue: if this function is called with a new tree but with the same run number as the previous call,
   // nothing happens and the tree is not updated. This is such a rare situation that (in my opinion) does not warrant
-  // covering for.
+  // covering for. To avoid it, set runNumber to 0 before calling this function if there was a file transition.
+  // (EventBase::doGetEntry_ does that).
 
   if (_runNumber == runNumber)
     return;
