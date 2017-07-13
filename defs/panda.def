@@ -479,7 +479,7 @@ bool any() const { return met || monoMu || monoE || diMu || diE || gamma; }
 {EventBase}
 runNumber/i
 lumiNumber/i
-eventNumber/i
+eventNumber/l
 isData/O
 weight/F
 triggers/HLTBits
