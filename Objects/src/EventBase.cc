@@ -152,7 +152,7 @@ panda::EventBase::doBook_(TTree& _tree, utils::BranchList const& _branches)
 {
   utils::book(_tree, "", "runNumber", "", 'i', &runNumber, _branches);
   utils::book(_tree, "", "lumiNumber", "", 'i', &lumiNumber, _branches);
-  utils::book(_tree, "", "eventNumber", "", 'i', &eventNumber, _branches);
+  utils::book(_tree, "", "eventNumber", "", 'l', &eventNumber, _branches);
   utils::book(_tree, "", "isData", "", 'O', &isData, _branches);
   utils::book(_tree, "", "weight", "", 'F', &weight, _branches);
 }

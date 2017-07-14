@@ -25,7 +25,7 @@ namespace panda {
 
     UInt_t runNumber{};
     UInt_t lumiNumber{};
-    UInt_t eventNumber{};
+    ULong64_t eventNumber{};
     Bool_t isData{};
     Float_t weight{};
 
