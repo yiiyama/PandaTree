@@ -227,7 +227,7 @@ panda::CollectionBase::prepareFill(TTree& _tree)
     return;
 
   for (auto& output : outputs_) {
-    if (output.first != &_tree) {
+    if (output.first == &_tree) {
       if (!output.second) {
         doSetAddress_(_tree, {"*"}, false, false);
         output.second = true;
