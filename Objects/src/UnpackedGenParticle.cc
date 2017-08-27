@@ -226,6 +226,7 @@ panda::UnpackedGenParticle::dump(std::ostream& _out/* = std::cout*/) const
   _out << "parent = " << parent << std::endl;
 }
 
+
 /* BEGIN CUSTOM UnpackedGenParticle.cc.global */
 panda::UnpackedGenParticle&
 panda::UnpackedGenParticle::operator=(GenParticle const& _rhs)
