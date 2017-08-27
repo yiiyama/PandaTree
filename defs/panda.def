@@ -187,6 +187,7 @@ pdgid/I
 finalState/O
 statusFlags/s
 parent/UnpackedGenParticleRef
+bool testFlag(GenParticle::StatusFlag f) const { return ((statusFlags >> f) & 1) == 1; }
 #include "GenParticle.h"
 
 [Lepton>ParticleP]
