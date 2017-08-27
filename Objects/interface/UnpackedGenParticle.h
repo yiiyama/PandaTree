@@ -57,6 +57,8 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
+    bool testFlag(GenParticle::StatusFlag f) const { return ((statusFlags >> f) & 1) == 1; }
+
     Int_t& pdgid;
     Bool_t& finalState;
     UShort_t& statusFlags;
