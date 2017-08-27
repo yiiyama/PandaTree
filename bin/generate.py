@@ -3,8 +3,8 @@
 import sys
 import os
 from argparse import ArgumentParser
-thisdir = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(thisdir + '/lib')
+packdir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+sys.path.append(packdir + '/lib')
 from panda import *
 
 argParser = ArgumentParser(description = 'Generate C++ code for a flat tree')
@@ -15,9 +15,9 @@ args = argParser.parse_args()
 
 if len(args.configs) == 0:
     def_files = []
-    for fname in os.listdir(thisdir + '/defs'):
+    for fname in os.listdir(packdir + '/defs'):
         if fname.endswith('.def'):
-            args.configs.append(thisdir + '/defs/' + fname)
+            args.configs.append(packdir + '/defs/' + fname)
 
 if args.clear_custom:
     common.PRESERVE_CUSTOM = False
