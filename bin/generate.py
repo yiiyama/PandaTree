@@ -252,8 +252,8 @@ for objdef in phobjects + trees:
     objdef.generate_header()
     objdef.generate_source()
 
-# write a linkdef file (not compiled by CMSSW - only for Makefile)
-linkdef = FileOutput(common.PACKDIR + '/Objects/dict/LinkDef.h')
+# write a linkdef file
+linkdef = FileOutput(common.PACKDIR + '/Objects/LinkDef.h')
 for objdef in phobjects:
     linkdef.writeline('#include "PandaTree/Objects/interface/{name}.h"'.format(name = objdef.name))
 for tree in trees:
