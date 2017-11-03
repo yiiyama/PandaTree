@@ -41,6 +41,8 @@ chi2/F
 pfRangeMax/s
 double normChi2() const { return ndof != 0. ? chi2 / ndof : chi2 * 1.e+6; }
 
+[SecondaryVertex>Particle>RecoVertex]
+
 [PackedTrack]
 packedPtError/s
 packedDxy/S
@@ -346,6 +348,13 @@ pdgid/S
 [MicroJet>ParticleM]
 csv/F
 qgl/F
+cmva/F
+leptonPtRel/F
+leptonPt/F
+leptonDR/F
+vtx3DVal/F
+vtx3DValOverSig/F
+secondaryVertices/SecondaryVertexRef
 
 [Jet>MicroJet]
 rawPt/F
@@ -498,8 +507,11 @@ rhoCentralCalo/F
 genReweight/GenReweight
 pfCandidates/PFCandCollection(2048)
 vertices/RecoVertexCollection(64)
+secondaryVerticesMothers/ParticleCollection(64)
+secondaryVertices/SecondaryVertexCollection(64)
 tracks/PackedTrackCollection(1024)
 superClusters/SuperClusterCollection(64)
+softTrackJets/ParticleMCollection(256)
 electrons/ElectronCollection(32)
 muons/MuonCollection(32)
 taus/TauCollection(64)

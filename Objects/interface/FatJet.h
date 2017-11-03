@@ -27,6 +27,13 @@ namespace panda {
       /* MicroJet
       Float_t* csv{0};
       Float_t* qgl{0};
+      Float_t* cmva{0};
+      Float_t* leptonPtRel{0};
+      Float_t* leptonPt{0};
+      Float_t* leptonDR{0};
+      Float_t* bRegressedEnergy{0};
+      ContainerBase const* secondaryVerticesContainer_{0};
+      std::vector<std::vector<Short_t>>* secondaryVertices_{0};
       */
       /* Jet
       Float_t* rawPt{0};
@@ -97,6 +104,12 @@ namespace panda {
     /* MicroJet
     Float_t& csv;
     Float_t& qgl;
+    Float_t& cmva;
+    Float_t& leptonPtRel;
+    Float_t& leptonPt;
+    Float_t& leptonDR;
+    Float_t& bRegressedEnergy;
+    RefVector<SecondaryVertex> secondaryVertices;
     */
     /* Jet
     Float_t& rawPt;
