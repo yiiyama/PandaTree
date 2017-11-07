@@ -31,6 +31,7 @@ namespace panda {
       Float_t* qgl{0};
       Float_t* cmva{0};
       Float_t* deepCsv{0};
+      Float_t* deepCmva{0};
       */
       Float_t* rawPt{0};
       Float_t* ptCorrUp{0};
@@ -88,6 +89,7 @@ namespace panda {
     Float_t& qgl;
     Float_t& cmva;
     Float_t& deepCsv;
+    Float_t& deepCmva;
     */
     Float_t& rawPt;
     Float_t& ptCorrUp;

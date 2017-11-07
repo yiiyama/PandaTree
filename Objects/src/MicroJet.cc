@@ -6,7 +6,7 @@ panda::MicroJet::getListOfBranches()
 {
   utils::BranchList blist;
   blist += ParticleM::getListOfBranches();
-  blist += {"csv", "qgl", "cmva", "deepCsv"};
+  blist += {"csv", "qgl", "cmva", "deepCsv", "deepCmva"};
   return blist;
 }
 
@@ -19,6 +19,7 @@ panda::MicroJet::datastore::allocate(UInt_t _nmax)
   qgl = new Float_t[nmax_];
   cmva = new Float_t[nmax_];
   deepCsv = new Float_t[nmax_];
+  deepCmva = new Float_t[nmax_];
 }
 
 void
@@ -34,6 +35,8 @@ panda::MicroJet::datastore::deallocate()
   cmva = 0;
   delete [] deepCsv;
   deepCsv = 0;
+  delete [] deepCmva;
+  deepCmva = 0;
 }
 
 void
@@ -45,6 +48,7 @@ panda::MicroJet::datastore::setStatus(TTree& _tree, TString const& _name, utils:
   utils::setStatus(_tree, _name, "qgl", _branches);
   utils::setStatus(_tree, _name, "cmva", _branches);
   utils::setStatus(_tree, _name, "deepCsv", _branches);
+  utils::setStatus(_tree, _name, "deepCmva", _branches);
 }
 
 panda::utils::BranchList
@@ -56,6 +60,7 @@ panda::MicroJet::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "qgl"));
   blist.push_back(utils::getStatus(_tree, _name, "cmva"));
   blist.push_back(utils::getStatus(_tree, _name, "deepCsv"));
+  blist.push_back(utils::getStatus(_tree, _name, "deepCmva"));
 
   return blist;
 }
@@ -69,6 +74,7 @@ panda::MicroJet::datastore::setAddress(TTree& _tree, TString const& _name, utils
   utils::setAddress(_tree, _name, "qgl", qgl, _branches, _setStatus);
   utils::setAddress(_tree, _name, "cmva", cmva, _branches, _setStatus);
   utils::setAddress(_tree, _name, "deepCsv", deepCsv, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "deepCmva", deepCmva, _branches, _setStatus);
 }
 
 void
@@ -82,6 +88,7 @@ panda::MicroJet::datastore::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "qgl", size, 'F', qgl, _branches);
   utils::book(_tree, _name, "cmva", size, 'F', cmva, _branches);
   utils::book(_tree, _name, "deepCsv", size, 'F', deepCsv, _branches);
+  utils::book(_tree, _name, "deepCmva", size, 'F', deepCmva, _branches);
 }
 
 void
@@ -93,6 +100,7 @@ panda::MicroJet::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "qgl");
   utils::resetAddress(_tree, _name, "cmva");
   utils::resetAddress(_tree, _name, "deepCsv");
+  utils::resetAddress(_tree, _name, "deepCmva");
 }
 
 void
@@ -114,7 +122,8 @@ panda::MicroJet::MicroJet(char const* _name/* = ""*/) :
   csv(gStore.getData(this).csv[0]),
   qgl(gStore.getData(this).qgl[0]),
   cmva(gStore.getData(this).cmva[0]),
-  deepCsv(gStore.getData(this).deepCsv[0])
+  deepCsv(gStore.getData(this).deepCsv[0]),
+  deepCmva(gStore.getData(this).deepCmva[0])
 {
 }
 
@@ -123,7 +132,8 @@ panda::MicroJet::MicroJet(MicroJet const& _src) :
   csv(gStore.getData(this).csv[0]),
   qgl(gStore.getData(this).qgl[0]),
   cmva(gStore.getData(this).cmva[0]),
-  deepCsv(gStore.getData(this).deepCsv[0])
+  deepCsv(gStore.getData(this).deepCsv[0]),
+  deepCmva(gStore.getData(this).deepCmva[0])
 {
   ParticleM::operator=(_src);
 
@@ -131,6 +141,7 @@ panda::MicroJet::MicroJet(MicroJet const& _src) :
   qgl = _src.qgl;
   cmva = _src.cmva;
   deepCsv = _src.deepCsv;
+  deepCmva = _src.deepCmva;
 }
 
 panda::MicroJet::MicroJet(datastore& _data, UInt_t _idx) :
@@ -138,7 +149,8 @@ panda::MicroJet::MicroJet(datastore& _data, UInt_t _idx) :
   csv(_data.csv[_idx]),
   qgl(_data.qgl[_idx]),
   cmva(_data.cmva[_idx]),
-  deepCsv(_data.deepCsv[_idx])
+  deepCsv(_data.deepCsv[_idx]),
+  deepCmva(_data.deepCmva[_idx])
 {
 }
 
@@ -147,7 +159,8 @@ panda::MicroJet::MicroJet(ArrayBase* _array) :
   csv(gStore.getData(this).csv[0]),
   qgl(gStore.getData(this).qgl[0]),
   cmva(gStore.getData(this).cmva[0]),
-  deepCsv(gStore.getData(this).deepCsv[0])
+  deepCsv(gStore.getData(this).deepCsv[0]),
+  deepCmva(gStore.getData(this).deepCmva[0])
 {
 }
 
@@ -175,6 +188,7 @@ panda::MicroJet::operator=(MicroJet const& _src)
   qgl = _src.qgl;
   cmva = _src.cmva;
   deepCsv = _src.deepCsv;
+  deepCmva = _src.deepCmva;
 
   /* BEGIN CUSTOM MicroJet.cc.operator= */
   /* END CUSTOM */
@@ -191,6 +205,7 @@ panda::MicroJet::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
   utils::book(_tree, _name, "qgl", "", 'F', &qgl, _branches);
   utils::book(_tree, _name, "cmva", "", 'F', &cmva, _branches);
   utils::book(_tree, _name, "deepCsv", "", 'F', &deepCsv, _branches);
+  utils::book(_tree, _name, "deepCmva", "", 'F', &deepCmva, _branches);
 }
 
 void
@@ -202,6 +217,7 @@ panda::MicroJet::doInit_()
   qgl = 0.;
   cmva = 0.;
   deepCsv = 0.;
+  deepCmva = 0.;
 
   /* BEGIN CUSTOM MicroJet.cc.doInit_ */
   /* END CUSTOM */
@@ -224,6 +240,7 @@ panda::MicroJet::dump(std::ostream& _out/* = std::cout*/) const
   _out << "qgl = " << qgl << std::endl;
   _out << "cmva = " << cmva << std::endl;
   _out << "deepCsv = " << deepCsv << std::endl;
+  _out << "deepCmva = " << deepCmva << std::endl;
 }
 
 /* BEGIN CUSTOM MicroJet.cc.global */
