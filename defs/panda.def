@@ -41,8 +41,6 @@ chi2/F
 pfRangeMax/s
 double normChi2() const { return ndof != 0. ? chi2 / ndof : chi2 * 1.e+6; }
 
-[SecondaryVertex>Particle>RecoVertex]
-
 [PackedTrack]
 packedPtError/s
 packedDxy/S
@@ -169,6 +167,19 @@ void setXYZE(double px, double py, double pz, double e) override
   phi_ = std::atan2(py, px);
   mass_ = std::sqrt(e * e - p * p);
 }
+
+% Note that SecondaryVertex stuff is copy-pasted from Vertex and RecoVertex
+% Multiple inheritance isn't working due to inheritance from Element
+[SecondaryVertex>ParticleM]
+x/F
+y/F
+z/F
+TVector3 position() const { return TVector3(x, y, z); }
+ntrk/s
+ndof/F
+chi2/F
+double normChi2() const { return ndof != 0. ? chi2 / ndof : chi2 * 1.e+6; }
+% pfRangeMax/s ??
 
 [UnpackedPFCand>ParticleM]
 puppiW/B
@@ -349,12 +360,8 @@ pdgid/S
 csv/F
 qgl/F
 cmva/F
-leptonPtRel/F
-leptonPt/F
-leptonDR/F
-vtx3DVal/F
-vtx3DValOverSig/F
-secondaryVertices/SecondaryVertexRef
+deepCsv/F
+deepCmva/F
 
 [Jet>MicroJet]
 rawPt/F
@@ -374,6 +381,9 @@ tight/O
 monojet/O
 matchedGenJet/GenJetRef
 constituents/PFCandRefVector
+vtx3DVal/F
+vtx3DeVal/F
+secondaryVertex/SecondaryVertexRef
 
 [FatJet>Jet]
 tau1/F
@@ -507,7 +517,6 @@ rhoCentralCalo/F
 genReweight/GenReweight
 pfCandidates/PFCandCollection(2048)
 vertices/RecoVertexCollection(64)
-secondaryVerticesMothers/ParticleCollection(64)
 secondaryVertices/SecondaryVertexCollection(64)
 tracks/PackedTrackCollection(1024)
 superClusters/SuperClusterCollection(64)
@@ -563,8 +572,10 @@ photons.matchedGen->genParticles
 genParticles.parent->genParticles
 chsAK4Jets.constituents->pfCandidates
 chsAK4Jets.matchedGenJet->ak4GenJets
+chsAK4Jets.secondaryVertex->secondaryVertices
 puppiAK4Jets.constituents->pfCandidates
 puppiAK4Jets.matchedGenJet->ak4GenJets
+puppiAK4Jets.secondaryVertex->secondaryVertices
 chsAK8Jets.constituents->pfCandidates
 chsAK8Jets.subjets->chsAK8Subjets
 chsAK8Jets.matchedGenJet->ak8GenJets

@@ -8,6 +8,7 @@
 #include "../../Framework/interface/RefVector.h"
 #include "GenJet.h"
 #include "PFCand.h"
+#include "SecondaryVertex.h"
 
 namespace panda {
 
@@ -29,12 +30,7 @@ namespace panda {
       Float_t* csv{0};
       Float_t* qgl{0};
       Float_t* cmva{0};
-      Float_t* leptonPtRel{0};
-      Float_t* leptonPt{0};
-      Float_t* leptonDR{0};
-      Float_t* bRegressedEnergy{0};
-      ContainerBase const* secondaryVerticesContainer_{0};
-      std::vector<std::vector<Short_t>>* secondaryVertices_{0};
+      Float_t* deepCsv{0};
       */
       Float_t* rawPt{0};
       Float_t* ptCorrUp{0};
@@ -55,6 +51,10 @@ namespace panda {
       Short_t* matchedGenJet_{0};
       ContainerBase const* constituentsContainer_{0};
       std::vector<std::vector<Short_t>>* constituents_{0};
+      Float_t* vtx3DVal{0};
+      Float_t* vtx3DeVal{0};
+      ContainerBase const* secondaryVertexContainer_{0};
+      Short_t* secondaryVertex_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -87,11 +87,7 @@ namespace panda {
     Float_t& csv;
     Float_t& qgl;
     Float_t& cmva;
-    Float_t& leptonPtRel;
-    Float_t& leptonPt;
-    Float_t& leptonDR;
-    Float_t& bRegressedEnergy;
-    RefVector<SecondaryVertex> secondaryVertices;
+    Float_t& deepCsv;
     */
     Float_t& rawPt;
     Float_t& ptCorrUp;
@@ -110,6 +106,9 @@ namespace panda {
     Bool_t& monojet;
     Ref<GenJet> matchedGenJet;
     RefVector<PFCand> constituents;
+    Float_t& vtx3DVal;
+    Float_t& vtx3DeVal;
+    Ref<SecondaryVertex> secondaryVertex;
 
   protected:
     /* ParticleP

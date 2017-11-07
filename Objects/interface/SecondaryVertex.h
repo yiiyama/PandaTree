@@ -1,5 +1,5 @@
-#ifndef PandaTree_Objects_MicroJet_h
-#define PandaTree_Objects_MicroJet_h
+#ifndef PandaTree_Objects_SecondaryVertex_h
+#define PandaTree_Objects_SecondaryVertex_h
 #include "Constants.h"
 #include "ParticleM.h"
 #include "../../Framework/interface/Array.h"
@@ -9,7 +9,7 @@
 
 namespace panda {
 
-  class MicroJet : public ParticleM {
+  class SecondaryVertex : public ParticleM {
   public:
     struct datastore : public ParticleM::datastore {
       datastore() : ParticleM::datastore() {}
@@ -23,10 +23,12 @@ namespace panda {
       /* ParticleM
       Float_t* mass_{0};
       */
-      Float_t* csv{0};
-      Float_t* qgl{0};
-      Float_t* cmva{0};
-      Float_t* deepCsv{0};
+      Float_t* x{0};
+      Float_t* y{0};
+      Float_t* z{0};
+      UShort_t* ntrk{0};
+      Float_t* ndof{0};
+      Float_t* chi2{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -39,26 +41,31 @@ namespace panda {
       void resizeVectors_(UInt_t) override;
     };
 
-    typedef Array<MicroJet> array_type;
-    typedef Collection<MicroJet> collection_type;
+    typedef Array<SecondaryVertex> array_type;
+    typedef Collection<SecondaryVertex> collection_type;
 
     typedef ParticleM base_type;
 
-    MicroJet(char const* name = "");
-    MicroJet(MicroJet const&);
-    MicroJet(datastore&, UInt_t idx);
-    ~MicroJet();
-    MicroJet& operator=(MicroJet const&);
+    SecondaryVertex(char const* name = "");
+    SecondaryVertex(SecondaryVertex const&);
+    SecondaryVertex(datastore&, UInt_t idx);
+    ~SecondaryVertex();
+    SecondaryVertex& operator=(SecondaryVertex const&);
 
-    static char const* typeName() { return "MicroJet"; }
+    static char const* typeName() { return "SecondaryVertex"; }
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    Float_t& csv;
-    Float_t& qgl;
-    Float_t& cmva;
-    Float_t& deepCsv;
+    TVector3 position() const { return TVector3(x, y, z); }
+    double normChi2() const { return ndof != 0. ? chi2 / ndof : chi2 * 1.e+6; }
+
+    Float_t& x;
+    Float_t& y;
+    Float_t& z;
+    UShort_t& ntrk;
+    Float_t& ndof;
+    Float_t& chi2;
 
   protected:
     /* ParticleP
@@ -71,7 +78,7 @@ namespace panda {
     */
 
   public:
-    /* BEGIN CUSTOM MicroJet.h.classdef */
+    /* BEGIN CUSTOM SecondaryVertex.h.classdef */
     /* END CUSTOM */
 
     static utils::BranchList getListOfBranches();
@@ -79,18 +86,18 @@ namespace panda {
     void destructor(Bool_t recursive = kFALSE);
 
   protected:
-    MicroJet(ArrayBase*);
+    SecondaryVertex(ArrayBase*);
 
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doInit_() override;
   };
 
-  typedef Array<MicroJet> MicroJetArray;
-  typedef Collection<MicroJet> MicroJetCollection;
-  typedef Ref<MicroJet> MicroJetRef;
-  typedef RefVector<MicroJet> MicroJetRefVector;
+  typedef Array<SecondaryVertex> SecondaryVertexArray;
+  typedef Collection<SecondaryVertex> SecondaryVertexCollection;
+  typedef Ref<SecondaryVertex> SecondaryVertexRef;
+  typedef RefVector<SecondaryVertex> SecondaryVertexRefVector;
 
-  /* BEGIN CUSTOM MicroJet.h.global */
+  /* BEGIN CUSTOM SecondaryVertex.h.global */
   /* END CUSTOM */
 
 }
