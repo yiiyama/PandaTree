@@ -5,10 +5,10 @@
 #include "PandaTree/Objects/interface/SuperCluster.h"
 #include "PandaTree/Objects/interface/PackedParticle.h"
 #include "PandaTree/Objects/interface/GenParticle.h"
-#include "PandaTree/Objects/interface/PFCand.h"
 #include "PandaTree/Objects/interface/ParticleP.h"
 #include "PandaTree/Objects/interface/ParticleM.h"
 #include "PandaTree/Objects/interface/SecondaryVertex.h"
+#include "PandaTree/Objects/interface/PFCand.h"
 #include "PandaTree/Objects/interface/UnpackedPFCand.h"
 #include "PandaTree/Objects/interface/Parton.h"
 #include "PandaTree/Objects/interface/UnpackedGenParticle.h"
@@ -57,10 +57,10 @@
 #pragma link C++ class panda::SuperCluster;
 #pragma link C++ class panda::PackedParticle;
 #pragma link C++ class panda::GenParticle;
-#pragma link C++ class panda::PFCand;
 #pragma link C++ class panda::ParticleP;
 #pragma link C++ class panda::ParticleM;
 #pragma link C++ class panda::SecondaryVertex;
+#pragma link C++ class panda::PFCand;
 #pragma link C++ class panda::UnpackedPFCand;
 #pragma link C++ class panda::Parton;
 #pragma link C++ class panda::UnpackedGenParticle;
@@ -112,10 +112,6 @@
 #pragma link C++ class panda::Collection<panda::GenParticle>;
 #pragma link C++ class panda::Ref<panda::GenParticle>;
 #pragma link C++ class panda::RefVector<panda::GenParticle>;
-#pragma link C++ class panda::Array<panda::PFCand>;
-#pragma link C++ class panda::Collection<panda::PFCand>;
-#pragma link C++ class panda::Ref<panda::PFCand>;
-#pragma link C++ class panda::RefVector<panda::PFCand>;
 #pragma link C++ class panda::Array<panda::ParticleP>;
 #pragma link C++ class panda::Collection<panda::ParticleP>;
 #pragma link C++ class panda::Ref<panda::ParticleP>;
@@ -128,6 +124,10 @@
 #pragma link C++ class panda::Collection<panda::SecondaryVertex>;
 #pragma link C++ class panda::Ref<panda::SecondaryVertex>;
 #pragma link C++ class panda::RefVector<panda::SecondaryVertex>;
+#pragma link C++ class panda::Array<panda::PFCand>;
+#pragma link C++ class panda::Collection<panda::PFCand>;
+#pragma link C++ class panda::Ref<panda::PFCand>;
+#pragma link C++ class panda::RefVector<panda::PFCand>;
 #pragma link C++ class panda::Array<panda::UnpackedPFCand>;
 #pragma link C++ class panda::Collection<panda::UnpackedPFCand>;
 #pragma link C++ class panda::Ref<panda::UnpackedPFCand>;
@@ -216,10 +216,6 @@
 #pragma link C++ typedef panda::GenParticleCollection;
 #pragma link C++ typedef panda::GenParticleRef;
 #pragma link C++ typedef panda::GenParticleRefVector;
-#pragma link C++ typedef panda::PFCandArray;
-#pragma link C++ typedef panda::PFCandCollection;
-#pragma link C++ typedef panda::PFCandRef;
-#pragma link C++ typedef panda::PFCandRefVector;
 #pragma link C++ typedef panda::ParticlePArray;
 #pragma link C++ typedef panda::ParticlePCollection;
 #pragma link C++ typedef panda::ParticlePRef;
@@ -232,6 +228,10 @@
 #pragma link C++ typedef panda::SecondaryVertexCollection;
 #pragma link C++ typedef panda::SecondaryVertexRef;
 #pragma link C++ typedef panda::SecondaryVertexRefVector;
+#pragma link C++ typedef panda::PFCandArray;
+#pragma link C++ typedef panda::PFCandCollection;
+#pragma link C++ typedef panda::PFCandRef;
+#pragma link C++ typedef panda::PFCandRefVector;
 #pragma link C++ typedef panda::UnpackedPFCandArray;
 #pragma link C++ typedef panda::UnpackedPFCandCollection;
 #pragma link C++ typedef panda::UnpackedPFCandRef;

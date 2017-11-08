@@ -93,40 +93,6 @@ statusFlags/s
 parent/GenParticleRef
 bool testFlag(StatusFlag f) const { return ((statusFlags >> f) & 1) == 1; }
 
-[PFCand>PackedParticle]
-packedPuppiW/B
-packedPuppiWNoLepDiff/B
-ptype/b
-vertex/RecoVertexRef/!
-track/PackedTrackRef/!
-double puppiW() const { unpack_(); return puppiW_; }
-double puppiWNoLep() const { unpack_(); return puppiWNoLep_; }
-void setPuppiW(double w, double wnl);
-TLorentzVector puppiP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiW(), eta(), phi(), m() * puppiW()); return p4; }
-TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep(), eta(), phi(), m() * puppiWNoLep()); return p4; }
-int q() const { return q_[ptype]; }
-int pdgId() const { return pdgId_[ptype]; }
-TVector3 pca() const;
-double dxy(TVector3 const&) const;
-double dz(TVector3 const&) const;
-enum PType {
-  hp,
-  hm,
-  ep,
-  em,
-  mup,
-  mum,
-  gamma,
-  h0,
-  h_HF,
-  egamma_HF,
-  Xp,
-  Xm,
-  X
-};
-static const int q_[nPTypes] = {1, -1, 1, -1, 1, -1, 0, 0, 0, 0, 1, -1, 0};
-static const int pdgId_[nPTypes] = {211, -211, -11, 11, -13, 13, 22, 130, 1, 2, 0, 0, 0};
-
 [ParticleP>Particle]
 pt_/F
 eta_/F
@@ -180,6 +146,41 @@ ndof/F
 chi2/F
 double normChi2() const { return ndof != 0. ? chi2 / ndof : chi2 * 1.e+6; }
 % pfRangeMax/s ??
+
+[PFCand>PackedParticle]
+packedPuppiW/B
+packedPuppiWNoLepDiff/B
+ptype/b
+vertex/RecoVertexRef/!
+track/PackedTrackRef/!
+secondaryVertex/SecondaryVertexRef
+double puppiW() const { unpack_(); return puppiW_; }
+double puppiWNoLep() const { unpack_(); return puppiWNoLep_; }
+void setPuppiW(double w, double wnl);
+TLorentzVector puppiP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiW(), eta(), phi(), m() * puppiW()); return p4; }
+TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep(), eta(), phi(), m() * puppiWNoLep()); return p4; }
+int q() const { return q_[ptype]; }
+int pdgId() const { return pdgId_[ptype]; }
+TVector3 pca() const;
+double dxy(TVector3 const&) const;
+double dz(TVector3 const&) const;
+enum PType {
+  hp,
+  hm,
+  ep,
+  em,
+  mup,
+  mum,
+  gamma,
+  h0,
+  h_HF,
+  egamma_HF,
+  Xp,
+  Xm,
+  X
+};
+static const int q_[nPTypes] = {1, -1, 1, -1, 1, -1, 0, 0, 0, 0, 1, -1, 0};
+static const int pdgId_[nPTypes] = {211, -211, -11, 11, -13, 13, 22, 130, 1, 2, 0, 0, 0};
 
 [UnpackedPFCand>ParticleM]
 puppiW/B
@@ -565,6 +566,7 @@ metFilters/MetFilters
 recoil/Recoil
 pfCandidates.vertex->vertices
 pfCandidates.track->tracks
+pfCandidates.secondaryVertex->secondaryVertices
 electrons.superCluster->superClusters
 electrons.matchedPF->pfCandidates
 electrons.matchedGen->genParticles
