@@ -360,8 +360,16 @@ pdgid/S
 csv/F
 qgl/F
 cmva/F
-deepCsv/F
-deepCmva/F
+deepCSVudsg/F
+deepCSVb/F
+deepCSVc/F
+deepCSVbb/F
+deepCSVcc/F
+deepCMVAudsg/F
+deepCMVAb/F
+deepCMVAc/F
+deepCMVAbb/F
+deepCMVAcc/F
 
 [Jet>MicroJet]
 rawPt/F
