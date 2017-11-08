@@ -24,6 +24,9 @@ namespace panda {
       Float_t* mass_{0};
       */
       Short_t* pdgid{0};
+      Short_t* partonFlavor{0};
+      Short_t* numB{0};
+      Short_t* numC{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -53,6 +56,9 @@ namespace panda {
     void dump(std::ostream& = std::cout) const override;
 
     Short_t& pdgid;
+    Short_t& partonFlavor;
+    Short_t& numB;
+    Short_t& numC;
 
   protected:
     /* ParticleP

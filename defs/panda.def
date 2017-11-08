@@ -154,6 +154,7 @@ ptype/b
 vertex/RecoVertexRef/!
 track/PackedTrackRef/!
 secondaryVertex/SecondaryVertexRef
+hCalFrac/F
 double puppiW() const { unpack_(); return puppiW_; }
 double puppiWNoLep() const { unpack_(); return puppiWNoLep_; }
 void setPuppiW(double w, double wnl);
@@ -356,21 +357,13 @@ matchedGen/GenParticleRef
 
 [GenJet>ParticleM]
 pdgid/S
+partonFlavor/S
+numB/S
+numC/S
 
 [MicroJet>ParticleM]
 csv/F
 qgl/F
-cmva/F
-deepCSVudsg/F
-deepCSVb/F
-deepCSVc/F
-deepCSVbb/F
-deepCSVcc/F
-deepCMVAudsg/F
-deepCMVAb/F
-deepCMVAc/F
-deepCMVAbb/F
-deepCMVAcc/F
 
 [Jet>MicroJet]
 rawPt/F
@@ -393,6 +386,17 @@ constituents/PFCandRefVector
 vtx3DVal/F
 vtx3DeVal/F
 secondaryVertex/SecondaryVertexRef
+cmva/F
+deepCSVudsg/F
+deepCSVb/F
+deepCSVc/F
+deepCSVbb/F
+deepCSVcc/F
+deepCMVAudsg/F
+deepCMVAb/F
+deepCMVAc/F
+deepCMVAbb/F
+deepCMVAcc/F
 
 [FatJet>Jet]
 tau1/F

@@ -6,7 +6,7 @@ panda::GenJet::getListOfBranches()
 {
   utils::BranchList blist;
   blist += ParticleM::getListOfBranches();
-  blist += {"pdgid"};
+  blist += {"pdgid", "partonFlavor", "numB", "numC"};
   return blist;
 }
 
@@ -16,6 +16,9 @@ panda::GenJet::datastore::allocate(UInt_t _nmax)
   ParticleM::datastore::allocate(_nmax);
 
   pdgid = new Short_t[nmax_];
+  partonFlavor = new Short_t[nmax_];
+  numB = new Short_t[nmax_];
+  numC = new Short_t[nmax_];
 }
 
 void
@@ -25,6 +28,12 @@ panda::GenJet::datastore::deallocate()
 
   delete [] pdgid;
   pdgid = 0;
+  delete [] partonFlavor;
+  partonFlavor = 0;
+  delete [] numB;
+  numB = 0;
+  delete [] numC;
+  numC = 0;
 }
 
 void
@@ -33,6 +42,9 @@ panda::GenJet::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
   ParticleM::datastore::setStatus(_tree, _name, _branches);
 
   utils::setStatus(_tree, _name, "pdgid", _branches);
+  utils::setStatus(_tree, _name, "partonFlavor", _branches);
+  utils::setStatus(_tree, _name, "numB", _branches);
+  utils::setStatus(_tree, _name, "numC", _branches);
 }
 
 panda::utils::BranchList
@@ -41,6 +53,9 @@ panda::GenJet::datastore::getStatus(TTree& _tree, TString const& _name) const
   utils::BranchList blist(ParticleM::datastore::getStatus(_tree, _name));
 
   blist.push_back(utils::getStatus(_tree, _name, "pdgid"));
+  blist.push_back(utils::getStatus(_tree, _name, "partonFlavor"));
+  blist.push_back(utils::getStatus(_tree, _name, "numB"));
+  blist.push_back(utils::getStatus(_tree, _name, "numC"));
 
   return blist;
 }
@@ -51,6 +66,9 @@ panda::GenJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::
   ParticleM::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
   utils::setAddress(_tree, _name, "pdgid", pdgid, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "partonFlavor", partonFlavor, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "numB", numB, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "numC", numC, _branches, _setStatus);
 }
 
 void
@@ -61,6 +79,9 @@ panda::GenJet::datastore::book(TTree& _tree, TString const& _name, utils::Branch
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
   utils::book(_tree, _name, "pdgid", size, 'S', pdgid, _branches);
+  utils::book(_tree, _name, "partonFlavor", size, 'S', partonFlavor, _branches);
+  utils::book(_tree, _name, "numB", size, 'S', numB, _branches);
+  utils::book(_tree, _name, "numC", size, 'S', numC, _branches);
 }
 
 void
@@ -69,6 +90,9 @@ panda::GenJet::datastore::releaseTree(TTree& _tree, TString const& _name)
   ParticleM::datastore::releaseTree(_tree, _name);
 
   utils::resetAddress(_tree, _name, "pdgid");
+  utils::resetAddress(_tree, _name, "partonFlavor");
+  utils::resetAddress(_tree, _name, "numB");
+  utils::resetAddress(_tree, _name, "numC");
 }
 
 void
@@ -87,28 +111,43 @@ panda::GenJet::datastore::getBranchNames(TString const& _name/* = ""*/) const
 
 panda::GenJet::GenJet(char const* _name/* = ""*/) :
   ParticleM(new GenJetArray(1, _name)),
-  pdgid(gStore.getData(this).pdgid[0])
+  pdgid(gStore.getData(this).pdgid[0]),
+  partonFlavor(gStore.getData(this).partonFlavor[0]),
+  numB(gStore.getData(this).numB[0]),
+  numC(gStore.getData(this).numC[0])
 {
 }
 
 panda::GenJet::GenJet(GenJet const& _src) :
   ParticleM(new GenJetArray(1, _src.getName())),
-  pdgid(gStore.getData(this).pdgid[0])
+  pdgid(gStore.getData(this).pdgid[0]),
+  partonFlavor(gStore.getData(this).partonFlavor[0]),
+  numB(gStore.getData(this).numB[0]),
+  numC(gStore.getData(this).numC[0])
 {
   ParticleM::operator=(_src);
 
   pdgid = _src.pdgid;
+  partonFlavor = _src.partonFlavor;
+  numB = _src.numB;
+  numC = _src.numC;
 }
 
 panda::GenJet::GenJet(datastore& _data, UInt_t _idx) :
   ParticleM(_data, _idx),
-  pdgid(_data.pdgid[_idx])
+  pdgid(_data.pdgid[_idx]),
+  partonFlavor(_data.partonFlavor[_idx]),
+  numB(_data.numB[_idx]),
+  numC(_data.numC[_idx])
 {
 }
 
 panda::GenJet::GenJet(ArrayBase* _array) :
   ParticleM(_array),
-  pdgid(gStore.getData(this).pdgid[0])
+  pdgid(gStore.getData(this).pdgid[0]),
+  partonFlavor(gStore.getData(this).partonFlavor[0]),
+  numB(gStore.getData(this).numB[0]),
+  numC(gStore.getData(this).numC[0])
 {
 }
 
@@ -133,6 +172,9 @@ panda::GenJet::operator=(GenJet const& _src)
   ParticleM::operator=(_src);
 
   pdgid = _src.pdgid;
+  partonFlavor = _src.partonFlavor;
+  numB = _src.numB;
+  numC = _src.numC;
 
   /* BEGIN CUSTOM GenJet.cc.operator= */
   /* END CUSTOM */
@@ -146,6 +188,9 @@ panda::GenJet::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
   ParticleM::doBook_(_tree, _name, _branches);
 
   utils::book(_tree, _name, "pdgid", "", 'S', &pdgid, _branches);
+  utils::book(_tree, _name, "partonFlavor", "", 'S', &partonFlavor, _branches);
+  utils::book(_tree, _name, "numB", "", 'S', &numB, _branches);
+  utils::book(_tree, _name, "numC", "", 'S', &numC, _branches);
 }
 
 void
@@ -154,6 +199,9 @@ panda::GenJet::doInit_()
   ParticleM::doInit_();
 
   pdgid = 0;
+  partonFlavor = 0;
+  numB = 0;
+  numC = 0;
 
   /* BEGIN CUSTOM GenJet.cc.doInit_ */
   /* END CUSTOM */
@@ -173,6 +221,9 @@ panda::GenJet::dump(std::ostream& _out/* = std::cout*/) const
   ParticleM::dump(_out);
 
   _out << "pdgid = " << pdgid << std::endl;
+  _out << "partonFlavor = " << partonFlavor << std::endl;
+  _out << "numB = " << numB << std::endl;
+  _out << "numC = " << numC << std::endl;
 }
 
 /* BEGIN CUSTOM GenJet.cc.global */

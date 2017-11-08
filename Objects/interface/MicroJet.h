@@ -25,17 +25,6 @@ namespace panda {
       */
       Float_t* csv{0};
       Float_t* qgl{0};
-      Float_t* cmva{0};
-      Float_t* deepCSVudsg{0};
-      Float_t* deepCSVb{0};
-      Float_t* deepCSVc{0};
-      Float_t* deepCSVbb{0};
-      Float_t* deepCSVcc{0};
-      Float_t* deepCMVAudsg{0};
-      Float_t* deepCMVAb{0};
-      Float_t* deepCMVAc{0};
-      Float_t* deepCMVAbb{0};
-      Float_t* deepCMVAcc{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -66,17 +55,6 @@ namespace panda {
 
     Float_t& csv;
     Float_t& qgl;
-    Float_t& cmva;
-    Float_t& deepCSVudsg;
-    Float_t& deepCSVb;
-    Float_t& deepCSVc;
-    Float_t& deepCSVbb;
-    Float_t& deepCSVcc;
-    Float_t& deepCMVAudsg;
-    Float_t& deepCMVAb;
-    Float_t& deepCMVAc;
-    Float_t& deepCMVAbb;
-    Float_t& deepCMVAcc;
 
   protected:
     /* ParticleP
