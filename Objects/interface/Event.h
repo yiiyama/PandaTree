@@ -8,7 +8,6 @@
 #include "SecondaryVertex.h"
 #include "PackedTrack.h"
 #include "SuperCluster.h"
-#include "ParticleM.h"
 #include "Electron.h"
 #include "Muon.h"
 #include "Tau.h"
@@ -43,7 +42,6 @@ namespace panda {
     SecondaryVertexCollection secondaryVertices = SecondaryVertexCollection("secondaryVertices", 64);
     PackedTrackCollection tracks = PackedTrackCollection("tracks", 1024);
     SuperClusterCollection superClusters = SuperClusterCollection("superClusters", 64);
-    ParticleMCollection softTrackJets = ParticleMCollection("softTrackJets", 256);
     ElectronCollection electrons = ElectronCollection("electrons", 32);
     MuonCollection muons = MuonCollection("muons", 32);
     TauCollection taus = TauCollection("taus", 64);
