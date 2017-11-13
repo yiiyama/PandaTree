@@ -27,7 +27,7 @@ panda::PFCand::getListOfBranches()
 {
   utils::BranchList blist;
   blist += PackedParticle::getListOfBranches();
-  blist += {"packedPuppiW", "packedPuppiWNoLepDiff", "ptype", "secondaryVertex_", "hCalFrac"};
+  blist += {"packedPuppiW", "packedPuppiWNoLepDiff", "ptype", "hCalFrac"};
   return blist;
 }
 
@@ -41,7 +41,6 @@ panda::PFCand::datastore::allocate(UInt_t _nmax)
   ptype = new UChar_t[nmax_];
   vertex_ = new Short_t[nmax_];
   track_ = new Short_t[nmax_];
-  secondaryVertex_ = new Short_t[nmax_];
   hCalFrac = new Float_t[nmax_];
 }
 
@@ -60,8 +59,6 @@ panda::PFCand::datastore::deallocate()
   vertex_ = 0;
   delete [] track_;
   track_ = 0;
-  delete [] secondaryVertex_;
-  secondaryVertex_ = 0;
   delete [] hCalFrac;
   hCalFrac = 0;
 }
@@ -74,7 +71,6 @@ panda::PFCand::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
   utils::setStatus(_tree, _name, "packedPuppiW", _branches);
   utils::setStatus(_tree, _name, "packedPuppiWNoLepDiff", _branches);
   utils::setStatus(_tree, _name, "ptype", _branches);
-  utils::setStatus(_tree, _name, "secondaryVertex_", _branches);
   utils::setStatus(_tree, _name, "hCalFrac", _branches);
 }
 
@@ -86,7 +82,6 @@ panda::PFCand::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "packedPuppiW"));
   blist.push_back(utils::getStatus(_tree, _name, "packedPuppiWNoLepDiff"));
   blist.push_back(utils::getStatus(_tree, _name, "ptype"));
-  blist.push_back(utils::getStatus(_tree, _name, "secondaryVertex_"));
   blist.push_back(utils::getStatus(_tree, _name, "hCalFrac"));
 
   return blist;
@@ -100,7 +95,6 @@ panda::PFCand::datastore::setAddress(TTree& _tree, TString const& _name, utils::
   utils::setAddress(_tree, _name, "packedPuppiW", packedPuppiW, _branches, _setStatus);
   utils::setAddress(_tree, _name, "packedPuppiWNoLepDiff", packedPuppiWNoLepDiff, _branches, _setStatus);
   utils::setAddress(_tree, _name, "ptype", ptype, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "secondaryVertex_", secondaryVertex_, _branches, _setStatus);
   utils::setAddress(_tree, _name, "hCalFrac", hCalFrac, _branches, _setStatus);
 }
 
@@ -114,7 +108,6 @@ panda::PFCand::datastore::book(TTree& _tree, TString const& _name, utils::Branch
   utils::book(_tree, _name, "packedPuppiW", size, 'B', packedPuppiW, _branches);
   utils::book(_tree, _name, "packedPuppiWNoLepDiff", size, 'B', packedPuppiWNoLepDiff, _branches);
   utils::book(_tree, _name, "ptype", size, 'b', ptype, _branches);
-  utils::book(_tree, _name, "secondaryVertex_", size, 'S', secondaryVertex_, _branches);
   utils::book(_tree, _name, "hCalFrac", size, 'F', hCalFrac, _branches);
 }
 
@@ -126,7 +119,6 @@ panda::PFCand::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "packedPuppiW");
   utils::resetAddress(_tree, _name, "packedPuppiWNoLepDiff");
   utils::resetAddress(_tree, _name, "ptype");
-  utils::resetAddress(_tree, _name, "secondaryVertex_");
   utils::resetAddress(_tree, _name, "hCalFrac");
 }
 
@@ -151,7 +143,6 @@ panda::PFCand::PFCand(char const* _name/* = ""*/) :
   ptype(gStore.getData(this).ptype[0]),
   vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0]),
   track(gStore.getData(this).trackContainer_, gStore.getData(this).track_[0]),
-  secondaryVertex(gStore.getData(this).secondaryVertexContainer_, gStore.getData(this).secondaryVertex_[0]),
   hCalFrac(gStore.getData(this).hCalFrac[0])
 {
 }
@@ -163,7 +154,6 @@ panda::PFCand::PFCand(PFCand const& _src) :
   ptype(gStore.getData(this).ptype[0]),
   vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0]),
   track(gStore.getData(this).trackContainer_, gStore.getData(this).track_[0]),
-  secondaryVertex(gStore.getData(this).secondaryVertexContainer_, gStore.getData(this).secondaryVertex_[0]),
   hCalFrac(gStore.getData(this).hCalFrac[0])
 {
   PackedParticle::operator=(_src);
@@ -173,7 +163,6 @@ panda::PFCand::PFCand(PFCand const& _src) :
   ptype = _src.ptype;
   vertex = _src.vertex;
   track = _src.track;
-  secondaryVertex = _src.secondaryVertex;
   hCalFrac = _src.hCalFrac;
 }
 
@@ -184,7 +173,6 @@ panda::PFCand::PFCand(datastore& _data, UInt_t _idx) :
   ptype(_data.ptype[_idx]),
   vertex(_data.vertexContainer_, _data.vertex_[_idx]),
   track(_data.trackContainer_, _data.track_[_idx]),
-  secondaryVertex(_data.secondaryVertexContainer_, _data.secondaryVertex_[_idx]),
   hCalFrac(_data.hCalFrac[_idx])
 {
 }
@@ -196,7 +184,6 @@ panda::PFCand::PFCand(ArrayBase* _array) :
   ptype(gStore.getData(this).ptype[0]),
   vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0]),
   track(gStore.getData(this).trackContainer_, gStore.getData(this).track_[0]),
-  secondaryVertex(gStore.getData(this).secondaryVertexContainer_, gStore.getData(this).secondaryVertex_[0]),
   hCalFrac(gStore.getData(this).hCalFrac[0])
 {
 }
@@ -226,7 +213,6 @@ panda::PFCand::operator=(PFCand const& _src)
   ptype = _src.ptype;
   vertex = _src.vertex;
   track = _src.track;
-  secondaryVertex = _src.secondaryVertex;
   hCalFrac = _src.hCalFrac;
 
   /* BEGIN CUSTOM PFCand.cc.operator= */
@@ -243,7 +229,6 @@ panda::PFCand::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
   utils::book(_tree, _name, "packedPuppiW", "", 'B', &packedPuppiW, _branches);
   utils::book(_tree, _name, "packedPuppiWNoLepDiff", "", 'B', &packedPuppiWNoLepDiff, _branches);
   utils::book(_tree, _name, "ptype", "", 'b', &ptype, _branches);
-  utils::book(_tree, _name, "secondaryVertex_", "", 'S', gStore.getData(this).secondaryVertex_, _branches);
   utils::book(_tree, _name, "hCalFrac", "", 'F', &hCalFrac, _branches);
 }
 
@@ -257,7 +242,6 @@ panda::PFCand::doInit_()
   ptype = 0;
   vertex.init();
   track.init();
-  secondaryVertex.init();
   hCalFrac = 0.;
 
   /* BEGIN CUSTOM PFCand.cc.doInit_ */
@@ -282,7 +266,6 @@ panda::PFCand::dump(std::ostream& _out/* = std::cout*/) const
   _out << "ptype = " << ptype << std::endl;
   _out << "vertex = " << vertex << std::endl;
   _out << "track = " << track << std::endl;
-  _out << "secondaryVertex = " << secondaryVertex << std::endl;
   _out << "hCalFrac = " << hCalFrac << std::endl;
 }
 

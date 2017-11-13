@@ -10,7 +10,7 @@ panda::Event::Event() :
 
   pfCandidates.data.vertexContainer_ = &vertices;
   pfCandidates.data.trackContainer_ = &tracks;
-  pfCandidates.data.secondaryVertexContainer_ = &secondaryVertices;
+  secondaryVertices.data.daughtersContainer_ = &pfCandidates;
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedPFContainer_ = &pfCandidates;
   electrons.data.matchedGenContainer_ = &genParticles;
@@ -101,7 +101,7 @@ panda::Event::Event(Event const& _src) :
 
   pfCandidates.data.vertexContainer_ = &vertices;
   pfCandidates.data.trackContainer_ = &tracks;
-  pfCandidates.data.secondaryVertexContainer_ = &secondaryVertices;
+  secondaryVertices.data.daughtersContainer_ = &pfCandidates;
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedPFContainer_ = &pfCandidates;
   electrons.data.matchedGenContainer_ = &genParticles;
@@ -199,7 +199,7 @@ panda::Event::operator=(Event const& _src)
 
   pfCandidates.data.vertexContainer_ = &vertices;
   pfCandidates.data.trackContainer_ = &tracks;
-  pfCandidates.data.secondaryVertexContainer_ = &secondaryVertices;
+  secondaryVertices.data.daughtersContainer_ = &pfCandidates;
   electrons.data.superClusterContainer_ = &superClusters;
   electrons.data.matchedPFContainer_ = &pfCandidates;
   electrons.data.matchedGenContainer_ = &genParticles;

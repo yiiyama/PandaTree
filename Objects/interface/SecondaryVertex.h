@@ -6,6 +6,7 @@
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
+#include "PFCand.h"
 
 namespace panda {
 
@@ -29,6 +30,8 @@ namespace panda {
       UShort_t* ntrk{0};
       Float_t* ndof{0};
       Float_t* chi2{0};
+      ContainerBase const* daughtersContainer_{0};
+      std::vector<std::vector<Short_t>>* daughters_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -66,6 +69,7 @@ namespace panda {
     UShort_t& ntrk;
     Float_t& ndof;
     Float_t& chi2;
+    RefVector<PFCand> daughters;
 
   protected:
     /* ParticleP

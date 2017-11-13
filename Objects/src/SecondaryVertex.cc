@@ -6,7 +6,7 @@ panda::SecondaryVertex::getListOfBranches()
 {
   utils::BranchList blist;
   blist += ParticleM::getListOfBranches();
-  blist += {"x", "y", "z", "ntrk", "ndof", "chi2"};
+  blist += {"x", "y", "z", "ntrk", "ndof", "chi2", "daughters_"};
   return blist;
 }
 
@@ -21,6 +21,7 @@ panda::SecondaryVertex::datastore::allocate(UInt_t _nmax)
   ntrk = new UShort_t[nmax_];
   ndof = new Float_t[nmax_];
   chi2 = new Float_t[nmax_];
+  daughters_ = new std::vector<std::vector<Short_t>>(nmax_);
 }
 
 void
@@ -40,6 +41,8 @@ panda::SecondaryVertex::datastore::deallocate()
   ndof = 0;
   delete [] chi2;
   chi2 = 0;
+  delete daughters_;
+  daughters_ = 0;
 }
 
 void
@@ -53,6 +56,7 @@ panda::SecondaryVertex::datastore::setStatus(TTree& _tree, TString const& _name,
   utils::setStatus(_tree, _name, "ntrk", _branches);
   utils::setStatus(_tree, _name, "ndof", _branches);
   utils::setStatus(_tree, _name, "chi2", _branches);
+  utils::setStatus(_tree, _name, "daughters_", _branches);
 }
 
 panda::utils::BranchList
@@ -66,6 +70,7 @@ panda::SecondaryVertex::datastore::getStatus(TTree& _tree, TString const& _name)
   blist.push_back(utils::getStatus(_tree, _name, "ntrk"));
   blist.push_back(utils::getStatus(_tree, _name, "ndof"));
   blist.push_back(utils::getStatus(_tree, _name, "chi2"));
+  blist.push_back(utils::getStatus(_tree, _name, "daughters_"));
 
   return blist;
 }
@@ -81,6 +86,7 @@ panda::SecondaryVertex::datastore::setAddress(TTree& _tree, TString const& _name
   utils::setAddress(_tree, _name, "ntrk", ntrk, _branches, _setStatus);
   utils::setAddress(_tree, _name, "ndof", ndof, _branches, _setStatus);
   utils::setAddress(_tree, _name, "chi2", chi2, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "daughters_", &daughters_, _branches, _setStatus);
 }
 
 void
@@ -96,6 +102,7 @@ panda::SecondaryVertex::datastore::book(TTree& _tree, TString const& _name, util
   utils::book(_tree, _name, "ntrk", size, 's', ntrk, _branches);
   utils::book(_tree, _name, "ndof", size, 'F', ndof, _branches);
   utils::book(_tree, _name, "chi2", size, 'F', chi2, _branches);
+  utils::book(_tree, _name, "daughters_", "std::vector<std::vector<Short_t>>", &daughters_, _branches);
 }
 
 void
@@ -109,6 +116,7 @@ panda::SecondaryVertex::datastore::releaseTree(TTree& _tree, TString const& _nam
   utils::resetAddress(_tree, _name, "ntrk");
   utils::resetAddress(_tree, _name, "ndof");
   utils::resetAddress(_tree, _name, "chi2");
+  utils::resetAddress(_tree, _name, "daughters_");
 }
 
 void
@@ -116,6 +124,7 @@ panda::SecondaryVertex::datastore::resizeVectors_(UInt_t _size)
 {
   ParticleM::datastore::resizeVectors_(_size);
 
+  daughters_->resize(_size);
 }
 
 
@@ -132,7 +141,8 @@ panda::SecondaryVertex::SecondaryVertex(char const* _name/* = ""*/) :
   z(gStore.getData(this).z[0]),
   ntrk(gStore.getData(this).ntrk[0]),
   ndof(gStore.getData(this).ndof[0]),
-  chi2(gStore.getData(this).chi2[0])
+  chi2(gStore.getData(this).chi2[0]),
+  daughters(gStore.getData(this).daughtersContainer_, (*gStore.getData(this).daughters_)[0])
 {
 }
 
@@ -143,7 +153,8 @@ panda::SecondaryVertex::SecondaryVertex(SecondaryVertex const& _src) :
   z(gStore.getData(this).z[0]),
   ntrk(gStore.getData(this).ntrk[0]),
   ndof(gStore.getData(this).ndof[0]),
-  chi2(gStore.getData(this).chi2[0])
+  chi2(gStore.getData(this).chi2[0]),
+  daughters(gStore.getData(this).daughtersContainer_, (*gStore.getData(this).daughters_)[0])
 {
   ParticleM::operator=(_src);
 
@@ -153,6 +164,7 @@ panda::SecondaryVertex::SecondaryVertex(SecondaryVertex const& _src) :
   ntrk = _src.ntrk;
   ndof = _src.ndof;
   chi2 = _src.chi2;
+  daughters = _src.daughters;
 }
 
 panda::SecondaryVertex::SecondaryVertex(datastore& _data, UInt_t _idx) :
@@ -162,7 +174,8 @@ panda::SecondaryVertex::SecondaryVertex(datastore& _data, UInt_t _idx) :
   z(_data.z[_idx]),
   ntrk(_data.ntrk[_idx]),
   ndof(_data.ndof[_idx]),
-  chi2(_data.chi2[_idx])
+  chi2(_data.chi2[_idx]),
+  daughters(_data.daughtersContainer_, (*_data.daughters_)[_idx])
 {
 }
 
@@ -173,7 +186,8 @@ panda::SecondaryVertex::SecondaryVertex(ArrayBase* _array) :
   z(gStore.getData(this).z[0]),
   ntrk(gStore.getData(this).ntrk[0]),
   ndof(gStore.getData(this).ndof[0]),
-  chi2(gStore.getData(this).chi2[0])
+  chi2(gStore.getData(this).chi2[0]),
+  daughters(gStore.getData(this).daughtersContainer_, (*gStore.getData(this).daughters_)[0])
 {
 }
 
@@ -203,6 +217,7 @@ panda::SecondaryVertex::operator=(SecondaryVertex const& _src)
   ntrk = _src.ntrk;
   ndof = _src.ndof;
   chi2 = _src.chi2;
+  daughters = _src.daughters;
 
   /* BEGIN CUSTOM SecondaryVertex.cc.operator= */
   /* END CUSTOM */
@@ -221,6 +236,7 @@ panda::SecondaryVertex::doBook_(TTree& _tree, TString const& _name, utils::Branc
   utils::book(_tree, _name, "ntrk", "", 's', &ntrk, _branches);
   utils::book(_tree, _name, "ndof", "", 'F', &ndof, _branches);
   utils::book(_tree, _name, "chi2", "", 'F', &chi2, _branches);
+  utils::book(_tree, _name, "daughters_", "std::vector<Short_t>", &daughters.indices(), _branches);
 }
 
 void
@@ -234,6 +250,7 @@ panda::SecondaryVertex::doInit_()
   ntrk = 0;
   ndof = 0.;
   chi2 = 0.;
+  daughters.init();
 
   /* BEGIN CUSTOM SecondaryVertex.cc.doInit_ */
   /* END CUSTOM */
@@ -258,6 +275,7 @@ panda::SecondaryVertex::dump(std::ostream& _out/* = std::cout*/) const
   _out << "ntrk = " << ntrk << std::endl;
   _out << "ndof = " << ndof << std::endl;
   _out << "chi2 = " << chi2 << std::endl;
+  _out << "daughters = " << daughters << std::endl;
 }
 
 
