@@ -8,6 +8,7 @@
 #include "../../Framework/interface/RefVector.h"
 #include "GenJet.h"
 #include "PFCand.h"
+#include "SecondaryVertex.h"
 
 namespace panda {
 
@@ -28,6 +29,17 @@ namespace panda {
       /* MicroJet
       Float_t* csv{0};
       Float_t* qgl{0};
+      Float_t* cmva{0};
+      Float_t* deepCSVudsg{0};
+      Float_t* deepCSVb{0};
+      Float_t* deepCSVc{0};
+      Float_t* deepCSVbb{0};
+      Float_t* deepCSVcc{0};
+      Float_t* deepCMVAudsg{0};
+      Float_t* deepCMVAb{0};
+      Float_t* deepCMVAc{0};
+      Float_t* deepCMVAbb{0};
+      Float_t* deepCMVAcc{0};
       */
       Float_t* rawPt{0};
       Float_t* ptCorrUp{0};
@@ -48,6 +60,10 @@ namespace panda {
       Short_t* matchedGenJet_{0};
       ContainerBase const* constituentsContainer_{0};
       std::vector<std::vector<Short_t>>* constituents_{0};
+      Float_t* vtx3DVal{0};
+      Float_t* vtx3DeVal{0};
+      ContainerBase const* secondaryVertexContainer_{0};
+      Short_t* secondaryVertex_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -79,6 +95,17 @@ namespace panda {
     /* MicroJet
     Float_t& csv;
     Float_t& qgl;
+    Float_t& cmva;
+    Float_t& deepCSVudsg;
+    Float_t& deepCSVb;
+    Float_t& deepCSVc;
+    Float_t& deepCSVbb;
+    Float_t& deepCSVcc;
+    Float_t& deepCMVAudsg;
+    Float_t& deepCMVAb;
+    Float_t& deepCMVAc;
+    Float_t& deepCMVAbb;
+    Float_t& deepCMVAcc;
     */
     Float_t& rawPt;
     Float_t& ptCorrUp;
@@ -97,6 +124,9 @@ namespace panda {
     Bool_t& monojet;
     Ref<GenJet> matchedGenJet;
     RefVector<PFCand> constituents;
+    Float_t& vtx3DVal;
+    Float_t& vtx3DeVal;
+    Ref<SecondaryVertex> secondaryVertex;
 
   protected:
     /* ParticleP

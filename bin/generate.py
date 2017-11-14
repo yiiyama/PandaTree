@@ -3,7 +3,7 @@
 import sys
 import os
 from argparse import ArgumentParser
-thisdir = os.path.dirname(os.path.realpath(__file__))
+thisdir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.append(thisdir + '/lib')
 from panda import *
 

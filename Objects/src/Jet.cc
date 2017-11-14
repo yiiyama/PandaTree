@@ -6,7 +6,7 @@ panda::Jet::getListOfBranches()
 {
   utils::BranchList blist;
   blist += MicroJet::getListOfBranches();
-  blist += {"rawPt", "ptCorrUp", "ptCorrDown", "ptSmear", "ptSmearUp", "ptSmearDown", "area", "nhf", "chf", "cef", "nef", "puid", "loose", "tight", "monojet", "matchedGenJet_", "constituents_"};
+  blist += {"rawPt", "ptCorrUp", "ptCorrDown", "ptSmear", "ptSmearUp", "ptSmearDown", "area", "nhf", "chf", "cef", "nef", "puid", "loose", "tight", "monojet", "matchedGenJet_", "constituents_", "vtx3DVal", "vtx3DeVal", "secondaryVertex_"};
   return blist;
 }
 
@@ -32,6 +32,9 @@ panda::Jet::datastore::allocate(UInt_t _nmax)
   monojet = new Bool_t[nmax_];
   matchedGenJet_ = new Short_t[nmax_];
   constituents_ = new std::vector<std::vector<Short_t>>(nmax_);
+  vtx3DVal = new Float_t[nmax_];
+  vtx3DeVal = new Float_t[nmax_];
+  secondaryVertex_ = new Short_t[nmax_];
 }
 
 void
@@ -73,6 +76,12 @@ panda::Jet::datastore::deallocate()
   matchedGenJet_ = 0;
   delete constituents_;
   constituents_ = 0;
+  delete [] vtx3DVal;
+  vtx3DVal = 0;
+  delete [] vtx3DeVal;
+  vtx3DeVal = 0;
+  delete [] secondaryVertex_;
+  secondaryVertex_ = 0;
 }
 
 void
@@ -97,6 +106,9 @@ panda::Jet::datastore::setStatus(TTree& _tree, TString const& _name, utils::Bran
   utils::setStatus(_tree, _name, "monojet", _branches);
   utils::setStatus(_tree, _name, "matchedGenJet_", _branches);
   utils::setStatus(_tree, _name, "constituents_", _branches);
+  utils::setStatus(_tree, _name, "vtx3DVal", _branches);
+  utils::setStatus(_tree, _name, "vtx3DeVal", _branches);
+  utils::setStatus(_tree, _name, "secondaryVertex_", _branches);
 }
 
 panda::utils::BranchList
@@ -121,6 +133,9 @@ panda::Jet::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "monojet"));
   blist.push_back(utils::getStatus(_tree, _name, "matchedGenJet_"));
   blist.push_back(utils::getStatus(_tree, _name, "constituents_"));
+  blist.push_back(utils::getStatus(_tree, _name, "vtx3DVal"));
+  blist.push_back(utils::getStatus(_tree, _name, "vtx3DeVal"));
+  blist.push_back(utils::getStatus(_tree, _name, "secondaryVertex_"));
 
   return blist;
 }
@@ -147,6 +162,9 @@ panda::Jet::datastore::setAddress(TTree& _tree, TString const& _name, utils::Bra
   utils::setAddress(_tree, _name, "monojet", monojet, _branches, _setStatus);
   utils::setAddress(_tree, _name, "matchedGenJet_", matchedGenJet_, _branches, _setStatus);
   utils::setAddress(_tree, _name, "constituents_", &constituents_, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "vtx3DVal", vtx3DVal, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "vtx3DeVal", vtx3DeVal, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "secondaryVertex_", secondaryVertex_, _branches, _setStatus);
 }
 
 void
@@ -173,6 +191,9 @@ panda::Jet::datastore::book(TTree& _tree, TString const& _name, utils::BranchLis
   utils::book(_tree, _name, "monojet", size, 'O', monojet, _branches);
   utils::book(_tree, _name, "matchedGenJet_", size, 'S', matchedGenJet_, _branches);
   utils::book(_tree, _name, "constituents_", "std::vector<std::vector<Short_t>>", &constituents_, _branches);
+  utils::book(_tree, _name, "vtx3DVal", size, 'F', vtx3DVal, _branches);
+  utils::book(_tree, _name, "vtx3DeVal", size, 'F', vtx3DeVal, _branches);
+  utils::book(_tree, _name, "secondaryVertex_", size, 'S', secondaryVertex_, _branches);
 }
 
 void
@@ -197,6 +218,9 @@ panda::Jet::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "monojet");
   utils::resetAddress(_tree, _name, "matchedGenJet_");
   utils::resetAddress(_tree, _name, "constituents_");
+  utils::resetAddress(_tree, _name, "vtx3DVal");
+  utils::resetAddress(_tree, _name, "vtx3DeVal");
+  utils::resetAddress(_tree, _name, "secondaryVertex_");
 }
 
 void
@@ -232,7 +256,10 @@ panda::Jet::Jet(char const* _name/* = ""*/) :
   tight(gStore.getData(this).tight[0]),
   monojet(gStore.getData(this).monojet[0]),
   matchedGenJet(gStore.getData(this).matchedGenJetContainer_, gStore.getData(this).matchedGenJet_[0]),
-  constituents(gStore.getData(this).constituentsContainer_, (*gStore.getData(this).constituents_)[0])
+  constituents(gStore.getData(this).constituentsContainer_, (*gStore.getData(this).constituents_)[0]),
+  vtx3DVal(gStore.getData(this).vtx3DVal[0]),
+  vtx3DeVal(gStore.getData(this).vtx3DeVal[0]),
+  secondaryVertex(gStore.getData(this).secondaryVertexContainer_, gStore.getData(this).secondaryVertex_[0])
 {
 }
 
@@ -254,7 +281,10 @@ panda::Jet::Jet(Jet const& _src) :
   tight(gStore.getData(this).tight[0]),
   monojet(gStore.getData(this).monojet[0]),
   matchedGenJet(gStore.getData(this).matchedGenJetContainer_, gStore.getData(this).matchedGenJet_[0]),
-  constituents(gStore.getData(this).constituentsContainer_, (*gStore.getData(this).constituents_)[0])
+  constituents(gStore.getData(this).constituentsContainer_, (*gStore.getData(this).constituents_)[0]),
+  vtx3DVal(gStore.getData(this).vtx3DVal[0]),
+  vtx3DeVal(gStore.getData(this).vtx3DeVal[0]),
+  secondaryVertex(gStore.getData(this).secondaryVertexContainer_, gStore.getData(this).secondaryVertex_[0])
 {
   MicroJet::operator=(_src);
 
@@ -275,6 +305,9 @@ panda::Jet::Jet(Jet const& _src) :
   monojet = _src.monojet;
   matchedGenJet = _src.matchedGenJet;
   constituents = _src.constituents;
+  vtx3DVal = _src.vtx3DVal;
+  vtx3DeVal = _src.vtx3DeVal;
+  secondaryVertex = _src.secondaryVertex;
 }
 
 panda::Jet::Jet(datastore& _data, UInt_t _idx) :
@@ -295,7 +328,10 @@ panda::Jet::Jet(datastore& _data, UInt_t _idx) :
   tight(_data.tight[_idx]),
   monojet(_data.monojet[_idx]),
   matchedGenJet(_data.matchedGenJetContainer_, _data.matchedGenJet_[_idx]),
-  constituents(_data.constituentsContainer_, (*_data.constituents_)[_idx])
+  constituents(_data.constituentsContainer_, (*_data.constituents_)[_idx]),
+  vtx3DVal(_data.vtx3DVal[_idx]),
+  vtx3DeVal(_data.vtx3DeVal[_idx]),
+  secondaryVertex(_data.secondaryVertexContainer_, _data.secondaryVertex_[_idx])
 {
 }
 
@@ -317,7 +353,10 @@ panda::Jet::Jet(ArrayBase* _array) :
   tight(gStore.getData(this).tight[0]),
   monojet(gStore.getData(this).monojet[0]),
   matchedGenJet(gStore.getData(this).matchedGenJetContainer_, gStore.getData(this).matchedGenJet_[0]),
-  constituents(gStore.getData(this).constituentsContainer_, (*gStore.getData(this).constituents_)[0])
+  constituents(gStore.getData(this).constituentsContainer_, (*gStore.getData(this).constituents_)[0]),
+  vtx3DVal(gStore.getData(this).vtx3DVal[0]),
+  vtx3DeVal(gStore.getData(this).vtx3DeVal[0]),
+  secondaryVertex(gStore.getData(this).secondaryVertexContainer_, gStore.getData(this).secondaryVertex_[0])
 {
 }
 
@@ -358,6 +397,9 @@ panda::Jet::operator=(Jet const& _src)
   monojet = _src.monojet;
   matchedGenJet = _src.matchedGenJet;
   constituents = _src.constituents;
+  vtx3DVal = _src.vtx3DVal;
+  vtx3DeVal = _src.vtx3DeVal;
+  secondaryVertex = _src.secondaryVertex;
 
   /* BEGIN CUSTOM Jet.cc.operator= */
   /* END CUSTOM */
@@ -387,6 +429,9 @@ panda::Jet::doBook_(TTree& _tree, TString const& _name, utils::BranchList const&
   utils::book(_tree, _name, "monojet", "", 'O', &monojet, _branches);
   utils::book(_tree, _name, "matchedGenJet_", "", 'S', gStore.getData(this).matchedGenJet_, _branches);
   utils::book(_tree, _name, "constituents_", "std::vector<Short_t>", &constituents.indices(), _branches);
+  utils::book(_tree, _name, "vtx3DVal", "", 'F', &vtx3DVal, _branches);
+  utils::book(_tree, _name, "vtx3DeVal", "", 'F', &vtx3DeVal, _branches);
+  utils::book(_tree, _name, "secondaryVertex_", "", 'S', gStore.getData(this).secondaryVertex_, _branches);
 }
 
 void
@@ -411,6 +456,9 @@ panda::Jet::doInit_()
   monojet = false;
   matchedGenJet.init();
   constituents.init();
+  vtx3DVal = 0.;
+  vtx3DeVal = 0.;
+  secondaryVertex.init();
 
   /* BEGIN CUSTOM Jet.cc.doInit_ */
   /* END CUSTOM */
@@ -462,6 +510,9 @@ panda::Jet::dump(std::ostream& _out/* = std::cout*/) const
   _out << "monojet = " << monojet << std::endl;
   _out << "matchedGenJet = " << matchedGenJet << std::endl;
   _out << "constituents = " << constituents << std::endl;
+  _out << "vtx3DVal = " << vtx3DVal << std::endl;
+  _out << "vtx3DeVal = " << vtx3DeVal << std::endl;
+  _out << "secondaryVertex = " << secondaryVertex << std::endl;
 }
 
 /* BEGIN CUSTOM Jet.cc.global */
