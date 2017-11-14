@@ -19,7 +19,7 @@ namespace panda {
     HLTObjectStore& operator=(HLTObjectStore const&);
 
     void makeMap(std::vector<TString> const& filters);
-    HLTObjectVector const& filterObjects(char const* filter) const { return filterObjects_.at(filter); }
+    HLTObjectVector const& filterObjects(char const* filter) const;
 
   protected:
     std::map<TString, HLTObjectVector> filterObjects_{};
