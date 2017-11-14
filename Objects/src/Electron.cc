@@ -19,7 +19,7 @@ panda::Electron::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Lepton::getListOfBranches();
-  blist += {"chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "trackIso", "isoPUOffset", "sieie", "sipip", "dEtaInSeed", "dPhiIn", "eseed", "hOverE", "ecalE", "trackP", "regPt", "smearedPt", "nMissingHits", "veto", "conversionVeto", "tripleCharge", "triggerMatch", "superCluster_"};
+  blist += {"chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "trackIso", "isoPUOffset", "sieie", "sipip", "r9", "dEtaInSeed", "dPhiIn", "eseed", "hOverE", "ecalE", "trackP", "regPt", "smearedPt", "nMissingHits", "veto", "conversionVeto", "tripleCharge", "triggerMatch", "superCluster_"};
   return blist;
 }
 
@@ -37,6 +37,7 @@ panda::Electron::datastore::allocate(UInt_t _nmax)
   isoPUOffset = new Float_t[nmax_];
   sieie = new Float_t[nmax_];
   sipip = new Float_t[nmax_];
+  r9 = new Float_t[nmax_];
   dEtaInSeed = new Float_t[nmax_];
   dPhiIn = new Float_t[nmax_];
   eseed = new Float_t[nmax_];
@@ -76,6 +77,8 @@ panda::Electron::datastore::deallocate()
   sieie = 0;
   delete [] sipip;
   sipip = 0;
+  delete [] r9;
+  r9 = 0;
   delete [] dEtaInSeed;
   dEtaInSeed = 0;
   delete [] dPhiIn;
@@ -120,6 +123,7 @@ panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, utils:
   utils::setStatus(_tree, _name, "isoPUOffset", _branches);
   utils::setStatus(_tree, _name, "sieie", _branches);
   utils::setStatus(_tree, _name, "sipip", _branches);
+  utils::setStatus(_tree, _name, "r9", _branches);
   utils::setStatus(_tree, _name, "dEtaInSeed", _branches);
   utils::setStatus(_tree, _name, "dPhiIn", _branches);
   utils::setStatus(_tree, _name, "eseed", _branches);
@@ -150,6 +154,7 @@ panda::Electron::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "isoPUOffset"));
   blist.push_back(utils::getStatus(_tree, _name, "sieie"));
   blist.push_back(utils::getStatus(_tree, _name, "sipip"));
+  blist.push_back(utils::getStatus(_tree, _name, "r9"));
   blist.push_back(utils::getStatus(_tree, _name, "dEtaInSeed"));
   blist.push_back(utils::getStatus(_tree, _name, "dPhiIn"));
   blist.push_back(utils::getStatus(_tree, _name, "eseed"));
@@ -182,6 +187,7 @@ panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils
   utils::setAddress(_tree, _name, "isoPUOffset", isoPUOffset, _branches, _setStatus);
   utils::setAddress(_tree, _name, "sieie", sieie, _branches, _setStatus);
   utils::setAddress(_tree, _name, "sipip", sipip, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "r9", r9, _branches, _setStatus);
   utils::setAddress(_tree, _name, "dEtaInSeed", dEtaInSeed, _branches, _setStatus);
   utils::setAddress(_tree, _name, "dPhiIn", dPhiIn, _branches, _setStatus);
   utils::setAddress(_tree, _name, "eseed", eseed, _branches, _setStatus);
@@ -214,6 +220,7 @@ panda::Electron::datastore::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "isoPUOffset", size, 'F', isoPUOffset, _branches);
   utils::book(_tree, _name, "sieie", size, 'F', sieie, _branches);
   utils::book(_tree, _name, "sipip", size, 'F', sipip, _branches);
+  utils::book(_tree, _name, "r9", size, 'F', r9, _branches);
   utils::book(_tree, _name, "dEtaInSeed", size, 'F', dEtaInSeed, _branches);
   utils::book(_tree, _name, "dPhiIn", size, 'F', dPhiIn, _branches);
   utils::book(_tree, _name, "eseed", size, 'F', eseed, _branches);
@@ -244,6 +251,7 @@ panda::Electron::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "isoPUOffset");
   utils::resetAddress(_tree, _name, "sieie");
   utils::resetAddress(_tree, _name, "sipip");
+  utils::resetAddress(_tree, _name, "r9");
   utils::resetAddress(_tree, _name, "dEtaInSeed");
   utils::resetAddress(_tree, _name, "dPhiIn");
   utils::resetAddress(_tree, _name, "eseed");
@@ -285,6 +293,7 @@ panda::Electron::Electron(char const* _name/* = ""*/) :
   isoPUOffset(gStore.getData(this).isoPUOffset[0]),
   sieie(gStore.getData(this).sieie[0]),
   sipip(gStore.getData(this).sipip[0]),
+  r9(gStore.getData(this).r9[0]),
   dEtaInSeed(gStore.getData(this).dEtaInSeed[0]),
   dPhiIn(gStore.getData(this).dPhiIn[0]),
   eseed(gStore.getData(this).eseed[0]),
@@ -313,6 +322,7 @@ panda::Electron::Electron(Electron const& _src) :
   isoPUOffset(gStore.getData(this).isoPUOffset[0]),
   sieie(gStore.getData(this).sieie[0]),
   sipip(gStore.getData(this).sipip[0]),
+  r9(gStore.getData(this).r9[0]),
   dEtaInSeed(gStore.getData(this).dEtaInSeed[0]),
   dPhiIn(gStore.getData(this).dPhiIn[0]),
   eseed(gStore.getData(this).eseed[0]),
@@ -339,6 +349,7 @@ panda::Electron::Electron(Electron const& _src) :
   isoPUOffset = _src.isoPUOffset;
   sieie = _src.sieie;
   sipip = _src.sipip;
+  r9 = _src.r9;
   dEtaInSeed = _src.dEtaInSeed;
   dPhiIn = _src.dPhiIn;
   eseed = _src.eseed;
@@ -366,6 +377,7 @@ panda::Electron::Electron(datastore& _data, UInt_t _idx) :
   isoPUOffset(_data.isoPUOffset[_idx]),
   sieie(_data.sieie[_idx]),
   sipip(_data.sipip[_idx]),
+  r9(_data.r9[_idx]),
   dEtaInSeed(_data.dEtaInSeed[_idx]),
   dPhiIn(_data.dPhiIn[_idx]),
   eseed(_data.eseed[_idx]),
@@ -394,6 +406,7 @@ panda::Electron::Electron(ArrayBase* _array) :
   isoPUOffset(gStore.getData(this).isoPUOffset[0]),
   sieie(gStore.getData(this).sieie[0]),
   sipip(gStore.getData(this).sipip[0]),
+  r9(gStore.getData(this).r9[0]),
   dEtaInSeed(gStore.getData(this).dEtaInSeed[0]),
   dPhiIn(gStore.getData(this).dPhiIn[0]),
   eseed(gStore.getData(this).eseed[0]),
@@ -440,6 +453,7 @@ panda::Electron::operator=(Electron const& _src)
   isoPUOffset = _src.isoPUOffset;
   sieie = _src.sieie;
   sipip = _src.sipip;
+  r9 = _src.r9;
   dEtaInSeed = _src.dEtaInSeed;
   dPhiIn = _src.dPhiIn;
   eseed = _src.eseed;
@@ -475,6 +489,7 @@ panda::Electron::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
   utils::book(_tree, _name, "isoPUOffset", "", 'F', &isoPUOffset, _branches);
   utils::book(_tree, _name, "sieie", "", 'F', &sieie, _branches);
   utils::book(_tree, _name, "sipip", "", 'F', &sipip, _branches);
+  utils::book(_tree, _name, "r9", "", 'F', &r9, _branches);
   utils::book(_tree, _name, "dEtaInSeed", "", 'F', &dEtaInSeed, _branches);
   utils::book(_tree, _name, "dPhiIn", "", 'F', &dPhiIn, _branches);
   utils::book(_tree, _name, "eseed", "", 'F', &eseed, _branches);
@@ -505,6 +520,7 @@ panda::Electron::doInit_()
   isoPUOffset = 0.;
   sieie = 0.;
   sipip = 0.;
+  r9 = 0.;
   dEtaInSeed = 0.;
   dPhiIn = 0.;
   eseed = 0.;
@@ -564,6 +580,7 @@ panda::Electron::dump(std::ostream& _out/* = std::cout*/) const
   _out << "isoPUOffset = " << isoPUOffset << std::endl;
   _out << "sieie = " << sieie << std::endl;
   _out << "sipip = " << sipip << std::endl;
+  _out << "r9 = " << r9 << std::endl;
   _out << "dEtaInSeed = " << dEtaInSeed << std::endl;
   _out << "dPhiIn = " << dPhiIn << std::endl;
   _out << "eseed = " << eseed << std::endl;

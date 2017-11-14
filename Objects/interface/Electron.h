@@ -66,6 +66,7 @@ namespace panda {
       Float_t* isoPUOffset{0};
       Float_t* sieie{0};
       Float_t* sipip{0};
+      Float_t* r9{0};
       Float_t* dEtaInSeed{0};
       Float_t* dPhiIn{0};
       Float_t* eseed{0};
@@ -138,6 +139,7 @@ namespace panda {
     Float_t& isoPUOffset;
     Float_t& sieie;
     Float_t& sipip;
+    Float_t& r9;
     Float_t& dEtaInSeed;
     Float_t& dPhiIn;
     Float_t& eseed;
