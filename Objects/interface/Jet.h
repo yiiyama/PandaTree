@@ -60,8 +60,6 @@ namespace panda {
       Short_t* matchedGenJet_{0};
       ContainerBase const* constituentsContainer_{0};
       std::vector<std::vector<Short_t>>* constituents_{0};
-      Float_t* vtx3DVal{0};
-      Float_t* vtx3DeVal{0};
       ContainerBase const* secondaryVertexContainer_{0};
       Short_t* secondaryVertex_{0};
 
@@ -124,8 +122,6 @@ namespace panda {
     Bool_t& monojet;
     Ref<GenJet> matchedGenJet;
     RefVector<PFCand> constituents;
-    Float_t& vtx3DVal;
-    Float_t& vtx3DeVal;
     Ref<SecondaryVertex> secondaryVertex;
 
   protected:

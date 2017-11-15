@@ -32,6 +32,9 @@ namespace panda {
       Float_t* chi2{0};
       ContainerBase const* daughtersContainer_{0};
       std::vector<std::vector<Short_t>>* daughters_{0};
+      Float_t* significance{0};
+      Float_t* vtx3DVal{0};
+      Float_t* vtx3DeVal{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -70,6 +73,9 @@ namespace panda {
     Float_t& ndof;
     Float_t& chi2;
     RefVector<PFCand> daughters;
+    Float_t& significance;
+    Float_t& vtx3DVal;
+    Float_t& vtx3DeVal;
 
   protected:
     /* ParticleP

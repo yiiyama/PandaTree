@@ -179,6 +179,9 @@ ndof/F
 chi2/F
 double normChi2() const { return ndof != 0. ? chi2 / ndof : chi2 * 1.e+6; }
 daughters/PFCandRefVector
+significance/F
+vtx3DVal/F
+vtx3DeVal/F
 
 [UnpackedPFCand>ParticleM]
 puppiW/B
@@ -392,8 +395,6 @@ tight/O
 monojet/O
 matchedGenJet/GenJetRef
 constituents/PFCandRefVector
-vtx3DVal/F
-vtx3DeVal/F
 secondaryVertex/SecondaryVertexRef
 
 [FatJet>Jet]
