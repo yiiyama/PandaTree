@@ -13,21 +13,30 @@ if (isset($_GET['d'])) {
   array_pop($dirs);
   array_pop($dirs);
   foreach (array_reverse($dirs) as $dir) {
-    echo '<div style="clear:both;" onclick=reveal("' . $dir . '")>' . "\n";
-    echo $dir . "\n";
-    echo '<div id="' . $dir . '" style="display:none;" onclick=reveal(this)>' . "\n";
+    printf('<header onclick=reveal("%s")>' . "\n", $dir);
+    printf('<h3>%s</h3>' . "\n", $dir);
+    echo '</header>' . "\n";
+    printf('<div style="display:none;" class="plots" id="%s">' . "\n", $dir);
     $plots = scandir($directory . '/' . $dir);
     foreach ($plots as $plot) {
       $file_parts = pathinfo($plot);
-      if ($file_parts['extension'] == 'pdf') {
+      if ($file_parts['extension'] == 'pdf' and substr($file_parts['filename'], -4) != '_log') {
         $base = $directory . '/' . $dir . '/' . $file_parts['filename'];
-        echo '<span class="plot" style="float:left; width:25%;">';
-        echo '<p>' . $file_parts['filename'] . '</p>';
-        echo '<a href="' . $base . '.pdf"> <img src="' . $base . '.png" width="100%"></a>';
-        echo '</span>' . "\n";
+        $plot_id = $dir . '/' . $file_parts['filename'];
+        echo '<span class="plot">';
+        printf('<span class="plot_head">%s ' .
+               '<span class="lin_indicator" id="%s_status-lin">linear</span>' .
+               '<span style="display:none;" class="log_indicator" id="%s_status-log">log</span> <br> ' .
+               '<button class="log_button" onclick=swap_log("%s")>toggle log plots</button>' .
+               '</span>',
+               $plot_id, $plot_id, $plot_id, $plot_id);
+        printf('<span id="%s"><a href="%s.pdf"> <img src="%s.png" width="100%s"></a></span>',
+               $plot_id, $base, $base, '%');
+        printf('<span style="display:none;" id="%s_log"><a href="%s_log.pdf"> <img src="%s_log.png" width="100%s"></a></span>',
+               $plot_id, $base, $base, '%');
+         echo '</span>' . "\n";
       }
     }
-    echo '</div>' . "\n";
     echo '</div>' . "\n";
   }
 

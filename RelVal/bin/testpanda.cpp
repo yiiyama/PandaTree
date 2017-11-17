@@ -77,34 +77,11 @@ void make_dirs(std::string path) {
 
 int main(int argc, char** argv) {
 
-  // Check that the input file exists
-  if (argc != 2 || !exists(argv[1])) {
-    // Print the usage information
-    std::cout << std::endl
-              << "Usage: " << argv[0] << " INPUT" << std::endl
-              << std::endl
-              << "Takes a panda file and creates plots in your personal web directory." << std::endl
-              << "A little webpage is included to make the output directory nice to look at." << std::endl
-              << std::endl;
-
-    return 1;
-  }
-
-  //// Create output directory ////
+  //// Create web directory and copy files, if needed ////
 
   auto base_dir = std::string(getenv("HOME")) + "/public_html/relval";
 
-  // Get time
-  time_t rawtime;
-  time(&rawtime);
-  auto timeinfo = localtime(&rawtime);
-
-  // Create name of directory from timestamp
-  char timestamp_str[32];
-  strftime(timestamp_str, sizeof(timestamp_str) - 1, "%y%m%d_%H%M%S", timeinfo);
-  auto output_dir = base_dir + "/" + timestamp_str;
-
-  make_dirs(output_dir);
+  make_dirs(base_dir);
 
   // Copy web files to relval, if needed
 
@@ -117,7 +94,8 @@ int main(int argc, char** argv) {
     stat(source_name.data(), &source_stat);
 
     // If directory entry is a file and newer, copy it
-    if (source_stat.st_mode & S_IFREG) {
+    if (source_stat.st_mode & S_IFREG &&
+        source_name.compare(source_name.size() - 1, 1, "~") != 0) {
       struct stat dest_stat;
       auto dest_name = base_dir + "/" + dir_ent->d_name;
       auto ret = stat(dest_name.data(), &dest_stat);
@@ -139,6 +117,33 @@ int main(int argc, char** argv) {
   }
 
   closedir(web_dir);
+
+  //// Check that the input file exists, and quit if it doesn't ////
+  if (argc != 2 || !exists(argv[1])) {
+    // Print the usage information
+    std::cout << std::endl
+              << "Usage: " << argv[0] << " INPUT" << std::endl
+              << std::endl
+              << "Takes a panda file and creates plots in your personal web directory." << std::endl
+              << "A little webpage is included to make the output directory nice to look at." << std::endl
+              << std::endl;
+
+    return 1;
+  }
+
+  //// Create output directory name ////
+
+  // Get time
+  time_t rawtime;
+  time(&rawtime);
+  auto timeinfo = localtime(&rawtime);
+
+  // Create name of directory from timestamp
+  char timestamp_str[32];
+  strftime(timestamp_str, sizeof(timestamp_str) - 1, "%y%m%d_%H%M%S", timeinfo);
+  auto output_dir = base_dir + "/" + timestamp_str;
+
+  // We will actually make the directory when the first plots come in
 
   //// Open input file and define loop ////
 
