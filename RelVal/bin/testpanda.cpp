@@ -113,7 +113,7 @@ int main(int argc, char** argv) {
 
   while (auto* dir_ent = readdir(web_dir)) {
     struct stat source_stat;
-    auto source_name = (input_web + "/" + dir_ent->d_name);
+    auto source_name = input_web + "/" + dir_ent->d_name;
     stat(source_name.data(), &source_stat);
 
     // If directory entry is a file and newer, copy it
@@ -125,7 +125,6 @@ int main(int argc, char** argv) {
       if (ret != 0 || source_stat.st_mtime > dest_stat.st_mtime) {
 
         std::cout << "Copying " << source_name << " to " << dest_name << std::endl;
-        std::cout << source_name << std::endl;
 
         std::ifstream source_file(source_name.data());
         std::ofstream dest_file(dest_name.data());
