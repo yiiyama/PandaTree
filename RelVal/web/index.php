@@ -30,9 +30,9 @@ if (isset($_GET['d'])) {
                '<button class="log_button" onclick=swap_log("%s")>toggle log plots</button>' .
                '</span>',
                $plot_id, $plot_id, $plot_id, $plot_id);
-        printf('<span id="%s"><a href="%s.pdf"> <img src="%s.png" width="100%s"></a></span>',
+        printf('<span id="%s"><a href="%s.pdf" target="_blank"> <img src="%s.png" width="100%s"></a></span>',
                $plot_id, $base, $base, '%');
-        printf('<span style="display:none;" id="%s_log"><a href="%s_log.pdf"> <img src="%s_log.png" width="100%s"></a></span>',
+        printf('<span style="display:none;" id="%s_log"><a href="%s_log.pdf" target="_blank"> <img src="%s_log.png" width="100%s"></a></span>',
                $plot_id, $base, $base, '%');
          echo '</span>' . "\n";
       }
