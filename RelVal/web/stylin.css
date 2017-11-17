@@ -5,6 +5,10 @@ header {
     margin:0.5em;
 }
 
+header:hover {
+    background-color: #dddddd;
+}
+
 h3 {
     margin: auto;
     text-align: center;
@@ -16,7 +20,7 @@ h3 {
 }
 
 .plot_head {
-    padding-left: 1em;
+    padding-left: 2em;
 }
 
 .lin_indicator {
