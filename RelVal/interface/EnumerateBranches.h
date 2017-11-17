@@ -1,27 +1,20 @@
 #ifndef IWILLSEEYOULATER
 #define IWILLSEEYOULATER 1
 
-#include <map>
-#include <string>
 #include <vector>
 
 #include "PandaTree/Objects/interface/Event.h"
 
 #define NUM_PLOTS 5
 
-const std::vector<std::string> panda_plot_names = {
-  "common/npv",
-  "electrons/pt",
-  "electrons/eta",
-  "electrons/r9",
-  "pfCandidates/pt"
-};
-
 template <int P>
-struct plotter {};
+struct plotter {
+  constexpr static const char* name = nullptr;
+};
 
 template <>
 struct plotter <0> {
+  constexpr static const char* name = "common/npv";
   std::vector<float> operator () (panda::Event& event) {
     std::vector<float> output {float(event.npv)};
     return output;
@@ -30,6 +23,7 @@ struct plotter <0> {
 
 template <>
 struct plotter <1> {
+  constexpr static const char* name = "electrons/pt";
   std::vector<float> operator () (panda::Event& event) {
     std::vector<float> output;
     for (auto& i : event.electrons)
@@ -40,6 +34,7 @@ struct plotter <1> {
 
 template <>
 struct plotter <2> {
+  constexpr static const char* name = "electrons/eta";
   std::vector<float> operator () (panda::Event& event) {
     std::vector<float> output;
     for (auto& i : event.electrons)
@@ -50,6 +45,7 @@ struct plotter <2> {
 
 template <>
 struct plotter <3> {
+  constexpr static const char* name = "electrons/r9";
   std::vector<float> operator () (panda::Event& event) {
     std::vector<float> output;
     for (auto& i : event.electrons)
@@ -60,6 +56,7 @@ struct plotter <3> {
 
 template <>
 struct plotter <4> {
+  constexpr static const char* name = "pfCandidates/pt";
   std::vector<float> operator () (panda::Event& event) {
     std::vector<float> output;
     for (auto& i : event.pfCandidates)

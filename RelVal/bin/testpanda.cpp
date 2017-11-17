@@ -100,11 +100,6 @@ std::string get_git_tag(std::string repo) {
 
 int main(int argc, char** argv) {
 
-  //// First things first, make sure that EnumerateBranches.h is good ////
-
-  // This should really be evaluated at compile time...
-  assert(panda_plot_names.size() == NUM_PLOTS);
-
   //// Create web directory and copy files, if needed ////
 
   auto base_dir = std::string(getenv("HOME")) + "/public_html/relval";
@@ -187,6 +182,10 @@ int main(int argc, char** argv) {
   unsigned long nentries = input_tree->GetEntries();
   auto report_freq{std::max(nentries/PROG_SIZE, 1ul)};
 
+  //// DEFINED IN TemplateMagic.h ////
+  // Loops through all enumerated branches and performs some function
+  auto looper = plot_looper<0>();
+
   // We will loop over the entry tree and fill different things
   auto loop_tree = [&](auto message, auto filler) {
     std::cout << message << std::endl;
@@ -197,8 +196,7 @@ int main(int argc, char** argv) {
       if (i_entry && i_entry % report_freq == 0)
         draw_progress(progress++);
 
-      // Defined in TemplateMagic.h
-      plot_looper<0>()(event, filler);
+      looper(event, filler);
     }
 
     draw_progress(PROG_SIZE);
@@ -208,30 +206,30 @@ int main(int argc, char** argv) {
   //// Find MIN and MAX of each branch ////
 
   // We will use these maps to track the maximum and minimum values for the "branches"
-  std::unordered_map<std::string, float> maximums;
+  std::vector<float> maximums;
   // Minimum includes two values in case the default value is super low or something
-  std::unordered_map<std::string, std::pair<float, float>> minimums;
+  std::vector<std::pair<float, float>> minimums;
 
-  // Initialize the maps
-  for (auto i_branch : panda_plot_names) {
-    minimums[i_branch] = std::make_pair(std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
-    maximums[i_branch] = std::numeric_limits<float>::min();
-  }
+  ActionFunc init_maps = [&](auto index) {
+    minimums.emplace_back(std::make_pair(std::numeric_limits<float>::max(), std::numeric_limits<float>::max()));
+    maximums.emplace_back(std::numeric_limits<float>::min());
+  };
+
+  looper(init_maps);
 
   // Function that fills the maps
   // FillFunc defined in TemplateMagic.h
   FillFunc fill_minmax_maps = [&](auto index, auto input) {
 
-    std::string plot_name = panda_plot_names[index];
     for (auto value : input) {
-      maximums[plot_name] = std::max(maximums[plot_name], value);
+      maximums[index] = std::max(maximums[index], value);
 
-      if (value < minimums[plot_name].first) {
-        minimums[plot_name].second = minimums[plot_name].first;
-        minimums[plot_name].first = value;
+      if (value < minimums[index].first) {
+        minimums[index].second = minimums[index].first;
+        minimums[index].first = value;
       }
-      else if (value != minimums[plot_name].first) {
-        minimums[plot_name].second = std::min(minimums[plot_name].second, value);
+      else if (value != minimums[index].first) {
+        minimums[index].second = std::min(minimums[index].second, value);
       }
     }
   };
@@ -240,13 +238,12 @@ int main(int argc, char** argv) {
 
   //// Fill histograms of each branch ////
 
-  std::unordered_map<std::string, TH1I> histograms;
+  std::vector<TH1I> histograms;
 
   // Initialize the histograms
-  for (auto i_branch : panda_plot_names) {
-
-    auto mins = minimums[i_branch];
-    auto max = maximums[i_branch];
+  NamedActionFunc init_hists = [&](auto index, auto name) {
+    auto mins = minimums[index];
+    auto max = maximums[index];
     auto min = mins.first;
     // If the gap between the two lowest minimums is large,
     // don't use the very minimum value
@@ -258,13 +255,15 @@ int main(int argc, char** argv) {
     auto num_bins{(max - min < 8) ? DEFAULT_BINS : std::min(int(max - min + 1), DEFAULT_BINS)};
 
     // Initialize
-    histograms[i_branch] = TH1I(i_branch.data(), i_branch.data(), num_bins, min - 0.1, max + 0.1);
-  }
+    histograms.emplace_back(TH1I(name, name, num_bins, min - 0.1, max + 0.1));
+  };
+
+  looper(init_hists);
 
   // Define histogram filler
   FillFunc fill_hist_maps = [&](auto index, auto input) {
 
-    auto& hist = histograms[panda_plot_names[index]];
+    auto& hist = histograms[index];
     for (auto value : input) {
       hist.Fill(value);
     }
@@ -277,8 +276,9 @@ int main(int argc, char** argv) {
   std::vector<std::string> exts = {".png", ".pdf"};
   std::set<std::string> out_dirs;
 
-  for (auto& i_branch : panda_plot_names) {
-    auto out_dir = i_branch.substr(0, i_branch.find('/'));
+  NamedActionFunc plot_hists = [&](auto index, auto name) {
+    std::string branch_name {name};
+    auto out_dir = branch_name.substr(0, branch_name.find('/'));
     if (out_dirs.find(out_dir) == out_dirs.end()) {
       make_dirs(output_dir + "/" + out_dir);
       out_dirs.emplace(out_dir);
@@ -289,15 +289,17 @@ int main(int argc, char** argv) {
     // Instead, I do this hacky thing of finding the automatically generated canvas through gROOT
     // It works quite nicely :)
 
-    histograms[i_branch].Draw();
+    histograms[index].Draw();
     auto* canvas = static_cast<TCanvas*>(gROOT->GetListOfCanvases()->At(0));
     for (auto& ext : exts) {
-      canvas->SaveAs((output_dir + "/" + i_branch + ext).data());
+      canvas->SaveAs((output_dir + "/" + branch_name + ext).data());
       canvas->SetLogy(true);
-      canvas->SaveAs((output_dir + "/" + i_branch + "_log" + ext).data());
+      canvas->SaveAs((output_dir + "/" + branch_name + "_log" + ext).data());
       canvas->SetLogy(false);
     }
-  }  
+  };
+
+  looper(plot_hists);
 
   //// Get the file metadata and put it in the directory ////
 
@@ -311,10 +313,11 @@ int main(int argc, char** argv) {
                 << "File mtime: " << mtime_str << std::endl
                 << std::endl
                 << "Num events: " << nentries << std::endl
+                << "Num plots:  " << NUM_PLOTS << std::endl
                 << std::endl
-                << "CMSSW Version: " << getenv("CMSSW_VERSION") << std::endl
-                << "PandaTree tag: " << get_git_tag("PandaTree") << std::endl
-                << "PandaProd tag: " << get_git_tag("PandaProd") << std::endl
+                << "CMSSW Version:    " << getenv("CMSSW_VERSION") << std::endl
+                << "PandaTree commit: " << get_git_tag("PandaTree") << std::endl
+                << "PandaProd commit: " << get_git_tag("PandaProd") << std::endl
     ;
 
   metadata_file.close();
