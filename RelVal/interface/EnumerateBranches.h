@@ -3,12 +3,10 @@
 
 #include <map>
 #include <string>
-#include <array>
 #include <vector>
 
 #include "PandaTree/Objects/interface/Event.h"
 
-// This has to match the length of the vector
 #define NUM_PLOTS 5
 
 const std::vector<std::string> panda_plot_names = {

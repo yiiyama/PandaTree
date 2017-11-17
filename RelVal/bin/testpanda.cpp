@@ -1,6 +1,7 @@
 #define PROG_SIZE 100
 #define DEFAULT_BINS 40
 
+#include <cassert>
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
@@ -30,7 +31,7 @@
 #include "PandaTree/RelVal/interface/TemplateMagic.h"
 
 
-bool exists(char* path) {
+bool exists(const char* path) {
   struct stat buffer;
   return stat(path, &buffer) == 0;
 }
@@ -75,7 +76,34 @@ void make_dirs(std::string path) {
 }
 
 
+std::string get_git_tag(std::string repo) {
+  auto git_dir = std::string(getenv("CMSSW_BASE")) +
+    "/src/" + repo + "/.git";
+
+  if (exists(git_dir.data())) {
+    std::string head;
+    std::ifstream head_file((git_dir + "/HEAD").data());
+    head_file >> head >> head;
+    head_file.close();
+
+    std::string tag;
+    std::ifstream tag_file((git_dir + "/" + head).data());
+    tag_file >> tag;
+    tag_file.close();
+
+    return tag;
+  }
+  std::cout << "No git dir" << std::endl;
+  return "";
+}
+
+
 int main(int argc, char** argv) {
+
+  //// First things first, make sure that EnumerateBranches.h is good ////
+
+  // This should really be evaluated at compile time...
+  assert(panda_plot_names.size() == NUM_PLOTS);
 
   //// Create web directory and copy files, if needed ////
 
@@ -119,7 +147,11 @@ int main(int argc, char** argv) {
   closedir(web_dir);
 
   //// Check that the input file exists, and quit if it doesn't ////
-  if (argc != 2 || !exists(argv[1])) {
+
+  // I'll do the stat by hand here so that I can keep the stat info
+  struct stat input_stat;
+
+  if (argc != 2 || stat(argv[1], &input_stat) != 0) {
     // Print the usage information
     std::cout << std::endl
               << "Usage: " << argv[0] << " INPUT" << std::endl
@@ -136,11 +168,10 @@ int main(int argc, char** argv) {
   // Get time
   time_t rawtime;
   time(&rawtime);
-  auto timeinfo = localtime(&rawtime);
 
   // Create name of directory from timestamp
   char timestamp_str[32];
-  strftime(timestamp_str, sizeof(timestamp_str) - 1, "%y%m%d_%H%M%S", timeinfo);
+  strftime(timestamp_str, sizeof(timestamp_str) - 1, "%y%m%d_%H%M%S", localtime(&rawtime));
   auto output_dir = base_dir + "/" + timestamp_str;
 
   // We will actually make the directory when the first plots come in
@@ -267,6 +298,26 @@ int main(int argc, char** argv) {
       canvas->SetLogy(false);
     }
   }  
+
+  //// Get the file metadata and put it in the directory ////
+
+  std::ofstream metadata_file(output_dir + "/metadata.txt");
+
+  char mtime_str[64];
+  strftime(mtime_str, sizeof(mtime_str) - 1, "%c", localtime(&input_stat.st_mtime));
+
+  metadata_file << "File name:  " << getenv("PWD") << '/' << argv[1] << std::endl
+                << "File size:  " << input_stat.st_size << std::endl
+                << "File mtime: " << mtime_str << std::endl
+                << std::endl
+                << "Num events: " << nentries << std::endl
+                << std::endl
+                << "CMSSW Version: " << getenv("CMSSW_VERSION") << std::endl
+                << "PandaTree tag: " << get_git_tag("PandaTree") << std::endl
+                << "PandaProd tag: " << get_git_tag("PandaProd") << std::endl
+    ;
+
+  metadata_file.close();
 
   input.Close();
 
