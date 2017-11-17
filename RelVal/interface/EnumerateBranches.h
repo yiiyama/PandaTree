@@ -3,21 +3,19 @@
 
 #include <map>
 #include <string>
+#include <array>
 #include <vector>
 
 #include "PandaTree/Objects/interface/Event.h"
 
-enum panda_plots {
-  electrons_pt,
-  electrons_eta,
-  electrons_r9,
-  PLOTS_SIZE
-};
+// This has to match the length of the vector
+#define NUM_PLOTS 4
 
 const std::vector<std::string> panda_plot_names = {
-  "electrons_pt",
-  "electrons_eta",
-  "electrons_r9"
+  "electrons/pt",
+  "electrons/eta",
+  "electrons/r9",
+  "pfCandidates/pt"
 };
 
 template <int P>
@@ -49,6 +47,16 @@ struct plotter <2> {
     std::vector<float> output;
     for (auto& i : event.electrons)
       output.push_back(i.r9);
+    return output;
+  }
+};
+
+template <>
+struct plotter <3> {
+  std::vector<float> operator () (panda::Event& event) {
+    std::vector<float> output;
+    for (auto& i : event.pfCandidates)
+      output.push_back(i.pt());
     return output;
   }
 };

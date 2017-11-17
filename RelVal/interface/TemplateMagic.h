@@ -24,7 +24,7 @@ struct plot_looper {
 // Have to terminate at some point
 
 template <>
-struct plot_looper<panda_plots::PLOTS_SIZE> {
+struct plot_looper<NUM_PLOTS> {
   void operator ()
     (panda::Event&, FillFunc&) { };
 };
