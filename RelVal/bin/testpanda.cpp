@@ -203,12 +203,6 @@ int main(int argc, char** argv) {
 
   loop_tree("Filling min/max maps.", fill_minmax_maps);
 
-  for (int i_branch = 0; i_branch != NUM_PLOTS; i_branch++) {
-    std::cout << "Max " << panda_plot_names[i_branch] << " : " << maximums[panda_plot_names[i_branch]] << std::endl;
-    std::cout << "Mins " << panda_plot_names[i_branch] << " : " << minimums[panda_plot_names[i_branch]].second << std::endl;
-    std::cout << "Mins " << panda_plot_names[i_branch] << " : " << minimums[panda_plot_names[i_branch]].first << std::endl;
-  }
-
   //// Fill histograms of each branch ////
 
   std::unordered_map<std::string, TH1I> histograms;
@@ -262,8 +256,12 @@ int main(int argc, char** argv) {
 
     histograms[i_branch].Draw();
     auto* canvas = static_cast<TCanvas*>(gROOT->GetListOfCanvases()->At(0));
-    for (auto& ext : exts)
+    for (auto& ext : exts) {
       canvas->SaveAs((output_dir + "/" + i_branch + ext).data());
+      canvas->SetLogy(true);
+      canvas->SaveAs((output_dir + "/" + i_branch + "_log" + ext).data());
+      canvas->SetLogy(false);
+    }
   }  
 
   input.Close();
