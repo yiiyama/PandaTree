@@ -47,7 +47,7 @@ if (isset($_GET['d'])) {
   array_pop($dirs);
   array_pop($dirs);
   foreach ($dirs as $dir)
-    echo '<a href="?d=' . $dir . '">' . $dir . '</a><br>' . "\n";
+    printf('<a href="?d=%s"><header><h3>%s</h3></header></a><br>' . "\n", $dir, $dir);
 
 }
 
