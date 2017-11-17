@@ -161,12 +161,12 @@ int main(int argc, char** argv) {
   //// Create output directory name ////
 
   // Get time
-  time_t rawtime;
-  time(&rawtime);
+  time_t start_time;
+  time(&start_time);
 
   // Create name of directory from timestamp
   char timestamp_str[32];
-  strftime(timestamp_str, sizeof(timestamp_str) - 1, "%y%m%d_%H%M%S", localtime(&rawtime));
+  strftime(timestamp_str, sizeof(timestamp_str) - 1, "%y%m%d_%H%M%S", localtime(&start_time));
   auto output_dir = base_dir + "/" + timestamp_str;
 
   // We will actually make the directory when the first plots come in
@@ -313,12 +313,16 @@ int main(int argc, char** argv) {
   char mtime_str[64];
   strftime(mtime_str, sizeof(mtime_str) - 1, "%c", localtime(&input_stat.st_mtime));
 
+  time_t end_time;
+  time(&end_time);
+
   metadata_file << "File name:  " << getenv("PWD") << '/' << argv[1] << std::endl
                 << "File size:  " << input_stat.st_size << std::endl
                 << "File mtime: " << mtime_str << std::endl
                 << std::endl
                 << "Num events: " << nentries << std::endl
                 << "Num plots:  " << NUM_PLOTS << std::endl
+                << "Time (sec): " << end_time - start_time << std::endl
                 << std::endl
                 << "CMSSW Version:    " << getenv("CMSSW_VERSION") << std::endl
                 << "PandaTree commit: " << get_git_tag("PandaTree") << std::endl
