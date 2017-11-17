@@ -5,13 +5,22 @@ ini_set('display_startup_errors', 1);
 
 include('header.html');
 
+function has_no_dot($a) {
+  return strpos($a, '.') === FALSE;
+}
+
 if (isset($_GET['d'])) {
 
   $directory = $_GET['d'];
-  $dirs = scandir($directory, 1);
-  // Remove . and ..
-  array_pop($dirs);
-  array_pop($dirs);
+  $dirs = array_filter(scandir($directory, 1), 'has_no_dot');
+
+  $meta_file = $directory . '/metadata.txt';
+  if (file_exists($meta_file)) {
+    echo '<div class="metadata">' . "\n";
+    echo nl2br(file_get_contents($meta_file));
+    echo '</div>' . "\n";
+  }
+
   foreach (array_reverse($dirs) as $dir) {
     printf('<header onclick=reveal("%s")>' . "\n", $dir);
     printf('<h3>%s</h3>' . "\n", $dir);
@@ -42,10 +51,7 @@ if (isset($_GET['d'])) {
 
 } else {
 
-  $dirs = array_filter(scandir('.', 1), 'is_dir');
-  // Remove . and ..
-  array_pop($dirs);
-  array_pop($dirs);
+  $dirs = array_filter(scandir('.', 1), 'has_no_dot');
   foreach ($dirs as $dir)
     printf('<a href="?d=%s"><header><h3>%s</h3></header></a><br>' . "\n", $dir, $dir);
 

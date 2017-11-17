@@ -182,7 +182,7 @@ int main(int argc, char** argv) {
   unsigned long nentries = input_tree->GetEntries();
   auto report_freq{std::max(nentries/PROG_SIZE, 1ul)};
 
-  //// DEFINED IN TemplateMagic.h ////
+  //// Defined in TemplateMagic.h ////
   // Loops through all enumerated branches and performs some function
   auto looper = plot_looper<0>();
 
@@ -196,6 +196,7 @@ int main(int argc, char** argv) {
       if (i_entry && i_entry % report_freq == 0)
         draw_progress(progress++);
 
+      // Fill something for every plot
       looper(event, filler);
     }
 
@@ -203,19 +204,20 @@ int main(int argc, char** argv) {
     std::cout << std::endl;
   };
 
-  //// Find MIN and MAX of each branch ////
+  //// Find MIN and MAX of each plot ////
 
-  // We will use these maps to track the maximum and minimum values for the "branches"
+  // We will use these maps to track the maximum and minimum values for the plots
   std::vector<float> maximums;
   // Minimum includes two values in case the default value is super low or something
   std::vector<std::pair<float, float>> minimums;
 
-  ActionFunc init_maps = [&](auto index) {
+  ActionFunc init_minmax = [&](auto index) {
     minimums.emplace_back(std::make_pair(std::numeric_limits<float>::max(), std::numeric_limits<float>::max()));
     maximums.emplace_back(std::numeric_limits<float>::min());
   };
 
-  looper(init_maps);
+  // Initialize min/max for every plot
+  looper(init_minmax);
 
   // Function that fills the maps
   // FillFunc defined in TemplateMagic.h
@@ -236,7 +238,7 @@ int main(int argc, char** argv) {
 
   loop_tree("Filling min/max maps.", fill_minmax_maps);
 
-  //// Fill histograms of each branch ////
+  //// Fill histograms of each plot ////
 
   std::vector<TH1I> histograms;
 
@@ -258,6 +260,7 @@ int main(int argc, char** argv) {
     histograms.emplace_back(TH1I(name, name, num_bins, min - 0.1, max + 0.1));
   };
 
+  // Initialize histograms for every plot
   looper(init_hists);
 
   // Define histogram filler
@@ -269,6 +272,7 @@ int main(int argc, char** argv) {
     }
   };
 
+  // Fill histograms
   loop_tree("Filling histograms.", fill_hist_maps);
 
   // Draw plots
@@ -299,6 +303,7 @@ int main(int argc, char** argv) {
     }
   };
 
+  // Plot every plot
   looper(plot_hists);
 
   //// Get the file metadata and put it in the directory ////

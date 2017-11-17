@@ -2,15 +2,17 @@
 #define IWILLSEEYOULATER 1
 
 #include <vector>
-
 #include "PandaTree/Objects/interface/Event.h"
 
-#define NUM_PLOTS 5
 
 template <int P>
 struct plotter {
   constexpr static const char* name = nullptr;
 };
+
+
+// The following should be automatically generated
+
 
 template <>
 struct plotter <0> {
@@ -64,5 +66,11 @@ struct plotter <4> {
     return output;
   }
 };
+
+#define NUM_PLOTS 5
+
+
+// End automatic generation
+
 
 #endif
