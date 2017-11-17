@@ -158,18 +158,9 @@ int main(int argc, char** argv) {
     return 1;
   }
 
-  //// Create output directory name ////
-
-  // Get time
+  // Get start time
   time_t start_time;
   time(&start_time);
-
-  // Create name of directory from timestamp
-  char timestamp_str[32];
-  strftime(timestamp_str, sizeof(timestamp_str) - 1, "%y%m%d_%H%M%S", localtime(&start_time));
-  auto output_dir = base_dir + "/" + timestamp_str;
-
-  // We will actually make the directory when the first plots come in
 
   //// Open input file and define loop ////
 
@@ -277,6 +268,16 @@ int main(int argc, char** argv) {
 
   // Draw plots
 
+  // Create name of directory from timestamp
+  time_t end_time;
+  time(&end_time);
+
+  char timestamp_str[32];
+  strftime(timestamp_str, sizeof(timestamp_str) - 1, "%y%m%d_%H%M%S", localtime(&end_time));
+  auto output_dir = base_dir + "/" + timestamp_str;
+
+  // We will actually make the directory when the first plots come in
+
   std::vector<std::string> exts = {".png", ".pdf"};
   std::set<std::string> out_dirs;
 
@@ -308,15 +309,17 @@ int main(int argc, char** argv) {
 
   //// Get the file metadata and put it in the directory ////
 
-  std::ofstream metadata_file(output_dir + "/metadata.txt");
+  char report_time_str[64];
+  strftime(report_time_str, sizeof(report_time_str) - 1, "%c", localtime(&end_time));
 
   char mtime_str[64];
   strftime(mtime_str, sizeof(mtime_str) - 1, "%c", localtime(&input_stat.st_mtime));
 
-  time_t end_time;
-  time(&end_time);
+  std::ofstream metadata_file(output_dir + "/metadata.txt");
 
-  metadata_file << "File name:  " << getenv("PWD") << '/' << argv[1] << std::endl
+  metadata_file << "Report generated: " << report_time_str << std::endl
+                << std::endl
+                << "File name:  " << getenv("PWD") << '/' << argv[1] << std::endl
                 << "File size:  " << input_stat.st_size << std::endl
                 << "File mtime: " << mtime_str << std::endl
                 << std::endl
