@@ -247,8 +247,19 @@ int main(int argc, char** argv) {
     // Get the number of bins for the histogram
     auto num_bins{(max - min < 8) ? DEFAULT_BINS : std::min(int(max - min + 1), DEFAULT_BINS)};
 
+    // Check that bounds make sense
+    if (min < max) {
+      min -= 0.1;
+      max += 0.1;
+    }
+    else {
+      min = 0;
+      max = 1;
+    }
+
     // Initialize
-    histograms.emplace_back(TH1I(name, name, num_bins, min - 0.1, max + 0.1));
+    histograms.emplace_back(TH1I(name, name, num_bins, min, max));
+
   };
 
   // Initialize histograms for every plot
