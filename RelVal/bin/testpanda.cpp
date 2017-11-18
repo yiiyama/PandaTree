@@ -1,5 +1,5 @@
 #define PROG_SIZE 100
-#define DEFAULT_BINS 40
+#define DEFAULT_BINS 50
 
 #include <cassert>
 #include <cstdlib>
@@ -254,12 +254,20 @@ int main(int argc, char** argv) {
         min = mins.second;
     }
 
+    // If we haven't moved the max, we need to bump it up slightly to include everything
     if (max == maximums[index])
-      max += (max > 1.0) ? 1 : 0.1;
+      max += (max > 1.5 && mins.second - mins.first > 0.1) ? 1 : 0.1;
 
     // Get the number of bins for the histogram
-    auto num_bins{(mins.first < 0 && mins.second != maximums[index]) || mins.second - mins.first < 0.1 ? 
-        DEFAULT_BINS : std::min(int(max - min), DEFAULT_BINS)};
+    auto num_bins{(max >= 1.0 + maximums[index]) ? 
+        std::min(int(max - min), DEFAULT_BINS * 2) : DEFAULT_BINS};
+
+    // These will be empty
+    if (mins.first == mins.second) {
+      min = 0;
+      max = 1;
+      num_bins = 1;
+    }
 
     // Initialize
     histograms.emplace_back(TH1I(name, name, num_bins, min, max));

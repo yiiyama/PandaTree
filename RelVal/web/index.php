@@ -17,10 +17,12 @@ function put_common_in_front($a, $b) {
   return ($a < $b) ? -1 : 1;
 }
 
-if (isset($_GET['d'])) {
+$dirs = array_filter(scandir('.', 1), 'has_no_dot');
+
+if (isset($_GET['d']) && in_array($_GET['d'], $dirs)) {
 
   $directory = $_GET['d'];
-  $dirs = array_filter(scandir($directory), 'has_no_dot');
+  $objs = array_filter(scandir($directory), 'has_no_dot');
 
   $meta_file = $directory . '/metadata.txt';
   if (file_exists($meta_file)) {
@@ -29,19 +31,19 @@ if (isset($_GET['d'])) {
     echo '</div>' . "\n";
   }
 
-  uasort($dirs, 'put_common_in_front');
+  uasort($objs, 'put_common_in_front');
 
-  foreach ($dirs as $dir) {
-    printf('<header onclick=reveal("%s")>' . "\n", $dir);
-    printf('<h3>%s</h3>' . "\n", $dir);
+  foreach ($objs as $obj) {
+    printf('<header onclick=reveal("%s")>' . "\n", $obj);
+    printf('<h3>%s</h3>' . "\n", $obj);
     echo '</header>' . "\n";
-    printf('<div style="display:none;" class="plots" id="%s">' . "\n", $dir);
-    $plots = scandir($directory . '/' . $dir);
+    printf('<div style="display:none;" class="plots" id="%s">' . "\n", $obj);
+    $plots = scandir($directory . '/' . $obj);
     foreach ($plots as $plot) {
       $file_parts = pathinfo($plot);
       if ($file_parts['extension'] == 'pdf' and substr($file_parts['filename'], -4) != '_log') {
-        $base = $directory . '/' . $dir . '/' . $file_parts['filename'];
-        $plot_id = $dir . '/' . $file_parts['filename'];
+        $base = $directory . '/' . $obj . '/' . $file_parts['filename'];
+        $plot_id = $obj . '/' . $file_parts['filename'];
         echo '<span class="plot">';
         printf('<span class="plot_head">%s ' .
                '<span class="lin_indicator" id="%s_status-lin">linear</span>' .
@@ -61,7 +63,6 @@ if (isset($_GET['d'])) {
 
 } else {
 
-  $dirs = array_filter(scandir('.', 1), 'has_no_dot');
   foreach ($dirs as $dir)
     printf('<a href="?d=%s"><header><h3>%s</h3></header></a><br>' . "\n", $dir, $dir);
 
