@@ -19,6 +19,7 @@
 #include <unistd.h>
 
 #include <TROOT.h>
+#include <TError.h>
 
 #include "TObject.h"
 #include "TFile.h"
@@ -293,28 +294,31 @@ int main(int argc, char** argv) {
   std::set<std::string> out_dirs;
 
   NamedActionFunc plot_hists = [&](auto index, auto name) {
-    std::string branch_name {name};
-    auto out_dir = branch_name.substr(0, branch_name.find('/'));
-    if (out_dirs.find(out_dir) == out_dirs.end()) {
-      make_dirs(output_dir + "/" + out_dir);
-      out_dirs.emplace(out_dir);
-    }
+    if (histograms[index].GetEntries()) {
+      std::string branch_name {name};
+      auto out_dir = branch_name.substr(0, branch_name.find('/'));
+      if (out_dirs.find(out_dir) == out_dirs.end()) {
+        make_dirs(output_dir + "/" + out_dir);
+        out_dirs.emplace(out_dir);
+      }
 
-    // scram is complaining about not finding definitions of TCanvas constructors
-    // and I'm too stupid to fix it
-    // Instead, I do this hacky thing of finding the automatically generated canvas through gROOT
-    // It works quite nicely :)
+      // scram is complaining about not finding definitions of TCanvas constructors
+      // and I'm too stupid to fix it
+      // Instead, I do this hacky thing of finding the automatically generated canvas through gROOT
+      // It works quite nicely :)
 
-    histograms[index].Draw();
-    auto* canvas = static_cast<TCanvas*>(gROOT->GetListOfCanvases()->At(0));
-    for (auto& ext : exts) {
-      canvas->SaveAs((output_dir + "/" + branch_name + ext).data());
-      canvas->SetLogy(true);
-      canvas->SaveAs((output_dir + "/" + branch_name + "_log" + ext).data());
-      canvas->SetLogy(false);
+      histograms[index].Draw();
+      auto* canvas = static_cast<TCanvas*>(gROOT->GetListOfCanvases()->At(0));
+      for (auto& ext : exts) {
+        canvas->SaveAs((output_dir + "/" + branch_name + ext).data());
+        canvas->SetLogy(true);
+        canvas->SaveAs((output_dir + "/" + branch_name + "_log" + ext).data());
+        canvas->SetLogy(false);
+      }
     }
   };
 
+  gErrorIgnoreLevel = kWarning;
   // Plot every plot
   looper(plot_hists);
 
