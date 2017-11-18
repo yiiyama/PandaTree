@@ -9,10 +9,18 @@ function has_no_dot($a) {
   return strpos($a, '.') === FALSE;
 }
 
+function put_common_in_front($a, $b) {
+  if ($a == 'common')
+    return -1;
+  if ($b == 'common')
+    return 1;
+  return ($a < $b) ? -1 : 1;
+}
+
 if (isset($_GET['d'])) {
 
   $directory = $_GET['d'];
-  $dirs = array_filter(scandir($directory, 1), 'has_no_dot');
+  $dirs = array_filter(scandir($directory), 'has_no_dot');
 
   $meta_file = $directory . '/metadata.txt';
   if (file_exists($meta_file)) {
@@ -21,7 +29,9 @@ if (isset($_GET['d'])) {
     echo '</div>' . "\n";
   }
 
-  foreach (array_reverse($dirs) as $dir) {
+  uasort($dirs, 'put_common_in_front');
+
+  foreach ($dirs as $dir) {
     printf('<header onclick=reveal("%s")>' . "\n", $dir);
     printf('<h3>%s</h3>' . "\n", $dir);
     echo '</header>' . "\n";
