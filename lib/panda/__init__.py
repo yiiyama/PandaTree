@@ -18,7 +18,7 @@ from refvbranch import RefVectorBranch
 from reference import Reference
 
 from tree import Tree
-from relval import RelVal
+import relval
 
 from output import FileOutput
 
@@ -41,6 +41,6 @@ __all__ = [
     'RefVectorBranch',
     'Reference',
     'Tree',
-    'RelVal',
+    'relval',
     'FileOutput'
 ]

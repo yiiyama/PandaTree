@@ -303,5 +303,4 @@ linkdef.newline()
 
 linkdef.writeline('#endif')
 
-relval_writer = RelVal(trees)
-relval_writer.write_header(common.PACKDIR + '/RelVal/interface/EnumerateBranches.h')
+relval.write_header(trees, common.PACKDIR + '/RelVal/interface/EnumerateBranches.h')
