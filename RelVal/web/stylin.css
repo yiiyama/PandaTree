@@ -20,19 +20,19 @@ h3 {
 }
 
 .plot_head {
-    padding-left: 2em;
+    padding-left: 1em;
 }
 
 .lin_indicator {
     float: right;
     color: #00ff00;
-    padding-right: 2em;
+    padding-right: 1em;
 }
 
 .log_indicator {
     float: right;
     color: #ff0000;
-    padding-right: 2em;
+    padding-right: 1em;
 }
 
 .log_button {
