@@ -239,24 +239,27 @@ int main(int argc, char** argv) {
     auto mins = minimums[index];
     auto max = maximums[index];
     auto min = mins.first;
+
     // If the gap between the two lowest minimums is large,
     // don't use the very minimum value
-    if (mins.second - min > (max - mins.second) * 0.25) {
-      min = mins.second;
+    if (mins.second - min > (max - mins.second) * 0.5) {
+
+      // If this happens, there are either only one or two values, respectively
+      if (mins.second == std::numeric_limits<float>::max() or mins.second == max) {
+        max += 1.5;
+        min -= 1.5;
+      }
+      // We bump up things with a negative default (like output of TMVA)
+      else if (min < 0)
+        min = mins.second;
     }
+
+    if (max == maximums[index])
+      max += (max > 1.0) ? 1 : 0.1;
 
     // Get the number of bins for the histogram
-    auto num_bins{(max - min < 8) ? DEFAULT_BINS : std::min(int(max - min + 1), DEFAULT_BINS)};
-
-    // Check that bounds make sense
-    if (min < max) {
-      min -= 0.1;
-      max += 0.1;
-    }
-    else {
-      min = 0;
-      max = 1;
-    }
+    auto num_bins{(mins.first < 0 && mins.second != maximums[index]) || mins.second - mins.first < 0.1 ? 
+        DEFAULT_BINS : std::min(int(max - min), DEFAULT_BINS)};
 
     // Initialize
     histograms.emplace_back(TH1I(name, name, num_bins, min, max));
@@ -267,16 +270,17 @@ int main(int argc, char** argv) {
   looper(init_hists);
 
   // Define histogram filler
-  FillFunc fill_hist_maps = [&](auto index, auto input) {
+  FillFunc fill_hists = [&](auto index, auto input) {
 
     auto& hist = histograms[index];
     for (auto value : input) {
-      hist.Fill(value);
+      if (value >= hist.GetXaxis()->GetBinLowEdge(1))
+        hist.Fill(value);
     }
   };
 
   // Fill histograms
-  loop_tree("Filling histograms.", fill_hist_maps);
+  loop_tree("Filling histograms.", fill_hists);
 
   // Draw plots
 
