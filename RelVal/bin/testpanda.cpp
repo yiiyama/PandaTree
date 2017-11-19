@@ -167,14 +167,14 @@ int main(int argc, char** argv) {
 
   //// Open input file and define loop ////
 
-  TFile input{argv[1]};
+  TFile input {argv[1]};
   TTree* input_tree = static_cast<TTree*>(input.Get("events"));
 
   panda::Event event;
   event.setAddress(*input_tree);
 
   unsigned long nentries = input_tree->GetEntries();
-  auto report_freq{std::max(nentries/PROG_SIZE, 1ul)};
+  auto report_freq = std::max(nentries/PROG_SIZE, 1ul);
 
   //// Defined in TemplateMagic.h ////
   // Loops through all enumerated branches and performs some function
@@ -183,7 +183,7 @@ int main(int argc, char** argv) {
   // We will loop over the entry tree and fill different things
   auto loop_tree = [&](auto message, auto filler) {
     std::cout << message << std::endl;
-    int progress{0};
+    int progress {0};
     for (unsigned long i_entry = 0; i_entry != nentries; i_entry++) {
       event.getEntry(*input_tree, i_entry);
 
@@ -271,7 +271,7 @@ int main(int argc, char** argv) {
       max += possibly_int ? 1 : 0.05;
 
     // Get the number of bins for the histogram
-    auto num_bins{possibly_int ? std::min(int(max - min), DEFAULT_BINS * 2) : DEFAULT_BINS};
+    auto num_bins = possibly_int ? std::min(int(max - min), DEFAULT_BINS * 2) : DEFAULT_BINS;
 
     // These will be empty plots, but initialize peacefully anyway
     if (mins.first == mins.second) {
