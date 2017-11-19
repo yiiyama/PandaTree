@@ -253,7 +253,7 @@ int main(int argc, char** argv) {
     if (mins.second - min > (max - mins.second) * 0.5) {
 
       // First, we check if there are one, two, or three values, respectively
-      if (max == min or mins.second == max or maxs.second == mins.second) {
+      if (max == min || mins.second == max || maxs.second == mins.second) {
         // If that's the case, we just spread out a little for a nice plot
         max += 1.5;
         min -= 1.5;
@@ -264,7 +264,7 @@ int main(int argc, char** argv) {
     }
 
     // We flag this distrubtion as being possibly made of integer values for binning
-    bool possibly_int = maxs.first - maxs.second > 0.5;
+    bool possibly_int = maxs.first - maxs.second > 0.5 && mins.second - mins.first > 0.5;
 
     // If we haven't moved the max, bump it up slightly so max value doesn't go into overflow
     if (max == maxs.first)
