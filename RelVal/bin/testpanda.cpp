@@ -101,6 +101,8 @@ std::string get_git_tag(std::string repo) {
 
 int main(int argc, char** argv) {
 
+  bool debug = getenv("DEBUG") != NULL;
+
   //// Create web directory and copy files, if needed ////
 
   auto base_dir = std::string(getenv("HOME")) + "/public_html/relval";
@@ -198,14 +200,13 @@ int main(int argc, char** argv) {
 
   //// Find MIN and MAX of each plot ////
 
-  // We will use these maps to track the maximum and minimum values for the plots
-  std::vector<float> maximums;
-  // Minimum includes two values in case the default value is super low or something
+  // We will use pairs to figure out clever binning schemes
+  std::vector<std::pair<float, float>> maximums;
   std::vector<std::pair<float, float>> minimums;
 
   ActionFunc init_minmax = [&](auto index) {
-    minimums.emplace_back(std::make_pair(std::numeric_limits<float>::max(), std::numeric_limits<float>::max()));
-    maximums.emplace_back(std::numeric_limits<float>::min());
+    minimums.emplace_back(std::make_pair(1e10, 1e10));
+    maximums.emplace_back(std::make_pair(-1e10, -1e10));
   };
 
   // Initialize min/max for every plot
@@ -216,15 +217,21 @@ int main(int argc, char** argv) {
   FillFunc fill_minmax_maps = [&](auto index, auto input) {
 
     for (auto value : input) {
-      maximums[index] = std::max(maximums[index], value);
+
+      if (value > maximums[index].first) {
+        maximums[index].second = maximums[index].first;
+        maximums[index].first = value;
+      }
+      else if (value != maximums[index].first)
+        maximums[index].second = std::max(maximums[index].second, value);
 
       if (value < minimums[index].first) {
         minimums[index].second = minimums[index].first;
         minimums[index].first = value;
       }
-      else if (value != minimums[index].first) {
+      else if (value != minimums[index].first)
         minimums[index].second = std::min(minimums[index].second, value);
-      }
+
     }
   };
 
@@ -236,38 +243,48 @@ int main(int argc, char** argv) {
 
   // Initialize the histograms
   NamedActionFunc init_hists = [&](auto index, auto name) {
+    auto maxs = maximums[index];
     auto mins = minimums[index];
-    auto max = maximums[index];
+    auto max = maxs.first;
     auto min = mins.first;
 
     // If the gap between the two lowest minimums is large,
-    // don't use the very minimum value
+    // maybe don't use the very minimum value
     if (mins.second - min > (max - mins.second) * 0.5) {
 
-      // If this happens, there are either only one or two values, respectively
-      if (mins.second == std::numeric_limits<float>::max() or mins.second == max) {
+      // First, we check if there are one, two, or three values, respectively
+      if (max == min or mins.second == max or maxs.second == mins.second) {
+        // If that's the case, we just spread out a little for a nice plot
         max += 1.5;
         min -= 1.5;
       }
-      // We bump up things with a negative default (like output of TMVA)
+      // Otherwise, we bump up things with a negative default (like output of TMVA)
       else if (min < 0)
         min = mins.second;
     }
 
-    // If we haven't moved the max, we need to bump it up slightly to include everything
-    if (max == maximums[index])
-      max += (max > 1.5 && mins.second - mins.first > 0.1) ? 1 : 0.1;
+    // We flag this distrubtion as being possibly made of integer values for binning
+    bool possibly_int = maxs.first - maxs.second > 0.5;
+
+    // If we haven't moved the max, bump it up slightly so max value doesn't go into overflow
+    if (max == maxs.first)
+      max += possibly_int ? 1 : 0.05;
 
     // Get the number of bins for the histogram
-    auto num_bins{(max >= 1.0 + maximums[index]) ? 
-        std::min(int(max - min), DEFAULT_BINS * 2) : DEFAULT_BINS};
+    auto num_bins{possibly_int ? std::min(int(max - min), DEFAULT_BINS * 2) : DEFAULT_BINS};
 
-    // These will be empty
+    // These will be empty plots, but initialize peacefully anyway
     if (mins.first == mins.second) {
       min = 0;
       max = 1;
       num_bins = 1;
     }
+
+    if (debug)
+      std::cout << name << " " <<
+        mins.first << " " << mins.second << " " <<
+        maxs.second << " " << maxs.first << " - " <<
+        num_bins << " " << min << " " << max << std::endl;
 
     // Initialize
     histograms.emplace_back(TH1I(name, name, num_bins, min, max));
@@ -332,7 +349,8 @@ int main(int argc, char** argv) {
 
   gErrorIgnoreLevel = kWarning;
   // Plot every plot
-  looper(plot_hists);
+  if (!debug)
+    looper(plot_hists);
 
   //// Get the file metadata and put it in the directory ////
 
@@ -342,24 +360,26 @@ int main(int argc, char** argv) {
   char mtime_str[64];
   strftime(mtime_str, sizeof(mtime_str) - 1, "%c", localtime(&input_stat.st_mtime));
 
-  std::ofstream metadata_file(output_dir + "/metadata.txt");
+  if (!debug) {
+    std::ofstream metadata_file(output_dir + "/metadata.txt");
 
-  metadata_file << "Report generated: " << report_time_str << std::endl
-                << std::endl
-                << "File name:  " << getenv("PWD") << '/' << argv[1] << std::endl
-                << "File size:  " << input_stat.st_size << std::endl
-                << "File mtime: " << mtime_str << std::endl
-                << std::endl
-                << "Num events: " << nentries << std::endl
-                << "Num plots:  " << NUM_PLOTS << std::endl
-                << "Time (sec): " << end_time - start_time << std::endl
-                << std::endl
-                << "CMSSW Version:    " << getenv("CMSSW_VERSION") << std::endl
-                << "PandaTree commit: " << get_git_tag("PandaTree") << std::endl
-                << "PandaProd commit: " << get_git_tag("PandaProd") << std::endl
-    ;
+    metadata_file << "Report generated: " << report_time_str << std::endl
+                  << std::endl
+                  << "File name:  " << getenv("PWD") << '/' << argv[1] << std::endl
+                  << "File size:  " << input_stat.st_size << std::endl
+                  << "File mtime: " << mtime_str << std::endl
+                  << std::endl
+                  << "Num events: " << nentries << std::endl
+                  << "Num plots:  " << NUM_PLOTS << std::endl
+                  << "Time (sec): " << end_time - start_time << std::endl
+                  << std::endl
+                  << "CMSSW Version:    " << getenv("CMSSW_VERSION") << std::endl
+                  << "PandaTree commit: " << get_git_tag("PandaTree") << std::endl
+                  << "PandaProd commit: " << get_git_tag("PandaProd") << std::endl
+      ;
 
-  metadata_file.close();
+    metadata_file.close();
+  }
 
   input.Close();
 
