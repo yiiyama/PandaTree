@@ -99,6 +99,7 @@ packedPuppiWNoLepDiff/B
 ptype/b
 vertex/RecoVertexRef/!
 track/PackedTrackRef/!
+hCalFrac/F
 double puppiW() const { unpack_(); return puppiW_; }
 double puppiWNoLep() const { unpack_(); return puppiWNoLep_; }
 void setPuppiW(double w, double wnl);
@@ -168,6 +169,20 @@ void setXYZE(double px, double py, double pz, double e) override
   mass_ = std::sqrt(e * e - p * p);
 }
 
+[SecondaryVertex>ParticleM]
+x/F
+y/F
+z/F
+TVector3 position() const { return TVector3(x, y, z); }
+ntrk/s
+ndof/F
+chi2/F
+double normChi2() const { return ndof != 0. ? chi2 / ndof : chi2 * 1.e+6; }
+daughters/PFCandRefVector
+significance/F
+vtx3DVal/F
+vtx3DeVal/F
+
 [UnpackedPFCand>ParticleM]
 puppiW/B
 puppiWNoLep/B
@@ -230,6 +245,7 @@ trackIso/F
 isoPUOffset/F
 sieie/F
 sipip/F
+r9/F
 dEtaInSeed/F
 dPhiIn/F
 eseed/F
@@ -276,7 +292,7 @@ trkKink/s
 segmentCompatibility/F
 r03Iso/F
 triggerMatch[nTriggerObjects]/O
-double m() const override { return 1.05658e-2; }
+double m() const override { return 1.05658e-1; }
 double combIso() const override { return chIso + std::max(nhIso + phIso - 0.5 * puIso, 0.); }
 
 [Tau>ParticleM]
@@ -342,10 +358,24 @@ matchedGen/GenParticleRef
 
 [GenJet>ParticleM]
 pdgid/S
+partonFlavor/S
+numB/S
+numC/S
 
 [MicroJet>ParticleM]
 csv/F
 qgl/F
+cmva/F
+deepCSVudsg/F
+deepCSVb/F
+deepCSVc/F
+deepCSVbb/F
+deepCSVcc/F
+deepCMVAudsg/F
+deepCMVAb/F
+deepCMVAc/F
+deepCMVAbb/F
+deepCMVAcc/F
 
 [Jet>MicroJet]
 rawPt/F
@@ -365,6 +395,7 @@ tight/O
 monojet/O
 matchedGenJet/GenJetRef
 constituents/PFCandRefVector
+secondaryVertex/SecondaryVertexRef
 
 [FatJet>Jet]
 tau1/F
@@ -498,6 +529,7 @@ rhoCentralCalo/F
 genReweight/GenReweight
 pfCandidates/PFCandCollection(2048)
 vertices/RecoVertexCollection(64)
+secondaryVertices/SecondaryVertexCollection(64)
 tracks/PackedTrackCollection(1024)
 superClusters/SuperClusterCollection(64)
 electrons/ElectronCollection(32)
@@ -536,6 +568,7 @@ metFilters/MetFilters
 recoil/Recoil
 pfCandidates.vertex->vertices
 pfCandidates.track->tracks
+secondaryVertices.daughters->pfCandidates
 electrons.superCluster->superClusters
 electrons.matchedPF->pfCandidates
 electrons.matchedGen->genParticles
@@ -551,8 +584,10 @@ photons.matchedGen->genParticles
 genParticles.parent->genParticles
 chsAK4Jets.constituents->pfCandidates
 chsAK4Jets.matchedGenJet->ak4GenJets
+chsAK4Jets.secondaryVertex->secondaryVertices
 puppiAK4Jets.constituents->pfCandidates
 puppiAK4Jets.matchedGenJet->ak4GenJets
+puppiAK4Jets.secondaryVertex->secondaryVertices
 chsAK8Jets.constituents->pfCandidates
 chsAK8Jets.subjets->chsAK8Subjets
 chsAK8Jets.matchedGenJet->ak8GenJets

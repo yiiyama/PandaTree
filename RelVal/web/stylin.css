@@ -1,0 +1,49 @@
+header {
+    clear: both;
+    background-color: #ccffff;
+    padding: 1em;
+    margin:0.5em;
+}
+
+header:hover {
+    background-color: #dddddd;
+}
+
+h3 {
+    margin: auto;
+    text-align: center;
+}
+
+.plot {
+    float: left;
+    width: 25%;
+}
+
+.plot_head {
+    padding-left: 1em;
+}
+
+.lin_indicator {
+    float: right;
+    color: #00ff00;
+    padding-right: 1em;
+}
+
+.log_indicator {
+    float: right;
+    color: #ff0000;
+    padding-right: 1em;
+}
+
+.log_button {
+    float: right;
+}
+
+.metadata {
+    padding: 2em;
+    margin: 0.5em;
+    font-family: "Courier 10 Pitch", Courier, monospace;
+    font-size: 95%;
+    line-height: 140%;
+    background-color: #dddddd;
+}

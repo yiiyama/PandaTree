@@ -52,6 +52,7 @@ namespace panda {
       Short_t* vertex_{0}; // transient
       ContainerBase const* trackContainer_{0};
       Short_t* track_{0}; // transient
+      Float_t* hCalFrac{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -102,6 +103,7 @@ namespace panda {
     UChar_t& ptype;
     Ref<RecoVertex> vertex;
     Ref<PackedTrack> track;
+    Float_t& hCalFrac;
 
     /* BEGIN CUSTOM PFCand.h.classdef */
   protected:

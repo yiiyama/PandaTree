@@ -100,7 +100,7 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    double m() const override { return 1.05658e-2; }
+    double m() const override { return 1.05658e-1; }
     double combIso() const override { return chIso + std::max(nhIso + phIso - 0.5 * puIso, 0.); }
 
     /* Lepton
