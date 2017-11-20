@@ -292,7 +292,7 @@ trkKink/s
 segmentCompatibility/F
 r03Iso/F
 triggerMatch[nTriggerObjects]/O
-double m() const override { return 1.05658e-2; }
+double m() const override { return 1.05658e-1; }
 double combIso() const override { return chIso + std::max(nhIso + phIso - 0.5 * puIso, 0.); }
 
 [Tau>ParticleM]
