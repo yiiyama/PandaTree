@@ -9,27 +9,30 @@ header = """#ifndef IWILLSEEYOULATER
 #include <vector>
 #include "PandaTree/Objects/interface/Event.h"
 
+namespace testpanda {
 
-template <int P>
-struct plotter {
-  constexpr static const char* name = nullptr;
-};
+  template <int P>
+  struct plotter {
+    constexpr static const char* name = nullptr;
+  };
 """
 
 # Each defined structure must follow this format
 template = """
-template <>
-struct plotter <%i> {
-  constexpr static const char* name = "%s/%s";
-  std::vector<float> operator () (panda::Event& event) {
-%s
-    return output;
-  }
-};
+  template <>
+  struct plotter <%i> {
+    constexpr static const char* name = "%s/%s";
+    std::vector<float> operator () (panda::Event& event) {
+  %s
+      return output;
+    }
+  };
 """
 
 # Ending of EnumerateBranches.h
 footer = """
+};
+
 #endif"""
 
 

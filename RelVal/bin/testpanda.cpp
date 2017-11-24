@@ -27,6 +27,7 @@
 #include "PandaTree/RelVal/interface/EnumerateBranches.h"
 #include "PandaTree/RelVal/interface/TemplateMagic.h"
 
+using namespace testpanda;
 
 bool exists(const char* path) {
   struct stat buffer;
