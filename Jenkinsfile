@@ -37,6 +37,9 @@ pipeline {
         // Copy all of the files, and the HEAD where we will get the git tag from
         sh 'cp --parents $(git ls-files) $CMSSW_VERSION/src/PandaTree'
         sh 'cp --parents .git/HEAD  $CMSSW_VERSION/src/PandaTree'
+
+        // Compile
+        sh '$DOSRC; eval `scramv1 runtime -sh`; scram b -j4'
       }
     }
 
