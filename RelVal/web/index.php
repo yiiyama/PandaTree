@@ -54,7 +54,7 @@ function list_directory($directory) {
 
   } else {
 
-    foreach ($objs as $dir)
+    foreach (array_reverse($objs) as $dir)
       printf('<a href="?d=%s"><header><h3>%s</h3></header></a><br>' . "\n", ltrim($directory . '/', './') . $dir, $dir);
 
   }
