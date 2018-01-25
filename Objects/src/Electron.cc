@@ -19,7 +19,7 @@ panda::Electron::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Lepton::getListOfBranches();
-  blist += {"chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "trackIso", "isoPUOffset", "sieie", "sipip", "r9", "dEtaInSeed", "dPhiIn", "eseed", "hOverE", "ecalE", "trackP", "regPt", "smearedPt", "nMissingHits", "veto", "conversionVeto", "tripleCharge", "triggerMatch", "superCluster_"};
+  blist += {"chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "trackIso", "isoPUOffset", "sieie", "sipip", "r9", "dEtaInSeed", "dPhiIn", "eseed", "hOverE", "ecalE", "trackP", "regPt", "smearedPt", "mvaVal", "nMissingHits", "mvaCategory", "veto", "conversionVeto", "tripleCharge", "mvaWP90", "mvaWP80", "triggerMatch", "superCluster_"};
   return blist;
 }
 
@@ -46,10 +46,14 @@ panda::Electron::datastore::allocate(UInt_t _nmax)
   trackP = new Float_t[nmax_];
   regPt = new Float_t[nmax_];
   smearedPt = new Float_t[nmax_];
+  mvaVal = new Float_t[nmax_];
   nMissingHits = new UShort_t[nmax_];
+  mvaCategory = new UChar_t[nmax_];
   veto = new Bool_t[nmax_];
   conversionVeto = new Bool_t[nmax_];
   tripleCharge = new Bool_t[nmax_];
+  mvaWP90 = new Bool_t[nmax_];
+  mvaWP80 = new Bool_t[nmax_];
   triggerMatch = new Bool_t[nmax_][nTriggerObjects];
   superCluster_ = new Short_t[nmax_];
 }
@@ -95,14 +99,22 @@ panda::Electron::datastore::deallocate()
   regPt = 0;
   delete [] smearedPt;
   smearedPt = 0;
+  delete [] mvaVal;
+  mvaVal = 0;
   delete [] nMissingHits;
   nMissingHits = 0;
+  delete [] mvaCategory;
+  mvaCategory = 0;
   delete [] veto;
   veto = 0;
   delete [] conversionVeto;
   conversionVeto = 0;
   delete [] tripleCharge;
   tripleCharge = 0;
+  delete [] mvaWP90;
+  mvaWP90 = 0;
+  delete [] mvaWP80;
+  mvaWP80 = 0;
   delete [] triggerMatch;
   triggerMatch = 0;
   delete [] superCluster_;
@@ -132,10 +144,14 @@ panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, utils:
   utils::setStatus(_tree, _name, "trackP", _branches);
   utils::setStatus(_tree, _name, "regPt", _branches);
   utils::setStatus(_tree, _name, "smearedPt", _branches);
+  utils::setStatus(_tree, _name, "mvaVal", _branches);
   utils::setStatus(_tree, _name, "nMissingHits", _branches);
+  utils::setStatus(_tree, _name, "mvaCategory", _branches);
   utils::setStatus(_tree, _name, "veto", _branches);
   utils::setStatus(_tree, _name, "conversionVeto", _branches);
   utils::setStatus(_tree, _name, "tripleCharge", _branches);
+  utils::setStatus(_tree, _name, "mvaWP90", _branches);
+  utils::setStatus(_tree, _name, "mvaWP80", _branches);
   utils::setStatus(_tree, _name, "triggerMatch", _branches);
   utils::setStatus(_tree, _name, "superCluster_", _branches);
 }
@@ -163,10 +179,14 @@ panda::Electron::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "trackP"));
   blist.push_back(utils::getStatus(_tree, _name, "regPt"));
   blist.push_back(utils::getStatus(_tree, _name, "smearedPt"));
+  blist.push_back(utils::getStatus(_tree, _name, "mvaVal"));
   blist.push_back(utils::getStatus(_tree, _name, "nMissingHits"));
+  blist.push_back(utils::getStatus(_tree, _name, "mvaCategory"));
   blist.push_back(utils::getStatus(_tree, _name, "veto"));
   blist.push_back(utils::getStatus(_tree, _name, "conversionVeto"));
   blist.push_back(utils::getStatus(_tree, _name, "tripleCharge"));
+  blist.push_back(utils::getStatus(_tree, _name, "mvaWP90"));
+  blist.push_back(utils::getStatus(_tree, _name, "mvaWP80"));
   blist.push_back(utils::getStatus(_tree, _name, "triggerMatch"));
   blist.push_back(utils::getStatus(_tree, _name, "superCluster_"));
 
@@ -196,10 +216,14 @@ panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils
   utils::setAddress(_tree, _name, "trackP", trackP, _branches, _setStatus);
   utils::setAddress(_tree, _name, "regPt", regPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "smearedPt", smearedPt, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "mvaVal", mvaVal, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nMissingHits", nMissingHits, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "mvaCategory", mvaCategory, _branches, _setStatus);
   utils::setAddress(_tree, _name, "veto", veto, _branches, _setStatus);
   utils::setAddress(_tree, _name, "conversionVeto", conversionVeto, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tripleCharge", tripleCharge, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "mvaWP90", mvaWP90, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "mvaWP80", mvaWP80, _branches, _setStatus);
   utils::setAddress(_tree, _name, "triggerMatch", triggerMatch, _branches, _setStatus);
   utils::setAddress(_tree, _name, "superCluster_", superCluster_, _branches, _setStatus);
 }
@@ -229,10 +253,14 @@ panda::Electron::datastore::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "trackP", size, 'F', trackP, _branches);
   utils::book(_tree, _name, "regPt", size, 'F', regPt, _branches);
   utils::book(_tree, _name, "smearedPt", size, 'F', smearedPt, _branches);
+  utils::book(_tree, _name, "mvaVal", size, 'F', mvaVal, _branches);
   utils::book(_tree, _name, "nMissingHits", size, 's', nMissingHits, _branches);
+  utils::book(_tree, _name, "mvaCategory", size, 'b', mvaCategory, _branches);
   utils::book(_tree, _name, "veto", size, 'O', veto, _branches);
   utils::book(_tree, _name, "conversionVeto", size, 'O', conversionVeto, _branches);
   utils::book(_tree, _name, "tripleCharge", size, 'O', tripleCharge, _branches);
+  utils::book(_tree, _name, "mvaWP90", size, 'O', mvaWP90, _branches);
+  utils::book(_tree, _name, "mvaWP80", size, 'O', mvaWP80, _branches);
   utils::book(_tree, _name, "triggerMatch", size + TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
   utils::book(_tree, _name, "superCluster_", size, 'S', superCluster_, _branches);
 }
@@ -260,10 +288,14 @@ panda::Electron::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "trackP");
   utils::resetAddress(_tree, _name, "regPt");
   utils::resetAddress(_tree, _name, "smearedPt");
+  utils::resetAddress(_tree, _name, "mvaVal");
   utils::resetAddress(_tree, _name, "nMissingHits");
+  utils::resetAddress(_tree, _name, "mvaCategory");
   utils::resetAddress(_tree, _name, "veto");
   utils::resetAddress(_tree, _name, "conversionVeto");
   utils::resetAddress(_tree, _name, "tripleCharge");
+  utils::resetAddress(_tree, _name, "mvaWP90");
+  utils::resetAddress(_tree, _name, "mvaWP80");
   utils::resetAddress(_tree, _name, "triggerMatch");
   utils::resetAddress(_tree, _name, "superCluster_");
 }
@@ -302,10 +334,14 @@ panda::Electron::Electron(char const* _name/* = ""*/) :
   trackP(gStore.getData(this).trackP[0]),
   regPt(gStore.getData(this).regPt[0]),
   smearedPt(gStore.getData(this).smearedPt[0]),
+  mvaVal(gStore.getData(this).mvaVal[0]),
   nMissingHits(gStore.getData(this).nMissingHits[0]),
+  mvaCategory(gStore.getData(this).mvaCategory[0]),
   veto(gStore.getData(this).veto[0]),
   conversionVeto(gStore.getData(this).conversionVeto[0]),
   tripleCharge(gStore.getData(this).tripleCharge[0]),
+  mvaWP90(gStore.getData(this).mvaWP90[0]),
+  mvaWP80(gStore.getData(this).mvaWP80[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
 {
@@ -331,10 +367,14 @@ panda::Electron::Electron(Electron const& _src) :
   trackP(gStore.getData(this).trackP[0]),
   regPt(gStore.getData(this).regPt[0]),
   smearedPt(gStore.getData(this).smearedPt[0]),
+  mvaVal(gStore.getData(this).mvaVal[0]),
   nMissingHits(gStore.getData(this).nMissingHits[0]),
+  mvaCategory(gStore.getData(this).mvaCategory[0]),
   veto(gStore.getData(this).veto[0]),
   conversionVeto(gStore.getData(this).conversionVeto[0]),
   tripleCharge(gStore.getData(this).tripleCharge[0]),
+  mvaWP90(gStore.getData(this).mvaWP90[0]),
+  mvaWP80(gStore.getData(this).mvaWP80[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
 {
@@ -358,10 +398,14 @@ panda::Electron::Electron(Electron const& _src) :
   trackP = _src.trackP;
   regPt = _src.regPt;
   smearedPt = _src.smearedPt;
+  mvaVal = _src.mvaVal;
   nMissingHits = _src.nMissingHits;
+  mvaCategory = _src.mvaCategory;
   veto = _src.veto;
   conversionVeto = _src.conversionVeto;
   tripleCharge = _src.tripleCharge;
+  mvaWP90 = _src.mvaWP90;
+  mvaWP80 = _src.mvaWP80;
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
   superCluster = _src.superCluster;
 }
@@ -386,10 +430,14 @@ panda::Electron::Electron(datastore& _data, UInt_t _idx) :
   trackP(_data.trackP[_idx]),
   regPt(_data.regPt[_idx]),
   smearedPt(_data.smearedPt[_idx]),
+  mvaVal(_data.mvaVal[_idx]),
   nMissingHits(_data.nMissingHits[_idx]),
+  mvaCategory(_data.mvaCategory[_idx]),
   veto(_data.veto[_idx]),
   conversionVeto(_data.conversionVeto[_idx]),
   tripleCharge(_data.tripleCharge[_idx]),
+  mvaWP90(_data.mvaWP90[_idx]),
+  mvaWP80(_data.mvaWP80[_idx]),
   triggerMatch(_data.triggerMatch[_idx]),
   superCluster(_data.superClusterContainer_, _data.superCluster_[_idx])
 {
@@ -415,10 +463,14 @@ panda::Electron::Electron(ArrayBase* _array) :
   trackP(gStore.getData(this).trackP[0]),
   regPt(gStore.getData(this).regPt[0]),
   smearedPt(gStore.getData(this).smearedPt[0]),
+  mvaVal(gStore.getData(this).mvaVal[0]),
   nMissingHits(gStore.getData(this).nMissingHits[0]),
+  mvaCategory(gStore.getData(this).mvaCategory[0]),
   veto(gStore.getData(this).veto[0]),
   conversionVeto(gStore.getData(this).conversionVeto[0]),
   tripleCharge(gStore.getData(this).tripleCharge[0]),
+  mvaWP90(gStore.getData(this).mvaWP90[0]),
+  mvaWP80(gStore.getData(this).mvaWP80[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
 {
@@ -462,10 +514,14 @@ panda::Electron::operator=(Electron const& _src)
   trackP = _src.trackP;
   regPt = _src.regPt;
   smearedPt = _src.smearedPt;
+  mvaVal = _src.mvaVal;
+  mvaCategory = _src.mvaCategory;
   nMissingHits = _src.nMissingHits;
   veto = _src.veto;
   conversionVeto = _src.conversionVeto;
   tripleCharge = _src.tripleCharge;
+  mvaWP90 = _src.mvaWP90;
+  mvaWP80 = _src.mvaWP80;
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
   superCluster = _src.superCluster;
 
