@@ -18,7 +18,7 @@ namespace panda {
 
     UInt_t runNumber{};
     UInt_t hltMenu{};
-    UShort_t hltSize{}; //< transient
+    UShort_t hltSize{}; ///< transient
 
     static utils::BranchList getListOfBranches(Bool_t direct = kFALSE);
 

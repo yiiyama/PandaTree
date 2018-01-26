@@ -114,7 +114,7 @@ namespace panda {
     double combIso() const override { return chIso + std::max(nhIso + phIso - isoPUOffset, Float_t(0.)); }
 
     /* Lepton
-    Float_t& pfPt; //< for E: Pt of the dR-closest PF candidate; for Mu: pfP4().pt()
+    Float_t& pfPt; ///< for E: Pt of the dR-closest PF candidate; for Mu: pfP4().pt()
     Char_t& charge;
     Bool_t& loose;
     Bool_t& medium;
