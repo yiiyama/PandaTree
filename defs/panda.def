@@ -357,7 +357,7 @@ matchedPF/PFCandRef
 matchedGen/GenParticleRef
 
 [GenJet>ParticleM]
-pdgid/S
+pdgid/S // Filled with hadron flavor
 partonFlavor/S
 numB/S
 numC/S
