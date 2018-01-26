@@ -106,7 +106,7 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    Float_t& pfPt; // Pt of the dR-closest PF candidate
+    Float_t& pfPt; //< Pt of the dR-closest PF candidate
     Float_t& chIso;
     Float_t& chIsoMax;
     Float_t& nhIso;
