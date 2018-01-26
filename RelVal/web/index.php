@@ -25,17 +25,20 @@ function list_directory($directory) {
     uasort($objs, 'put_common_in_front');
 
     foreach ($objs as $obj) {
-      printf('<header onclick=reveal("%s")>' . "\n", $obj);
+      $glob_check = glob($directory . '/' . $obj . '/*_FLAG.txt');
+      $warn = (count($glob_check) == 0) ? '' : ' warn';
+      printf('<div class="header%s" onclick=reveal("%s")>' . "\n", $warn, $obj);
       printf('<h3>%s</h3>' . "\n", $obj);
-      echo '</header>' . "\n";
+      echo '</div>' . "\n";
       printf('<div style="display:none;" class="plots" id="%s">' . "\n", $obj);
       $plots = scandir($directory . '/' . $obj);
       foreach ($plots as $plot) {
         $file_parts = pathinfo($plot);
         if ($file_parts['extension'] == 'pdf' and substr($file_parts['filename'], -4) != '_log') {
           $base = $directory . '/' . $obj . '/' . $file_parts['filename'];
+          $warn = (file_exists($base . '_FLAG.txt')) ? ' warn' : '';
           $plot_id = $obj . '/' . $file_parts['filename'];
-          echo '<span class="plot">';
+          printf('<span class="plot%s">', $warn);
           printf('<span class="plot_head">%s ' .
                  '<span class="lin_indicator" id="%s_status-lin">linear</span>' .
                  '<span style="display:none;" class="log_indicator" id="%s_status-log">log</span> <br> ' .
@@ -58,9 +61,19 @@ function list_directory($directory) {
         return filemtime($directory . '/' . $a) < filemtime($directory . '/' . $b);
       });
 
-    foreach ($objs as $dir)
-      printf('<a href="?d=%s"><header><h3>%s</h3></header></a><br>' . "\n", ltrim($directory . '/', './') . $dir, $dir);
-
+    echo '<br>';
+    foreach ($objs as $dir) {
+      $fulldir = ltrim($directory . '/', './') . $dir;
+      $metafile = $fulldir . '/metadata.txt';
+      $roomy = '';
+      $meta = '';
+      if (file_exists($metafile)) {
+        $roomy = ' roomy';
+        $meta = sprintf('<a href="%s"><div class="metalink"><h3>metadata</h3></div></a>', $metafile);
+      }
+      printf('<a href="?d=%s"><div class="header%s"><h3>%s</h3></div></a>' . "\n", $fulldir, $roomy, $dir);
+      echo $meta . '<br>';
+    }
   }
 }
 

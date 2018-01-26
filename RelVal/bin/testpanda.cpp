@@ -370,6 +370,14 @@ int main(int argc, char** argv) {
         canvas->SaveAs((output_dir + "/" + branch_name + "_log" + ext).data());
         canvas->SetLogy(false);
       }
+
+      // Check if only a single value was filled, and flag as potential bad filling.
+      if (maximums[index].first == minimums[index].first) {
+        std::ofstream flag_file((output_dir + "/" + branch_name + "_FLAG.txt"));
+        flag_file << maximums[index].first;
+        flag_file.close();
+      }
+
     }
   };
 

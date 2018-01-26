@@ -1,12 +1,29 @@
-header {
+.header {
     clear: both;
     background-color: #ccffff;
     padding: 1em;
-    margin:0.5em;
+    margin:0.5em 0em 0.5em 0em;
+    overflow:hidden;
 }
 
-header:hover {
+.header:hover {
+    background-color: #bbeeee;
+}
+
+.roomy {
+    float:left;
+    width:80%;
+}
+
+.metalink {
+    padding: 1em;
+    margin:0.5em 0em 0.5em 0em;
     background-color: #dddddd;
+    overflow:hidden;
+}
+
+.metalink:hover {
+    background-color: #cccccc;
 }
 
 h3 {
@@ -15,8 +32,11 @@ h3 {
 }
 
 .plot {
+    box-sizing: border-box;
     float: left;
-    width: 25%;
+    margin:1px;
+    width: calc(25% - 2px);
+    border: #ffffff 2px solid;
 }
 
 .plot_head {
@@ -46,4 +66,16 @@ h3 {
     font-size: 95%;
     line-height: 140%;
     background-color: #dddddd;
+}
+
+div.warn {
+    background-color:  #ffcccc;
+}
+
+div.warn:hover {
+    background-color:  #eebbbb;
+}
+
+span.warn {
+    border-color: #ff0000;
 }
