@@ -122,7 +122,7 @@ namespace panda {
     bool passHOverE(UInt_t wp, UInt_t t) const { return hOverE < hOverECuts[t][isEB ? 0 : 1][wp]; }
 
     /* Photon
-    Float_t& pfPt; //< Pt of the dR-closest PF candidate
+    Float_t& pfPt; ///< Pt of the dR-closest PF candidate
     Float_t& chIso;
     Float_t& chIsoMax;
     Float_t& nhIso;
