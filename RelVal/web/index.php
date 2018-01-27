@@ -69,7 +69,8 @@ function list_directory($directory) {
       $meta = '';
       if (file_exists($metafile)) {
         $roomy = ' roomy';
-        $meta = sprintf('<a href="%s"><div class="metalink"><h3>metadata</h3></div></a>', $metafile);
+        $meta = sprintf('<a href="%s"><div class="metalink"><h3>metadata</h3></div></a><a href="%s"><div class="indexlink"><h3>index</h3></div></a>',
+                        $metafile, $fulldir);
       }
       printf('<a href="?d=%s"><div class="header%s"><h3>%s</h3></div></a>' . "\n", $fulldir, $roomy, $dir);
       echo $meta . '<br>';
