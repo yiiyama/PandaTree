@@ -81,6 +81,7 @@ namespace panda {
     UShort_t npvTrue{};
     Float_t rho{};
     Float_t rhoCentralCalo{};
+    Float_t pfMetSignificance{};
 
     static utils::BranchList getListOfBranches(Bool_t direct = kFALSE);
 

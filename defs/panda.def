@@ -557,6 +557,7 @@ genVertex/Vertex
 partons/PartonCollection(8)
 pfMet/RecoMet
 puppiMet/RecoMet
+pfMetSignificance/F
 rawMet/Met
 caloMet/Met
 noMuMet/Met
