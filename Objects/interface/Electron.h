@@ -77,7 +77,6 @@ namespace panda {
       Float_t* smearedPt{0};
       Float_t* mvaVal{0};
       UShort_t* nMissingHits{0};
-      UChar_t* mvaCategory{0};
       Bool_t* veto{0};
       Bool_t* conversionVeto{0};
       Bool_t* tripleCharge{0};
@@ -154,7 +153,6 @@ namespace panda {
     Float_t& smearedPt;
     Float_t& mvaVal;
     UShort_t& nMissingHits;
-    UChar_t& mvaCategory;
     Bool_t& veto;
     Bool_t& conversionVeto;
     Bool_t& tripleCharge;

@@ -19,7 +19,7 @@ panda::Electron::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Lepton::getListOfBranches();
-  blist += {"chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "trackIso", "isoPUOffset", "sieie", "sipip", "r9", "dEtaInSeed", "dPhiIn", "eseed", "hOverE", "ecalE", "trackP", "regPt", "smearedPt", "mvaVal", "nMissingHits", "mvaCategory", "veto", "conversionVeto", "tripleCharge", "mvaWP90", "mvaWP80", "triggerMatch", "superCluster_"};
+  blist += {"chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "trackIso", "isoPUOffset", "sieie", "sipip", "r9", "dEtaInSeed", "dPhiIn", "eseed", "hOverE", "ecalE", "trackP", "regPt", "smearedPt", "mvaVal", "nMissingHits", "veto", "conversionVeto", "tripleCharge", "mvaWP90", "mvaWP80", "triggerMatch", "superCluster_"};
   return blist;
 }
 
@@ -48,7 +48,6 @@ panda::Electron::datastore::allocate(UInt_t _nmax)
   smearedPt = new Float_t[nmax_];
   mvaVal = new Float_t[nmax_];
   nMissingHits = new UShort_t[nmax_];
-  mvaCategory = new UChar_t[nmax_];
   veto = new Bool_t[nmax_];
   conversionVeto = new Bool_t[nmax_];
   tripleCharge = new Bool_t[nmax_];
@@ -103,8 +102,6 @@ panda::Electron::datastore::deallocate()
   mvaVal = 0;
   delete [] nMissingHits;
   nMissingHits = 0;
-  delete [] mvaCategory;
-  mvaCategory = 0;
   delete [] veto;
   veto = 0;
   delete [] conversionVeto;
@@ -146,7 +143,6 @@ panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, utils:
   utils::setStatus(_tree, _name, "smearedPt", _branches);
   utils::setStatus(_tree, _name, "mvaVal", _branches);
   utils::setStatus(_tree, _name, "nMissingHits", _branches);
-  utils::setStatus(_tree, _name, "mvaCategory", _branches);
   utils::setStatus(_tree, _name, "veto", _branches);
   utils::setStatus(_tree, _name, "conversionVeto", _branches);
   utils::setStatus(_tree, _name, "tripleCharge", _branches);
@@ -181,7 +177,6 @@ panda::Electron::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "smearedPt"));
   blist.push_back(utils::getStatus(_tree, _name, "mvaVal"));
   blist.push_back(utils::getStatus(_tree, _name, "nMissingHits"));
-  blist.push_back(utils::getStatus(_tree, _name, "mvaCategory"));
   blist.push_back(utils::getStatus(_tree, _name, "veto"));
   blist.push_back(utils::getStatus(_tree, _name, "conversionVeto"));
   blist.push_back(utils::getStatus(_tree, _name, "tripleCharge"));
@@ -218,7 +213,6 @@ panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils
   utils::setAddress(_tree, _name, "smearedPt", smearedPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "mvaVal", mvaVal, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nMissingHits", nMissingHits, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "mvaCategory", mvaCategory, _branches, _setStatus);
   utils::setAddress(_tree, _name, "veto", veto, _branches, _setStatus);
   utils::setAddress(_tree, _name, "conversionVeto", conversionVeto, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tripleCharge", tripleCharge, _branches, _setStatus);
@@ -255,7 +249,6 @@ panda::Electron::datastore::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "smearedPt", size, 'F', smearedPt, _branches);
   utils::book(_tree, _name, "mvaVal", size, 'F', mvaVal, _branches);
   utils::book(_tree, _name, "nMissingHits", size, 's', nMissingHits, _branches);
-  utils::book(_tree, _name, "mvaCategory", size, 'b', mvaCategory, _branches);
   utils::book(_tree, _name, "veto", size, 'O', veto, _branches);
   utils::book(_tree, _name, "conversionVeto", size, 'O', conversionVeto, _branches);
   utils::book(_tree, _name, "tripleCharge", size, 'O', tripleCharge, _branches);
@@ -290,7 +283,6 @@ panda::Electron::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "smearedPt");
   utils::resetAddress(_tree, _name, "mvaVal");
   utils::resetAddress(_tree, _name, "nMissingHits");
-  utils::resetAddress(_tree, _name, "mvaCategory");
   utils::resetAddress(_tree, _name, "veto");
   utils::resetAddress(_tree, _name, "conversionVeto");
   utils::resetAddress(_tree, _name, "tripleCharge");
@@ -336,7 +328,6 @@ panda::Electron::Electron(char const* _name/* = ""*/) :
   smearedPt(gStore.getData(this).smearedPt[0]),
   mvaVal(gStore.getData(this).mvaVal[0]),
   nMissingHits(gStore.getData(this).nMissingHits[0]),
-  mvaCategory(gStore.getData(this).mvaCategory[0]),
   veto(gStore.getData(this).veto[0]),
   conversionVeto(gStore.getData(this).conversionVeto[0]),
   tripleCharge(gStore.getData(this).tripleCharge[0]),
@@ -369,7 +360,6 @@ panda::Electron::Electron(Electron const& _src) :
   smearedPt(gStore.getData(this).smearedPt[0]),
   mvaVal(gStore.getData(this).mvaVal[0]),
   nMissingHits(gStore.getData(this).nMissingHits[0]),
-  mvaCategory(gStore.getData(this).mvaCategory[0]),
   veto(gStore.getData(this).veto[0]),
   conversionVeto(gStore.getData(this).conversionVeto[0]),
   tripleCharge(gStore.getData(this).tripleCharge[0]),
@@ -400,7 +390,6 @@ panda::Electron::Electron(Electron const& _src) :
   smearedPt = _src.smearedPt;
   mvaVal = _src.mvaVal;
   nMissingHits = _src.nMissingHits;
-  mvaCategory = _src.mvaCategory;
   veto = _src.veto;
   conversionVeto = _src.conversionVeto;
   tripleCharge = _src.tripleCharge;
@@ -432,7 +421,6 @@ panda::Electron::Electron(datastore& _data, UInt_t _idx) :
   smearedPt(_data.smearedPt[_idx]),
   mvaVal(_data.mvaVal[_idx]),
   nMissingHits(_data.nMissingHits[_idx]),
-  mvaCategory(_data.mvaCategory[_idx]),
   veto(_data.veto[_idx]),
   conversionVeto(_data.conversionVeto[_idx]),
   tripleCharge(_data.tripleCharge[_idx]),
@@ -465,7 +453,6 @@ panda::Electron::Electron(ArrayBase* _array) :
   smearedPt(gStore.getData(this).smearedPt[0]),
   mvaVal(gStore.getData(this).mvaVal[0]),
   nMissingHits(gStore.getData(this).nMissingHits[0]),
-  mvaCategory(gStore.getData(this).mvaCategory[0]),
   veto(gStore.getData(this).veto[0]),
   conversionVeto(gStore.getData(this).conversionVeto[0]),
   tripleCharge(gStore.getData(this).tripleCharge[0]),
@@ -515,7 +502,6 @@ panda::Electron::operator=(Electron const& _src)
   regPt = _src.regPt;
   smearedPt = _src.smearedPt;
   mvaVal = _src.mvaVal;
-  mvaCategory = _src.mvaCategory;
   nMissingHits = _src.nMissingHits;
   veto = _src.veto;
   conversionVeto = _src.conversionVeto;
@@ -554,10 +540,13 @@ panda::Electron::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
   utils::book(_tree, _name, "trackP", "", 'F', &trackP, _branches);
   utils::book(_tree, _name, "regPt", "", 'F', &regPt, _branches);
   utils::book(_tree, _name, "smearedPt", "", 'F', &smearedPt, _branches);
+  utils::book(_tree, _name, "mvaVal", "", 'F', &mvaVal, _branches);
   utils::book(_tree, _name, "nMissingHits", "", 's', &nMissingHits, _branches);
   utils::book(_tree, _name, "veto", "", 'O', &veto, _branches);
   utils::book(_tree, _name, "conversionVeto", "", 'O', &conversionVeto, _branches);
   utils::book(_tree, _name, "tripleCharge", "", 'O', &tripleCharge, _branches);
+  utils::book(_tree, _name, "mvaWP90", "", 'O', &mvaWP90, _branches);
+  utils::book(_tree, _name, "mvaWP80", "", 'O', &mvaWP80, _branches);
   utils::book(_tree, _name, "triggerMatch", TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
   utils::book(_tree, _name, "superCluster_", "", 'S', gStore.getData(this).superCluster_, _branches);
 }
@@ -585,10 +574,13 @@ panda::Electron::doInit_()
   trackP = 0.;
   regPt = 0.;
   smearedPt = 0.;
+  mvaVal = 0.;
   nMissingHits = 0;
   veto = false;
   conversionVeto = false;
   tripleCharge = false;
+  mvaWP90 = false;
+  mvaWP80 = false;
   for (auto& p0 : triggerMatch) p0 = false;
   superCluster.init();
 
@@ -645,10 +637,13 @@ panda::Electron::dump(std::ostream& _out/* = std::cout*/) const
   _out << "trackP = " << trackP << std::endl;
   _out << "regPt = " << regPt << std::endl;
   _out << "smearedPt = " << smearedPt << std::endl;
+  _out << "mvaVal = " << mvaVal << std::endl;
   _out << "nMissingHits = " << nMissingHits << std::endl;
   _out << "veto = " << veto << std::endl;
   _out << "conversionVeto = " << conversionVeto << std::endl;
   _out << "tripleCharge = " << tripleCharge << std::endl;
+  _out << "mvaWP90 = " << mvaWP90 << std::endl;
+  _out << "mvaWP80 = " << mvaWP80 << std::endl;
   _out << "triggerMatch = " << triggerMatch << std::endl;
   _out << "superCluster = " << superCluster << std::endl;
 }
