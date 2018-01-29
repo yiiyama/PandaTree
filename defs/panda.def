@@ -46,6 +46,9 @@ packedPtError/s
 packedDxy/S
 packedDz/S
 packedDPhi/S
+loose/O
+tight/O
+highPurity/O
 void setPtError(double e) { ptError_ = e; packPtError_(); }
 double ptError() const { unpack_(); return ptError_; }
 double dxy() const { unpack_(); return dxy_; }

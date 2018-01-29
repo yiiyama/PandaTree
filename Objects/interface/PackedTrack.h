@@ -19,6 +19,9 @@ namespace panda {
       Short_t* packedDxy{0};
       Short_t* packedDz{0};
       Short_t* packedDPhi{0};
+      Bool_t* loose{0};
+      Bool_t* tight{0};
+      Bool_t* highPurity{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -57,6 +60,9 @@ namespace panda {
     Short_t& packedDxy;
     Short_t& packedDz;
     Short_t& packedDPhi;
+    Bool_t& loose;
+    Bool_t& tight;
+    Bool_t& highPurity;
 
     /* BEGIN CUSTOM PackedTrack.h.classdef */
   protected:
