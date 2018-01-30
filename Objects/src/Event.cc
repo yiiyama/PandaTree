@@ -91,8 +91,7 @@ panda::Event::Event(Event const& _src) :
   npv(_src.npv),
   npvTrue(_src.npvTrue),
   rho(_src.rho),
-  rhoCentralCalo(_src.rhoCentralCalo),
-  pfMetSignificance(_src.pfMetSignificance)
+  rhoCentralCalo(_src.rhoCentralCalo)
 {
   std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &secondaryVertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &genVertex, &partons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metMuOnlyFix, &metFilters, &recoil}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
@@ -156,7 +155,6 @@ panda::Event::operator=(Event const& _src)
   npvTrue = _src.npvTrue;
   rho = _src.rho;
   rhoCentralCalo = _src.rhoCentralCalo;
-  pfMetSignificance = _src.pfMetSignificance;
 
   genReweight = _src.genReweight;
   pfCandidates = _src.pfCandidates;
@@ -267,7 +265,6 @@ panda::Event::dump(std::ostream& _out/* = std::cout*/) const
   _out << "npvTrue = " << npvTrue << std::endl;
   _out << "rho = " << rho << std::endl;
   _out << "rhoCentralCalo = " << rhoCentralCalo << std::endl;
-  _out << "pfMetSignificance = " << pfMetSignificance << std::endl;
 
   genReweight.dump(_out);
   pfCandidates.dump(_out);
@@ -318,7 +315,7 @@ panda::Event::getListOfBranches(Bool_t _direct/* = kFALSE*/)
   utils::BranchList blist;
   blist += EventBase::getListOfBranches(_direct);
 
-  blist += {"npv", "npvTrue", "rho", "rhoCentralCalo", "pfMetSignificance"};
+  blist += {"npv", "npvTrue", "rho", "rhoCentralCalo"};
   if (!_direct) {
     blist += GenReweight::getListOfBranches().fullNames("genReweight");
     blist += PFCand::getListOfBranches().fullNames("pfCandidates");
@@ -375,7 +372,6 @@ panda::Event::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
   utils::setStatus(_tree, "", "npvTrue", _branches);
   utils::setStatus(_tree, "", "rho", _branches);
   utils::setStatus(_tree, "", "rhoCentralCalo", _branches);
-  utils::setStatus(_tree, "", "pfMetSignificance", _branches);
 }
 
 /*protected*/
@@ -389,7 +385,6 @@ panda::Event::doGetStatus_(TTree& _tree) const
   blist.push_back(utils::getStatus(_tree, "", "npvTrue"));
   blist.push_back(utils::getStatus(_tree, "", "rho"));
   blist.push_back(utils::getStatus(_tree, "", "rhoCentralCalo"));
-  blist.push_back(utils::getStatus(_tree, "", "pfMetSignificance"));
   return blist;
 }
 
@@ -410,7 +405,6 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
   utils::setAddress(_tree, "", "npvTrue", &npvTrue, _branches, _setStatus);
   utils::setAddress(_tree, "", "rho", &rho, _branches, _setStatus);
   utils::setAddress(_tree, "", "rhoCentralCalo", &rhoCentralCalo, _branches, _setStatus);
-  utils::setAddress(_tree, "", "pfMetSignificance", &pfMetSignificance, _branches, _setStatus);
 }
 
 /*protected*/
@@ -423,7 +417,6 @@ panda::Event::doBook_(TTree& _tree, utils::BranchList const& _branches)
   utils::book(_tree, "", "npvTrue", "", 's', &npvTrue, _branches);
   utils::book(_tree, "", "rho", "", 'F', &rho, _branches);
   utils::book(_tree, "", "rhoCentralCalo", "", 'F', &rhoCentralCalo, _branches);
-  utils::book(_tree, "", "pfMetSignificance", "", 'F', &pfMetSignificance, _branches);
 }
 
 /*protected*/
@@ -481,7 +474,6 @@ panda::Event::doInit_()
   npvTrue = 0;
   rho = 0.;
   rhoCentralCalo = 0.;
-  pfMetSignificance = 0.;
   /* BEGIN CUSTOM Event.cc.doInit_ */
   /* END CUSTOM */
 }

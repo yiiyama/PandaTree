@@ -445,6 +445,7 @@ ptUnclUp/F
 phiUnclUp/F
 ptUnclDown/F
 phiUnclDown/F
+significance/F
 virtual TVector2 vCorr(int corr = 0) const
 {
   if (corr == 0)
@@ -558,7 +559,6 @@ genVertex/Vertex
 partons/PartonCollection(8)
 pfMet/RecoMet
 puppiMet/RecoMet
-pfMetSignificance/F
 rawMet/Met
 caloMet/Met
 noMuMet/Met
