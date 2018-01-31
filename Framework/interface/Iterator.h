@@ -22,7 +22,7 @@ namespace panda {
       typedef typename std::conditional<is_const, typename C::const_pointer, typename C::pointer>::type pointer;
 
       Iterator() {}
-      Iterator(mutable_type const& it) : ptr_(it.ptr_), unitSize_(it.unitSize_) {}
+      Iterator(mutable_type const& it) : unitSize_(it.unitSize_) { ptr_.obj = it.ptr_.obj; }
       self_type& operator++() { shiftPtr_(1); return *this; }
       self_type operator++(int) { auto itr(*this); shiftPtr_(1); return itr; }
       self_type& operator--() { shiftPtr_(-1); return *this; }
@@ -31,21 +31,30 @@ namespace panda {
       self_type& operator-=(int n) { shiftPtr_(-n); return *this; }
       self_type operator+(int n) const { auto itr(*this); return (itr += n); }
       self_type operator-(int n) const { auto itr(*this); return (itr -= n); }
-      bool operator==(mutable_type const& rhs) const { return ptr_ == rhs.ptr_; }
-      bool operator==(const_type const& rhs) const { return ptr_ == rhs.ptr_; }
-      bool operator!=(mutable_type const& rhs) const { return ptr_ != rhs.ptr_; }
-      bool operator!=(const_type const& rhs) const { return ptr_ != rhs.ptr_; }
-      reference operator*() const { return *ptr_; }
-      pointer operator->() const { return ptr_; }
+      bool operator==(mutable_type const& rhs) const { return ptr_.obj == rhs.ptr_.obj; }
+      bool operator==(const_type const& rhs) const { return ptr_.obj == rhs.ptr_.obj; }
+      bool operator!=(mutable_type const& rhs) const { return ptr_.obj != rhs.ptr_.obj; }
+      bool operator!=(const_type const& rhs) const { return ptr_.obj != rhs.ptr_.obj; }
+      reference operator*() const { return *ptr_.obj; }
+      pointer operator->() const { return ptr_.obj; }
+      int operator-(self_type const& rhs) const { return ptr_.obj - rhs.operator->(); }
+      self_type& operator[](int n) const { return this->operator+(n); }
+      bool operator<(self_type const& rhs) const { return this->operator-(rhs) < 0; }
+      bool operator>(self_type const& rhs) const { return this->operator-(rhs) > 0; }
+      bool operator<=(self_type const& rhs) const { return !(this->operator>(rhs)); }
+      bool operator>=(self_type const& rhs) const { return !(this->operator<(rhs)); }
 
     private:
-      Iterator(pointer p, unsigned unitSize) : ptr_(p), unitSize_(unitSize) {}
+      Iterator(pointer p, unsigned unitSize) : unitSize_(unitSize) { ptr_.obj = p; }
+
+      void shiftPtr_(int shift) { ptr_.ch += unitSize_ * shift; }
 
       typedef typename std::conditional<is_const, char const*, char*>::type char_pointer;
 
-      void shiftPtr_(int shift) { reinterpret_cast<char_pointer&>(ptr_) += unitSize_ * shift; }
-
-      pointer ptr_{0};
+      union Ptr {
+        pointer obj;
+        char_pointer ch;
+      } ptr_;
       unsigned const unitSize_{0};
     };
 

@@ -1,0 +1,4 @@
+<require panda>
+
+{EventAnalysis>Event}
+genParticlesU/UnpackedGenParticleCollection(256)
