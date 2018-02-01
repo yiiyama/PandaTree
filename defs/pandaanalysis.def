@@ -2,3 +2,4 @@
 
 {EventAnalysis>Event}
 genParticlesU/UnpackedGenParticleCollection(256)
+genParticlesU.parent->genParticlesU

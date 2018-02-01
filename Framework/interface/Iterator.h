@@ -38,7 +38,7 @@ namespace panda {
       reference operator*() const { return *ptr_.obj; }
       pointer operator->() const { return ptr_.obj; }
       int operator-(self_type const& rhs) const { return ptr_.obj - rhs.operator->(); }
-      self_type& operator[](int n) const { return this->operator+(n); }
+      self_type operator[](int n) const { return this->operator+(n); }
       bool operator<(self_type const& rhs) const { return this->operator-(rhs) < 0; }
       bool operator>(self_type const& rhs) const { return this->operator-(rhs) > 0; }
       bool operator<=(self_type const& rhs) const { return !(this->operator>(rhs)); }

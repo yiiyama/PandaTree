@@ -7,6 +7,8 @@ panda::EventAnalysis::EventAnalysis() :
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   std::vector<CollectionBase*> myCollections{{&genParticlesU}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
+
+  genParticlesU.data.parentContainer_ = &genParticlesU;
   /* BEGIN CUSTOM EventAnalysis.cc.ctor */
   /* END CUSTOM */
 }
@@ -19,6 +21,8 @@ panda::EventAnalysis::EventAnalysis(EventAnalysis const& _src) :
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   std::vector<CollectionBase*> myCollections{{&genParticlesU}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
+
+  genParticlesU.data.parentContainer_ = &genParticlesU;
   /* BEGIN CUSTOM EventAnalysis.cc.copy_ctor */
   /* END CUSTOM */
 }
@@ -38,6 +42,8 @@ panda::EventAnalysis::operator=(EventAnalysis const& _src)
   /* END CUSTOM */
 
   genParticlesU = _src.genParticlesU;
+
+  genParticlesU.data.parentContainer_ = &genParticlesU;
 
   return *this;
 }
