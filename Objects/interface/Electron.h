@@ -75,10 +75,13 @@ namespace panda {
       Float_t* trackP{0};
       Float_t* regPt{0};
       Float_t* smearedPt{0};
+      Float_t* mvaVal{0};
       UShort_t* nMissingHits{0};
       Bool_t* veto{0};
       Bool_t* conversionVeto{0};
       Bool_t* tripleCharge{0};
+      Bool_t* mvaWP90{0};
+      Bool_t* mvaWP80{0};
       Bool_t (*triggerMatch)[nTriggerObjects]{0};
       ContainerBase const* superClusterContainer_{0};
       Short_t* superCluster_{0};
@@ -148,10 +151,13 @@ namespace panda {
     Float_t& trackP;
     Float_t& regPt;
     Float_t& smearedPt;
+    Float_t& mvaVal;
     UShort_t& nMissingHits;
     Bool_t& veto;
     Bool_t& conversionVeto;
     Bool_t& tripleCharge;
+    Bool_t& mvaWP90;
+    Bool_t& mvaWP80;
     Bool_t (&triggerMatch)[nTriggerObjects];
     Ref<SuperCluster> superCluster;
 
