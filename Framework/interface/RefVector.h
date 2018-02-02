@@ -85,7 +85,7 @@ namespace panda {
     /*!
      * The internal indices are re-ordered, but the underlying data is untouched
      */
-    Indices sort(ContainerBase::Comparison const&);
+    void sort(ContainerBase::Comparison const&);
 
     //! "pointer" wrapper for Ref
     template<Bool_t is_const>
@@ -164,7 +164,7 @@ namespace panda {
   };
 
   template<class E>
-  typename RefVector<E>::Indices
+  void
   RefVector<E>::sort(ContainerBase::Comparison const& _c)
   {
     // define an index comparison using the element comparison
@@ -174,8 +174,6 @@ namespace panda {
       });
 
     std::sort(indices_->begin(), indices_->end(), indexComp);
-
-    return *indices_;
   }
 
   template<class E>
