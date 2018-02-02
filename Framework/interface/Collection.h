@@ -189,9 +189,15 @@ namespace panda {
 
     std::sort(sortedIndices.begin(), sortedIndices.end(), indexComp);
 
-    self_type tmpCollection(*this);
+    std::allocator<value_type> alloc;
+    UInt_t size = CollectionBase::size(); // only allocate enough memory to do the sort, not nmax
+
+    Char_t* arrayCpy = reinterpret_cast<Char_t*>(alloc.allocate(size));
+    std::copy(ContainerBase::array_, ContainerBase::array_ + size*sizeof(value_type), arrayCpy);
     for (UInt_t iP(0); iP != CollectionBase::size(); ++iP)
-      (*this)[iP] = tmpCollection[sortedIndices[iP]];
+      reinterpret_cast<value_type*>(ContainerBase::array_)[iP] = reinterpret_cast<value_type*>(arrayCpy)[sortedIndices[iP]];
+
+    alloc.deallocate(reinterpret_cast<value_type*>(arrayCpy),size);
 
     return sortedIndices;
   }
