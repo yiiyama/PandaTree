@@ -6,7 +6,7 @@ panda::RecoMet::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Met::getListOfBranches();
-  blist += {"sumETRaw", "ptCorrUp", "phiCorrUp", "ptCorrDown", "phiCorrDown", "ptUnclUp", "phiUnclUp", "ptUnclDown", "phiUnclDown"};
+  blist += {"sumETRaw", "ptCorrUp", "phiCorrUp", "ptCorrDown", "phiCorrDown", "ptUnclUp", "phiUnclUp", "ptUnclDown", "phiUnclDown", "significance"};
   return blist;
 }
 
@@ -25,7 +25,8 @@ panda::RecoMet::RecoMet(RecoMet const& _src) :
   ptUnclUp(_src.ptUnclUp),
   phiUnclUp(_src.phiUnclUp),
   ptUnclDown(_src.ptUnclDown),
-  phiUnclDown(_src.phiUnclDown)
+  phiUnclDown(_src.phiUnclDown),
+  significance(_src.significance)
 {
   sumETRaw = _src.sumETRaw;
   ptCorrUp = _src.ptCorrUp;
@@ -36,6 +37,7 @@ panda::RecoMet::RecoMet(RecoMet const& _src) :
   phiUnclUp = _src.phiUnclUp;
   ptUnclDown = _src.ptUnclDown;
   phiUnclDown = _src.phiUnclDown;
+  significance = _src.significance;
 }
 
 panda::RecoMet::~RecoMet()
@@ -56,6 +58,7 @@ panda::RecoMet::operator=(RecoMet const& _src)
   phiUnclUp = _src.phiUnclUp;
   ptUnclDown = _src.ptUnclDown;
   phiUnclDown = _src.phiUnclDown;
+  significance = _src.significance;
 
   /* BEGIN CUSTOM RecoMet.cc.operator= */
   /* END CUSTOM */
@@ -77,6 +80,7 @@ panda::RecoMet::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
   utils::setStatus(_tree, name_, "phiUnclUp", _branches);
   utils::setStatus(_tree, name_, "ptUnclDown", _branches);
   utils::setStatus(_tree, name_, "phiUnclDown", _branches);
+  utils::setStatus(_tree, name_, "significance", _branches);
 }
 
 panda::utils::BranchList
@@ -93,6 +97,7 @@ panda::RecoMet::doGetStatus_(TTree& _tree) const
   blist.push_back(utils::getStatus(_tree, name_, "phiUnclUp"));
   blist.push_back(utils::getStatus(_tree, name_, "ptUnclDown"));
   blist.push_back(utils::getStatus(_tree, name_, "phiUnclDown"));
+  blist.push_back(utils::getStatus(_tree, name_, "significance"));
 
   return blist;
 }
@@ -111,6 +116,7 @@ panda::RecoMet::doSetAddress_(TTree& _tree, utils::BranchList const& _branches/*
   utils::setAddress(_tree, name_, "phiUnclUp", &phiUnclUp, _branches, _setStatus);
   utils::setAddress(_tree, name_, "ptUnclDown", &ptUnclDown, _branches, _setStatus);
   utils::setAddress(_tree, name_, "phiUnclDown", &phiUnclDown, _branches, _setStatus);
+  utils::setAddress(_tree, name_, "significance", &significance, _branches, _setStatus);
 }
 
 void
@@ -127,6 +133,7 @@ panda::RecoMet::doBook_(TTree& _tree, utils::BranchList const& _branches/* = {"*
   utils::book(_tree, name_, "phiUnclUp", "", 'F', &phiUnclUp, _branches);
   utils::book(_tree, name_, "ptUnclDown", "", 'F', &ptUnclDown, _branches);
   utils::book(_tree, name_, "phiUnclDown", "", 'F', &phiUnclDown, _branches);
+  utils::book(_tree, name_, "significance", "", 'F', &significance, _branches);
 }
 
 void
@@ -143,6 +150,7 @@ panda::RecoMet::doInit_()
   phiUnclUp = 0.;
   ptUnclDown = 0.;
   phiUnclDown = 0.;
+  significance = 0.;
 
   /* BEGIN CUSTOM RecoMet.cc.doInit_ */
   /* END CUSTOM */
@@ -187,6 +195,7 @@ panda::RecoMet::dump(std::ostream& _out/* = std::cout*/) const
   _out << "phiUnclUp = " << phiUnclUp << std::endl;
   _out << "ptUnclDown = " << ptUnclDown << std::endl;
   _out << "phiUnclDown = " << phiUnclDown << std::endl;
+  _out << "significance = " << significance << std::endl;
 }
 
 TVector2

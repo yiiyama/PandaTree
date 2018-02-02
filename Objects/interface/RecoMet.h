@@ -38,6 +38,7 @@ namespace panda {
     Float_t phiUnclUp{};
     Float_t ptUnclDown{};
     Float_t phiUnclDown{};
+    Float_t significance{};
 
     /* BEGIN CUSTOM RecoMet.h.classdef */
     /* END CUSTOM */

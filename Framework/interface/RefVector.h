@@ -106,6 +106,7 @@ namespace panda {
       typedef typename std::conditional<is_const, const_ref_type, ref_type>::type value_type;
       typedef refvector_type::RefHolder<is_const> ptr_type;
       typedef typename std::conditional<is_const, Indices::const_iterator, Indices::iterator>::type internal_type;
+      typedef int difference_type;
 
       RefVectorIterator() {}
       RefVectorIterator(self_type const& it) : container_(it.container_), itr_(it.itr_) {}
@@ -121,6 +122,14 @@ namespace panda {
       bool operator!=(self_type const& rhs) const { return itr_ != rhs.itr_; }
       value_type operator*() const { return value_type(*container_, *itr_); }
       ptr_type operator->() const { return ptr_type(*container_, *itr_); }
+      int operator-(self_type const& rhs) const { 
+        return this->operator*().operator->() - (*rhs).operator->(); 
+      }
+      self_type operator[](int n) const { return this->operator+(n); }
+      bool operator<(self_type const& rhs) const { return this->operator-(rhs) < 0; }
+      bool operator>(self_type const& rhs) const { return this->operator-(rhs) > 0; }
+      bool operator<=(self_type const& rhs) const { return !(this->operator>(rhs)); }
+      bool operator>=(self_type const& rhs) const { return !(this->operator<(rhs)); }
 
     private:
       RefVectorIterator(ContainerBase const*& v, internal_type const& i) : container_(&v), itr_(i) {}
