@@ -1663,6 +1663,7 @@ template <>
 struct plotter <124> {
   constexpr static const char* name = "muons/size";
   std::vector<float> operator () (panda::Event& event) {
+    event.muons.sort(panda::Particle::PtGreater);
     std::vector<float> output {float(event.muons.size())};
     return output;
   }

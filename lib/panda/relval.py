@@ -101,21 +101,27 @@ def write_header(trees, file_name):
                 objdef = PhysicsObject.get(obj.objname)
                 set_to_plot = plot_set(objdef)
 
+                init_string = '' # action to be performed once, for the first plot of this collection
 
                 # Two ways to fill the histograms whether or not this is a collection
-                action_string = '    std::vector<float> output {float(event.' + obj.name + '.%s)};'
+                action_string = '{init}    std::vector<float> output {{float(event.' + obj.name + '.{branch})}};'
                 if obj.conttype == 'Collection':
 
+                    if 'relvalsort' in obj.modifiers:
+                        if obj.modifiers['relvalsort'] == 'pt':
+                            init_string += '    event.{objname}.sort(panda::Particle::PtGreater);\n'.format(objname = obj.name)
+                            
                     # Throw in size of the collection
                     plot = 'size()'
-                    writer.writeline(template % (num_plots, obj.name, plot.rstrip('()'), action_string % plot))
+                    writer.writeline(template % (num_plots, obj.name, plot.rstrip('()'), action_string.format(init = init_string, branch = plot)))
+                    init_string = '' # reset, now that it's been called
                     num_plots += 1
 
                     action_string = """
     std::vector<float> output;
-    for (auto& i : event.{0})
-      output.push_back(i.%s);
-""".format(obj.name)
+{{init}}    for (auto& i : event.{objname})
+      output.push_back(i.{{branch}});
+""".format(objname=obj.name)
 
 
                 # Print sizes of references
@@ -124,11 +130,12 @@ def write_header(trees, file_name):
                     if hasattr(refbranch, 'refname'):
                         name = refbranch.name.rstrip('_')
                         member = 'size' if 'std::vector' in refbranch.type else 'isValid'
-                        writer.writeline(template % (num_plots, obj.name, '%s_%s' % (name, member), action_string % ('%s.%s()' % (name, member))))
+                        writer.writeline(template % (num_plots, obj.name, '%s_%s' % (name, member), action_string.format(init = '', branch = '%s.%s()' % (name, member))))
                         num_plots += 1
 
                 for plot in set_to_plot:
-                    writer.writeline(template % (num_plots, obj.name, plot.rstrip('()'), action_string % plot))
+                    writer.writeline(template % (num_plots, obj.name, plot.rstrip('()'), action_string.format(init = init_string, branch = plot)))
+                    init_string = '' # reset
                     num_plots += 1
 
     writer.writeline('#define NUM_PLOTS %i' % num_plots)
