@@ -2,6 +2,9 @@
 #define IWILLSEEYOULATER 1
 
 #include <vector>
+#include <functional>
+#include <algorithm>
+#include <cassert>
 #include "PandaTree/Objects/interface/Event.h"
 
 
@@ -1663,7 +1666,6 @@ template <>
 struct plotter <124> {
   constexpr static const char* name = "muons/size";
   std::vector<float> operator () (panda::Event& event) {
-    event.muons.sort(panda::Particle::PtGreater);
     std::vector<float> output {float(event.muons.size())};
     return output;
   }
@@ -2084,7 +2086,7 @@ struct plotter <154> {
     std::vector<float> output;
     for (auto& i : event.muons)
       output.push_back(i.pt());
-
+    assert(std::is_sorted(output.begin(), output.end(), std::greater<float>()));
     return output;
   }
 };
