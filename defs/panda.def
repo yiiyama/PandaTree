@@ -46,6 +46,7 @@ packedPtError/s
 packedDxy/S
 packedDz/S
 packedDPhi/S
+highPurity/O
 void setPtError(double e) { ptError_ = e; packPtError_(); }
 double ptError() const { unpack_(); return ptError_; }
 double dxy() const { unpack_(); return dxy_; }
@@ -254,10 +255,13 @@ ecalE/F
 trackP/F
 regPt/F
 smearedPt/F
+mvaVal/F
 nMissingHits/s
 veto/O
 conversionVeto/O
 tripleCharge/O
+mvaWP90/O
+mvaWP80/O
 triggerMatch[nTriggerObjects]/O
 superCluster/SuperClusterRef
 double m() const override { return 5.109989e-4; }
@@ -441,6 +445,7 @@ ptUnclUp/F
 phiUnclUp/F
 ptUnclDown/F
 phiUnclDown/F
+significance/F
 virtual TVector2 vCorr(int corr = 0) const
 {
   if (corr == 0)

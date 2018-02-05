@@ -5,7 +5,7 @@ panda::utils::BranchList
 panda::PackedTrack::getListOfBranches()
 {
   utils::BranchList blist;
-  blist += {"packedPtError", "packedDxy", "packedDz", "packedDPhi"};
+  blist += {"packedPtError", "packedDxy", "packedDz", "packedDPhi", "highPurity"};
   return blist;
 }
 
@@ -18,6 +18,7 @@ panda::PackedTrack::datastore::allocate(UInt_t _nmax)
   packedDxy = new Short_t[nmax_];
   packedDz = new Short_t[nmax_];
   packedDPhi = new Short_t[nmax_];
+  highPurity = new Bool_t[nmax_];
 }
 
 void
@@ -33,6 +34,8 @@ panda::PackedTrack::datastore::deallocate()
   packedDz = 0;
   delete [] packedDPhi;
   packedDPhi = 0;
+  delete [] highPurity;
+  highPurity = 0;
 }
 
 void
@@ -44,6 +47,7 @@ panda::PackedTrack::datastore::setStatus(TTree& _tree, TString const& _name, uti
   utils::setStatus(_tree, _name, "packedDxy", _branches);
   utils::setStatus(_tree, _name, "packedDz", _branches);
   utils::setStatus(_tree, _name, "packedDPhi", _branches);
+  utils::setStatus(_tree, _name, "highPurity", _branches);
 }
 
 panda::utils::BranchList
@@ -55,6 +59,7 @@ panda::PackedTrack::datastore::getStatus(TTree& _tree, TString const& _name) con
   blist.push_back(utils::getStatus(_tree, _name, "packedDxy"));
   blist.push_back(utils::getStatus(_tree, _name, "packedDz"));
   blist.push_back(utils::getStatus(_tree, _name, "packedDPhi"));
+  blist.push_back(utils::getStatus(_tree, _name, "highPurity"));
 
   return blist;
 }
@@ -68,6 +73,7 @@ panda::PackedTrack::datastore::setAddress(TTree& _tree, TString const& _name, ut
   utils::setAddress(_tree, _name, "packedDxy", packedDxy, _branches, _setStatus);
   utils::setAddress(_tree, _name, "packedDz", packedDz, _branches, _setStatus);
   utils::setAddress(_tree, _name, "packedDPhi", packedDPhi, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "highPurity", highPurity, _branches, _setStatus);
 }
 
 void
@@ -81,6 +87,7 @@ panda::PackedTrack::datastore::book(TTree& _tree, TString const& _name, utils::B
   utils::book(_tree, _name, "packedDxy", size, 'S', packedDxy, _branches);
   utils::book(_tree, _name, "packedDz", size, 'S', packedDz, _branches);
   utils::book(_tree, _name, "packedDPhi", size, 'S', packedDPhi, _branches);
+  utils::book(_tree, _name, "highPurity", size, 'O', highPurity, _branches);
 }
 
 void
@@ -92,6 +99,7 @@ panda::PackedTrack::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "packedDxy");
   utils::resetAddress(_tree, _name, "packedDz");
   utils::resetAddress(_tree, _name, "packedDPhi");
+  utils::resetAddress(_tree, _name, "highPurity");
 }
 
 void
@@ -113,7 +121,8 @@ panda::PackedTrack::PackedTrack(char const* _name/* = ""*/) :
   packedPtError(gStore.getData(this).packedPtError[0]),
   packedDxy(gStore.getData(this).packedDxy[0]),
   packedDz(gStore.getData(this).packedDz[0]),
-  packedDPhi(gStore.getData(this).packedDPhi[0])
+  packedDPhi(gStore.getData(this).packedDPhi[0]),
+  highPurity(gStore.getData(this).highPurity[0])
 {
 }
 
@@ -122,7 +131,8 @@ panda::PackedTrack::PackedTrack(PackedTrack const& _src) :
   packedPtError(gStore.getData(this).packedPtError[0]),
   packedDxy(gStore.getData(this).packedDxy[0]),
   packedDz(gStore.getData(this).packedDz[0]),
-  packedDPhi(gStore.getData(this).packedDPhi[0])
+  packedDPhi(gStore.getData(this).packedDPhi[0]),
+  highPurity(gStore.getData(this).highPurity[0])
 {
   Element::operator=(_src);
 
@@ -130,6 +140,7 @@ panda::PackedTrack::PackedTrack(PackedTrack const& _src) :
   packedDxy = _src.packedDxy;
   packedDz = _src.packedDz;
   packedDPhi = _src.packedDPhi;
+  highPurity = _src.highPurity;
 }
 
 panda::PackedTrack::PackedTrack(datastore& _data, UInt_t _idx) :
@@ -137,7 +148,8 @@ panda::PackedTrack::PackedTrack(datastore& _data, UInt_t _idx) :
   packedPtError(_data.packedPtError[_idx]),
   packedDxy(_data.packedDxy[_idx]),
   packedDz(_data.packedDz[_idx]),
-  packedDPhi(_data.packedDPhi[_idx])
+  packedDPhi(_data.packedDPhi[_idx]),
+  highPurity(_data.highPurity[_idx])
 {
 }
 
@@ -146,7 +158,8 @@ panda::PackedTrack::PackedTrack(ArrayBase* _array) :
   packedPtError(gStore.getData(this).packedPtError[0]),
   packedDxy(gStore.getData(this).packedDxy[0]),
   packedDz(gStore.getData(this).packedDz[0]),
-  packedDPhi(gStore.getData(this).packedDPhi[0])
+  packedDPhi(gStore.getData(this).packedDPhi[0]),
+  highPurity(gStore.getData(this).highPurity[0])
 {
 }
 
@@ -169,6 +182,7 @@ panda::PackedTrack::operator=(PackedTrack const& _src)
   packedDxy = _src.packedDxy;
   packedDz = _src.packedDz;
   packedDPhi = _src.packedDPhi;
+  highPurity = _src.highPurity;
 
   /* BEGIN CUSTOM PackedTrack.cc.operator= */
   ptError_ = _src.ptError_;
@@ -188,6 +202,7 @@ panda::PackedTrack::doBook_(TTree& _tree, TString const& _name, utils::BranchLis
   utils::book(_tree, _name, "packedDxy", "", 'S', &packedDxy, _branches);
   utils::book(_tree, _name, "packedDz", "", 'S', &packedDz, _branches);
   utils::book(_tree, _name, "packedDPhi", "", 'S', &packedDPhi, _branches);
+  utils::book(_tree, _name, "highPurity", "", 'O', &highPurity, _branches);
 }
 
 void
@@ -197,6 +212,7 @@ panda::PackedTrack::doInit_()
   packedDxy = 0;
   packedDz = 0;
   packedDPhi = 0;
+  highPurity = false;
 
   /* BEGIN CUSTOM PackedTrack.cc.doInit_ */
   ptError_ = 0.;
@@ -222,6 +238,7 @@ panda::PackedTrack::dump(std::ostream& _out/* = std::cout*/) const
   _out << "packedDxy = " << packedDxy << std::endl;
   _out << "packedDz = " << packedDz << std::endl;
   _out << "packedDPhi = " << packedDPhi << std::endl;
+  _out << "highPurity = " << highPurity << std::endl;
 }
 
 
