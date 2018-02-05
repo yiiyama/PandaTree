@@ -12,27 +12,28 @@ header = """#ifndef IWILLSEEYOULATER
 #include <cassert>
 #include "PandaTree/Objects/interface/Event.h"
 
+namespace testpanda {
 
-template <int P>
-struct plotter {
-  constexpr static const char* name = nullptr;
-};
-"""
+  template <int P>
+  struct plotter {
+    constexpr static const char* name = nullptr;
+  };"""
 
 # Each defined structure must follow this format
 template = """
-template <>
-struct plotter <%i> {
-  constexpr static const char* name = "%s/%s";
-  std::vector<float> operator () (panda::Event& event) {
-%s
-    return output;
-  }
-};
-"""
+  template <>
+  struct plotter <%i> {
+    constexpr static const char* name = "%s/%s";
+    std::vector<float> operator () (panda::Event& event) {
+      %s
+      return output;
+    }
+  };"""
 
 # Ending of EnumerateBranches.h
 footer = """
+};
+
 #endif"""
 
 
@@ -92,7 +93,7 @@ def write_header(trees, file_name):
                     template % (num_plots,            # Which plot we're defining
                                 'common',             # The output directory of the plot
                                 plot.rstrip('()'),    # The name of the plot file (without extension)
-                                '    std::vector<float> output {float(event.%s)};' % plot))  # The vector of values that fills the histogram
+                                'std::vector<float> output {float(event.%s)};' % plot))  # The vector of values that fills the histogram
                 num_plots += 1
 
             for obj in tree.objbranches:
@@ -105,7 +106,7 @@ def write_header(trees, file_name):
                 set_to_plot = plot_set(objdef)
 
                 # Two ways to fill the histograms whether or not this is a collection
-                action_string = '    std::vector<float> output {{float(event.' + obj.name + '.{branch})}};'
+                action_string = 'std::vector<float> output {{float(event.' + obj.name + '.{branch})}};'
                 if obj.conttype == 'Collection':
 
                     # Throw in size of the collection
@@ -113,11 +114,9 @@ def write_header(trees, file_name):
                     writer.writeline(template % (num_plots, obj.name, plot.rstrip('()'), action_string.format(branch=plot)))
                     num_plots += 1
 
-                    action_string = """
-    std::vector<float> output;
-    for (auto& i : event.{objname})
-      output.push_back(i.{{branch}});
-""".format(objname=obj.name)
+                    action_string = """std::vector<float> output;
+      for (auto& i : event.{objname})
+        output.push_back(i.{{branch}});""".format(objname=obj.name)
 
                 # Print sizes of references
                 for refbranch in objdef.branches:
@@ -133,11 +132,11 @@ def write_header(trees, file_name):
                     sortedby = obj.modifiers.get('sortedby', '').split(',')
                     if sortedby[0] == plot.rstrip('()'):
                         compare = sortedby[1] if len(sortedby) > 1 else 'greater'
-                        assertion = '    assert(std::is_sorted(output.begin(), output.end(), std::{compare}<float>()));'.format(compare=compare)
+                        assertion = '\n      assert(std::is_sorted(output.begin(), output.end(), std::{compare}<float>()));'.format(compare=compare)
 
                     writer.writeline(template % (num_plots, obj.name, plot.rstrip('()'),
                                                  action_string.format(branch=plot) + assertion))
                     num_plots += 1
 
-    writer.writeline('#define NUM_PLOTS %i' % num_plots)
+    writer.writeline('\n#define NUM_PLOTS %i' % num_plots)
     writer.writeline(footer)

@@ -55,7 +55,7 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    Short_t& pdgid;
+    Short_t& pdgid; ///< Filled with hadron flavor
     Short_t& partonFlavor;
     Short_t& numB;
     Short_t& numC;

@@ -43,7 +43,7 @@ namespace panda {
     PackedTrackCollection tracks = PackedTrackCollection("tracks", 1024);
     SuperClusterCollection superClusters = SuperClusterCollection("superClusters", 64);
     ElectronCollection electrons = ElectronCollection("electrons", 32);
-    MuonCollection muons = MuonCollection("muons", 32);
+    MuonCollection muons = MuonCollection("muons", 32);  ///< sortedby=pt
     TauCollection taus = TauCollection("taus", 64);
     PhotonCollection photons = PhotonCollection("photons", 32);
     JetCollection chsAK4Jets = JetCollection("chsAK4Jets", 64);

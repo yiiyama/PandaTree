@@ -27,6 +27,7 @@
 #include "PandaTree/RelVal/interface/EnumerateBranches.h"
 #include "PandaTree/RelVal/interface/TemplateMagic.h"
 
+using namespace testpanda;
 
 bool exists(const char* path) {
   struct stat buffer;
@@ -83,12 +84,19 @@ std::string get_git_tag(std::string repo) {
     head_file >> head >> head;
     head_file.close();
 
-    std::string tag;
-    std::ifstream tag_file((git_dir + "/" + head).data());
-    tag_file >> tag;
-    tag_file.close();
+    auto tag_location = git_dir + "/" + head;
 
-    return tag;
+    if (exists(tag_location.data())) {
+        std::string tag;
+        std::ifstream tag_file(tag_location.data());
+        tag_file >> tag;
+        tag_file.close();
+
+        return tag;
+      }
+
+      // Checkout in Jenkins just saves the commit in HEAD
+      return head;
   }
   std::cout << "No git dir" << std::endl;
   return "";
@@ -145,13 +153,17 @@ int main(int argc, char** argv) {
   // I'll do the stat by hand here so that I can keep the stat info
   struct stat input_stat;
 
-  if (argc != 2 || stat(argv[1], &input_stat) != 0) {
+  // We can accept argc == 2 | argc == 3
+  if (argc >> 1 != 1 || stat(argv[1], &input_stat) != 0) {
     // Print the usage information
     std::cout << std::endl
-              << "Usage: " << argv[0] << " INPUT" << std::endl
+              << "Usage: " << argv[0] << " INPUT [OUTPUT]" << std::endl
               << std::endl
               << "Takes a panda file and creates plots in your personal web directory." << std::endl
               << "A little webpage is included to make the output directory nice to look at." << std::endl
+              << std::endl
+              << "OUTPUT is the name of the final directory to put in your ~/public_html/relval" << std::endl
+              << "If left blank or already filled, a directory will be made based on a timestamp." << std::endl
               << std::endl;
 
     return 1;
@@ -322,9 +334,14 @@ int main(int argc, char** argv) {
   time_t end_time;
   time(&end_time);
 
-  char timestamp_str[32];
-  strftime(timestamp_str, sizeof(timestamp_str) - 1, "%y%m%d_%H%M%S", localtime(&end_time));
-  auto output_dir = base_dir + "/" + timestamp_str;
+  auto output_dir = base_dir + "/";
+  if (argc == 2 || exists((output_dir + argv[2]).data())) {
+    char timestamp_str[32];
+    strftime(timestamp_str, sizeof(timestamp_str) - 1, "%y%m%d_%H%M%S", localtime(&end_time));
+    output_dir += timestamp_str;
+  }
+  else
+    output_dir += argv[2];
 
   // We will actually make the directory when the first plots come in
 
@@ -353,6 +370,14 @@ int main(int argc, char** argv) {
         canvas->SaveAs((output_dir + "/" + branch_name + "_log" + ext).data());
         canvas->SetLogy(false);
       }
+
+      // Check if only a single value was filled, and flag as potential bad filling.
+      if (maximums[index].first == minimums[index].first) {
+        std::ofstream flag_file((output_dir + "/" + branch_name + "_FLAG.txt"));
+        flag_file << maximums[index].first;
+        flag_file.close();
+      }
+
     }
   };
 
@@ -372,9 +397,11 @@ int main(int argc, char** argv) {
   if (!debug) {
     std::ofstream metadata_file(output_dir + "/metadata.txt");
 
+    std::string in_file_name = argv[1][0] == '/' ? argv[1] : std::string(getenv("PWD")) + '/' + argv[1];
+
     metadata_file << "Report generated: " << report_time_str << std::endl
                   << std::endl
-                  << "File name:  " << getenv("PWD") << '/' << argv[1] << std::endl
+                  << "File name:  " << in_file_name << std::endl
                   << "File size:  " << input_stat.st_size << std::endl
                   << "File mtime: " << mtime_str << std::endl
                   << std::endl
