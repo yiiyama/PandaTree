@@ -244,4 +244,11 @@ class Branch(Definition):
         out.writeline(self.initializer)
 
     def write_dump(self, out):
-        out.writeline('_out << "{name} = " << {name} << std::endl;'.format(name = self.name))
+        translations = {   # Solve the generic problem of casting, just in case
+            'B': 'I'       # Cast chars to ints
+            }
+
+        translation = Branch.TYPE_MAP.get(translations.get(self.type)) if not self.is_array() else None
+        cast = 'static_cast<const {outtype}>({name})'.format(outtype = translation, name = self.name) if translation else self.name
+
+        out.writeline('_out << "{name} = " << {cast} << std::endl;'.format(name = self.name, cast = cast))

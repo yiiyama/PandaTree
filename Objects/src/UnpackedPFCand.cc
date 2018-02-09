@@ -220,8 +220,8 @@ panda::UnpackedPFCand::dump(std::ostream& _out/* = std::cout*/) const
 {
   ParticleM::dump(_out);
 
-  _out << "puppiW = " << puppiW << std::endl;
-  _out << "puppiWNoLep = " << puppiWNoLep << std::endl;
+  _out << "puppiW = " << static_cast<const Int_t>(puppiW) << std::endl;
+  _out << "puppiWNoLep = " << static_cast<const Int_t>(puppiWNoLep) << std::endl;
   _out << "ptype = " << ptype << std::endl;
   _out << "vertex = " << vertex << std::endl;
 }
