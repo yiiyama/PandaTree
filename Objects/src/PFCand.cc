@@ -261,9 +261,9 @@ panda::PFCand::dump(std::ostream& _out/* = std::cout*/) const
 {
   PackedParticle::dump(_out);
 
-  _out << "packedPuppiW = " << packedPuppiW << std::endl;
-  _out << "packedPuppiWNoLepDiff = " << packedPuppiWNoLepDiff << std::endl;
-  _out << "ptype = " << ptype << std::endl;
+  _out << "packedPuppiW = " << static_cast<const Int_t>(packedPuppiW) << std::endl;
+  _out << "packedPuppiWNoLepDiff = " << static_cast<const Int_t>(packedPuppiWNoLepDiff) << std::endl;
+  _out << "ptype = " << static_cast<const UInt_t>(ptype) << std::endl;
   _out << "vertex = " << vertex << std::endl;
   _out << "track = " << track << std::endl;
   _out << "hCalFrac = " << hCalFrac << std::endl;

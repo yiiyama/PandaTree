@@ -300,7 +300,7 @@ panda::Tau::dump(std::ostream& _out/* = std::cout*/) const
 {
   ParticleM::dump(_out);
 
-  _out << "charge = " << charge << std::endl;
+  _out << "charge = " << static_cast<const Int_t>(charge) << std::endl;
   _out << "decayMode = " << decayMode << std::endl;
   _out << "decayModeNew = " << decayModeNew << std::endl;
   _out << "looseIsoMVA = " << looseIsoMVA << std::endl;
