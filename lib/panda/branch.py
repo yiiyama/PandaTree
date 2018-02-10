@@ -245,7 +245,8 @@ class Branch(Definition):
 
     def write_dump(self, out):
         translations = {   # Solve the generic problem of casting, just in case
-            'B': 'I'       # Cast chars to ints
+            'B': 'I',      # Cast chars to ints
+            'b': 'i'       # Unsigned
             }
 
         translation = Branch.TYPE_MAP.get(translations.get(self.type)) if not self.is_array() else None
