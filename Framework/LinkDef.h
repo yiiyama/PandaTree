@@ -6,6 +6,7 @@
 #include "PandaTree/Framework/interface/ArrayBase.h"
 #include "PandaTree/Framework/interface/CollectionBase.h"
 #include "PandaTree/Framework/interface/TreeEntry.h"
+#include "PandaTree/Framework/interface/RRNG.h"
 
 #ifdef __CLING__
 #pragma link off all globals;
@@ -23,5 +24,6 @@
 #pragma link C++ class panda::ArrayBase;
 #pragma link C++ class panda::CollectionBase;
 #pragma link C++ class panda::TreeEntry;
+#pragma link C++ class panda::RRNG;
 
 #endif

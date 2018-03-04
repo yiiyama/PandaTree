@@ -3,8 +3,10 @@
 #include "TString.h"
 #include <iostream>
 #include <stdexcept>
+#include <cassert>
 
 using namespace std;
+using namespace panda;
 
 int RRNG::_default_idx;
 
@@ -12,8 +14,10 @@ RRNG::RRNG(int seed, int maxEntropy):
   _rng(seed),
   _maxEntropy(maxEntropy)
 {
+  assert(_maxEntropy > 0);
   _default_idx = -1;
-  _x = new double[maxEntropy];
+  _x = new double[_maxEntropy];
+  _available = new bool[_maxEntropy];
   generate();
 }
 
@@ -22,13 +26,24 @@ RRNG::RRNG(RRNG const& other):
   _maxEntropy(other._maxEntropy)
 {
   _x = new double[_maxEntropy];
+  _available = new bool[_maxEntropy];
   generate();
 }
 
 void RRNG::generate() 
 {
-  _usedEntropy = 0;
   _rng.RndmArray(_maxEntropy, _x);
+  for (int i = 0; i != _maxEntropy; ++i) 
+    _available[i] = true;
+}
+
+int RRNG::_nextAvailable(int start)
+{
+  for (int i = start; i != _maxEntropy; ++i) {
+    if (_available[i])
+      return i;
+  }
+  return -1;
 }
 
 double RRNG::_requestNumber(int& idx) 
@@ -37,28 +52,20 @@ double RRNG::_requestNumber(int& idx)
   if (idx >= _maxEntropy) {
     throw out_of_range(Form("RRNG::_requestNumber accessing RN %i/%i", idx, _maxEntropy));
   } 
+  if (idx >= 0 && !_available[idx]) {
+    throw runtime_error(Form("RRNG::_requestNumber already accessed %i", idx));
+  }
   
-  if (idx < 0) {
-    // use the next available number, increment internal counter, do not increment idx
-    if (_usedEntropy >= _maxEntropy) {
+  while ((idx_ = _nextAvailable(TMath::Max(0,idx))) < 0) {
 #if RRNG_DEBUG
-      cerr << "RRNG::_requestNumber forced to re-generate numbers because we ran out!" << endl;
+    cerr << "RRNG::_requestNumber forced to re-generate numbers because we ran out!" << endl;
 #endif
-      generate();
-    }
-    idx_ = _usedEntropy++;
-  } else {
-    // use the number at idx, and increment idx. if idx goes over _maxEntropy, reset idx
-    // and the array
-    idx_ = idx;
-    idx++;
-    if (idx >= _maxEntropy) { 
-      idx = 0;
-#if RRNG_DEBUG
-      cerr << "RRNG::_requestNumber forced to re-generate numbers because we ran out!" << endl;
-#endif
-      generate();
-    }
+    generate();
+  }
+
+  _available[idx_] = false;
+  if (idx >= 0) {
+    idx = _nextAvailable(idx_); // potentially the next one we could access
   }
 
   return _x[idx_];
@@ -120,5 +127,5 @@ int RRNG::poisson(double mu, int& idx)
     N += 1;
   }
    
- return N; 
+  return N; 
 }
