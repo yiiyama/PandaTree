@@ -81,6 +81,11 @@ namespace panda {
      * Throws a runtime_error if container is not valid.
      */
     ContainerBase const* container() const;
+    //! Sort the ref vector
+    /*!
+     * The internal indices are re-ordered, but the underlying data is untouched
+     */
+    void sort(ContainerBase::Comparison const&);
 
     //! "pointer" wrapper for Ref
     template<Bool_t is_const>
@@ -110,22 +115,29 @@ namespace panda {
 
       RefVectorIterator() {}
       RefVectorIterator(self_type const& it) : container_(it.container_), itr_(it.itr_) {}
+
+      bool operator==(self_type const& rhs) const { return itr_ == rhs.itr_; }
+      bool operator!=(self_type const& rhs) const { return itr_ != rhs.itr_; }
+
+      value_type operator*() const { return value_type(*container_, *itr_); }
+      ptr_type operator->() const { return ptr_type(*container_, *itr_); }
+
       self_type& operator++() { ++itr_; return *this; }
       self_type operator++(int) { auto copy(*this); ++itr_; return copy; }
       self_type& operator--() { --itr_; return *this; }
       self_type operator--(int) { auto copy(*this); --itr_; return copy; }
+
       self_type& operator+=(int n) { itr_ += n; return *this; }
       self_type& operator-=(int n) { itr_ -= n; return *this; }
+
       self_type operator+(int n) const { auto copy(*this); return (copy += n); }
       self_type operator-(int n) const { auto copy(*this); return (copy -= n); }
-      bool operator==(self_type const& rhs) const { return itr_ == rhs.itr_; }
-      bool operator!=(self_type const& rhs) const { return itr_ != rhs.itr_; }
-      value_type operator*() const { return value_type(*container_, *itr_); }
-      ptr_type operator->() const { return ptr_type(*container_, *itr_); }
+
       int operator-(self_type const& rhs) const { 
         return this->operator*().operator->() - (*rhs).operator->(); 
       }
-      self_type operator[](int n) const { return this->operator+(n); }
+
+      self_type& operator[](int n) { auto copy(*this); return (copy += n); }
       bool operator<(self_type const& rhs) const { return this->operator-(rhs) < 0; }
       bool operator>(self_type const& rhs) const { return this->operator-(rhs) > 0; }
       bool operator<=(self_type const& rhs) const { return !(this->operator>(rhs)); }
@@ -150,6 +162,19 @@ namespace panda {
     ContainerBase const** container_{0};
     Indices* indices_{0};
   };
+
+  template<class E>
+  void
+  RefVector<E>::sort(ContainerBase::Comparison const& _c)
+  {
+    // define an index comparison using the element comparison
+    auto indexComp([this, &_c](short i1, short i2)->Bool_t {
+        return _c(static_cast<Element const&>((*container_)->elemAt(i1)),
+                  static_cast<Element const&>((*container_)->elemAt(i2)));
+      });
+
+    std::sort(indices_->begin(), indices_->end(), indexComp);
+  }
 
   template<class E>
   UShort_t

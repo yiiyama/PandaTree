@@ -2,6 +2,9 @@
 #define IWILLSEEYOULATER 1
 
 #include <vector>
+#include <functional>
+#include <algorithm>
+#include <cassert>
 #include "PandaTree/Objects/interface/Event.h"
 
 namespace testpanda {
@@ -10,7 +13,6 @@ namespace testpanda {
   struct plotter {
     constexpr static const char* name = nullptr;
   };
-
 
   template <>
   struct plotter <0> {
@@ -21,7 +23,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <1> {
     constexpr static const char* name = "common/runNumber";
@@ -30,7 +31,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <2> {
@@ -41,7 +41,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <3> {
     constexpr static const char* name = "common/isData";
@@ -50,7 +49,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <4> {
@@ -61,7 +59,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <5> {
     constexpr static const char* name = "common/rhoCentralCalo";
@@ -70,7 +67,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <6> {
@@ -81,7 +77,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <7> {
     constexpr static const char* name = "common/rho";
@@ -90,7 +85,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <8> {
@@ -101,7 +95,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <9> {
     constexpr static const char* name = "genReweight/r5f1DW";
@@ -110,7 +103,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <10> {
@@ -121,7 +113,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <11> {
     constexpr static const char* name = "genReweight/r2f1DW";
@@ -130,7 +121,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <12> {
@@ -141,7 +131,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <13> {
     constexpr static const char* name = "genReweight/r1f5DW";
@@ -150,7 +139,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <14> {
@@ -161,7 +149,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <15> {
     constexpr static const char* name = "genReweight/r1f2DW";
@@ -171,7 +158,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <16> {
     constexpr static const char* name = "pfCandidates/size";
@@ -180,7 +166,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <17> {
@@ -193,7 +178,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <18> {
     constexpr static const char* name = "pfCandidates/track_isValid";
@@ -204,7 +188,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <19> {
@@ -217,7 +200,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <20> {
     constexpr static const char* name = "pfCandidates/p";
@@ -228,7 +210,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <21> {
@@ -241,7 +222,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <22> {
     constexpr static const char* name = "pfCandidates/eta";
@@ -252,7 +232,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <23> {
@@ -265,7 +244,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <24> {
     constexpr static const char* name = "pfCandidates/pdgId";
@@ -276,7 +254,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <25> {
@@ -289,7 +266,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <26> {
     constexpr static const char* name = "pfCandidates/ptype";
@@ -300,7 +276,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <27> {
@@ -313,7 +288,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <28> {
     constexpr static const char* name = "pfCandidates/py";
@@ -324,7 +298,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <29> {
@@ -337,7 +310,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <30> {
     constexpr static const char* name = "pfCandidates/q";
@@ -348,7 +320,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <31> {
@@ -361,7 +332,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <32> {
     constexpr static const char* name = "pfCandidates/px";
@@ -372,7 +342,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <33> {
@@ -385,7 +354,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <34> {
     constexpr static const char* name = "vertices/size";
@@ -394,7 +362,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <35> {
@@ -407,7 +374,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <36> {
     constexpr static const char* name = "vertices/ntrk";
@@ -418,7 +384,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <37> {
@@ -431,7 +396,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <38> {
     constexpr static const char* name = "vertices/score";
@@ -442,7 +406,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <39> {
@@ -455,7 +418,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <40> {
     constexpr static const char* name = "vertices/pfRangeMax";
@@ -466,7 +428,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <41> {
@@ -479,7 +440,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <42> {
     constexpr static const char* name = "vertices/x";
@@ -490,7 +450,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <43> {
@@ -503,7 +462,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <44> {
     constexpr static const char* name = "secondaryVertices/size";
@@ -512,7 +470,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <45> {
@@ -525,7 +482,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <46> {
     constexpr static const char* name = "secondaryVertices/vtx3DVal";
@@ -536,7 +492,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <47> {
@@ -549,7 +504,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <48> {
     constexpr static const char* name = "secondaryVertices/p";
@@ -560,7 +514,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <49> {
@@ -573,7 +526,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <50> {
     constexpr static const char* name = "secondaryVertices/m";
@@ -584,7 +536,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <51> {
@@ -597,7 +548,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <52> {
     constexpr static const char* name = "secondaryVertices/significance";
@@ -608,7 +558,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <53> {
@@ -621,7 +570,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <54> {
     constexpr static const char* name = "secondaryVertices/ndof";
@@ -632,7 +580,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <55> {
@@ -645,7 +592,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <56> {
     constexpr static const char* name = "secondaryVertices/vtx3DeVal";
@@ -656,7 +602,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <57> {
@@ -669,7 +614,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <58> {
     constexpr static const char* name = "secondaryVertices/normChi2";
@@ -680,7 +624,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <59> {
@@ -693,7 +636,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <60> {
     constexpr static const char* name = "secondaryVertices/y";
@@ -704,7 +646,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <61> {
@@ -717,7 +658,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <62> {
     constexpr static const char* name = "secondaryVertices/z";
@@ -728,7 +668,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <63> {
@@ -741,7 +680,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <64> {
     constexpr static const char* name = "secondaryVertices/e";
@@ -753,7 +691,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <65> {
     constexpr static const char* name = "tracks/size";
@@ -762,7 +699,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <66> {
@@ -775,7 +711,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <67> {
     constexpr static const char* name = "tracks/dPhi";
@@ -786,7 +721,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <68> {
@@ -799,7 +733,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <69> {
     constexpr static const char* name = "tracks/highPurity";
@@ -810,7 +743,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <70> {
@@ -823,7 +755,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <71> {
     constexpr static const char* name = "superClusters/size";
@@ -832,7 +763,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <72> {
@@ -845,7 +775,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <73> {
     constexpr static const char* name = "superClusters/rawPt";
@@ -856,7 +785,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <74> {
@@ -869,7 +797,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <75> {
     constexpr static const char* name = "electrons/size";
@@ -878,7 +805,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <76> {
@@ -891,7 +817,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <77> {
     constexpr static const char* name = "electrons/dxy";
@@ -902,7 +827,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <78> {
@@ -915,7 +839,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <79> {
     constexpr static const char* name = "electrons/phIsoPh";
@@ -926,7 +849,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <80> {
@@ -939,7 +861,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <81> {
     constexpr static const char* name = "electrons/trackIso";
@@ -950,7 +871,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <82> {
@@ -963,7 +883,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <83> {
     constexpr static const char* name = "electrons/phi";
@@ -974,7 +893,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <84> {
@@ -987,7 +905,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <85> {
     constexpr static const char* name = "electrons/medium";
@@ -998,7 +915,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <86> {
@@ -1011,7 +927,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <87> {
     constexpr static const char* name = "electrons/pfPt";
@@ -1022,7 +937,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <88> {
@@ -1035,7 +949,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <89> {
     constexpr static const char* name = "electrons/ecalE";
@@ -1046,7 +959,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <90> {
@@ -1059,7 +971,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <91> {
     constexpr static const char* name = "electrons/pz";
@@ -1070,7 +981,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <92> {
@@ -1083,7 +993,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <93> {
     constexpr static const char* name = "electrons/tripleCharge";
@@ -1094,7 +1003,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <94> {
@@ -1107,7 +1015,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <95> {
     constexpr static const char* name = "electrons/mvaWP80";
@@ -1118,7 +1025,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <96> {
@@ -1131,7 +1037,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <97> {
     constexpr static const char* name = "electrons/e";
@@ -1142,7 +1047,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <98> {
@@ -1155,7 +1059,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <99> {
     constexpr static const char* name = "electrons/sieie";
@@ -1166,7 +1069,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <100> {
@@ -1179,7 +1081,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <101> {
     constexpr static const char* name = "electrons/eta";
@@ -1190,7 +1091,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <102> {
@@ -1203,7 +1103,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <103> {
     constexpr static const char* name = "electrons/conversionVeto";
@@ -1214,7 +1113,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <104> {
@@ -1227,7 +1125,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <105> {
     constexpr static const char* name = "electrons/regPt";
@@ -1238,7 +1135,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <106> {
@@ -1251,7 +1147,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <107> {
     constexpr static const char* name = "electrons/dPhiIn";
@@ -1262,7 +1157,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <108> {
@@ -1275,7 +1169,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <109> {
     constexpr static const char* name = "electrons/chIsoPh";
@@ -1286,7 +1179,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <110> {
@@ -1299,7 +1191,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <111> {
     constexpr static const char* name = "electrons/px";
@@ -1310,7 +1201,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <112> {
@@ -1323,7 +1213,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <113> {
     constexpr static const char* name = "electrons/nhIsoPh";
@@ -1334,7 +1223,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <114> {
@@ -1347,7 +1235,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <115> {
     constexpr static const char* name = "electrons/m";
@@ -1358,7 +1245,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <116> {
@@ -1371,7 +1257,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <117> {
     constexpr static const char* name = "electrons/combIso";
@@ -1382,7 +1267,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <118> {
@@ -1395,7 +1279,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <119> {
     constexpr static const char* name = "electrons/nMissingHits";
@@ -1406,7 +1289,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <120> {
@@ -1419,7 +1301,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <121> {
     constexpr static const char* name = "electrons/smearedPt";
@@ -1430,7 +1311,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <122> {
@@ -1443,7 +1323,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <123> {
     constexpr static const char* name = "electrons/py";
@@ -1455,7 +1334,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <124> {
     constexpr static const char* name = "muons/size";
@@ -1464,7 +1342,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <125> {
@@ -1477,7 +1354,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <126> {
     constexpr static const char* name = "muons/global";
@@ -1488,7 +1364,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <127> {
@@ -1501,7 +1376,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <128> {
     constexpr static const char* name = "muons/normChi2";
@@ -1512,7 +1386,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <129> {
@@ -1525,7 +1398,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <130> {
     constexpr static const char* name = "muons/pfPt";
@@ -1536,7 +1408,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <131> {
@@ -1549,7 +1420,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <132> {
     constexpr static const char* name = "muons/hltsafe";
@@ -1560,7 +1430,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <133> {
@@ -1573,7 +1442,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <134> {
     constexpr static const char* name = "muons/charge";
@@ -1584,7 +1452,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <135> {
@@ -1597,7 +1464,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <136> {
     constexpr static const char* name = "muons/pf";
@@ -1608,7 +1474,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <137> {
@@ -1621,7 +1486,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <138> {
     constexpr static const char* name = "muons/e";
@@ -1632,7 +1496,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <139> {
@@ -1645,7 +1508,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <140> {
     constexpr static const char* name = "muons/medium";
@@ -1656,7 +1518,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <141> {
@@ -1669,7 +1530,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <142> {
     constexpr static const char* name = "muons/validFraction";
@@ -1680,7 +1540,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <143> {
@@ -1693,7 +1552,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <144> {
     constexpr static const char* name = "muons/loose";
@@ -1704,7 +1562,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <145> {
@@ -1717,7 +1574,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <146> {
     constexpr static const char* name = "muons/nValidPixel";
@@ -1728,7 +1584,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <147> {
@@ -1741,7 +1596,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <148> {
     constexpr static const char* name = "muons/nValidMuon";
@@ -1752,7 +1606,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <149> {
@@ -1765,7 +1618,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <150> {
     constexpr static const char* name = "muons/chi2LocalPosition";
@@ -1776,7 +1628,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <151> {
@@ -1789,7 +1640,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <152> {
     constexpr static const char* name = "muons/phIso";
@@ -1800,7 +1650,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <153> {
@@ -1813,7 +1662,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <154> {
     constexpr static const char* name = "muons/pt";
@@ -1821,10 +1669,10 @@ namespace testpanda {
       std::vector<float> output;
       for (auto& i : event.muons)
         output.push_back(i.pt());
+      assert(std::is_sorted(output.begin(), output.end(), std::greater<float>()));
       return output;
     }
   };
-
 
   template <>
   struct plotter <155> {
@@ -1837,7 +1685,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <156> {
     constexpr static const char* name = "muons/puIso";
@@ -1848,7 +1695,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <157> {
@@ -1861,7 +1707,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <158> {
     constexpr static const char* name = "muons/phi";
@@ -1872,7 +1717,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <159> {
@@ -1885,7 +1729,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <160> {
     constexpr static const char* name = "muons/py";
@@ -1896,7 +1739,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <161> {
@@ -1909,7 +1751,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <162> {
     constexpr static const char* name = "muons/soft";
@@ -1921,7 +1762,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <163> {
     constexpr static const char* name = "taus/size";
@@ -1930,7 +1770,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <164> {
@@ -1943,7 +1782,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <165> {
     constexpr static const char* name = "taus/matchedGen_isValid";
@@ -1954,7 +1792,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <166> {
@@ -1967,7 +1804,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <167> {
     constexpr static const char* name = "taus/p";
@@ -1978,7 +1814,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <168> {
@@ -1991,7 +1826,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <169> {
     constexpr static const char* name = "taus/decayMode";
@@ -2002,7 +1836,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <170> {
@@ -2015,7 +1848,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <171> {
     constexpr static const char* name = "taus/e";
@@ -2026,7 +1858,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <172> {
@@ -2039,7 +1870,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <173> {
     constexpr static const char* name = "taus/isoDeltaBetaCorr";
@@ -2050,7 +1880,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <174> {
@@ -2063,7 +1892,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <175> {
     constexpr static const char* name = "taus/iso";
@@ -2074,7 +1902,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <176> {
@@ -2087,7 +1914,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <177> {
     constexpr static const char* name = "taus/py";
@@ -2098,7 +1924,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <178> {
@@ -2111,7 +1936,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <179> {
     constexpr static const char* name = "taus/px";
@@ -2122,7 +1946,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <180> {
@@ -2135,7 +1958,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <181> {
     constexpr static const char* name = "taus/decayModeNew";
@@ -2147,7 +1969,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <182> {
     constexpr static const char* name = "photons/size";
@@ -2156,7 +1977,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <183> {
@@ -2169,7 +1989,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <184> {
     constexpr static const char* name = "photons/matchedPF_isValid";
@@ -2180,7 +1999,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <185> {
@@ -2193,7 +2011,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <186> {
     constexpr static const char* name = "photons/emax";
@@ -2204,7 +2021,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <187> {
@@ -2217,7 +2033,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <188> {
     constexpr static const char* name = "photons/e2nd";
@@ -2228,7 +2043,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <189> {
@@ -2241,7 +2055,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <190> {
     constexpr static const char* name = "photons/etop";
@@ -2252,7 +2065,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <191> {
@@ -2265,7 +2077,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <192> {
     constexpr static const char* name = "photons/highpt";
@@ -2276,7 +2087,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <193> {
@@ -2289,7 +2099,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <194> {
     constexpr static const char* name = "photons/pixelVeto";
@@ -2300,7 +2109,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <195> {
@@ -2313,7 +2121,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <196> {
     constexpr static const char* name = "photons/pfPt";
@@ -2324,7 +2131,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <197> {
@@ -2337,7 +2143,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <198> {
     constexpr static const char* name = "photons/sipip";
@@ -2348,7 +2153,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <199> {
@@ -2361,7 +2165,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <200> {
     constexpr static const char* name = "photons/tight";
@@ -2372,7 +2175,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <201> {
@@ -2385,7 +2187,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <202> {
     constexpr static const char* name = "photons/e";
@@ -2396,7 +2197,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <203> {
@@ -2409,7 +2209,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <204> {
     constexpr static const char* name = "photons/medium";
@@ -2420,7 +2219,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <205> {
@@ -2433,7 +2231,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <206> {
     constexpr static const char* name = "photons/loose";
@@ -2444,7 +2241,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <207> {
@@ -2457,7 +2253,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <208> {
     constexpr static const char* name = "photons/nhIso";
@@ -2468,7 +2263,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <209> {
@@ -2481,7 +2275,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <210> {
     constexpr static const char* name = "photons/ebottom";
@@ -2492,7 +2285,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <211> {
@@ -2505,7 +2297,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <212> {
     constexpr static const char* name = "photons/phIso";
@@ -2516,7 +2307,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <213> {
@@ -2529,7 +2319,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <214> {
     constexpr static const char* name = "photons/px";
@@ -2540,7 +2329,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <215> {
@@ -2553,7 +2341,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <216> {
     constexpr static const char* name = "photons/r9";
@@ -2564,7 +2351,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <217> {
@@ -2577,7 +2363,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <218> {
     constexpr static const char* name = "photons/m";
@@ -2588,7 +2373,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <219> {
@@ -2601,7 +2385,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <220> {
     constexpr static const char* name = "photons/chIso";
@@ -2612,7 +2395,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <221> {
@@ -2625,7 +2407,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <222> {
     constexpr static const char* name = "photons/smearedPt";
@@ -2636,7 +2417,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <223> {
@@ -2649,7 +2429,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <224> {
     constexpr static const char* name = "chsAK4Jets/size";
@@ -2658,7 +2437,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <225> {
@@ -2671,7 +2449,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <226> {
     constexpr static const char* name = "chsAK4Jets/constituents_size";
@@ -2682,7 +2459,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <227> {
@@ -2695,7 +2471,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <228> {
     constexpr static const char* name = "chsAK4Jets/deepCMVAudsg";
@@ -2706,7 +2481,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <229> {
@@ -2719,7 +2493,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <230> {
     constexpr static const char* name = "chsAK4Jets/ptCorrUp";
@@ -2730,7 +2503,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <231> {
@@ -2743,7 +2515,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <232> {
     constexpr static const char* name = "chsAK4Jets/deepCSVudsg";
@@ -2754,7 +2525,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <233> {
@@ -2767,7 +2537,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <234> {
     constexpr static const char* name = "chsAK4Jets/deepCSVcc";
@@ -2778,7 +2547,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <235> {
@@ -2791,7 +2559,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <236> {
     constexpr static const char* name = "chsAK4Jets/deepCSVbb";
@@ -2802,7 +2569,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <237> {
@@ -2815,7 +2581,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <238> {
     constexpr static const char* name = "chsAK4Jets/area";
@@ -2826,7 +2591,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <239> {
@@ -2839,7 +2603,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <240> {
     constexpr static const char* name = "chsAK4Jets/ptCorrDown";
@@ -2850,7 +2613,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <241> {
@@ -2863,7 +2625,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <242> {
     constexpr static const char* name = "chsAK4Jets/deepCMVAb";
@@ -2874,7 +2635,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <243> {
@@ -2887,7 +2647,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <244> {
     constexpr static const char* name = "chsAK4Jets/puid";
@@ -2898,7 +2657,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <245> {
@@ -2911,7 +2669,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <246> {
     constexpr static const char* name = "chsAK4Jets/csv";
@@ -2922,7 +2679,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <247> {
@@ -2935,7 +2691,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <248> {
     constexpr static const char* name = "chsAK4Jets/cef";
@@ -2946,7 +2701,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <249> {
@@ -2959,7 +2713,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <250> {
     constexpr static const char* name = "chsAK4Jets/rawPt";
@@ -2970,7 +2723,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <251> {
@@ -2983,7 +2735,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <252> {
     constexpr static const char* name = "chsAK4Jets/loose";
@@ -2994,7 +2745,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <253> {
@@ -3007,7 +2757,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <254> {
     constexpr static const char* name = "chsAK4Jets/py";
@@ -3018,7 +2767,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <255> {
@@ -3031,7 +2779,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <256> {
     constexpr static const char* name = "chsAK4Jets/ptSmearDown";
@@ -3042,7 +2789,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <257> {
@@ -3055,7 +2801,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <258> {
     constexpr static const char* name = "chsAK4Jets/pt";
@@ -3066,7 +2811,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <259> {
@@ -3079,7 +2823,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <260> {
     constexpr static const char* name = "chsAK4Jets/deepCSVc";
@@ -3090,7 +2833,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <261> {
@@ -3103,7 +2845,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <262> {
     constexpr static const char* name = "chsAK4Jets/phi";
@@ -3114,7 +2855,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <263> {
@@ -3127,7 +2867,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <264> {
     constexpr static const char* name = "chsAK4Jets/ptSmearUp";
@@ -3139,7 +2878,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <265> {
     constexpr static const char* name = "puppiAK4Jets/size";
@@ -3148,7 +2886,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <266> {
@@ -3161,7 +2898,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <267> {
     constexpr static const char* name = "puppiAK4Jets/constituents_size";
@@ -3172,7 +2908,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <268> {
@@ -3185,7 +2920,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <269> {
     constexpr static const char* name = "puppiAK4Jets/deepCMVAudsg";
@@ -3196,7 +2930,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <270> {
@@ -3209,7 +2942,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <271> {
     constexpr static const char* name = "puppiAK4Jets/ptCorrUp";
@@ -3220,7 +2952,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <272> {
@@ -3233,7 +2964,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <273> {
     constexpr static const char* name = "puppiAK4Jets/deepCSVudsg";
@@ -3244,7 +2974,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <274> {
@@ -3257,7 +2986,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <275> {
     constexpr static const char* name = "puppiAK4Jets/deepCSVcc";
@@ -3268,7 +2996,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <276> {
@@ -3281,7 +3008,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <277> {
     constexpr static const char* name = "puppiAK4Jets/deepCSVbb";
@@ -3292,7 +3018,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <278> {
@@ -3305,7 +3030,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <279> {
     constexpr static const char* name = "puppiAK4Jets/area";
@@ -3316,7 +3040,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <280> {
@@ -3329,7 +3052,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <281> {
     constexpr static const char* name = "puppiAK4Jets/ptCorrDown";
@@ -3340,7 +3062,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <282> {
@@ -3353,7 +3074,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <283> {
     constexpr static const char* name = "puppiAK4Jets/deepCMVAb";
@@ -3364,7 +3084,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <284> {
@@ -3377,7 +3096,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <285> {
     constexpr static const char* name = "puppiAK4Jets/puid";
@@ -3388,7 +3106,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <286> {
@@ -3401,7 +3118,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <287> {
     constexpr static const char* name = "puppiAK4Jets/csv";
@@ -3412,7 +3128,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <288> {
@@ -3425,7 +3140,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <289> {
     constexpr static const char* name = "puppiAK4Jets/cef";
@@ -3436,7 +3150,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <290> {
@@ -3449,7 +3162,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <291> {
     constexpr static const char* name = "puppiAK4Jets/rawPt";
@@ -3460,7 +3172,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <292> {
@@ -3473,7 +3184,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <293> {
     constexpr static const char* name = "puppiAK4Jets/loose";
@@ -3484,7 +3194,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <294> {
@@ -3497,7 +3206,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <295> {
     constexpr static const char* name = "puppiAK4Jets/py";
@@ -3508,7 +3216,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <296> {
@@ -3521,7 +3228,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <297> {
     constexpr static const char* name = "puppiAK4Jets/ptSmearDown";
@@ -3532,7 +3238,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <298> {
@@ -3545,7 +3250,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <299> {
     constexpr static const char* name = "puppiAK4Jets/pt";
@@ -3556,7 +3260,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <300> {
@@ -3569,7 +3272,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <301> {
     constexpr static const char* name = "puppiAK4Jets/deepCSVc";
@@ -3580,7 +3282,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <302> {
@@ -3593,7 +3294,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <303> {
     constexpr static const char* name = "puppiAK4Jets/phi";
@@ -3604,7 +3304,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <304> {
@@ -3617,7 +3316,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <305> {
     constexpr static const char* name = "puppiAK4Jets/ptSmearUp";
@@ -3629,7 +3327,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <306> {
     constexpr static const char* name = "chsAK8Jets/size";
@@ -3638,7 +3335,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <307> {
@@ -3651,7 +3347,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <308> {
     constexpr static const char* name = "chsAK8Jets/deepCMVAudsg";
@@ -3662,7 +3357,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <309> {
@@ -3675,7 +3369,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <310> {
     constexpr static const char* name = "chsAK8Jets/ptCorrUp";
@@ -3686,7 +3379,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <311> {
@@ -3699,7 +3391,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <312> {
     constexpr static const char* name = "chsAK8Jets/deepCSVudsg";
@@ -3710,7 +3401,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <313> {
@@ -3723,7 +3413,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <314> {
     constexpr static const char* name = "chsAK8Jets/cmva";
@@ -3734,7 +3423,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <315> {
@@ -3747,7 +3435,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <316> {
     constexpr static const char* name = "chsAK8Jets/deepCMVAbb";
@@ -3758,7 +3445,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <317> {
@@ -3771,7 +3457,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <318> {
     constexpr static const char* name = "chsAK8Jets/htt_frec";
@@ -3782,7 +3467,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <319> {
@@ -3795,7 +3479,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <320> {
     constexpr static const char* name = "chsAK8Jets/chf";
@@ -3806,7 +3489,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <321> {
@@ -3819,7 +3501,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <322> {
     constexpr static const char* name = "chsAK8Jets/nef";
@@ -3830,7 +3511,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <323> {
@@ -3843,7 +3523,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <324> {
     constexpr static const char* name = "chsAK8Jets/ptCorrDown";
@@ -3854,7 +3533,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <325> {
@@ -3867,7 +3545,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <326> {
     constexpr static const char* name = "chsAK8Jets/tau2";
@@ -3878,7 +3555,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <327> {
@@ -3891,7 +3567,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <328> {
     constexpr static const char* name = "chsAK8Jets/puid";
@@ -3902,7 +3577,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <329> {
@@ -3915,7 +3589,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <330> {
     constexpr static const char* name = "chsAK8Jets/mSD";
@@ -3926,7 +3599,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <331> {
@@ -3939,7 +3611,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <332> {
     constexpr static const char* name = "chsAK8Jets/deepCMVAcc";
@@ -3950,7 +3621,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <333> {
@@ -3963,7 +3633,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <334> {
     constexpr static const char* name = "chsAK8Jets/rawPt";
@@ -3974,7 +3643,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <335> {
@@ -3987,7 +3655,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <336> {
     constexpr static const char* name = "chsAK8Jets/double_sub";
@@ -3998,7 +3665,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <337> {
@@ -4011,7 +3677,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <338> {
     constexpr static const char* name = "chsAK8Jets/ptSmear";
@@ -4022,7 +3687,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <339> {
@@ -4035,7 +3699,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <340> {
     constexpr static const char* name = "chsAK8Jets/qgl";
@@ -4046,7 +3709,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <341> {
@@ -4059,7 +3721,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <342> {
     constexpr static const char* name = "chsAK8Jets/monojet";
@@ -4070,7 +3731,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <343> {
@@ -4083,7 +3743,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <344> {
     constexpr static const char* name = "chsAK8Jets/px";
@@ -4094,7 +3753,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <345> {
@@ -4107,7 +3765,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <346> {
     constexpr static const char* name = "chsAK8Jets/tau1SD";
@@ -4118,7 +3775,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <347> {
@@ -4131,7 +3787,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <348> {
     constexpr static const char* name = "chsAK8Jets/csv";
@@ -4142,7 +3797,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <349> {
@@ -4155,7 +3809,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <350> {
     constexpr static const char* name = "chsAK8Jets/deepCSVc";
@@ -4166,7 +3819,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <351> {
@@ -4179,7 +3831,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <352> {
     constexpr static const char* name = "chsAK8Jets/m";
@@ -4190,7 +3841,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <353> {
@@ -4203,7 +3853,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <354> {
     constexpr static const char* name = "chsAK8Jets/tau2SD";
@@ -4214,7 +3863,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <355> {
@@ -4227,7 +3875,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <356> {
     constexpr static const char* name = "chsAK8Subjets/size";
@@ -4236,7 +3883,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <357> {
@@ -4249,7 +3895,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <358> {
     constexpr static const char* name = "chsAK8Subjets/deepCMVAbb";
@@ -4260,7 +3905,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <359> {
@@ -4273,7 +3917,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <360> {
     constexpr static const char* name = "chsAK8Subjets/cmva";
@@ -4284,7 +3927,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <361> {
@@ -4297,7 +3939,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <362> {
     constexpr static const char* name = "chsAK8Subjets/deepCSVbb";
@@ -4308,7 +3949,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <363> {
@@ -4321,7 +3961,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <364> {
     constexpr static const char* name = "chsAK8Subjets/deepCMVAb";
@@ -4332,7 +3971,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <365> {
@@ -4345,7 +3983,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <366> {
     constexpr static const char* name = "chsAK8Subjets/qgl";
@@ -4356,7 +3993,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <367> {
@@ -4369,7 +4005,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <368> {
     constexpr static const char* name = "chsAK8Subjets/e";
@@ -4380,7 +4015,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <369> {
@@ -4393,7 +4027,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <370> {
     constexpr static const char* name = "chsAK8Subjets/p";
@@ -4404,7 +4037,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <371> {
@@ -4417,7 +4049,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <372> {
     constexpr static const char* name = "chsAK8Subjets/py";
@@ -4428,7 +4059,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <373> {
@@ -4441,7 +4071,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <374> {
     constexpr static const char* name = "chsAK8Subjets/pt";
@@ -4452,7 +4081,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <375> {
@@ -4465,7 +4093,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <376> {
     constexpr static const char* name = "chsAK8Subjets/deepCSVc";
@@ -4476,7 +4103,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <377> {
@@ -4489,7 +4115,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <378> {
     constexpr static const char* name = "chsAK8Subjets/deepCSVcc";
@@ -4501,7 +4126,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <379> {
     constexpr static const char* name = "chsCA15Jets/size";
@@ -4510,7 +4134,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <380> {
@@ -4523,7 +4146,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <381> {
     constexpr static const char* name = "chsCA15Jets/deepCMVAudsg";
@@ -4534,7 +4156,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <382> {
@@ -4547,7 +4168,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <383> {
     constexpr static const char* name = "chsCA15Jets/ptCorrUp";
@@ -4558,7 +4178,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <384> {
@@ -4571,7 +4190,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <385> {
     constexpr static const char* name = "chsCA15Jets/deepCSVudsg";
@@ -4582,7 +4200,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <386> {
@@ -4595,7 +4212,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <387> {
     constexpr static const char* name = "chsCA15Jets/cmva";
@@ -4606,7 +4222,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <388> {
@@ -4619,7 +4234,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <389> {
     constexpr static const char* name = "chsCA15Jets/deepCMVAbb";
@@ -4630,7 +4244,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <390> {
@@ -4643,7 +4256,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <391> {
     constexpr static const char* name = "chsCA15Jets/htt_frec";
@@ -4654,7 +4266,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <392> {
@@ -4667,7 +4278,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <393> {
     constexpr static const char* name = "chsCA15Jets/chf";
@@ -4678,7 +4288,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <394> {
@@ -4691,7 +4300,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <395> {
     constexpr static const char* name = "chsCA15Jets/nef";
@@ -4702,7 +4310,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <396> {
@@ -4715,7 +4322,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <397> {
     constexpr static const char* name = "chsCA15Jets/ptCorrDown";
@@ -4726,7 +4332,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <398> {
@@ -4739,7 +4344,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <399> {
     constexpr static const char* name = "chsCA15Jets/tau2";
@@ -4750,7 +4354,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <400> {
@@ -4763,7 +4366,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <401> {
     constexpr static const char* name = "chsCA15Jets/puid";
@@ -4774,7 +4376,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <402> {
@@ -4787,7 +4388,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <403> {
     constexpr static const char* name = "chsCA15Jets/mSD";
@@ -4798,7 +4398,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <404> {
@@ -4811,7 +4410,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <405> {
     constexpr static const char* name = "chsCA15Jets/deepCMVAcc";
@@ -4822,7 +4420,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <406> {
@@ -4835,7 +4432,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <407> {
     constexpr static const char* name = "chsCA15Jets/rawPt";
@@ -4846,7 +4442,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <408> {
@@ -4859,7 +4454,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <409> {
     constexpr static const char* name = "chsCA15Jets/double_sub";
@@ -4870,7 +4464,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <410> {
@@ -4883,7 +4476,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <411> {
     constexpr static const char* name = "chsCA15Jets/ptSmear";
@@ -4894,7 +4486,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <412> {
@@ -4907,7 +4498,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <413> {
     constexpr static const char* name = "chsCA15Jets/qgl";
@@ -4918,7 +4508,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <414> {
@@ -4931,7 +4520,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <415> {
     constexpr static const char* name = "chsCA15Jets/monojet";
@@ -4942,7 +4530,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <416> {
@@ -4955,7 +4542,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <417> {
     constexpr static const char* name = "chsCA15Jets/px";
@@ -4966,7 +4552,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <418> {
@@ -4979,7 +4564,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <419> {
     constexpr static const char* name = "chsCA15Jets/tau1SD";
@@ -4990,7 +4574,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <420> {
@@ -5003,7 +4586,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <421> {
     constexpr static const char* name = "chsCA15Jets/csv";
@@ -5014,7 +4596,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <422> {
@@ -5027,7 +4608,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <423> {
     constexpr static const char* name = "chsCA15Jets/deepCSVc";
@@ -5038,7 +4618,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <424> {
@@ -5051,7 +4630,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <425> {
     constexpr static const char* name = "chsCA15Jets/m";
@@ -5062,7 +4640,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <426> {
@@ -5075,7 +4652,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <427> {
     constexpr static const char* name = "chsCA15Jets/tau2SD";
@@ -5086,7 +4662,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <428> {
@@ -5099,7 +4674,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <429> {
     constexpr static const char* name = "chsCA15Subjets/size";
@@ -5108,7 +4682,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <430> {
@@ -5121,7 +4694,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <431> {
     constexpr static const char* name = "chsCA15Subjets/deepCMVAbb";
@@ -5132,7 +4704,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <432> {
@@ -5145,7 +4716,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <433> {
     constexpr static const char* name = "chsCA15Subjets/cmva";
@@ -5156,7 +4726,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <434> {
@@ -5169,7 +4738,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <435> {
     constexpr static const char* name = "chsCA15Subjets/deepCSVbb";
@@ -5180,7 +4748,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <436> {
@@ -5193,7 +4760,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <437> {
     constexpr static const char* name = "chsCA15Subjets/deepCMVAb";
@@ -5204,7 +4770,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <438> {
@@ -5217,7 +4782,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <439> {
     constexpr static const char* name = "chsCA15Subjets/qgl";
@@ -5228,7 +4792,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <440> {
@@ -5241,7 +4804,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <441> {
     constexpr static const char* name = "chsCA15Subjets/e";
@@ -5252,7 +4814,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <442> {
@@ -5265,7 +4826,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <443> {
     constexpr static const char* name = "chsCA15Subjets/p";
@@ -5276,7 +4836,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <444> {
@@ -5289,7 +4848,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <445> {
     constexpr static const char* name = "chsCA15Subjets/py";
@@ -5300,7 +4858,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <446> {
@@ -5313,7 +4870,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <447> {
     constexpr static const char* name = "chsCA15Subjets/pt";
@@ -5324,7 +4880,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <448> {
@@ -5337,7 +4892,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <449> {
     constexpr static const char* name = "chsCA15Subjets/deepCSVc";
@@ -5348,7 +4902,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <450> {
@@ -5361,7 +4914,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <451> {
     constexpr static const char* name = "chsCA15Subjets/deepCSVcc";
@@ -5373,7 +4925,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <452> {
     constexpr static const char* name = "puppiAK8Jets/size";
@@ -5382,7 +4933,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <453> {
@@ -5395,7 +4945,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <454> {
     constexpr static const char* name = "puppiAK8Jets/deepCMVAudsg";
@@ -5406,7 +4955,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <455> {
@@ -5419,7 +4967,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <456> {
     constexpr static const char* name = "puppiAK8Jets/ptCorrUp";
@@ -5430,7 +4977,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <457> {
@@ -5443,7 +4989,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <458> {
     constexpr static const char* name = "puppiAK8Jets/deepCSVudsg";
@@ -5454,7 +4999,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <459> {
@@ -5467,7 +5011,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <460> {
     constexpr static const char* name = "puppiAK8Jets/cmva";
@@ -5478,7 +5021,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <461> {
@@ -5491,7 +5033,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <462> {
     constexpr static const char* name = "puppiAK8Jets/deepCMVAbb";
@@ -5502,7 +5043,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <463> {
@@ -5515,7 +5055,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <464> {
     constexpr static const char* name = "puppiAK8Jets/htt_frec";
@@ -5526,7 +5065,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <465> {
@@ -5539,7 +5077,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <466> {
     constexpr static const char* name = "puppiAK8Jets/chf";
@@ -5550,7 +5087,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <467> {
@@ -5563,7 +5099,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <468> {
     constexpr static const char* name = "puppiAK8Jets/nef";
@@ -5574,7 +5109,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <469> {
@@ -5587,7 +5121,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <470> {
     constexpr static const char* name = "puppiAK8Jets/ptCorrDown";
@@ -5598,7 +5131,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <471> {
@@ -5611,7 +5143,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <472> {
     constexpr static const char* name = "puppiAK8Jets/tau2";
@@ -5622,7 +5153,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <473> {
@@ -5635,7 +5165,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <474> {
     constexpr static const char* name = "puppiAK8Jets/puid";
@@ -5646,7 +5175,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <475> {
@@ -5659,7 +5187,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <476> {
     constexpr static const char* name = "puppiAK8Jets/mSD";
@@ -5670,7 +5197,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <477> {
@@ -5683,7 +5209,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <478> {
     constexpr static const char* name = "puppiAK8Jets/deepCMVAcc";
@@ -5694,7 +5219,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <479> {
@@ -5707,7 +5231,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <480> {
     constexpr static const char* name = "puppiAK8Jets/rawPt";
@@ -5718,7 +5241,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <481> {
@@ -5731,7 +5253,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <482> {
     constexpr static const char* name = "puppiAK8Jets/double_sub";
@@ -5742,7 +5263,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <483> {
@@ -5755,7 +5275,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <484> {
     constexpr static const char* name = "puppiAK8Jets/ptSmear";
@@ -5766,7 +5285,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <485> {
@@ -5779,7 +5297,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <486> {
     constexpr static const char* name = "puppiAK8Jets/qgl";
@@ -5790,7 +5307,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <487> {
@@ -5803,7 +5319,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <488> {
     constexpr static const char* name = "puppiAK8Jets/monojet";
@@ -5814,7 +5329,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <489> {
@@ -5827,7 +5341,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <490> {
     constexpr static const char* name = "puppiAK8Jets/px";
@@ -5838,7 +5351,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <491> {
@@ -5851,7 +5363,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <492> {
     constexpr static const char* name = "puppiAK8Jets/tau1SD";
@@ -5862,7 +5373,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <493> {
@@ -5875,7 +5385,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <494> {
     constexpr static const char* name = "puppiAK8Jets/csv";
@@ -5886,7 +5395,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <495> {
@@ -5899,7 +5407,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <496> {
     constexpr static const char* name = "puppiAK8Jets/deepCSVc";
@@ -5910,7 +5417,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <497> {
@@ -5923,7 +5429,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <498> {
     constexpr static const char* name = "puppiAK8Jets/m";
@@ -5934,7 +5439,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <499> {
@@ -5947,7 +5451,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <500> {
     constexpr static const char* name = "puppiAK8Jets/tau2SD";
@@ -5958,7 +5461,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <501> {
@@ -5971,7 +5473,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <502> {
     constexpr static const char* name = "puppiAK8Subjets/size";
@@ -5980,7 +5481,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <503> {
@@ -5993,7 +5493,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <504> {
     constexpr static const char* name = "puppiAK8Subjets/deepCMVAbb";
@@ -6004,7 +5503,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <505> {
@@ -6017,7 +5515,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <506> {
     constexpr static const char* name = "puppiAK8Subjets/cmva";
@@ -6028,7 +5525,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <507> {
@@ -6041,7 +5537,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <508> {
     constexpr static const char* name = "puppiAK8Subjets/deepCSVbb";
@@ -6052,7 +5547,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <509> {
@@ -6065,7 +5559,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <510> {
     constexpr static const char* name = "puppiAK8Subjets/deepCMVAb";
@@ -6076,7 +5569,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <511> {
@@ -6089,7 +5581,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <512> {
     constexpr static const char* name = "puppiAK8Subjets/qgl";
@@ -6100,7 +5591,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <513> {
@@ -6113,7 +5603,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <514> {
     constexpr static const char* name = "puppiAK8Subjets/e";
@@ -6124,7 +5613,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <515> {
@@ -6137,7 +5625,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <516> {
     constexpr static const char* name = "puppiAK8Subjets/p";
@@ -6148,7 +5635,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <517> {
@@ -6161,7 +5647,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <518> {
     constexpr static const char* name = "puppiAK8Subjets/py";
@@ -6172,7 +5657,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <519> {
@@ -6185,7 +5669,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <520> {
     constexpr static const char* name = "puppiAK8Subjets/pt";
@@ -6196,7 +5679,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <521> {
@@ -6209,7 +5691,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <522> {
     constexpr static const char* name = "puppiAK8Subjets/deepCSVc";
@@ -6220,7 +5701,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <523> {
@@ -6233,7 +5713,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <524> {
     constexpr static const char* name = "puppiAK8Subjets/deepCSVcc";
@@ -6245,7 +5724,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <525> {
     constexpr static const char* name = "puppiCA15Jets/size";
@@ -6254,7 +5732,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <526> {
@@ -6267,7 +5744,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <527> {
     constexpr static const char* name = "puppiCA15Jets/deepCMVAudsg";
@@ -6278,7 +5754,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <528> {
@@ -6291,7 +5766,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <529> {
     constexpr static const char* name = "puppiCA15Jets/ptCorrUp";
@@ -6302,7 +5776,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <530> {
@@ -6315,7 +5788,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <531> {
     constexpr static const char* name = "puppiCA15Jets/deepCSVudsg";
@@ -6326,7 +5798,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <532> {
@@ -6339,7 +5810,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <533> {
     constexpr static const char* name = "puppiCA15Jets/cmva";
@@ -6350,7 +5820,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <534> {
@@ -6363,7 +5832,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <535> {
     constexpr static const char* name = "puppiCA15Jets/deepCMVAbb";
@@ -6374,7 +5842,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <536> {
@@ -6387,7 +5854,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <537> {
     constexpr static const char* name = "puppiCA15Jets/htt_frec";
@@ -6398,7 +5864,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <538> {
@@ -6411,7 +5876,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <539> {
     constexpr static const char* name = "puppiCA15Jets/chf";
@@ -6422,7 +5886,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <540> {
@@ -6435,7 +5898,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <541> {
     constexpr static const char* name = "puppiCA15Jets/nef";
@@ -6446,7 +5908,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <542> {
@@ -6459,7 +5920,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <543> {
     constexpr static const char* name = "puppiCA15Jets/ptCorrDown";
@@ -6470,7 +5930,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <544> {
@@ -6483,7 +5942,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <545> {
     constexpr static const char* name = "puppiCA15Jets/tau2";
@@ -6494,7 +5952,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <546> {
@@ -6507,7 +5964,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <547> {
     constexpr static const char* name = "puppiCA15Jets/puid";
@@ -6518,7 +5974,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <548> {
@@ -6531,7 +5986,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <549> {
     constexpr static const char* name = "puppiCA15Jets/mSD";
@@ -6542,7 +5996,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <550> {
@@ -6555,7 +6008,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <551> {
     constexpr static const char* name = "puppiCA15Jets/deepCMVAcc";
@@ -6566,7 +6018,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <552> {
@@ -6579,7 +6030,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <553> {
     constexpr static const char* name = "puppiCA15Jets/rawPt";
@@ -6590,7 +6040,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <554> {
@@ -6603,7 +6052,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <555> {
     constexpr static const char* name = "puppiCA15Jets/double_sub";
@@ -6614,7 +6062,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <556> {
@@ -6627,7 +6074,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <557> {
     constexpr static const char* name = "puppiCA15Jets/ptSmear";
@@ -6638,7 +6084,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <558> {
@@ -6651,7 +6096,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <559> {
     constexpr static const char* name = "puppiCA15Jets/qgl";
@@ -6662,7 +6106,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <560> {
@@ -6675,7 +6118,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <561> {
     constexpr static const char* name = "puppiCA15Jets/monojet";
@@ -6686,7 +6128,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <562> {
@@ -6699,7 +6140,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <563> {
     constexpr static const char* name = "puppiCA15Jets/px";
@@ -6710,7 +6150,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <564> {
@@ -6723,7 +6162,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <565> {
     constexpr static const char* name = "puppiCA15Jets/tau1SD";
@@ -6734,7 +6172,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <566> {
@@ -6747,7 +6184,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <567> {
     constexpr static const char* name = "puppiCA15Jets/csv";
@@ -6758,7 +6194,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <568> {
@@ -6771,7 +6206,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <569> {
     constexpr static const char* name = "puppiCA15Jets/deepCSVc";
@@ -6782,7 +6216,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <570> {
@@ -6795,7 +6228,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <571> {
     constexpr static const char* name = "puppiCA15Jets/m";
@@ -6806,7 +6238,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <572> {
@@ -6819,7 +6250,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <573> {
     constexpr static const char* name = "puppiCA15Jets/tau2SD";
@@ -6830,7 +6260,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <574> {
@@ -6843,7 +6272,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <575> {
     constexpr static const char* name = "puppiCA15Subjets/size";
@@ -6852,7 +6280,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <576> {
@@ -6865,7 +6292,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <577> {
     constexpr static const char* name = "puppiCA15Subjets/deepCMVAbb";
@@ -6876,7 +6302,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <578> {
@@ -6889,7 +6314,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <579> {
     constexpr static const char* name = "puppiCA15Subjets/cmva";
@@ -6900,7 +6324,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <580> {
@@ -6913,7 +6336,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <581> {
     constexpr static const char* name = "puppiCA15Subjets/deepCSVbb";
@@ -6924,7 +6346,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <582> {
@@ -6937,7 +6358,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <583> {
     constexpr static const char* name = "puppiCA15Subjets/deepCMVAb";
@@ -6948,7 +6368,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <584> {
@@ -6961,7 +6380,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <585> {
     constexpr static const char* name = "puppiCA15Subjets/qgl";
@@ -6972,7 +6390,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <586> {
@@ -6985,7 +6402,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <587> {
     constexpr static const char* name = "puppiCA15Subjets/e";
@@ -6996,7 +6412,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <588> {
@@ -7009,7 +6424,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <589> {
     constexpr static const char* name = "puppiCA15Subjets/p";
@@ -7020,7 +6434,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <590> {
@@ -7033,7 +6446,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <591> {
     constexpr static const char* name = "puppiCA15Subjets/py";
@@ -7044,7 +6456,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <592> {
@@ -7057,7 +6468,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <593> {
     constexpr static const char* name = "puppiCA15Subjets/pt";
@@ -7068,7 +6478,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <594> {
@@ -7081,7 +6490,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <595> {
     constexpr static const char* name = "puppiCA15Subjets/deepCSVc";
@@ -7092,7 +6500,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <596> {
@@ -7105,7 +6512,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <597> {
     constexpr static const char* name = "puppiCA15Subjets/deepCSVcc";
@@ -7117,7 +6523,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <598> {
     constexpr static const char* name = "ak4GenJets/size";
@@ -7126,7 +6531,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <599> {
@@ -7139,7 +6543,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <600> {
     constexpr static const char* name = "ak4GenJets/pt";
@@ -7150,7 +6553,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <601> {
@@ -7163,7 +6565,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <602> {
     constexpr static const char* name = "ak4GenJets/eta";
@@ -7174,7 +6575,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <603> {
@@ -7187,7 +6587,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <604> {
     constexpr static const char* name = "ak4GenJets/pdgid";
@@ -7198,7 +6597,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <605> {
@@ -7211,7 +6609,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <606> {
     constexpr static const char* name = "ak4GenJets/pz";
@@ -7222,7 +6619,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <607> {
@@ -7235,7 +6631,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <608> {
     constexpr static const char* name = "ak4GenJets/numB";
@@ -7246,7 +6641,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <609> {
@@ -7259,7 +6653,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <610> {
     constexpr static const char* name = "ak4GenJets/px";
@@ -7270,7 +6663,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <611> {
@@ -7283,7 +6675,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <612> {
     constexpr static const char* name = "ak8GenJets/size";
@@ -7292,7 +6683,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <613> {
@@ -7305,7 +6695,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <614> {
     constexpr static const char* name = "ak8GenJets/pt";
@@ -7316,7 +6705,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <615> {
@@ -7329,7 +6717,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <616> {
     constexpr static const char* name = "ak8GenJets/eta";
@@ -7340,7 +6727,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <617> {
@@ -7353,7 +6739,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <618> {
     constexpr static const char* name = "ak8GenJets/pdgid";
@@ -7364,7 +6749,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <619> {
@@ -7377,7 +6761,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <620> {
     constexpr static const char* name = "ak8GenJets/pz";
@@ -7388,7 +6771,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <621> {
@@ -7401,7 +6783,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <622> {
     constexpr static const char* name = "ak8GenJets/numB";
@@ -7412,7 +6793,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <623> {
@@ -7425,7 +6805,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <624> {
     constexpr static const char* name = "ak8GenJets/px";
@@ -7436,7 +6815,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <625> {
@@ -7449,7 +6827,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <626> {
     constexpr static const char* name = "ca15GenJets/size";
@@ -7458,7 +6835,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <627> {
@@ -7471,7 +6847,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <628> {
     constexpr static const char* name = "ca15GenJets/pt";
@@ -7482,7 +6857,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <629> {
@@ -7495,7 +6869,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <630> {
     constexpr static const char* name = "ca15GenJets/eta";
@@ -7506,7 +6879,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <631> {
@@ -7519,7 +6891,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <632> {
     constexpr static const char* name = "ca15GenJets/pdgid";
@@ -7530,7 +6901,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <633> {
@@ -7543,7 +6913,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <634> {
     constexpr static const char* name = "ca15GenJets/pz";
@@ -7554,7 +6923,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <635> {
@@ -7567,7 +6935,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <636> {
     constexpr static const char* name = "ca15GenJets/numB";
@@ -7578,7 +6945,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <637> {
@@ -7591,7 +6957,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <638> {
     constexpr static const char* name = "ca15GenJets/px";
@@ -7602,7 +6967,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <639> {
@@ -7615,7 +6979,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <640> {
     constexpr static const char* name = "genParticles/size";
@@ -7624,7 +6987,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <641> {
@@ -7637,7 +6999,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <642> {
     constexpr static const char* name = "genParticles/pt";
@@ -7648,7 +7009,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <643> {
@@ -7661,7 +7021,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <644> {
     constexpr static const char* name = "genParticles/statusFlags";
@@ -7672,7 +7031,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <645> {
@@ -7685,7 +7043,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <646> {
     constexpr static const char* name = "genParticles/pdgid";
@@ -7696,7 +7053,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <647> {
@@ -7709,7 +7065,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <648> {
     constexpr static const char* name = "genParticles/pz";
@@ -7720,7 +7075,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <649> {
@@ -7733,7 +7087,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <650> {
     constexpr static const char* name = "genParticles/finalState";
@@ -7744,7 +7097,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <651> {
@@ -7757,7 +7109,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <652> {
     constexpr static const char* name = "genParticles/px";
@@ -7768,7 +7119,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <653> {
@@ -7781,7 +7131,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <654> {
     constexpr static const char* name = "genVertex/y";
@@ -7790,7 +7139,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <655> {
@@ -7801,7 +7149,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <656> {
     constexpr static const char* name = "genVertex/z";
@@ -7811,7 +7158,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <657> {
     constexpr static const char* name = "partons/size";
@@ -7820,7 +7166,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <658> {
@@ -7833,7 +7178,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <659> {
     constexpr static const char* name = "partons/p";
@@ -7844,7 +7188,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <660> {
@@ -7857,7 +7200,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <661> {
     constexpr static const char* name = "partons/m";
@@ -7868,7 +7210,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <662> {
@@ -7881,7 +7222,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <663> {
     constexpr static const char* name = "partons/phi";
@@ -7892,7 +7232,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <664> {
@@ -7905,7 +7244,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <665> {
     constexpr static const char* name = "partons/py";
@@ -7916,7 +7254,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <666> {
@@ -7929,7 +7266,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <667> {
     constexpr static const char* name = "partons/e";
@@ -7941,7 +7277,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <668> {
     constexpr static const char* name = "pfMet/phi";
@@ -7950,7 +7285,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <669> {
@@ -7961,7 +7295,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <670> {
     constexpr static const char* name = "pfMet/sumETRaw";
@@ -7970,7 +7303,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <671> {
@@ -7981,7 +7313,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <672> {
     constexpr static const char* name = "pfMet/pt";
@@ -7990,7 +7321,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <673> {
@@ -8001,7 +7331,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <674> {
     constexpr static const char* name = "pfMet/phiCorrUp";
@@ -8010,7 +7339,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <675> {
@@ -8021,7 +7349,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <676> {
     constexpr static const char* name = "pfMet/ptUnclDown";
@@ -8030,7 +7357,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <677> {
@@ -8041,7 +7367,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <678> {
     constexpr static const char* name = "pfMet/phiCorrDown";
@@ -8050,7 +7375,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <679> {
@@ -8061,7 +7385,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <680> {
     constexpr static const char* name = "puppiMet/phi";
@@ -8070,7 +7393,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <681> {
@@ -8081,7 +7403,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <682> {
     constexpr static const char* name = "puppiMet/sumETRaw";
@@ -8090,7 +7411,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <683> {
@@ -8101,7 +7421,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <684> {
     constexpr static const char* name = "puppiMet/pt";
@@ -8110,7 +7429,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <685> {
@@ -8121,7 +7439,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <686> {
     constexpr static const char* name = "puppiMet/phiCorrUp";
@@ -8130,7 +7447,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <687> {
@@ -8141,7 +7457,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <688> {
     constexpr static const char* name = "puppiMet/ptUnclDown";
@@ -8150,7 +7465,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <689> {
@@ -8161,7 +7475,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <690> {
     constexpr static const char* name = "puppiMet/phiCorrDown";
@@ -8170,7 +7483,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <691> {
@@ -8181,7 +7493,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <692> {
     constexpr static const char* name = "rawMet/phi";
@@ -8190,7 +7501,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <693> {
@@ -8201,7 +7511,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <694> {
     constexpr static const char* name = "caloMet/phi";
@@ -8210,7 +7519,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <695> {
@@ -8221,7 +7529,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <696> {
     constexpr static const char* name = "noMuMet/phi";
@@ -8230,7 +7537,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <697> {
@@ -8241,7 +7547,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <698> {
     constexpr static const char* name = "noHFMet/phi";
@@ -8250,7 +7555,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <699> {
@@ -8261,7 +7565,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <700> {
     constexpr static const char* name = "trkMet/phi";
@@ -8270,7 +7573,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <701> {
@@ -8281,7 +7583,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <702> {
     constexpr static const char* name = "neutralMet/phi";
@@ -8290,7 +7591,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <703> {
@@ -8301,7 +7601,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <704> {
     constexpr static const char* name = "photonMet/phi";
@@ -8310,7 +7609,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <705> {
@@ -8321,7 +7619,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <706> {
     constexpr static const char* name = "hfMet/phi";
@@ -8330,7 +7627,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <707> {
@@ -8341,7 +7637,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <708> {
     constexpr static const char* name = "genMet/phi";
@@ -8350,7 +7645,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <709> {
@@ -8361,7 +7655,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <710> {
     constexpr static const char* name = "metMuOnlyFix/phi";
@@ -8370,7 +7663,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <711> {
@@ -8381,7 +7673,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <712> {
     constexpr static const char* name = "metMuOnlyFix/sumETRaw";
@@ -8390,7 +7681,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <713> {
@@ -8401,7 +7691,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <714> {
     constexpr static const char* name = "metMuOnlyFix/pt";
@@ -8410,7 +7699,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <715> {
@@ -8421,7 +7709,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <716> {
     constexpr static const char* name = "metMuOnlyFix/phiCorrUp";
@@ -8430,7 +7717,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <717> {
@@ -8441,7 +7727,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <718> {
     constexpr static const char* name = "metMuOnlyFix/ptUnclDown";
@@ -8450,7 +7735,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <719> {
@@ -8461,7 +7745,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <720> {
     constexpr static const char* name = "metMuOnlyFix/phiCorrDown";
@@ -8470,7 +7753,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <721> {
@@ -8481,7 +7763,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <722> {
     constexpr static const char* name = "metFilters/duplicateMuons";
@@ -8490,7 +7771,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <723> {
@@ -8501,7 +7781,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <724> {
     constexpr static const char* name = "metFilters/globalHalo16";
@@ -8510,7 +7789,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <725> {
@@ -8521,7 +7799,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <726> {
     constexpr static const char* name = "metFilters/hbheIso";
@@ -8530,7 +7807,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <727> {
@@ -8541,7 +7817,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <728> {
     constexpr static const char* name = "metFilters/badPFMuons";
@@ -8550,7 +7825,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <729> {
@@ -8561,7 +7835,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <730> {
     constexpr static const char* name = "metFilters/ecalDeadCell";
@@ -8570,7 +7843,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <731> {
@@ -8581,7 +7853,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <732> {
     constexpr static const char* name = "metFilters/pass";
@@ -8590,7 +7861,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <733> {
@@ -8601,7 +7871,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <734> {
     constexpr static const char* name = "recoil/monoE";
@@ -8610,7 +7879,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <735> {
@@ -8621,7 +7889,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <736> {
     constexpr static const char* name = "recoil/monoMu";
@@ -8630,7 +7897,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <737> {
@@ -8641,7 +7907,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <738> {
     constexpr static const char* name = "recoil/diMu";
@@ -8651,7 +7916,6 @@ namespace testpanda {
     }
   };
 
-
   template <>
   struct plotter <739> {
     constexpr static const char* name = "recoil/any";
@@ -8660,7 +7924,6 @@ namespace testpanda {
       return output;
     }
   };
-
 
   template <>
   struct plotter <740> {
