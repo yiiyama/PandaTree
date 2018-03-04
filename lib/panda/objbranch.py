@@ -9,13 +9,15 @@ class ObjBranch(Definition):
     """
 
     def __init__(self, line):
-        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)/([^ \\(]+)(\\([0-9]+\\)|)( *//.+)?$')
+        Definition.__init__(self, line, '([a-zA-Z_][a-zA-Z0-9_]*)/([^ \\(]+)(\\([0-9]+\\)|)( *//.+=.+)?$')
 
         self.name = self.matches.group(1)
         self.objname = self.matches.group(2)
         if self.matches.group(4):
+            self.comment = self.matches.group(4)
             self.modifiers = dict([x.split('=') for x in self.matches.group(4).replace('//','').split()])
         else:
+            self.comment = ''
             self.modifiers = {}
         if self.objname.endswith('Collection'):
             self.objname = self.objname.replace('Collection', '')
@@ -45,11 +47,14 @@ class ObjBranch(Definition):
 
     def write_decl(self, out):
         if self.conttype == 'Array':
-            out.writeline('{objname}{type} {name} = {objname}{type}({size}, "{name}");'.format(objname = self.objname, type = self.conttype, name = self.name, size = self.init_size))
+            out.writeline('{objname}{type} {name} = {objname}{type}({size}, "{name}");'.format(objname = self.objname, type = self.conttype, name = self.name, size = self.init_size)
+                          + self.comment)
         elif self.conttype == 'Collection' and self.init_size != '':
-            out.writeline('{objname}{type} {name} = {objname}{type}("{name}", {size});'.format(objname = self.objname, type = self.conttype, name = self.name, size = self.init_size))
+            out.writeline('{objname}{type} {name} = {objname}{type}("{name}", {size});'.format(objname = self.objname, type = self.conttype, name = self.name, size = self.init_size)
+                          + self.comment)
         else:
-            out.writeline('{objname}{type} {name} = {objname}{type}("{name}");'.format(objname = self.objname, type = self.conttype, name = self.name))
+            out.writeline('{objname}{type} {name} = {objname}{type}("{name}");'.format(objname = self.objname, type = self.conttype, name = self.name)
+                          + self.comment)
 
     def write_set_status(self, out):
         out.writeline('{name}.setStatus(_tree, _branches.subList("{name}"));'.format(name = self.name))

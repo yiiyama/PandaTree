@@ -361,7 +361,7 @@ matchedPF/PFCandRef
 matchedGen/GenParticleRef
 
 [GenJet>ParticleM]
-pdgid/S
+pdgid/S // Filled with hadron flavor
 partonFlavor/S
 numB/S
 numC/S
@@ -538,7 +538,7 @@ secondaryVertices/SecondaryVertexCollection(64)
 tracks/PackedTrackCollection(1024)
 superClusters/SuperClusterCollection(64)
 electrons/ElectronCollection(32)
-muons/MuonCollection(32)  // relvalsort=pt 
+muons/MuonCollection(32)  // sortedby=pt
 taus/TauCollection(64)
 photons/PhotonCollection(32)
 chsAK4Jets/JetCollection(64)
@@ -549,7 +549,7 @@ chsCA15Jets/FatJetCollection(8)
 chsCA15Subjets/MicroJetCollection(64)
 puppiAK8Jets/FatJetCollection(8)
 puppiAK8Subjets/MicroJetCollection(64)
-puppiCA15Jets/FatJetCollection(8) 
+puppiCA15Jets/FatJetCollection(8)
 puppiCA15Subjets/MicroJetCollection(64)
 ak4GenJets/GenJetCollection(64)
 ak8GenJets/GenJetCollection(32)

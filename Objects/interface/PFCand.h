@@ -49,9 +49,9 @@ namespace panda {
       Char_t* packedPuppiWNoLepDiff{0};
       UChar_t* ptype{0};
       ContainerBase const* vertexContainer_{0};
-      Short_t* vertex_{0}; // transient
+      Short_t* vertex_{0}; ///< transient
       ContainerBase const* trackContainer_{0};
-      Short_t* track_{0}; // transient
+      Short_t* track_{0}; ///< transient
       Float_t* hCalFrac{0};
 
       void allocate(UInt_t n) override;
