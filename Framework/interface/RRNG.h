@@ -1,5 +1,5 @@
 #ifndef PANDATREE_RRNG
-#define PANDATRE_RRNG
+#define PANDATREE_RRNG
 
 #include "TRandom3.h"
 #include "TMath.h"

@@ -76,7 +76,7 @@ namespace panda {
     RRNG* rng{0};
 
     //! Initialize the random number generator
-    void initRNG(int N) { rng = new RRNG(0, N); }
+    void initRNG(int N = 50) { delete rng; rng = new RRNG(0, N); }
 
   private:
     //! Flag to set run synch feature on/off
