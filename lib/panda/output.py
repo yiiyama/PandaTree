@@ -48,7 +48,7 @@ class FileOutput(object):
         self._file.write('\n')
 
     def writeline(self, line):
-        self._file.write(('  ' * self.indent) + line + '\n')
+        self._file.write((('  ' * self.indent) + line + '\n').replace('//', '///<')) # Replace simple comments in .def files with doxygen-style back comments
 
     def writelines(self, lines, line_end = ''):
         indented_lines = []

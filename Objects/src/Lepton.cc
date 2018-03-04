@@ -410,7 +410,7 @@ panda::Lepton::dump(std::ostream& _out/* = std::cout*/) const
   ParticleP::dump(_out);
 
   _out << "pfPt = " << pfPt << std::endl;
-  _out << "charge = " << charge << std::endl;
+  _out << "charge = " << static_cast<const Int_t>(charge) << std::endl;
   _out << "loose = " << loose << std::endl;
   _out << "medium = " << medium << std::endl;
   _out << "tight = " << tight << std::endl;
