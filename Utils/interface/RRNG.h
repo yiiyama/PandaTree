@@ -4,7 +4,7 @@
 #include "TRandom3.h"
 #include "TMath.h"
 
-#define RRNG_DEBUG 1
+#define RRNG_DEBUG 0
 
 class RRNG {
 public:

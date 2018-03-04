@@ -28,7 +28,10 @@ double RRNG::_requestNumber(int& idx)
   int idx_;
   if (idx >= _maxEntropy) {
     throw out_of_range(Form("RRNG::_requestNumber accessing RN %i/%i", idx, _maxEntropy));
-  } else if (idx < 0) {
+  } 
+  
+  if (idx < 0) {
+    // use the next available number, increment internal counter, do not increment idx
     if (_usedEntropy >= _maxEntropy) {
 #if RRNG_DEBUG
       cerr << "RRNG::_requestNumber forced to re-generate numbers because we ran out!" << endl;
@@ -37,9 +40,11 @@ double RRNG::_requestNumber(int& idx)
     }
     idx_ = _usedEntropy++;
   } else {
+    // use the number at idx, and increment idx. if idx goes over _maxEntropy, reset idx
+    // and the array
     idx_ = idx;
     idx++;
-    if (idx >= _maxEntropy) { // we forced it to go over, so don't throw an exception
+    if (idx >= _maxEntropy) { 
       idx = 0;
 #if RRNG_DEBUG
       cerr << "RRNG::_requestNumber forced to re-generate numbers because we ran out!" << endl;
