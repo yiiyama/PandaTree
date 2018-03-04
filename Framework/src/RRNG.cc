@@ -120,9 +120,9 @@ int RRNG::poisson(double mu, int& idx)
 
   double prod = 1;
   double threshold = TMath::Exp(-mu);
-  int N = 0; 
+  int N = -1; 
 
-  while (prod > threshold) {
+  while (prod >= threshold) {
     prod *= _requestNumber(idx);
     N += 1;
   }
