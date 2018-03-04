@@ -1,4 +1,4 @@
-#include "PandaTree/Utils/interface/RRNG.h"
+#include "PandaTree/Framework/interface/RRNG.h"
 #include "Math/QuantFuncMathCore.h"
 #include "TString.h"
 #include <iostream>
@@ -14,6 +14,14 @@ RRNG::RRNG(int seed, int maxEntropy):
 {
   _default_idx = -1;
   _x = new double[maxEntropy];
+  generate();
+}
+
+RRNG::RRNG(RRNG const& other): 
+  _rng(other._rng),
+  _maxEntropy(other._maxEntropy)
+{
+  _x = new double[_maxEntropy];
   generate();
 }
 

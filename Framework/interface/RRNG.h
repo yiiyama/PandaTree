@@ -9,6 +9,7 @@
 class RRNG {
 public:
   RRNG(int seed  = 0, int maxEntropy = 50);
+  RRNG(RRNG const& other);
   ~RRNG() { delete[] _x; }
   
   void generate(); 

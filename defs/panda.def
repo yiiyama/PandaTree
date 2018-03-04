@@ -525,6 +525,7 @@ triggers/HLTBits
 #include "TFile.h"
 #include "TKey.h"
 #include "HLTObjectStore.h"
+#include "PandaTree/Framework/interface/RRNG.h"
 
 {Event>EventBase}
 npv/s
