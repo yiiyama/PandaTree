@@ -13,14 +13,14 @@ RRNG::RRNG(int seed, int maxEntropy):
   _maxEntropy(maxEntropy)
 {
   _default_idx = -1;
-  _x = new double[2 * maxEntropy];
+  _x = new double[maxEntropy];
   generate();
 }
 
 void RRNG::generate() 
 {
   _usedEntropy = 0;
-  _rng.RndmArray(_maxEntropy * 2, _x);
+  _rng.RndmArray(_maxEntropy, _x);
 }
 
 double RRNG::_requestNumber(int& idx) 
