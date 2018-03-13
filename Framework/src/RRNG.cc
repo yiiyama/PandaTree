@@ -4,77 +4,117 @@
 #include <iostream>
 #include <stdexcept>
 #include <cassert>
+#include <algorithm>
+#include <iterator>
 
 using namespace std;
 using namespace panda;
 
 int RRNG::_default_idx;
 
-RRNG::RRNG(int seed, int maxEntropy): 
+RRNG::RRNG(int maxEntropy, ULong64_t seed, const ULong64_t* seedAddress): 
   _rng(seed),
-  _maxEntropy(maxEntropy)
+  _maxEntropy(maxEntropy),
+  _seedAddress(seedAddress),
+  _currentSeed(seed)
 {
-  assert(_maxEntropy > 0);
   _default_idx = -1;
-  _x = new double[_maxEntropy];
-  _available = new bool[_maxEntropy];
+  setSize(maxEntropy);
   generate();
 }
 
 RRNG::RRNG(RRNG const& other): 
   _rng(other._rng),
-  _maxEntropy(other._maxEntropy)
+  _maxEntropy(other._maxEntropy),
+  _seedAddress(other._seedAddress),
+  _currentSeed(other._currentSeed),
+  _x(other._x)
 {
-  _x = new double[_maxEntropy];
-  _available = new bool[_maxEntropy];
-  generate();
+}
+
+RRNG::RRNG(RRNG&& other): 
+  _rng(other._rng), // still make a copy of the other rng's state
+  _maxEntropy(other._maxEntropy),
+  _seedAddress(other._seedAddress),
+  _currentSeed(other._currentSeed),
+  _x(other._x)
+{
+}
+
+RRNG& RRNG::operator=(RRNG const& other)
+{
+  _rng = other._rng;
+  setSize(other._maxEntropy);
+  std::copy(other._x.begin(), other._x.end(), std::back_inserter(_x));
+  return *this;
+}
+
+void RRNG::setSize(int maxEntropy)
+{
+  _maxEntropy = maxEntropy;
+  assert(_maxEntropy >= 0);
+  _x.clear(); // clear so we can use same default value
+  _x.resize(_maxEntropy, std::pair<double,bool>(0, false));
 }
 
 void RRNG::generate() 
 {
-  _rng.RndmArray(_maxEntropy, _x);
-  for (int i = 0; i != _maxEntropy; ++i) 
-    _available[i] = true;
+  if (_seedAddress != nullptr && _currentSeed != *_seedAddress) {
+    _editSeed(*_seedAddress);
+  }
+  for (auto &p : _x) {
+    p.first = _rng.Rndm();
+    p.second = true;
+  }
 }
 
-int RRNG::_nextAvailable(int start)
+int RRNG::_nextAvailable(int start) const
 {
-  for (int i = start; i != _maxEntropy; ++i) {
-    if (_available[i])
-      return i;
+  for (auto p = _x.begin() + start; p != _x.end(); ++p) {
+    if (p->second)
+      return static_cast<int>(p - _x.begin());
   }
+
   return -1;
 }
 
 double RRNG::_requestNumber(int& idx) 
 {
-  int idx_;
+  if (_maxEntropy == 0) {
+    throw out_of_range("RRNG::_requestNumber requesting number, but internal size set to 0");
+  }
   if (idx >= _maxEntropy) {
     throw out_of_range(Form("RRNG::_requestNumber accessing RN %i/%i", idx, _maxEntropy));
   } 
-  if (idx >= 0 && !_available[idx]) {
+  if (idx >= 0 && !(_x.at(idx).second)) {
     throw runtime_error(Form("RRNG::_requestNumber already accessed %i", idx));
   }
   
-  while ((idx_ = _nextAvailable(TMath::Max(0,idx))) < 0) {
+  int idx_{-1};
+  while ((idx_ = _nextAvailable(std::max(0,idx))) < 0) {
 #if RRNG_DEBUG
     cerr << "RRNG::_requestNumber forced to re-generate numbers because we ran out!" << endl;
 #endif
     generate();
   }
 
-  _available[idx_] = false;
+#if RRNG_DEBUG
+  cerr << "RRNG::_requestNumber returning index " << idx_ << endl;
+#endif
+  _x[idx_].second = false;
+
   if (idx >= 0) {
-    idx = _nextAvailable(idx_); // potentially the next one we could access
+    // if user specified an index, then tell them 
+    // the next one they could access
+    idx = _nextAvailable(idx_); 
   }
 
-  return _x[idx_];
+  return _x[idx_].first;
 }
 
 double RRNG::uniform(int& idx) 
 {
-  double x = _requestNumber(idx);
-  return x;
+  return _requestNumber(idx);
 }
 
 // Box-Muller
@@ -90,7 +130,7 @@ void RRNG::normal(double& x1, double& x2, int& idx)
   x2 = u * TMath::Sin(v);  
 }
 
-// note that this requires two RNs even though it retuRNs only one
+// note that this requires two RNs even though it returns only one
 double RRNG::normal(int& idx) 
 {
   double x1, x2;

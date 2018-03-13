@@ -72,11 +72,8 @@ namespace panda {
     //! Trigger object collection with additional features.
     HLTObjectStore triggerObjects = HLTObjectStore("triggerObjects");
 
-    //! Repeatable random number generator
-    RRNG* rng{0};
-
-    //! Initialize the random number generator
-    void initRNG(int N = 50) { delete rng; rng = new RRNG(0, N); }
+    //! Repeatable random number generator, initialized to be empty
+    RRNG rng{0,0,nullptr};
 
   private:
     //! Flag to set run synch feature on/off
