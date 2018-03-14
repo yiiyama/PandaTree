@@ -34,10 +34,10 @@ RRNG::RRNG(RRNG const& other):
 
 RRNG::RRNG(RRNG&& other): 
   _rng(other._rng), // still make a copy of the other rng's state
-  _maxEntropy(other._maxEntropy),
-  _seedAddress(other._seedAddress),
-  _currentSeed(other._currentSeed),
-  _x(other._x)
+  _maxEntropy(std::move(other._maxEntropy)),
+  _seedAddress(std::move(other._seedAddress)),
+  _currentSeed(std::move(other._currentSeed)),
+  _x(std::move(other._x))
 {
 }
 
