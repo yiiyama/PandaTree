@@ -12,11 +12,12 @@ using namespace panda;
 
 int RRNG::_default_idx;
 
-RRNG::RRNG(int maxEntropy, ULong64_t seed, const ULong64_t* seedAddress): 
+RRNG::RRNG(int maxEntropy, ULong64_t seed, const ULong64_t* seedAddress, bool streaming): 
   _rng(seed),
   _maxEntropy(maxEntropy),
   _seedAddress(seedAddress),
-  _currentSeed(seed)
+  _currentSeed(seed),
+  _streaming(streaming)
 {
   _default_idx = -1;
   setSize(maxEntropy);
@@ -28,7 +29,8 @@ RRNG::RRNG(RRNG const& other):
   _maxEntropy(other._maxEntropy),
   _seedAddress(other._seedAddress),
   _currentSeed(other._currentSeed),
-  _x(other._x)
+  _x(other._x),
+  _streaming(other._streaming)
 {
 }
 
@@ -37,7 +39,8 @@ RRNG::RRNG(RRNG&& other):
   _maxEntropy(std::move(other._maxEntropy)),
   _seedAddress(std::move(other._seedAddress)),
   _currentSeed(std::move(other._currentSeed)),
-  _x(std::move(other._x))
+  _x(std::move(other._x)),
+  _streaming(other._streaming)
 {
 }
 
@@ -46,6 +49,9 @@ RRNG& RRNG::operator=(RRNG const& other)
   _rng = other._rng;
   setSize(other._maxEntropy);
   std::copy(other._x.begin(), other._x.end(), std::back_inserter(_x));
+  _currentSeed = other._currentSeed;
+  _seedAddress = other._seedAddress;
+  _streaming = other._streaming;
   return *this;
 }
 
@@ -55,6 +61,8 @@ void RRNG::setSize(int maxEntropy)
   assert(_maxEntropy >= 0);
   _x.clear(); // clear so we can use same default value
   _x.resize(_maxEntropy, std::pair<double,bool>(0, false));
+  if (_maxEntropy > 0)        // if we require more than one number,
+    setStreaming(false); // streaming mode cannot be used
 }
 
 void RRNG::generate() 
@@ -68,35 +76,37 @@ void RRNG::generate()
   }
 }
 
-int RRNG::_nextAvailable(int start) const
+int RRNG::_nextAvailable(int start) 
 {
-  for (auto p = _x.begin() + start; p != _x.end(); ++p) {
-    if (p->second)
-      return static_cast<int>(p - _x.begin());
-  }
-
-  return -1;
-}
-
-double RRNG::_requestNumber(int& idx) 
-{
-  if (_maxEntropy == 0) {
-    throw out_of_range("RRNG::_requestNumber requesting number, but internal size set to 0");
-  }
-  if (idx >= _maxEntropy) {
-    throw out_of_range(Form("RRNG::_requestNumber accessing RN %i/%i", idx, _maxEntropy));
-  } 
-  if (idx >= 0 && !(_x.at(idx).second)) {
-    throw runtime_error(Form("RRNG::_requestNumber already accessed %i", idx));
-  }
-  
-  int idx_{-1};
-  while ((idx_ = _nextAvailable(std::max(0,idx))) < 0) {
+  while (true) {
+    for (auto p = _x.begin() + start; p != _x.end(); ++p) {
+      if (p->second)
+        return static_cast<int>(p - _x.begin());
+    }
 #if RRNG_DEBUG
     cerr << "RRNG::_requestNumber forced to re-generate numbers because we ran out!" << endl;
 #endif
     generate();
+    start = 0;
   }
+}
+
+double RRNG::_requestNumber(int& idx) 
+{
+  if (_streaming) { 
+    return _rng.Rndm();
+  }
+  if (_maxEntropy == 0) {
+    throw runtime_error("RRNG::_requestNumber internal size is 0 and streaming mode is off");
+  }
+  if (idx >= _maxEntropy) {
+    throw out_of_range(Form("RRNG::_requestNumber trying to access idx=%i out of %i", idx, _maxEntropy));
+  } 
+  if (idx >= 0 && !(_x.at(idx).second)) {
+    throw runtime_error(Form("RRNG::_requestNumber already accessed idx=%i", idx));
+  }
+  
+  int idx_(_nextAvailable(std::max(0,idx)));
 
 #if RRNG_DEBUG
   cerr << "RRNG::_requestNumber returning index " << idx_ << endl;
