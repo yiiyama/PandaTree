@@ -8,6 +8,7 @@
 #include "TFile.h"
 #include "TKey.h"
 #include "HLTObjectStore.h"
+#include "PandaTree/Framework/interface/RRNG.h"
 
 namespace panda {
 
@@ -70,6 +71,9 @@ namespace panda {
 
     //! Trigger object collection with additional features.
     HLTObjectStore triggerObjects = HLTObjectStore("triggerObjects");
+
+    //! Repeatable random number generator, initialized to be empty
+    RRNG rng{0,0,nullptr};
 
   private:
     //! Flag to set run synch feature on/off

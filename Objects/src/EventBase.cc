@@ -7,6 +7,7 @@ panda::EventBase::EventBase() :
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   /* BEGIN CUSTOM EventBase.cc.ctor */
   objects_.push_back(&triggerObjects);
+  rng.setSeedAddress(&eventNumber);
   /* END CUSTOM */
 }
 
@@ -25,6 +26,8 @@ panda::EventBase::EventBase(EventBase const& _src) :
   /* BEGIN CUSTOM EventBase.cc.copy_ctor */
   run = _src.run;
   objects_.push_back(&triggerObjects);
+  rng = _src.rng;
+  rng.setSeedAddress(&eventNumber);
   /* END CUSTOM */
 }
 
@@ -41,6 +44,8 @@ panda::EventBase::operator=(EventBase const& _src)
 
   /* BEGIN CUSTOM EventBase.cc.operator= */
   run = _src.run;
+  rng = _src.rng;
+  rng.setSeedAddress(&eventNumber);
   triggerObjects = _src.triggerObjects;
   /* END CUSTOM */
 
@@ -213,6 +218,8 @@ panda::EventBase::doGetEntry_(TTree& _tree)
 
   if (triggerObjects.size() != 0 && run.hlt.filters)
     triggerObjects.makeMap(*run.hlt.filters);
+
+  rng.generate();
 
   /* END CUSTOM */
 }
