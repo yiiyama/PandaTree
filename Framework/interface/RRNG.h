@@ -6,7 +6,7 @@
 #include <vector>
 #include <utility>
 
-#define RRNG_DEBUG 1
+#define RRNG_DEBUG 0
 
 
 namespace panda {
