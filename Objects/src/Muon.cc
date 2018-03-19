@@ -11,6 +11,30 @@ TString panda::Muon::TriggerObjectName[] = {
   "fIsoTkMu27",
   "fMu50"
 };
+TString panda::Muon::SelectorName[] = {
+  "kCutBasedIdLoose",
+  "kCutBasedIdMedium",
+  "kCutBasedIdMediumPrompt",
+  "kCutBasedIdTight",
+  "kCutBasedIdGlobalHighPt",
+  "kCutBasedIdTrkHighPt",
+  "kPFIsoVeryLoose",
+  "kPFIsoLoose",
+  "kPFIsoMedium",
+  "kPFIsoTight",
+  "kPFIsoVeryTight",
+  "kTkIsoLoose",
+  "kTkIsoTight",
+  "kSoftCutBasedId",
+  "kSoftMvaId",
+  "kMvaLoose",
+  "kMvaMedium",
+  "kMvaTight",
+  "kMiniIsoLoose",
+  "kMiniIsoMedium",
+  "kMiniIsoTight",
+  "kMiniIsoVeryTight"
+};
 
 /*static*/
 panda::utils::BranchList
@@ -18,7 +42,7 @@ panda::Muon::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Lepton::getListOfBranches();
-  blist += {"soft", "mediumBtoF", "global", "pf", "tracker", "validFraction", "nValidMuon", "nValidPixel", "trkLayersWithMmt", "pixLayersWithMmt", "nMatched", "normChi2", "chi2LocalPosition", "trkKink", "segmentCompatibility", "r03Iso", "triggerMatch"};
+  blist += {"soft", "selector", "global", "pf", "tracker", "standalone", "calo", "rpc", "gem", "me0", "validFraction", "nValidMuon", "nValidPixel", "trkLayersWithMmt", "pixLayersWithMmt", "nMatched", "normChi2", "chi2LocalPosition", "trkKink", "segmentCompatibility", "r03Iso", "triggerMatch"};
   return blist;
 }
 
@@ -28,10 +52,15 @@ panda::Muon::datastore::allocate(UInt_t _nmax)
   Lepton::datastore::allocate(_nmax);
 
   soft = new Bool_t[nmax_];
-  mediumBtoF = new Bool_t[nmax_];
+  selector = new Bool_t[nmax_][nSelectors];
   global = new Bool_t[nmax_];
   pf = new Bool_t[nmax_];
   tracker = new Bool_t[nmax_];
+  standalone = new Bool_t[nmax_];
+  calo = new Bool_t[nmax_];
+  rpc = new Bool_t[nmax_];
+  gem = new Bool_t[nmax_];
+  me0 = new Bool_t[nmax_];
   validFraction = new Float_t[nmax_];
   nValidMuon = new UShort_t[nmax_];
   nValidPixel = new UShort_t[nmax_];
@@ -53,14 +82,24 @@ panda::Muon::datastore::deallocate()
 
   delete [] soft;
   soft = 0;
-  delete [] mediumBtoF;
-  mediumBtoF = 0;
+  delete [] selector;
+  selector = 0;
   delete [] global;
   global = 0;
   delete [] pf;
   pf = 0;
   delete [] tracker;
   tracker = 0;
+  delete [] standalone;
+  standalone = 0;
+  delete [] calo;
+  calo = 0;
+  delete [] rpc;
+  rpc = 0;
+  delete [] gem;
+  gem = 0;
+  delete [] me0;
+  me0 = 0;
   delete [] validFraction;
   validFraction = 0;
   delete [] nValidMuon;
@@ -93,10 +132,15 @@ panda::Muon::datastore::setStatus(TTree& _tree, TString const& _name, utils::Bra
   Lepton::datastore::setStatus(_tree, _name, _branches);
 
   utils::setStatus(_tree, _name, "soft", _branches);
-  utils::setStatus(_tree, _name, "mediumBtoF", _branches);
+  utils::setStatus(_tree, _name, "selector", _branches);
   utils::setStatus(_tree, _name, "global", _branches);
   utils::setStatus(_tree, _name, "pf", _branches);
   utils::setStatus(_tree, _name, "tracker", _branches);
+  utils::setStatus(_tree, _name, "standalone", _branches);
+  utils::setStatus(_tree, _name, "calo", _branches);
+  utils::setStatus(_tree, _name, "rpc", _branches);
+  utils::setStatus(_tree, _name, "gem", _branches);
+  utils::setStatus(_tree, _name, "me0", _branches);
   utils::setStatus(_tree, _name, "validFraction", _branches);
   utils::setStatus(_tree, _name, "nValidMuon", _branches);
   utils::setStatus(_tree, _name, "nValidPixel", _branches);
@@ -117,10 +161,15 @@ panda::Muon::datastore::getStatus(TTree& _tree, TString const& _name) const
   utils::BranchList blist(Lepton::datastore::getStatus(_tree, _name));
 
   blist.push_back(utils::getStatus(_tree, _name, "soft"));
-  blist.push_back(utils::getStatus(_tree, _name, "mediumBtoF"));
+  blist.push_back(utils::getStatus(_tree, _name, "selector"));
   blist.push_back(utils::getStatus(_tree, _name, "global"));
   blist.push_back(utils::getStatus(_tree, _name, "pf"));
   blist.push_back(utils::getStatus(_tree, _name, "tracker"));
+  blist.push_back(utils::getStatus(_tree, _name, "standalone"));
+  blist.push_back(utils::getStatus(_tree, _name, "calo"));
+  blist.push_back(utils::getStatus(_tree, _name, "rpc"));
+  blist.push_back(utils::getStatus(_tree, _name, "gem"));
+  blist.push_back(utils::getStatus(_tree, _name, "me0"));
   blist.push_back(utils::getStatus(_tree, _name, "validFraction"));
   blist.push_back(utils::getStatus(_tree, _name, "nValidMuon"));
   blist.push_back(utils::getStatus(_tree, _name, "nValidPixel"));
@@ -143,10 +192,15 @@ panda::Muon::datastore::setAddress(TTree& _tree, TString const& _name, utils::Br
   Lepton::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
   utils::setAddress(_tree, _name, "soft", soft, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "mediumBtoF", mediumBtoF, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "selector", selector, _branches, _setStatus);
   utils::setAddress(_tree, _name, "global", global, _branches, _setStatus);
   utils::setAddress(_tree, _name, "pf", pf, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tracker", tracker, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "standalone", standalone, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "calo", calo, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "rpc", rpc, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "gem", gem, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "me0", me0, _branches, _setStatus);
   utils::setAddress(_tree, _name, "validFraction", validFraction, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nValidMuon", nValidMuon, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nValidPixel", nValidPixel, _branches, _setStatus);
@@ -169,10 +223,15 @@ panda::Muon::datastore::book(TTree& _tree, TString const& _name, utils::BranchLi
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
   utils::book(_tree, _name, "soft", size, 'O', soft, _branches);
-  utils::book(_tree, _name, "mediumBtoF", size, 'O', mediumBtoF, _branches);
+  utils::book(_tree, _name, "selector", size + TString::Format("[%d]", nSelectors), 'O', selector, _branches);
   utils::book(_tree, _name, "global", size, 'O', global, _branches);
   utils::book(_tree, _name, "pf", size, 'O', pf, _branches);
   utils::book(_tree, _name, "tracker", size, 'O', tracker, _branches);
+  utils::book(_tree, _name, "standalone", size, 'O', standalone, _branches);
+  utils::book(_tree, _name, "calo", size, 'O', calo, _branches);
+  utils::book(_tree, _name, "rpc", size, 'O', rpc, _branches);
+  utils::book(_tree, _name, "gem", size, 'O', gem, _branches);
+  utils::book(_tree, _name, "me0", size, 'O', me0, _branches);
   utils::book(_tree, _name, "validFraction", size, 'F', validFraction, _branches);
   utils::book(_tree, _name, "nValidMuon", size, 's', nValidMuon, _branches);
   utils::book(_tree, _name, "nValidPixel", size, 's', nValidPixel, _branches);
@@ -193,10 +252,15 @@ panda::Muon::datastore::releaseTree(TTree& _tree, TString const& _name)
   Lepton::datastore::releaseTree(_tree, _name);
 
   utils::resetAddress(_tree, _name, "soft");
-  utils::resetAddress(_tree, _name, "mediumBtoF");
+  utils::resetAddress(_tree, _name, "selector");
   utils::resetAddress(_tree, _name, "global");
   utils::resetAddress(_tree, _name, "pf");
   utils::resetAddress(_tree, _name, "tracker");
+  utils::resetAddress(_tree, _name, "standalone");
+  utils::resetAddress(_tree, _name, "calo");
+  utils::resetAddress(_tree, _name, "rpc");
+  utils::resetAddress(_tree, _name, "gem");
+  utils::resetAddress(_tree, _name, "me0");
   utils::resetAddress(_tree, _name, "validFraction");
   utils::resetAddress(_tree, _name, "nValidMuon");
   utils::resetAddress(_tree, _name, "nValidPixel");
@@ -228,10 +292,15 @@ panda::Muon::datastore::getBranchNames(TString const& _name/* = ""*/) const
 panda::Muon::Muon(char const* _name/* = ""*/) :
   Lepton(new MuonArray(1, _name)),
   soft(gStore.getData(this).soft[0]),
-  mediumBtoF(gStore.getData(this).mediumBtoF[0]),
+  selector(gStore.getData(this).selector[0]),
   global(gStore.getData(this).global[0]),
   pf(gStore.getData(this).pf[0]),
   tracker(gStore.getData(this).tracker[0]),
+  standalone(gStore.getData(this).standalone[0]),
+  calo(gStore.getData(this).calo[0]),
+  rpc(gStore.getData(this).rpc[0]),
+  gem(gStore.getData(this).gem[0]),
+  me0(gStore.getData(this).me0[0]),
   validFraction(gStore.getData(this).validFraction[0]),
   nValidMuon(gStore.getData(this).nValidMuon[0]),
   nValidPixel(gStore.getData(this).nValidPixel[0]),
@@ -250,10 +319,15 @@ panda::Muon::Muon(char const* _name/* = ""*/) :
 panda::Muon::Muon(Muon const& _src) :
   Lepton(new MuonArray(1, _src.getName())),
   soft(gStore.getData(this).soft[0]),
-  mediumBtoF(gStore.getData(this).mediumBtoF[0]),
+  selector(gStore.getData(this).selector[0]),
   global(gStore.getData(this).global[0]),
   pf(gStore.getData(this).pf[0]),
   tracker(gStore.getData(this).tracker[0]),
+  standalone(gStore.getData(this).standalone[0]),
+  calo(gStore.getData(this).calo[0]),
+  rpc(gStore.getData(this).rpc[0]),
+  gem(gStore.getData(this).gem[0]),
+  me0(gStore.getData(this).me0[0]),
   validFraction(gStore.getData(this).validFraction[0]),
   nValidMuon(gStore.getData(this).nValidMuon[0]),
   nValidPixel(gStore.getData(this).nValidPixel[0]),
@@ -270,10 +344,15 @@ panda::Muon::Muon(Muon const& _src) :
   Lepton::operator=(_src);
 
   soft = _src.soft;
-  mediumBtoF = _src.mediumBtoF;
+  std::memcpy(selector, _src.selector, sizeof(Bool_t) * nSelectors);
   global = _src.global;
   pf = _src.pf;
   tracker = _src.tracker;
+  standalone = _src.standalone;
+  calo = _src.calo;
+  rpc = _src.rpc;
+  gem = _src.gem;
+  me0 = _src.me0;
   validFraction = _src.validFraction;
   nValidMuon = _src.nValidMuon;
   nValidPixel = _src.nValidPixel;
@@ -291,10 +370,15 @@ panda::Muon::Muon(Muon const& _src) :
 panda::Muon::Muon(datastore& _data, UInt_t _idx) :
   Lepton(_data, _idx),
   soft(_data.soft[_idx]),
-  mediumBtoF(_data.mediumBtoF[_idx]),
+  selector(_data.selector[_idx]),
   global(_data.global[_idx]),
   pf(_data.pf[_idx]),
   tracker(_data.tracker[_idx]),
+  standalone(_data.standalone[_idx]),
+  calo(_data.calo[_idx]),
+  rpc(_data.rpc[_idx]),
+  gem(_data.gem[_idx]),
+  me0(_data.me0[_idx]),
   validFraction(_data.validFraction[_idx]),
   nValidMuon(_data.nValidMuon[_idx]),
   nValidPixel(_data.nValidPixel[_idx]),
@@ -313,10 +397,15 @@ panda::Muon::Muon(datastore& _data, UInt_t _idx) :
 panda::Muon::Muon(ArrayBase* _array) :
   Lepton(_array),
   soft(gStore.getData(this).soft[0]),
-  mediumBtoF(gStore.getData(this).mediumBtoF[0]),
+  selector(gStore.getData(this).selector[0]),
   global(gStore.getData(this).global[0]),
   pf(gStore.getData(this).pf[0]),
   tracker(gStore.getData(this).tracker[0]),
+  standalone(gStore.getData(this).standalone[0]),
+  calo(gStore.getData(this).calo[0]),
+  rpc(gStore.getData(this).rpc[0]),
+  gem(gStore.getData(this).gem[0]),
+  me0(gStore.getData(this).me0[0]),
   validFraction(gStore.getData(this).validFraction[0]),
   nValidMuon(gStore.getData(this).nValidMuon[0]),
   nValidPixel(gStore.getData(this).nValidPixel[0]),
@@ -353,10 +442,15 @@ panda::Muon::operator=(Muon const& _src)
   Lepton::operator=(_src);
 
   soft = _src.soft;
-  mediumBtoF = _src.mediumBtoF;
+  std::memcpy(selector, _src.selector, sizeof(Bool_t) * nSelectors);
   global = _src.global;
   pf = _src.pf;
   tracker = _src.tracker;
+  standalone = _src.standalone;
+  calo = _src.calo;
+  rpc = _src.rpc;
+  gem = _src.gem;
+  me0 = _src.me0;
   validFraction = _src.validFraction;
   nValidMuon = _src.nValidMuon;
   nValidPixel = _src.nValidPixel;
@@ -382,10 +476,15 @@ panda::Muon::doBook_(TTree& _tree, TString const& _name, utils::BranchList const
   Lepton::doBook_(_tree, _name, _branches);
 
   utils::book(_tree, _name, "soft", "", 'O', &soft, _branches);
-  utils::book(_tree, _name, "mediumBtoF", "", 'O', &mediumBtoF, _branches);
+  utils::book(_tree, _name, "selector", TString::Format("[%d]", nSelectors), 'O', selector, _branches);
   utils::book(_tree, _name, "global", "", 'O', &global, _branches);
   utils::book(_tree, _name, "pf", "", 'O', &pf, _branches);
   utils::book(_tree, _name, "tracker", "", 'O', &tracker, _branches);
+  utils::book(_tree, _name, "standalone", "", 'O', &standalone, _branches);
+  utils::book(_tree, _name, "calo", "", 'O', &calo, _branches);
+  utils::book(_tree, _name, "rpc", "", 'O', &rpc, _branches);
+  utils::book(_tree, _name, "gem", "", 'O', &gem, _branches);
+  utils::book(_tree, _name, "me0", "", 'O', &me0, _branches);
   utils::book(_tree, _name, "validFraction", "", 'F', &validFraction, _branches);
   utils::book(_tree, _name, "nValidMuon", "", 's', &nValidMuon, _branches);
   utils::book(_tree, _name, "nValidPixel", "", 's', &nValidPixel, _branches);
@@ -406,10 +505,15 @@ panda::Muon::doInit_()
   Lepton::doInit_();
 
   soft = false;
-  mediumBtoF = false;
+  for (auto& p0 : selector) p0 = false;
   global = false;
   pf = false;
   tracker = false;
+  standalone = false;
+  calo = false;
+  rpc = false;
+  gem = false;
+  me0 = false;
   validFraction = 0.;
   nValidMuon = 0;
   nValidPixel = 0;
@@ -454,10 +558,15 @@ panda::Muon::dump(std::ostream& _out/* = std::cout*/) const
   Lepton::dump(_out);
 
   _out << "soft = " << soft << std::endl;
-  _out << "mediumBtoF = " << mediumBtoF << std::endl;
+  _out << "selector = " << selector << std::endl;
   _out << "global = " << global << std::endl;
   _out << "pf = " << pf << std::endl;
   _out << "tracker = " << tracker << std::endl;
+  _out << "standalone = " << standalone << std::endl;
+  _out << "calo = " << calo << std::endl;
+  _out << "rpc = " << rpc << std::endl;
+  _out << "gem = " << gem << std::endl;
+  _out << "me0 = " << me0 << std::endl;
   _out << "validFraction = " << validFraction << std::endl;
   _out << "nValidMuon = " << nValidMuon << std::endl;
   _out << "nValidPixel = " << nValidPixel << std::endl;

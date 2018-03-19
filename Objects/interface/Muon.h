@@ -25,6 +25,33 @@ namespace panda {
     };
 
     static TString TriggerObjectName[nTriggerObjects];
+    enum Selector {
+      kCutBasedIdLoose,
+      kCutBasedIdMedium,
+      kCutBasedIdMediumPrompt,
+      kCutBasedIdTight,
+      kCutBasedIdGlobalHighPt,
+      kCutBasedIdTrkHighPt,
+      kPFIsoVeryLoose,
+      kPFIsoLoose,
+      kPFIsoMedium,
+      kPFIsoTight,
+      kPFIsoVeryTight,
+      kTkIsoLoose,
+      kTkIsoTight,
+      kSoftCutBasedId,
+      kSoftMvaId,
+      kMvaLoose,
+      kMvaMedium,
+      kMvaTight,
+      kMiniIsoLoose,
+      kMiniIsoMedium,
+      kMiniIsoTight,
+      kMiniIsoVeryTight,
+      nSelectors
+    };
+
+    static TString SelectorName[nSelectors];
 
     struct datastore : public Lepton::datastore {
       datastore() : Lepton::datastore() {}
@@ -56,10 +83,15 @@ namespace panda {
       Short_t* vertex_{0};
       */
       Bool_t* soft{0};
-      Bool_t* mediumBtoF{0};
+      Bool_t (*selector)[nSelectors]{0};
       Bool_t* global{0};
       Bool_t* pf{0};
       Bool_t* tracker{0};
+      Bool_t* standalone{0};
+      Bool_t* calo{0};
+      Bool_t* rpc{0};
+      Bool_t* gem{0};
+      Bool_t* me0{0};
       Float_t* validFraction{0};
       UShort_t* nValidMuon{0};
       UShort_t* nValidPixel{0};
@@ -121,10 +153,15 @@ namespace panda {
     Ref<Vertex> vertex;
     */
     Bool_t& soft;
-    Bool_t& mediumBtoF;
+    Bool_t (&selector)[nSelectors];
     Bool_t& global;
     Bool_t& pf;
     Bool_t& tracker;
+    Bool_t& standalone;
+    Bool_t& calo;
+    Bool_t& rpc;
+    Bool_t& gem;
+    Bool_t& me0;
     Float_t& validFraction;
     UShort_t& nValidMuon;
     UShort_t& nValidPixel;

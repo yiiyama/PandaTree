@@ -22,7 +22,7 @@ panda::Photon::getListOfBranches()
 {
   utils::BranchList blist;
   blist += ParticleP::getListOfBranches();
-  blist += {"pfPt", "chIso", "chIsoMax", "nhIso", "phIso", "sieie", "sipip", "hOverE", "genIso", "mipEnergy", "emax", "e2nd", "eleft", "eright", "etop", "ebottom", "r9", "etaWidth", "phiWidth", "time", "timeSpan", "regPt", "smearedPt", "loose", "medium", "tight", "highpt", "pixelVeto", "csafeVeto", "triggerMatch", "superCluster_", "matchedPF_", "matchedGen_"};
+  blist += {"pfPt", "chIso", "chIsoMax", "nhIso", "phIso", "sieie", "sipip", "hOverE", "genIso", "mipEnergy", "emax", "e2nd", "eleft", "eright", "etop", "ebottom", "r9", "etaWidth", "phiWidth", "time", "timeSpan", "regPt", "smearedPt", "ix", "iy", "loose", "medium", "tight", "highpt", "pixelVeto", "csafeVeto", "chpfVeto", "triggerMatch", "superCluster_", "matchedPF_", "matchedGen_"};
   return blist;
 }
 
@@ -54,12 +54,15 @@ panda::Photon::datastore::allocate(UInt_t _nmax)
   timeSpan = new Float_t[nmax_];
   regPt = new Float_t[nmax_];
   smearedPt = new Float_t[nmax_];
+  ix = new UShort_t[nmax_];
+  iy = new UShort_t[nmax_];
   loose = new Bool_t[nmax_];
   medium = new Bool_t[nmax_];
   tight = new Bool_t[nmax_];
   highpt = new Bool_t[nmax_];
   pixelVeto = new Bool_t[nmax_];
   csafeVeto = new Bool_t[nmax_];
+  chpfVeto = new Bool_t[nmax_];
   triggerMatch = new Bool_t[nmax_][nTriggerObjects];
   superCluster_ = new Short_t[nmax_];
   matchedPF_ = new Short_t[nmax_];
@@ -117,6 +120,10 @@ panda::Photon::datastore::deallocate()
   regPt = 0;
   delete [] smearedPt;
   smearedPt = 0;
+  delete [] ix;
+  ix = 0;
+  delete [] iy;
+  iy = 0;
   delete [] loose;
   loose = 0;
   delete [] medium;
@@ -129,6 +136,8 @@ panda::Photon::datastore::deallocate()
   pixelVeto = 0;
   delete [] csafeVeto;
   csafeVeto = 0;
+  delete [] chpfVeto;
+  chpfVeto = 0;
   delete [] triggerMatch;
   triggerMatch = 0;
   delete [] superCluster_;
@@ -167,12 +176,15 @@ panda::Photon::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
   utils::setStatus(_tree, _name, "timeSpan", _branches);
   utils::setStatus(_tree, _name, "regPt", _branches);
   utils::setStatus(_tree, _name, "smearedPt", _branches);
+  utils::setStatus(_tree, _name, "ix", _branches);
+  utils::setStatus(_tree, _name, "iy", _branches);
   utils::setStatus(_tree, _name, "loose", _branches);
   utils::setStatus(_tree, _name, "medium", _branches);
   utils::setStatus(_tree, _name, "tight", _branches);
   utils::setStatus(_tree, _name, "highpt", _branches);
   utils::setStatus(_tree, _name, "pixelVeto", _branches);
   utils::setStatus(_tree, _name, "csafeVeto", _branches);
+  utils::setStatus(_tree, _name, "chpfVeto", _branches);
   utils::setStatus(_tree, _name, "triggerMatch", _branches);
   utils::setStatus(_tree, _name, "superCluster_", _branches);
   utils::setStatus(_tree, _name, "matchedPF_", _branches);
@@ -207,12 +219,15 @@ panda::Photon::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "timeSpan"));
   blist.push_back(utils::getStatus(_tree, _name, "regPt"));
   blist.push_back(utils::getStatus(_tree, _name, "smearedPt"));
+  blist.push_back(utils::getStatus(_tree, _name, "ix"));
+  blist.push_back(utils::getStatus(_tree, _name, "iy"));
   blist.push_back(utils::getStatus(_tree, _name, "loose"));
   blist.push_back(utils::getStatus(_tree, _name, "medium"));
   blist.push_back(utils::getStatus(_tree, _name, "tight"));
   blist.push_back(utils::getStatus(_tree, _name, "highpt"));
   blist.push_back(utils::getStatus(_tree, _name, "pixelVeto"));
   blist.push_back(utils::getStatus(_tree, _name, "csafeVeto"));
+  blist.push_back(utils::getStatus(_tree, _name, "chpfVeto"));
   blist.push_back(utils::getStatus(_tree, _name, "triggerMatch"));
   blist.push_back(utils::getStatus(_tree, _name, "superCluster_"));
   blist.push_back(utils::getStatus(_tree, _name, "matchedPF_"));
@@ -249,12 +264,15 @@ panda::Photon::datastore::setAddress(TTree& _tree, TString const& _name, utils::
   utils::setAddress(_tree, _name, "timeSpan", timeSpan, _branches, _setStatus);
   utils::setAddress(_tree, _name, "regPt", regPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "smearedPt", smearedPt, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "ix", ix, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "iy", iy, _branches, _setStatus);
   utils::setAddress(_tree, _name, "loose", loose, _branches, _setStatus);
   utils::setAddress(_tree, _name, "medium", medium, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tight", tight, _branches, _setStatus);
   utils::setAddress(_tree, _name, "highpt", highpt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "pixelVeto", pixelVeto, _branches, _setStatus);
   utils::setAddress(_tree, _name, "csafeVeto", csafeVeto, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "chpfVeto", chpfVeto, _branches, _setStatus);
   utils::setAddress(_tree, _name, "triggerMatch", triggerMatch, _branches, _setStatus);
   utils::setAddress(_tree, _name, "superCluster_", superCluster_, _branches, _setStatus);
   utils::setAddress(_tree, _name, "matchedPF_", matchedPF_, _branches, _setStatus);
@@ -291,12 +309,15 @@ panda::Photon::datastore::book(TTree& _tree, TString const& _name, utils::Branch
   utils::book(_tree, _name, "timeSpan", size, 'F', timeSpan, _branches);
   utils::book(_tree, _name, "regPt", size, 'F', regPt, _branches);
   utils::book(_tree, _name, "smearedPt", size, 'F', smearedPt, _branches);
+  utils::book(_tree, _name, "ix", size, 's', ix, _branches);
+  utils::book(_tree, _name, "iy", size, 's', iy, _branches);
   utils::book(_tree, _name, "loose", size, 'O', loose, _branches);
   utils::book(_tree, _name, "medium", size, 'O', medium, _branches);
   utils::book(_tree, _name, "tight", size, 'O', tight, _branches);
   utils::book(_tree, _name, "highpt", size, 'O', highpt, _branches);
   utils::book(_tree, _name, "pixelVeto", size, 'O', pixelVeto, _branches);
   utils::book(_tree, _name, "csafeVeto", size, 'O', csafeVeto, _branches);
+  utils::book(_tree, _name, "chpfVeto", size, 'O', chpfVeto, _branches);
   utils::book(_tree, _name, "triggerMatch", size + TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
   utils::book(_tree, _name, "superCluster_", size, 'S', superCluster_, _branches);
   utils::book(_tree, _name, "matchedPF_", size, 'S', matchedPF_, _branches);
@@ -331,12 +352,15 @@ panda::Photon::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "timeSpan");
   utils::resetAddress(_tree, _name, "regPt");
   utils::resetAddress(_tree, _name, "smearedPt");
+  utils::resetAddress(_tree, _name, "ix");
+  utils::resetAddress(_tree, _name, "iy");
   utils::resetAddress(_tree, _name, "loose");
   utils::resetAddress(_tree, _name, "medium");
   utils::resetAddress(_tree, _name, "tight");
   utils::resetAddress(_tree, _name, "highpt");
   utils::resetAddress(_tree, _name, "pixelVeto");
   utils::resetAddress(_tree, _name, "csafeVeto");
+  utils::resetAddress(_tree, _name, "chpfVeto");
   utils::resetAddress(_tree, _name, "triggerMatch");
   utils::resetAddress(_tree, _name, "superCluster_");
   utils::resetAddress(_tree, _name, "matchedPF_");
@@ -382,12 +406,15 @@ panda::Photon::Photon(char const* _name/* = ""*/) :
   timeSpan(gStore.getData(this).timeSpan[0]),
   regPt(gStore.getData(this).regPt[0]),
   smearedPt(gStore.getData(this).smearedPt[0]),
+  ix(gStore.getData(this).ix[0]),
+  iy(gStore.getData(this).iy[0]),
   loose(gStore.getData(this).loose[0]),
   medium(gStore.getData(this).medium[0]),
   tight(gStore.getData(this).tight[0]),
   highpt(gStore.getData(this).highpt[0]),
   pixelVeto(gStore.getData(this).pixelVeto[0]),
   csafeVeto(gStore.getData(this).csafeVeto[0]),
+  chpfVeto(gStore.getData(this).chpfVeto[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0]),
   matchedPF(gStore.getData(this).matchedPFContainer_, gStore.getData(this).matchedPF_[0]),
@@ -420,12 +447,15 @@ panda::Photon::Photon(Photon const& _src) :
   timeSpan(gStore.getData(this).timeSpan[0]),
   regPt(gStore.getData(this).regPt[0]),
   smearedPt(gStore.getData(this).smearedPt[0]),
+  ix(gStore.getData(this).ix[0]),
+  iy(gStore.getData(this).iy[0]),
   loose(gStore.getData(this).loose[0]),
   medium(gStore.getData(this).medium[0]),
   tight(gStore.getData(this).tight[0]),
   highpt(gStore.getData(this).highpt[0]),
   pixelVeto(gStore.getData(this).pixelVeto[0]),
   csafeVeto(gStore.getData(this).csafeVeto[0]),
+  chpfVeto(gStore.getData(this).chpfVeto[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0]),
   matchedPF(gStore.getData(this).matchedPFContainer_, gStore.getData(this).matchedPF_[0]),
@@ -456,12 +486,15 @@ panda::Photon::Photon(Photon const& _src) :
   timeSpan = _src.timeSpan;
   regPt = _src.regPt;
   smearedPt = _src.smearedPt;
+  ix = _src.ix;
+  iy = _src.iy;
   loose = _src.loose;
   medium = _src.medium;
   tight = _src.tight;
   highpt = _src.highpt;
   pixelVeto = _src.pixelVeto;
   csafeVeto = _src.csafeVeto;
+  chpfVeto = _src.chpfVeto;
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
   superCluster = _src.superCluster;
   matchedPF = _src.matchedPF;
@@ -493,12 +526,15 @@ panda::Photon::Photon(datastore& _data, UInt_t _idx) :
   timeSpan(_data.timeSpan[_idx]),
   regPt(_data.regPt[_idx]),
   smearedPt(_data.smearedPt[_idx]),
+  ix(_data.ix[_idx]),
+  iy(_data.iy[_idx]),
   loose(_data.loose[_idx]),
   medium(_data.medium[_idx]),
   tight(_data.tight[_idx]),
   highpt(_data.highpt[_idx]),
   pixelVeto(_data.pixelVeto[_idx]),
   csafeVeto(_data.csafeVeto[_idx]),
+  chpfVeto(_data.chpfVeto[_idx]),
   triggerMatch(_data.triggerMatch[_idx]),
   superCluster(_data.superClusterContainer_, _data.superCluster_[_idx]),
   matchedPF(_data.matchedPFContainer_, _data.matchedPF_[_idx]),
@@ -531,12 +567,15 @@ panda::Photon::Photon(ArrayBase* _array) :
   timeSpan(gStore.getData(this).timeSpan[0]),
   regPt(gStore.getData(this).regPt[0]),
   smearedPt(gStore.getData(this).smearedPt[0]),
+  ix(gStore.getData(this).ix[0]),
+  iy(gStore.getData(this).iy[0]),
   loose(gStore.getData(this).loose[0]),
   medium(gStore.getData(this).medium[0]),
   tight(gStore.getData(this).tight[0]),
   highpt(gStore.getData(this).highpt[0]),
   pixelVeto(gStore.getData(this).pixelVeto[0]),
   csafeVeto(gStore.getData(this).csafeVeto[0]),
+  chpfVeto(gStore.getData(this).chpfVeto[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0]),
   matchedPF(gStore.getData(this).matchedPFContainer_, gStore.getData(this).matchedPF_[0]),
@@ -587,12 +626,15 @@ panda::Photon::operator=(Photon const& _src)
   timeSpan = _src.timeSpan;
   regPt = _src.regPt;
   smearedPt = _src.smearedPt;
+  ix = _src.ix;
+  iy = _src.iy;
   loose = _src.loose;
   medium = _src.medium;
   tight = _src.tight;
   highpt = _src.highpt;
   pixelVeto = _src.pixelVeto;
   csafeVeto = _src.csafeVeto;
+  chpfVeto = _src.chpfVeto;
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
   superCluster = _src.superCluster;
   matchedPF = _src.matchedPF;
@@ -632,12 +674,15 @@ panda::Photon::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
   utils::book(_tree, _name, "timeSpan", "", 'F', &timeSpan, _branches);
   utils::book(_tree, _name, "regPt", "", 'F', &regPt, _branches);
   utils::book(_tree, _name, "smearedPt", "", 'F', &smearedPt, _branches);
+  utils::book(_tree, _name, "ix", "", 's', &ix, _branches);
+  utils::book(_tree, _name, "iy", "", 's', &iy, _branches);
   utils::book(_tree, _name, "loose", "", 'O', &loose, _branches);
   utils::book(_tree, _name, "medium", "", 'O', &medium, _branches);
   utils::book(_tree, _name, "tight", "", 'O', &tight, _branches);
   utils::book(_tree, _name, "highpt", "", 'O', &highpt, _branches);
   utils::book(_tree, _name, "pixelVeto", "", 'O', &pixelVeto, _branches);
   utils::book(_tree, _name, "csafeVeto", "", 'O', &csafeVeto, _branches);
+  utils::book(_tree, _name, "chpfVeto", "", 'O', &chpfVeto, _branches);
   utils::book(_tree, _name, "triggerMatch", TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
   utils::book(_tree, _name, "superCluster_", "", 'S', gStore.getData(this).superCluster_, _branches);
   utils::book(_tree, _name, "matchedPF_", "", 'S', gStore.getData(this).matchedPF_, _branches);
@@ -672,12 +717,15 @@ panda::Photon::doInit_()
   timeSpan = 0.;
   regPt = 0.;
   smearedPt = 0.;
+  ix = 0;
+  iy = 0;
   loose = false;
   medium = false;
   tight = false;
   highpt = false;
   pixelVeto = false;
   csafeVeto = false;
+  chpfVeto = false;
   for (auto& p0 : triggerMatch) p0 = false;
   superCluster.init();
   matchedPF.init();
@@ -744,12 +792,15 @@ panda::Photon::dump(std::ostream& _out/* = std::cout*/) const
   _out << "timeSpan = " << timeSpan << std::endl;
   _out << "regPt = " << regPt << std::endl;
   _out << "smearedPt = " << smearedPt << std::endl;
+  _out << "ix = " << ix << std::endl;
+  _out << "iy = " << iy << std::endl;
   _out << "loose = " << loose << std::endl;
   _out << "medium = " << medium << std::endl;
   _out << "tight = " << tight << std::endl;
   _out << "highpt = " << highpt << std::endl;
   _out << "pixelVeto = " << pixelVeto << std::endl;
   _out << "csafeVeto = " << csafeVeto << std::endl;
+  _out << "chpfVeto = " << chpfVeto << std::endl;
   _out << "triggerMatch = " << triggerMatch << std::endl;
   _out << "superCluster = " << superCluster << std::endl;
   _out << "matchedPF = " << matchedPF << std::endl;

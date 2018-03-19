@@ -82,6 +82,10 @@ namespace panda {
       Bool_t* tripleCharge{0};
       Bool_t* mvaWP90{0};
       Bool_t* mvaWP80{0};
+      Bool_t* mvaWPLoose{0};
+      Bool_t* mvaIsoWP90{0};
+      Bool_t* mvaIsoWP80{0};
+      Bool_t* mvaIsoWPLoose{0};
       Bool_t (*triggerMatch)[nTriggerObjects]{0};
       ContainerBase const* superClusterContainer_{0};
       Short_t* superCluster_{0};
@@ -158,6 +162,10 @@ namespace panda {
     Bool_t& tripleCharge;
     Bool_t& mvaWP90;
     Bool_t& mvaWP80;
+    Bool_t& mvaWPLoose;
+    Bool_t& mvaIsoWP90;
+    Bool_t& mvaIsoWP80;
+    Bool_t& mvaIsoWPLoose;
     Bool_t (&triggerMatch)[nTriggerObjects];
     Ref<SuperCluster> superCluster;
 

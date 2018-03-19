@@ -19,7 +19,7 @@ panda::Electron::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Lepton::getListOfBranches();
-  blist += {"chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "trackIso", "isoPUOffset", "sieie", "sipip", "r9", "dEtaInSeed", "dPhiIn", "eseed", "hOverE", "ecalE", "trackP", "regPt", "smearedPt", "mvaVal", "nMissingHits", "veto", "conversionVeto", "tripleCharge", "mvaWP90", "mvaWP80", "triggerMatch", "superCluster_"};
+  blist += {"chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "trackIso", "isoPUOffset", "sieie", "sipip", "r9", "dEtaInSeed", "dPhiIn", "eseed", "hOverE", "ecalE", "trackP", "regPt", "smearedPt", "mvaVal", "nMissingHits", "veto", "conversionVeto", "tripleCharge", "mvaWP90", "mvaWP80", "mvaWPLoose", "mvaIsoWP90", "mvaIsoWP80", "mvaIsoWPLoose", "triggerMatch", "superCluster_"};
   return blist;
 }
 
@@ -53,6 +53,10 @@ panda::Electron::datastore::allocate(UInt_t _nmax)
   tripleCharge = new Bool_t[nmax_];
   mvaWP90 = new Bool_t[nmax_];
   mvaWP80 = new Bool_t[nmax_];
+  mvaWPLoose = new Bool_t[nmax_];
+  mvaIsoWP90 = new Bool_t[nmax_];
+  mvaIsoWP80 = new Bool_t[nmax_];
+  mvaIsoWPLoose = new Bool_t[nmax_];
   triggerMatch = new Bool_t[nmax_][nTriggerObjects];
   superCluster_ = new Short_t[nmax_];
 }
@@ -112,6 +116,14 @@ panda::Electron::datastore::deallocate()
   mvaWP90 = 0;
   delete [] mvaWP80;
   mvaWP80 = 0;
+  delete [] mvaWPLoose;
+  mvaWPLoose = 0;
+  delete [] mvaIsoWP90;
+  mvaIsoWP90 = 0;
+  delete [] mvaIsoWP80;
+  mvaIsoWP80 = 0;
+  delete [] mvaIsoWPLoose;
+  mvaIsoWPLoose = 0;
   delete [] triggerMatch;
   triggerMatch = 0;
   delete [] superCluster_;
@@ -148,6 +160,10 @@ panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, utils:
   utils::setStatus(_tree, _name, "tripleCharge", _branches);
   utils::setStatus(_tree, _name, "mvaWP90", _branches);
   utils::setStatus(_tree, _name, "mvaWP80", _branches);
+  utils::setStatus(_tree, _name, "mvaWPLoose", _branches);
+  utils::setStatus(_tree, _name, "mvaIsoWP90", _branches);
+  utils::setStatus(_tree, _name, "mvaIsoWP80", _branches);
+  utils::setStatus(_tree, _name, "mvaIsoWPLoose", _branches);
   utils::setStatus(_tree, _name, "triggerMatch", _branches);
   utils::setStatus(_tree, _name, "superCluster_", _branches);
 }
@@ -182,6 +198,10 @@ panda::Electron::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "tripleCharge"));
   blist.push_back(utils::getStatus(_tree, _name, "mvaWP90"));
   blist.push_back(utils::getStatus(_tree, _name, "mvaWP80"));
+  blist.push_back(utils::getStatus(_tree, _name, "mvaWPLoose"));
+  blist.push_back(utils::getStatus(_tree, _name, "mvaIsoWP90"));
+  blist.push_back(utils::getStatus(_tree, _name, "mvaIsoWP80"));
+  blist.push_back(utils::getStatus(_tree, _name, "mvaIsoWPLoose"));
   blist.push_back(utils::getStatus(_tree, _name, "triggerMatch"));
   blist.push_back(utils::getStatus(_tree, _name, "superCluster_"));
 
@@ -218,6 +238,10 @@ panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils
   utils::setAddress(_tree, _name, "tripleCharge", tripleCharge, _branches, _setStatus);
   utils::setAddress(_tree, _name, "mvaWP90", mvaWP90, _branches, _setStatus);
   utils::setAddress(_tree, _name, "mvaWP80", mvaWP80, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "mvaWPLoose", mvaWPLoose, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "mvaIsoWP90", mvaIsoWP90, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "mvaIsoWP80", mvaIsoWP80, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "mvaIsoWPLoose", mvaIsoWPLoose, _branches, _setStatus);
   utils::setAddress(_tree, _name, "triggerMatch", triggerMatch, _branches, _setStatus);
   utils::setAddress(_tree, _name, "superCluster_", superCluster_, _branches, _setStatus);
 }
@@ -254,6 +278,10 @@ panda::Electron::datastore::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "tripleCharge", size, 'O', tripleCharge, _branches);
   utils::book(_tree, _name, "mvaWP90", size, 'O', mvaWP90, _branches);
   utils::book(_tree, _name, "mvaWP80", size, 'O', mvaWP80, _branches);
+  utils::book(_tree, _name, "mvaWPLoose", size, 'O', mvaWPLoose, _branches);
+  utils::book(_tree, _name, "mvaIsoWP90", size, 'O', mvaIsoWP90, _branches);
+  utils::book(_tree, _name, "mvaIsoWP80", size, 'O', mvaIsoWP80, _branches);
+  utils::book(_tree, _name, "mvaIsoWPLoose", size, 'O', mvaIsoWPLoose, _branches);
   utils::book(_tree, _name, "triggerMatch", size + TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
   utils::book(_tree, _name, "superCluster_", size, 'S', superCluster_, _branches);
 }
@@ -288,6 +316,10 @@ panda::Electron::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "tripleCharge");
   utils::resetAddress(_tree, _name, "mvaWP90");
   utils::resetAddress(_tree, _name, "mvaWP80");
+  utils::resetAddress(_tree, _name, "mvaWPLoose");
+  utils::resetAddress(_tree, _name, "mvaIsoWP90");
+  utils::resetAddress(_tree, _name, "mvaIsoWP80");
+  utils::resetAddress(_tree, _name, "mvaIsoWPLoose");
   utils::resetAddress(_tree, _name, "triggerMatch");
   utils::resetAddress(_tree, _name, "superCluster_");
 }
@@ -333,6 +365,10 @@ panda::Electron::Electron(char const* _name/* = ""*/) :
   tripleCharge(gStore.getData(this).tripleCharge[0]),
   mvaWP90(gStore.getData(this).mvaWP90[0]),
   mvaWP80(gStore.getData(this).mvaWP80[0]),
+  mvaWPLoose(gStore.getData(this).mvaWPLoose[0]),
+  mvaIsoWP90(gStore.getData(this).mvaIsoWP90[0]),
+  mvaIsoWP80(gStore.getData(this).mvaIsoWP80[0]),
+  mvaIsoWPLoose(gStore.getData(this).mvaIsoWPLoose[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
 {
@@ -365,6 +401,10 @@ panda::Electron::Electron(Electron const& _src) :
   tripleCharge(gStore.getData(this).tripleCharge[0]),
   mvaWP90(gStore.getData(this).mvaWP90[0]),
   mvaWP80(gStore.getData(this).mvaWP80[0]),
+  mvaWPLoose(gStore.getData(this).mvaWPLoose[0]),
+  mvaIsoWP90(gStore.getData(this).mvaIsoWP90[0]),
+  mvaIsoWP80(gStore.getData(this).mvaIsoWP80[0]),
+  mvaIsoWPLoose(gStore.getData(this).mvaIsoWPLoose[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
 {
@@ -395,6 +435,10 @@ panda::Electron::Electron(Electron const& _src) :
   tripleCharge = _src.tripleCharge;
   mvaWP90 = _src.mvaWP90;
   mvaWP80 = _src.mvaWP80;
+  mvaWPLoose = _src.mvaWPLoose;
+  mvaIsoWP90 = _src.mvaIsoWP90;
+  mvaIsoWP80 = _src.mvaIsoWP80;
+  mvaIsoWPLoose = _src.mvaIsoWPLoose;
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
   superCluster = _src.superCluster;
 }
@@ -426,6 +470,10 @@ panda::Electron::Electron(datastore& _data, UInt_t _idx) :
   tripleCharge(_data.tripleCharge[_idx]),
   mvaWP90(_data.mvaWP90[_idx]),
   mvaWP80(_data.mvaWP80[_idx]),
+  mvaWPLoose(_data.mvaWPLoose[_idx]),
+  mvaIsoWP90(_data.mvaIsoWP90[_idx]),
+  mvaIsoWP80(_data.mvaIsoWP80[_idx]),
+  mvaIsoWPLoose(_data.mvaIsoWPLoose[_idx]),
   triggerMatch(_data.triggerMatch[_idx]),
   superCluster(_data.superClusterContainer_, _data.superCluster_[_idx])
 {
@@ -458,6 +506,10 @@ panda::Electron::Electron(ArrayBase* _array) :
   tripleCharge(gStore.getData(this).tripleCharge[0]),
   mvaWP90(gStore.getData(this).mvaWP90[0]),
   mvaWP80(gStore.getData(this).mvaWP80[0]),
+  mvaWPLoose(gStore.getData(this).mvaWPLoose[0]),
+  mvaIsoWP90(gStore.getData(this).mvaIsoWP90[0]),
+  mvaIsoWP80(gStore.getData(this).mvaIsoWP80[0]),
+  mvaIsoWPLoose(gStore.getData(this).mvaIsoWPLoose[0]),
   triggerMatch(gStore.getData(this).triggerMatch[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
 {
@@ -508,6 +560,10 @@ panda::Electron::operator=(Electron const& _src)
   tripleCharge = _src.tripleCharge;
   mvaWP90 = _src.mvaWP90;
   mvaWP80 = _src.mvaWP80;
+  mvaWPLoose = _src.mvaWPLoose;
+  mvaIsoWP90 = _src.mvaIsoWP90;
+  mvaIsoWP80 = _src.mvaIsoWP80;
+  mvaIsoWPLoose = _src.mvaIsoWPLoose;
   std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
   superCluster = _src.superCluster;
 
@@ -547,6 +603,10 @@ panda::Electron::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
   utils::book(_tree, _name, "tripleCharge", "", 'O', &tripleCharge, _branches);
   utils::book(_tree, _name, "mvaWP90", "", 'O', &mvaWP90, _branches);
   utils::book(_tree, _name, "mvaWP80", "", 'O', &mvaWP80, _branches);
+  utils::book(_tree, _name, "mvaWPLoose", "", 'O', &mvaWPLoose, _branches);
+  utils::book(_tree, _name, "mvaIsoWP90", "", 'O', &mvaIsoWP90, _branches);
+  utils::book(_tree, _name, "mvaIsoWP80", "", 'O', &mvaIsoWP80, _branches);
+  utils::book(_tree, _name, "mvaIsoWPLoose", "", 'O', &mvaIsoWPLoose, _branches);
   utils::book(_tree, _name, "triggerMatch", TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
   utils::book(_tree, _name, "superCluster_", "", 'S', gStore.getData(this).superCluster_, _branches);
 }
@@ -581,6 +641,10 @@ panda::Electron::doInit_()
   tripleCharge = false;
   mvaWP90 = false;
   mvaWP80 = false;
+  mvaWPLoose = false;
+  mvaIsoWP90 = false;
+  mvaIsoWP80 = false;
+  mvaIsoWPLoose = false;
   for (auto& p0 : triggerMatch) p0 = false;
   superCluster.init();
 
@@ -644,6 +708,10 @@ panda::Electron::dump(std::ostream& _out/* = std::cout*/) const
   _out << "tripleCharge = " << tripleCharge << std::endl;
   _out << "mvaWP90 = " << mvaWP90 << std::endl;
   _out << "mvaWP80 = " << mvaWP80 << std::endl;
+  _out << "mvaWPLoose = " << mvaWPLoose << std::endl;
+  _out << "mvaIsoWP90 = " << mvaIsoWP90 << std::endl;
+  _out << "mvaIsoWP80 = " << mvaIsoWP80 << std::endl;
+  _out << "mvaIsoWPLoose = " << mvaIsoWPLoose << std::endl;
   _out << "triggerMatch = " << triggerMatch << std::endl;
   _out << "superCluster = " << superCluster << std::endl;
 }

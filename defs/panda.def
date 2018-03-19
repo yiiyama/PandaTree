@@ -262,6 +262,10 @@ conversionVeto/O
 tripleCharge/O
 mvaWP90/O
 mvaWP80/O
+mvaWPLoose/O
+mvaIsoWP90/O
+mvaIsoWP80/O
+mvaIsoWPLoose/O
 triggerMatch[nTriggerObjects]/O
 superCluster/SuperClusterRef
 double m() const override { return 5.109989e-4; }
@@ -279,11 +283,40 @@ enum TriggerObject {
   fIsoTkMu27,
   fMu50
 };
+enum Selector {
+  kCutBasedIdLoose,
+  kCutBasedIdMedium,
+  kCutBasedIdMediumPrompt,
+  kCutBasedIdTight,
+  kCutBasedIdGlobalHighPt,
+  kCutBasedIdTrkHighPt,
+  kPFIsoVeryLoose,
+  kPFIsoLoose,
+  kPFIsoMedium,
+  kPFIsoTight,
+  kPFIsoVeryTight,
+  kTkIsoLoose,
+  kTkIsoTight,
+  kSoftCutBasedId,
+  kSoftMvaId,
+  kMvaLoose,
+  kMvaMedium,
+  kMvaTight,
+  kMiniIsoLoose,
+  kMiniIsoMedium,
+  kMiniIsoTight,
+  kMiniIsoVeryTight
+};
 soft/O
-mediumBtoF/O
+selector[nSelectors]/O
 global/O
 pf/O
 tracker/O
+standalone/O
+calo/O
+rpc/O
+gem/O
+me0/O
 validFraction/F
 nValidMuon/s
 nValidPixel/s
@@ -349,12 +382,15 @@ time/F
 timeSpan/F
 regPt/F
 smearedPt/F
+ix/s
+iy/s
 loose/O
 medium/O
 tight/O
 highpt/O
 pixelVeto/O
 csafeVeto/O
+chpfVeto/O
 triggerMatch[nTriggerObjects]/O
 superCluster/SuperClusterRef
 matchedPF/PFCandRef
@@ -492,7 +528,7 @@ r2f1DW/F
 r2f2DW/F
 r5f1DW/F
 r5f5DW/F
-pdfDW/F
+nnpdfAltDW[100]/F
 genParam[NMAX]/F
 
 [Recoil:SINGLE]
