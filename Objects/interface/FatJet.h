@@ -54,6 +54,7 @@ namespace panda {
       Float_t* puid{0};
       Bool_t* loose{0};
       Bool_t* tight{0};
+      Bool_t* tightLepVeto{0};
       Bool_t* monojet{0};
       ContainerBase const* matchedGenJetContainer_{0};
       Short_t* matchedGenJet_{0};
@@ -137,6 +138,7 @@ namespace panda {
     Float_t& puid;
     Bool_t& loose;
     Bool_t& tight;
+    Bool_t& tightLepVeto;
     Bool_t& monojet;
     Ref<GenJet> matchedGenJet;
     RefVector<PFCand> constituents;

@@ -432,6 +432,7 @@ nef/F
 puid/F
 loose/O
 tight/O
+tightLepVeto/O
 monojet/O
 matchedGenJet/GenJetRef
 constituents/PFCandRefVector
@@ -510,7 +511,8 @@ badMuons/O
 duplicateMuons/O
 badPFMuons/O
 badChargedHadrons/O
-virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !goodVertices && !badPFMuons && !badChargedHadrons; }
+ecalBadCalib/O
+virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !goodVertices && !badPFMuons && !badChargedHadrons && !ecalBadCalib; }
 
 [HLTBits:SINGLE]
 words[32]/i

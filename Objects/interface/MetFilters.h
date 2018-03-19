@@ -23,7 +23,7 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !goodVertices && !badPFMuons && !badChargedHadrons; }
+    virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !goodVertices && !badPFMuons && !badChargedHadrons && !ecalBadCalib; }
 
     Bool_t globalHalo16{};
     Bool_t hbhe{};
@@ -35,6 +35,7 @@ namespace panda {
     Bool_t duplicateMuons{};
     Bool_t badPFMuons{};
     Bool_t badChargedHadrons{};
+    Bool_t ecalBadCalib{};
 
     /* BEGIN CUSTOM MetFilters.h.classdef */
     /* END CUSTOM */
