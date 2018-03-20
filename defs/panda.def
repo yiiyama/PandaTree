@@ -237,6 +237,22 @@ enum TriggerObject {
   fPh200,
   fPh36EBR9Iso
 };
+enum Selector {
+  kCutBasedIdVeto,
+  kCutBasedIdLoose,
+  kCutBasedIdMedium,
+  kCutBasedIdTight,
+  kCutBasedIdHLTSafe,
+  kMvaWP90,
+  kMvaWP80,
+  kMvaWPLoose,
+  kMvaIsoWP90,
+  kMvaIsoWP80,
+  kMvaIsoWPLoose,
+  kConversionVeto,
+  kTripleCharge
+};
+selector[nSelectors]/O
 chIsoPh/F
 nhIsoPh/F
 phIsoPh/F
@@ -262,10 +278,6 @@ conversionVeto/O
 tripleCharge/O
 mvaWP90/O
 mvaWP80/O
-mvaWPLoose/O
-mvaIsoWP90/O
-mvaIsoWP80/O
-mvaIsoWPLoose/O
 triggerMatch[nTriggerObjects]/O
 superCluster/SuperClusterRef
 double m() const override { return 5.109989e-4; }
@@ -359,6 +371,16 @@ enum TriggerObject {
   fPh90EBR9Iso,
   fPh120EBR9Iso
 };
+enum Selector {
+  kCutBasedIdLoose,
+  kCutBasedIdMedium,
+  kCutBasedIdTight,
+  kCutBasedIdHighPt,
+  kPixelVeto,
+  kCSafeVeto,
+  kCHPFVeto
+};
+selector[nSelectors]/O
 pfPt/F = -1. // Pt of the dR-closest PF candidate
 chIso/F
 chIsoMax/F
@@ -390,7 +412,6 @@ tight/O
 highpt/O
 pixelVeto/O
 csafeVeto/O
-chpfVeto/O
 triggerMatch[nTriggerObjects]/O
 superCluster/SuperClusterRef
 matchedPF/PFCandRef

@@ -27,6 +27,24 @@ namespace panda {
     };
 
     static TString TriggerObjectName[nTriggerObjects];
+    enum Selector {
+      kCutBasedIdVeto,
+      kCutBasedIdLoose,
+      kCutBasedIdMedium,
+      kCutBasedIdTight,
+      kCutBasedIdHLTSafe,
+      kMvaWP90,
+      kMvaWP80,
+      kMvaWPLoose,
+      kMvaIsoWP90,
+      kMvaIsoWP80,
+      kMvaIsoWPLoose,
+      kConversionVeto,
+      kTripleCharge,
+      nSelectors
+    };
+
+    static TString SelectorName[nSelectors];
 
     struct datastore : public Lepton::datastore {
       datastore() : Lepton::datastore() {}
@@ -57,6 +75,7 @@ namespace panda {
       ContainerBase const* vertexContainer_{0};
       Short_t* vertex_{0};
       */
+      Bool_t (*selector)[nSelectors]{0};
       Float_t* chIsoPh{0};
       Float_t* nhIsoPh{0};
       Float_t* phIsoPh{0};
@@ -82,10 +101,6 @@ namespace panda {
       Bool_t* tripleCharge{0};
       Bool_t* mvaWP90{0};
       Bool_t* mvaWP80{0};
-      Bool_t* mvaWPLoose{0};
-      Bool_t* mvaIsoWP90{0};
-      Bool_t* mvaIsoWP80{0};
-      Bool_t* mvaIsoWPLoose{0};
       Bool_t (*triggerMatch)[nTriggerObjects]{0};
       ContainerBase const* superClusterContainer_{0};
       Short_t* superCluster_{0};
@@ -137,6 +152,7 @@ namespace panda {
     Ref<GenParticle> matchedGen;
     Ref<Vertex> vertex;
     */
+    Bool_t (&selector)[nSelectors];
     Float_t& chIsoPh;
     Float_t& nhIsoPh;
     Float_t& phIsoPh;
@@ -162,10 +178,6 @@ namespace panda {
     Bool_t& tripleCharge;
     Bool_t& mvaWP90;
     Bool_t& mvaWP80;
-    Bool_t& mvaWPLoose;
-    Bool_t& mvaIsoWP90;
-    Bool_t& mvaIsoWP80;
-    Bool_t& mvaIsoWPLoose;
     Bool_t (&triggerMatch)[nTriggerObjects];
     Ref<SuperCluster> superCluster;
 

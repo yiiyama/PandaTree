@@ -37,6 +37,7 @@ namespace panda {
       Float_t* phi_{0};
       */
       /* Photon
+      Bool_t (*selector)[nSelectors]{0};
       Float_t* pfPt{0};
       Float_t* chIso{0};
       Float_t* chIsoMax{0};
@@ -68,7 +69,6 @@ namespace panda {
       Bool_t* highpt{0};
       Bool_t* pixelVeto{0};
       Bool_t* csafeVeto{0};
-      Bool_t* chpfVeto{0};
       Bool_t (*triggerMatch)[nTriggerObjects]{0};
       ContainerBase const* superClusterContainer_{0};
       Short_t* superCluster_{0};
@@ -125,6 +125,7 @@ namespace panda {
     bool passHOverE(UInt_t wp, UInt_t t) const { return hOverE < hOverECuts[t][isEB ? 0 : 1][wp]; }
 
     /* Photon
+    Bool_t (&selector)[nSelectors];
     Float_t& pfPt; ///< Pt of the dR-closest PF candidate
     Float_t& chIso;
     Float_t& chIsoMax;
@@ -156,7 +157,6 @@ namespace panda {
     Bool_t& highpt;
     Bool_t& pixelVeto;
     Bool_t& csafeVeto;
-    Bool_t& chpfVeto;
     Bool_t (&triggerMatch)[nTriggerObjects];
     Ref<SuperCluster> superCluster;
     Ref<PFCand> matchedPF;
