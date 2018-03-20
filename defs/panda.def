@@ -530,7 +530,7 @@ r2f1DW/F
 r2f2DW/F
 r5f1DW/F
 r5f5DW/F
-nnpdfAltDW[100]/F
+pdfAltDW[100]/F
 genParam[NMAX]/F
 
 [Recoil:SINGLE]
@@ -606,7 +606,6 @@ neutralMet/Met
 photonMet/Met
 hfMet/Met
 genMet/Met
-metMuOnlyFix/RecoMet
 metFilters/MetFilters
 recoil/Recoil
 pfCandidates.vertex->vertices

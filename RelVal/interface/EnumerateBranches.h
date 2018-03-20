@@ -7835,114 +7835,6 @@ namespace testpanda {
 
   template <>
   struct plotter <726> {
-    constexpr static const char* name = "metMuOnlyFix/phi";
-    std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.metMuOnlyFix.phi)};
-      return output;
-    }
-  };
-
-  template <>
-  struct plotter <727> {
-    constexpr static const char* name = "metMuOnlyFix/phiUnclUp";
-    std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.metMuOnlyFix.phiUnclUp)};
-      return output;
-    }
-  };
-
-  template <>
-  struct plotter <728> {
-    constexpr static const char* name = "metMuOnlyFix/sumETRaw";
-    std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.metMuOnlyFix.sumETRaw)};
-      return output;
-    }
-  };
-
-  template <>
-  struct plotter <729> {
-    constexpr static const char* name = "metMuOnlyFix/ptCorrUp";
-    std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.metMuOnlyFix.ptCorrUp)};
-      return output;
-    }
-  };
-
-  template <>
-  struct plotter <730> {
-    constexpr static const char* name = "metMuOnlyFix/pt";
-    std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.metMuOnlyFix.pt)};
-      return output;
-    }
-  };
-
-  template <>
-  struct plotter <731> {
-    constexpr static const char* name = "metMuOnlyFix/ptCorrDown";
-    std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.metMuOnlyFix.ptCorrDown)};
-      return output;
-    }
-  };
-
-  template <>
-  struct plotter <732> {
-    constexpr static const char* name = "metMuOnlyFix/phiCorrUp";
-    std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.metMuOnlyFix.phiCorrUp)};
-      return output;
-    }
-  };
-
-  template <>
-  struct plotter <733> {
-    constexpr static const char* name = "metMuOnlyFix/phiUnclDown";
-    std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.metMuOnlyFix.phiUnclDown)};
-      return output;
-    }
-  };
-
-  template <>
-  struct plotter <734> {
-    constexpr static const char* name = "metMuOnlyFix/ptUnclDown";
-    std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.metMuOnlyFix.ptUnclDown)};
-      return output;
-    }
-  };
-
-  template <>
-  struct plotter <735> {
-    constexpr static const char* name = "metMuOnlyFix/significance";
-    std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.metMuOnlyFix.significance)};
-      return output;
-    }
-  };
-
-  template <>
-  struct plotter <736> {
-    constexpr static const char* name = "metMuOnlyFix/phiCorrDown";
-    std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.metMuOnlyFix.phiCorrDown)};
-      return output;
-    }
-  };
-
-  template <>
-  struct plotter <737> {
-    constexpr static const char* name = "metMuOnlyFix/ptUnclUp";
-    std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.metMuOnlyFix.ptUnclUp)};
-      return output;
-    }
-  };
-
-  template <>
-  struct plotter <738> {
     constexpr static const char* name = "metFilters/duplicateMuons";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.metFilters.duplicateMuons)};
@@ -7951,7 +7843,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <739> {
+  struct plotter <727> {
     constexpr static const char* name = "metFilters/badMuons";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.metFilters.badMuons)};
@@ -7960,7 +7852,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <740> {
+  struct plotter <728> {
     constexpr static const char* name = "metFilters/globalHalo16";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.metFilters.globalHalo16)};
@@ -7969,7 +7861,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <741> {
+  struct plotter <729> {
     constexpr static const char* name = "metFilters/badsc";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.metFilters.badsc)};
@@ -7978,7 +7870,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <742> {
+  struct plotter <730> {
     constexpr static const char* name = "metFilters/hbheIso";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.metFilters.hbheIso)};
@@ -7987,7 +7879,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <743> {
+  struct plotter <731> {
     constexpr static const char* name = "metFilters/hbhe";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.metFilters.hbhe)};
@@ -7996,7 +7888,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <744> {
+  struct plotter <732> {
     constexpr static const char* name = "metFilters/badPFMuons";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.metFilters.badPFMuons)};
@@ -8005,7 +7897,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <745> {
+  struct plotter <733> {
     constexpr static const char* name = "metFilters/goodVertices";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.metFilters.goodVertices)};
@@ -8014,7 +7906,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <746> {
+  struct plotter <734> {
     constexpr static const char* name = "metFilters/ecalDeadCell";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.metFilters.ecalDeadCell)};
@@ -8023,7 +7915,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <747> {
+  struct plotter <735> {
     constexpr static const char* name = "metFilters/badChargedHadrons";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.metFilters.badChargedHadrons)};
@@ -8032,7 +7924,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <748> {
+  struct plotter <736> {
     constexpr static const char* name = "metFilters/pass";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.metFilters.pass())};
@@ -8041,7 +7933,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <749> {
+  struct plotter <737> {
     constexpr static const char* name = "metFilters/ecalBadCalib";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.metFilters.ecalBadCalib)};
@@ -8050,7 +7942,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <750> {
+  struct plotter <738> {
     constexpr static const char* name = "recoil/max";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.recoil.max)};
@@ -8059,7 +7951,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <751> {
+  struct plotter <739> {
     constexpr static const char* name = "recoil/monoE";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.recoil.monoE)};
@@ -8068,7 +7960,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <752> {
+  struct plotter <740> {
     constexpr static const char* name = "recoil/diE";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.recoil.diE)};
@@ -8077,7 +7969,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <753> {
+  struct plotter <741> {
     constexpr static const char* name = "recoil/monoMu";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.recoil.monoMu)};
@@ -8086,7 +7978,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <754> {
+  struct plotter <742> {
     constexpr static const char* name = "recoil/met";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.recoil.met)};
@@ -8095,7 +7987,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <755> {
+  struct plotter <743> {
     constexpr static const char* name = "recoil/diMu";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.recoil.diMu)};
@@ -8104,7 +7996,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <756> {
+  struct plotter <744> {
     constexpr static const char* name = "recoil/any";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.recoil.any())};
@@ -8113,7 +8005,7 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <757> {
+  struct plotter <745> {
     constexpr static const char* name = "recoil/gamma";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.recoil.gamma)};
@@ -8121,7 +8013,7 @@ namespace testpanda {
     }
   };
 
-#define NUM_PLOTS 758
+#define NUM_PLOTS 746
 
 };
 
