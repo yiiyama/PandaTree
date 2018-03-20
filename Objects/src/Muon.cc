@@ -11,30 +11,6 @@ TString panda::Muon::TriggerObjectName[] = {
   "fIsoTkMu27",
   "fMu50"
 };
-TString panda::Muon::SelectorName[] = {
-  "kCutBasedIdLoose",
-  "kCutBasedIdMedium",
-  "kCutBasedIdMediumPrompt",
-  "kCutBasedIdTight",
-  "kCutBasedIdGlobalHighPt",
-  "kCutBasedIdTrkHighPt",
-  "kPFIsoVeryLoose",
-  "kPFIsoLoose",
-  "kPFIsoMedium",
-  "kPFIsoTight",
-  "kPFIsoVeryTight",
-  "kTkIsoLoose",
-  "kTkIsoTight",
-  "kSoftCutBasedId",
-  "kSoftMvaId",
-  "kMvaLoose",
-  "kMvaMedium",
-  "kMvaTight",
-  "kMiniIsoLoose",
-  "kMiniIsoMedium",
-  "kMiniIsoTight",
-  "kMiniIsoVeryTight"
-};
 
 /*static*/
 panda::utils::BranchList
@@ -42,7 +18,7 @@ panda::Muon::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Lepton::getListOfBranches();
-  blist += {"soft", "selector", "global", "pf", "tracker", "standalone", "calo", "rpc", "gem", "me0", "validFraction", "nValidMuon", "nValidPixel", "trkLayersWithMmt", "pixLayersWithMmt", "nMatched", "normChi2", "chi2LocalPosition", "trkKink", "segmentCompatibility", "r03Iso", "triggerMatch"};
+  blist += {"mediumPrompt", "globalHighPt", "trkHighPt", "soft", "softMVA", "mvaLoose", "mvaMedium", "mvaTight", "pfIsoVeryLoose", "pfIsoLoose", "pfIsoMedium", "pfIsoTight", "pfIsoVeryTight", "tkIsoLoose", "tkIsoTight", "miniIsoLoose", "miniIsoMedium", "miniIsoTight", "miniIsoVeryTight", "global", "pf", "tracker", "standalone", "calo", "rpc", "gem", "me0", "validFraction", "nValidMuon", "nValidPixel", "trkLayersWithMmt", "pixLayersWithMmt", "nMatched", "normChi2", "chi2LocalPosition", "trkKink", "segmentCompatibility", "r03Iso", "triggerMatch"};
   return blist;
 }
 
@@ -51,8 +27,25 @@ panda::Muon::datastore::allocate(UInt_t _nmax)
 {
   Lepton::datastore::allocate(_nmax);
 
+  mediumPrompt = new Bool_t[nmax_];
+  globalHighPt = new Bool_t[nmax_];
+  trkHighPt = new Bool_t[nmax_];
   soft = new Bool_t[nmax_];
-  selector = new Bool_t[nmax_][nSelectors];
+  softMVA = new Bool_t[nmax_];
+  mvaLoose = new Bool_t[nmax_];
+  mvaMedium = new Bool_t[nmax_];
+  mvaTight = new Bool_t[nmax_];
+  pfIsoVeryLoose = new Bool_t[nmax_];
+  pfIsoLoose = new Bool_t[nmax_];
+  pfIsoMedium = new Bool_t[nmax_];
+  pfIsoTight = new Bool_t[nmax_];
+  pfIsoVeryTight = new Bool_t[nmax_];
+  tkIsoLoose = new Bool_t[nmax_];
+  tkIsoTight = new Bool_t[nmax_];
+  miniIsoLoose = new Bool_t[nmax_];
+  miniIsoMedium = new Bool_t[nmax_];
+  miniIsoTight = new Bool_t[nmax_];
+  miniIsoVeryTight = new Bool_t[nmax_];
   global = new Bool_t[nmax_];
   pf = new Bool_t[nmax_];
   tracker = new Bool_t[nmax_];
@@ -80,10 +73,44 @@ panda::Muon::datastore::deallocate()
 {
   Lepton::datastore::deallocate();
 
+  delete [] mediumPrompt;
+  mediumPrompt = 0;
+  delete [] globalHighPt;
+  globalHighPt = 0;
+  delete [] trkHighPt;
+  trkHighPt = 0;
   delete [] soft;
   soft = 0;
-  delete [] selector;
-  selector = 0;
+  delete [] softMVA;
+  softMVA = 0;
+  delete [] mvaLoose;
+  mvaLoose = 0;
+  delete [] mvaMedium;
+  mvaMedium = 0;
+  delete [] mvaTight;
+  mvaTight = 0;
+  delete [] pfIsoVeryLoose;
+  pfIsoVeryLoose = 0;
+  delete [] pfIsoLoose;
+  pfIsoLoose = 0;
+  delete [] pfIsoMedium;
+  pfIsoMedium = 0;
+  delete [] pfIsoTight;
+  pfIsoTight = 0;
+  delete [] pfIsoVeryTight;
+  pfIsoVeryTight = 0;
+  delete [] tkIsoLoose;
+  tkIsoLoose = 0;
+  delete [] tkIsoTight;
+  tkIsoTight = 0;
+  delete [] miniIsoLoose;
+  miniIsoLoose = 0;
+  delete [] miniIsoMedium;
+  miniIsoMedium = 0;
+  delete [] miniIsoTight;
+  miniIsoTight = 0;
+  delete [] miniIsoVeryTight;
+  miniIsoVeryTight = 0;
   delete [] global;
   global = 0;
   delete [] pf;
@@ -131,8 +158,25 @@ panda::Muon::datastore::setStatus(TTree& _tree, TString const& _name, utils::Bra
 {
   Lepton::datastore::setStatus(_tree, _name, _branches);
 
+  utils::setStatus(_tree, _name, "mediumPrompt", _branches);
+  utils::setStatus(_tree, _name, "globalHighPt", _branches);
+  utils::setStatus(_tree, _name, "trkHighPt", _branches);
   utils::setStatus(_tree, _name, "soft", _branches);
-  utils::setStatus(_tree, _name, "selector", _branches);
+  utils::setStatus(_tree, _name, "softMVA", _branches);
+  utils::setStatus(_tree, _name, "mvaLoose", _branches);
+  utils::setStatus(_tree, _name, "mvaMedium", _branches);
+  utils::setStatus(_tree, _name, "mvaTight", _branches);
+  utils::setStatus(_tree, _name, "pfIsoVeryLoose", _branches);
+  utils::setStatus(_tree, _name, "pfIsoLoose", _branches);
+  utils::setStatus(_tree, _name, "pfIsoMedium", _branches);
+  utils::setStatus(_tree, _name, "pfIsoTight", _branches);
+  utils::setStatus(_tree, _name, "pfIsoVeryTight", _branches);
+  utils::setStatus(_tree, _name, "tkIsoLoose", _branches);
+  utils::setStatus(_tree, _name, "tkIsoTight", _branches);
+  utils::setStatus(_tree, _name, "miniIsoLoose", _branches);
+  utils::setStatus(_tree, _name, "miniIsoMedium", _branches);
+  utils::setStatus(_tree, _name, "miniIsoTight", _branches);
+  utils::setStatus(_tree, _name, "miniIsoVeryTight", _branches);
   utils::setStatus(_tree, _name, "global", _branches);
   utils::setStatus(_tree, _name, "pf", _branches);
   utils::setStatus(_tree, _name, "tracker", _branches);
@@ -160,8 +204,25 @@ panda::Muon::datastore::getStatus(TTree& _tree, TString const& _name) const
 {
   utils::BranchList blist(Lepton::datastore::getStatus(_tree, _name));
 
+  blist.push_back(utils::getStatus(_tree, _name, "mediumPrompt"));
+  blist.push_back(utils::getStatus(_tree, _name, "globalHighPt"));
+  blist.push_back(utils::getStatus(_tree, _name, "trkHighPt"));
   blist.push_back(utils::getStatus(_tree, _name, "soft"));
-  blist.push_back(utils::getStatus(_tree, _name, "selector"));
+  blist.push_back(utils::getStatus(_tree, _name, "softMVA"));
+  blist.push_back(utils::getStatus(_tree, _name, "mvaLoose"));
+  blist.push_back(utils::getStatus(_tree, _name, "mvaMedium"));
+  blist.push_back(utils::getStatus(_tree, _name, "mvaTight"));
+  blist.push_back(utils::getStatus(_tree, _name, "pfIsoVeryLoose"));
+  blist.push_back(utils::getStatus(_tree, _name, "pfIsoLoose"));
+  blist.push_back(utils::getStatus(_tree, _name, "pfIsoMedium"));
+  blist.push_back(utils::getStatus(_tree, _name, "pfIsoTight"));
+  blist.push_back(utils::getStatus(_tree, _name, "pfIsoVeryTight"));
+  blist.push_back(utils::getStatus(_tree, _name, "tkIsoLoose"));
+  blist.push_back(utils::getStatus(_tree, _name, "tkIsoTight"));
+  blist.push_back(utils::getStatus(_tree, _name, "miniIsoLoose"));
+  blist.push_back(utils::getStatus(_tree, _name, "miniIsoMedium"));
+  blist.push_back(utils::getStatus(_tree, _name, "miniIsoTight"));
+  blist.push_back(utils::getStatus(_tree, _name, "miniIsoVeryTight"));
   blist.push_back(utils::getStatus(_tree, _name, "global"));
   blist.push_back(utils::getStatus(_tree, _name, "pf"));
   blist.push_back(utils::getStatus(_tree, _name, "tracker"));
@@ -191,8 +252,25 @@ panda::Muon::datastore::setAddress(TTree& _tree, TString const& _name, utils::Br
 {
   Lepton::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
+  utils::setAddress(_tree, _name, "mediumPrompt", mediumPrompt, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "globalHighPt", globalHighPt, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "trkHighPt", trkHighPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "soft", soft, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "selector", selector, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "softMVA", softMVA, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "mvaLoose", mvaLoose, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "mvaMedium", mvaMedium, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "mvaTight", mvaTight, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "pfIsoVeryLoose", pfIsoVeryLoose, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "pfIsoLoose", pfIsoLoose, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "pfIsoMedium", pfIsoMedium, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "pfIsoTight", pfIsoTight, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "pfIsoVeryTight", pfIsoVeryTight, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "tkIsoLoose", tkIsoLoose, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "tkIsoTight", tkIsoTight, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "miniIsoLoose", miniIsoLoose, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "miniIsoMedium", miniIsoMedium, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "miniIsoTight", miniIsoTight, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "miniIsoVeryTight", miniIsoVeryTight, _branches, _setStatus);
   utils::setAddress(_tree, _name, "global", global, _branches, _setStatus);
   utils::setAddress(_tree, _name, "pf", pf, _branches, _setStatus);
   utils::setAddress(_tree, _name, "tracker", tracker, _branches, _setStatus);
@@ -222,8 +300,25 @@ panda::Muon::datastore::book(TTree& _tree, TString const& _name, utils::BranchLi
 
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
+  utils::book(_tree, _name, "mediumPrompt", size, 'O', mediumPrompt, _branches);
+  utils::book(_tree, _name, "globalHighPt", size, 'O', globalHighPt, _branches);
+  utils::book(_tree, _name, "trkHighPt", size, 'O', trkHighPt, _branches);
   utils::book(_tree, _name, "soft", size, 'O', soft, _branches);
-  utils::book(_tree, _name, "selector", size + TString::Format("[%d]", nSelectors), 'O', selector, _branches);
+  utils::book(_tree, _name, "softMVA", size, 'O', softMVA, _branches);
+  utils::book(_tree, _name, "mvaLoose", size, 'O', mvaLoose, _branches);
+  utils::book(_tree, _name, "mvaMedium", size, 'O', mvaMedium, _branches);
+  utils::book(_tree, _name, "mvaTight", size, 'O', mvaTight, _branches);
+  utils::book(_tree, _name, "pfIsoVeryLoose", size, 'O', pfIsoVeryLoose, _branches);
+  utils::book(_tree, _name, "pfIsoLoose", size, 'O', pfIsoLoose, _branches);
+  utils::book(_tree, _name, "pfIsoMedium", size, 'O', pfIsoMedium, _branches);
+  utils::book(_tree, _name, "pfIsoTight", size, 'O', pfIsoTight, _branches);
+  utils::book(_tree, _name, "pfIsoVeryTight", size, 'O', pfIsoVeryTight, _branches);
+  utils::book(_tree, _name, "tkIsoLoose", size, 'O', tkIsoLoose, _branches);
+  utils::book(_tree, _name, "tkIsoTight", size, 'O', tkIsoTight, _branches);
+  utils::book(_tree, _name, "miniIsoLoose", size, 'O', miniIsoLoose, _branches);
+  utils::book(_tree, _name, "miniIsoMedium", size, 'O', miniIsoMedium, _branches);
+  utils::book(_tree, _name, "miniIsoTight", size, 'O', miniIsoTight, _branches);
+  utils::book(_tree, _name, "miniIsoVeryTight", size, 'O', miniIsoVeryTight, _branches);
   utils::book(_tree, _name, "global", size, 'O', global, _branches);
   utils::book(_tree, _name, "pf", size, 'O', pf, _branches);
   utils::book(_tree, _name, "tracker", size, 'O', tracker, _branches);
@@ -251,8 +346,25 @@ panda::Muon::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
   Lepton::datastore::releaseTree(_tree, _name);
 
+  utils::resetAddress(_tree, _name, "mediumPrompt");
+  utils::resetAddress(_tree, _name, "globalHighPt");
+  utils::resetAddress(_tree, _name, "trkHighPt");
   utils::resetAddress(_tree, _name, "soft");
-  utils::resetAddress(_tree, _name, "selector");
+  utils::resetAddress(_tree, _name, "softMVA");
+  utils::resetAddress(_tree, _name, "mvaLoose");
+  utils::resetAddress(_tree, _name, "mvaMedium");
+  utils::resetAddress(_tree, _name, "mvaTight");
+  utils::resetAddress(_tree, _name, "pfIsoVeryLoose");
+  utils::resetAddress(_tree, _name, "pfIsoLoose");
+  utils::resetAddress(_tree, _name, "pfIsoMedium");
+  utils::resetAddress(_tree, _name, "pfIsoTight");
+  utils::resetAddress(_tree, _name, "pfIsoVeryTight");
+  utils::resetAddress(_tree, _name, "tkIsoLoose");
+  utils::resetAddress(_tree, _name, "tkIsoTight");
+  utils::resetAddress(_tree, _name, "miniIsoLoose");
+  utils::resetAddress(_tree, _name, "miniIsoMedium");
+  utils::resetAddress(_tree, _name, "miniIsoTight");
+  utils::resetAddress(_tree, _name, "miniIsoVeryTight");
   utils::resetAddress(_tree, _name, "global");
   utils::resetAddress(_tree, _name, "pf");
   utils::resetAddress(_tree, _name, "tracker");
@@ -291,8 +403,25 @@ panda::Muon::datastore::getBranchNames(TString const& _name/* = ""*/) const
 
 panda::Muon::Muon(char const* _name/* = ""*/) :
   Lepton(new MuonArray(1, _name)),
+  mediumPrompt(gStore.getData(this).mediumPrompt[0]),
+  globalHighPt(gStore.getData(this).globalHighPt[0]),
+  trkHighPt(gStore.getData(this).trkHighPt[0]),
   soft(gStore.getData(this).soft[0]),
-  selector(gStore.getData(this).selector[0]),
+  softMVA(gStore.getData(this).softMVA[0]),
+  mvaLoose(gStore.getData(this).mvaLoose[0]),
+  mvaMedium(gStore.getData(this).mvaMedium[0]),
+  mvaTight(gStore.getData(this).mvaTight[0]),
+  pfIsoVeryLoose(gStore.getData(this).pfIsoVeryLoose[0]),
+  pfIsoLoose(gStore.getData(this).pfIsoLoose[0]),
+  pfIsoMedium(gStore.getData(this).pfIsoMedium[0]),
+  pfIsoTight(gStore.getData(this).pfIsoTight[0]),
+  pfIsoVeryTight(gStore.getData(this).pfIsoVeryTight[0]),
+  tkIsoLoose(gStore.getData(this).tkIsoLoose[0]),
+  tkIsoTight(gStore.getData(this).tkIsoTight[0]),
+  miniIsoLoose(gStore.getData(this).miniIsoLoose[0]),
+  miniIsoMedium(gStore.getData(this).miniIsoMedium[0]),
+  miniIsoTight(gStore.getData(this).miniIsoTight[0]),
+  miniIsoVeryTight(gStore.getData(this).miniIsoVeryTight[0]),
   global(gStore.getData(this).global[0]),
   pf(gStore.getData(this).pf[0]),
   tracker(gStore.getData(this).tracker[0]),
@@ -318,8 +447,25 @@ panda::Muon::Muon(char const* _name/* = ""*/) :
 
 panda::Muon::Muon(Muon const& _src) :
   Lepton(new MuonArray(1, _src.getName())),
+  mediumPrompt(gStore.getData(this).mediumPrompt[0]),
+  globalHighPt(gStore.getData(this).globalHighPt[0]),
+  trkHighPt(gStore.getData(this).trkHighPt[0]),
   soft(gStore.getData(this).soft[0]),
-  selector(gStore.getData(this).selector[0]),
+  softMVA(gStore.getData(this).softMVA[0]),
+  mvaLoose(gStore.getData(this).mvaLoose[0]),
+  mvaMedium(gStore.getData(this).mvaMedium[0]),
+  mvaTight(gStore.getData(this).mvaTight[0]),
+  pfIsoVeryLoose(gStore.getData(this).pfIsoVeryLoose[0]),
+  pfIsoLoose(gStore.getData(this).pfIsoLoose[0]),
+  pfIsoMedium(gStore.getData(this).pfIsoMedium[0]),
+  pfIsoTight(gStore.getData(this).pfIsoTight[0]),
+  pfIsoVeryTight(gStore.getData(this).pfIsoVeryTight[0]),
+  tkIsoLoose(gStore.getData(this).tkIsoLoose[0]),
+  tkIsoTight(gStore.getData(this).tkIsoTight[0]),
+  miniIsoLoose(gStore.getData(this).miniIsoLoose[0]),
+  miniIsoMedium(gStore.getData(this).miniIsoMedium[0]),
+  miniIsoTight(gStore.getData(this).miniIsoTight[0]),
+  miniIsoVeryTight(gStore.getData(this).miniIsoVeryTight[0]),
   global(gStore.getData(this).global[0]),
   pf(gStore.getData(this).pf[0]),
   tracker(gStore.getData(this).tracker[0]),
@@ -343,8 +489,25 @@ panda::Muon::Muon(Muon const& _src) :
 {
   Lepton::operator=(_src);
 
+  mediumPrompt = _src.mediumPrompt;
+  globalHighPt = _src.globalHighPt;
+  trkHighPt = _src.trkHighPt;
   soft = _src.soft;
-  std::memcpy(selector, _src.selector, sizeof(Bool_t) * nSelectors);
+  softMVA = _src.softMVA;
+  mvaLoose = _src.mvaLoose;
+  mvaMedium = _src.mvaMedium;
+  mvaTight = _src.mvaTight;
+  pfIsoVeryLoose = _src.pfIsoVeryLoose;
+  pfIsoLoose = _src.pfIsoLoose;
+  pfIsoMedium = _src.pfIsoMedium;
+  pfIsoTight = _src.pfIsoTight;
+  pfIsoVeryTight = _src.pfIsoVeryTight;
+  tkIsoLoose = _src.tkIsoLoose;
+  tkIsoTight = _src.tkIsoTight;
+  miniIsoLoose = _src.miniIsoLoose;
+  miniIsoMedium = _src.miniIsoMedium;
+  miniIsoTight = _src.miniIsoTight;
+  miniIsoVeryTight = _src.miniIsoVeryTight;
   global = _src.global;
   pf = _src.pf;
   tracker = _src.tracker;
@@ -369,8 +532,25 @@ panda::Muon::Muon(Muon const& _src) :
 
 panda::Muon::Muon(datastore& _data, UInt_t _idx) :
   Lepton(_data, _idx),
+  mediumPrompt(_data.mediumPrompt[_idx]),
+  globalHighPt(_data.globalHighPt[_idx]),
+  trkHighPt(_data.trkHighPt[_idx]),
   soft(_data.soft[_idx]),
-  selector(_data.selector[_idx]),
+  softMVA(_data.softMVA[_idx]),
+  mvaLoose(_data.mvaLoose[_idx]),
+  mvaMedium(_data.mvaMedium[_idx]),
+  mvaTight(_data.mvaTight[_idx]),
+  pfIsoVeryLoose(_data.pfIsoVeryLoose[_idx]),
+  pfIsoLoose(_data.pfIsoLoose[_idx]),
+  pfIsoMedium(_data.pfIsoMedium[_idx]),
+  pfIsoTight(_data.pfIsoTight[_idx]),
+  pfIsoVeryTight(_data.pfIsoVeryTight[_idx]),
+  tkIsoLoose(_data.tkIsoLoose[_idx]),
+  tkIsoTight(_data.tkIsoTight[_idx]),
+  miniIsoLoose(_data.miniIsoLoose[_idx]),
+  miniIsoMedium(_data.miniIsoMedium[_idx]),
+  miniIsoTight(_data.miniIsoTight[_idx]),
+  miniIsoVeryTight(_data.miniIsoVeryTight[_idx]),
   global(_data.global[_idx]),
   pf(_data.pf[_idx]),
   tracker(_data.tracker[_idx]),
@@ -396,8 +576,25 @@ panda::Muon::Muon(datastore& _data, UInt_t _idx) :
 
 panda::Muon::Muon(ArrayBase* _array) :
   Lepton(_array),
+  mediumPrompt(gStore.getData(this).mediumPrompt[0]),
+  globalHighPt(gStore.getData(this).globalHighPt[0]),
+  trkHighPt(gStore.getData(this).trkHighPt[0]),
   soft(gStore.getData(this).soft[0]),
-  selector(gStore.getData(this).selector[0]),
+  softMVA(gStore.getData(this).softMVA[0]),
+  mvaLoose(gStore.getData(this).mvaLoose[0]),
+  mvaMedium(gStore.getData(this).mvaMedium[0]),
+  mvaTight(gStore.getData(this).mvaTight[0]),
+  pfIsoVeryLoose(gStore.getData(this).pfIsoVeryLoose[0]),
+  pfIsoLoose(gStore.getData(this).pfIsoLoose[0]),
+  pfIsoMedium(gStore.getData(this).pfIsoMedium[0]),
+  pfIsoTight(gStore.getData(this).pfIsoTight[0]),
+  pfIsoVeryTight(gStore.getData(this).pfIsoVeryTight[0]),
+  tkIsoLoose(gStore.getData(this).tkIsoLoose[0]),
+  tkIsoTight(gStore.getData(this).tkIsoTight[0]),
+  miniIsoLoose(gStore.getData(this).miniIsoLoose[0]),
+  miniIsoMedium(gStore.getData(this).miniIsoMedium[0]),
+  miniIsoTight(gStore.getData(this).miniIsoTight[0]),
+  miniIsoVeryTight(gStore.getData(this).miniIsoVeryTight[0]),
   global(gStore.getData(this).global[0]),
   pf(gStore.getData(this).pf[0]),
   tracker(gStore.getData(this).tracker[0]),
@@ -441,8 +638,25 @@ panda::Muon::operator=(Muon const& _src)
 {
   Lepton::operator=(_src);
 
+  mediumPrompt = _src.mediumPrompt;
+  globalHighPt = _src.globalHighPt;
+  trkHighPt = _src.trkHighPt;
   soft = _src.soft;
-  std::memcpy(selector, _src.selector, sizeof(Bool_t) * nSelectors);
+  softMVA = _src.softMVA;
+  mvaLoose = _src.mvaLoose;
+  mvaMedium = _src.mvaMedium;
+  mvaTight = _src.mvaTight;
+  pfIsoVeryLoose = _src.pfIsoVeryLoose;
+  pfIsoLoose = _src.pfIsoLoose;
+  pfIsoMedium = _src.pfIsoMedium;
+  pfIsoTight = _src.pfIsoTight;
+  pfIsoVeryTight = _src.pfIsoVeryTight;
+  tkIsoLoose = _src.tkIsoLoose;
+  tkIsoTight = _src.tkIsoTight;
+  miniIsoLoose = _src.miniIsoLoose;
+  miniIsoMedium = _src.miniIsoMedium;
+  miniIsoTight = _src.miniIsoTight;
+  miniIsoVeryTight = _src.miniIsoVeryTight;
   global = _src.global;
   pf = _src.pf;
   tracker = _src.tracker;
@@ -475,8 +689,25 @@ panda::Muon::doBook_(TTree& _tree, TString const& _name, utils::BranchList const
 {
   Lepton::doBook_(_tree, _name, _branches);
 
+  utils::book(_tree, _name, "mediumPrompt", "", 'O', &mediumPrompt, _branches);
+  utils::book(_tree, _name, "globalHighPt", "", 'O', &globalHighPt, _branches);
+  utils::book(_tree, _name, "trkHighPt", "", 'O', &trkHighPt, _branches);
   utils::book(_tree, _name, "soft", "", 'O', &soft, _branches);
-  utils::book(_tree, _name, "selector", TString::Format("[%d]", nSelectors), 'O', selector, _branches);
+  utils::book(_tree, _name, "softMVA", "", 'O', &softMVA, _branches);
+  utils::book(_tree, _name, "mvaLoose", "", 'O', &mvaLoose, _branches);
+  utils::book(_tree, _name, "mvaMedium", "", 'O', &mvaMedium, _branches);
+  utils::book(_tree, _name, "mvaTight", "", 'O', &mvaTight, _branches);
+  utils::book(_tree, _name, "pfIsoVeryLoose", "", 'O', &pfIsoVeryLoose, _branches);
+  utils::book(_tree, _name, "pfIsoLoose", "", 'O', &pfIsoLoose, _branches);
+  utils::book(_tree, _name, "pfIsoMedium", "", 'O', &pfIsoMedium, _branches);
+  utils::book(_tree, _name, "pfIsoTight", "", 'O', &pfIsoTight, _branches);
+  utils::book(_tree, _name, "pfIsoVeryTight", "", 'O', &pfIsoVeryTight, _branches);
+  utils::book(_tree, _name, "tkIsoLoose", "", 'O', &tkIsoLoose, _branches);
+  utils::book(_tree, _name, "tkIsoTight", "", 'O', &tkIsoTight, _branches);
+  utils::book(_tree, _name, "miniIsoLoose", "", 'O', &miniIsoLoose, _branches);
+  utils::book(_tree, _name, "miniIsoMedium", "", 'O', &miniIsoMedium, _branches);
+  utils::book(_tree, _name, "miniIsoTight", "", 'O', &miniIsoTight, _branches);
+  utils::book(_tree, _name, "miniIsoVeryTight", "", 'O', &miniIsoVeryTight, _branches);
   utils::book(_tree, _name, "global", "", 'O', &global, _branches);
   utils::book(_tree, _name, "pf", "", 'O', &pf, _branches);
   utils::book(_tree, _name, "tracker", "", 'O', &tracker, _branches);
@@ -504,8 +735,25 @@ panda::Muon::doInit_()
 {
   Lepton::doInit_();
 
+  mediumPrompt = false;
+  globalHighPt = false;
+  trkHighPt = false;
   soft = false;
-  for (auto& p0 : selector) p0 = false;
+  softMVA = false;
+  mvaLoose = false;
+  mvaMedium = false;
+  mvaTight = false;
+  pfIsoVeryLoose = false;
+  pfIsoLoose = false;
+  pfIsoMedium = false;
+  pfIsoTight = false;
+  pfIsoVeryTight = false;
+  tkIsoLoose = false;
+  tkIsoTight = false;
+  miniIsoLoose = false;
+  miniIsoMedium = false;
+  miniIsoTight = false;
+  miniIsoVeryTight = false;
   global = false;
   pf = false;
   tracker = false;
@@ -557,8 +805,25 @@ panda::Muon::dump(std::ostream& _out/* = std::cout*/) const
 {
   Lepton::dump(_out);
 
+  _out << "mediumPrompt = " << mediumPrompt << std::endl;
+  _out << "globalHighPt = " << globalHighPt << std::endl;
+  _out << "trkHighPt = " << trkHighPt << std::endl;
   _out << "soft = " << soft << std::endl;
-  _out << "selector = " << selector << std::endl;
+  _out << "softMVA = " << softMVA << std::endl;
+  _out << "mvaLoose = " << mvaLoose << std::endl;
+  _out << "mvaMedium = " << mvaMedium << std::endl;
+  _out << "mvaTight = " << mvaTight << std::endl;
+  _out << "pfIsoVeryLoose = " << pfIsoVeryLoose << std::endl;
+  _out << "pfIsoLoose = " << pfIsoLoose << std::endl;
+  _out << "pfIsoMedium = " << pfIsoMedium << std::endl;
+  _out << "pfIsoTight = " << pfIsoTight << std::endl;
+  _out << "pfIsoVeryTight = " << pfIsoVeryTight << std::endl;
+  _out << "tkIsoLoose = " << tkIsoLoose << std::endl;
+  _out << "tkIsoTight = " << tkIsoTight << std::endl;
+  _out << "miniIsoLoose = " << miniIsoLoose << std::endl;
+  _out << "miniIsoMedium = " << miniIsoMedium << std::endl;
+  _out << "miniIsoTight = " << miniIsoTight << std::endl;
+  _out << "miniIsoVeryTight = " << miniIsoVeryTight << std::endl;
   _out << "global = " << global << std::endl;
   _out << "pf = " << pf << std::endl;
   _out << "tracker = " << tracker << std::endl;

@@ -237,22 +237,6 @@ enum TriggerObject {
   fPh200,
   fPh36EBR9Iso
 };
-enum Selector {
-  kCutBasedIdVeto,
-  kCutBasedIdLoose,
-  kCutBasedIdMedium,
-  kCutBasedIdTight,
-  kCutBasedIdHLTSafe,
-  kMvaWP90,
-  kMvaWP80,
-  kMvaWPLoose,
-  kMvaIsoWP90,
-  kMvaIsoWP80,
-  kMvaIsoWPLoose,
-  kConversionVeto,
-  kTripleCharge
-};
-selector[nSelectors]/O
 chIsoPh/F
 nhIsoPh/F
 phIsoPh/F
@@ -274,10 +258,15 @@ smearedPt/F
 mvaVal/F
 nMissingHits/s
 veto/O
-conversionVeto/O
-tripleCharge/O
+hltsafe/O
 mvaWP90/O
 mvaWP80/O
+mvaWPLoose/O
+mvaIsoWP90/O
+mvaIsoWP80/O
+mvaIsoWPLoose/O
+conversionVeto/O
+tripleCharge/O
 triggerMatch[nTriggerObjects]/O
 superCluster/SuperClusterRef
 double m() const override { return 5.109989e-4; }
@@ -295,32 +284,25 @@ enum TriggerObject {
   fIsoTkMu27,
   fMu50
 };
-enum Selector {
-  kCutBasedIdLoose,
-  kCutBasedIdMedium,
-  kCutBasedIdMediumPrompt,
-  kCutBasedIdTight,
-  kCutBasedIdGlobalHighPt,
-  kCutBasedIdTrkHighPt,
-  kPFIsoVeryLoose,
-  kPFIsoLoose,
-  kPFIsoMedium,
-  kPFIsoTight,
-  kPFIsoVeryTight,
-  kTkIsoLoose,
-  kTkIsoTight,
-  kSoftCutBasedId,
-  kSoftMvaId,
-  kMvaLoose,
-  kMvaMedium,
-  kMvaTight,
-  kMiniIsoLoose,
-  kMiniIsoMedium,
-  kMiniIsoTight,
-  kMiniIsoVeryTight
-};
+mediumPrompt/O
+globalHighPt/O
+trkHighPt/O
 soft/O
-selector[nSelectors]/O
+softMVA/O
+mvaLoose/O
+mvaMedium/O
+mvaTight/O
+pfIsoVeryLoose/O
+pfIsoLoose/O
+pfIsoMedium/O
+pfIsoTight/O
+pfIsoVeryTight/O
+tkIsoLoose/O
+tkIsoTight/O
+miniIsoLoose/O
+miniIsoMedium/O
+miniIsoTight/O
+miniIsoVeryTight/O
 global/O
 pf/O
 tracker/O
@@ -371,16 +353,6 @@ enum TriggerObject {
   fPh90EBR9Iso,
   fPh120EBR9Iso
 };
-enum Selector {
-  kCutBasedIdLoose,
-  kCutBasedIdMedium,
-  kCutBasedIdTight,
-  kCutBasedIdHighPt,
-  kPixelVeto,
-  kCSafeVeto,
-  kCHPFVeto
-};
-selector[nSelectors]/O
 pfPt/F = -1. // Pt of the dR-closest PF candidate
 chIso/F
 chIsoMax/F
@@ -412,6 +384,7 @@ tight/O
 highpt/O
 pixelVeto/O
 csafeVeto/O
+pfchVeto/O
 triggerMatch[nTriggerObjects]/O
 superCluster/SuperClusterRef
 matchedPF/PFCandRef

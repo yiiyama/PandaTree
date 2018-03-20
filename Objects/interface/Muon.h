@@ -25,33 +25,6 @@ namespace panda {
     };
 
     static TString TriggerObjectName[nTriggerObjects];
-    enum Selector {
-      kCutBasedIdLoose,
-      kCutBasedIdMedium,
-      kCutBasedIdMediumPrompt,
-      kCutBasedIdTight,
-      kCutBasedIdGlobalHighPt,
-      kCutBasedIdTrkHighPt,
-      kPFIsoVeryLoose,
-      kPFIsoLoose,
-      kPFIsoMedium,
-      kPFIsoTight,
-      kPFIsoVeryTight,
-      kTkIsoLoose,
-      kTkIsoTight,
-      kSoftCutBasedId,
-      kSoftMvaId,
-      kMvaLoose,
-      kMvaMedium,
-      kMvaTight,
-      kMiniIsoLoose,
-      kMiniIsoMedium,
-      kMiniIsoTight,
-      kMiniIsoVeryTight,
-      nSelectors
-    };
-
-    static TString SelectorName[nSelectors];
 
     struct datastore : public Lepton::datastore {
       datastore() : Lepton::datastore() {}
@@ -82,8 +55,25 @@ namespace panda {
       ContainerBase const* vertexContainer_{0};
       Short_t* vertex_{0};
       */
+      Bool_t* mediumPrompt{0};
+      Bool_t* globalHighPt{0};
+      Bool_t* trkHighPt{0};
       Bool_t* soft{0};
-      Bool_t (*selector)[nSelectors]{0};
+      Bool_t* softMVA{0};
+      Bool_t* mvaLoose{0};
+      Bool_t* mvaMedium{0};
+      Bool_t* mvaTight{0};
+      Bool_t* pfIsoVeryLoose{0};
+      Bool_t* pfIsoLoose{0};
+      Bool_t* pfIsoMedium{0};
+      Bool_t* pfIsoTight{0};
+      Bool_t* pfIsoVeryTight{0};
+      Bool_t* tkIsoLoose{0};
+      Bool_t* tkIsoTight{0};
+      Bool_t* miniIsoLoose{0};
+      Bool_t* miniIsoMedium{0};
+      Bool_t* miniIsoTight{0};
+      Bool_t* miniIsoVeryTight{0};
       Bool_t* global{0};
       Bool_t* pf{0};
       Bool_t* tracker{0};
@@ -152,8 +142,25 @@ namespace panda {
     Ref<GenParticle> matchedGen;
     Ref<Vertex> vertex;
     */
+    Bool_t& mediumPrompt;
+    Bool_t& globalHighPt;
+    Bool_t& trkHighPt;
     Bool_t& soft;
-    Bool_t (&selector)[nSelectors];
+    Bool_t& softMVA;
+    Bool_t& mvaLoose;
+    Bool_t& mvaMedium;
+    Bool_t& mvaTight;
+    Bool_t& pfIsoVeryLoose;
+    Bool_t& pfIsoLoose;
+    Bool_t& pfIsoMedium;
+    Bool_t& pfIsoTight;
+    Bool_t& pfIsoVeryTight;
+    Bool_t& tkIsoLoose;
+    Bool_t& tkIsoTight;
+    Bool_t& miniIsoLoose;
+    Bool_t& miniIsoMedium;
+    Bool_t& miniIsoTight;
+    Bool_t& miniIsoVeryTight;
     Bool_t& global;
     Bool_t& pf;
     Bool_t& tracker;
