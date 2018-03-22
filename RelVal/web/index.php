@@ -32,26 +32,22 @@ function list_directory($directory) {
       echo '</div>' . "\n";
       printf('<div style="display:none;" class="plots" id="%s">' . "\n", $obj);
       $plots = scandir($directory . '/' . $obj);
+      echo '{"plots": [';
+      $nocomma = TRUE;
       foreach ($plots as $plot) {
         $file_parts = pathinfo($plot);
         if ($file_parts['extension'] == 'pdf' and substr($file_parts['filename'], -4) != '_log') {
           $base = $directory . '/' . $obj . '/' . $file_parts['filename'];
           $warn = (file_exists($base . '_FLAG.txt')) ? ' warn' : '';
           $plot_id = $obj . '/' . $file_parts['filename'];
-          printf('<span class="plot%s">', $warn);
-          printf('<span class="plot_head">%s ' .
-                 '<span class="lin_indicator" id="%s_status-lin">linear</span>' .
-                 '<span style="display:none;" class="log_indicator" id="%s_status-log">log</span> <br> ' .
-                 '<button class="log_button" onclick=swap_log("%s")>toggle log plots</button>' .
-                 '</span>',
-                 $plot_id, $plot_id, $plot_id, $plot_id);
-          printf('<span id="%s"><a href="%s.pdf" target="_blank"> <img src="%s.png" width="100%s"></a></span>',
-                 $plot_id, $base, $base, '%');
-          printf('<span style="display:none;" id="%s_log"><a href="%s_log.pdf" target="_blank"> <img src="%s_log.png" width="100%s"></a></span>',
-                 $plot_id, $base, $base, '%');
-           echo '</span>' . "\n";
+          if ($nocomma)
+            $nocomma = FALSE;
+          else
+            printf(', ');
+          printf('{"base": "%s", "warn": "%s", "id": "%s"}', $base, $warn, $plot_id);
         }
       }
+      echo "]}\n";
       echo '</div>' . "\n";
     }
 
