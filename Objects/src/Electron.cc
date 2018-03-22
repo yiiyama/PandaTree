@@ -19,7 +19,7 @@ panda::Electron::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Lepton::getListOfBranches();
-  blist += {"chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "trackIso", "isoPUOffset", "sieie", "sipip", "r9", "dEtaInSeed", "dPhiIn", "eseed", "hOverE", "ecalE", "trackP", "regPt", "smearedPt", "mvaVal", "nMissingHits", "veto", "hltsafe", "mvaWP90", "mvaWP80", "mvaWPLoose", "mvaIsoWP90", "mvaIsoWP80", "mvaIsoWPLoose", "conversionVeto", "tripleCharge", "triggerMatch", "superCluster_"};
+  blist += {"chIsoPh", "nhIsoPh", "phIsoPh", "ecalIso", "hcalIso", "trackIso", "isoPUOffset", "sieie", "sipip", "r9", "dEtaInSeed", "dPhiIn", "eseed", "hOverE", "ecalE", "trackP", "regPt", "smearedPt", "mvaVal", "nMissingHits", "veto", "mvaWP90", "mvaWP80", "mvaWPLoose", "mvaIsoWP90", "mvaIsoWP80", "mvaIsoWPLoose", "conversionVeto", "tripleCharge", "triggerMatch", "superCluster_"};
   return blist;
 }
 
@@ -49,7 +49,6 @@ panda::Electron::datastore::allocate(UInt_t _nmax)
   mvaVal = new Float_t[nmax_];
   nMissingHits = new UShort_t[nmax_];
   veto = new Bool_t[nmax_];
-  hltsafe = new Bool_t[nmax_];
   mvaWP90 = new Bool_t[nmax_];
   mvaWP80 = new Bool_t[nmax_];
   mvaWPLoose = new Bool_t[nmax_];
@@ -109,8 +108,6 @@ panda::Electron::datastore::deallocate()
   nMissingHits = 0;
   delete [] veto;
   veto = 0;
-  delete [] hltsafe;
-  hltsafe = 0;
   delete [] mvaWP90;
   mvaWP90 = 0;
   delete [] mvaWP80;
@@ -159,7 +156,6 @@ panda::Electron::datastore::setStatus(TTree& _tree, TString const& _name, utils:
   utils::setStatus(_tree, _name, "mvaVal", _branches);
   utils::setStatus(_tree, _name, "nMissingHits", _branches);
   utils::setStatus(_tree, _name, "veto", _branches);
-  utils::setStatus(_tree, _name, "hltsafe", _branches);
   utils::setStatus(_tree, _name, "mvaWP90", _branches);
   utils::setStatus(_tree, _name, "mvaWP80", _branches);
   utils::setStatus(_tree, _name, "mvaWPLoose", _branches);
@@ -198,7 +194,6 @@ panda::Electron::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "mvaVal"));
   blist.push_back(utils::getStatus(_tree, _name, "nMissingHits"));
   blist.push_back(utils::getStatus(_tree, _name, "veto"));
-  blist.push_back(utils::getStatus(_tree, _name, "hltsafe"));
   blist.push_back(utils::getStatus(_tree, _name, "mvaWP90"));
   blist.push_back(utils::getStatus(_tree, _name, "mvaWP80"));
   blist.push_back(utils::getStatus(_tree, _name, "mvaWPLoose"));
@@ -239,7 +234,6 @@ panda::Electron::datastore::setAddress(TTree& _tree, TString const& _name, utils
   utils::setAddress(_tree, _name, "mvaVal", mvaVal, _branches, _setStatus);
   utils::setAddress(_tree, _name, "nMissingHits", nMissingHits, _branches, _setStatus);
   utils::setAddress(_tree, _name, "veto", veto, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "hltsafe", hltsafe, _branches, _setStatus);
   utils::setAddress(_tree, _name, "mvaWP90", mvaWP90, _branches, _setStatus);
   utils::setAddress(_tree, _name, "mvaWP80", mvaWP80, _branches, _setStatus);
   utils::setAddress(_tree, _name, "mvaWPLoose", mvaWPLoose, _branches, _setStatus);
@@ -280,7 +274,6 @@ panda::Electron::datastore::book(TTree& _tree, TString const& _name, utils::Bran
   utils::book(_tree, _name, "mvaVal", size, 'F', mvaVal, _branches);
   utils::book(_tree, _name, "nMissingHits", size, 's', nMissingHits, _branches);
   utils::book(_tree, _name, "veto", size, 'O', veto, _branches);
-  utils::book(_tree, _name, "hltsafe", size, 'O', hltsafe, _branches);
   utils::book(_tree, _name, "mvaWP90", size, 'O', mvaWP90, _branches);
   utils::book(_tree, _name, "mvaWP80", size, 'O', mvaWP80, _branches);
   utils::book(_tree, _name, "mvaWPLoose", size, 'O', mvaWPLoose, _branches);
@@ -319,7 +312,6 @@ panda::Electron::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "mvaVal");
   utils::resetAddress(_tree, _name, "nMissingHits");
   utils::resetAddress(_tree, _name, "veto");
-  utils::resetAddress(_tree, _name, "hltsafe");
   utils::resetAddress(_tree, _name, "mvaWP90");
   utils::resetAddress(_tree, _name, "mvaWP80");
   utils::resetAddress(_tree, _name, "mvaWPLoose");
@@ -369,7 +361,6 @@ panda::Electron::Electron(char const* _name/* = ""*/) :
   mvaVal(gStore.getData(this).mvaVal[0]),
   nMissingHits(gStore.getData(this).nMissingHits[0]),
   veto(gStore.getData(this).veto[0]),
-  hltsafe(gStore.getData(this).hltsafe[0]),
   mvaWP90(gStore.getData(this).mvaWP90[0]),
   mvaWP80(gStore.getData(this).mvaWP80[0]),
   mvaWPLoose(gStore.getData(this).mvaWPLoose[0]),
@@ -406,7 +397,6 @@ panda::Electron::Electron(Electron const& _src) :
   mvaVal(gStore.getData(this).mvaVal[0]),
   nMissingHits(gStore.getData(this).nMissingHits[0]),
   veto(gStore.getData(this).veto[0]),
-  hltsafe(gStore.getData(this).hltsafe[0]),
   mvaWP90(gStore.getData(this).mvaWP90[0]),
   mvaWP80(gStore.getData(this).mvaWP80[0]),
   mvaWPLoose(gStore.getData(this).mvaWPLoose[0]),
@@ -441,7 +431,6 @@ panda::Electron::Electron(Electron const& _src) :
   mvaVal = _src.mvaVal;
   nMissingHits = _src.nMissingHits;
   veto = _src.veto;
-  hltsafe = _src.hltsafe;
   mvaWP90 = _src.mvaWP90;
   mvaWP80 = _src.mvaWP80;
   mvaWPLoose = _src.mvaWPLoose;
@@ -477,7 +466,6 @@ panda::Electron::Electron(datastore& _data, UInt_t _idx) :
   mvaVal(_data.mvaVal[_idx]),
   nMissingHits(_data.nMissingHits[_idx]),
   veto(_data.veto[_idx]),
-  hltsafe(_data.hltsafe[_idx]),
   mvaWP90(_data.mvaWP90[_idx]),
   mvaWP80(_data.mvaWP80[_idx]),
   mvaWPLoose(_data.mvaWPLoose[_idx]),
@@ -514,7 +502,6 @@ panda::Electron::Electron(ArrayBase* _array) :
   mvaVal(gStore.getData(this).mvaVal[0]),
   nMissingHits(gStore.getData(this).nMissingHits[0]),
   veto(gStore.getData(this).veto[0]),
-  hltsafe(gStore.getData(this).hltsafe[0]),
   mvaWP90(gStore.getData(this).mvaWP90[0]),
   mvaWP80(gStore.getData(this).mvaWP80[0]),
   mvaWPLoose(gStore.getData(this).mvaWPLoose[0]),
@@ -569,7 +556,6 @@ panda::Electron::operator=(Electron const& _src)
   mvaVal = _src.mvaVal;
   nMissingHits = _src.nMissingHits;
   veto = _src.veto;
-  hltsafe = _src.hltsafe;
   mvaWP90 = _src.mvaWP90;
   mvaWP80 = _src.mvaWP80;
   mvaWPLoose = _src.mvaWPLoose;
@@ -613,7 +599,6 @@ panda::Electron::doBook_(TTree& _tree, TString const& _name, utils::BranchList c
   utils::book(_tree, _name, "mvaVal", "", 'F', &mvaVal, _branches);
   utils::book(_tree, _name, "nMissingHits", "", 's', &nMissingHits, _branches);
   utils::book(_tree, _name, "veto", "", 'O', &veto, _branches);
-  utils::book(_tree, _name, "hltsafe", "", 'O', &hltsafe, _branches);
   utils::book(_tree, _name, "mvaWP90", "", 'O', &mvaWP90, _branches);
   utils::book(_tree, _name, "mvaWP80", "", 'O', &mvaWP80, _branches);
   utils::book(_tree, _name, "mvaWPLoose", "", 'O', &mvaWPLoose, _branches);
@@ -652,7 +637,6 @@ panda::Electron::doInit_()
   mvaVal = 0.;
   nMissingHits = 0;
   veto = false;
-  hltsafe = false;
   mvaWP90 = false;
   mvaWP80 = false;
   mvaWPLoose = false;
@@ -720,7 +704,6 @@ panda::Electron::dump(std::ostream& _out/* = std::cout*/) const
   _out << "mvaVal = " << mvaVal << std::endl;
   _out << "nMissingHits = " << nMissingHits << std::endl;
   _out << "veto = " << veto << std::endl;
-  _out << "hltsafe = " << hltsafe << std::endl;
   _out << "mvaWP90 = " << mvaWP90 << std::endl;
   _out << "mvaWP80 = " << mvaWP80 << std::endl;
   _out << "mvaWPLoose = " << mvaWPLoose << std::endl;

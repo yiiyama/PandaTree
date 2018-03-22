@@ -78,7 +78,6 @@ namespace panda {
       Float_t* mvaVal{0};
       UShort_t* nMissingHits{0};
       Bool_t* veto{0};
-      Bool_t* hltsafe{0};
       Bool_t* mvaWP90{0};
       Bool_t* mvaWP80{0};
       Bool_t* mvaWPLoose{0};
@@ -159,7 +158,6 @@ namespace panda {
     Float_t& mvaVal;
     UShort_t& nMissingHits;
     Bool_t& veto;
-    Bool_t& hltsafe;
     Bool_t& mvaWP90;
     Bool_t& mvaWP80;
     Bool_t& mvaWPLoose;
