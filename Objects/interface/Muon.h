@@ -93,6 +93,8 @@ namespace panda {
       UShort_t* trkKink{0};
       Float_t* segmentCompatibility{0};
       Float_t* r03Iso{0};
+      Float_t* rochCorr{0};
+      Float_t* rochCorrErr{0};
       Bool_t (*triggerMatch)[nTriggerObjects]{0};
 
       void allocate(UInt_t n) override;
@@ -180,6 +182,8 @@ namespace panda {
     UShort_t& trkKink;
     Float_t& segmentCompatibility;
     Float_t& r03Iso;
+    Float_t& rochCorr;
+    Float_t& rochCorrErr;
     Bool_t (&triggerMatch)[nTriggerObjects];
 
   protected:

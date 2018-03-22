@@ -258,7 +258,6 @@ smearedPt/F
 mvaVal/F
 nMissingHits/s
 veto/O
-hltsafe/O
 mvaWP90/O
 mvaWP80/O
 mvaWPLoose/O
@@ -322,6 +321,8 @@ chi2LocalPosition/s
 trkKink/s
 segmentCompatibility/F
 r03Iso/F
+rochCorr/F
+rochCorrErr/F
 triggerMatch[nTriggerObjects]/O
 double m() const override { return 1.05658e-1; }
 double combIso() const override { return chIso + std::max(nhIso + phIso - 0.5 * puIso, 0.); }
