@@ -166,8 +166,6 @@ if not os.path.isdir(common.PACKDIR + '/Objects/interface'):
     os.makedirs(common.PACKDIR + '/Objects/interface')
 if not os.path.isdir(common.PACKDIR + '/Objects/src'):
     os.makedirs(common.PACKDIR + '/Objects/src')
-if not os.path.isdir(common.PACKDIR + '/obj'):
-    os.makedirs(common.PACKDIR + '/obj')
 
 # are we running in a CMSSW environment?
 if os.path.exists(common.PACKDIR + '/../../.SCRAM/Environment'):
@@ -252,8 +250,8 @@ for objdef in phobjects + trees:
     objdef.generate_header()
     objdef.generate_source()
 
-# write a linkdef file (not compiled by CMSSW - only for Makefile)
-linkdef = FileOutput(common.PACKDIR + '/Objects/LinkDef.h')
+# write a linkdef file
+linkdef = FileOutput(common.PACKDIR + '/Objects/src/LinkDef.h')
 for objdef in phobjects:
     linkdef.writeline('#include "PandaTree/Objects/interface/{name}.h"'.format(name = objdef.name))
 for tree in trees:

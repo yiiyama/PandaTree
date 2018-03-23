@@ -55,11 +55,33 @@ namespace panda {
       ContainerBase const* vertexContainer_{0};
       Short_t* vertex_{0};
       */
+      Bool_t* mediumPrompt{0};
+      Bool_t* globalHighPt{0};
+      Bool_t* trkHighPt{0};
       Bool_t* soft{0};
-      Bool_t* mediumBtoF{0};
+      Bool_t* softMVA{0};
+      Bool_t* mvaLoose{0};
+      Bool_t* mvaMedium{0};
+      Bool_t* mvaTight{0};
+      Bool_t* pfIsoVeryLoose{0};
+      Bool_t* pfIsoLoose{0};
+      Bool_t* pfIsoMedium{0};
+      Bool_t* pfIsoTight{0};
+      Bool_t* pfIsoVeryTight{0};
+      Bool_t* tkIsoLoose{0};
+      Bool_t* tkIsoTight{0};
+      Bool_t* miniIsoLoose{0};
+      Bool_t* miniIsoMedium{0};
+      Bool_t* miniIsoTight{0};
+      Bool_t* miniIsoVeryTight{0};
       Bool_t* global{0};
       Bool_t* pf{0};
       Bool_t* tracker{0};
+      Bool_t* standalone{0};
+      Bool_t* calo{0};
+      Bool_t* rpc{0};
+      Bool_t* gem{0};
+      Bool_t* me0{0};
       Float_t* validFraction{0};
       UShort_t* nValidMuon{0};
       UShort_t* nValidPixel{0};
@@ -71,6 +93,8 @@ namespace panda {
       UShort_t* trkKink{0};
       Float_t* segmentCompatibility{0};
       Float_t* r03Iso{0};
+      Float_t* rochCorr{0};
+      Float_t* rochCorrErr{0};
       Bool_t (*triggerMatch)[nTriggerObjects]{0};
 
       void allocate(UInt_t n) override;
@@ -120,11 +144,33 @@ namespace panda {
     Ref<GenParticle> matchedGen;
     Ref<Vertex> vertex;
     */
+    Bool_t& mediumPrompt;
+    Bool_t& globalHighPt;
+    Bool_t& trkHighPt;
     Bool_t& soft;
-    Bool_t& mediumBtoF;
+    Bool_t& softMVA;
+    Bool_t& mvaLoose;
+    Bool_t& mvaMedium;
+    Bool_t& mvaTight;
+    Bool_t& pfIsoVeryLoose;
+    Bool_t& pfIsoLoose;
+    Bool_t& pfIsoMedium;
+    Bool_t& pfIsoTight;
+    Bool_t& pfIsoVeryTight;
+    Bool_t& tkIsoLoose;
+    Bool_t& tkIsoTight;
+    Bool_t& miniIsoLoose;
+    Bool_t& miniIsoMedium;
+    Bool_t& miniIsoTight;
+    Bool_t& miniIsoVeryTight;
     Bool_t& global;
     Bool_t& pf;
     Bool_t& tracker;
+    Bool_t& standalone;
+    Bool_t& calo;
+    Bool_t& rpc;
+    Bool_t& gem;
+    Bool_t& me0;
     Float_t& validFraction;
     UShort_t& nValidMuon;
     UShort_t& nValidPixel;
@@ -136,6 +182,8 @@ namespace panda {
     UShort_t& trkKink;
     Float_t& segmentCompatibility;
     Float_t& r03Iso;
+    Float_t& rochCorr;
+    Float_t& rochCorrErr;
     Bool_t (&triggerMatch)[nTriggerObjects];
 
   protected:

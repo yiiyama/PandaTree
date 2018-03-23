@@ -5,7 +5,7 @@ panda::utils::BranchList
 panda::MetFilters::getListOfBranches()
 {
   utils::BranchList blist;
-  blist += {"globalHalo16", "hbhe", "hbheIso", "ecalDeadCell", "goodVertices", "badsc", "badMuons", "duplicateMuons", "badPFMuons", "badChargedHadrons"};
+  blist += {"globalHalo16", "hbhe", "hbheIso", "ecalDeadCell", "goodVertices", "badsc", "badMuons", "duplicateMuons", "badPFMuons", "badChargedHadrons", "ecalBadCalib"};
   return blist;
 }
 
@@ -25,7 +25,8 @@ panda::MetFilters::MetFilters(MetFilters const& _src) :
   badMuons(_src.badMuons),
   duplicateMuons(_src.duplicateMuons),
   badPFMuons(_src.badPFMuons),
-  badChargedHadrons(_src.badChargedHadrons)
+  badChargedHadrons(_src.badChargedHadrons),
+  ecalBadCalib(_src.ecalBadCalib)
 {
   globalHalo16 = _src.globalHalo16;
   hbhe = _src.hbhe;
@@ -37,6 +38,7 @@ panda::MetFilters::MetFilters(MetFilters const& _src) :
   duplicateMuons = _src.duplicateMuons;
   badPFMuons = _src.badPFMuons;
   badChargedHadrons = _src.badChargedHadrons;
+  ecalBadCalib = _src.ecalBadCalib;
 }
 
 panda::MetFilters::~MetFilters()
@@ -56,6 +58,7 @@ panda::MetFilters::operator=(MetFilters const& _src)
   duplicateMuons = _src.duplicateMuons;
   badPFMuons = _src.badPFMuons;
   badChargedHadrons = _src.badChargedHadrons;
+  ecalBadCalib = _src.ecalBadCalib;
 
   /* BEGIN CUSTOM MetFilters.cc.operator= */
   /* END CUSTOM */
@@ -76,6 +79,7 @@ panda::MetFilters::doSetStatus_(TTree& _tree, utils::BranchList const& _branches
   utils::setStatus(_tree, name_, "duplicateMuons", _branches);
   utils::setStatus(_tree, name_, "badPFMuons", _branches);
   utils::setStatus(_tree, name_, "badChargedHadrons", _branches);
+  utils::setStatus(_tree, name_, "ecalBadCalib", _branches);
 }
 
 panda::utils::BranchList
@@ -93,6 +97,7 @@ panda::MetFilters::doGetStatus_(TTree& _tree) const
   blist.push_back(utils::getStatus(_tree, name_, "duplicateMuons"));
   blist.push_back(utils::getStatus(_tree, name_, "badPFMuons"));
   blist.push_back(utils::getStatus(_tree, name_, "badChargedHadrons"));
+  blist.push_back(utils::getStatus(_tree, name_, "ecalBadCalib"));
 
   return blist;
 }
@@ -110,6 +115,7 @@ panda::MetFilters::doSetAddress_(TTree& _tree, utils::BranchList const& _branche
   utils::setAddress(_tree, name_, "duplicateMuons", &duplicateMuons, _branches, _setStatus);
   utils::setAddress(_tree, name_, "badPFMuons", &badPFMuons, _branches, _setStatus);
   utils::setAddress(_tree, name_, "badChargedHadrons", &badChargedHadrons, _branches, _setStatus);
+  utils::setAddress(_tree, name_, "ecalBadCalib", &ecalBadCalib, _branches, _setStatus);
 }
 
 void
@@ -125,6 +131,7 @@ panda::MetFilters::doBook_(TTree& _tree, utils::BranchList const& _branches/* = 
   utils::book(_tree, name_, "duplicateMuons", "", 'O', &duplicateMuons, _branches);
   utils::book(_tree, name_, "badPFMuons", "", 'O', &badPFMuons, _branches);
   utils::book(_tree, name_, "badChargedHadrons", "", 'O', &badChargedHadrons, _branches);
+  utils::book(_tree, name_, "ecalBadCalib", "", 'O', &ecalBadCalib, _branches);
 }
 
 void
@@ -140,6 +147,7 @@ panda::MetFilters::doInit_()
   duplicateMuons = false;
   badPFMuons = false;
   badChargedHadrons = false;
+  ecalBadCalib = false;
 
   /* BEGIN CUSTOM MetFilters.cc.doInit_ */
   /* END CUSTOM */
@@ -175,6 +183,7 @@ panda::MetFilters::dump(std::ostream& _out/* = std::cout*/) const
   _out << "duplicateMuons = " << duplicateMuons << std::endl;
   _out << "badPFMuons = " << badPFMuons << std::endl;
   _out << "badChargedHadrons = " << badChargedHadrons << std::endl;
+  _out << "ecalBadCalib = " << ecalBadCalib << std::endl;
 }
 
 

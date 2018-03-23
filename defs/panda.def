@@ -258,10 +258,14 @@ smearedPt/F
 mvaVal/F
 nMissingHits/s
 veto/O
-conversionVeto/O
-tripleCharge/O
 mvaWP90/O
 mvaWP80/O
+mvaWPLoose/O
+mvaIsoWP90/O
+mvaIsoWP80/O
+mvaIsoWPLoose/O
+conversionVeto/O
+tripleCharge/O
 triggerMatch[nTriggerObjects]/O
 superCluster/SuperClusterRef
 double m() const override { return 5.109989e-4; }
@@ -279,11 +283,33 @@ enum TriggerObject {
   fIsoTkMu27,
   fMu50
 };
+mediumPrompt/O
+globalHighPt/O
+trkHighPt/O
 soft/O
-mediumBtoF/O
+softMVA/O
+mvaLoose/O
+mvaMedium/O
+mvaTight/O
+pfIsoVeryLoose/O
+pfIsoLoose/O
+pfIsoMedium/O
+pfIsoTight/O
+pfIsoVeryTight/O
+tkIsoLoose/O
+tkIsoTight/O
+miniIsoLoose/O
+miniIsoMedium/O
+miniIsoTight/O
+miniIsoVeryTight/O
 global/O
 pf/O
 tracker/O
+standalone/O
+calo/O
+rpc/O
+gem/O
+me0/O
 validFraction/F
 nValidMuon/s
 nValidPixel/s
@@ -295,6 +321,8 @@ chi2LocalPosition/s
 trkKink/s
 segmentCompatibility/F
 r03Iso/F
+rochCorr/F
+rochCorrErr/F
 triggerMatch[nTriggerObjects]/O
 double m() const override { return 1.05658e-1; }
 double combIso() const override { return chIso + std::max(nhIso + phIso - 0.5 * puIso, 0.); }
@@ -349,12 +377,15 @@ time/F
 timeSpan/F
 regPt/F
 smearedPt/F
+ix/s
+iy/s
 loose/O
 medium/O
 tight/O
 highpt/O
 pixelVeto/O
 csafeVeto/O
+pfchVeto/O
 triggerMatch[nTriggerObjects]/O
 superCluster/SuperClusterRef
 matchedPF/PFCandRef
@@ -396,6 +427,7 @@ nef/F
 puid/F
 loose/O
 tight/O
+tightLepVeto/O
 monojet/O
 matchedGenJet/GenJetRef
 constituents/PFCandRefVector
@@ -474,7 +506,8 @@ badMuons/O
 duplicateMuons/O
 badPFMuons/O
 badChargedHadrons/O
-virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !goodVertices && !badPFMuons && !badChargedHadrons; }
+ecalBadCalib/O
+virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !goodVertices && !badPFMuons && !badChargedHadrons && !ecalBadCalib; }
 
 [HLTBits:SINGLE]
 words[32]/i
@@ -492,7 +525,7 @@ r2f1DW/F
 r2f2DW/F
 r5f1DW/F
 r5f5DW/F
-pdfDW/F
+pdfAltDW[100]/F
 genParam[NMAX]/F
 
 [Recoil:SINGLE]
@@ -569,7 +602,6 @@ neutralMet/Met
 photonMet/Met
 hfMet/Met
 genMet/Met
-metMuOnlyFix/RecoMet
 metFilters/MetFilters
 recoil/Recoil
 pfCandidates.vertex->vertices

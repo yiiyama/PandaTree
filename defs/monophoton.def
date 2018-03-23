@@ -77,7 +77,6 @@ partons/PartonCollection(8)
 t1Met/RecoMet
 rawMet/Met
 caloMet/Met
-metMuOnlyFix/RecoMet
 metFilters/MetFilters
 pfCandidates.vertex->vertices
 electrons.superCluster->superClusters
