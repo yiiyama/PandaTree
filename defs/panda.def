@@ -623,6 +623,12 @@ photons.matchedPF->pfCandidates
 photons.matchedGen->genParticles
 genParticles.parent->genParticles
 chsAK4Jets.constituents->pfCandidates
+ak4GenJets.matchedBHadrons->genParticles
+ak4GenJets.matchedCHadrons->genParticles
+ak8GenJets.matchedBHadrons->genParticles
+ak8GenJets.matchedCHadrons->genParticles
+ca15GenJets.matchedBHadrons->genParticles
+ca15GenJets.matchedCHadrons->genParticles
 chsAK4Jets.matchedGenJet->ak4GenJets
 chsAK4Jets.secondaryVertex->secondaryVertices
 puppiAK4Jets.constituents->pfCandidates
