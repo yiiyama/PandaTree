@@ -396,6 +396,8 @@ pdgid/S // Filled with hadron flavor
 partonFlavor/S
 numB/S
 numC/S
+matchedBHadrons/GenParticleRefVector
+matchedCHadrons/GenParticleRefVector
 
 [MicroJet>ParticleM]
 csv/F
