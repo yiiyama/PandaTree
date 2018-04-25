@@ -31,7 +31,7 @@ namespace panda {
     Float_t r2f2DW{};
     Float_t r5f1DW{};
     Float_t r5f5DW{};
-    Float_t pdfDW{};
+    Float_t pdfAltDW[100]{};
     Float_t genParam[NMAX]{};
 
     /* BEGIN CUSTOM GenReweight.h.classdef */

@@ -14,25 +14,6 @@ namespace panda {
 
   class Photon : public ParticleP {
   public:
-    enum TriggerObject {
-      fPh165HE10Seed,
-      fPh175Seed,
-      fPh200Seed,
-      fPh135,
-      fPh165HE10,
-      fPh175,
-      fPh200,
-      fPh22EBR9Iso,
-      fPh36EBR9Iso,
-      fPh50EBR9Iso,
-      fPh75EBR9Iso,
-      fPh90EBR9Iso,
-      fPh120EBR9Iso,
-      nTriggerObjects
-    };
-
-    static TString TriggerObjectName[nTriggerObjects];
-
     struct datastore : public ParticleP::datastore {
       datastore() : ParticleP::datastore() {}
       ~datastore() { deallocate(); }
@@ -50,7 +31,6 @@ namespace panda {
       Float_t* sieie{0};
       Float_t* sipip{0};
       Float_t* hOverE{0};
-      Float_t* genIso{0};
       Float_t* mipEnergy{0};
       Float_t* emax{0};
       Float_t* e2nd{0};
@@ -65,13 +45,15 @@ namespace panda {
       Float_t* timeSpan{0};
       Float_t* regPt{0};
       Float_t* smearedPt{0};
+      UShort_t* ix{0};
+      UShort_t* iy{0};
       Bool_t* loose{0};
       Bool_t* medium{0};
       Bool_t* tight{0};
       Bool_t* highpt{0};
       Bool_t* pixelVeto{0};
       Bool_t* csafeVeto{0};
-      Bool_t (*triggerMatch)[nTriggerObjects]{0};
+      Bool_t* pfchVeto{0};
       ContainerBase const* superClusterContainer_{0};
       Short_t* superCluster_{0};
       ContainerBase const* matchedPFContainer_{0};
@@ -114,7 +96,6 @@ namespace panda {
     Float_t& sieie;
     Float_t& sipip;
     Float_t& hOverE;
-    Float_t& genIso;
     Float_t& mipEnergy;
     Float_t& emax;
     Float_t& e2nd;
@@ -129,13 +110,15 @@ namespace panda {
     Float_t& timeSpan;
     Float_t& regPt;
     Float_t& smearedPt;
+    UShort_t& ix;
+    UShort_t& iy;
     Bool_t& loose;
     Bool_t& medium;
     Bool_t& tight;
     Bool_t& highpt;
     Bool_t& pixelVeto;
     Bool_t& csafeVeto;
-    Bool_t (&triggerMatch)[nTriggerObjects];
+    Bool_t& pfchVeto;
     Ref<SuperCluster> superCluster;
     Ref<PFCand> matchedPF;
     Ref<GenParticle> matchedGen;

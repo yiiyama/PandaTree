@@ -225,18 +225,6 @@ vertex/VertexRef
 virtual double combIso() const { return 0.; }
 
 [Electron>Lepton]
-enum TriggerObject {
-  fEl23El12FirstLeg,
-  fEl23El12SecondLeg,
-  fEl25Tight,
-  fEl27Loose,
-  fEl27Tight,
-  fEl35Tight
-  fPh165HE10,
-  fPh175,
-  fPh200,
-  fPh36EBR9Iso
-};
 chIsoPh/F
 nhIsoPh/F
 phIsoPh/F
@@ -258,32 +246,46 @@ smearedPt/F
 mvaVal/F
 nMissingHits/s
 veto/O
-conversionVeto/O
-tripleCharge/O
 mvaWP90/O
 mvaWP80/O
-triggerMatch[nTriggerObjects]/O
+mvaWPLoose/O
+mvaIsoWP90/O
+mvaIsoWP80/O
+mvaIsoWPLoose/O
+conversionVeto/O
+tripleCharge/O
 superCluster/SuperClusterRef
 double m() const override { return 5.109989e-4; }
 double combIso() const override { return chIso + std::max(nhIso + phIso - isoPUOffset, Float_t(0.)); }
 
 [Muon>Lepton]
-enum TriggerObject {
-  fMu17Mu8FirstLeg,
-  fMu17Mu8SecondLeg,
-  fIsoMu22er,
-  fIsoTkMu22er,
-  fIsoMu24,
-  fIsoTkMu24,
-  fIsoMu27,
-  fIsoTkMu27,
-  fMu50
-};
+mediumPrompt/O
+globalHighPt/O
+trkHighPt/O
 soft/O
-mediumBtoF/O
+softMVA/O
+mvaLoose/O
+mvaMedium/O
+mvaTight/O
+pfIsoVeryLoose/O
+pfIsoLoose/O
+pfIsoMedium/O
+pfIsoTight/O
+pfIsoVeryTight/O
+tkIsoLoose/O
+tkIsoTight/O
+miniIsoLoose/O
+miniIsoMedium/O
+miniIsoTight/O
+miniIsoVeryTight/O
 global/O
 pf/O
 tracker/O
+standalone/O
+calo/O
+rpc/O
+gem/O
+me0/O
 validFraction/F
 nValidMuon/s
 nValidPixel/s
@@ -295,7 +297,8 @@ chi2LocalPosition/s
 trkKink/s
 segmentCompatibility/F
 r03Iso/F
-triggerMatch[nTriggerObjects]/O
+rochCorr/F
+rochCorrErr/F
 double m() const override { return 1.05658e-1; }
 double combIso() const override { return chIso + std::max(nhIso + phIso - 0.5 * puIso, 0.); }
 
@@ -311,21 +314,6 @@ vertex/VertexRef
 matchedGen/GenParticleRef
 
 [Photon>ParticleP]
-enum TriggerObject {
-  fPh165HE10Seed,
-  fPh175Seed,
-  fPh200Seed,
-  fPh135,
-  fPh165HE10,
-  fPh175,
-  fPh200,
-  fPh22EBR9Iso,
-  fPh36EBR9Iso,
-  fPh50EBR9Iso,
-  fPh75EBR9Iso,
-  fPh90EBR9Iso,
-  fPh120EBR9Iso
-};
 pfPt/F = -1. // Pt of the dR-closest PF candidate
 chIso/F
 chIsoMax/F
@@ -334,7 +322,6 @@ phIso/F
 sieie/F
 sipip/F
 hOverE/F
-genIso/F
 mipEnergy/F
 emax/F
 e2nd/F
@@ -349,13 +336,15 @@ time/F
 timeSpan/F
 regPt/F
 smearedPt/F
+ix/s
+iy/s
 loose/O
 medium/O
 tight/O
 highpt/O
 pixelVeto/O
 csafeVeto/O
-triggerMatch[nTriggerObjects]/O
+pfchVeto/O
 superCluster/SuperClusterRef
 matchedPF/PFCandRef
 matchedGen/GenParticleRef
@@ -365,6 +354,8 @@ pdgid/S // Filled with hadron flavor
 partonFlavor/S
 numB/S
 numC/S
+matchedBHadrons/GenParticleRefVector
+matchedCHadrons/GenParticleRefVector
 
 [MicroJet>ParticleM]
 csv/F
@@ -396,6 +387,7 @@ nef/F
 puid/F
 loose/O
 tight/O
+tightLepVeto/O
 monojet/O
 matchedGenJet/GenJetRef
 constituents/PFCandRefVector
@@ -413,6 +405,8 @@ tau3SD/F = -1.
 htt_mass/F
 htt_frec/F
 double_sub/F
+deepBBprobQ/F
+deepBBprobH/F
 ecfs[3][4][4]/F
 subjets/MicroJetRefVector
 double get_ecf(int o_, int N_, int ib_) const
@@ -474,7 +468,8 @@ badMuons/O
 duplicateMuons/O
 badPFMuons/O
 badChargedHadrons/O
-virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !goodVertices && !badPFMuons && !badChargedHadrons; }
+ecalBadCalib/O
+virtual bool pass() const { return !globalHalo16 && !hbhe && !hbheIso && !ecalDeadCell && !badsc && !goodVertices && !badPFMuons && !badChargedHadrons && !ecalBadCalib; }
 
 [HLTBits:SINGLE]
 words[32]/i
@@ -492,7 +487,7 @@ r2f1DW/F
 r2f2DW/F
 r5f1DW/F
 r5f5DW/F
-pdfDW/F
+pdfAltDW[100]/F
 genParam[NMAX]/F
 
 [Recoil:SINGLE]
@@ -569,7 +564,6 @@ neutralMet/Met
 photonMet/Met
 hfMet/Met
 genMet/Met
-metMuOnlyFix/RecoMet
 metFilters/MetFilters
 recoil/Recoil
 pfCandidates.vertex->vertices
@@ -589,6 +583,12 @@ photons.matchedPF->pfCandidates
 photons.matchedGen->genParticles
 genParticles.parent->genParticles
 chsAK4Jets.constituents->pfCandidates
+ak4GenJets.matchedBHadrons->genParticles
+ak4GenJets.matchedCHadrons->genParticles
+ak8GenJets.matchedBHadrons->genParticles
+ak8GenJets.matchedCHadrons->genParticles
+ca15GenJets.matchedBHadrons->genParticles
+ca15GenJets.matchedCHadrons->genParticles
 chsAK4Jets.matchedGenJet->ak4GenJets
 chsAK4Jets.secondaryVertex->secondaryVertices
 puppiAK4Jets.constituents->pfCandidates

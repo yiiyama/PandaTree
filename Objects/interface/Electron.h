@@ -12,22 +12,6 @@ namespace panda {
 
   class Electron : public Lepton {
   public:
-    enum TriggerObject {
-      fEl23El12FirstLeg,
-      fEl23El12SecondLeg,
-      fEl25Tight,
-      fEl27Loose,
-      fEl27Tight,
-      fEl35Tight,
-      fPh165HE10,
-      fPh175,
-      fPh200,
-      fPh36EBR9Iso,
-      nTriggerObjects
-    };
-
-    static TString TriggerObjectName[nTriggerObjects];
-
     struct datastore : public Lepton::datastore {
       datastore() : Lepton::datastore() {}
       ~datastore() { deallocate(); }
@@ -78,11 +62,14 @@ namespace panda {
       Float_t* mvaVal{0};
       UShort_t* nMissingHits{0};
       Bool_t* veto{0};
-      Bool_t* conversionVeto{0};
-      Bool_t* tripleCharge{0};
       Bool_t* mvaWP90{0};
       Bool_t* mvaWP80{0};
-      Bool_t (*triggerMatch)[nTriggerObjects]{0};
+      Bool_t* mvaWPLoose{0};
+      Bool_t* mvaIsoWP90{0};
+      Bool_t* mvaIsoWP80{0};
+      Bool_t* mvaIsoWPLoose{0};
+      Bool_t* conversionVeto{0};
+      Bool_t* tripleCharge{0};
       ContainerBase const* superClusterContainer_{0};
       Short_t* superCluster_{0};
 
@@ -154,11 +141,14 @@ namespace panda {
     Float_t& mvaVal;
     UShort_t& nMissingHits;
     Bool_t& veto;
-    Bool_t& conversionVeto;
-    Bool_t& tripleCharge;
     Bool_t& mvaWP90;
     Bool_t& mvaWP80;
-    Bool_t (&triggerMatch)[nTriggerObjects];
+    Bool_t& mvaWPLoose;
+    Bool_t& mvaIsoWP90;
+    Bool_t& mvaIsoWP80;
+    Bool_t& mvaIsoWPLoose;
+    Bool_t& conversionVeto;
+    Bool_t& tripleCharge;
     Ref<SuperCluster> superCluster;
 
   protected:

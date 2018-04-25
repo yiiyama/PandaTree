@@ -48,7 +48,6 @@ namespace panda {
     RecoMet t1Met = RecoMet("t1Met");
     Met rawMet = Met("rawMet");
     Met caloMet = Met("caloMet");
-    RecoMet metMuOnlyFix = RecoMet("metMuOnlyFix");
     MetFilters metFilters = MetFilters("metFilters");
 
     UShort_t npv{};
