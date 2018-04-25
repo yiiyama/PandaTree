@@ -1,24 +1,12 @@
 #include "../interface/Muon.h"
 
-TString panda::Muon::TriggerObjectName[] = {
-  "fMu17Mu8FirstLeg",
-  "fMu17Mu8SecondLeg",
-  "fIsoMu22er",
-  "fIsoTkMu22er",
-  "fIsoMu24",
-  "fIsoTkMu24",
-  "fIsoMu27",
-  "fIsoTkMu27",
-  "fMu50"
-};
-
 /*static*/
 panda::utils::BranchList
 panda::Muon::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Lepton::getListOfBranches();
-  blist += {"mediumPrompt", "globalHighPt", "trkHighPt", "soft", "softMVA", "mvaLoose", "mvaMedium", "mvaTight", "pfIsoVeryLoose", "pfIsoLoose", "pfIsoMedium", "pfIsoTight", "pfIsoVeryTight", "tkIsoLoose", "tkIsoTight", "miniIsoLoose", "miniIsoMedium", "miniIsoTight", "miniIsoVeryTight", "global", "pf", "tracker", "standalone", "calo", "rpc", "gem", "me0", "validFraction", "nValidMuon", "nValidPixel", "trkLayersWithMmt", "pixLayersWithMmt", "nMatched", "normChi2", "chi2LocalPosition", "trkKink", "segmentCompatibility", "r03Iso", "rochCorr", "rochCorrErr", "triggerMatch"};
+  blist += {"mediumPrompt", "globalHighPt", "trkHighPt", "soft", "softMVA", "mvaLoose", "mvaMedium", "mvaTight", "pfIsoVeryLoose", "pfIsoLoose", "pfIsoMedium", "pfIsoTight", "pfIsoVeryTight", "tkIsoLoose", "tkIsoTight", "miniIsoLoose", "miniIsoMedium", "miniIsoTight", "miniIsoVeryTight", "global", "pf", "tracker", "standalone", "calo", "rpc", "gem", "me0", "validFraction", "nValidMuon", "nValidPixel", "trkLayersWithMmt", "pixLayersWithMmt", "nMatched", "normChi2", "chi2LocalPosition", "trkKink", "segmentCompatibility", "r03Iso", "rochCorr", "rochCorrErr"};
   return blist;
 }
 
@@ -67,7 +55,6 @@ panda::Muon::datastore::allocate(UInt_t _nmax)
   r03Iso = new Float_t[nmax_];
   rochCorr = new Float_t[nmax_];
   rochCorrErr = new Float_t[nmax_];
-  triggerMatch = new Bool_t[nmax_][nTriggerObjects];
 }
 
 void
@@ -155,8 +142,6 @@ panda::Muon::datastore::deallocate()
   rochCorr = 0;
   delete [] rochCorrErr;
   rochCorrErr = 0;
-  delete [] triggerMatch;
-  triggerMatch = 0;
 }
 
 void
@@ -204,7 +189,6 @@ panda::Muon::datastore::setStatus(TTree& _tree, TString const& _name, utils::Bra
   utils::setStatus(_tree, _name, "r03Iso", _branches);
   utils::setStatus(_tree, _name, "rochCorr", _branches);
   utils::setStatus(_tree, _name, "rochCorrErr", _branches);
-  utils::setStatus(_tree, _name, "triggerMatch", _branches);
 }
 
 panda::utils::BranchList
@@ -252,7 +236,6 @@ panda::Muon::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "r03Iso"));
   blist.push_back(utils::getStatus(_tree, _name, "rochCorr"));
   blist.push_back(utils::getStatus(_tree, _name, "rochCorrErr"));
-  blist.push_back(utils::getStatus(_tree, _name, "triggerMatch"));
 
   return blist;
 }
@@ -302,7 +285,6 @@ panda::Muon::datastore::setAddress(TTree& _tree, TString const& _name, utils::Br
   utils::setAddress(_tree, _name, "r03Iso", r03Iso, _branches, _setStatus);
   utils::setAddress(_tree, _name, "rochCorr", rochCorr, _branches, _setStatus);
   utils::setAddress(_tree, _name, "rochCorrErr", rochCorrErr, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "triggerMatch", triggerMatch, _branches, _setStatus);
 }
 
 void
@@ -352,7 +334,6 @@ panda::Muon::datastore::book(TTree& _tree, TString const& _name, utils::BranchLi
   utils::book(_tree, _name, "r03Iso", size, 'F', r03Iso, _branches);
   utils::book(_tree, _name, "rochCorr", size, 'F', rochCorr, _branches);
   utils::book(_tree, _name, "rochCorrErr", size, 'F', rochCorrErr, _branches);
-  utils::book(_tree, _name, "triggerMatch", size + TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
 }
 
 void
@@ -400,7 +381,6 @@ panda::Muon::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "r03Iso");
   utils::resetAddress(_tree, _name, "rochCorr");
   utils::resetAddress(_tree, _name, "rochCorrErr");
-  utils::resetAddress(_tree, _name, "triggerMatch");
 }
 
 void
@@ -458,8 +438,7 @@ panda::Muon::Muon(char const* _name/* = ""*/) :
   segmentCompatibility(gStore.getData(this).segmentCompatibility[0]),
   r03Iso(gStore.getData(this).r03Iso[0]),
   rochCorr(gStore.getData(this).rochCorr[0]),
-  rochCorrErr(gStore.getData(this).rochCorrErr[0]),
-  triggerMatch(gStore.getData(this).triggerMatch[0])
+  rochCorrErr(gStore.getData(this).rochCorrErr[0])
 {
 }
 
@@ -504,8 +483,7 @@ panda::Muon::Muon(Muon const& _src) :
   segmentCompatibility(gStore.getData(this).segmentCompatibility[0]),
   r03Iso(gStore.getData(this).r03Iso[0]),
   rochCorr(gStore.getData(this).rochCorr[0]),
-  rochCorrErr(gStore.getData(this).rochCorrErr[0]),
-  triggerMatch(gStore.getData(this).triggerMatch[0])
+  rochCorrErr(gStore.getData(this).rochCorrErr[0])
 {
   Lepton::operator=(_src);
 
@@ -549,7 +527,6 @@ panda::Muon::Muon(Muon const& _src) :
   r03Iso = _src.r03Iso;
   rochCorr = _src.rochCorr;
   rochCorrErr = _src.rochCorrErr;
-  std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
 }
 
 panda::Muon::Muon(datastore& _data, UInt_t _idx) :
@@ -593,8 +570,7 @@ panda::Muon::Muon(datastore& _data, UInt_t _idx) :
   segmentCompatibility(_data.segmentCompatibility[_idx]),
   r03Iso(_data.r03Iso[_idx]),
   rochCorr(_data.rochCorr[_idx]),
-  rochCorrErr(_data.rochCorrErr[_idx]),
-  triggerMatch(_data.triggerMatch[_idx])
+  rochCorrErr(_data.rochCorrErr[_idx])
 {
 }
 
@@ -639,8 +615,7 @@ panda::Muon::Muon(ArrayBase* _array) :
   segmentCompatibility(gStore.getData(this).segmentCompatibility[0]),
   r03Iso(gStore.getData(this).r03Iso[0]),
   rochCorr(gStore.getData(this).rochCorr[0]),
-  rochCorrErr(gStore.getData(this).rochCorrErr[0]),
-  triggerMatch(gStore.getData(this).triggerMatch[0])
+  rochCorrErr(gStore.getData(this).rochCorrErr[0])
 {
 }
 
@@ -704,7 +679,6 @@ panda::Muon::operator=(Muon const& _src)
   r03Iso = _src.r03Iso;
   rochCorr = _src.rochCorr;
   rochCorrErr = _src.rochCorrErr;
-  std::memcpy(triggerMatch, _src.triggerMatch, sizeof(Bool_t) * nTriggerObjects);
 
   /* BEGIN CUSTOM Muon.cc.operator= */
   /* END CUSTOM */
@@ -757,7 +731,6 @@ panda::Muon::doBook_(TTree& _tree, TString const& _name, utils::BranchList const
   utils::book(_tree, _name, "r03Iso", "", 'F', &r03Iso, _branches);
   utils::book(_tree, _name, "rochCorr", "", 'F', &rochCorr, _branches);
   utils::book(_tree, _name, "rochCorrErr", "", 'F', &rochCorrErr, _branches);
-  utils::book(_tree, _name, "triggerMatch", TString::Format("[%d]", nTriggerObjects), 'O', triggerMatch, _branches);
 }
 
 void
@@ -805,7 +778,6 @@ panda::Muon::doInit_()
   r03Iso = 0.;
   rochCorr = 0.;
   rochCorrErr = 0.;
-  for (auto& p0 : triggerMatch) p0 = false;
 
   /* BEGIN CUSTOM Muon.cc.doInit_ */
   /* END CUSTOM */
@@ -877,7 +849,6 @@ panda::Muon::dump(std::ostream& _out/* = std::cout*/) const
   _out << "r03Iso = " << r03Iso << std::endl;
   _out << "rochCorr = " << rochCorr << std::endl;
   _out << "rochCorrErr = " << rochCorrErr << std::endl;
-  _out << "triggerMatch = " << triggerMatch << std::endl;
 }
 
 

@@ -11,21 +11,6 @@ namespace panda {
 
   class Muon : public Lepton {
   public:
-    enum TriggerObject {
-      fMu17Mu8FirstLeg,
-      fMu17Mu8SecondLeg,
-      fIsoMu22er,
-      fIsoTkMu22er,
-      fIsoMu24,
-      fIsoTkMu24,
-      fIsoMu27,
-      fIsoTkMu27,
-      fMu50,
-      nTriggerObjects
-    };
-
-    static TString TriggerObjectName[nTriggerObjects];
-
     struct datastore : public Lepton::datastore {
       datastore() : Lepton::datastore() {}
       ~datastore() { deallocate(); }
@@ -95,7 +80,6 @@ namespace panda {
       Float_t* r03Iso{0};
       Float_t* rochCorr{0};
       Float_t* rochCorrErr{0};
-      Bool_t (*triggerMatch)[nTriggerObjects]{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -184,7 +168,6 @@ namespace panda {
     Float_t& r03Iso;
     Float_t& rochCorr;
     Float_t& rochCorrErr;
-    Bool_t (&triggerMatch)[nTriggerObjects];
 
   protected:
     /* ParticleP
