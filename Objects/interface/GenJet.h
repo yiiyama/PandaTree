@@ -6,6 +6,7 @@
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
+#include "GenParticle.h"
 
 namespace panda {
 
@@ -27,6 +28,10 @@ namespace panda {
       Short_t* partonFlavor{0};
       Short_t* numB{0};
       Short_t* numC{0};
+      ContainerBase const* matchedBHadronsContainer_{0};
+      std::vector<std::vector<Short_t>>* matchedBHadrons_{0};
+      ContainerBase const* matchedCHadronsContainer_{0};
+      std::vector<std::vector<Short_t>>* matchedCHadrons_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -59,6 +64,8 @@ namespace panda {
     Short_t& partonFlavor;
     Short_t& numB;
     Short_t& numC;
+    RefVector<GenParticle> matchedBHadrons;
+    RefVector<GenParticle> matchedCHadrons;
 
   protected:
     /* ParticleP

@@ -396,6 +396,8 @@ pdgid/S // Filled with hadron flavor
 partonFlavor/S
 numB/S
 numC/S
+matchedBHadrons/GenParticleRefVector
+matchedCHadrons/GenParticleRefVector
 
 [MicroJet>ParticleM]
 csv/F
@@ -445,6 +447,8 @@ tau3SD/F = -1.
 htt_mass/F
 htt_frec/F
 double_sub/F
+deepBBprobQ/F
+deepBBprobH/F
 ecfs[3][4][4]/F
 subjets/MicroJetRefVector
 double get_ecf(int o_, int N_, int ib_) const
@@ -621,6 +625,12 @@ photons.matchedPF->pfCandidates
 photons.matchedGen->genParticles
 genParticles.parent->genParticles
 chsAK4Jets.constituents->pfCandidates
+ak4GenJets.matchedBHadrons->genParticles
+ak4GenJets.matchedCHadrons->genParticles
+ak8GenJets.matchedBHadrons->genParticles
+ak8GenJets.matchedCHadrons->genParticles
+ca15GenJets.matchedBHadrons->genParticles
+ca15GenJets.matchedCHadrons->genParticles
 chsAK4Jets.matchedGenJet->ak4GenJets
 chsAK4Jets.secondaryVertex->secondaryVertices
 puppiAK4Jets.constituents->pfCandidates
