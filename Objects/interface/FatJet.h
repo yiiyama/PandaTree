@@ -74,6 +74,8 @@ namespace panda {
       Float_t* htt_mass{0};
       Float_t* htt_frec{0};
       Float_t* double_sub{0};
+      Float_t* deepBBprobQ{0};
+      Float_t* deepBBprobH{0};
       Float_t (*ecfs)[3][4][4]{0};
       ContainerBase const* subjetsContainer_{0};
       std::vector<std::vector<Short_t>>* subjets_{0};
@@ -155,6 +157,8 @@ namespace panda {
     Float_t& htt_mass;
     Float_t& htt_frec;
     Float_t& double_sub;
+    Float_t& deepBBprobQ;
+    Float_t& deepBBprobH;
     Float_t (&ecfs)[3][4][4];
     RefVector<MicroJet> subjets;
 

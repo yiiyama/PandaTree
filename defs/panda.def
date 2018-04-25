@@ -447,6 +447,8 @@ tau3SD/F = -1.
 htt_mass/F
 htt_frec/F
 double_sub/F
+deepBBprobQ/F
+deepBBprobH/F
 ecfs[3][4][4]/F
 subjets/MicroJetRefVector
 double get_ecf(int o_, int N_, int ib_) const

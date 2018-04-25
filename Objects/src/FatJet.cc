@@ -6,7 +6,7 @@ panda::FatJet::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Jet::getListOfBranches();
-  blist += {"tau1", "tau2", "tau3", "mSD", "mPruned", "tau1SD", "tau2SD", "tau3SD", "htt_mass", "htt_frec", "double_sub", "ecfs", "subjets_"};
+  blist += {"tau1", "tau2", "tau3", "mSD", "mPruned", "tau1SD", "tau2SD", "tau3SD", "htt_mass", "htt_frec", "double_sub", "deepBBprobQ", "deepBBprobH", "ecfs", "subjets_"};
   return blist;
 }
 
@@ -26,6 +26,8 @@ panda::FatJet::datastore::allocate(UInt_t _nmax)
   htt_mass = new Float_t[nmax_];
   htt_frec = new Float_t[nmax_];
   double_sub = new Float_t[nmax_];
+  deepBBprobQ = new Float_t[nmax_];
+  deepBBprobH = new Float_t[nmax_];
   ecfs = new Float_t[nmax_][3][4][4];
   subjets_ = new std::vector<std::vector<Short_t>>(nmax_);
 }
@@ -57,6 +59,10 @@ panda::FatJet::datastore::deallocate()
   htt_frec = 0;
   delete [] double_sub;
   double_sub = 0;
+  delete [] deepBBprobQ;
+  deepBBprobQ = 0;
+  delete [] deepBBprobH;
+  deepBBprobH = 0;
   delete [] ecfs;
   ecfs = 0;
   delete subjets_;
@@ -79,6 +85,8 @@ panda::FatJet::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
   utils::setStatus(_tree, _name, "htt_mass", _branches);
   utils::setStatus(_tree, _name, "htt_frec", _branches);
   utils::setStatus(_tree, _name, "double_sub", _branches);
+  utils::setStatus(_tree, _name, "deepBBprobQ", _branches);
+  utils::setStatus(_tree, _name, "deepBBprobH", _branches);
   utils::setStatus(_tree, _name, "ecfs", _branches);
   utils::setStatus(_tree, _name, "subjets_", _branches);
 }
@@ -99,6 +107,8 @@ panda::FatJet::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "htt_mass"));
   blist.push_back(utils::getStatus(_tree, _name, "htt_frec"));
   blist.push_back(utils::getStatus(_tree, _name, "double_sub"));
+  blist.push_back(utils::getStatus(_tree, _name, "deepBBprobQ"));
+  blist.push_back(utils::getStatus(_tree, _name, "deepBBprobH"));
   blist.push_back(utils::getStatus(_tree, _name, "ecfs"));
   blist.push_back(utils::getStatus(_tree, _name, "subjets_"));
 
@@ -121,6 +131,8 @@ panda::FatJet::datastore::setAddress(TTree& _tree, TString const& _name, utils::
   utils::setAddress(_tree, _name, "htt_mass", htt_mass, _branches, _setStatus);
   utils::setAddress(_tree, _name, "htt_frec", htt_frec, _branches, _setStatus);
   utils::setAddress(_tree, _name, "double_sub", double_sub, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "deepBBprobQ", deepBBprobQ, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "deepBBprobH", deepBBprobH, _branches, _setStatus);
   utils::setAddress(_tree, _name, "ecfs", ecfs, _branches, _setStatus);
   utils::setAddress(_tree, _name, "subjets_", &subjets_, _branches, _setStatus);
 }
@@ -143,6 +155,8 @@ panda::FatJet::datastore::book(TTree& _tree, TString const& _name, utils::Branch
   utils::book(_tree, _name, "htt_mass", size, 'F', htt_mass, _branches);
   utils::book(_tree, _name, "htt_frec", size, 'F', htt_frec, _branches);
   utils::book(_tree, _name, "double_sub", size, 'F', double_sub, _branches);
+  utils::book(_tree, _name, "deepBBprobQ", size, 'F', deepBBprobQ, _branches);
+  utils::book(_tree, _name, "deepBBprobH", size, 'F', deepBBprobH, _branches);
   utils::book(_tree, _name, "ecfs", size + TString::Format("[3][4][4]"), 'F', ecfs, _branches);
   utils::book(_tree, _name, "subjets_", "std::vector<std::vector<Short_t>>", &subjets_, _branches);
 }
@@ -163,6 +177,8 @@ panda::FatJet::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "htt_mass");
   utils::resetAddress(_tree, _name, "htt_frec");
   utils::resetAddress(_tree, _name, "double_sub");
+  utils::resetAddress(_tree, _name, "deepBBprobQ");
+  utils::resetAddress(_tree, _name, "deepBBprobH");
   utils::resetAddress(_tree, _name, "ecfs");
   utils::resetAddress(_tree, _name, "subjets_");
 }
@@ -195,6 +211,8 @@ panda::FatJet::FatJet(char const* _name/* = ""*/) :
   htt_mass(gStore.getData(this).htt_mass[0]),
   htt_frec(gStore.getData(this).htt_frec[0]),
   double_sub(gStore.getData(this).double_sub[0]),
+  deepBBprobQ(gStore.getData(this).deepBBprobQ[0]),
+  deepBBprobH(gStore.getData(this).deepBBprobH[0]),
   ecfs(gStore.getData(this).ecfs[0]),
   subjets(gStore.getData(this).subjetsContainer_, (*gStore.getData(this).subjets_)[0])
 {
@@ -213,6 +231,8 @@ panda::FatJet::FatJet(FatJet const& _src) :
   htt_mass(gStore.getData(this).htt_mass[0]),
   htt_frec(gStore.getData(this).htt_frec[0]),
   double_sub(gStore.getData(this).double_sub[0]),
+  deepBBprobQ(gStore.getData(this).deepBBprobQ[0]),
+  deepBBprobH(gStore.getData(this).deepBBprobH[0]),
   ecfs(gStore.getData(this).ecfs[0]),
   subjets(gStore.getData(this).subjetsContainer_, (*gStore.getData(this).subjets_)[0])
 {
@@ -229,6 +249,8 @@ panda::FatJet::FatJet(FatJet const& _src) :
   htt_mass = _src.htt_mass;
   htt_frec = _src.htt_frec;
   double_sub = _src.double_sub;
+  deepBBprobQ = _src.deepBBprobQ;
+  deepBBprobH = _src.deepBBprobH;
   std::memcpy(ecfs, _src.ecfs, sizeof(Float_t) * 3 * 4 * 4);
   subjets = _src.subjets;
 }
@@ -246,6 +268,8 @@ panda::FatJet::FatJet(datastore& _data, UInt_t _idx) :
   htt_mass(_data.htt_mass[_idx]),
   htt_frec(_data.htt_frec[_idx]),
   double_sub(_data.double_sub[_idx]),
+  deepBBprobQ(_data.deepBBprobQ[_idx]),
+  deepBBprobH(_data.deepBBprobH[_idx]),
   ecfs(_data.ecfs[_idx]),
   subjets(_data.subjetsContainer_, (*_data.subjets_)[_idx])
 {
@@ -264,6 +288,8 @@ panda::FatJet::FatJet(ArrayBase* _array) :
   htt_mass(gStore.getData(this).htt_mass[0]),
   htt_frec(gStore.getData(this).htt_frec[0]),
   double_sub(gStore.getData(this).double_sub[0]),
+  deepBBprobQ(gStore.getData(this).deepBBprobQ[0]),
+  deepBBprobH(gStore.getData(this).deepBBprobH[0]),
   ecfs(gStore.getData(this).ecfs[0]),
   subjets(gStore.getData(this).subjetsContainer_, (*gStore.getData(this).subjets_)[0])
 {
@@ -300,6 +326,8 @@ panda::FatJet::operator=(FatJet const& _src)
   htt_mass = _src.htt_mass;
   htt_frec = _src.htt_frec;
   double_sub = _src.double_sub;
+  deepBBprobQ = _src.deepBBprobQ;
+  deepBBprobH = _src.deepBBprobH;
   std::memcpy(ecfs, _src.ecfs, sizeof(Float_t) * 3 * 4 * 4);
   subjets = _src.subjets;
 
@@ -325,6 +353,8 @@ panda::FatJet::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
   utils::book(_tree, _name, "htt_mass", "", 'F', &htt_mass, _branches);
   utils::book(_tree, _name, "htt_frec", "", 'F', &htt_frec, _branches);
   utils::book(_tree, _name, "double_sub", "", 'F', &double_sub, _branches);
+  utils::book(_tree, _name, "deepBBprobQ", "", 'F', &deepBBprobQ, _branches);
+  utils::book(_tree, _name, "deepBBprobH", "", 'F', &deepBBprobH, _branches);
   utils::book(_tree, _name, "ecfs", TString::Format("[3][4][4]"), 'F', ecfs, _branches);
   utils::book(_tree, _name, "subjets_", "std::vector<Short_t>", &subjets.indices(), _branches);
 }
@@ -345,6 +375,8 @@ panda::FatJet::doInit_()
   htt_mass = 0.;
   htt_frec = 0.;
   double_sub = 0.;
+  deepBBprobQ = 0.;
+  deepBBprobH = 0.;
   for (auto& p0 : ecfs) for (auto& p1 : p0) for (auto& p2 : p1) p2 = 0.;
   subjets.init();
 
@@ -376,6 +408,8 @@ panda::FatJet::dump(std::ostream& _out/* = std::cout*/) const
   _out << "htt_mass = " << htt_mass << std::endl;
   _out << "htt_frec = " << htt_frec << std::endl;
   _out << "double_sub = " << double_sub << std::endl;
+  _out << "deepBBprobQ = " << deepBBprobQ << std::endl;
+  _out << "deepBBprobH = " << deepBBprobH << std::endl;
   _out << "ecfs = " << ecfs << std::endl;
   _out << "subjets = " << subjets << std::endl;
 }
