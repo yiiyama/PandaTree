@@ -45,7 +45,6 @@ namespace panda {
       Float_t* sieie{0};
       Float_t* sipip{0};
       Float_t* hOverE{0};
-      Float_t* genIso{0};
       Float_t* mipEnergy{0};
       Float_t* emax{0};
       Float_t* e2nd{0};
@@ -69,7 +68,6 @@ namespace panda {
       Bool_t* pixelVeto{0};
       Bool_t* csafeVeto{0};
       Bool_t* pfchVeto{0};
-      Bool_t (*triggerMatch)[nTriggerObjects]{0};
       ContainerBase const* superClusterContainer_{0};
       Short_t* superCluster_{0};
       ContainerBase const* matchedPFContainer_{0};
@@ -133,7 +131,6 @@ namespace panda {
     Float_t& sieie;
     Float_t& sipip;
     Float_t& hOverE;
-    Float_t& genIso;
     Float_t& mipEnergy;
     Float_t& emax;
     Float_t& e2nd;
@@ -157,7 +154,6 @@ namespace panda {
     Bool_t& pixelVeto;
     Bool_t& csafeVeto;
     Bool_t& pfchVeto;
-    Bool_t (&triggerMatch)[nTriggerObjects];
     Ref<SuperCluster> superCluster;
     Ref<PFCand> matchedPF;
     Ref<GenParticle> matchedGen;

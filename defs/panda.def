@@ -225,18 +225,6 @@ vertex/VertexRef
 virtual double combIso() const { return 0.; }
 
 [Electron>Lepton]
-enum TriggerObject {
-  fEl23El12FirstLeg,
-  fEl23El12SecondLeg,
-  fEl25Tight,
-  fEl27Loose,
-  fEl27Tight,
-  fEl35Tight
-  fPh165HE10,
-  fPh175,
-  fPh200,
-  fPh36EBR9Iso
-};
 chIsoPh/F
 nhIsoPh/F
 phIsoPh/F
@@ -266,23 +254,11 @@ mvaIsoWP80/O
 mvaIsoWPLoose/O
 conversionVeto/O
 tripleCharge/O
-triggerMatch[nTriggerObjects]/O
 superCluster/SuperClusterRef
 double m() const override { return 5.109989e-4; }
 double combIso() const override { return chIso + std::max(nhIso + phIso - isoPUOffset, Float_t(0.)); }
 
 [Muon>Lepton]
-enum TriggerObject {
-  fMu17Mu8FirstLeg,
-  fMu17Mu8SecondLeg,
-  fIsoMu22er,
-  fIsoTkMu22er,
-  fIsoMu24,
-  fIsoTkMu24,
-  fIsoMu27,
-  fIsoTkMu27,
-  fMu50
-};
 mediumPrompt/O
 globalHighPt/O
 trkHighPt/O
@@ -323,7 +299,6 @@ segmentCompatibility/F
 r03Iso/F
 rochCorr/F
 rochCorrErr/F
-triggerMatch[nTriggerObjects]/O
 double m() const override { return 1.05658e-1; }
 double combIso() const override { return chIso + std::max(nhIso + phIso - 0.5 * puIso, 0.); }
 
@@ -339,21 +314,6 @@ vertex/VertexRef
 matchedGen/GenParticleRef
 
 [Photon>ParticleP]
-enum TriggerObject {
-  fPh165HE10Seed,
-  fPh175Seed,
-  fPh200Seed,
-  fPh135,
-  fPh165HE10,
-  fPh175,
-  fPh200,
-  fPh22EBR9Iso,
-  fPh36EBR9Iso,
-  fPh50EBR9Iso,
-  fPh75EBR9Iso,
-  fPh90EBR9Iso,
-  fPh120EBR9Iso
-};
 pfPt/F = -1. // Pt of the dR-closest PF candidate
 chIso/F
 chIsoMax/F
@@ -362,7 +322,6 @@ phIso/F
 sieie/F
 sipip/F
 hOverE/F
-genIso/F
 mipEnergy/F
 emax/F
 e2nd/F
@@ -386,7 +345,6 @@ highpt/O
 pixelVeto/O
 csafeVeto/O
 pfchVeto/O
-triggerMatch[nTriggerObjects]/O
 superCluster/SuperClusterRef
 matchedPF/PFCandRef
 matchedGen/GenParticleRef
