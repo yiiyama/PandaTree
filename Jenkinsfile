@@ -2,11 +2,11 @@ pipeline {
   agent any
 
   environment {
-    SCRAM_ARCH = 'slc6_amd64_gcc530'
+    SCRAM_ARCH = 'slc6_amd64_gcc630'
     DOSRC = 'source /cvmfs/cms.cern.ch/cmsset_default.sh'
-    CMSSW_VERSION = 'CMSSW_8_0_29'
-    PANDA_PROD_USER = 'dabercro'
-    PANDA_PROD_BRANCH = 'jenkins-clean'
+    CMSSW_VERSION = 'CMSSW_9_4_6'
+    PANDA_PROD_USER = 'PandaPhysics'
+    PANDA_PROD_BRANCH = 'master'
   }
 
   stages {
