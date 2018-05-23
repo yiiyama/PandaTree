@@ -59,7 +59,7 @@ panda::HLTObjectStore::makeMap(std::vector<bool> const& _mask)
           objectVectors_[fidx]->push_back(&obj);
       }
       else
-        throw std::runtime_error("Invalid trigger filter index %d found in trigger objects. There is very likely a bug in HLTObjectStore or EventBase.");
+        throw std::runtime_error(TString::Format("Invalid trigger filter index %d found in trigger objects. There is very likely a bug in HLTObjectStore or EventBase.", fidx).Data());
     }
   }
 }
