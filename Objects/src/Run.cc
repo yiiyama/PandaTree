@@ -250,7 +250,7 @@ panda::Run::triggerPaths() const
   return *hlt.paths;
 }
 
-void
+bool
 panda::Run::findEntry(TTree& _runTree, UInt_t _runNumber)
 {
   // Known issue: if this function is called with a new tree but with the same run number as the previous call,
@@ -259,7 +259,7 @@ panda::Run::findEntry(TTree& _runTree, UInt_t _runNumber)
   // (EventBase::doGetEntry_ does that).
 
   if (_runNumber == runNumber)
-    return;
+    return false;
 
   long iEntry(0);
   while (_runTree.GetEntry(iEntry++) > 0) {
@@ -272,6 +272,8 @@ panda::Run::findEntry(TTree& _runTree, UInt_t _runNumber)
   }
 
   doGetEntry_(_runTree);
+
+  return true;
 }
 
 void

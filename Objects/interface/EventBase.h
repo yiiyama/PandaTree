@@ -83,6 +83,9 @@ namespace panda {
     RRNG rng{0,0,nullptr};
 
   private:
+    //! Update the triggerFilterMask at run transitions
+    void setTriggerFilters_();
+
     //! Flag to set run synch feature on/off
     Bool_t readRunTree_{kTRUE};
 
