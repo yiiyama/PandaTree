@@ -208,6 +208,27 @@ panda::EventBase::doGetEntry_(TTree& _tree)
 
         // Now cue the run object to the given run number
         run.findEntry(*rItr->second.second, runNumber);
+
+        if (triggerObjects.size() != 0 && run.hlt.filters) {
+          triggerObjects.setFilterObjectKeys(*run.hlt.filters);
+
+          if (registeredTriggerFilters_.empty()) {
+            // if no filters are registered, don't mask
+            triggerFilterMask_.resize(run.hlt.filters->size(), true);
+          }
+          else {
+            // else only allow the registered filters
+            triggerFilterMask_.resize(run.hlt.filters->size(), false);
+            for (unsigned fidx(0); fidx != run.hlt.filters->size(); ++fidx) {
+              for (auto& filter : registeredTriggerFilters_) {
+                if (filter == run.hlt.filters->at(fidx)) {
+                  triggerFilterMask_[fidx] = true;
+                  break;
+                }
+              }
+            }
+          }
+        }
       }
       else {
         rItr->second.second = 0;
@@ -217,7 +238,7 @@ panda::EventBase::doGetEntry_(TTree& _tree)
   }
 
   if (triggerObjects.size() != 0 && run.hlt.filters)
-    triggerObjects.makeMap(*run.hlt.filters);
+    triggerObjects.makeMap(triggerFilterMask_);
 
   rng.generate();
 

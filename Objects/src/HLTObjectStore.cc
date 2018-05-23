@@ -39,23 +39,29 @@ panda::HLTObjectStore::operator=(HLTObjectStore const& _rhs)
 }
 
 void
-panda::HLTObjectStore::makeMap(std::vector<TString> const& _filters)
+panda::HLTObjectStore::setFilterObjectKeys(std::vector<TString> const& _filters)
 {
-  std::vector<HLTObjectVector> objects(_filters.size());
+  filterObjects_.clear();
+  if (_filters.size() > objectVectors_.size())
+    objectVectors_.resize(_filters.size());
 
+  for (UShort_t fidx(0); fidx != _filters.size(); ++fidx)
+    objectVectors_[fidx] = &filterObjects_[_filters[fidx]];
+}
+
+void
+panda::HLTObjectStore::makeMap(std::vector<bool> const& _mask)
+{
   for (auto& obj : *this) {
     for (UShort_t fidx : *obj.filters) {
-      if (fidx < _filters.size())
-        objects[fidx].push_back(&obj);
+      if (fidx < _mask.size()) {
+        if (_mask[fidx])
+          objectVectors_[fidx]->push_back(&obj);
+      }
       else
         throw std::runtime_error("List of filters passed to HLTObjectStore::makeMap too short");
     }
   }
-
-  filterObjects_.clear();
-
-  for (unsigned fidx(0); fidx != _filters.size(); ++fidx)
-    filterObjects_.emplace(_filters[fidx], objects[fidx]);
 }
 
 panda::HLTObjectStore::HLTObjectVector const&

@@ -18,11 +18,19 @@ namespace panda {
     ~HLTObjectStore() {}
     HLTObjectStore& operator=(HLTObjectStore const&);
 
-    void makeMap(std::vector<TString> const& filters);
+    //! Reset the filterObjects map for each run. Not to be called by users.
+    void setFilterObjectKeys(std::vector<TString> const& filters);
+
+    //! Fill the filterObjects map for each event. Not to be called by users.
+    void makeMap(std::vector<bool> const& mask);
+
+    //! filterObjects_.at() with warnings. To be called by users.
     HLTObjectVector const& filterObjects(char const* filter) const;
 
   protected:
     std::map<TString, HLTObjectVector> filterObjects_{};
+    //! internal-use pointers to the values of filterObjects_
+    std::vector<HLTObjectVector*> objectVectors_{};
   };
 
 }

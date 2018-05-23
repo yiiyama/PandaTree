@@ -72,6 +72,13 @@ namespace panda {
     //! Trigger object collection with additional features.
     HLTObjectStore triggerObjects = HLTObjectStore("triggerObjects");
 
+    //! Use to declare a trigger filter name (key in the triggerObjects map) to be used in the analysis.
+    /*!
+     * By default, all trigger objects are loaded into the triggerObjects map at each call to getEntry.
+     * Once a call to this function is made, only the objects for the registered filter will be loaded.
+     */
+    void registerTriggerObjects(char const* filter) { registeredTriggerFilters_.emplace_back(filter); }
+
     //! Repeatable random number generator, initialized to be empty
     RRNG rng{0,0,nullptr};
 
@@ -84,6 +91,12 @@ namespace panda {
      event tree -> tree number, run tree 
      */
     std::map<TTree*, std::pair<Int_t, TTree*>> runTrees_;
+
+    //! List of trigger object filter names to use
+    std::vector<TString> registeredTriggerFilters_{};
+
+    //! Trigger filter mask generated from registeredTriggerFilters for each run
+    std::vector<bool> triggerFilterMask_{};
 
     /* END CUSTOM */
   };
