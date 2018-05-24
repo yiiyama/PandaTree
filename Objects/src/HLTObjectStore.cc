@@ -52,6 +52,9 @@ panda::HLTObjectStore::setFilterObjectKeys(std::vector<TString> const& _filters)
 void
 panda::HLTObjectStore::makeMap(std::vector<bool> const& _mask)
 {
+  for (auto* objv : objectVectors_)
+    objv->clear();
+
   for (auto& obj : *this) {
     for (UShort_t fidx : *obj.filters) {
       if (fidx < _mask.size()) {
