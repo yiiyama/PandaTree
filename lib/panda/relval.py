@@ -37,6 +37,17 @@ footer = """
 #endif"""
 
 
+def parents(objdef):
+    """
+    Get all parents and self recursively
+    """
+
+    output = [objdef]
+    if objdef.parent not in ['Element', 'Singlet', 'TreeEntry', 'EventBase']:
+        output.extend(parents(PhysicsObject.get(objdef.parent)))
+    return output
+
+
 def plot_set(objdef):
     """
     Get the set of members of an object to plot
@@ -119,7 +130,7 @@ def write_header(trees, file_name):
         output.push_back(i.{{branch}});""".format(objname=obj.name)
 
                 # Print sizes of references
-                for refbranch in objdef.branches:
+                for refbranch in [b for o in parents(objdef) for b in o.branches]:
                     # Check if actually a refbranch
                     if hasattr(refbranch, 'refname'):
                         name = refbranch.name.rstrip('_')
