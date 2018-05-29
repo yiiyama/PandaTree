@@ -178,7 +178,10 @@ panda::EventBase::doGetEntry_(TTree& _tree)
 
     if (_tree.GetTreeNumber() == rItr->second.first) {
       // We are on the same tree. Just check for run number transition (and update the trigger table if necessary)
-      run.findEntry(*rItr->second.second, runNumber);
+      if (run.findEntry(*rItr->second.second, runNumber)) {
+        // there was a run transition
+        setTriggerFilters_();
+      }
     }
     else {
       // There was a file transition in the input
@@ -208,6 +211,8 @@ panda::EventBase::doGetEntry_(TTree& _tree)
 
         // Now cue the run object to the given run number
         run.findEntry(*rItr->second.second, runNumber);
+
+        setTriggerFilters_();
       }
       else {
         rItr->second.second = 0;
@@ -217,7 +222,7 @@ panda::EventBase::doGetEntry_(TTree& _tree)
   }
 
   if (triggerObjects.size() != 0 && run.hlt.filters)
-    triggerObjects.makeMap(*run.hlt.filters);
+    triggerObjects.makeMap(triggerFilterMask_);
 
   rng.generate();
 
@@ -255,6 +260,32 @@ panda::EventBase::triggerFired(UInt_t _token) const
     return triggers.pass(idx);
   else
     return false;
+}
+
+void
+panda::EventBase::setTriggerFilters_()
+{
+
+  if (triggerObjects.size() != 0 && run.hlt.filters) {
+    triggerObjects.setFilterObjectKeys(*run.hlt.filters);
+
+    if (registeredTriggerFilters_.empty()) {
+      // if no filters are registered, don't mask
+      triggerFilterMask_.resize(run.hlt.filters->size(), true);
+    }
+    else {
+      // else only allow the registered filters
+      triggerFilterMask_.resize(run.hlt.filters->size(), false);
+      for (unsigned fidx(0); fidx != run.hlt.filters->size(); ++fidx) {
+        for (auto& filter : registeredTriggerFilters_) {
+          if (filter == run.hlt.filters->at(fidx)) {
+            triggerFilterMask_[fidx] = true;
+            break;
+          }
+        }
+      }
+    }
+  }
 }
 
 /* END CUSTOM */

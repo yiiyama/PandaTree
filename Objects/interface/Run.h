@@ -72,7 +72,7 @@ namespace panda {
     UInt_t triggerSize() const { return triggerPaths().size(); }
 
     //! Check for updates
-    void findEntry(TTree& runTree, UInt_t runNumber);
+    bool findEntry(TTree& runTree, UInt_t runNumber);
 
     //! Reset inputTree_, inputTreeNumber_, and hltMenuCache_
     void resetCache();
