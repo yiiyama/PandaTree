@@ -7,6 +7,7 @@ panda::EventBase::EventBase() :
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   /* BEGIN CUSTOM EventBase.cc.ctor */
   objects_.push_back(&triggerObjects);
+  collections_.push_back(&triggerObjects);
   rng.setSeedAddress(&eventNumber);
   /* END CUSTOM */
 }
