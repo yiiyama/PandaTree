@@ -26,6 +26,7 @@ namespace panda {
       */
       Int_t* pdgid{0};
       Bool_t* finalState{0};
+      Bool_t* miniaodPacked{0};
       UShort_t* statusFlags{0};
       ContainerBase const* parentContainer_{0};
       Short_t* parent_{0};
@@ -61,6 +62,7 @@ namespace panda {
 
     Int_t& pdgid;
     Bool_t& finalState;
+    Bool_t& miniaodPacked;
     UShort_t& statusFlags;
     Ref<UnpackedGenParticle> parent;
 

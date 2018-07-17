@@ -90,6 +90,7 @@ enum StatusFlag {
 };
 pdgid/I
 finalState/O
+miniaodPacked/O   // True if this came from a MINIAOD packed collection
 statusFlags/s
 parent/GenParticleRef
 bool testFlag(StatusFlag f) const { return ((statusFlags >> f) & 1) == 1; }
@@ -201,6 +202,7 @@ pdgid/I
 [UnpackedGenParticle>ParticleM]
 pdgid/I
 finalState/O
+miniaodPacked/O   // True if this came from a MINIAOD packed collection
 statusFlags/s
 parent/UnpackedGenParticleRef
 bool testFlag(GenParticle::StatusFlag f) const { return ((statusFlags >> f) & 1) == 1; }

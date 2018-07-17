@@ -6,7 +6,7 @@ panda::UnpackedGenParticle::getListOfBranches()
 {
   utils::BranchList blist;
   blist += ParticleM::getListOfBranches();
-  blist += {"pdgid", "finalState", "statusFlags", "parent_"};
+  blist += {"pdgid", "finalState", "miniaodPacked", "statusFlags", "parent_"};
   return blist;
 }
 
@@ -17,6 +17,7 @@ panda::UnpackedGenParticle::datastore::allocate(UInt_t _nmax)
 
   pdgid = new Int_t[nmax_];
   finalState = new Bool_t[nmax_];
+  miniaodPacked = new Bool_t[nmax_];
   statusFlags = new UShort_t[nmax_];
   parent_ = new Short_t[nmax_];
 }
@@ -30,6 +31,8 @@ panda::UnpackedGenParticle::datastore::deallocate()
   pdgid = 0;
   delete [] finalState;
   finalState = 0;
+  delete [] miniaodPacked;
+  miniaodPacked = 0;
   delete [] statusFlags;
   statusFlags = 0;
   delete [] parent_;
@@ -43,6 +46,7 @@ panda::UnpackedGenParticle::datastore::setStatus(TTree& _tree, TString const& _n
 
   utils::setStatus(_tree, _name, "pdgid", _branches);
   utils::setStatus(_tree, _name, "finalState", _branches);
+  utils::setStatus(_tree, _name, "miniaodPacked", _branches);
   utils::setStatus(_tree, _name, "statusFlags", _branches);
   utils::setStatus(_tree, _name, "parent_", _branches);
 }
@@ -54,6 +58,7 @@ panda::UnpackedGenParticle::datastore::getStatus(TTree& _tree, TString const& _n
 
   blist.push_back(utils::getStatus(_tree, _name, "pdgid"));
   blist.push_back(utils::getStatus(_tree, _name, "finalState"));
+  blist.push_back(utils::getStatus(_tree, _name, "miniaodPacked"));
   blist.push_back(utils::getStatus(_tree, _name, "statusFlags"));
   blist.push_back(utils::getStatus(_tree, _name, "parent_"));
 
@@ -67,6 +72,7 @@ panda::UnpackedGenParticle::datastore::setAddress(TTree& _tree, TString const& _
 
   utils::setAddress(_tree, _name, "pdgid", pdgid, _branches, _setStatus);
   utils::setAddress(_tree, _name, "finalState", finalState, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "miniaodPacked", miniaodPacked, _branches, _setStatus);
   utils::setAddress(_tree, _name, "statusFlags", statusFlags, _branches, _setStatus);
   utils::setAddress(_tree, _name, "parent_", parent_, _branches, _setStatus);
 }
@@ -80,6 +86,7 @@ panda::UnpackedGenParticle::datastore::book(TTree& _tree, TString const& _name, 
 
   utils::book(_tree, _name, "pdgid", size, 'I', pdgid, _branches);
   utils::book(_tree, _name, "finalState", size, 'O', finalState, _branches);
+  utils::book(_tree, _name, "miniaodPacked", size, 'O', miniaodPacked, _branches);
   utils::book(_tree, _name, "statusFlags", size, 's', statusFlags, _branches);
   utils::book(_tree, _name, "parent_", size, 'S', parent_, _branches);
 }
@@ -91,6 +98,7 @@ panda::UnpackedGenParticle::datastore::releaseTree(TTree& _tree, TString const& 
 
   utils::resetAddress(_tree, _name, "pdgid");
   utils::resetAddress(_tree, _name, "finalState");
+  utils::resetAddress(_tree, _name, "miniaodPacked");
   utils::resetAddress(_tree, _name, "statusFlags");
   utils::resetAddress(_tree, _name, "parent_");
 }
@@ -113,6 +121,7 @@ panda::UnpackedGenParticle::UnpackedGenParticle(char const* _name/* = ""*/) :
   ParticleM(new UnpackedGenParticleArray(1, _name)),
   pdgid(gStore.getData(this).pdgid[0]),
   finalState(gStore.getData(this).finalState[0]),
+  miniaodPacked(gStore.getData(this).miniaodPacked[0]),
   statusFlags(gStore.getData(this).statusFlags[0]),
   parent(gStore.getData(this).parentContainer_, gStore.getData(this).parent_[0])
 {
@@ -122,6 +131,7 @@ panda::UnpackedGenParticle::UnpackedGenParticle(UnpackedGenParticle const& _src)
   ParticleM(new UnpackedGenParticleArray(1, _src.getName())),
   pdgid(gStore.getData(this).pdgid[0]),
   finalState(gStore.getData(this).finalState[0]),
+  miniaodPacked(gStore.getData(this).miniaodPacked[0]),
   statusFlags(gStore.getData(this).statusFlags[0]),
   parent(gStore.getData(this).parentContainer_, gStore.getData(this).parent_[0])
 {
@@ -129,6 +139,7 @@ panda::UnpackedGenParticle::UnpackedGenParticle(UnpackedGenParticle const& _src)
 
   pdgid = _src.pdgid;
   finalState = _src.finalState;
+  miniaodPacked = _src.miniaodPacked;
   statusFlags = _src.statusFlags;
   parent = _src.parent;
 }
@@ -137,6 +148,7 @@ panda::UnpackedGenParticle::UnpackedGenParticle(datastore& _data, UInt_t _idx) :
   ParticleM(_data, _idx),
   pdgid(_data.pdgid[_idx]),
   finalState(_data.finalState[_idx]),
+  miniaodPacked(_data.miniaodPacked[_idx]),
   statusFlags(_data.statusFlags[_idx]),
   parent(_data.parentContainer_, _data.parent_[_idx])
 {
@@ -146,6 +158,7 @@ panda::UnpackedGenParticle::UnpackedGenParticle(ArrayBase* _array) :
   ParticleM(_array),
   pdgid(gStore.getData(this).pdgid[0]),
   finalState(gStore.getData(this).finalState[0]),
+  miniaodPacked(gStore.getData(this).miniaodPacked[0]),
   statusFlags(gStore.getData(this).statusFlags[0]),
   parent(gStore.getData(this).parentContainer_, gStore.getData(this).parent_[0])
 {
@@ -173,6 +186,7 @@ panda::UnpackedGenParticle::operator=(UnpackedGenParticle const& _src)
 
   pdgid = _src.pdgid;
   finalState = _src.finalState;
+  miniaodPacked = _src.miniaodPacked;
   statusFlags = _src.statusFlags;
   parent = _src.parent;
 
@@ -189,6 +203,7 @@ panda::UnpackedGenParticle::doBook_(TTree& _tree, TString const& _name, utils::B
 
   utils::book(_tree, _name, "pdgid", "", 'I', &pdgid, _branches);
   utils::book(_tree, _name, "finalState", "", 'O', &finalState, _branches);
+  utils::book(_tree, _name, "miniaodPacked", "", 'O', &miniaodPacked, _branches);
   utils::book(_tree, _name, "statusFlags", "", 's', &statusFlags, _branches);
   utils::book(_tree, _name, "parent_", "", 'S', gStore.getData(this).parent_, _branches);
 }
@@ -200,6 +215,7 @@ panda::UnpackedGenParticle::doInit_()
 
   pdgid = 0;
   finalState = false;
+  miniaodPacked = false;
   statusFlags = 0;
   parent.init();
 
@@ -222,6 +238,7 @@ panda::UnpackedGenParticle::dump(std::ostream& _out/* = std::cout*/) const
 
   _out << "pdgid = " << pdgid << std::endl;
   _out << "finalState = " << finalState << std::endl;
+  _out << "miniaodPacked = " << miniaodPacked << std::endl;
   _out << "statusFlags = " << statusFlags << std::endl;
   _out << "parent = " << parent << std::endl;
 }
