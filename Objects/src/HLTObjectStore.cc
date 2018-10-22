@@ -1,18 +1,18 @@
 #include "../interface/HLTObjectStore.h"
 
+/*static*/
+panda::HLTObjectStore::HLTObjectVector const panda::HLTObjectStore::emptyVector_{};
+
 panda::HLTObjectStore::HLTObjectStore(HLTObjectStore const& _src) :
   HLTObjectCollection(_src)
 {
-  for (auto& fo : _src.filterObjects_) {
-    HLTObjectVector myVector;
-    for (auto* obj : fo.second) {
-      for (unsigned iO(0); iO != _src.size(); ++iO) {
-        if (&(_src[iO]) == obj)
-          myVector.push_back(&at(iO));
-      }
-    }
+  nameToSlot_ = _src.nameToSlot_;
+  objectVectors_.resize(_src.objectVectors_.size());
 
-    filterObjects_.emplace(fo.first, myVector);
+  for (UInt_t fidx(0); fidx != _src.objectVectors_.size(); ++fidx) {
+    objectVectors_[fidx].clear();
+    for (auto* obj : _src.objectVectors_[fidx])
+      objectVectors_[fidx].push_back(&at(obj - &_src.at(0)));
   }
 }
 
@@ -21,18 +21,14 @@ panda::HLTObjectStore::operator=(HLTObjectStore const& _rhs)
 {
   HLTObjectCollection::operator=(_rhs);
 
-  filterObjects_.clear();
+  registeredFilters_ = _rhs.registeredFilters_;
+  nameToSlot_ = _rhs.nameToSlot_;
+  objectVectors_.resize(_rhs.objectVectors_.size());
 
-  for (auto& fo : _rhs.filterObjects_) {
-    HLTObjectVector myVector;
-    for (auto* obj : fo.second) {
-      for (unsigned iO(0); iO != _rhs.size(); ++iO) {
-        if (&(_rhs[iO]) == obj)
-          myVector.push_back(&at(iO));
-      }
-    }
-
-    filterObjects_.emplace(fo.first, myVector);
+  for (UInt_t fidx(0); fidx != _rhs.objectVectors_.size(); ++fidx) {
+    objectVectors_[fidx].clear();
+    for (auto* obj : _rhs.objectVectors_[fidx])
+      objectVectors_[fidx].push_back(&at(obj - &_rhs.at(0)));
   }
 
   return *this;
@@ -41,28 +37,49 @@ panda::HLTObjectStore::operator=(HLTObjectStore const& _rhs)
 void
 panda::HLTObjectStore::setFilterObjectKeys(std::vector<TString> const& _filters)
 {
-  filterObjects_.clear();
-  if (_filters.size() > objectVectors_.size())
-    objectVectors_.resize(_filters.size());
+  nameToSlot_.clear();
 
-  for (UShort_t fidx(0); fidx != _filters.size(); ++fidx)
-    objectVectors_[fidx] = &filterObjects_[_filters[fidx]];
+  if (registeredFilters_.empty()) {
+    // all filters are used
+    objectVectors_.resize(_filters.size());
+    indexToSlot_.resize(_filters.size());
+
+    for (UShort_t fidx(0); fidx != _filters.size(); ++fidx) {
+      nameToSlot_[_filters[fidx]] = fidx;
+      indexToSlot_[fidx] = fidx;
+    }
+  }
+  else {
+    indexToSlot_.assign(_filters.size(), -1);
+
+    // only allow registered filters
+    int slot(0);
+    for (UShort_t fidx(0); fidx != _filters.size(); ++fidx) {
+      auto& filter(_filters[fidx]);
+      if (registeredFilters_.count(filter) != 0) {
+        indexToSlot_[fidx] = slot;
+        nameToSlot_[filter] = slot++;
+      }
+    }
+
+    objectVectors_.resize(slot);
+  }
 }
 
 void
-panda::HLTObjectStore::makeMap(std::vector<bool> const& _mask)
+panda::HLTObjectStore::makeMap()
 {
-  for (auto* objv : objectVectors_)
-    objv->clear();
+  for (auto& objv : objectVectors_)
+    objv.clear();
 
   for (auto& obj : *this) {
     for (UShort_t fidx : *obj.filters) {
-      if (fidx < _mask.size()) {
-        if (_mask[fidx])
-          objectVectors_[fidx]->push_back(&obj);
-      }
-      else
+      if (fidx >= indexToSlot_.size())
         throw std::runtime_error(TString::Format("Invalid trigger filter index %d found in trigger objects. There is very likely a bug in HLTObjectStore or EventBase.", fidx).Data());
+
+      int slot(indexToSlot_[fidx]);
+      if (slot >= 0)
+        objectVectors_[slot].push_back(&obj);
     }
   }
 }
@@ -70,7 +87,7 @@ panda::HLTObjectStore::makeMap(std::vector<bool> const& _mask)
 panda::HLTObjectStore::HLTObjectVector const&
 panda::HLTObjectStore::filterObjects(char const* _filter) const
 {
-  if (filterObjects_.empty()) {
+  if (nameToSlot_.empty()) {
     std::cerr << "  HLTObjectStore has no filter objects. Store is filled by a call to makeMap(),"
               << "   which is executed in EventBase::doGetEntry_ if the following conditions are met:\n"
               << "   1.  runNumber branch is read in Event\n"
@@ -82,9 +99,12 @@ panda::HLTObjectStore::filterObjects(char const* _filter) const
   }
 
   try {
-    return filterObjects_.at(_filter);
+    return objectVectors_[nameToSlot_.at(_filter)];
   }
   catch (std::out_of_range& ex) {
+    if (ignoreMissing_)
+      return emptyVector_;
+
     std::cerr << "Unknown HLT filter " << _filter << std::endl;
     throw;
   }

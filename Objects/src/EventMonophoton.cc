@@ -304,6 +304,7 @@ panda::EventMonophoton::copy(Event const& _src)
   weight = _src.weight;
 
   triggers = _src.triggers;
+  triggerObjects = _src.triggerObjects;
 
   npv = _src.npv;
   npvTrue = _src.npvTrue;
