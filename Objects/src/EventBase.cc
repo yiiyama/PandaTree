@@ -48,6 +48,8 @@ panda::EventBase::operator=(EventBase const& _src)
   rng = _src.rng;
   rng.setSeedAddress(&eventNumber);
   triggerObjects = _src.triggerObjects;
+
+  readRunTree_ = _src.readRunTree_;
   /* END CUSTOM */
 
   runNumber = _src.runNumber;
@@ -223,7 +225,7 @@ panda::EventBase::doGetEntry_(TTree& _tree)
   }
 
   if (triggerObjects.size() != 0 && run.hlt.filters)
-    triggerObjects.makeMap(triggerFilterMask_);
+    triggerObjects.makeMap();
 
   rng.generate();
 
@@ -266,27 +268,10 @@ panda::EventBase::triggerFired(UInt_t _token) const
 void
 panda::EventBase::setTriggerFilters_()
 {
+  if (triggerObjects.size() == 0 || !run.hlt.filters)
+    return;
 
-  if (triggerObjects.size() != 0 && run.hlt.filters) {
-    triggerObjects.setFilterObjectKeys(*run.hlt.filters);
-
-    if (registeredTriggerFilters_.empty()) {
-      // if no filters are registered, don't mask
-      triggerFilterMask_.resize(run.hlt.filters->size(), true);
-    }
-    else {
-      // else only allow the registered filters
-      triggerFilterMask_.resize(run.hlt.filters->size(), false);
-      for (unsigned fidx(0); fidx != run.hlt.filters->size(); ++fidx) {
-        for (auto& filter : registeredTriggerFilters_) {
-          if (filter == run.hlt.filters->at(fidx)) {
-            triggerFilterMask_[fidx] = true;
-            break;
-          }
-        }
-      }
-    }
-  }
+  triggerObjects.setFilterObjectKeys(*run.hlt.filters);
 }
 
 /* END CUSTOM */
