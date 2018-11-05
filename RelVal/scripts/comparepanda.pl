@@ -17,7 +17,7 @@ my $bad_matches = 0;
 
 for (@fst_files) {
     my ($end) = $_ =~ m|(/[^/]+/[^/]+$suff)$|;
-    (my $match) = grep { $_ =~ m/${end}$/ } @snd_files;
+    my ($match) = grep { $_ =~ m/${end}$/ } @snd_files;
 
     if (compare($_, $match)) {
         say "$end is different!";
@@ -27,7 +27,7 @@ for (@fst_files) {
 }
 
 if ($bad_matches) {
-    die "Some files don't match...";
+    die "$bad_matches files don't match...";
 }
 
 say "All files match!";
