@@ -19,15 +19,22 @@ for (@fst_files) {
     my ($end) = $_ =~ m|(/[^/]+/[^/]+$suff)$|;
     my ($match) = grep { $_ =~ m/${end}$/ } @snd_files;
 
-    if (compare($_, $match)) {
-        say "$end is different!";
-        `diff $_ $match`;
+    if ($match) {
+        if (compare($_, $match)) {
+            say "$end is different!";
+            `diff $_ $match`;
+            $bad_matches += 1;
+        }
+    }
+    else {
+        say "No file $snd_dir$end";
         $bad_matches += 1;
     }
 }
 
 if ($bad_matches) {
-    die "$bad_matches files don't match...";
+    say "$bad_matches files don't match...";
+    exit 1;
 }
 
 say "All files match!";
