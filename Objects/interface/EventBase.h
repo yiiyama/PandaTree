@@ -91,7 +91,7 @@ namespace panda {
 
     //! List of run trees linked to the run object.
     /*!
-     event tree -> tree number, run tree 
+     event chain -> tree number, run tree
      */
     std::map<TTree*, std::pair<Int_t, TTree*>> runTrees_;
 

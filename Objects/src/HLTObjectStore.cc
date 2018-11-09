@@ -63,6 +63,11 @@ panda::HLTObjectStore::setFilterObjectKeys(std::vector<TString> const& _filters)
     }
 
     objectVectors_.resize(slot);
+
+    if (slot == 0) {
+      std::cerr << "Warning: No trigger objects with registered filter names were found";
+      std::cerr << " in the list of " << _filters.size() << " filters." << std::endl;
+    }
   }
 }
 
