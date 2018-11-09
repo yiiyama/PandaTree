@@ -1,8 +1,3 @@
-#define PROG_SIZE 100
-#define DEFAULT_BINS 50
-
-#define MINMAX 1e10
-
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
@@ -27,6 +22,15 @@
 #include "PandaTree/RelVal/interface/EnumerateBranches.h"
 #include "PandaTree/RelVal/interface/TemplateMagic.h"
 
+// Constants
+
+namespace {
+  constexpr int PROG_SIZE = 100;
+  constexpr int DEFAULT_BINS = 50;
+
+  constexpr float MINMAX = 1e10;
+}
+
 using namespace testpanda;
 
 bool exists(const char* path) {
@@ -48,6 +52,7 @@ void draw_progress(int percent) {
       std::cout << ' ';
   }
   std::cout << "] " << percent * 100/PROG_SIZE << '%';
+  std::flush(std::cout);
 }
 
 
@@ -373,11 +378,19 @@ int main(int argc, char** argv) {
 
       // Check if only a single value was filled, and flag as potential bad filling.
       if (maximums[index].first == minimums[index].first) {
-        std::ofstream flag_file((output_dir + "/" + branch_name + "_FLAG.txt"));
+        std::ofstream flag_file(output_dir + "/" + branch_name + "_FLAG.txt");
         flag_file << maximums[index].first;
         flag_file.close();
       }
 
+      // Dump stats for some other diff tool to compare two directories
+      std::ofstream stat_file(output_dir + "/" + branch_name + "_STATS.txt");
+      stat_file << "Entries : " << histograms[index].GetEntries() << std::endl;
+      stat_file << "Mean :    " << histograms[index].GetMean() << std::endl;
+      stat_file << "Std Dev : " << histograms[index].GetStdDev() << std::endl;
+      stat_file << "Max :     " << maximums[index].first << std::endl;
+      stat_file << "Min :     " << minimums[index].first << std::endl;
+      stat_file.close();
     }
   };
 
