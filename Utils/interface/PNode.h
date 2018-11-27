@@ -48,7 +48,7 @@ struct PNode {
   static std::function<bool(PNode const&)> gPruningFunction;
 
   PNode() {}
-  ~PNode();
+  virtual ~PNode();
   PNode& operator=(PNode const&);
 
   std::string print() const;
