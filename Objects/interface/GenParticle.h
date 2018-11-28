@@ -86,7 +86,7 @@ namespace panda {
     */
     Int_t& pdgid;
     Bool_t& finalState;
-    Bool_t& miniaodPacked;
+    Bool_t& miniaodPacked; ///< True if this came from a MINIAOD packed collection
     UShort_t& statusFlags;
     Ref<GenParticle> parent;
 
