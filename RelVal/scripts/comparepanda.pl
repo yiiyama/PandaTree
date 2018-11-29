@@ -22,7 +22,7 @@ for (@fst_files) {
     if ($match) {
         if (compare($_, $match)) {
             say "$end is different!";
-            `diff $_ $match`;
+            say `diff $_ $match`;
             $bad_matches += 1;
         }
     }
