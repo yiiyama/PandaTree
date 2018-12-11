@@ -14,6 +14,7 @@ namespace panda {
     enum IDTune {
       kSpring15,
       kSpring16,
+      kFall17,
       kGJetsCWIso,
       kZGCWIso,
       nIDTunes
