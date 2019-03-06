@@ -1,5 +1,7 @@
 <use name="root"/>
+<use name="boost"/>
 <use name="PandaTree/Objects"/>
+<use name="CondFormats/JetMETObjects"/>
 <export>
   <lib name="1"/>
 </export>
