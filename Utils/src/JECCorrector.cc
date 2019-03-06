@@ -55,10 +55,12 @@ void JECCorrector::update_event (const panda::Event& event, const panda::JetColl
   auto new_met = raw_met.v();
   TVector2 met_correction {};
 
-  m_corrector.setNPV(event.npv);
-  m_corrector.setRho(event.rho);
-
   for (auto& jet : m_corrected_jets) {
+
+    // FactorizedJetCorrectorCalculator is stupid and resets these every time
+    m_corrector.setNPV(event.npv);
+    m_corrector.setRho(event.rho);
+
     m_corrector.setJetEta(jet.eta());
     m_corrector.setJetPt(jet.rawPt);
     m_corrector.setJetE(jet.e());
@@ -77,6 +79,8 @@ void JECCorrector::update_event (const panda::Event& event, const panda::JetColl
 
     jet.setPtEtaPhiM(scale * jet.rawPt, jet.eta(), jet.phi(), jet.m());
   }
+
+  m_corrected_jets.sort(panda::Particle::PtGreater);
 
   // Change stored MET
   m_corrected_met.setXY(new_met.X(), new_met.Y());
