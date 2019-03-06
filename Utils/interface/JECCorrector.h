@@ -21,10 +21,10 @@ namespace panda {
     JECCorrector (const std::string& files_base, const std::string& jet_type);
 
     /// Must be called at the beginning of each event to update the corrected values
-    void update_event (const panda::Event& event, const panda::JetCollection& jets, const Met& raw_met);
+    void update_event (const panda::Event& event, const panda::JetCollection& jets, const RecoMet& met);
 
     const JetCollection& get_jets () const;
-    const Met& get_met () const;
+    const RecoMet& get_met () const;
 
   private:
 
@@ -32,7 +32,7 @@ namespace panda {
     JetCollection m_corrected_jets {};
 
     /// Holds the corrected MET
-    Met m_corrected_met {};
+    RecoMet m_corrected_met {};
 
     /// A vector of the JetCorrectorParameters, initialized by panda::JECCorrector::load_params
     std::vector<JetCorrectorParameters> m_corrector_params;

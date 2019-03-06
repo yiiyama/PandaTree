@@ -47,12 +47,13 @@ JECCorrector::JECCorrector (const std::string& files_base, const std::string& je
   m_corrector {m_corrector_params} {}
 
 
-void JECCorrector::update_event (const panda::Event& event, const panda::JetCollection& jets, const Met& raw_met) {
+void JECCorrector::update_event (const panda::Event& event, const panda::JetCollection& jets, const RecoMet& met) {
 
   // Copy jets over
   m_corrected_jets = jets;
+  m_corrected_met = met;
 
-  auto new_met = raw_met.v();
+  TVector2 new_met {met.v()};
   TVector2 met_correction {};
 
   for (auto& jet : m_corrected_jets) {
@@ -70,14 +71,15 @@ void JECCorrector::update_event (const panda::Event& event, const panda::JetColl
 
     auto scale = m_corrector.getCorrection();
 
-    // Use 1.0 minus new so that we don't have to flip phi.
-    // This adds to MET if scale > 1 and points in opposite direction
-    // Subtracts if scale < 1 and points in opposite direction
-    met_correction.SetMagPhi((1.0 - scale) * jet.rawPt, jet.phi());
+    auto new_pt = scale * jet.rawPt;
+
+    // Use minus new so that we don't have to flip phi.
+    // This takes out the old correction and adds the new correction back in
+    met_correction.SetMagPhi(jet.pt() - new_pt, jet.phi());
 
     new_met += met_correction;
 
-    jet.setPtEtaPhiM(scale * jet.rawPt, jet.eta(), jet.phi(), jet.m());
+    jet.setPtEtaPhiM(new_pt, jet.eta(), jet.phi(), jet.m());
   }
 
   m_corrected_jets.sort(panda::Particle::PtGreater);
@@ -95,7 +97,7 @@ const JetCollection& JECCorrector::get_jets () const {
 }
 
 
-const Met& JECCorrector::get_met () const {
+const RecoMet& JECCorrector::get_met () const {
 
   return m_corrected_met;
 
