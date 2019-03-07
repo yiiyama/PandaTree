@@ -19,6 +19,7 @@
 #include "GenParticle.h"
 #include "Vertex.h"
 #include "Parton.h"
+#include "Proton.h"
 #include "RecoMet.h"
 #include "Met.h"
 #include "MetFilters.h"
@@ -62,6 +63,7 @@ namespace panda {
     GenParticleCollection genParticles = GenParticleCollection("genParticles", 256);
     Vertex genVertex = Vertex("genVertex");
     PartonCollection partons = PartonCollection("partons", 8);
+    ProtonCollection protons = ProtonCollection("protons", 32);
     RecoMet pfMet = RecoMet("pfMet");
     RecoMet puppiMet = RecoMet("puppiMet");
     Met rawMet = Met("rawMet");

@@ -27,6 +27,13 @@ double dR(Particle const& p) const { return std::sqrt(dR2(p)); }
 virtual void setPtEtaPhiM(double pt, double eta, double phi, double m) = 0;
 virtual void setXYZE(double px, double py, double pz, double e) = 0;
 
+[Proton]
+x/F
+xUnc/F
+y/F
+yUnc/F
+rpId/I
+
 [Vertex]
 x/F
 y/F
@@ -555,6 +562,7 @@ ca15GenJets/GenJetCollection(32)
 genParticles/GenParticleCollection(256)
 genVertex/Vertex
 partons/PartonCollection(8)
+protons/ProtonCollection(32)
 pfMet/RecoMet
 puppiMet/RecoMet
 rawMet/Met
