@@ -1,4 +1,5 @@
 #include "PandaTree/Objects/interface/Particle.h"
+#include "PandaTree/Objects/interface/Proton.h"
 #include "PandaTree/Objects/interface/Vertex.h"
 #include "PandaTree/Objects/interface/RecoVertex.h"
 #include "PandaTree/Objects/interface/PackedTrack.h"
@@ -52,6 +53,7 @@
 #pragma link C++ namespace panda;
 
 #pragma link C++ class panda::Particle;
+#pragma link C++ class panda::Proton;
 #pragma link C++ class panda::Vertex;
 #pragma link C++ class panda::RecoVertex;
 #pragma link C++ class panda::PackedTrack;
@@ -89,6 +91,10 @@
 #pragma link C++ class panda::Collection<panda::Particle>;
 #pragma link C++ class panda::Ref<panda::Particle>;
 #pragma link C++ class panda::RefVector<panda::Particle>;
+#pragma link C++ class panda::Array<panda::Proton>;
+#pragma link C++ class panda::Collection<panda::Proton>;
+#pragma link C++ class panda::Ref<panda::Proton>;
+#pragma link C++ class panda::RefVector<panda::Proton>;
 #pragma link C++ class panda::Array<panda::Vertex>;
 #pragma link C++ class panda::Collection<panda::Vertex>;
 #pragma link C++ class panda::Ref<panda::Vertex>;
@@ -193,6 +199,10 @@
 #pragma link C++ typedef panda::ParticleCollection;
 #pragma link C++ typedef panda::ParticleRef;
 #pragma link C++ typedef panda::ParticleRefVector;
+#pragma link C++ typedef panda::ProtonArray;
+#pragma link C++ typedef panda::ProtonCollection;
+#pragma link C++ typedef panda::ProtonRef;
+#pragma link C++ typedef panda::ProtonRefVector;
 #pragma link C++ typedef panda::VertexArray;
 #pragma link C++ typedef panda::VertexCollection;
 #pragma link C++ typedef panda::VertexRef;
