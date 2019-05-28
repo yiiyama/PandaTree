@@ -297,6 +297,8 @@ for objdef in phobjects:
 for tree in trees:
     linkdef.writeline('#pragma link C++ class {NAMESPACE}::{name};'.format(NAMESPACE = common.NAMESPACE, name = tree.name))
 
+linkdef.writeline('#pragma link C++ class {NAMESPACE}::PackingHelper;'.format(NAMESPACE = common.NAMESPACE))
+
 linkdef.newline()
 
 linkdef.writeline('#endif')

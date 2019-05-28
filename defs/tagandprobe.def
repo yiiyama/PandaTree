@@ -34,3 +34,11 @@ probes/ElectronCollection(32)
 {EventTP2M>EventTP}
 tags/MuonCollection(32)
 probes/MuonCollection(32)
+
+{EventTPEM>EventTP}
+tags/ElectronCollection(32)
+probes/MuonCollection(32)
+
+{EventTPME>EventTP}
+tags/MuonCollection(32)
+probes/ElectronCollection(32)

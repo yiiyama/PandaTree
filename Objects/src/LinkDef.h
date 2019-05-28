@@ -42,6 +42,9 @@
 #include "PandaTree/Objects/interface/EventTPMMG.h"
 #include "PandaTree/Objects/interface/EventTP2E.h"
 #include "PandaTree/Objects/interface/EventTP2M.h"
+#include "PandaTree/Objects/interface/EventTPEM.h"
+#include "PandaTree/Objects/interface/EventTPME.h"
+#include "PandaTree/Objects/interface/PackingHelper.h"
 
 #ifdef __CLING__
 #pragma link off all globals;
@@ -305,5 +308,8 @@
 #pragma link C++ class panda::EventTPMMG;
 #pragma link C++ class panda::EventTP2E;
 #pragma link C++ class panda::EventTP2M;
+#pragma link C++ class panda::EventTPEM;
+#pragma link C++ class panda::EventTPME;
+#pragma link C++ class panda::PackingHelper;
 
 #endif
