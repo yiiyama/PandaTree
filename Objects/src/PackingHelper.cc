@@ -72,11 +72,14 @@ panda::PackingHelper::PackingHelper()
   }
 }
 
+/*static*/
 UShort_t
-panda::PackingHelper::packUnbound(Double_t x) const
+panda::PackingHelper::packUnbound(Double_t x)
 {
   // Implementation copied from DataFormats/PatCandidates/interface/libminifloat.h
   // float32to16
+
+  auto& helper(singleton());
 
   union {
     float flt;
@@ -84,30 +87,34 @@ panda::PackingHelper::packUnbound(Double_t x) const
   } conv;
 
   conv.flt = x;
-  if (shifttable[(conv.i32>>23)&0x1ff] == 13) {
+  if (helper.shifttable[(conv.i32>>23)&0x1ff] == 13) {
     uint16_t base2 = (conv.i32&0x007fffff)>>12;
     uint16_t base = base2 >> 1;
     if (((base2 & 1) != 0) && (base < 1023)) base++;
-    return basetable[(conv.i32>>23)&0x1ff]+base; 
+    return helper.basetable[(conv.i32>>23)&0x1ff]+base; 
   }
   else
-    return basetable[(conv.i32>>23)&0x1ff]+((conv.i32&0x007fffff)>>shifttable[(conv.i32>>23)&0x1ff]);
+    return helper.basetable[(conv.i32>>23)&0x1ff]+((conv.i32&0x007fffff)>>helper.shifttable[(conv.i32>>23)&0x1ff]);
 }
 
+/*static*/
 Double_t
-panda::PackingHelper::unpackUnbound(UShort_t p) const
+panda::PackingHelper::unpackUnbound(UShort_t p)
 {
+  auto& helper(singleton());
+
   union {
     float flt;
     uint32_t i32;
   } conv;
 
-  conv.i32 = mantissatable[offsettable[p>>10]+(p&0x3ff)]+exponenttable[p>>10];
+  conv.i32 = helper.mantissatable[helper.offsettable[p>>10]+(p&0x3ff)]+helper.exponenttable[p>>10];
   return conv.flt;
 }
 
+/*static*/
 Char_t
-panda::PackingHelper::pack8LogBound(Double_t x, Double_t min, Double_t max, UChar_t baseminus1) const
+panda::PackingHelper::pack8LogBound(Double_t x, Double_t min, Double_t max, UChar_t baseminus1)
 {
   if (baseminus1 > 127)
     baseminus1 = 127;
@@ -130,8 +137,9 @@ panda::PackingHelper::pack8LogBound(Double_t x, Double_t min, Double_t max, UCha
   return r;
 }
 
+/*static*/
 Double_t
-panda::PackingHelper::unpack8LogBound(Char_t i, Double_t min, Double_t max, UChar_t baseminus1) const
+panda::PackingHelper::unpack8LogBound(Char_t i, Double_t min, Double_t max, UChar_t baseminus1)
 {
   if (baseminus1 > 127)
     baseminus1 = 127;
