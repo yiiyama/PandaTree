@@ -343,6 +343,10 @@ etaWidth/F
 phiWidth/F
 time/F
 timeSpan/F
+alphaSeed/F
+betaSeed/F
+t0Seed/F
+ampSeed/F
 regPt/F
 smearedPt/F
 ix/s

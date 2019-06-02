@@ -6,7 +6,7 @@ panda::Photon::getListOfBranches()
 {
   utils::BranchList blist;
   blist += ParticleP::getListOfBranches();
-  blist += {"pfPt", "chIso", "chIsoMax", "nhIso", "phIso", "sieie", "sipip", "hOverE", "mipEnergy", "emax", "e2nd", "eleft", "eright", "etop", "ebottom", "r9", "etaWidth", "phiWidth", "time", "timeSpan", "regPt", "smearedPt", "ix", "iy", "loose", "medium", "tight", "highpt", "pixelVeto", "csafeVeto", "pfchVeto", "superCluster_", "matchedPF_", "matchedGen_"};
+  blist += {"pfPt", "chIso", "chIsoMax", "nhIso", "phIso", "sieie", "sipip", "hOverE", "mipEnergy", "emax", "e2nd", "eleft", "eright", "etop", "ebottom", "r9", "etaWidth", "phiWidth", "time", "timeSpan", "alphaSeed", "betaSeed", "t0Seed", "ampSeed", "regPt", "smearedPt", "ix", "iy", "loose", "medium", "tight", "highpt", "pixelVeto", "csafeVeto", "pfchVeto", "superCluster_", "matchedPF_", "matchedGen_"};
   return blist;
 }
 
@@ -35,6 +35,10 @@ panda::Photon::datastore::allocate(UInt_t _nmax)
   phiWidth = new Float_t[nmax_];
   time = new Float_t[nmax_];
   timeSpan = new Float_t[nmax_];
+  alphaSeed = new Float_t[nmax_];
+  betaSeed = new Float_t[nmax_];
+  t0Seed = new Float_t[nmax_];
+  ampSeed = new Float_t[nmax_];
   regPt = new Float_t[nmax_];
   smearedPt = new Float_t[nmax_];
   ix = new UShort_t[nmax_];
@@ -96,6 +100,14 @@ panda::Photon::datastore::deallocate()
   time = 0;
   delete [] timeSpan;
   timeSpan = 0;
+  delete [] alphaSeed;
+  alphaSeed = 0;
+  delete [] betaSeed;
+  betaSeed = 0;
+  delete [] t0Seed;
+  t0Seed = 0;
+  delete [] ampSeed;
+  ampSeed = 0;
   delete [] regPt;
   regPt = 0;
   delete [] smearedPt;
@@ -151,6 +163,10 @@ panda::Photon::datastore::setStatus(TTree& _tree, TString const& _name, utils::B
   utils::setStatus(_tree, _name, "phiWidth", _branches);
   utils::setStatus(_tree, _name, "time", _branches);
   utils::setStatus(_tree, _name, "timeSpan", _branches);
+  utils::setStatus(_tree, _name, "alphaSeed", _branches);
+  utils::setStatus(_tree, _name, "betaSeed", _branches);
+  utils::setStatus(_tree, _name, "t0Seed", _branches);
+  utils::setStatus(_tree, _name, "ampSeed", _branches);
   utils::setStatus(_tree, _name, "regPt", _branches);
   utils::setStatus(_tree, _name, "smearedPt", _branches);
   utils::setStatus(_tree, _name, "ix", _branches);
@@ -192,6 +208,10 @@ panda::Photon::datastore::getStatus(TTree& _tree, TString const& _name) const
   blist.push_back(utils::getStatus(_tree, _name, "phiWidth"));
   blist.push_back(utils::getStatus(_tree, _name, "time"));
   blist.push_back(utils::getStatus(_tree, _name, "timeSpan"));
+  blist.push_back(utils::getStatus(_tree, _name, "alphaSeed"));
+  blist.push_back(utils::getStatus(_tree, _name, "betaSeed"));
+  blist.push_back(utils::getStatus(_tree, _name, "t0Seed"));
+  blist.push_back(utils::getStatus(_tree, _name, "ampSeed"));
   blist.push_back(utils::getStatus(_tree, _name, "regPt"));
   blist.push_back(utils::getStatus(_tree, _name, "smearedPt"));
   blist.push_back(utils::getStatus(_tree, _name, "ix"));
@@ -235,6 +255,10 @@ panda::Photon::datastore::setAddress(TTree& _tree, TString const& _name, utils::
   utils::setAddress(_tree, _name, "phiWidth", phiWidth, _branches, _setStatus);
   utils::setAddress(_tree, _name, "time", time, _branches, _setStatus);
   utils::setAddress(_tree, _name, "timeSpan", timeSpan, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "alphaSeed", alphaSeed, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "betaSeed", betaSeed, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "t0Seed", t0Seed, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "ampSeed", ampSeed, _branches, _setStatus);
   utils::setAddress(_tree, _name, "regPt", regPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "smearedPt", smearedPt, _branches, _setStatus);
   utils::setAddress(_tree, _name, "ix", ix, _branches, _setStatus);
@@ -278,6 +302,10 @@ panda::Photon::datastore::book(TTree& _tree, TString const& _name, utils::Branch
   utils::book(_tree, _name, "phiWidth", size, 'F', phiWidth, _branches);
   utils::book(_tree, _name, "time", size, 'F', time, _branches);
   utils::book(_tree, _name, "timeSpan", size, 'F', timeSpan, _branches);
+  utils::book(_tree, _name, "alphaSeed", size, 'F', alphaSeed, _branches);
+  utils::book(_tree, _name, "betaSeed", size, 'F', betaSeed, _branches);
+  utils::book(_tree, _name, "t0Seed", size, 'F', t0Seed, _branches);
+  utils::book(_tree, _name, "ampSeed", size, 'F', ampSeed, _branches);
   utils::book(_tree, _name, "regPt", size, 'F', regPt, _branches);
   utils::book(_tree, _name, "smearedPt", size, 'F', smearedPt, _branches);
   utils::book(_tree, _name, "ix", size, 's', ix, _branches);
@@ -319,6 +347,10 @@ panda::Photon::datastore::releaseTree(TTree& _tree, TString const& _name)
   utils::resetAddress(_tree, _name, "phiWidth");
   utils::resetAddress(_tree, _name, "time");
   utils::resetAddress(_tree, _name, "timeSpan");
+  utils::resetAddress(_tree, _name, "alphaSeed");
+  utils::resetAddress(_tree, _name, "betaSeed");
+  utils::resetAddress(_tree, _name, "t0Seed");
+  utils::resetAddress(_tree, _name, "ampSeed");
   utils::resetAddress(_tree, _name, "regPt");
   utils::resetAddress(_tree, _name, "smearedPt");
   utils::resetAddress(_tree, _name, "ix");
@@ -371,6 +403,10 @@ panda::Photon::Photon(char const* _name/* = ""*/) :
   phiWidth(gStore.getData(this).phiWidth[0]),
   time(gStore.getData(this).time[0]),
   timeSpan(gStore.getData(this).timeSpan[0]),
+  alphaSeed(gStore.getData(this).alphaSeed[0]),
+  betaSeed(gStore.getData(this).betaSeed[0]),
+  t0Seed(gStore.getData(this).t0Seed[0]),
+  ampSeed(gStore.getData(this).ampSeed[0]),
   regPt(gStore.getData(this).regPt[0]),
   smearedPt(gStore.getData(this).smearedPt[0]),
   ix(gStore.getData(this).ix[0]),
@@ -410,6 +446,10 @@ panda::Photon::Photon(Photon const& _src) :
   phiWidth(gStore.getData(this).phiWidth[0]),
   time(gStore.getData(this).time[0]),
   timeSpan(gStore.getData(this).timeSpan[0]),
+  alphaSeed(gStore.getData(this).alphaSeed[0]),
+  betaSeed(gStore.getData(this).betaSeed[0]),
+  t0Seed(gStore.getData(this).t0Seed[0]),
+  ampSeed(gStore.getData(this).ampSeed[0]),
   regPt(gStore.getData(this).regPt[0]),
   smearedPt(gStore.getData(this).smearedPt[0]),
   ix(gStore.getData(this).ix[0]),
@@ -447,6 +487,10 @@ panda::Photon::Photon(Photon const& _src) :
   phiWidth = _src.phiWidth;
   time = _src.time;
   timeSpan = _src.timeSpan;
+  alphaSeed = _src.alphaSeed;
+  betaSeed = _src.betaSeed;
+  t0Seed = _src.t0Seed;
+  ampSeed = _src.ampSeed;
   regPt = _src.regPt;
   smearedPt = _src.smearedPt;
   ix = _src.ix;
@@ -485,6 +529,10 @@ panda::Photon::Photon(datastore& _data, UInt_t _idx) :
   phiWidth(_data.phiWidth[_idx]),
   time(_data.time[_idx]),
   timeSpan(_data.timeSpan[_idx]),
+  alphaSeed(_data.alphaSeed[_idx]),
+  betaSeed(_data.betaSeed[_idx]),
+  t0Seed(_data.t0Seed[_idx]),
+  ampSeed(_data.ampSeed[_idx]),
   regPt(_data.regPt[_idx]),
   smearedPt(_data.smearedPt[_idx]),
   ix(_data.ix[_idx]),
@@ -524,6 +572,10 @@ panda::Photon::Photon(ArrayBase* _array) :
   phiWidth(gStore.getData(this).phiWidth[0]),
   time(gStore.getData(this).time[0]),
   timeSpan(gStore.getData(this).timeSpan[0]),
+  alphaSeed(gStore.getData(this).alphaSeed[0]),
+  betaSeed(gStore.getData(this).betaSeed[0]),
+  t0Seed(gStore.getData(this).t0Seed[0]),
+  ampSeed(gStore.getData(this).ampSeed[0]),
   regPt(gStore.getData(this).regPt[0]),
   smearedPt(gStore.getData(this).smearedPt[0]),
   ix(gStore.getData(this).ix[0]),
@@ -581,6 +633,10 @@ panda::Photon::operator=(Photon const& _src)
   phiWidth = _src.phiWidth;
   time = _src.time;
   timeSpan = _src.timeSpan;
+  alphaSeed = _src.alphaSeed;
+  betaSeed = _src.betaSeed;
+  t0Seed = _src.t0Seed;
+  ampSeed = _src.ampSeed;
   regPt = _src.regPt;
   smearedPt = _src.smearedPt;
   ix = _src.ix;
@@ -627,6 +683,10 @@ panda::Photon::doBook_(TTree& _tree, TString const& _name, utils::BranchList con
   utils::book(_tree, _name, "phiWidth", "", 'F', &phiWidth, _branches);
   utils::book(_tree, _name, "time", "", 'F', &time, _branches);
   utils::book(_tree, _name, "timeSpan", "", 'F', &timeSpan, _branches);
+  utils::book(_tree, _name, "alphaSeed", "", 'F', &alphaSeed, _branches);
+  utils::book(_tree, _name, "betaSeed", "", 'F', &betaSeed, _branches);
+  utils::book(_tree, _name, "t0Seed", "", 'F', &t0Seed, _branches);
+  utils::book(_tree, _name, "ampSeed", "", 'F', &ampSeed, _branches);
   utils::book(_tree, _name, "regPt", "", 'F', &regPt, _branches);
   utils::book(_tree, _name, "smearedPt", "", 'F', &smearedPt, _branches);
   utils::book(_tree, _name, "ix", "", 's', &ix, _branches);
@@ -668,6 +728,10 @@ panda::Photon::doInit_()
   phiWidth = 0.;
   time = 0.;
   timeSpan = 0.;
+  alphaSeed = 0.;
+  betaSeed = 0.;
+  t0Seed = 0.;
+  ampSeed = 0.;
   regPt = 0.;
   smearedPt = 0.;
   ix = 0;
@@ -741,6 +805,10 @@ panda::Photon::dump(std::ostream& _out/* = std::cout*/) const
   _out << "phiWidth = " << phiWidth << std::endl;
   _out << "time = " << time << std::endl;
   _out << "timeSpan = " << timeSpan << std::endl;
+  _out << "alphaSeed = " << alphaSeed << std::endl;
+  _out << "betaSeed = " << betaSeed << std::endl;
+  _out << "t0Seed = " << t0Seed << std::endl;
+  _out << "ampSeed = " << ampSeed << std::endl;
   _out << "regPt = " << regPt << std::endl;
   _out << "smearedPt = " << smearedPt << std::endl;
   _out << "ix = " << ix << std::endl;

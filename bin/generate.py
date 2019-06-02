@@ -257,6 +257,9 @@ for objdef in phobjects:
 for tree in trees:
     linkdef.writeline('#include "PandaTree/Objects/interface/{name}.h"'.format(name = tree.name))
 
+## TODO MOVE THIS TO SOMEWHERE THAT MAKES SENSE
+linkdef.writeline('#include "PandaTree/Objects/interface/PackingHelper.h"')
+
 linkdef.newline()
 
 linkdef.writeline('#ifdef __CLING__')
@@ -297,6 +300,7 @@ for objdef in phobjects:
 for tree in trees:
     linkdef.writeline('#pragma link C++ class {NAMESPACE}::{name};'.format(NAMESPACE = common.NAMESPACE, name = tree.name))
 
+## TODO MOVE THIS TO SOMEWHERE THAT MAKES SENSE
 linkdef.writeline('#pragma link C++ class {NAMESPACE}::PackingHelper;'.format(NAMESPACE = common.NAMESPACE))
 
 linkdef.newline()

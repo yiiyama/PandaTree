@@ -43,6 +43,10 @@ namespace panda {
       Float_t* phiWidth{0};
       Float_t* time{0};
       Float_t* timeSpan{0};
+      Float_t* alphaSeed{0};
+      Float_t* betaSeed{0};
+      Float_t* t0Seed{0};
+      Float_t* ampSeed{0};
       Float_t* regPt{0};
       Float_t* smearedPt{0};
       UShort_t* ix{0};
@@ -108,6 +112,10 @@ namespace panda {
     Float_t& phiWidth;
     Float_t& time;
     Float_t& timeSpan;
+    Float_t& alphaSeed;
+    Float_t& betaSeed;
+    Float_t& t0Seed;
+    Float_t& ampSeed;
     Float_t& regPt;
     Float_t& smearedPt;
     UShort_t& ix;
