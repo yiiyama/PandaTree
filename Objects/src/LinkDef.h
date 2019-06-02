@@ -45,6 +45,7 @@
 #include "PandaTree/Objects/interface/EventTP2M.h"
 #include "PandaTree/Objects/interface/EventTPEM.h"
 #include "PandaTree/Objects/interface/EventTPME.h"
+#include "PandaTree/Objects/interface/PackingHelper.h"
 
 #ifdef __CLING__
 #pragma link off all globals;
