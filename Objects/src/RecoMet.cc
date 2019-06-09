@@ -16,7 +16,7 @@ panda::RecoMet::RecoMet(char const* _name/* = ""*/) :
 }
 
 panda::RecoMet::RecoMet(RecoMet const& _src) :
-  Met(_src.name_),
+  Met(_src),
   sumETRaw(_src.sumETRaw),
   ptCorrUp(_src.ptCorrUp),
   phiCorrUp(_src.phiCorrUp),

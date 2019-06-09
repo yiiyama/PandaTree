@@ -24,7 +24,7 @@ panda::Recoil::Recoil(char const* _name/* = ""*/) :
 }
 
 panda::Recoil::Recoil(Recoil const& _src) :
-  Singlet(_src.name_),
+  Singlet(_src),
   met(_src.met),
   monoMu(_src.monoMu),
   monoE(_src.monoE),

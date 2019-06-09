@@ -197,29 +197,36 @@ ntrk/s
 ndof/F
 chi2/F
 double normChi2() const { return ndof != 0. ? chi2 / ndof : chi2 * 1.e+6; }
-daughters/PFCandRefVector
+daughters/PFCandBaseRefVector
 significance/F
 vtx3DVal/F
 vtx3DeVal/F
+#include "PFCandBase.h"
 
 [PFCand>PFCandBase<PackedMomentumMixin]
 packedPuppiW/B
 packedPuppiWNoLepDiff/B
-double puppiW() const override { unpack_(); return puppiW_; }
-double puppiWNoLep() const override { unpack_(); return puppiWNoLep_; }
-void setPuppiW(double w, double wnl) override;
+double puppiW() const override { unpackWeights_(); return puppiW_; }
+double puppiWNoLep() const override { unpackWeights_(); return puppiWNoLep_; }
+void setPuppiW(double w, double wnl) override { puppiW_ = w; puppiWNoLep_ = wnl; packWeights_(); }
+class UnpackedPFCand;
 
 [UnpackedPFCand>PFCandBase<PtEtaPhiMMixin]
+puppiW_/F
+puppiWNoLep_/F
 double puppiW() const override { return puppiW_; }
 double puppiWNoLep() const override { return puppiWNoLep_; }
 void setPuppiW(double w, double wnl) override { puppiW_ = w; puppiWNoLep_ = wnl; }
+class PFCand;
 
 [Parton>ParticleM]
 pdgid/I
 
 [GenParticle>GenParticleBase<PackedMomentumMixin]
+class UnpackedGenParticle;
 
 [UnpackedGenParticle>GenParticleBase<PtEtaPhiMMixin]
+class GenParticle;
 
 [Lepton>ParticleP]
 pfPt/F = -1. // for E: Pt of the dR-closest PF candidate; for Mu: pfP4().pt()
@@ -234,8 +241,8 @@ phIso/F
 puIso/F
 dxy/F
 dz/F
-matchedPF/PFCandRef
-matchedGen/GenParticleRef
+matchedPF/PFCandBaseRef
+matchedGen/GenParticleBaseRef
 vertex/VertexRef
 virtual double combIso() const { return 0.; }
 
@@ -326,7 +333,7 @@ looseIsoMVAOld/O
 iso/F
 isoDeltaBetaCorr/F
 vertex/VertexRef
-matchedGen/GenParticleRef
+matchedGen/GenParticleBaseRef
 
 [Photon>ParticleP]
 pfPt/F = -1. // Pt of the dR-closest PF candidate
@@ -365,16 +372,16 @@ pixelVeto/O
 csafeVeto/O
 pfchVeto/O
 superCluster/SuperClusterRef
-matchedPF/PFCandRef
-matchedGen/GenParticleRef
+matchedPF/PFCandBaseRef
+matchedGen/GenParticleBaseRef
 
 [GenJet>ParticleM]
 pdgid/S // Filled with hadron flavor
 partonFlavor/S
 numB/S
 numC/S
-matchedBHadrons/GenParticleRefVector
-matchedCHadrons/GenParticleRefVector
+matchedBHadrons/GenParticleBaseRefVector
+matchedCHadrons/GenParticleBaseRefVector
 
 [MicroJet>ParticleM]
 csv/F
@@ -409,7 +416,7 @@ tight/O
 tightLepVeto/O
 monojet/O
 matchedGenJet/GenJetRef
-constituents/PFCandRefVector
+constituents/PFCandBaseRefVector
 secondaryVertex/SecondaryVertexRef
 
 [FatJet>Jet]

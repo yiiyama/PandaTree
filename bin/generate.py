@@ -256,7 +256,7 @@ src.write_custom_block('Constants.cc.global')
 src.close()
 
 # write code for all objects and trees
-for objdef in phobjects + trees:
+for objdef in phobjects + trees + mixins:
     objdef.generate_header()
     objdef.generate_source()
 

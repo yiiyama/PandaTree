@@ -6,7 +6,6 @@ panda::UnpackedGenParticle::getListOfBranches()
 {
   utils::BranchList blist;
   blist += GenParticleBase::getListOfBranches();
-  blist += {"pt_", "eta_", "phi_", "mass_"};
   return blist;
 }
 
@@ -111,43 +110,26 @@ panda::UnpackedGenParticle::datastore::getBranchNames(TString const& _name/* = "
 
 panda::UnpackedGenParticle::UnpackedGenParticle(char const* _name/* = ""*/) :
   GenParticleBase(new UnpackedGenParticleArray(1, _name)),
-  pt_(gStore.getData(this).pt_[0]),
-  eta_(gStore.getData(this).eta_[0]),
-  phi_(gStore.getData(this).phi_[0]),
-  mass_(gStore.getData(this).mass_[0])
+  PtEtaPhiMMixin(gStore.getData(this), 0)
 {
 }
 
 panda::UnpackedGenParticle::UnpackedGenParticle(UnpackedGenParticle const& _src) :
   GenParticleBase(new UnpackedGenParticleArray(1, _src.getName())),
-  pt_(gStore.getData(this).pt_[0]),
-  eta_(gStore.getData(this).eta_[0]),
-  phi_(gStore.getData(this).phi_[0]),
-  mass_(gStore.getData(this).mass_[0])
+  PtEtaPhiMMixin(gStore.getData(this), 0)
 {
-  GenParticleBase::operator=(_src);
-
-  pt_ = _src.pt_;
-  eta_ = _src.eta_;
-  phi_ = _src.phi_;
-  mass_ = _src.mass_;
+  operator=(_src);
 }
 
 panda::UnpackedGenParticle::UnpackedGenParticle(datastore& _data, UInt_t _idx) :
   GenParticleBase(_data, _idx),
-  pt_(_data.pt_[_idx]),
-  eta_(_data.eta_[_idx]),
-  phi_(_data.phi_[_idx]),
-  mass_(_data.mass_[_idx])
+  PtEtaPhiMMixin(_data, _idx)
 {
 }
 
 panda::UnpackedGenParticle::UnpackedGenParticle(ArrayBase* _array) :
   GenParticleBase(_array),
-  pt_(gStore.getData(this).pt_[0]),
-  eta_(gStore.getData(this).eta_[0]),
-  phi_(gStore.getData(this).phi_[0]),
-  mass_(gStore.getData(this).mass_[0])
+  PtEtaPhiMMixin(gStore.getData(this), 0)
 {
 }
 
@@ -247,15 +229,14 @@ panda::UnpackedGenParticle::setXYZE(double px, double py, double pz, double e)
 
 
 /* BEGIN CUSTOM UnpackedGenParticle.cc.global */
+#include "../interface/GenParticle.h"
+
 panda::UnpackedGenParticle&
 panda::UnpackedGenParticle::operator=(GenParticle const& _rhs)
 {
+  GenParticleBase::operator=(static_cast<GenParticleBase const&>(_rhs));
   setPtEtaPhiM(_rhs.pt(), _rhs.eta(), _rhs.phi(), _rhs.m());
-  pdgid = _rhs.pdgid;
-  finalState = _rhs.finalState;
-  statusFlags = _rhs.statusFlags;
 
   return *this;
 }
-
 /* END CUSTOM */

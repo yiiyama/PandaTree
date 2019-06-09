@@ -1,5 +1,6 @@
 from base import Definition
 from oneliner import Include
+from oneliner import FwdDecl
 from constexpr import Constant, Enum
 from refbranch import RefBranch
 from refvbranch import RefVectorBranch
@@ -18,6 +19,7 @@ def __init__(self, name, source):
 
     self.name = name
     self.includes = []
+    self.fwddecls = []
     self.constants = []
     self.enums = []
     self.objbranches = []
@@ -34,6 +36,12 @@ def __init__(self, name, source):
 
         try:
             self.includes.append(Include(line))
+            continue
+        except Definition.NoMatch:
+            pass
+
+        try:
+            self.fwddecls.append(FwdDecl(line))
             continue
         except Definition.NoMatch:
             pass

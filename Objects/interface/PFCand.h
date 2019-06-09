@@ -2,6 +2,7 @@
 #define PandaTree_Objects_PFCand_h
 #include "Constants.h"
 #include "PFCandBase.h"
+#include "PackedMomentumMixin.h"
 #include "../../Framework/interface/Array.h"
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
@@ -9,10 +10,12 @@
 
 namespace panda {
 
-  class PFCand : public PFCandBase {
+  class UnpackedPFCand;
+
+  class PFCand : public PFCandBase, public PackedMomentumMixin {
   public:
-    struct datastore : public PFCandBase::datastore {
-      datastore() : PFCandBase::datastore() {}
+    struct datastore : public PFCandBase::datastore, public PackedMomentumMixin::datastore {
+      datastore() : PFCandBase::datastore(), PackedMomentumMixin::datastore() {}
       ~datastore() { deallocate(); }
 
       /* PFCandBase
@@ -23,12 +26,14 @@ namespace panda {
       Short_t* track_{0}; ///< transient
       Float_t* hCalFrac{0};
       */
-      Char_t* packedPuppiW{0};
-      Char_t* packedPuppiWNoLepDiff{0};
+      /* PackedMomentumMixin
       UShort_t* packedPt{0};
       Short_t* packedEta{0};
       Short_t* packedPhi{0};
       UShort_t* packedM{0};
+      */
+      Char_t* packedPuppiW{0};
+      Char_t* packedPuppiWNoLepDiff{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -57,15 +62,15 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    double puppiW() const override { unpack_(); return puppiW_; }
-    double puppiWNoLep() const override { unpack_(); return puppiWNoLep_; }
-    void setPuppiW(double w, double wnl) override;
     double pt() const override { unpack_(); return pt_; }
     double eta() const override { unpack_(); return eta_; }
     double phi() const override { unpack_(); return phi_; }
     double m() const override { unpack_(); return mass_; }
     void setPtEtaPhiM(double pt, double eta, double phi, double m) override;
     void setXYZE(double px, double py, double pz, double e) override;
+    double puppiW() const override { unpackWeights_(); return puppiW_; }
+    double puppiWNoLep() const override { unpackWeights_(); return puppiWNoLep_; }
+    void setPuppiW(double w, double wnl) override { puppiW_ = w; puppiWNoLep_ = wnl; packWeights_(); }
 
     /* PFCandBase
     UChar_t& ptype;
@@ -73,22 +78,25 @@ namespace panda {
     Ref<PackedTrack> track;
     Float_t& hCalFrac;
     */
-    Char_t& packedPuppiW;
-    Char_t& packedPuppiWNoLepDiff;
+    /* PackedMomentumMixin
     UShort_t& packedPt;
     Short_t& packedEta;
     Short_t& packedPhi;
     UShort_t& packedM;
+    */
+    Char_t& packedPuppiW;
+    Char_t& packedPuppiWNoLepDiff;
 
     /* BEGIN CUSTOM PFCand.h.classdef */
   protected:
-    void packMore_() override;
-    void unpackMore_() const override;
+    void packWeights_();
+    void unpackWeights_() const;
 
     mutable double puppiW_{0.};
     mutable double puppiWNoLep_{0.};
-
+    
   public:
+    PFCand& operator=(UnpackedPFCand const&);
     /* END CUSTOM */
 
     static utils::BranchList getListOfBranches();

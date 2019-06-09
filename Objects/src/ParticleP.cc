@@ -6,7 +6,6 @@ panda::ParticleP::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Particle::getListOfBranches();
-  blist += {"pt_", "eta_", "phi_"};
   return blist;
 }
 
@@ -103,38 +102,26 @@ panda::ParticleP::datastore::getBranchNames(TString const& _name/* = ""*/) const
 
 panda::ParticleP::ParticleP(char const* _name/* = ""*/) :
   Particle(new ParticlePArray(1, _name)),
-  pt_(gStore.getData(this).pt_[0]),
-  eta_(gStore.getData(this).eta_[0]),
-  phi_(gStore.getData(this).phi_[0])
+  PtEtaPhiMixin(gStore.getData(this), 0)
 {
 }
 
 panda::ParticleP::ParticleP(ParticleP const& _src) :
   Particle(new ParticlePArray(1, _src.getName())),
-  pt_(gStore.getData(this).pt_[0]),
-  eta_(gStore.getData(this).eta_[0]),
-  phi_(gStore.getData(this).phi_[0])
+  PtEtaPhiMixin(gStore.getData(this), 0)
 {
-  Particle::operator=(_src);
-
-  pt_ = _src.pt_;
-  eta_ = _src.eta_;
-  phi_ = _src.phi_;
+  operator=(_src);
 }
 
 panda::ParticleP::ParticleP(datastore& _data, UInt_t _idx) :
   Particle(_data, _idx),
-  pt_(_data.pt_[_idx]),
-  eta_(_data.eta_[_idx]),
-  phi_(_data.phi_[_idx])
+  PtEtaPhiMixin(_data, _idx)
 {
 }
 
 panda::ParticleP::ParticleP(ArrayBase* _array) :
   Particle(_array),
-  pt_(gStore.getData(this).pt_[0]),
-  eta_(gStore.getData(this).eta_[0]),
-  phi_(gStore.getData(this).phi_[0])
+  PtEtaPhiMixin(gStore.getData(this), 0)
 {
 }
 

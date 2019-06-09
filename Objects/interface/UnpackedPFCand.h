@@ -2,6 +2,7 @@
 #define PandaTree_Objects_UnpackedPFCand_h
 #include "Constants.h"
 #include "PFCandBase.h"
+#include "PtEtaPhiMMixin.h"
 #include "../../Framework/interface/Array.h"
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
@@ -9,10 +10,12 @@
 
 namespace panda {
 
-  class UnpackedPFCand : public PFCandBase {
+  class PFCand;
+
+  class UnpackedPFCand : public PFCandBase, public PtEtaPhiMMixin {
   public:
-    struct datastore : public PFCandBase::datastore {
-      datastore() : PFCandBase::datastore() {}
+    struct datastore : public PFCandBase::datastore, public PtEtaPhiMMixin::datastore {
+      datastore() : PFCandBase::datastore(), PtEtaPhiMMixin::datastore() {}
       ~datastore() { deallocate(); }
 
       /* PFCandBase
@@ -23,10 +26,14 @@ namespace panda {
       Short_t* track_{0}; ///< transient
       Float_t* hCalFrac{0};
       */
+      /* PtEtaPhiMMixin
       Float_t* pt_{0};
       Float_t* eta_{0};
       Float_t* phi_{0};
       Float_t* mass_{0};
+      */
+      Float_t* puppiW_{0};
+      Float_t* puppiWNoLep_{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -55,15 +62,15 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    double puppiW() const override { return puppiW_; }
-    double puppiWNoLep() const override { return puppiWNoLep_; }
-    void setPuppiW(double w, double wnl) override { puppiW_ = w; puppiWNoLep_ = wnl; }
     double pt() const override { return pt_; }
     double eta() const override { return eta_; }
     double phi() const override { return phi_; }
     double m() const override { return mass_; }
     void setPtEtaPhiM(double pt, double eta, double phi, double m) override;
     void setXYZE(double px, double py, double pz, double e) override;
+    double puppiW() const override { return puppiW_; }
+    double puppiWNoLep() const override { return puppiWNoLep_; }
+    void setPuppiW(double w, double wnl) override { puppiW_ = w; puppiWNoLep_ = wnl; }
 
     /* PFCandBase
     UChar_t& ptype;
@@ -73,10 +80,14 @@ namespace panda {
     */
 
   protected:
+    /* PtEtaPhiMMixin
     Float_t& pt_;
     Float_t& eta_;
     Float_t& phi_;
     Float_t& mass_;
+    */
+    Float_t& puppiW_;
+    Float_t& puppiWNoLep_;
 
   public:
     /* BEGIN CUSTOM UnpackedPFCand.h.classdef */

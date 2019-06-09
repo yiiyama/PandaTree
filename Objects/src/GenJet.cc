@@ -147,14 +147,7 @@ panda::GenJet::GenJet(GenJet const& _src) :
   matchedBHadrons(gStore.getData(this).matchedBHadronsContainer_, (*gStore.getData(this).matchedBHadrons_)[0]),
   matchedCHadrons(gStore.getData(this).matchedCHadronsContainer_, (*gStore.getData(this).matchedCHadrons_)[0])
 {
-  ParticleM::operator=(_src);
-
-  pdgid = _src.pdgid;
-  partonFlavor = _src.partonFlavor;
-  numB = _src.numB;
-  numC = _src.numC;
-  matchedBHadrons = _src.matchedBHadrons;
-  matchedCHadrons = _src.matchedCHadrons;
+  operator=(_src);
 }
 
 panda::GenJet::GenJet(datastore& _data, UInt_t _idx) :

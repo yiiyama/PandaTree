@@ -153,13 +153,7 @@ panda::GenParticleBase::GenParticleBase(GenParticleBase const& _src) :
   statusFlags(gStore.getData(this).statusFlags[0]),
   parent(gStore.getData(this).parentContainer_, gStore.getData(this).parent_[0])
 {
-  Particle::operator=(_src);
-
-  pdgid = _src.pdgid;
-  finalState = _src.finalState;
-  miniaodPacked = _src.miniaodPacked;
-  statusFlags = _src.statusFlags;
-  parent = _src.parent;
+  operator=(_src);
 }
 
 panda::GenParticleBase::GenParticleBase(datastore& _data, UInt_t _idx) :

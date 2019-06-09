@@ -175,17 +175,7 @@ panda::Tau::Tau(Tau const& _src) :
   vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0]),
   matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
 {
-  ParticleM::operator=(_src);
-
-  charge = _src.charge;
-  decayMode = _src.decayMode;
-  decayModeNew = _src.decayModeNew;
-  looseIsoMVA = _src.looseIsoMVA;
-  looseIsoMVAOld = _src.looseIsoMVAOld;
-  iso = _src.iso;
-  isoDeltaBetaCorr = _src.isoDeltaBetaCorr;
-  vertex = _src.vertex;
-  matchedGen = _src.matchedGen;
+  operator=(_src);
 }
 
 panda::Tau::Tau(datastore& _data, UInt_t _idx) :

@@ -235,23 +235,7 @@ panda::Lepton::Lepton(Lepton const& _src) :
   matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0]),
   vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0])
 {
-  ParticleP::operator=(_src);
-
-  pfPt = _src.pfPt;
-  charge = _src.charge;
-  loose = _src.loose;
-  medium = _src.medium;
-  tight = _src.tight;
-  hltsafe = _src.hltsafe;
-  chIso = _src.chIso;
-  nhIso = _src.nhIso;
-  phIso = _src.phIso;
-  puIso = _src.puIso;
-  dxy = _src.dxy;
-  dz = _src.dz;
-  matchedPF = _src.matchedPF;
-  matchedGen = _src.matchedGen;
-  vertex = _src.vertex;
+  operator=(_src);
 }
 
 panda::Lepton::Lepton(datastore& _data, UInt_t _idx) :

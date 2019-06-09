@@ -2,6 +2,7 @@
 #define PandaTree_Objects_GenParticle_h
 #include "Constants.h"
 #include "GenParticleBase.h"
+#include "PackedMomentumMixin.h"
 #include "../../Framework/interface/Array.h"
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
@@ -9,10 +10,12 @@
 
 namespace panda {
 
-  class GenParticle : public GenParticleBase {
+  class UnpackedGenParticle;
+
+  class GenParticle : public GenParticleBase, public PackedMomentumMixin {
   public:
-    struct datastore : public GenParticleBase::datastore {
-      datastore() : GenParticleBase::datastore() {}
+    struct datastore : public GenParticleBase::datastore, public PackedMomentumMixin::datastore {
+      datastore() : GenParticleBase::datastore(), PackedMomentumMixin::datastore() {}
       ~datastore() { deallocate(); }
 
       /* GenParticleBase
@@ -23,10 +26,12 @@ namespace panda {
       ContainerBase const* parentContainer_{0};
       Short_t* parent_{0};
       */
+      /* PackedMomentumMixin
       UShort_t* packedPt{0};
       Short_t* packedEta{0};
       Short_t* packedPhi{0};
       UShort_t* packedM{0};
+      */
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -69,12 +74,15 @@ namespace panda {
     UShort_t& statusFlags;
     Ref<GenParticleBase> parent;
     */
+    /* PackedMomentumMixin
     UShort_t& packedPt;
     Short_t& packedEta;
     Short_t& packedPhi;
     UShort_t& packedM;
+    */
 
     /* BEGIN CUSTOM GenParticle.h.classdef */
+    GenParticle& operator=(UnpackedGenParticle const&);
     /* END CUSTOM */
 
     static utils::BranchList getListOfBranches();

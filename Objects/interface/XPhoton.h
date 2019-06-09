@@ -32,11 +32,6 @@ namespace panda {
       datastore() : Photon::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* ParticleP
-      Float_t* pt_{0};
-      Float_t* eta_{0};
-      Float_t* phi_{0};
-      */
       /* Photon
       Float_t* pfPt{0};
       Float_t* chIso{0};
@@ -164,8 +159,8 @@ namespace panda {
     Bool_t& csafeVeto;
     Bool_t& pfchVeto;
     Ref<SuperCluster> superCluster;
-    Ref<PFCand> matchedPF;
-    Ref<GenParticle> matchedGen;
+    Ref<PFCandBase> matchedPF;
+    Ref<GenParticleBase> matchedGen;
     */
     Float_t& scEta;
     Float_t& scRawPt;
@@ -180,14 +175,6 @@ namespace panda {
     Bool_t (&tightX)[nIDTunes];
     Int_t& matchedGenId;
 
-  protected:
-    /* ParticleP
-    Float_t& pt_;
-    Float_t& eta_;
-    Float_t& phi_;
-    */
-
-  public:
     /* BEGIN CUSTOM XPhoton.h.classdef */
     /* END CUSTOM */
 

@@ -134,13 +134,7 @@ panda::Proton::Proton(Proton const& _src) :
   yUnc(gStore.getData(this).yUnc[0]),
   rpId(gStore.getData(this).rpId[0])
 {
-  Element::operator=(_src);
-
-  x = _src.x;
-  xUnc = _src.xUnc;
-  y = _src.y;
-  yUnc = _src.yUnc;
-  rpId = _src.rpId;
+  operator=(_src);
 }
 
 panda::Proton::Proton(datastore& _data, UInt_t _idx) :

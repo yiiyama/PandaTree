@@ -215,21 +215,7 @@ panda::MicroJet::MicroJet(MicroJet const& _src) :
   deepCMVAbb(gStore.getData(this).deepCMVAbb[0]),
   deepCMVAcc(gStore.getData(this).deepCMVAcc[0])
 {
-  ParticleM::operator=(_src);
-
-  csv = _src.csv;
-  qgl = _src.qgl;
-  cmva = _src.cmva;
-  deepCSVudsg = _src.deepCSVudsg;
-  deepCSVb = _src.deepCSVb;
-  deepCSVc = _src.deepCSVc;
-  deepCSVbb = _src.deepCSVbb;
-  deepCSVcc = _src.deepCSVcc;
-  deepCMVAudsg = _src.deepCMVAudsg;
-  deepCMVAb = _src.deepCMVAb;
-  deepCMVAc = _src.deepCMVAc;
-  deepCMVAbb = _src.deepCMVAbb;
-  deepCMVAcc = _src.deepCMVAcc;
+  operator=(_src);
 }
 
 panda::MicroJet::MicroJet(datastore& _data, UInt_t _idx) :

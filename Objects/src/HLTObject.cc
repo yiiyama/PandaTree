@@ -96,9 +96,7 @@ panda::HLTObject::HLTObject(HLTObject const& _src) :
   PackedParticle(new HLTObjectArray(1, _src.getName())),
   filters(&(*gStore.getData(this).filters)[0])
 {
-  PackedParticle::operator=(_src);
-
-  *filters = *_src.filters;
+  operator=(_src);
 }
 
 panda::HLTObject::HLTObject(datastore& _data, UInt_t _idx) :

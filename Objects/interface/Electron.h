@@ -16,11 +16,6 @@ namespace panda {
       datastore() : Lepton::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* ParticleP
-      Float_t* pt_{0};
-      Float_t* eta_{0};
-      Float_t* phi_{0};
-      */
       /* Lepton
       Float_t* pfPt{0};
       Char_t* charge{0};
@@ -116,8 +111,8 @@ namespace panda {
     Float_t& puIso;
     Float_t& dxy;
     Float_t& dz;
-    Ref<PFCand> matchedPF;
-    Ref<GenParticle> matchedGen;
+    Ref<PFCandBase> matchedPF;
+    Ref<GenParticleBase> matchedGen;
     Ref<Vertex> vertex;
     */
     Float_t& chIsoPh;
@@ -151,14 +146,6 @@ namespace panda {
     Bool_t& tripleCharge;
     Ref<SuperCluster> superCluster;
 
-  protected:
-    /* ParticleP
-    Float_t& pt_;
-    Float_t& eta_;
-    Float_t& phi_;
-    */
-
-  public:
     /* BEGIN CUSTOM Electron.h.classdef */
     /* END CUSTOM */
 

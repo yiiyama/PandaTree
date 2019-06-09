@@ -254,20 +254,7 @@ panda::XPhoton::XPhoton(XPhoton const& _src) :
   tightX(gStore.getData(this).tightX[0]),
   matchedGenId(gStore.getData(this).matchedGenId[0])
 {
-  Photon::operator=(_src);
-
-  scEta = _src.scEta;
-  scRawPt = _src.scRawPt;
-  std::memcpy(chIsoX, _src.chIsoX, sizeof(Float_t) * nIDTunes);
-  std::memcpy(chIsoMaxX, _src.chIsoMaxX, sizeof(Float_t) * nIDTunes);
-  std::memcpy(nhIsoX, _src.nhIsoX, sizeof(Float_t) * nIDTunes);
-  std::memcpy(phIsoX, _src.phIsoX, sizeof(Float_t) * nIDTunes);
-  e4 = _src.e4;
-  isEB = _src.isEB;
-  std::memcpy(looseX, _src.looseX, sizeof(Bool_t) * nIDTunes);
-  std::memcpy(mediumX, _src.mediumX, sizeof(Bool_t) * nIDTunes);
-  std::memcpy(tightX, _src.tightX, sizeof(Bool_t) * nIDTunes);
-  matchedGenId = _src.matchedGenId;
+  operator=(_src);
 }
 
 panda::XPhoton::XPhoton(datastore& _data, UInt_t _idx) :

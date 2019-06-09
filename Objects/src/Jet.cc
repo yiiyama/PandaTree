@@ -276,27 +276,7 @@ panda::Jet::Jet(Jet const& _src) :
   constituents(gStore.getData(this).constituentsContainer_, (*gStore.getData(this).constituents_)[0]),
   secondaryVertex(gStore.getData(this).secondaryVertexContainer_, gStore.getData(this).secondaryVertex_[0])
 {
-  MicroJet::operator=(_src);
-
-  rawPt = _src.rawPt;
-  ptCorrUp = _src.ptCorrUp;
-  ptCorrDown = _src.ptCorrDown;
-  ptSmear = _src.ptSmear;
-  ptSmearUp = _src.ptSmearUp;
-  ptSmearDown = _src.ptSmearDown;
-  area = _src.area;
-  nhf = _src.nhf;
-  chf = _src.chf;
-  cef = _src.cef;
-  nef = _src.nef;
-  puid = _src.puid;
-  loose = _src.loose;
-  tight = _src.tight;
-  tightLepVeto = _src.tightLepVeto;
-  monojet = _src.monojet;
-  matchedGenJet = _src.matchedGenJet;
-  constituents = _src.constituents;
-  secondaryVertex = _src.secondaryVertex;
+  operator=(_src);
 }
 
 panda::Jet::Jet(datastore& _data, UInt_t _idx) :

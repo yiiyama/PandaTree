@@ -15,7 +15,7 @@ panda::MetFilters::MetFilters(char const* _name/* = ""*/) :
 }
 
 panda::MetFilters::MetFilters(MetFilters const& _src) :
-  Singlet(_src.name_),
+  Singlet(_src),
   globalHalo16(_src.globalHalo16),
   hbhe(_src.hbhe),
   hbheIso(_src.hbheIso),

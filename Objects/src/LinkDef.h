@@ -69,8 +69,6 @@
 #pragma link C++ class panda::ParticleP;
 #pragma link C++ class panda::ParticleM;
 #pragma link C++ class panda::SecondaryVertex;
-#pragma link C++ class PFCandRefVector+;
-#pragma link C++ class std::vector<PFCandRefVector>+;
 #pragma link C++ class panda::PFCand;
 #pragma link C++ class panda::UnpackedPFCand;
 #pragma link C++ class panda::Parton;

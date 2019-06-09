@@ -2,6 +2,7 @@
 #define PandaTree_Objects_PackedParticle_h
 #include "Constants.h"
 #include "Particle.h"
+#include "PackedMomentumMixin.h"
 #include "../../Framework/interface/Array.h"
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
@@ -9,16 +10,18 @@
 
 namespace panda {
 
-  class PackedParticle : public Particle {
+  class PackedParticle : public Particle, public PackedMomentumMixin {
   public:
-    struct datastore : public Particle::datastore {
-      datastore() : Particle::datastore() {}
+    struct datastore : public Particle::datastore, public PackedMomentumMixin::datastore {
+      datastore() : Particle::datastore(), PackedMomentumMixin::datastore() {}
       ~datastore() { deallocate(); }
 
+      /* PackedMomentumMixin
       UShort_t* packedPt{0};
       Short_t* packedEta{0};
       Short_t* packedPhi{0};
       UShort_t* packedM{0};
+      */
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -54,25 +57,14 @@ namespace panda {
     void setPtEtaPhiM(double pt, double eta, double phi, double m) override;
     void setXYZE(double px, double py, double pz, double e) override;
 
+    /* PackedMomentumMixin
     UShort_t& packedPt;
     Short_t& packedEta;
     Short_t& packedPhi;
     UShort_t& packedM;
+    */
 
     /* BEGIN CUSTOM PackedParticle.h.classdef */
-  protected:
-    void pack_();
-    void unpack_() const;
-    virtual void packMore_() {}
-    virtual void unpackMore_() const {}
-
-    mutable Double_t pt_{0.};
-    mutable Double_t eta_{0.};
-    mutable Double_t phi_{0.};
-    mutable Double_t mass_{0.};
-    mutable Bool_t unpacked_{kFALSE};
-
-  public:
     /* END CUSTOM */
 
     static utils::BranchList getListOfBranches();

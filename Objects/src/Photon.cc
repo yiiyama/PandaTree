@@ -465,46 +465,7 @@ panda::Photon::Photon(Photon const& _src) :
   matchedPF(gStore.getData(this).matchedPFContainer_, gStore.getData(this).matchedPF_[0]),
   matchedGen(gStore.getData(this).matchedGenContainer_, gStore.getData(this).matchedGen_[0])
 {
-  ParticleP::operator=(_src);
-
-  pfPt = _src.pfPt;
-  chIso = _src.chIso;
-  chIsoMax = _src.chIsoMax;
-  nhIso = _src.nhIso;
-  phIso = _src.phIso;
-  sieie = _src.sieie;
-  sipip = _src.sipip;
-  hOverE = _src.hOverE;
-  mipEnergy = _src.mipEnergy;
-  emax = _src.emax;
-  e2nd = _src.e2nd;
-  eleft = _src.eleft;
-  eright = _src.eright;
-  etop = _src.etop;
-  ebottom = _src.ebottom;
-  r9 = _src.r9;
-  etaWidth = _src.etaWidth;
-  phiWidth = _src.phiWidth;
-  time = _src.time;
-  timeSpan = _src.timeSpan;
-  alphaSeed = _src.alphaSeed;
-  betaSeed = _src.betaSeed;
-  t0Seed = _src.t0Seed;
-  ampSeed = _src.ampSeed;
-  regPt = _src.regPt;
-  smearedPt = _src.smearedPt;
-  ix = _src.ix;
-  iy = _src.iy;
-  loose = _src.loose;
-  medium = _src.medium;
-  tight = _src.tight;
-  highpt = _src.highpt;
-  pixelVeto = _src.pixelVeto;
-  csafeVeto = _src.csafeVeto;
-  pfchVeto = _src.pfchVeto;
-  superCluster = _src.superCluster;
-  matchedPF = _src.matchedPF;
-  matchedGen = _src.matchedGen;
+  operator=(_src);
 }
 
 panda::Photon::Photon(datastore& _data, UInt_t _idx) :

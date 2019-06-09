@@ -15,7 +15,7 @@ panda::Met::Met(char const* _name/* = ""*/) :
 }
 
 panda::Met::Met(Met const& _src) :
-  Singlet(_src.name_),
+  Singlet(_src),
   pt(_src.pt),
   phi(_src.phi)
 {

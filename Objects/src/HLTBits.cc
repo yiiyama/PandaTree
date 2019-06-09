@@ -15,7 +15,7 @@ panda::HLTBits::HLTBits(char const* _name/* = ""*/) :
 }
 
 panda::HLTBits::HLTBits(HLTBits const& _src) :
-  Singlet(_src.name_)
+  Singlet(_src)
 {
   std::memcpy(words, _src.words, sizeof(UInt_t) * 32);
 }

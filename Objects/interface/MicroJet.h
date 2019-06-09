@@ -15,12 +15,6 @@ namespace panda {
       datastore() : ParticleM::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* ParticleM
-      Float_t* pt_{0};
-      Float_t* eta_{0};
-      Float_t* phi_{0};
-      Float_t* mass_{0};
-      */
       Float_t* csv{0};
       Float_t* qgl{0};
       Float_t* cmva{0};
@@ -76,15 +70,6 @@ namespace panda {
     Float_t& deepCMVAbb;
     Float_t& deepCMVAcc;
 
-  protected:
-    /* ParticleM
-    Float_t& pt_;
-    Float_t& eta_;
-    Float_t& phi_;
-    Float_t& mass_;
-    */
-
-  public:
     /* BEGIN CUSTOM MicroJet.h.classdef */
     /* END CUSTOM */
 

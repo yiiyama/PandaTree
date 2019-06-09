@@ -6,7 +6,6 @@ panda::GenParticle::getListOfBranches()
 {
   utils::BranchList blist;
   blist += GenParticleBase::getListOfBranches();
-  blist += {"packedPt", "packedEta", "packedPhi", "packedM"};
   return blist;
 }
 
@@ -111,43 +110,26 @@ panda::GenParticle::datastore::getBranchNames(TString const& _name/* = ""*/) con
 
 panda::GenParticle::GenParticle(char const* _name/* = ""*/) :
   GenParticleBase(new GenParticleArray(1, _name)),
-  packedPt(gStore.getData(this).packedPt[0]),
-  packedEta(gStore.getData(this).packedEta[0]),
-  packedPhi(gStore.getData(this).packedPhi[0]),
-  packedM(gStore.getData(this).packedM[0])
+  PackedMomentumMixin(gStore.getData(this), 0)
 {
 }
 
 panda::GenParticle::GenParticle(GenParticle const& _src) :
   GenParticleBase(new GenParticleArray(1, _src.getName())),
-  packedPt(gStore.getData(this).packedPt[0]),
-  packedEta(gStore.getData(this).packedEta[0]),
-  packedPhi(gStore.getData(this).packedPhi[0]),
-  packedM(gStore.getData(this).packedM[0])
+  PackedMomentumMixin(gStore.getData(this), 0)
 {
-  GenParticleBase::operator=(_src);
-
-  packedPt = _src.packedPt;
-  packedEta = _src.packedEta;
-  packedPhi = _src.packedPhi;
-  packedM = _src.packedM;
+  operator=(_src);
 }
 
 panda::GenParticle::GenParticle(datastore& _data, UInt_t _idx) :
   GenParticleBase(_data, _idx),
-  packedPt(_data.packedPt[_idx]),
-  packedEta(_data.packedEta[_idx]),
-  packedPhi(_data.packedPhi[_idx]),
-  packedM(_data.packedM[_idx])
+  PackedMomentumMixin(_data, _idx)
 {
 }
 
 panda::GenParticle::GenParticle(ArrayBase* _array) :
   GenParticleBase(_array),
-  packedPt(gStore.getData(this).packedPt[0]),
-  packedEta(gStore.getData(this).packedEta[0]),
-  packedPhi(gStore.getData(this).packedPhi[0]),
-  packedM(gStore.getData(this).packedM[0])
+  PackedMomentumMixin(gStore.getData(this), 0)
 {
 }
 
@@ -232,4 +214,14 @@ panda::GenParticle::dump(std::ostream& _out/* = std::cout*/) const
 
 
 /* BEGIN CUSTOM GenParticle.cc.global */
+#include "../interface/UnpackedGenParticle.h"
+
+panda::GenParticle&
+panda::GenParticle::operator=(UnpackedGenParticle const& _rhs)
+{
+  GenParticleBase::operator=(static_cast<GenParticleBase const&>(_rhs));
+  setPtEtaPhiM(_rhs.pt(), _rhs.eta(), _rhs.phi(), _rhs.m());
+
+  return *this;
+}
 /* END CUSTOM */

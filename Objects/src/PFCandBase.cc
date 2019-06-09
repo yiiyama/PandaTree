@@ -213,4 +213,44 @@ panda::PFCandBase::dump(std::ostream& _out/* = std::cout*/) const
 
 
 /* BEGIN CUSTOM PFCandBase.cc.global */
+TVector3
+panda::PFCandBase::pca() const
+{
+  if (!vertex.isValid() || !track.isValid())
+    return TVector3();
+
+  double trkPhi(phi() + track->dPhi());
+
+  // dir(pca - pv) is perpendicular to trkPhi by definition
+  // -> relation between pca and pv simplifies
+
+  return TVector3(vertex->x - track->dxy() * std::sin(trkPhi), vertex->y + track->dxy() * std::cos(trkPhi), vertex->z + track->dz());
+}
+
+double
+panda::PFCandBase::dxy(TVector3 const& point) const
+{
+  if (!vertex.isValid() || !track.isValid())
+    return 0.;
+
+  auto ref(pca());
+
+  double trkPhi(phi() + track->dPhi());
+
+  return -(ref.X() - point.X()) * std::sin(trkPhi) + (ref.Y() - point.Y()) * std::cos(trkPhi);
+}
+
+double
+panda::PFCandBase::dz(TVector3 const& point) const
+{
+  if (!vertex.isValid() || !track.isValid())
+    return 0.;
+
+  auto ref(pca());
+
+  double trkPhi(phi() + track->dPhi());
+
+  return (ref.Z() - point.Z()) - ((ref.X() - point.X()) * std::cos(trkPhi) + (ref.Y() - point.Y()) * std::sin(trkPhi)) * pz() / pt();
+}
+
 /* END CUSTOM */

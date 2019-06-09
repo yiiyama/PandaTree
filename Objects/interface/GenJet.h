@@ -6,7 +6,7 @@
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
-#include "GenParticle.h"
+#include "GenParticleBase.h"
 
 namespace panda {
 
@@ -16,12 +16,6 @@ namespace panda {
       datastore() : ParticleM::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* ParticleM
-      Float_t* pt_{0};
-      Float_t* eta_{0};
-      Float_t* phi_{0};
-      Float_t* mass_{0};
-      */
       Short_t* pdgid{0};
       Short_t* partonFlavor{0};
       Short_t* numB{0};
@@ -62,18 +56,9 @@ namespace panda {
     Short_t& partonFlavor;
     Short_t& numB;
     Short_t& numC;
-    RefVector<GenParticle> matchedBHadrons;
-    RefVector<GenParticle> matchedCHadrons;
+    RefVector<GenParticleBase> matchedBHadrons;
+    RefVector<GenParticleBase> matchedCHadrons;
 
-  protected:
-    /* ParticleM
-    Float_t& pt_;
-    Float_t& eta_;
-    Float_t& phi_;
-    Float_t& mass_;
-    */
-
-  public:
     /* BEGIN CUSTOM GenJet.h.classdef */
     /* END CUSTOM */
 

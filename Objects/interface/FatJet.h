@@ -16,12 +16,6 @@ namespace panda {
       datastore() : Jet::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* ParticleM
-      Float_t* pt_{0};
-      Float_t* eta_{0};
-      Float_t* phi_{0};
-      Float_t* mass_{0};
-      */
       /* MicroJet
       Float_t* csv{0};
       Float_t* qgl{0};
@@ -141,7 +135,7 @@ namespace panda {
     Bool_t& tightLepVeto;
     Bool_t& monojet;
     Ref<GenJet> matchedGenJet;
-    RefVector<PFCand> constituents;
+    RefVector<PFCandBase> constituents;
     Ref<SecondaryVertex> secondaryVertex;
     */
     Float_t& tau1;
@@ -160,15 +154,6 @@ namespace panda {
     Float_t (&ecfs)[3][4][4];
     RefVector<MicroJet> subjets;
 
-  protected:
-    /* ParticleM
-    Float_t& pt_;
-    Float_t& eta_;
-    Float_t& phi_;
-    Float_t& mass_;
-    */
-
-  public:
     /* BEGIN CUSTOM FatJet.h.classdef */
     /* END CUSTOM */
 

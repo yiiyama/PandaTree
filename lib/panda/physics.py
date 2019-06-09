@@ -1,7 +1,6 @@
 from common import *
 from base import Definition
 from obj import Object
-from branch import Branch
 from output import FileOutput
 
 class PhysicsObject(Definition, Object):
@@ -47,6 +46,8 @@ class PhysicsObject(Definition, Object):
             self._mixin_names = self.matches.group(3)[1:].split(',')
         else:
             self._mixin_names = []
+
+        self.mixins = []
             
         Object.__init__(self, self.matches.group(1), source)
 
@@ -57,9 +58,7 @@ class PhysicsObject(Definition, Object):
 
     def set_mixins(self, mixins):
         for name in self._mixin_names:
-            mixin = next(m for m in mixins if m.name == name)
-            self.branches.extend(mixin.branches)
-            self.functions.extend(mixin.functions)
+            self.mixins.append(next(m for m in mixins if m.name == name))
 
     def is_singlet(self):
         if self._singlet is None:
@@ -72,12 +71,17 @@ class PhysicsObject(Definition, Object):
         Write a header file.
         """
 
-        inheritance = [self]
+        inheritance = []
+        ancestor = self.parent
         while True:
             try:
-                inheritance.insert(0, PhysicsObject.get(inheritance[0].parent))
+                inheritance.append(PhysicsObject.get(ancestor))
             except KeyError:
                 break
+
+            ancestor = inheritance[-1].parent
+
+        inheritance.reverse()
 
         header = FileOutput('{PACKDIR}/Objects/interface/{name}.h'.format(PACKDIR = PACKDIR, name = self.name))
         header.writeline('#ifndef {PACKAGE}_Objects_{name}_h'.format(PACKAGE = PACKAGE, name = self.name))
@@ -94,6 +98,9 @@ class PhysicsObject(Definition, Object):
             if stmt not in included:
                 header.writeline(stmt)
                 included.append(stmt)
+
+        for mixin in self.mixins:
+            header.writeline('#include "{mixin}.h"'.format(mixin = mixin.name))
 
         header.writeline('#include "../../Framework/interface/Array.h"')
         header.writeline('#include "../../Framework/interface/Collection.h"')
@@ -117,7 +124,17 @@ class PhysicsObject(Definition, Object):
         header.newline()
         header.indent += 1
 
-        header.writeline('class {name} : public {parent} {{'.format(name = self.name, parent = self.parent))
+        if len(self.fwddecls) != 0:
+            for fwddecl in self.fwddecls:
+                fwddecl.write(header)
+
+            header.newline()
+
+        line = 'class {name} : public {parent}'.format(name = self.name, parent = self.parent)
+        for mixin in self.mixins:
+            line += ', public {mixin}'.format(mixin = mixin.name)
+        line += ' {'
+        header.writeline(line)
         header.writeline('public:')
         header.indent += 1
 
@@ -132,14 +149,22 @@ class PhysicsObject(Definition, Object):
             header.newline()
         
         if not self.is_singlet():
-            header.writeline('struct datastore : public {parent}::datastore {{'.format(parent = self.parent))
+            line = 'struct datastore : public {parent}::datastore'.format(parent = self.parent)
+            for mixin in self.mixins:
+                line += ', public {mixin}::datastore'.format(mixin = mixin.name)
+            line += ' {'
+            header.writeline(line)
             header.indent += 1
 
-            header.writeline('datastore() : {parent}::datastore() {{}}'.format(parent = self.parent))
+            line = 'datastore() : {parent}::datastore()'.format(parent = self.parent)
+            for mixin in self.mixins:
+                line += ', {mixin}::datastore()'.format(mixin = mixin.name)
+            line += ' {}'
+            header.writeline(line)
             header.writeline('~datastore() { deallocate(); }')
 
             newline = False
-            for ancestor in inheritance:
+            for ancestor in inheritance + self.mixins:
                 if len(ancestor.branches) == 0:
                     continue
 
@@ -147,14 +172,20 @@ class PhysicsObject(Definition, Object):
                     header.newline()
                     newline = True
 
-                if ancestor != self:
-                    header.writeline('/* {name}'.format(name = ancestor.name))
+                header.writeline('/* {name}'.format(name = ancestor.name))
 
                 for branch in ancestor.branches:
                     branch.write_decl(header, context = 'datastore')
 
-                if ancestor != self:
-                    header.writeline('*/')
+                header.writeline('*/')
+
+            if len(self.branches) != 0:
+                if not newline:
+                    header.newline()
+                    newline = True
+
+                for branch in self.branches:
+                    branch.write_decl(header, context = 'datastore')
 
             header.newline()
             header.writeline('void allocate(UInt_t n) override;')
@@ -202,8 +233,13 @@ class PhysicsObject(Definition, Object):
 
         header.newline()
 
-        if len(self.functions) != 0:
-            for function in self.functions:
+        functions = []
+        for mixin in self.mixins:
+            functions.extend(mixin.functions)
+        functions.extend(self.functions)
+
+        if len(functions) != 0:
+            for function in functions:
                 function.write_decl(header, context = 'class')
             header.newline()
 
@@ -213,7 +249,7 @@ class PhysicsObject(Definition, Object):
             context = 'Element'
 
         has_public = False
-        for ancestor in inheritance:
+        for ancestor in inheritance + self.mixins:
             if len(ancestor.branches) == 0:
                 continue
 
@@ -223,25 +259,29 @@ class PhysicsObject(Definition, Object):
                 if not hasattr(branch, 'refname') and branch.name.endswith('_'):
                     continue
 
-                if not has_public:
-                    has_public = True
+                has_public = True
 
                 if not inherits_members:
-                    if ancestor != self:
-                        header.writeline('/* {name}'.format(name = ancestor.name))
-
+                    header.writeline('/* {name}'.format(name = ancestor.name))
                     inherits_members = True
 
                 branch.write_decl(header, context = context)
 
-            if inherits_members and ancestor != self:
+            if inherits_members:
                 header.writeline('*/')
+
+        for branch in self.branches:
+            if not hasattr(branch, 'refname') and branch.name.endswith('_'):
+                continue
+
+            has_public = True
+            branch.write_decl(header, context = context)
 
         if has_public:
             header.newline()
 
         has_protected = False
-        for ancestor in inheritance:
+        for ancestor in inheritance + self.mixins:
             if len(ancestor.branches) == 0:
                 continue
 
@@ -258,15 +298,25 @@ class PhysicsObject(Definition, Object):
                     has_protected = True
 
                 if not inherits_members:
-                    if ancestor != self:
-                        header.writeline('/* {name}'.format(name = ancestor.name))
-
+                    header.writeline('/* {name}'.format(name = ancestor.name))
                     inherits_members = True
 
                 branch.write_decl(header, context = context)
 
-            if inherits_members and ancestor != self:
+            if inherits_members:
                 header.writeline('*/')
+
+        for branch in self.branches:
+            if hasattr(branch, 'refname') or not branch.name.endswith('_'):
+                continue
+
+            if not has_protected:
+                header.indent -= 1
+                header.writeline('protected:')
+                header.indent += 1
+                has_protected = True
+
+            branch.write_decl(header, context = context)
 
         if has_protected:
             header.newline()
@@ -385,9 +435,12 @@ class PhysicsObject(Definition, Object):
                 out.writeline(line)
             out.newline()
 
-        if len(self.branches) != 0:
-            for branch in self.branches:
+        for mixin in self.mixins:
+            for branch in mixin.branches:
                 getattr(branch, generator)(out, context = context)
+
+        for branch in self.branches:
+            getattr(branch, generator)(out, context = context)
 
         if custom_block:
             out.newline()
@@ -442,6 +495,7 @@ class PhysicsObject(Definition, Object):
                 src.writeline('{NAMESPACE}::{name}::{name}(char const* _name/* = ""*/) :'.format(**subst))
                 src.indent += 1
                 initializers = ['{parent}(_name)'.format(**subst)]
+                initializers.extend(['{mixin}()'.format(mixin = mixin.name) for mixin in self.mixins])
                 for branch in self.branches:
                     branch.init_default(initializers, context = 'Singlet')
                 src.writelines(initializers, ',')
@@ -456,7 +510,8 @@ class PhysicsObject(Definition, Object):
     
                 src.writeline('{NAMESPACE}::{name}::{name}({name} const& _src) :'.format(**subst))
                 src.indent += 1
-                initializers = ['{parent}(_src.name_)'.format(**subst)]
+                initializers = ['{parent}(_src)'.format(**subst)]
+                initializers.extend(['{mixin}(_src)'.format(mixin = mixin.name) for mixin in self.mixins])
                 for branch in self.branches:
                     branch.init_copy(initializers, context = 'Singlet')
                 src.writelines(initializers, ',')
@@ -531,6 +586,7 @@ class PhysicsObject(Definition, Object):
                 src.writeline('{NAMESPACE}::{name}::{name}(char const* _name/* = ""*/) :'.format(**subst))
                 src.indent += 1
                 initializers = ['{parent}(new {name}Array(1, _name))'.format(**subst)]
+                initializers.extend(['{mixin}(gStore.getData(this), 0)'.format(mixin = mixin.name) for mixin in self.mixins])
                 for branch in self.branches:
                     branch.init_default(initializers, context = 'Element')
                 src.writelines(initializers, ',')
@@ -546,17 +602,14 @@ class PhysicsObject(Definition, Object):
                 src.writeline('{NAMESPACE}::{name}::{name}({name} const& _src) :'.format(**subst))
                 src.indent += 1
                 initializers = ['{parent}(new {name}Array(1, _src.getName()))'.format(**subst)]
+                initializers.extend(['{mixin}(gStore.getData(this), 0)'.format(mixin = mixin.name) for mixin in self.mixins])
                 for branch in self.branches:
                     branch.init_copy(initializers, context = 'Element')
                 src.writelines(initializers, ',')
                 src.indent -= 1
                 src.writeline('{')
                 src.indent += 1
-                src.writeline('{parent}::operator=(_src);'.format(**subst))
-                if len(self.branches) != 0:
-                    src.newline()
-                    for branch in self.branches:
-                        branch.write_copy_ctor(src, context = 'Element')
+                src.writeline('operator=(_src);')
                 src.indent -= 1
                 src.writeline('}')
 
@@ -564,6 +617,7 @@ class PhysicsObject(Definition, Object):
             src.writeline('{NAMESPACE}::{name}::{name}(datastore& _data, UInt_t _idx) :'.format(**subst))
             src.indent += 1
             initializers = ['{parent}(_data, _idx)'.format(**subst)]
+            initializers.extend(['{mixin}(_data, _idx)'.format(mixin = mixin.name) for mixin in self.mixins])
             for branch in self.branches:
                 branch.init_standard(initializers, context = 'Element')
             src.writelines(initializers, ',')
@@ -579,6 +633,7 @@ class PhysicsObject(Definition, Object):
             src.writeline('{NAMESPACE}::{name}::{name}(ArrayBase* _array) :'.format(**subst))
             src.indent += 1
             initializers = ['{parent}(_array)'.format(**subst)]
+            initializers.extend(['{mixin}(gStore.getData(this), 0)'.format(mixin = mixin.name) for mixin in self.mixins])
             for branch in self.branches:
                 branch.init_default(initializers, context = 'Element')
             src.writelines(initializers, ',')
@@ -642,16 +697,24 @@ class PhysicsObject(Definition, Object):
             src.writeline('{parent}::dump(_out);'.format(parent = self.parent))
             src.newline()
 
-        if len(self.branches) != 0:
-            for branch in self.branches:
+        for mixin in self.mixins:
+            for branch in mixin.branches:
                 branch.write_dump(src)
+
+        for branch in self.branches:
+            branch.write_dump(src)
 
         src.indent -= 1
         src.writeline('}')
 
-        if len(self.functions):
+        functions = []
+        for mixin in self.mixins:
+            functions.extend(mixin.functions)
+        functions.extend(self.functions)
+
+        if len(functions):
             src.newline()
-            for function in self.functions:
+            for function in functions:
                 function.write_def(src, context = self.name)
 
         src.newline()
