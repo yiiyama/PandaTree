@@ -4,14 +4,16 @@
 #include "PandaTree/Objects/interface/RecoVertex.h"
 #include "PandaTree/Objects/interface/PackedTrack.h"
 #include "PandaTree/Objects/interface/SuperCluster.h"
+#include "PandaTree/Objects/interface/GenParticleBase.h"
+#include "PandaTree/Objects/interface/PFCandBase.h"
 #include "PandaTree/Objects/interface/PackedParticle.h"
-#include "PandaTree/Objects/interface/GenParticle.h"
-#include "PandaTree/Objects/interface/PFCand.h"
 #include "PandaTree/Objects/interface/ParticleP.h"
 #include "PandaTree/Objects/interface/ParticleM.h"
 #include "PandaTree/Objects/interface/SecondaryVertex.h"
+#include "PandaTree/Objects/interface/PFCand.h"
 #include "PandaTree/Objects/interface/UnpackedPFCand.h"
 #include "PandaTree/Objects/interface/Parton.h"
+#include "PandaTree/Objects/interface/GenParticle.h"
 #include "PandaTree/Objects/interface/UnpackedGenParticle.h"
 #include "PandaTree/Objects/interface/Lepton.h"
 #include "PandaTree/Objects/interface/Electron.h"
@@ -35,7 +37,6 @@
 #include "PandaTree/Objects/interface/Event.h"
 #include "PandaTree/Objects/interface/Run.h"
 #include "PandaTree/Objects/interface/EventMonophoton.h"
-#include "PandaTree/Objects/interface/EventAnalysis.h"
 #include "PandaTree/Objects/interface/EventTP.h"
 #include "PandaTree/Objects/interface/EventTPEG.h"
 #include "PandaTree/Objects/interface/EventTPEEG.h"
@@ -45,6 +46,7 @@
 #include "PandaTree/Objects/interface/EventTP2M.h"
 #include "PandaTree/Objects/interface/EventTPEM.h"
 #include "PandaTree/Objects/interface/EventTPME.h"
+#include "PandaTree/Objects/interface/EventAnalysis.h"
 #include "PandaTree/Objects/interface/PackingHelper.h"
 
 #ifdef __CLING__
@@ -61,14 +63,18 @@
 #pragma link C++ class panda::RecoVertex;
 #pragma link C++ class panda::PackedTrack;
 #pragma link C++ class panda::SuperCluster;
+#pragma link C++ class panda::GenParticleBase;
+#pragma link C++ class panda::PFCandBase;
 #pragma link C++ class panda::PackedParticle;
-#pragma link C++ class panda::GenParticle;
-#pragma link C++ class panda::PFCand;
 #pragma link C++ class panda::ParticleP;
 #pragma link C++ class panda::ParticleM;
 #pragma link C++ class panda::SecondaryVertex;
+#pragma link C++ class PFCandRefVector+;
+#pragma link C++ class std::vector<PFCandRefVector>+;
+#pragma link C++ class panda::PFCand;
 #pragma link C++ class panda::UnpackedPFCand;
 #pragma link C++ class panda::Parton;
+#pragma link C++ class panda::GenParticle;
 #pragma link C++ class panda::UnpackedGenParticle;
 #pragma link C++ class panda::Lepton;
 #pragma link C++ class panda::Electron;
@@ -114,18 +120,18 @@
 #pragma link C++ class panda::Collection<panda::SuperCluster>;
 #pragma link C++ class panda::Ref<panda::SuperCluster>;
 #pragma link C++ class panda::RefVector<panda::SuperCluster>;
+#pragma link C++ class panda::Array<panda::GenParticleBase>;
+#pragma link C++ class panda::Collection<panda::GenParticleBase>;
+#pragma link C++ class panda::Ref<panda::GenParticleBase>;
+#pragma link C++ class panda::RefVector<panda::GenParticleBase>;
+#pragma link C++ class panda::Array<panda::PFCandBase>;
+#pragma link C++ class panda::Collection<panda::PFCandBase>;
+#pragma link C++ class panda::Ref<panda::PFCandBase>;
+#pragma link C++ class panda::RefVector<panda::PFCandBase>;
 #pragma link C++ class panda::Array<panda::PackedParticle>;
 #pragma link C++ class panda::Collection<panda::PackedParticle>;
 #pragma link C++ class panda::Ref<panda::PackedParticle>;
 #pragma link C++ class panda::RefVector<panda::PackedParticle>;
-#pragma link C++ class panda::Array<panda::GenParticle>;
-#pragma link C++ class panda::Collection<panda::GenParticle>;
-#pragma link C++ class panda::Ref<panda::GenParticle>;
-#pragma link C++ class panda::RefVector<panda::GenParticle>;
-#pragma link C++ class panda::Array<panda::PFCand>;
-#pragma link C++ class panda::Collection<panda::PFCand>;
-#pragma link C++ class panda::Ref<panda::PFCand>;
-#pragma link C++ class panda::RefVector<panda::PFCand>;
 #pragma link C++ class panda::Array<panda::ParticleP>;
 #pragma link C++ class panda::Collection<panda::ParticleP>;
 #pragma link C++ class panda::Ref<panda::ParticleP>;
@@ -138,6 +144,10 @@
 #pragma link C++ class panda::Collection<panda::SecondaryVertex>;
 #pragma link C++ class panda::Ref<panda::SecondaryVertex>;
 #pragma link C++ class panda::RefVector<panda::SecondaryVertex>;
+#pragma link C++ class panda::Array<panda::PFCand>;
+#pragma link C++ class panda::Collection<panda::PFCand>;
+#pragma link C++ class panda::Ref<panda::PFCand>;
+#pragma link C++ class panda::RefVector<panda::PFCand>;
 #pragma link C++ class panda::Array<panda::UnpackedPFCand>;
 #pragma link C++ class panda::Collection<panda::UnpackedPFCand>;
 #pragma link C++ class panda::Ref<panda::UnpackedPFCand>;
@@ -146,6 +156,10 @@
 #pragma link C++ class panda::Collection<panda::Parton>;
 #pragma link C++ class panda::Ref<panda::Parton>;
 #pragma link C++ class panda::RefVector<panda::Parton>;
+#pragma link C++ class panda::Array<panda::GenParticle>;
+#pragma link C++ class panda::Collection<panda::GenParticle>;
+#pragma link C++ class panda::Ref<panda::GenParticle>;
+#pragma link C++ class panda::RefVector<panda::GenParticle>;
 #pragma link C++ class panda::Array<panda::UnpackedGenParticle>;
 #pragma link C++ class panda::Collection<panda::UnpackedGenParticle>;
 #pragma link C++ class panda::Ref<panda::UnpackedGenParticle>;
@@ -222,18 +236,18 @@
 #pragma link C++ typedef panda::SuperClusterCollection;
 #pragma link C++ typedef panda::SuperClusterRef;
 #pragma link C++ typedef panda::SuperClusterRefVector;
+#pragma link C++ typedef panda::GenParticleBaseArray;
+#pragma link C++ typedef panda::GenParticleBaseCollection;
+#pragma link C++ typedef panda::GenParticleBaseRef;
+#pragma link C++ typedef panda::GenParticleBaseRefVector;
+#pragma link C++ typedef panda::PFCandBaseArray;
+#pragma link C++ typedef panda::PFCandBaseCollection;
+#pragma link C++ typedef panda::PFCandBaseRef;
+#pragma link C++ typedef panda::PFCandBaseRefVector;
 #pragma link C++ typedef panda::PackedParticleArray;
 #pragma link C++ typedef panda::PackedParticleCollection;
 #pragma link C++ typedef panda::PackedParticleRef;
 #pragma link C++ typedef panda::PackedParticleRefVector;
-#pragma link C++ typedef panda::GenParticleArray;
-#pragma link C++ typedef panda::GenParticleCollection;
-#pragma link C++ typedef panda::GenParticleRef;
-#pragma link C++ typedef panda::GenParticleRefVector;
-#pragma link C++ typedef panda::PFCandArray;
-#pragma link C++ typedef panda::PFCandCollection;
-#pragma link C++ typedef panda::PFCandRef;
-#pragma link C++ typedef panda::PFCandRefVector;
 #pragma link C++ typedef panda::ParticlePArray;
 #pragma link C++ typedef panda::ParticlePCollection;
 #pragma link C++ typedef panda::ParticlePRef;
@@ -246,6 +260,10 @@
 #pragma link C++ typedef panda::SecondaryVertexCollection;
 #pragma link C++ typedef panda::SecondaryVertexRef;
 #pragma link C++ typedef panda::SecondaryVertexRefVector;
+#pragma link C++ typedef panda::PFCandArray;
+#pragma link C++ typedef panda::PFCandCollection;
+#pragma link C++ typedef panda::PFCandRef;
+#pragma link C++ typedef panda::PFCandRefVector;
 #pragma link C++ typedef panda::UnpackedPFCandArray;
 #pragma link C++ typedef panda::UnpackedPFCandCollection;
 #pragma link C++ typedef panda::UnpackedPFCandRef;
@@ -254,6 +272,10 @@
 #pragma link C++ typedef panda::PartonCollection;
 #pragma link C++ typedef panda::PartonRef;
 #pragma link C++ typedef panda::PartonRefVector;
+#pragma link C++ typedef panda::GenParticleArray;
+#pragma link C++ typedef panda::GenParticleCollection;
+#pragma link C++ typedef panda::GenParticleRef;
+#pragma link C++ typedef panda::GenParticleRefVector;
 #pragma link C++ typedef panda::UnpackedGenParticleArray;
 #pragma link C++ typedef panda::UnpackedGenParticleCollection;
 #pragma link C++ typedef panda::UnpackedGenParticleRef;
@@ -310,7 +332,6 @@
 #pragma link C++ class panda::Event;
 #pragma link C++ class panda::Run;
 #pragma link C++ class panda::EventMonophoton;
-#pragma link C++ class panda::EventAnalysis;
 #pragma link C++ class panda::EventTP;
 #pragma link C++ class panda::EventTPEG;
 #pragma link C++ class panda::EventTPEEG;
@@ -320,6 +341,7 @@
 #pragma link C++ class panda::EventTP2M;
 #pragma link C++ class panda::EventTPEM;
 #pragma link C++ class panda::EventTPME;
+#pragma link C++ class panda::EventAnalysis;
 #pragma link C++ class panda::PackingHelper;
 
 #endif

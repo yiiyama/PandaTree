@@ -18,12 +18,10 @@ namespace panda {
       datastore() : MicroJet::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* ParticleP
+      /* ParticleM
       Float_t* pt_{0};
       Float_t* eta_{0};
       Float_t* phi_{0};
-      */
-      /* ParticleM
       Float_t* mass_{0};
       */
       /* MicroJet
@@ -127,12 +125,10 @@ namespace panda {
     Ref<SecondaryVertex> secondaryVertex;
 
   protected:
-    /* ParticleP
+    /* ParticleM
     Float_t& pt_;
     Float_t& eta_;
     Float_t& phi_;
-    */
-    /* ParticleM
     Float_t& mass_;
     */
 

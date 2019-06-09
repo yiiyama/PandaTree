@@ -8,7 +8,7 @@ class PhysicsObject(Definition, Object):
     """
     Physics object definition. Definition file syntax:
     
-    [Name(>Parent)(:SINGLE)]
+    [Name(>Parent)(<Mixin)(:SINGLE)]
     <variable definitions>
     <function definitions>
     """
@@ -27,11 +27,11 @@ class PhysicsObject(Definition, Object):
         Argument: re match object
         """
 
-        Definition.__init__(self, line, '\\[([A-Z][a-zA-Z0-9]+)(>[A-Z][a-zA-Z0-9]+|)(\\:SINGLE|)\\] *$')
+        Definition.__init__(self, line, '\\[([A-Z][a-zA-Z0-9]+)(>[A-Z][a-zA-Z0-9]+|)(<[A-Z][a-zA-Z0-9]+|)(\\:SINGLE|)\\] *$')
         PhysicsObject._known_objects.append(self)
 
         # is this a singlet?
-        if self.matches.group(3) == ':SINGLE':
+        if self.matches.group(4) == ':SINGLE':
             self.parent = 'Singlet'
             self._singlet = True
         else:
@@ -43,12 +43,23 @@ class PhysicsObject(Definition, Object):
             self.parent = self.matches.group(2)[1:]
             self._singlet = None
 
+        if self.matches.group(3):
+            self._mixin_names = self.matches.group(3)[1:].split(',')
+        else:
+            self._mixin_names = []
+            
         Object.__init__(self, self.matches.group(1), source)
 
         if len([f for f in self.functions if f.is_pure_virtual]) == 0:
             self.instantiable = True
         else:
             self.instantiable = False
+
+    def set_mixins(self, mixins):
+        for name in self._mixin_names:
+            mixin = next(m for m in mixins if m.name == name)
+            self.branches.extend(mixin.branches)
+            self.functions.extend(mixin.functions)
 
     def is_singlet(self):
         if self._singlet is None:

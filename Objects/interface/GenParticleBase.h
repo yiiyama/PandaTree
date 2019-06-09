@@ -1,7 +1,7 @@
-#ifndef PandaTree_Objects_GenParticle_h
-#define PandaTree_Objects_GenParticle_h
+#ifndef PandaTree_Objects_GenParticleBase_h
+#define PandaTree_Objects_GenParticleBase_h
 #include "Constants.h"
-#include "GenParticleBase.h"
+#include "Particle.h"
 #include "../../Framework/interface/Array.h"
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
@@ -9,24 +9,39 @@
 
 namespace panda {
 
-  class GenParticle : public GenParticleBase {
+  class GenParticleBase : public Particle {
   public:
-    struct datastore : public GenParticleBase::datastore {
-      datastore() : GenParticleBase::datastore() {}
+    enum StatusFlag {
+      kIsPrompt,
+      kIsDecayedLeptonHadron,
+      kIsTauDecayProduct,
+      kIsPromptTauDecayProduct,
+      kIsDirectTauDecayProduct,
+      kIsDirectPromptTauDecayProduct,
+      kIsDirectHadronDecayProduct,
+      kIsHardProcess,
+      kFromHardProcess,
+      kIsHardProcessTauDecayProduct,
+      kIsDirectHardProcessTauDecayProduct,
+      kFromHardProcessBeforeFSR,
+      kIsFirstCopy,
+      kIsLastCopy,
+      kIsLastCopyBeforeFSR,
+      nStatusFlags
+    };
+
+    static TString StatusFlagName[nStatusFlags];
+
+    struct datastore : public Particle::datastore {
+      datastore() : Particle::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* GenParticleBase
       Int_t* pdgid{0};
       Bool_t* finalState{0};
       Bool_t* miniaodPacked{0};
       UShort_t* statusFlags{0};
       ContainerBase const* parentContainer_{0};
       Short_t* parent_{0};
-      */
-      UShort_t* packedPt{0};
-      Short_t* packedEta{0};
-      Short_t* packedPhi{0};
-      UShort_t* packedM{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -39,42 +54,31 @@ namespace panda {
       void resizeVectors_(UInt_t) override;
     };
 
-    typedef Array<GenParticle> array_type;
-    typedef Collection<GenParticle> collection_type;
+    typedef Array<GenParticleBase> array_type;
+    typedef Collection<GenParticleBase> collection_type;
 
-    typedef GenParticleBase base_type;
+    typedef Particle base_type;
 
-    GenParticle(char const* name = "");
-    GenParticle(GenParticle const&);
-    GenParticle(datastore&, UInt_t idx);
-    ~GenParticle();
-    GenParticle& operator=(GenParticle const&);
+    GenParticleBase(char const* name = "");
+    GenParticleBase(GenParticleBase const&);
+    GenParticleBase(datastore&, UInt_t idx);
+    ~GenParticleBase();
+    GenParticleBase& operator=(GenParticleBase const&);
 
-    static char const* typeName() { return "GenParticle"; }
+    static char const* typeName() { return "GenParticleBase"; }
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    double pt() const override { unpack_(); return pt_; }
-    double eta() const override { unpack_(); return eta_; }
-    double phi() const override { unpack_(); return phi_; }
-    double m() const override { unpack_(); return mass_; }
-    void setPtEtaPhiM(double pt, double eta, double phi, double m) override;
-    void setXYZE(double px, double py, double pz, double e) override;
+    bool testFlag(StatusFlag f) const { return ((statusFlags >> f) & 1) == 1; }
 
-    /* GenParticleBase
     Int_t& pdgid;
     Bool_t& finalState;
     Bool_t& miniaodPacked; ///< True if this came from a MINIAOD packed collection
     UShort_t& statusFlags;
     Ref<GenParticleBase> parent;
-    */
-    UShort_t& packedPt;
-    Short_t& packedEta;
-    Short_t& packedPhi;
-    UShort_t& packedM;
 
-    /* BEGIN CUSTOM GenParticle.h.classdef */
+    /* BEGIN CUSTOM GenParticleBase.h.classdef */
     /* END CUSTOM */
 
     static utils::BranchList getListOfBranches();
@@ -82,18 +86,18 @@ namespace panda {
     void destructor(Bool_t recursive = kFALSE);
 
   protected:
-    GenParticle(ArrayBase*);
+    GenParticleBase(ArrayBase*);
 
     void doBook_(TTree&, TString const&, utils::BranchList const& = {"*"}) override;
     void doInit_() override;
   };
 
-  typedef Array<GenParticle> GenParticleArray;
-  typedef Collection<GenParticle> GenParticleCollection;
-  typedef Ref<GenParticle> GenParticleRef;
-  typedef RefVector<GenParticle> GenParticleRefVector;
+  typedef Array<GenParticleBase> GenParticleBaseArray;
+  typedef Collection<GenParticleBase> GenParticleBaseCollection;
+  typedef Ref<GenParticleBase> GenParticleBaseRef;
+  typedef RefVector<GenParticleBase> GenParticleBaseRefVector;
 
-  /* BEGIN CUSTOM GenParticle.h.global */
+  /* BEGIN CUSTOM GenParticleBase.h.global */
   /* END CUSTOM */
 
 }

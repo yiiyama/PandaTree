@@ -6,7 +6,6 @@
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
-#include "PFCand.h"
 
 namespace panda {
 
@@ -16,12 +15,10 @@ namespace panda {
       datastore() : ParticleM::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* ParticleP
+      /* ParticleM
       Float_t* pt_{0};
       Float_t* eta_{0};
       Float_t* phi_{0};
-      */
-      /* ParticleM
       Float_t* mass_{0};
       */
       Float_t* x{0};
@@ -30,8 +27,7 @@ namespace panda {
       UShort_t* ntrk{0};
       Float_t* ndof{0};
       Float_t* chi2{0};
-      ContainerBase const* daughtersContainer_{0};
-      std::vector<std::vector<Short_t>>* daughters_{0};
+      std::vector<PFCandRefVector>* daughters{0};
       Float_t* significance{0};
       Float_t* vtx3DVal{0};
       Float_t* vtx3DeVal{0};
@@ -72,18 +68,16 @@ namespace panda {
     UShort_t& ntrk;
     Float_t& ndof;
     Float_t& chi2;
-    RefVector<PFCand> daughters;
+    PFCandRefVector* daughters;
     Float_t& significance;
     Float_t& vtx3DVal;
     Float_t& vtx3DeVal;
 
   protected:
-    /* ParticleP
+    /* ParticleM
     Float_t& pt_;
     Float_t& eta_;
     Float_t& phi_;
-    */
-    /* ParticleM
     Float_t& mass_;
     */
 

@@ -1,58 +1,34 @@
 #ifndef PandaTree_Objects_PFCand_h
 #define PandaTree_Objects_PFCand_h
 #include "Constants.h"
-#include "PackedParticle.h"
+#include "PFCandBase.h"
 #include "../../Framework/interface/Array.h"
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
-#include "RecoVertex.h"
-#include "PackedTrack.h"
 
 namespace panda {
 
-  class PFCand : public PackedParticle {
+  class PFCand : public PFCandBase {
   public:
-    enum PType {
-      hp,
-      hm,
-      ep,
-      em,
-      mup,
-      mum,
-      gamma,
-      h0,
-      h_HF,
-      egamma_HF,
-      Xp,
-      Xm,
-      X,
-      nPTypes
-    };
-
-    static TString PTypeName[nPTypes];
-
-    static int const q_[nPTypes];
-    static int const pdgId_[nPTypes];
-
-    struct datastore : public PackedParticle::datastore {
-      datastore() : PackedParticle::datastore() {}
+    struct datastore : public PFCandBase::datastore {
+      datastore() : PFCandBase::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* PackedParticle
-      UShort_t* packedPt{0};
-      Short_t* packedEta{0};
-      Short_t* packedPhi{0};
-      UShort_t* packedM{0};
-      */
-      Char_t* packedPuppiW{0};
-      Char_t* packedPuppiWNoLepDiff{0};
+      /* PFCandBase
       UChar_t* ptype{0};
       ContainerBase const* vertexContainer_{0};
       Short_t* vertex_{0}; ///< transient
       ContainerBase const* trackContainer_{0};
       Short_t* track_{0}; ///< transient
       Float_t* hCalFrac{0};
+      */
+      Char_t* packedPuppiW{0};
+      Char_t* packedPuppiWNoLepDiff{0};
+      UShort_t* packedPt{0};
+      Short_t* packedEta{0};
+      Short_t* packedPhi{0};
+      UShort_t* packedM{0};
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -68,7 +44,7 @@ namespace panda {
     typedef Array<PFCand> array_type;
     typedef Collection<PFCand> collection_type;
 
-    typedef PackedParticle base_type;
+    typedef PFCandBase base_type;
 
     PFCand(char const* name = "");
     PFCand(PFCand const&);
@@ -81,29 +57,28 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    double puppiW() const { unpack_(); return puppiW_; }
-    double puppiWNoLep() const { unpack_(); return puppiWNoLep_; }
-    void setPuppiW(double w, double wnl);
-    TLorentzVector puppiP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiW(), eta(), phi(), m() * puppiW()); return p4; }
-    TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep(), eta(), phi(), m() * puppiWNoLep()); return p4; }
-    int q() const { return q_[ptype]; }
-    int pdgId() const { return pdgId_[ptype]; }
-    TVector3 pca() const;
-    double dxy(TVector3 const&) const;
-    double dz(TVector3 const&) const;
+    double puppiW() const override { unpack_(); return puppiW_; }
+    double puppiWNoLep() const override { unpack_(); return puppiWNoLep_; }
+    void setPuppiW(double w, double wnl) override;
+    double pt() const override { unpack_(); return pt_; }
+    double eta() const override { unpack_(); return eta_; }
+    double phi() const override { unpack_(); return phi_; }
+    double m() const override { unpack_(); return mass_; }
+    void setPtEtaPhiM(double pt, double eta, double phi, double m) override;
+    void setXYZE(double px, double py, double pz, double e) override;
 
-    /* PackedParticle
-    UShort_t& packedPt;
-    Short_t& packedEta;
-    Short_t& packedPhi;
-    UShort_t& packedM;
-    */
-    Char_t& packedPuppiW;
-    Char_t& packedPuppiWNoLepDiff;
+    /* PFCandBase
     UChar_t& ptype;
     Ref<RecoVertex> vertex;
     Ref<PackedTrack> track;
     Float_t& hCalFrac;
+    */
+    Char_t& packedPuppiW;
+    Char_t& packedPuppiWNoLepDiff;
+    UShort_t& packedPt;
+    Short_t& packedEta;
+    Short_t& packedPhi;
+    UShort_t& packedM;
 
     /* BEGIN CUSTOM PFCand.h.classdef */
   protected:
