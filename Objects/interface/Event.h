@@ -37,6 +37,8 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
+    GenParticleBaseCollection* genParticleCollection() override { return &genParticles; }
+
     GenReweight genReweight = GenReweight("genReweight");
     PFCandCollection pfCandidates = PFCandCollection("pfCandidates", 2048);
     RecoVertexCollection vertices = RecoVertexCollection("vertices", 64);

@@ -8,6 +8,7 @@
 #include "TFile.h"
 #include "TKey.h"
 #include "HLTObjectStore.h"
+#include "GenParticleBase.h"
 #include "PandaTree/Framework/interface/RRNG.h"
 
 namespace panda {
@@ -21,6 +22,8 @@ namespace panda {
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
+
+    virtual GenParticleBaseCollection* genParticleCollection() { return nullptr; }
 
     HLTBits triggers = HLTBits("triggers");
 

@@ -90,4 +90,5 @@ photons.superCluster->superClusters
 jets.constituents->pfCandidates
 genParticles.parent->genParticles
 jets.matchedGenJet->genJets
+GenParticleBaseCollection* genParticleCollection() override { return &genParticles; }
 #include "Event.h"
