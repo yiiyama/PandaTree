@@ -5,10 +5,11 @@ mass/F
 mass2/F
 
 {EventTP>EventBase}
-npv/s
-npvTrue/s
 rho/F
 sample/i
+electrons/ElectronCollection(32)
+muons/MuonCollection(32)
+photons/PhotonCollection(32)
 tp/TPPairCollection(32)
 jets/JetCollection(64)
 t1Met/RecoMet

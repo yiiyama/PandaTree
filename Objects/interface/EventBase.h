@@ -9,6 +9,7 @@
 #include "TKey.h"
 #include "HLTObjectStore.h"
 #include "GenParticleBase.h"
+#include "Parton.h"
 #include "PandaTree/Framework/interface/RRNG.h"
 
 namespace panda {
@@ -23,7 +24,8 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    virtual GenParticleBaseCollection* genParticleCollection() { return nullptr; }
+    virtual GenParticleBaseCollection const* genParticleCollection() const { return nullptr; }
+    virtual PartonCollection const* partonCollection() const { return nullptr; }
 
     HLTBits triggers = HLTBits("triggers");
 
@@ -32,6 +34,8 @@ namespace panda {
     ULong64_t eventNumber{};
     Bool_t isData{};
     Float_t weight{};
+    UShort_t npv{};
+    UShort_t npvTrue{};
 
     static utils::BranchList getListOfBranches(Bool_t direct = kFALSE);
 

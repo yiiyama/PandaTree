@@ -540,19 +540,21 @@ lumiNumber/i
 eventNumber/l
 isData/O
 weight/F
+npv/s
+npvTrue/s
 triggers/HLTBits
-virtual GenParticleBaseCollection* genParticleCollection() { return nullptr; }
+virtual GenParticleBaseCollection const* genParticleCollection() const { return nullptr; }
+virtual PartonCollection const* partonCollection() const { return nullptr; }
 #include "Run.h"
 #include "TList.h"
 #include "TFile.h"
 #include "TKey.h"
 #include "HLTObjectStore.h"
 #include "GenParticleBase.h"
+#include "Parton.h"
 #include "PandaTree/Framework/interface/RRNG.h"
 
 {Event>EventBase}
-npv/s
-npvTrue/s
 rho/F
 rhoCentralCalo/F
 genReweight/GenReweight
@@ -635,7 +637,8 @@ puppiAK8Jets.matchedGenJet->ak8GenJets
 puppiCA15Jets.constituents->pfCandidates
 puppiCA15Jets.subjets->puppiCA15Subjets
 puppiCA15Jets.matchedGenJet->ca15GenJets
-GenParticleBaseCollection* genParticleCollection() override { return &genParticles; }
+GenParticleBaseCollection const* genParticleCollection() const override { return &genParticles; }
+PartonCollection const* partonCollection() const override { return &partons; }
 
 {Run}
 runNumber/i

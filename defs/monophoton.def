@@ -63,8 +63,6 @@ static double const hOverECuts[nIDTunes][2][4] = {
 };
 
 {EventMonophoton>EventBase}
-npv/s
-npvTrue/s
 rho/F
 rhoCentralCalo/F
 genReweight/GenReweight
@@ -90,5 +88,6 @@ photons.superCluster->superClusters
 jets.constituents->pfCandidates
 genParticles.parent->genParticles
 jets.matchedGenJet->genJets
-GenParticleBaseCollection* genParticleCollection() override { return &genParticles; }
+GenParticleBaseCollection const* genParticleCollection() const override { return &genParticles; }
+PartonCollection const* partonCollection() const override { return &partons; }
 #include "Event.h"

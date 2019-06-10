@@ -2,6 +2,9 @@
 #define PandaTree_Objects_EventTP_h
 #include "EventBase.h"
 #include "Constants.h"
+#include "Electron.h"
+#include "Muon.h"
+#include "Photon.h"
 #include "TPPair.h"
 #include "Jet.h"
 #include "RecoMet.h"
@@ -18,12 +21,13 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
+    ElectronCollection electrons = ElectronCollection("electrons", 32);
+    MuonCollection muons = MuonCollection("muons", 32);
+    PhotonCollection photons = PhotonCollection("photons", 32);
     TPPairCollection tp = TPPairCollection("tp", 32);
     JetCollection jets = JetCollection("jets", 64);
     RecoMet t1Met = RecoMet("t1Met");
 
-    UShort_t npv{};
-    UShort_t npvTrue{};
     Float_t rho{};
     UInt_t sample{};
 

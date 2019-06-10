@@ -16,24 +16,15 @@ namespace testpanda {
 
   template <>
   struct plotter <0> {
-    constexpr static const char* name = "common/eventNumber";
+    constexpr static const char* name = "common/isData";
     std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.eventNumber)};
+      std::vector<float> output {float(event.isData)};
       return output;
     }
   };
 
   template <>
   struct plotter <1> {
-    constexpr static const char* name = "common/runNumber";
-    std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.runNumber)};
-      return output;
-    }
-  };
-
-  template <>
-  struct plotter <2> {
     constexpr static const char* name = "common/weight";
     std::vector<float> operator () (panda::Event& event) {
       std::vector<float> output {float(event.weight)};
@@ -42,10 +33,19 @@ namespace testpanda {
   };
 
   template <>
-  struct plotter <3> {
-    constexpr static const char* name = "common/isData";
+  struct plotter <2> {
+    constexpr static const char* name = "common/eventNumber";
     std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.isData)};
+      std::vector<float> output {float(event.eventNumber)};
+      return output;
+    }
+  };
+
+  template <>
+  struct plotter <3> {
+    constexpr static const char* name = "common/runNumber";
+    std::vector<float> operator () (panda::Event& event) {
+      std::vector<float> output {float(event.runNumber)};
       return output;
     }
   };
@@ -61,9 +61,9 @@ namespace testpanda {
 
   template <>
   struct plotter <5> {
-    constexpr static const char* name = "common/rhoCentralCalo";
+    constexpr static const char* name = "common/npvTrue";
     std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.rhoCentralCalo)};
+      std::vector<float> output {float(event.npvTrue)};
       return output;
     }
   };
@@ -79,18 +79,18 @@ namespace testpanda {
 
   template <>
   struct plotter <7> {
-    constexpr static const char* name = "common/rho";
+    constexpr static const char* name = "common/rhoCentralCalo";
     std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.rho)};
+      std::vector<float> output {float(event.rhoCentralCalo)};
       return output;
     }
   };
 
   template <>
   struct plotter <8> {
-    constexpr static const char* name = "common/npvTrue";
+    constexpr static const char* name = "common/rho";
     std::vector<float> operator () (panda::Event& event) {
-      std::vector<float> output {float(event.npvTrue)};
+      std::vector<float> output {float(event.rho)};
       return output;
     }
   };

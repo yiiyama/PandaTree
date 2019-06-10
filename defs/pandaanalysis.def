@@ -3,4 +3,4 @@
 {EventAnalysis>Event}
 genParticlesU/UnpackedGenParticleCollection(256)
 genParticlesU.parent->genParticlesU
-GenParticleBaseCollection* genParticleCollection() override { return &genParticlesU; }
+GenParticleBaseCollection const* genParticleCollection() const override { return &genParticlesU; }

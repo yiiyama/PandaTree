@@ -94,8 +94,6 @@ panda::Event::Event(Event const& _src) :
   genMet(_src.genMet),
   metFilters(_src.metFilters),
   recoil(_src.recoil),
-  npv(_src.npv),
-  npvTrue(_src.npvTrue),
   rho(_src.rho),
   rhoCentralCalo(_src.rhoCentralCalo)
 {
@@ -163,8 +161,6 @@ panda::Event::operator=(Event const& _src)
   /* BEGIN CUSTOM Event.cc.operator= */
   /* END CUSTOM */
 
-  npv = _src.npv;
-  npvTrue = _src.npvTrue;
   rho = _src.rho;
   rhoCentralCalo = _src.rhoCentralCalo;
 
@@ -279,8 +275,6 @@ panda::Event::dump(std::ostream& _out/* = std::cout*/) const
 {
   EventBase::dump(_out);
 
-  _out << "npv = " << npv << std::endl;
-  _out << "npvTrue = " << npvTrue << std::endl;
   _out << "rho = " << rho << std::endl;
   _out << "rhoCentralCalo = " << rhoCentralCalo << std::endl;
 
@@ -333,7 +327,7 @@ panda::Event::getListOfBranches(Bool_t _direct/* = kFALSE*/)
   utils::BranchList blist;
   blist += EventBase::getListOfBranches(_direct);
 
-  blist += {"npv", "npvTrue", "rho", "rhoCentralCalo"};
+  blist += {"rho", "rhoCentralCalo"};
   if (!_direct) {
     blist += GenReweight::getListOfBranches().fullNames("genReweight");
     blist += PFCand::getListOfBranches().fullNames("pfCandidates");
@@ -386,8 +380,6 @@ void
 panda::Event::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 {
   EventBase::doSetStatus_(_tree, _branches);
-  utils::setStatus(_tree, "", "npv", _branches);
-  utils::setStatus(_tree, "", "npvTrue", _branches);
   utils::setStatus(_tree, "", "rho", _branches);
   utils::setStatus(_tree, "", "rhoCentralCalo", _branches);
 }
@@ -399,8 +391,6 @@ panda::Event::doGetStatus_(TTree& _tree) const
   utils::BranchList blist;
   blist += EventBase::doGetStatus_(_tree);
 
-  blist.push_back(utils::getStatus(_tree, "", "npv"));
-  blist.push_back(utils::getStatus(_tree, "", "npvTrue"));
   blist.push_back(utils::getStatus(_tree, "", "rho"));
   blist.push_back(utils::getStatus(_tree, "", "rhoCentralCalo"));
   return blist;
@@ -419,8 +409,6 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
 {
   EventBase::doSetAddress_(_tree, _branches, _setStatus);
 
-  utils::setAddress(_tree, "", "npv", &npv, _branches, _setStatus);
-  utils::setAddress(_tree, "", "npvTrue", &npvTrue, _branches, _setStatus);
   utils::setAddress(_tree, "", "rho", &rho, _branches, _setStatus);
   utils::setAddress(_tree, "", "rhoCentralCalo", &rhoCentralCalo, _branches, _setStatus);
 }
@@ -431,8 +419,6 @@ panda::Event::doBook_(TTree& _tree, utils::BranchList const& _branches)
 {
   EventBase::doBook_(_tree, _branches);
 
-  utils::book(_tree, "", "npv", "", 's', &npv, _branches);
-  utils::book(_tree, "", "npvTrue", "", 's', &npvTrue, _branches);
   utils::book(_tree, "", "rho", "", 'F', &rho, _branches);
   utils::book(_tree, "", "rhoCentralCalo", "", 'F', &rhoCentralCalo, _branches);
 }
@@ -488,8 +474,6 @@ panda::Event::doInit_()
 {
   EventBase::doInit_();
 
-  npv = 0;
-  npvTrue = 0;
   rho = 0.;
   rhoCentralCalo = 0.;
   /* BEGIN CUSTOM Event.cc.doInit_ */

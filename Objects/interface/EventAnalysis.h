@@ -16,7 +16,7 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    GenParticleBaseCollection* genParticleCollection() override { return &genParticlesU; }
+    GenParticleBaseCollection const* genParticleCollection() const override { return &genParticlesU; }
 
     UnpackedGenParticleCollection genParticlesU = UnpackedGenParticleCollection("genParticlesU", 256);
 

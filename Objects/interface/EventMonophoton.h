@@ -32,7 +32,8 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    GenParticleBaseCollection* genParticleCollection() override { return &genParticles; }
+    GenParticleBaseCollection const* genParticleCollection() const override { return &genParticles; }
+    PartonCollection const* partonCollection() const override { return &partons; }
 
     GenReweight genReweight = GenReweight("genReweight");
     PFCandCollection pfCandidates = PFCandCollection("pfCandidates", 2048);
@@ -52,8 +53,6 @@ namespace panda {
     Met caloMet = Met("caloMet");
     MetFilters metFilters = MetFilters("metFilters");
 
-    UShort_t npv{};
-    UShort_t npvTrue{};
     Float_t rho{};
     Float_t rhoCentralCalo{};
 
