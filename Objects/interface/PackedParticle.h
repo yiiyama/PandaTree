@@ -54,8 +54,8 @@ namespace panda {
     double eta() const override { unpack_(); return eta_; }
     double phi() const override { unpack_(); return phi_; }
     double m() const override { unpack_(); return mass_; }
-    void setPtEtaPhiM(double pt, double eta, double phi, double m) override;
-    void setXYZE(double px, double py, double pz, double e) override;
+    void setPtEtaPhiM(double pt, double eta, double phi, double m) override { setPtEtaPhiMPacked_(pt, eta, phi, m); }
+    void setXYZE(double px, double py, double pz, double e) override { setXYZEPacked_(px, py, pz, e); }
 
     /* PackedMomentumMixin
     UShort_t& packedPt;

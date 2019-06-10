@@ -24,8 +24,8 @@ namespace panda {
   protected:
     void pack_();
     void unpack_() const;
-    virtual void packMore_() {}
-    virtual void unpackMore_() const {}
+    void setPtEtaPhiMPacked_(double pt, double eta, double phi, double m);
+    void setXYZEPacked_(double px, double py, double pz, double e);
 
     mutable Double_t pt_{0.};
     mutable Double_t eta_{0.};

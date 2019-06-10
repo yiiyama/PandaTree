@@ -220,26 +220,4 @@ panda::PackedParticle::dump(std::ostream& _out/* = std::cout*/) const
 
 
 /* BEGIN CUSTOM PackedParticle.cc.global */
-void
-panda::PackedParticle::setPtEtaPhiM(double pt, double eta, double phi, double m)
-{
-  pt_ = pt;
-  eta_ = eta;
-  phi_ = phi;
-  mass_ = m;
-  unpacked_ = true;
-  pack_();
-}
-
-void
-panda::PackedParticle::setXYZE(double px, double py, double pz, double e)
-{
-  pt_ = std::sqrt(px * px + py * py);
-  double p(std::sqrt(px * px + py * py + pz * pz));
-  eta_ = 0.5 * std::log((p + pz) / (p - pz));
-  phi_ = std::atan2(py, px);
-  mass_ = std::sqrt(e * e - p * p);
-  unpacked_ = true;
-  pack_();
-}
 /* END CUSTOM */

@@ -66,8 +66,8 @@ namespace panda {
     double eta() const override { unpack_(); return eta_; }
     double phi() const override { unpack_(); return phi_; }
     double m() const override { unpack_(); return mass_; }
-    void setPtEtaPhiM(double pt, double eta, double phi, double m) override;
-    void setXYZE(double px, double py, double pz, double e) override;
+    void setPtEtaPhiM(double pt, double eta, double phi, double m) override { setPtEtaPhiMPacked_(pt, eta, phi, m); }
+    void setXYZE(double px, double py, double pz, double e) override { setXYZEPacked_(px, py, pz, e); }
     double puppiW() const override { unpackWeights_(); return puppiW_; }
     double puppiWNoLep() const override { unpackWeights_(); return puppiWNoLep_; }
     void setPuppiW(double w, double wnl) override { puppiW_ = w; puppiWNoLep_ = wnl; packWeights_(); }
