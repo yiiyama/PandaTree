@@ -18,7 +18,6 @@
 #include "GenJet.h"
 #include "GenParticle.h"
 #include "Vertex.h"
-#include "Parton.h"
 #include "Proton.h"
 #include "RecoMet.h"
 #include "Met.h"
@@ -38,7 +37,6 @@ namespace panda {
     void dump(std::ostream& = std::cout) const override;
 
     GenParticleBaseCollection const* genParticleCollection() const override { return &genParticles; }
-    PartonCollection const* partonCollection() const override { return &partons; }
 
     GenReweight genReweight = GenReweight("genReweight");
     PFCandCollection pfCandidates = PFCandCollection("pfCandidates", 2048);
@@ -65,7 +63,6 @@ namespace panda {
     GenJetCollection ca15GenJets = GenJetCollection("ca15GenJets", 32);
     GenParticleCollection genParticles = GenParticleCollection("genParticles", 256);
     Vertex genVertex = Vertex("genVertex");
-    PartonCollection partons = PartonCollection("partons", 8);
     ProtonCollection protons = ProtonCollection("protons", 32);
     RecoMet pfMet = RecoMet("pfMet");
     RecoMet puppiMet = RecoMet("puppiMet");

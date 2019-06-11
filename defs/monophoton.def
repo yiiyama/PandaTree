@@ -77,7 +77,6 @@ jets/JetCollection(64)
 genJets/GenJetCollection(64)
 genParticles/UnpackedGenParticleCollection(256)
 genVertex/Vertex
-partons/PartonCollection(8)
 t1Met/RecoMet
 rawMet/Met
 caloMet/Met
@@ -89,5 +88,4 @@ jets.constituents->pfCandidates
 genParticles.parent->genParticles
 jets.matchedGenJet->genJets
 GenParticleBaseCollection const* genParticleCollection() const override { return &genParticles; }
-PartonCollection const* partonCollection() const override { return &partons; }
 #include "Event.h"

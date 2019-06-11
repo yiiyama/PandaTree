@@ -3,8 +3,10 @@
 panda::EventBase::EventBase() :
   TreeEntry()
 {
-  std::vector<Object*> myObjects{{&triggers}};
+  std::vector<Object*> myObjects{{&triggers, &partons}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
+  std::vector<CollectionBase*> myCollections{{&partons}};
+  collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
   /* BEGIN CUSTOM EventBase.cc.ctor */
   objects_.push_back(&triggerObjects);
   collections_.push_back(&triggerObjects);
@@ -15,6 +17,7 @@ panda::EventBase::EventBase() :
 panda::EventBase::EventBase(EventBase const& _src) :
   TreeEntry(_src),
   triggers(_src.triggers),
+  partons(_src.partons),
   runNumber(_src.runNumber),
   lumiNumber(_src.lumiNumber),
   eventNumber(_src.eventNumber),
@@ -23,8 +26,10 @@ panda::EventBase::EventBase(EventBase const& _src) :
   npv(_src.npv),
   npvTrue(_src.npvTrue)
 {
-  std::vector<Object*> myObjects{{&triggers}};
+  std::vector<Object*> myObjects{{&triggers, &partons}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
+  std::vector<CollectionBase*> myCollections{{&partons}};
+  collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
   /* BEGIN CUSTOM EventBase.cc.copy_ctor */
   run = _src.run;
@@ -63,6 +68,7 @@ panda::EventBase::operator=(EventBase const& _src)
   npvTrue = _src.npvTrue;
 
   triggers = _src.triggers;
+  partons = _src.partons;
 
   return *this;
 }
@@ -99,6 +105,7 @@ panda::EventBase::dump(std::ostream& _out/* = std::cout*/) const
   _out << "npvTrue = " << npvTrue << std::endl;
 
   triggers.dump(_out);
+  partons.dump(_out);
 
 }
 /*static*/
@@ -109,6 +116,7 @@ panda::EventBase::getListOfBranches(Bool_t _direct/* = kFALSE*/)
   blist += {"runNumber", "lumiNumber", "eventNumber", "isData", "weight", "npv", "npvTrue"};
   if (!_direct) {
     blist += HLTBits::getListOfBranches().fullNames("triggers");
+    blist += Parton::getListOfBranches().fullNames("partons");
   }
   /* BEGIN CUSTOM EventBase.cc.getListOfBranches_ */
   if (!_direct)

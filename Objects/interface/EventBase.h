@@ -3,13 +3,13 @@
 #include "../../Framework/interface/TreeEntry.h"
 #include "Constants.h"
 #include "HLTBits.h"
+#include "Parton.h"
 #include "Run.h"
 #include "TList.h"
 #include "TFile.h"
 #include "TKey.h"
 #include "HLTObjectStore.h"
 #include "GenParticleBase.h"
-#include "Parton.h"
 #include "PandaTree/Framework/interface/RRNG.h"
 
 namespace panda {
@@ -25,9 +25,9 @@ namespace panda {
     void dump(std::ostream& = std::cout) const override;
 
     virtual GenParticleBaseCollection const* genParticleCollection() const { return nullptr; }
-    virtual PartonCollection const* partonCollection() const { return nullptr; }
 
     HLTBits triggers = HLTBits("triggers");
+    PartonCollection partons = PartonCollection("partons", 8);
 
     UInt_t runNumber{};
     UInt_t lumiNumber{};

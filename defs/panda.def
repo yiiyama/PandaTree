@@ -543,15 +543,14 @@ weight/F
 npv/s
 npvTrue/s
 triggers/HLTBits
+partons/PartonCollection(8)
 virtual GenParticleBaseCollection const* genParticleCollection() const { return nullptr; }
-virtual PartonCollection const* partonCollection() const { return nullptr; }
 #include "Run.h"
 #include "TList.h"
 #include "TFile.h"
 #include "TKey.h"
 #include "HLTObjectStore.h"
 #include "GenParticleBase.h"
-#include "Parton.h"
 #include "PandaTree/Framework/interface/RRNG.h"
 
 {Event>EventBase}
@@ -582,7 +581,6 @@ ak8GenJets/GenJetCollection(32)
 ca15GenJets/GenJetCollection(32)
 genParticles/GenParticleCollection(256)
 genVertex/Vertex
-partons/PartonCollection(8)
 protons/ProtonCollection(32)
 pfMet/RecoMet
 puppiMet/RecoMet
@@ -638,7 +636,6 @@ puppiCA15Jets.constituents->pfCandidates
 puppiCA15Jets.subjets->puppiCA15Subjets
 puppiCA15Jets.matchedGenJet->ca15GenJets
 GenParticleBaseCollection const* genParticleCollection() const override { return &genParticles; }
-PartonCollection const* partonCollection() const override { return &partons; }
 
 {Run}
 runNumber/i

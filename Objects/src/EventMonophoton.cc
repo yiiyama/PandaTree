@@ -3,9 +3,9 @@
 panda::EventMonophoton::EventMonophoton() :
   EventBase()
 {
-  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &genVertex, &partons, &t1Met, &rawMet, &caloMet, &metFilters}};
+  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &genVertex, &t1Met, &rawMet, &caloMet, &metFilters}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &partons}};
+  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
   pfCandidates.data.vertexContainer_ = &vertices;
@@ -32,7 +32,6 @@ panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
   genJets(_src.genJets),
   genParticles(_src.genParticles),
   genVertex(_src.genVertex),
-  partons(_src.partons),
   t1Met(_src.t1Met),
   rawMet(_src.rawMet),
   caloMet(_src.caloMet),
@@ -40,9 +39,9 @@ panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
   rho(_src.rho),
   rhoCentralCalo(_src.rhoCentralCalo)
 {
-  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &genVertex, &partons, &t1Met, &rawMet, &caloMet, &metFilters}};
+  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &genVertex, &t1Met, &rawMet, &caloMet, &metFilters}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &partons}};
+  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
 
@@ -85,7 +84,6 @@ panda::EventMonophoton::operator=(EventMonophoton const& _src)
   genJets = _src.genJets;
   genParticles = _src.genParticles;
   genVertex = _src.genVertex;
-  partons = _src.partons;
   t1Met = _src.t1Met;
   rawMet = _src.rawMet;
   caloMet = _src.caloMet;
@@ -142,7 +140,6 @@ panda::EventMonophoton::dump(std::ostream& _out/* = std::cout*/) const
   genJets.dump(_out);
   genParticles.dump(_out);
   genVertex.dump(_out);
-  partons.dump(_out);
   t1Met.dump(_out);
   rawMet.dump(_out);
   caloMet.dump(_out);
@@ -170,7 +167,6 @@ panda::EventMonophoton::getListOfBranches(Bool_t _direct/* = kFALSE*/)
     blist += GenJet::getListOfBranches().fullNames("genJets");
     blist += UnpackedGenParticle::getListOfBranches().fullNames("genParticles");
     blist += Vertex::getListOfBranches().fullNames("genVertex");
-    blist += Parton::getListOfBranches().fullNames("partons");
     blist += RecoMet::getListOfBranches().fullNames("t1Met");
     blist += Met::getListOfBranches().fullNames("rawMet");
     blist += Met::getListOfBranches().fullNames("caloMet");
