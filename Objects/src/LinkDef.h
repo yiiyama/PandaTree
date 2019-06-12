@@ -37,6 +37,7 @@
 #include "PandaTree/Objects/interface/Event.h"
 #include "PandaTree/Objects/interface/Run.h"
 #include "PandaTree/Objects/interface/EventMonophoton.h"
+#include "PandaTree/Objects/interface/EventAnalysis.h"
 #include "PandaTree/Objects/interface/EventTP.h"
 #include "PandaTree/Objects/interface/EventTPEG.h"
 #include "PandaTree/Objects/interface/EventTPEEG.h"
@@ -46,7 +47,6 @@
 #include "PandaTree/Objects/interface/EventTP2M.h"
 #include "PandaTree/Objects/interface/EventTPEM.h"
 #include "PandaTree/Objects/interface/EventTPME.h"
-#include "PandaTree/Objects/interface/EventAnalysis.h"
 #include "PandaTree/Objects/interface/PackingHelper.h"
 
 #ifdef __CLING__
@@ -330,6 +330,7 @@
 #pragma link C++ class panda::Event;
 #pragma link C++ class panda::Run;
 #pragma link C++ class panda::EventMonophoton;
+#pragma link C++ class panda::EventAnalysis;
 #pragma link C++ class panda::EventTP;
 #pragma link C++ class panda::EventTPEG;
 #pragma link C++ class panda::EventTPEEG;
@@ -339,7 +340,6 @@
 #pragma link C++ class panda::EventTP2M;
 #pragma link C++ class panda::EventTPEM;
 #pragma link C++ class panda::EventTPME;
-#pragma link C++ class panda::EventAnalysis;
 #pragma link C++ class panda::PackingHelper;
 
 #endif

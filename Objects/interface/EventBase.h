@@ -4,6 +4,7 @@
 #include "Constants.h"
 #include "HLTBits.h"
 #include "Parton.h"
+#include "Vertex.h"
 #include "Run.h"
 #include "TList.h"
 #include "TFile.h"
@@ -25,9 +26,11 @@ namespace panda {
     void dump(std::ostream& = std::cout) const override;
 
     virtual GenParticleBaseCollection const* genParticleCollection() const { return nullptr; }
+    virtual GenParticleBaseCollection* genParticleCollection() { return nullptr; }
 
     HLTBits triggers = HLTBits("triggers");
     PartonCollection partons = PartonCollection("partons", 8);
+    Vertex genVertex = Vertex("genVertex");
 
     UInt_t runNumber{};
     UInt_t lumiNumber{};

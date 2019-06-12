@@ -544,7 +544,9 @@ npv/s
 npvTrue/s
 triggers/HLTBits
 partons/PartonCollection(8)
+genVertex/Vertex
 virtual GenParticleBaseCollection const* genParticleCollection() const { return nullptr; }
+virtual GenParticleBaseCollection* genParticleCollection() { return nullptr; }
 #include "Run.h"
 #include "TList.h"
 #include "TFile.h"
@@ -580,7 +582,6 @@ ak4GenJets/GenJetCollection(64)
 ak8GenJets/GenJetCollection(32)
 ca15GenJets/GenJetCollection(32)
 genParticles/GenParticleCollection(256)
-genVertex/Vertex
 protons/ProtonCollection(32)
 pfMet/RecoMet
 puppiMet/RecoMet
@@ -636,6 +637,7 @@ puppiCA15Jets.constituents->pfCandidates
 puppiCA15Jets.subjets->puppiCA15Subjets
 puppiCA15Jets.matchedGenJet->ca15GenJets
 GenParticleBaseCollection const* genParticleCollection() const override { return &genParticles; }
+GenParticleBaseCollection* genParticleCollection() override { return &genParticles; }
 
 {Run}
 runNumber/i

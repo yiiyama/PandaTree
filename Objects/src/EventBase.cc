@@ -3,7 +3,7 @@
 panda::EventBase::EventBase() :
   TreeEntry()
 {
-  std::vector<Object*> myObjects{{&triggers, &partons}};
+  std::vector<Object*> myObjects{{&triggers, &partons, &genVertex}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   std::vector<CollectionBase*> myCollections{{&partons}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
@@ -18,6 +18,7 @@ panda::EventBase::EventBase(EventBase const& _src) :
   TreeEntry(_src),
   triggers(_src.triggers),
   partons(_src.partons),
+  genVertex(_src.genVertex),
   runNumber(_src.runNumber),
   lumiNumber(_src.lumiNumber),
   eventNumber(_src.eventNumber),
@@ -26,7 +27,7 @@ panda::EventBase::EventBase(EventBase const& _src) :
   npv(_src.npv),
   npvTrue(_src.npvTrue)
 {
-  std::vector<Object*> myObjects{{&triggers, &partons}};
+  std::vector<Object*> myObjects{{&triggers, &partons, &genVertex}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
   std::vector<CollectionBase*> myCollections{{&partons}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
@@ -69,6 +70,7 @@ panda::EventBase::operator=(EventBase const& _src)
 
   triggers = _src.triggers;
   partons = _src.partons;
+  genVertex = _src.genVertex;
 
   return *this;
 }
@@ -106,6 +108,7 @@ panda::EventBase::dump(std::ostream& _out/* = std::cout*/) const
 
   triggers.dump(_out);
   partons.dump(_out);
+  genVertex.dump(_out);
 
 }
 /*static*/
@@ -117,6 +120,7 @@ panda::EventBase::getListOfBranches(Bool_t _direct/* = kFALSE*/)
   if (!_direct) {
     blist += HLTBits::getListOfBranches().fullNames("triggers");
     blist += Parton::getListOfBranches().fullNames("partons");
+    blist += Vertex::getListOfBranches().fullNames("genVertex");
   }
   /* BEGIN CUSTOM EventBase.cc.getListOfBranches_ */
   if (!_direct)
