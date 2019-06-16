@@ -1,0 +1,34 @@
+<require panda>
+
+[CorrectedSecondaryVertex>SecondaryVertex]
+r/F
+rawPt/F
+rawEta/F
+rawPhi/F
+rawMass/F
+iPV/I
+drPV/F
+dzPV/F
+q/S
+chIso/F
+nhIso/F
+phIso/F
+void setPV(VertexCollection const&);
+#include "Vertex.h"
+
+[SVDaughter>UnpackedPFCand]
+dxySV/F
+dzSV/F
+rawPhi/F
+qtrk/S
+ptAxis/F
+plAxis/F
+
+{EventSV>EventBase}
+secondaryVertices/CorrectedSecondaryVertexCollection
+tracks/SVDaughterCollection
+muons/MuonCollection
+genParticles/UnpackedGenParticleCollection
+secondaryVertices.daughters->tracks
+GenParticleBaseCollection const* genParticleCollection() const override { return &genParticles; }
+GenParticleBaseCollection* genParticleCollection() override { return &genParticles; }

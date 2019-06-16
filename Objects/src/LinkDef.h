@@ -33,6 +33,8 @@
 #include "PandaTree/Objects/interface/Recoil.h"
 #include "PandaTree/Objects/interface/XPhoton.h"
 #include "PandaTree/Objects/interface/TPPair.h"
+#include "PandaTree/Objects/interface/CorrectedSecondaryVertex.h"
+#include "PandaTree/Objects/interface/SVDaughter.h"
 #include "PandaTree/Objects/interface/EventBase.h"
 #include "PandaTree/Objects/interface/Event.h"
 #include "PandaTree/Objects/interface/Run.h"
@@ -47,6 +49,7 @@
 #include "PandaTree/Objects/interface/EventTP2M.h"
 #include "PandaTree/Objects/interface/EventTPEM.h"
 #include "PandaTree/Objects/interface/EventTPME.h"
+#include "PandaTree/Objects/interface/EventSV.h"
 #include "PandaTree/Objects/interface/PackingHelper.h"
 
 #ifdef __CLING__
@@ -94,6 +97,8 @@
 #pragma link C++ class panda::Recoil;
 #pragma link C++ class panda::XPhoton;
 #pragma link C++ class panda::TPPair;
+#pragma link C++ class panda::CorrectedSecondaryVertex;
+#pragma link C++ class panda::SVDaughter;
 #pragma link C++ class panda::Array<panda::Particle>;
 #pragma link C++ class panda::Collection<panda::Particle>;
 #pragma link C++ class panda::Ref<panda::Particle>;
@@ -210,6 +215,14 @@
 #pragma link C++ class panda::Collection<panda::TPPair>;
 #pragma link C++ class panda::Ref<panda::TPPair>;
 #pragma link C++ class panda::RefVector<panda::TPPair>;
+#pragma link C++ class panda::Array<panda::CorrectedSecondaryVertex>;
+#pragma link C++ class panda::Collection<panda::CorrectedSecondaryVertex>;
+#pragma link C++ class panda::Ref<panda::CorrectedSecondaryVertex>;
+#pragma link C++ class panda::RefVector<panda::CorrectedSecondaryVertex>;
+#pragma link C++ class panda::Array<panda::SVDaughter>;
+#pragma link C++ class panda::Collection<panda::SVDaughter>;
+#pragma link C++ class panda::Ref<panda::SVDaughter>;
+#pragma link C++ class panda::RefVector<panda::SVDaughter>;
 #pragma link C++ typedef panda::ParticleArray;
 #pragma link C++ typedef panda::ParticleCollection;
 #pragma link C++ typedef panda::ParticleRef;
@@ -326,6 +339,14 @@
 #pragma link C++ typedef panda::TPPairCollection;
 #pragma link C++ typedef panda::TPPairRef;
 #pragma link C++ typedef panda::TPPairRefVector;
+#pragma link C++ typedef panda::CorrectedSecondaryVertexArray;
+#pragma link C++ typedef panda::CorrectedSecondaryVertexCollection;
+#pragma link C++ typedef panda::CorrectedSecondaryVertexRef;
+#pragma link C++ typedef panda::CorrectedSecondaryVertexRefVector;
+#pragma link C++ typedef panda::SVDaughterArray;
+#pragma link C++ typedef panda::SVDaughterCollection;
+#pragma link C++ typedef panda::SVDaughterRef;
+#pragma link C++ typedef panda::SVDaughterRefVector;
 #pragma link C++ class panda::EventBase;
 #pragma link C++ class panda::Event;
 #pragma link C++ class panda::Run;
@@ -340,6 +361,7 @@
 #pragma link C++ class panda::EventTP2M;
 #pragma link C++ class panda::EventTPEM;
 #pragma link C++ class panda::EventTPME;
+#pragma link C++ class panda::EventSV;
 #pragma link C++ class panda::PackingHelper;
 
 #endif
