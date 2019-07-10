@@ -90,6 +90,9 @@ class Mixin(Definition, Object):
             
         header.write_custom_block('{name}.h.classdef'.format(name = self.name))
 
+        header.newline()
+        header.writeline('static utils::BranchList getListOfBranches();')
+
         header.indent -= 1
         
         header.writeline('};')
@@ -119,6 +122,19 @@ class Mixin(Definition, Object):
             src.newline()
             for constant in self.constants:
                 constant.write_def(src, cls = '{NAMESPACE}::{name}'.format(**subst))
+
+        src.newline()
+        src.writeline('/*static*/')
+        src.writeline('panda::utils::BranchList')
+        src.writeline('{NAMESPACE}::{name}::getListOfBranches()'.format(**subst))
+        src.writeline('{')
+        src.indent += 1
+        src.writeline('utils::BranchList blist;')
+        if len(self.branches) != 0:
+            src.writeline('blist += {{{bnames}}};'.format(bnames = ', '.join('"{name}"'.format(name = branch.name) for branch in self.branches if '!' not in branch.modifier)))
+        src.writeline('return blist;')
+        src.indent -= 1
+        src.writeline('}')
 
         src.newline()
         src.writeline('{NAMESPACE}::{name}::{name}(datastore& _data, UInt_t _idx) :'.format(**subst))

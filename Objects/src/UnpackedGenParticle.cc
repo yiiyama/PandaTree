@@ -6,6 +6,7 @@ panda::UnpackedGenParticle::getListOfBranches()
 {
   utils::BranchList blist;
   blist += GenParticleBase::getListOfBranches();
+  blist += PtEtaPhiMMixin::getListOfBranches();
   return blist;
 }
 

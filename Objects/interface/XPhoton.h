@@ -6,6 +6,7 @@
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
+#include <array>
 
 namespace panda {
 
@@ -21,12 +22,6 @@ namespace panda {
     };
 
     static TString IDTuneName[nIDTunes];
-
-    static double const chIsoCuts[nIDTunes][2][4];
-    static double const nhIsoCuts[nIDTunes][2][4];
-    static double const phIsoCuts[nIDTunes][2][4];
-    static double const sieieCuts[nIDTunes][2][4];
-    static double const hOverECuts[nIDTunes][2][4];
 
     struct datastore : public Photon::datastore {
       datastore() : Photon::datastore() {}
@@ -176,6 +171,14 @@ namespace panda {
     Int_t& matchedGenId;
 
     /* BEGIN CUSTOM XPhoton.h.classdef */
+    typedef std::array<double, 4> SubdetThresholds;
+    typedef std::array<SubdetThresholds, 2> Thresholds;
+    typedef std::array<Thresholds, nIDTunes> IDDefinitions;
+    static IDDefinitions const chIsoCuts;
+    static IDDefinitions const nhIsoCuts;
+    static IDDefinitions const phIsoCuts;
+    static IDDefinitions const sieieCuts;
+    static IDDefinitions const hOverECuts;
     /* END CUSTOM */
 
     static utils::BranchList getListOfBranches();

@@ -33,6 +33,8 @@ namespace panda {
     mutable Double_t mass_{0.};
     mutable Bool_t unpacked_{kFALSE};
     /* END CUSTOM */
+
+    static utils::BranchList getListOfBranches();
   };
   /* BEGIN CUSTOM PackedMomentumMixin.h.global */
   /* END CUSTOM */

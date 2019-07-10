@@ -1,5 +1,14 @@
 #include "../interface/PackedMomentumMixin.h"
 
+/*static*/
+panda::utils::BranchList
+panda::PackedMomentumMixin::getListOfBranches()
+{
+  utils::BranchList blist;
+  blist += {"packedPt", "packedEta", "packedPhi", "packedM"};
+  return blist;
+}
+
 panda::PackedMomentumMixin::PackedMomentumMixin(datastore& _data, UInt_t _idx) :
   packedPt(_data.packedPt[_idx]),
   packedEta(_data.packedEta[_idx]),

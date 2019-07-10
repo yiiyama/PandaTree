@@ -6,6 +6,7 @@ panda::GenParticle::getListOfBranches()
 {
   utils::BranchList blist;
   blist += GenParticleBase::getListOfBranches();
+  blist += PackedMomentumMixin::getListOfBranches();
   return blist;
 }
 

@@ -7,6 +7,7 @@
 #include "TChainElement.h"
 
 #include <stdexcept>
+#include <list>
 
 panda::utils::BranchName::BranchName(BranchName const& _src) :
   std::vector<TString>(_src),
@@ -96,13 +97,11 @@ panda::utils::BranchName::in(BranchList const& _list) const
 {
   // last match determines the result
 
-  bool included(false);
-  for (auto& bname : _list) {
-    if (match(bname)) {
-      included = !bname.isVeto();
-    }
+  for (auto bItr(_list.rbegin()); bItr != _list.rend(); ++bItr) {
+    if (match(*bItr))
+      return !bItr->isVeto();
   }
-  return included;
+  return false;
 }
 
 bool
@@ -110,12 +109,11 @@ panda::utils::BranchName::vetoed(BranchList const& _list) const
 {
   // last match determines the result
 
-  bool vetoed(false);
-  for (auto& bname : _list) {
-    if (match(bname))
-      vetoed = bname.isVeto();
+  for (auto bItr(_list.rbegin()); bItr != _list.rend(); ++bItr) {
+    if (match(*bItr))
+      return bItr->isVeto();
   }
-  return vetoed;
+  return false;
 }
 
 panda::utils::BranchList
@@ -130,15 +128,15 @@ panda::utils::BranchList::subList(TString const& _objName) const
     if (b.size() == 0 || (b[0] != "*" && b[0] != _objName))
       continue;
 
-    list.emplace_back(b);
-    auto& bname(list.back());
-
-    // if the branch name is just objName, consider it as objName.*
-    if (bname.size() == 1)
-      bname.emplace_back("*");
-
-    // remove the objName. part
-    bname.erase(bname.begin());
+    if (b.size() == 1) {
+      TString sub;
+      if (b.isVeto())
+        sub += "!";
+      sub += "*";
+      list.emplace_back(sub);
+    }
+    else
+      list.emplace_back(b.begin() + 1, b.end(), b.isVeto());
   }
 
   return list;
@@ -162,6 +160,34 @@ panda::utils::BranchList::operator+=(BranchList const& _rhs)
 {
   insert(end(), _rhs.begin(), _rhs.end());
   return *this;
+}
+
+void
+panda::utils::BranchList::collapse()
+{
+  std::list<BranchName> blist{begin(), end()};
+
+  auto bItr(blist.rbegin());
+  while (bItr != blist.rend()) {
+    auto& bname(*bItr);
+
+    auto cItr(bItr);
+    ++cItr;
+    for (; cItr != blist.rend(); ++cItr) {
+      if (bname.match(*cItr))
+        break;
+    }
+
+    ++bItr;
+    
+    if (cItr != blist.rend()) {
+      auto& cname(*cItr);
+      if (bname.isVeto() == cname.isVeto() && bname == cname)
+        blist.erase(bItr.base());
+    }
+  }
+
+  assign(blist.begin(), blist.end());
 }
 
 panda::utils::BranchList
@@ -223,7 +249,7 @@ panda::utils::setStatus(TTree& _tree, TString const& _objName, BranchName const&
   // -1 -> branch does not exist; 0 -> status is already set; 1 -> status is different
   Int_t returnCode(checkStatus(_tree, fullName, status));
   if (returnCode != 1) {
-    if (_bList.getVerbosity() > 0)
+    if (_bList.getVerbosity() > 1)
       std::cout << "Branch " << fullName << " status unchanged at " << status << std::endl;
 
     return returnCode;
@@ -280,7 +306,7 @@ panda::utils::setAddress(TTree& _tree, TString const& _objName, BranchName const
   else {
     if (!_bName.in(_bList))
       return -2;
-    
+
     // -1 -> branch does not exist; 0 -> status is true; 1 -> status is false
     returnCode = checkStatus(_tree, fullName, true);
     if (returnCode != 0)

@@ -6,6 +6,7 @@ panda::UnpackedPFCand::getListOfBranches()
 {
   utils::BranchList blist;
   blist += PFCandBase::getListOfBranches();
+  blist += PtEtaPhiMMixin::getListOfBranches();
   blist += {"puppiW_", "puppiWNoLep_"};
   return blist;
 }

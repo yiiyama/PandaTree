@@ -23,6 +23,8 @@ namespace panda {
 
     /* BEGIN CUSTOM PtEtaPhiMMixin.h.classdef */
     /* END CUSTOM */
+
+    static utils::BranchList getListOfBranches();
   };
   /* BEGIN CUSTOM PtEtaPhiMMixin.h.global */
   /* END CUSTOM */

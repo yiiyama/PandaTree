@@ -6,6 +6,7 @@ panda::PFCand::getListOfBranches()
 {
   utils::BranchList blist;
   blist += PFCandBase::getListOfBranches();
+  blist += PackedMomentumMixin::getListOfBranches();
   blist += {"packedPuppiW", "packedPuppiWNoLepDiff"};
   return blist;
 }

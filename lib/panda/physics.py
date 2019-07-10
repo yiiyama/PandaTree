@@ -482,6 +482,8 @@ class PhysicsObject(Definition, Object):
         src.writeline('utils::BranchList blist;')
         if self.parent not in ['Singlet', 'Element']:
             src.writeline('blist += {parent}::getListOfBranches();'.format(**subst))
+        for mixin in self.mixins:
+            src.writeline('blist += {mixin}::getListOfBranches();'.format(mixin = mixin.name))
         if len(self.branches) != 0:
             src.writeline('blist += {{{bnames}}};'.format(bnames = ', '.join('"{name}"'.format(name = branch.name) for branch in self.branches if '!' not in branch.modifier)))
         src.writeline('return blist;')

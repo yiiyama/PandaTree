@@ -6,6 +6,7 @@ panda::ParticleP::getListOfBranches()
 {
   utils::BranchList blist;
   blist += Particle::getListOfBranches();
+  blist += PtEtaPhiMixin::getListOfBranches();
   return blist;
 }
 

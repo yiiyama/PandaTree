@@ -28,6 +28,7 @@ namespace panda {
       BranchName(char const*);
       BranchName(std::string const& s) : BranchName(s.c_str()) {}
       BranchName(TString const& s) : BranchName(s.Data()) {}
+      template<class InputIterator> BranchName(InputIterator begin, InputIterator end, bool isVeto) : std::vector<TString>(begin, end), isVeto_(isVeto) {}
       //! Concatenate the words with '.'
       operator TString() const;
       //! Prepend the branch name with <objName.>.
@@ -70,6 +71,8 @@ namespace panda {
       bool matchesAny(BranchList const&) const;
       //! Extend the list
       BranchList& operator+=(BranchList const&);
+      //! Remove overlapping entries
+      void collapse();
       //! Prepend the branch names with <objName.>.
       BranchList fullNames(TString const& objName = "") const;
       //! Create a branchlist object from the branches in the tree

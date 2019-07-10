@@ -21,6 +21,8 @@ namespace panda {
 
     /* BEGIN CUSTOM PtEtaPhiMixin.h.classdef */
     /* END CUSTOM */
+
+    static utils::BranchList getListOfBranches();
   };
   /* BEGIN CUSTOM PtEtaPhiMixin.h.global */
   /* END CUSTOM */
