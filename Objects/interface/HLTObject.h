@@ -15,12 +15,6 @@ namespace panda {
       datastore() : PackedParticle::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* PackedParticle
-      UShort_t* packedPt{0};
-      Short_t* packedEta{0};
-      Short_t* packedPhi{0};
-      UShort_t* packedM{0};
-      */
       std::vector<std::vector<UShort_t>>* filters{0};
 
       void allocate(UInt_t n) override;
@@ -50,12 +44,6 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    /* PackedParticle
-    UShort_t& packedPt;
-    Short_t& packedEta;
-    Short_t& packedPhi;
-    UShort_t& packedM;
-    */
     std::vector<UShort_t>* filters;
 
     /* BEGIN CUSTOM HLTObject.h.classdef */

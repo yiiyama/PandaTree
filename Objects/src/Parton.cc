@@ -95,9 +95,7 @@ panda::Parton::Parton(Parton const& _src) :
   ParticleM(new PartonArray(1, _src.getName())),
   pdgid(gStore.getData(this).pdgid[0])
 {
-  ParticleM::operator=(_src);
-
-  pdgid = _src.pdgid;
+  operator=(_src);
 }
 
 panda::Parton::Parton(datastore& _data, UInt_t _idx) :

@@ -6,8 +6,8 @@
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
-#include "PFCand.h"
-#include "GenParticle.h"
+#include "PFCandBase.h"
+#include "GenParticleBase.h"
 #include "Vertex.h"
 
 namespace panda {
@@ -18,11 +18,6 @@ namespace panda {
       datastore() : ParticleP::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* ParticleP
-      Float_t* pt_{0};
-      Float_t* eta_{0};
-      Float_t* phi_{0};
-      */
       Float_t* pfPt{0};
       Char_t* charge{0};
       Bool_t* loose{0};
@@ -83,18 +78,10 @@ namespace panda {
     Float_t& puIso;
     Float_t& dxy;
     Float_t& dz;
-    Ref<PFCand> matchedPF;
-    Ref<GenParticle> matchedGen;
+    Ref<PFCandBase> matchedPF;
+    Ref<GenParticleBase> matchedGen;
     Ref<Vertex> vertex;
 
-  protected:
-    /* ParticleP
-    Float_t& pt_;
-    Float_t& eta_;
-    Float_t& phi_;
-    */
-
-  public:
     /* BEGIN CUSTOM Lepton.h.classdef */
     /* END CUSTOM */
 

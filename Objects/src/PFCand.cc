@@ -1,88 +1,72 @@
 #include "../interface/PFCand.h"
 
-TString panda::PFCand::PTypeName[] = {
-  "hp",
-  "hm",
-  "ep",
-  "em",
-  "mup",
-  "mum",
-  "gamma",
-  "h0",
-  "h_HF",
-  "egamma_HF",
-  "Xp",
-  "Xm",
-  "X"
-};
-
-/*static*/
-int const panda::PFCand::q_[nPTypes] = {1, -1, 1, -1, 1, -1, 0, 0, 0, 0, 1, -1, 0};
-/*static*/
-int const panda::PFCand::pdgId_[nPTypes] = {211, -211, -11, 11, -13, 13, 22, 130, 1, 2, 0, 0, 0};
-
 /*static*/
 panda::utils::BranchList
 panda::PFCand::getListOfBranches()
 {
   utils::BranchList blist;
-  blist += PackedParticle::getListOfBranches();
-  blist += {"packedPuppiW", "packedPuppiWNoLepDiff", "ptype", "hCalFrac"};
+  blist += PFCandBase::getListOfBranches();
+  blist += PackedMomentumMixin::getListOfBranches();
+  blist += {"packedPuppiW", "packedPuppiWNoLepDiff"};
   return blist;
 }
 
 void
 panda::PFCand::datastore::allocate(UInt_t _nmax)
 {
-  PackedParticle::datastore::allocate(_nmax);
+  PFCandBase::datastore::allocate(_nmax);
 
+  packedPt = new UShort_t[nmax_];
+  packedEta = new Short_t[nmax_];
+  packedPhi = new Short_t[nmax_];
+  packedM = new UShort_t[nmax_];
   packedPuppiW = new Char_t[nmax_];
   packedPuppiWNoLepDiff = new Char_t[nmax_];
-  ptype = new UChar_t[nmax_];
-  vertex_ = new Short_t[nmax_];
-  track_ = new Short_t[nmax_];
-  hCalFrac = new Float_t[nmax_];
 }
 
 void
 panda::PFCand::datastore::deallocate()
 {
-  PackedParticle::datastore::deallocate();
+  PFCandBase::datastore::deallocate();
 
+  delete [] packedPt;
+  packedPt = 0;
+  delete [] packedEta;
+  packedEta = 0;
+  delete [] packedPhi;
+  packedPhi = 0;
+  delete [] packedM;
+  packedM = 0;
   delete [] packedPuppiW;
   packedPuppiW = 0;
   delete [] packedPuppiWNoLepDiff;
   packedPuppiWNoLepDiff = 0;
-  delete [] ptype;
-  ptype = 0;
-  delete [] vertex_;
-  vertex_ = 0;
-  delete [] track_;
-  track_ = 0;
-  delete [] hCalFrac;
-  hCalFrac = 0;
 }
 
 void
 panda::PFCand::datastore::setStatus(TTree& _tree, TString const& _name, utils::BranchList const& _branches)
 {
-  PackedParticle::datastore::setStatus(_tree, _name, _branches);
+  PFCandBase::datastore::setStatus(_tree, _name, _branches);
 
+  utils::setStatus(_tree, _name, "packedPt", _branches);
+  utils::setStatus(_tree, _name, "packedEta", _branches);
+  utils::setStatus(_tree, _name, "packedPhi", _branches);
+  utils::setStatus(_tree, _name, "packedM", _branches);
   utils::setStatus(_tree, _name, "packedPuppiW", _branches);
   utils::setStatus(_tree, _name, "packedPuppiWNoLepDiff", _branches);
-  utils::setStatus(_tree, _name, "ptype", _branches);
-  utils::setStatus(_tree, _name, "hCalFrac", _branches);
 }
 
 panda::utils::BranchList
 panda::PFCand::datastore::getStatus(TTree& _tree, TString const& _name) const
 {
-  utils::BranchList blist(PackedParticle::datastore::getStatus(_tree, _name));
+  utils::BranchList blist(PFCandBase::datastore::getStatus(_tree, _name));
 
+  blist.push_back(utils::getStatus(_tree, _name, "packedPt"));
+  blist.push_back(utils::getStatus(_tree, _name, "packedEta"));
+  blist.push_back(utils::getStatus(_tree, _name, "packedPhi"));
+  blist.push_back(utils::getStatus(_tree, _name, "packedM"));
   blist.push_back(utils::getStatus(_tree, _name, "packedPuppiW"));
   blist.push_back(utils::getStatus(_tree, _name, "packedPuppiWNoLepDiff"));
-  blist.push_back(utils::getStatus(_tree, _name, "ptype"));
-  blist.push_back(utils::getStatus(_tree, _name, "hCalFrac"));
 
   return blist;
 }
@@ -90,42 +74,48 @@ panda::PFCand::datastore::getStatus(TTree& _tree, TString const& _name) const
 void
 panda::PFCand::datastore::setAddress(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _setStatus/* = kTRUE*/)
 {
-  PackedParticle::datastore::setAddress(_tree, _name, _branches, _setStatus);
+  PFCandBase::datastore::setAddress(_tree, _name, _branches, _setStatus);
 
+  utils::setAddress(_tree, _name, "packedPt", packedPt, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "packedEta", packedEta, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "packedPhi", packedPhi, _branches, _setStatus);
+  utils::setAddress(_tree, _name, "packedM", packedM, _branches, _setStatus);
   utils::setAddress(_tree, _name, "packedPuppiW", packedPuppiW, _branches, _setStatus);
   utils::setAddress(_tree, _name, "packedPuppiWNoLepDiff", packedPuppiWNoLepDiff, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "ptype", ptype, _branches, _setStatus);
-  utils::setAddress(_tree, _name, "hCalFrac", hCalFrac, _branches, _setStatus);
 }
 
 void
 panda::PFCand::datastore::book(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/, Bool_t _dynamic/* = kTRUE*/)
 {
-  PackedParticle::datastore::book(_tree, _name, _branches, _dynamic);
+  PFCandBase::datastore::book(_tree, _name, _branches, _dynamic);
 
   TString size(_dynamic ? "[" + _name + ".size]" : TString::Format("[%d]", nmax_));
 
+  utils::book(_tree, _name, "packedPt", size, 's', packedPt, _branches);
+  utils::book(_tree, _name, "packedEta", size, 'S', packedEta, _branches);
+  utils::book(_tree, _name, "packedPhi", size, 'S', packedPhi, _branches);
+  utils::book(_tree, _name, "packedM", size, 's', packedM, _branches);
   utils::book(_tree, _name, "packedPuppiW", size, 'B', packedPuppiW, _branches);
   utils::book(_tree, _name, "packedPuppiWNoLepDiff", size, 'B', packedPuppiWNoLepDiff, _branches);
-  utils::book(_tree, _name, "ptype", size, 'b', ptype, _branches);
-  utils::book(_tree, _name, "hCalFrac", size, 'F', hCalFrac, _branches);
 }
 
 void
 panda::PFCand::datastore::releaseTree(TTree& _tree, TString const& _name)
 {
-  PackedParticle::datastore::releaseTree(_tree, _name);
+  PFCandBase::datastore::releaseTree(_tree, _name);
 
+  utils::resetAddress(_tree, _name, "packedPt");
+  utils::resetAddress(_tree, _name, "packedEta");
+  utils::resetAddress(_tree, _name, "packedPhi");
+  utils::resetAddress(_tree, _name, "packedM");
   utils::resetAddress(_tree, _name, "packedPuppiW");
   utils::resetAddress(_tree, _name, "packedPuppiWNoLepDiff");
-  utils::resetAddress(_tree, _name, "ptype");
-  utils::resetAddress(_tree, _name, "hCalFrac");
 }
 
 void
 panda::PFCand::datastore::resizeVectors_(UInt_t _size)
 {
-  PackedParticle::datastore::resizeVectors_(_size);
+  PFCandBase::datastore::resizeVectors_(_size);
 
 }
 
@@ -137,54 +127,35 @@ panda::PFCand::datastore::getBranchNames(TString const& _name/* = ""*/) const
 }
 
 panda::PFCand::PFCand(char const* _name/* = ""*/) :
-  PackedParticle(new PFCandArray(1, _name)),
+  PFCandBase(new PFCandArray(1, _name)),
+  PackedMomentumMixin(gStore.getData(this), 0),
   packedPuppiW(gStore.getData(this).packedPuppiW[0]),
-  packedPuppiWNoLepDiff(gStore.getData(this).packedPuppiWNoLepDiff[0]),
-  ptype(gStore.getData(this).ptype[0]),
-  vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0]),
-  track(gStore.getData(this).trackContainer_, gStore.getData(this).track_[0]),
-  hCalFrac(gStore.getData(this).hCalFrac[0])
+  packedPuppiWNoLepDiff(gStore.getData(this).packedPuppiWNoLepDiff[0])
 {
 }
 
 panda::PFCand::PFCand(PFCand const& _src) :
-  PackedParticle(new PFCandArray(1, _src.getName())),
+  PFCandBase(new PFCandArray(1, _src.getName())),
+  PackedMomentumMixin(gStore.getData(this), 0),
   packedPuppiW(gStore.getData(this).packedPuppiW[0]),
-  packedPuppiWNoLepDiff(gStore.getData(this).packedPuppiWNoLepDiff[0]),
-  ptype(gStore.getData(this).ptype[0]),
-  vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0]),
-  track(gStore.getData(this).trackContainer_, gStore.getData(this).track_[0]),
-  hCalFrac(gStore.getData(this).hCalFrac[0])
+  packedPuppiWNoLepDiff(gStore.getData(this).packedPuppiWNoLepDiff[0])
 {
-  PackedParticle::operator=(_src);
-
-  packedPuppiW = _src.packedPuppiW;
-  packedPuppiWNoLepDiff = _src.packedPuppiWNoLepDiff;
-  ptype = _src.ptype;
-  vertex = _src.vertex;
-  track = _src.track;
-  hCalFrac = _src.hCalFrac;
+  operator=(_src);
 }
 
 panda::PFCand::PFCand(datastore& _data, UInt_t _idx) :
-  PackedParticle(_data, _idx),
+  PFCandBase(_data, _idx),
+  PackedMomentumMixin(_data, _idx),
   packedPuppiW(_data.packedPuppiW[_idx]),
-  packedPuppiWNoLepDiff(_data.packedPuppiWNoLepDiff[_idx]),
-  ptype(_data.ptype[_idx]),
-  vertex(_data.vertexContainer_, _data.vertex_[_idx]),
-  track(_data.trackContainer_, _data.track_[_idx]),
-  hCalFrac(_data.hCalFrac[_idx])
+  packedPuppiWNoLepDiff(_data.packedPuppiWNoLepDiff[_idx])
 {
 }
 
 panda::PFCand::PFCand(ArrayBase* _array) :
-  PackedParticle(_array),
+  PFCandBase(_array),
+  PackedMomentumMixin(gStore.getData(this), 0),
   packedPuppiW(gStore.getData(this).packedPuppiW[0]),
-  packedPuppiWNoLepDiff(gStore.getData(this).packedPuppiWNoLepDiff[0]),
-  ptype(gStore.getData(this).ptype[0]),
-  vertex(gStore.getData(this).vertexContainer_, gStore.getData(this).vertex_[0]),
-  track(gStore.getData(this).trackContainer_, gStore.getData(this).track_[0]),
-  hCalFrac(gStore.getData(this).hCalFrac[0])
+  packedPuppiWNoLepDiff(gStore.getData(this).packedPuppiWNoLepDiff[0])
 {
 }
 
@@ -200,20 +171,20 @@ panda::PFCand::destructor(Bool_t _recursive/* = kFALSE*/)
   /* END CUSTOM */
 
   if (_recursive)
-    PackedParticle::destructor(kTRUE);
+    PFCandBase::destructor(kTRUE);
 }
 
 panda::PFCand&
 panda::PFCand::operator=(PFCand const& _src)
 {
-  PackedParticle::operator=(_src);
+  PFCandBase::operator=(_src);
 
+  packedPt = _src.packedPt;
+  packedEta = _src.packedEta;
+  packedPhi = _src.packedPhi;
+  packedM = _src.packedM;
   packedPuppiW = _src.packedPuppiW;
   packedPuppiWNoLepDiff = _src.packedPuppiWNoLepDiff;
-  ptype = _src.ptype;
-  vertex = _src.vertex;
-  track = _src.track;
-  hCalFrac = _src.hCalFrac;
 
   /* BEGIN CUSTOM PFCand.cc.operator= */
   /* END CUSTOM */
@@ -224,25 +195,27 @@ panda::PFCand::operator=(PFCand const& _src)
 void
 panda::PFCand::doBook_(TTree& _tree, TString const& _name, utils::BranchList const& _branches/* = {"*"}*/)
 {
-  PackedParticle::doBook_(_tree, _name, _branches);
+  PFCandBase::doBook_(_tree, _name, _branches);
 
+  utils::book(_tree, _name, "packedPt", "", 's', &packedPt, _branches);
+  utils::book(_tree, _name, "packedEta", "", 'S', &packedEta, _branches);
+  utils::book(_tree, _name, "packedPhi", "", 'S', &packedPhi, _branches);
+  utils::book(_tree, _name, "packedM", "", 's', &packedM, _branches);
   utils::book(_tree, _name, "packedPuppiW", "", 'B', &packedPuppiW, _branches);
   utils::book(_tree, _name, "packedPuppiWNoLepDiff", "", 'B', &packedPuppiWNoLepDiff, _branches);
-  utils::book(_tree, _name, "ptype", "", 'b', &ptype, _branches);
-  utils::book(_tree, _name, "hCalFrac", "", 'F', &hCalFrac, _branches);
 }
 
 void
 panda::PFCand::doInit_()
 {
-  PackedParticle::doInit_();
+  PFCandBase::doInit_();
 
+  packedPt = 0;
+  packedEta = 0;
+  packedPhi = 0;
+  packedM = 0;
   packedPuppiW = 0;
   packedPuppiWNoLepDiff = 0;
-  ptype = 0;
-  vertex.init();
-  track.init();
-  hCalFrac = 0.;
 
   /* BEGIN CUSTOM PFCand.cc.doInit_ */
   /* END CUSTOM */
@@ -259,81 +232,44 @@ panda::PFCand::print(std::ostream& _out/* = std::cout*/, UInt_t _level/* = 1*/) 
 void
 panda::PFCand::dump(std::ostream& _out/* = std::cout*/) const
 {
-  PackedParticle::dump(_out);
+  PFCandBase::dump(_out);
 
+  _out << "packedPt = " << packedPt << std::endl;
+  _out << "packedEta = " << packedEta << std::endl;
+  _out << "packedPhi = " << packedPhi << std::endl;
+  _out << "packedM = " << packedM << std::endl;
   _out << "packedPuppiW = " << static_cast<const Int_t>(packedPuppiW) << std::endl;
   _out << "packedPuppiWNoLepDiff = " << static_cast<const Int_t>(packedPuppiWNoLepDiff) << std::endl;
-  _out << "ptype = " << static_cast<const UInt_t>(ptype) << std::endl;
-  _out << "vertex = " << vertex << std::endl;
-  _out << "track = " << track << std::endl;
-  _out << "hCalFrac = " << hCalFrac << std::endl;
 }
 
 
 /* BEGIN CUSTOM PFCand.cc.global */
-TVector3
-panda::PFCand::pca() const
-{
-  if (!vertex.isValid() || !track.isValid())
-    return TVector3();
-
-  unpack_();
-  
-  double trkPhi(phi_ + track->dPhi());
-
-  // dir(pca - pv) is perpendicular to trkPhi by definition
-  // -> relation between pca and pv simplifies
-
-  return TVector3(vertex->x - track->dxy() * std::sin(trkPhi), vertex->y + track->dxy() * std::cos(trkPhi), vertex->z + track->dz());
-}
-
-double
-panda::PFCand::dxy(TVector3 const& point) const
-{
-  if (!vertex.isValid() || !track.isValid())
-    return 0.;
-
-  auto ref(pca());
-
-  double trkPhi(phi_ + track->dPhi());
-
-  return -(ref.X() - point.X()) * std::sin(trkPhi) + (ref.Y() - point.Y()) * std::cos(trkPhi);
-}
-
-double
-panda::PFCand::dz(TVector3 const& point) const
-{
-  if (!vertex.isValid() || !track.isValid())
-    return 0.;
-
-  auto ref(pca());
-
-  double trkPhi(phi_ + track->dPhi());
-
-  return (ref.Z() - point.Z()) - ((ref.X() - point.X()) * std::cos(trkPhi) + (ref.Y() - point.Y()) * std::sin(trkPhi)) * pz() / pt_;
-}
-
 #include "../interface/PackingHelper.h"
 
 void
-panda::PFCand::packMore_()
+panda::PFCand::packWeights_()
 {
   packedPuppiW = PackingHelper::singleton().pack8LogBound((puppiW_ - 0.5) * 2., -2., 0., 64);
   packedPuppiWNoLepDiff = PackingHelper::singleton().pack8LogBound((puppiWNoLep_ - 0.5) * 2., -2., 0., 64) - packedPuppiW;
 }
 
 void
-panda::PFCand::unpackMore_() const
+panda::PFCand::unpackWeights_() const
 {
   puppiW_ = PackingHelper::singleton().unpack8LogBound(packedPuppiW, -2., 0., 64) * 0.5 + 0.5;
   puppiWNoLep_ = PackingHelper::singleton().unpack8LogBound(packedPuppiWNoLepDiff + packedPuppiW, -2., 0., 64) * 0.5 + 0.5;
 }
 
-void
-panda::PFCand::setPuppiW(double w, double wnl)
+#include "../interface/UnpackedPFCand.h"
+
+panda::PFCand&
+panda::PFCand::operator=(UnpackedPFCand const& _rhs)
 {
-  puppiW_ = w;
-  puppiWNoLep_ = wnl;
-  packMore_();
+  PFCandBase::operator=(static_cast<PFCandBase const&>(_rhs));
+  setPtEtaPhiM(_rhs.pt(), _rhs.eta(), _rhs.phi(), _rhs.m());
+  setPuppiW(_rhs.puppiW(), _rhs.puppiWNoLep());
+
+  return *this;
 }
+
 /* END CUSTOM */

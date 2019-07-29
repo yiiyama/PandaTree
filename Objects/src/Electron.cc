@@ -385,38 +385,7 @@ panda::Electron::Electron(Electron const& _src) :
   tripleCharge(gStore.getData(this).tripleCharge[0]),
   superCluster(gStore.getData(this).superClusterContainer_, gStore.getData(this).superCluster_[0])
 {
-  Lepton::operator=(_src);
-
-  chIsoPh = _src.chIsoPh;
-  nhIsoPh = _src.nhIsoPh;
-  phIsoPh = _src.phIsoPh;
-  ecalIso = _src.ecalIso;
-  hcalIso = _src.hcalIso;
-  trackIso = _src.trackIso;
-  isoPUOffset = _src.isoPUOffset;
-  sieie = _src.sieie;
-  sipip = _src.sipip;
-  r9 = _src.r9;
-  dEtaInSeed = _src.dEtaInSeed;
-  dPhiIn = _src.dPhiIn;
-  eseed = _src.eseed;
-  hOverE = _src.hOverE;
-  ecalE = _src.ecalE;
-  trackP = _src.trackP;
-  regPt = _src.regPt;
-  smearedPt = _src.smearedPt;
-  mvaVal = _src.mvaVal;
-  nMissingHits = _src.nMissingHits;
-  veto = _src.veto;
-  mvaWP90 = _src.mvaWP90;
-  mvaWP80 = _src.mvaWP80;
-  mvaWPLoose = _src.mvaWPLoose;
-  mvaIsoWP90 = _src.mvaIsoWP90;
-  mvaIsoWP80 = _src.mvaIsoWP80;
-  mvaIsoWPLoose = _src.mvaIsoWPLoose;
-  conversionVeto = _src.conversionVeto;
-  tripleCharge = _src.tripleCharge;
-  superCluster = _src.superCluster;
+  operator=(_src);
 }
 
 panda::Electron::Electron(datastore& _data, UInt_t _idx) :

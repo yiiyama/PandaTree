@@ -27,6 +27,65 @@ double dR(Particle const& p) const { return std::sqrt(dR2(p)); }
 virtual void setPtEtaPhiM(double pt, double eta, double phi, double m) = 0;
 virtual void setXYZE(double px, double py, double pz, double e) = 0;
 
+<PackedMomentumMixin>
+packedPt/s
+packedEta/S
+packedPhi/S
+packedM/s
+double pt() const override { unpack_(); return pt_; }
+double eta() const override { unpack_(); return eta_; }
+double phi() const override { unpack_(); return phi_; }
+double m() const override { unpack_(); return mass_; }
+void setPtEtaPhiM(double pt, double eta, double phi, double m) override { setPtEtaPhiMPacked_(pt, eta, phi, m); }
+void setXYZE(double px, double py, double pz, double e) override { setXYZEPacked_(px, py, pz, e); }
+
+<PtEtaPhiMixin>
+pt_/F
+eta_/F
+phi_/F
+double pt() const override { return pt_; }
+double eta() const override { return eta_; }
+double phi() const override { return phi_; }
+double m() const override { return 0.; }
+void setPtEtaPhiM(double pt, double eta, double phi, double) override
+{
+  pt_ = pt;
+  eta_ = eta;
+  phi_ = phi;
+}
+void setXYZE(double px, double py, double pz, double) override
+{
+  pt_ = std::sqrt(px * px + py * py);
+  double p(std::sqrt(px * px + py * py + pz * pz));
+  eta_ = 0.5 * std::log((p + pz) / (p - pz));
+  phi_ = std::atan2(py, px);
+}
+
+<PtEtaPhiMMixin>
+pt_/F
+eta_/F
+phi_/F
+mass_/F
+double pt() const override { return pt_; }
+double eta() const override { return eta_; }
+double phi() const override { return phi_; }
+double m() const override { return mass_; }
+void setPtEtaPhiM(double pt, double eta, double phi, double m) override
+{
+  pt_ = pt;
+  eta_ = eta;
+  phi_ = phi;
+  mass_ = m;
+}
+void setXYZE(double px, double py, double pz, double e) override
+{
+  pt_ = std::sqrt(px * px + py * py);
+  double p(std::sqrt(px * px + py * py + pz * pz));
+  eta_ = 0.5 * std::log((p + pz) / (p - pz));
+  phi_ = std::atan2(py, px);
+  mass_ = std::sqrt(e * e - p * p);
+}
+
 [Proton]
 x/F
 xUnc/F
@@ -65,19 +124,7 @@ rawPt/F
 eta/F
 phi/F
 
-[PackedParticle>Particle]
-packedPt/s
-packedEta/S
-packedPhi/S
-packedM/s
-double pt() const override { unpack_(); return pt_; }
-double eta() const override { unpack_(); return eta_; }
-double phi() const override { unpack_(); return phi_; }
-double m() const override { unpack_(); return mass_; }
-void setPtEtaPhiM(double pt, double eta, double phi, double m) override;
-void setXYZE(double px, double py, double pz, double e) override;
-
-[GenParticle>PackedParticle]
+[GenParticleBase>Particle]
 enum StatusFlag {
   kIsPrompt,
   kIsDecayedLeptonHadron,
@@ -99,19 +146,17 @@ pdgid/I
 finalState/O
 miniaodPacked/O   // True if this came from a MINIAOD packed collection
 statusFlags/s
-parent/GenParticleRef
+parent/GenParticleBaseRef
 bool testFlag(StatusFlag f) const { return ((statusFlags >> f) & 1) == 1; }
 
-[PFCand>PackedParticle]
-packedPuppiW/B
-packedPuppiWNoLepDiff/B
+[PFCandBase>Particle]
 ptype/b
 vertex/RecoVertexRef/!
 track/PackedTrackRef/!
 hCalFrac/F
-double puppiW() const { unpack_(); return puppiW_; }
-double puppiWNoLep() const { unpack_(); return puppiWNoLep_; }
-void setPuppiW(double w, double wnl);
+virtual double puppiW() const = 0;
+virtual double puppiWNoLep() const = 0;
+virtual void setPuppiW(double w, double wnl) = 0;
 TLorentzVector puppiP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiW(), eta(), phi(), m() * puppiW()); return p4; }
 TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep(), eta(), phi(), m() * puppiWNoLep()); return p4; }
 int q() const { return q_[ptype]; }
@@ -137,46 +182,11 @@ enum PType {
 static const int q_[nPTypes] = {1, -1, 1, -1, 1, -1, 0, 0, 0, 0, 1, -1, 0};
 static const int pdgId_[nPTypes] = {211, -211, -11, 11, -13, 13, 22, 130, 1, 2, 0, 0, 0};
 
-[ParticleP>Particle]
-pt_/F
-eta_/F
-phi_/F
-double pt() const override { return pt_; }
-double eta() const override { return eta_; }
-double phi() const override { return phi_; }
-double m() const override { return 0.; }
-void setPtEtaPhiM(double pt, double eta, double phi, double) override
-{
-  pt_ = pt;
-  eta_ = eta;
-  phi_ = phi;
-}
-void setXYZE(double px, double py, double pz, double) override
-{
-  pt_ = std::sqrt(px * px + py * py);
-  double p(std::sqrt(px * px + py * py + pz * pz));
-  eta_ = 0.5 * std::log((p + pz) / (p - pz));
-  phi_ = std::atan2(py, px);
-}
+[PackedParticle>Particle<PackedMomentumMixin]
 
-[ParticleM>ParticleP]
-mass_/F
-double m() const override { return mass_; }
-void setPtEtaPhiM(double pt, double eta, double phi, double m) override
-{
-  pt_ = pt;
-  eta_ = eta;
-  phi_ = phi;
-  mass_ = m;
-}
-void setXYZE(double px, double py, double pz, double e) override
-{
-  pt_ = std::sqrt(px * px + py * py);
-  double p(std::sqrt(px * px + py * py + pz * pz));
-  eta_ = 0.5 * std::log((p + pz) / (p - pz));
-  phi_ = std::atan2(py, px);
-  mass_ = std::sqrt(e * e - p * p);
-}
+[ParticleP>Particle<PtEtaPhiMixin]
+
+[ParticleM>Particle<PtEtaPhiMMixin]
 
 [SecondaryVertex>ParticleM]
 x/F
@@ -187,33 +197,36 @@ ntrk/s
 ndof/F
 chi2/F
 double normChi2() const { return ndof != 0. ? chi2 / ndof : chi2 * 1.e+6; }
-daughters/PFCandRefVector
+daughters/PFCandBaseRefVector
 significance/F
 vtx3DVal/F
 vtx3DeVal/F
+#include "PFCandBase.h"
 
-[UnpackedPFCand>ParticleM]
-puppiW/B
-puppiWNoLep/B
-ptype/b
-vertex/RecoVertexRef
-TLorentzVector puppiP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiW, eta(), phi(), m() * puppiW); return p4; }
-TLorentzVector puppiNoLepP4() const { TLorentzVector p4; p4.SetPtEtaPhiM(pt() * puppiWNoLep, eta(), phi(), m() * puppiWNoLep); return p4; }
-int q() const { return PFCand::q_[ptype]; }
-int pdgId() const { return PFCand::pdgId_[ptype]; }
-#include "PFCand.h"
+[PFCand>PFCandBase<PackedMomentumMixin]
+packedPuppiW/B
+packedPuppiWNoLepDiff/B
+double puppiW() const override { unpackWeights_(); return puppiW_; }
+double puppiWNoLep() const override { unpackWeights_(); return puppiWNoLep_; }
+void setPuppiW(double w, double wnl) override { puppiW_ = w; puppiWNoLep_ = wnl; packWeights_(); }
+class UnpackedPFCand;
+
+[UnpackedPFCand>PFCandBase<PtEtaPhiMMixin]
+puppiW_/F
+puppiWNoLep_/F
+double puppiW() const override { return puppiW_; }
+double puppiWNoLep() const override { return puppiWNoLep_; }
+void setPuppiW(double w, double wnl) override { puppiW_ = w; puppiWNoLep_ = wnl; }
+class PFCand;
 
 [Parton>ParticleM]
 pdgid/I
 
-[UnpackedGenParticle>ParticleM]
-pdgid/I
-finalState/O
-miniaodPacked/O   // True if this came from a MINIAOD packed collection
-statusFlags/s
-parent/UnpackedGenParticleRef
-bool testFlag(GenParticle::StatusFlag f) const { return ((statusFlags >> f) & 1) == 1; }
-#include "GenParticle.h"
+[GenParticle>GenParticleBase<PackedMomentumMixin]
+class UnpackedGenParticle;
+
+[UnpackedGenParticle>GenParticleBase<PtEtaPhiMMixin]
+class GenParticle;
 
 [Lepton>ParticleP]
 pfPt/F = -1. // for E: Pt of the dR-closest PF candidate; for Mu: pfP4().pt()
@@ -228,8 +241,8 @@ phIso/F
 puIso/F
 dxy/F
 dz/F
-matchedPF/PFCandRef
-matchedGen/GenParticleRef
+matchedPF/PFCandBaseRef
+matchedGen/GenParticleBaseRef
 vertex/VertexRef
 virtual double combIso() const { return 0.; }
 
@@ -320,7 +333,7 @@ looseIsoMVAOld/O
 iso/F
 isoDeltaBetaCorr/F
 vertex/VertexRef
-matchedGen/GenParticleRef
+matchedGen/GenParticleBaseRef
 
 [Photon>ParticleP]
 pfPt/F = -1. // Pt of the dR-closest PF candidate
@@ -359,16 +372,16 @@ pixelVeto/O
 csafeVeto/O
 pfchVeto/O
 superCluster/SuperClusterRef
-matchedPF/PFCandRef
-matchedGen/GenParticleRef
+matchedPF/PFCandBaseRef
+matchedGen/GenParticleBaseRef
 
 [GenJet>ParticleM]
 pdgid/S // Filled with hadron flavor
 partonFlavor/S
 numB/S
 numC/S
-matchedBHadrons/GenParticleRefVector
-matchedCHadrons/GenParticleRefVector
+matchedBHadrons/GenParticleBaseRefVector
+matchedCHadrons/GenParticleBaseRefVector
 
 [MicroJet>ParticleM]
 csv/F
@@ -403,7 +416,7 @@ tight/O
 tightLepVeto/O
 monojet/O
 matchedGenJet/GenJetRef
-constituents/PFCandRefVector
+constituents/PFCandBaseRefVector
 secondaryVertex/SecondaryVertexRef
 
 [FatJet>Jet]
@@ -527,17 +540,22 @@ lumiNumber/i
 eventNumber/l
 isData/O
 weight/F
+npv/s
+npvTrue/s
 triggers/HLTBits
+partons/PartonCollection(8)
+genVertex/Vertex
+virtual GenParticleBaseCollection const* genParticleCollection() const { return nullptr; }
+virtual GenParticleBaseCollection* genParticleCollection() { return nullptr; }
 #include "Run.h"
 #include "TList.h"
 #include "TFile.h"
 #include "TKey.h"
 #include "HLTObjectStore.h"
+#include "GenParticleBase.h"
 #include "PandaTree/Framework/interface/RRNG.h"
 
 {Event>EventBase}
-npv/s
-npvTrue/s
 rho/F
 rhoCentralCalo/F
 genReweight/GenReweight
@@ -564,8 +582,6 @@ ak4GenJets/GenJetCollection(64)
 ak8GenJets/GenJetCollection(32)
 ca15GenJets/GenJetCollection(32)
 genParticles/GenParticleCollection(256)
-genVertex/Vertex
-partons/PartonCollection(8)
 protons/ProtonCollection(32)
 pfMet/RecoMet
 puppiMet/RecoMet
@@ -620,6 +636,8 @@ puppiAK8Jets.matchedGenJet->ak8GenJets
 puppiCA15Jets.constituents->pfCandidates
 puppiCA15Jets.subjets->puppiCA15Subjets
 puppiCA15Jets.matchedGenJet->ca15GenJets
+GenParticleBaseCollection const* genParticleCollection() const override { return &genParticles; }
+GenParticleBaseCollection* genParticleCollection() override { return &genParticles; }
 
 {Run}
 runNumber/i

@@ -16,7 +16,7 @@ panda::GenReweight::GenReweight(char const* _name/* = ""*/) :
 }
 
 panda::GenReweight::GenReweight(GenReweight const& _src) :
-  Singlet(_src.name_),
+  Singlet(_src),
   r1f2DW(_src.r1f2DW),
   r1f5DW(_src.r1f5DW),
   r2f1DW(_src.r2f1DW),

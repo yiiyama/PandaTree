@@ -1,35 +1,37 @@
 #ifndef PandaTree_Objects_UnpackedGenParticle_h
 #define PandaTree_Objects_UnpackedGenParticle_h
 #include "Constants.h"
-#include "ParticleM.h"
+#include "GenParticleBase.h"
+#include "PtEtaPhiMMixin.h"
 #include "../../Framework/interface/Array.h"
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
-#include "GenParticle.h"
 
 namespace panda {
 
-  class UnpackedGenParticle : public ParticleM {
+  class GenParticle;
+
+  class UnpackedGenParticle : public GenParticleBase, public PtEtaPhiMMixin {
   public:
-    struct datastore : public ParticleM::datastore {
-      datastore() : ParticleM::datastore() {}
+    struct datastore : public GenParticleBase::datastore, public PtEtaPhiMMixin::datastore {
+      datastore() : GenParticleBase::datastore(), PtEtaPhiMMixin::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* ParticleP
-      Float_t* pt_{0};
-      Float_t* eta_{0};
-      Float_t* phi_{0};
-      */
-      /* ParticleM
-      Float_t* mass_{0};
-      */
+      /* GenParticleBase
       Int_t* pdgid{0};
       Bool_t* finalState{0};
       Bool_t* miniaodPacked{0};
       UShort_t* statusFlags{0};
       ContainerBase const* parentContainer_{0};
       Short_t* parent_{0};
+      */
+      /* PtEtaPhiMMixin
+      Float_t* pt_{0};
+      Float_t* eta_{0};
+      Float_t* phi_{0};
+      Float_t* mass_{0};
+      */
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -45,7 +47,7 @@ namespace panda {
     typedef Array<UnpackedGenParticle> array_type;
     typedef Collection<UnpackedGenParticle> collection_type;
 
-    typedef ParticleM base_type;
+    typedef GenParticleBase base_type;
 
     UnpackedGenParticle(char const* name = "");
     UnpackedGenParticle(UnpackedGenParticle const&);
@@ -58,21 +60,26 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    bool testFlag(GenParticle::StatusFlag f) const { return ((statusFlags >> f) & 1) == 1; }
+    double pt() const override { return pt_; }
+    double eta() const override { return eta_; }
+    double phi() const override { return phi_; }
+    double m() const override { return mass_; }
+    void setPtEtaPhiM(double pt, double eta, double phi, double m) override;
+    void setXYZE(double px, double py, double pz, double e) override;
 
+    /* GenParticleBase
     Int_t& pdgid;
     Bool_t& finalState;
     Bool_t& miniaodPacked; ///< True if this came from a MINIAOD packed collection
     UShort_t& statusFlags;
-    Ref<UnpackedGenParticle> parent;
+    Ref<GenParticleBase> parent;
+    */
 
   protected:
-    /* ParticleP
+    /* PtEtaPhiMMixin
     Float_t& pt_;
     Float_t& eta_;
     Float_t& phi_;
-    */
-    /* ParticleM
     Float_t& mass_;
     */
 

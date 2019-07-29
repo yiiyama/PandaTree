@@ -9,6 +9,7 @@ from obj import Object
 import _obj
 from physics import PhysicsObject
 
+from mixin import Mixin
 from branch import Branch
 from objbranch import ObjBranch
 from generic import GenericBranch
@@ -34,6 +35,7 @@ __all__ = [
     'Function',
     'Object',
     'PhysicsObject',
+    'Mixin',
     'Branch',
     'ObjBranch',
     'GenericBranch',

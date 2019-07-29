@@ -7,8 +7,8 @@
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
 #include "SuperCluster.h"
-#include "PFCand.h"
-#include "GenParticle.h"
+#include "PFCandBase.h"
+#include "GenParticleBase.h"
 
 namespace panda {
 
@@ -18,11 +18,6 @@ namespace panda {
       datastore() : ParticleP::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* ParticleP
-      Float_t* pt_{0};
-      Float_t* eta_{0};
-      Float_t* phi_{0};
-      */
       Float_t* pfPt{0};
       Float_t* chIso{0};
       Float_t* chIsoMax{0};
@@ -128,17 +123,9 @@ namespace panda {
     Bool_t& csafeVeto;
     Bool_t& pfchVeto;
     Ref<SuperCluster> superCluster;
-    Ref<PFCand> matchedPF;
-    Ref<GenParticle> matchedGen;
+    Ref<PFCandBase> matchedPF;
+    Ref<GenParticleBase> matchedGen;
 
-  protected:
-    /* ParticleP
-    Float_t& pt_;
-    Float_t& eta_;
-    Float_t& phi_;
-    */
-
-  public:
     /* BEGIN CUSTOM Photon.h.classdef */
     /* END CUSTOM */
 

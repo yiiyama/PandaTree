@@ -7,7 +7,7 @@
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
 #include "Vertex.h"
-#include "GenParticle.h"
+#include "GenParticleBase.h"
 
 namespace panda {
 
@@ -17,14 +17,6 @@ namespace panda {
       datastore() : ParticleM::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* ParticleP
-      Float_t* pt_{0};
-      Float_t* eta_{0};
-      Float_t* phi_{0};
-      */
-      /* ParticleM
-      Float_t* mass_{0};
-      */
       Char_t* charge{0};
       Bool_t* decayMode{0};
       Bool_t* decayModeNew{0};
@@ -72,19 +64,8 @@ namespace panda {
     Float_t& iso;
     Float_t& isoDeltaBetaCorr;
     Ref<Vertex> vertex;
-    Ref<GenParticle> matchedGen;
+    Ref<GenParticleBase> matchedGen;
 
-  protected:
-    /* ParticleP
-    Float_t& pt_;
-    Float_t& eta_;
-    Float_t& phi_;
-    */
-    /* ParticleM
-    Float_t& mass_;
-    */
-
-  public:
     /* BEGIN CUSTOM Tau.h.classdef */
     /* END CUSTOM */
 

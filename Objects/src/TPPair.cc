@@ -104,10 +104,7 @@ panda::TPPair::TPPair(TPPair const& _src) :
   mass(gStore.getData(this).mass[0]),
   mass2(gStore.getData(this).mass2[0])
 {
-  Element::operator=(_src);
-
-  mass = _src.mass;
-  mass2 = _src.mass2;
+  operator=(_src);
 }
 
 panda::TPPair::TPPair(datastore& _data, UInt_t _idx) :

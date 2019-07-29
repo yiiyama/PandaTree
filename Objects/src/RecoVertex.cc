@@ -135,13 +135,7 @@ panda::RecoVertex::RecoVertex(RecoVertex const& _src) :
   chi2(gStore.getData(this).chi2[0]),
   pfRangeMax(gStore.getData(this).pfRangeMax[0])
 {
-  Vertex::operator=(_src);
-
-  score = _src.score;
-  ntrk = _src.ntrk;
-  ndof = _src.ndof;
-  chi2 = _src.chi2;
-  pfRangeMax = _src.pfRangeMax;
+  operator=(_src);
 }
 
 panda::RecoVertex::RecoVertex(datastore& _data, UInt_t _idx) :

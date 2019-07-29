@@ -3,8 +3,10 @@
 panda::EventBase::EventBase() :
   TreeEntry()
 {
-  std::vector<Object*> myObjects{{&triggers}};
+  std::vector<Object*> myObjects{{&triggers, &partons, &genVertex}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
+  std::vector<CollectionBase*> myCollections{{&partons}};
+  collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
   /* BEGIN CUSTOM EventBase.cc.ctor */
   objects_.push_back(&triggerObjects);
   collections_.push_back(&triggerObjects);
@@ -15,14 +17,20 @@ panda::EventBase::EventBase() :
 panda::EventBase::EventBase(EventBase const& _src) :
   TreeEntry(_src),
   triggers(_src.triggers),
+  partons(_src.partons),
+  genVertex(_src.genVertex),
   runNumber(_src.runNumber),
   lumiNumber(_src.lumiNumber),
   eventNumber(_src.eventNumber),
   isData(_src.isData),
-  weight(_src.weight)
+  weight(_src.weight),
+  npv(_src.npv),
+  npvTrue(_src.npvTrue)
 {
-  std::vector<Object*> myObjects{{&triggers}};
+  std::vector<Object*> myObjects{{&triggers, &partons, &genVertex}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
+  std::vector<CollectionBase*> myCollections{{&partons}};
+  collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
   /* BEGIN CUSTOM EventBase.cc.copy_ctor */
   run = _src.run;
@@ -57,8 +65,12 @@ panda::EventBase::operator=(EventBase const& _src)
   eventNumber = _src.eventNumber;
   isData = _src.isData;
   weight = _src.weight;
+  npv = _src.npv;
+  npvTrue = _src.npvTrue;
 
   triggers = _src.triggers;
+  partons = _src.partons;
+  genVertex = _src.genVertex;
 
   return *this;
 }
@@ -91,8 +103,12 @@ panda::EventBase::dump(std::ostream& _out/* = std::cout*/) const
   _out << "eventNumber = " << eventNumber << std::endl;
   _out << "isData = " << isData << std::endl;
   _out << "weight = " << weight << std::endl;
+  _out << "npv = " << npv << std::endl;
+  _out << "npvTrue = " << npvTrue << std::endl;
 
   triggers.dump(_out);
+  partons.dump(_out);
+  genVertex.dump(_out);
 
 }
 /*static*/
@@ -100,9 +116,11 @@ panda::utils::BranchList
 panda::EventBase::getListOfBranches(Bool_t _direct/* = kFALSE*/)
 {
   utils::BranchList blist;
-  blist += {"runNumber", "lumiNumber", "eventNumber", "isData", "weight"};
+  blist += {"runNumber", "lumiNumber", "eventNumber", "isData", "weight", "npv", "npvTrue"};
   if (!_direct) {
     blist += HLTBits::getListOfBranches().fullNames("triggers");
+    blist += Parton::getListOfBranches().fullNames("partons");
+    blist += Vertex::getListOfBranches().fullNames("genVertex");
   }
   /* BEGIN CUSTOM EventBase.cc.getListOfBranches_ */
   if (!_direct)
@@ -120,6 +138,8 @@ panda::EventBase::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
   utils::setStatus(_tree, "", "eventNumber", _branches);
   utils::setStatus(_tree, "", "isData", _branches);
   utils::setStatus(_tree, "", "weight", _branches);
+  utils::setStatus(_tree, "", "npv", _branches);
+  utils::setStatus(_tree, "", "npvTrue", _branches);
 }
 
 /*protected*/
@@ -133,6 +153,8 @@ panda::EventBase::doGetStatus_(TTree& _tree) const
   blist.push_back(utils::getStatus(_tree, "", "eventNumber"));
   blist.push_back(utils::getStatus(_tree, "", "isData"));
   blist.push_back(utils::getStatus(_tree, "", "weight"));
+  blist.push_back(utils::getStatus(_tree, "", "npv"));
+  blist.push_back(utils::getStatus(_tree, "", "npvTrue"));
   return blist;
 }
 
@@ -152,6 +174,8 @@ panda::EventBase::doSetAddress_(TTree& _tree, utils::BranchList const& _branches
   utils::setAddress(_tree, "", "eventNumber", &eventNumber, _branches, _setStatus);
   utils::setAddress(_tree, "", "isData", &isData, _branches, _setStatus);
   utils::setAddress(_tree, "", "weight", &weight, _branches, _setStatus);
+  utils::setAddress(_tree, "", "npv", &npv, _branches, _setStatus);
+  utils::setAddress(_tree, "", "npvTrue", &npvTrue, _branches, _setStatus);
 }
 
 /*protected*/
@@ -163,6 +187,8 @@ panda::EventBase::doBook_(TTree& _tree, utils::BranchList const& _branches)
   utils::book(_tree, "", "eventNumber", "", 'l', &eventNumber, _branches);
   utils::book(_tree, "", "isData", "", 'O', &isData, _branches);
   utils::book(_tree, "", "weight", "", 'F', &weight, _branches);
+  utils::book(_tree, "", "npv", "", 's', &npv, _branches);
+  utils::book(_tree, "", "npvTrue", "", 's', &npvTrue, _branches);
 }
 
 /*protected*/
@@ -240,6 +266,8 @@ panda::EventBase::doInit_()
   eventNumber = 0;
   isData = false;
   weight = 0.;
+  npv = 0;
+  npvTrue = 0;
   /* BEGIN CUSTOM EventBase.cc.doInit_ */
   /* END CUSTOM */
 }
@@ -251,6 +279,7 @@ panda::EventBase::doUnlink_(TTree& _tree)
   runTrees_.erase(&_tree);
   /* END CUSTOM */
 }
+
 
 
 /* BEGIN CUSTOM EventBase.cc.global */

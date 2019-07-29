@@ -7,7 +7,7 @@
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
 #include "GenJet.h"
-#include "PFCand.h"
+#include "PFCandBase.h"
 #include "SecondaryVertex.h"
 
 namespace panda {
@@ -18,14 +18,6 @@ namespace panda {
       datastore() : MicroJet::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* ParticleP
-      Float_t* pt_{0};
-      Float_t* eta_{0};
-      Float_t* phi_{0};
-      */
-      /* ParticleM
-      Float_t* mass_{0};
-      */
       /* MicroJet
       Float_t* csv{0};
       Float_t* qgl{0};
@@ -123,20 +115,9 @@ namespace panda {
     Bool_t& tightLepVeto;
     Bool_t& monojet;
     Ref<GenJet> matchedGenJet;
-    RefVector<PFCand> constituents;
+    RefVector<PFCandBase> constituents;
     Ref<SecondaryVertex> secondaryVertex;
 
-  protected:
-    /* ParticleP
-    Float_t& pt_;
-    Float_t& eta_;
-    Float_t& phi_;
-    */
-    /* ParticleM
-    Float_t& mass_;
-    */
-
-  public:
     /* BEGIN CUSTOM Jet.h.classdef */
     /* END CUSTOM */
 

@@ -17,8 +17,6 @@
 #include "MicroJet.h"
 #include "GenJet.h"
 #include "GenParticle.h"
-#include "Vertex.h"
-#include "Parton.h"
 #include "Proton.h"
 #include "RecoMet.h"
 #include "Met.h"
@@ -36,6 +34,9 @@ namespace panda {
 
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
+
+    GenParticleBaseCollection const* genParticleCollection() const override { return &genParticles; }
+    GenParticleBaseCollection* genParticleCollection() override { return &genParticles; }
 
     GenReweight genReweight = GenReweight("genReweight");
     PFCandCollection pfCandidates = PFCandCollection("pfCandidates", 2048);
@@ -61,8 +62,6 @@ namespace panda {
     GenJetCollection ak8GenJets = GenJetCollection("ak8GenJets", 32);
     GenJetCollection ca15GenJets = GenJetCollection("ca15GenJets", 32);
     GenParticleCollection genParticles = GenParticleCollection("genParticles", 256);
-    Vertex genVertex = Vertex("genVertex");
-    PartonCollection partons = PartonCollection("partons", 8);
     ProtonCollection protons = ProtonCollection("protons", 32);
     RecoMet pfMet = RecoMet("pfMet");
     RecoMet puppiMet = RecoMet("puppiMet");
@@ -78,8 +77,6 @@ namespace panda {
     MetFilters metFilters = MetFilters("metFilters");
     Recoil recoil = Recoil("recoil");
 
-    UShort_t npv{};
-    UShort_t npvTrue{};
     Float_t rho{};
     Float_t rhoCentralCalo{};
 

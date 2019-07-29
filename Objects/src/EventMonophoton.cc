@@ -3,9 +3,9 @@
 panda::EventMonophoton::EventMonophoton() :
   EventBase()
 {
-  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &genVertex, &partons, &t1Met, &rawMet, &caloMet, &metFilters}};
+  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &t1Met, &rawMet, &caloMet, &metFilters}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &partons}};
+  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
   pfCandidates.data.vertexContainer_ = &vertices;
@@ -31,20 +31,16 @@ panda::EventMonophoton::EventMonophoton(EventMonophoton const& _src) :
   jets(_src.jets),
   genJets(_src.genJets),
   genParticles(_src.genParticles),
-  genVertex(_src.genVertex),
-  partons(_src.partons),
   t1Met(_src.t1Met),
   rawMet(_src.rawMet),
   caloMet(_src.caloMet),
   metFilters(_src.metFilters),
-  npv(_src.npv),
-  npvTrue(_src.npvTrue),
   rho(_src.rho),
   rhoCentralCalo(_src.rhoCentralCalo)
 {
-  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &genVertex, &partons, &t1Met, &rawMet, &caloMet, &metFilters}};
+  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &t1Met, &rawMet, &caloMet, &metFilters}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles, &partons}};
+  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &superClusters, &electrons, &muons, &taus, &photons, &jets, &genJets, &genParticles}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
 
@@ -72,8 +68,6 @@ panda::EventMonophoton::operator=(EventMonophoton const& _src)
   /* BEGIN CUSTOM EventMonophoton.cc.operator= */
   /* END CUSTOM */
 
-  npv = _src.npv;
-  npvTrue = _src.npvTrue;
   rho = _src.rho;
   rhoCentralCalo = _src.rhoCentralCalo;
 
@@ -88,8 +82,6 @@ panda::EventMonophoton::operator=(EventMonophoton const& _src)
   jets = _src.jets;
   genJets = _src.genJets;
   genParticles = _src.genParticles;
-  genVertex = _src.genVertex;
-  partons = _src.partons;
   t1Met = _src.t1Met;
   rawMet = _src.rawMet;
   caloMet = _src.caloMet;
@@ -131,8 +123,6 @@ panda::EventMonophoton::dump(std::ostream& _out/* = std::cout*/) const
 {
   EventBase::dump(_out);
 
-  _out << "npv = " << npv << std::endl;
-  _out << "npvTrue = " << npvTrue << std::endl;
   _out << "rho = " << rho << std::endl;
   _out << "rhoCentralCalo = " << rhoCentralCalo << std::endl;
 
@@ -147,8 +137,6 @@ panda::EventMonophoton::dump(std::ostream& _out/* = std::cout*/) const
   jets.dump(_out);
   genJets.dump(_out);
   genParticles.dump(_out);
-  genVertex.dump(_out);
-  partons.dump(_out);
   t1Met.dump(_out);
   rawMet.dump(_out);
   caloMet.dump(_out);
@@ -162,7 +150,7 @@ panda::EventMonophoton::getListOfBranches(Bool_t _direct/* = kFALSE*/)
   utils::BranchList blist;
   blist += EventBase::getListOfBranches(_direct);
 
-  blist += {"npv", "npvTrue", "rho", "rhoCentralCalo"};
+  blist += {"rho", "rhoCentralCalo"};
   if (!_direct) {
     blist += GenReweight::getListOfBranches().fullNames("genReweight");
     blist += PFCand::getListOfBranches().fullNames("pfCandidates");
@@ -175,8 +163,6 @@ panda::EventMonophoton::getListOfBranches(Bool_t _direct/* = kFALSE*/)
     blist += Jet::getListOfBranches().fullNames("jets");
     blist += GenJet::getListOfBranches().fullNames("genJets");
     blist += UnpackedGenParticle::getListOfBranches().fullNames("genParticles");
-    blist += Vertex::getListOfBranches().fullNames("genVertex");
-    blist += Parton::getListOfBranches().fullNames("partons");
     blist += RecoMet::getListOfBranches().fullNames("t1Met");
     blist += Met::getListOfBranches().fullNames("rawMet");
     blist += Met::getListOfBranches().fullNames("caloMet");
@@ -192,8 +178,6 @@ void
 panda::EventMonophoton::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 {
   EventBase::doSetStatus_(_tree, _branches);
-  utils::setStatus(_tree, "", "npv", _branches);
-  utils::setStatus(_tree, "", "npvTrue", _branches);
   utils::setStatus(_tree, "", "rho", _branches);
   utils::setStatus(_tree, "", "rhoCentralCalo", _branches);
 }
@@ -205,8 +189,6 @@ panda::EventMonophoton::doGetStatus_(TTree& _tree) const
   utils::BranchList blist;
   blist += EventBase::doGetStatus_(_tree);
 
-  blist.push_back(utils::getStatus(_tree, "", "npv"));
-  blist.push_back(utils::getStatus(_tree, "", "npvTrue"));
   blist.push_back(utils::getStatus(_tree, "", "rho"));
   blist.push_back(utils::getStatus(_tree, "", "rhoCentralCalo"));
   return blist;
@@ -225,8 +207,6 @@ panda::EventMonophoton::doSetAddress_(TTree& _tree, utils::BranchList const& _br
 {
   EventBase::doSetAddress_(_tree, _branches, _setStatus);
 
-  utils::setAddress(_tree, "", "npv", &npv, _branches, _setStatus);
-  utils::setAddress(_tree, "", "npvTrue", &npvTrue, _branches, _setStatus);
   utils::setAddress(_tree, "", "rho", &rho, _branches, _setStatus);
   utils::setAddress(_tree, "", "rhoCentralCalo", &rhoCentralCalo, _branches, _setStatus);
 }
@@ -237,8 +217,6 @@ panda::EventMonophoton::doBook_(TTree& _tree, utils::BranchList const& _branches
 {
   EventBase::doBook_(_tree, _branches);
 
-  utils::book(_tree, "", "npv", "", 's', &npv, _branches);
-  utils::book(_tree, "", "npvTrue", "", 's', &npvTrue, _branches);
   utils::book(_tree, "", "rho", "", 'F', &rho, _branches);
   utils::book(_tree, "", "rhoCentralCalo", "", 'F', &rhoCentralCalo, _branches);
 }
@@ -273,8 +251,6 @@ panda::EventMonophoton::doInit_()
 {
   EventBase::doInit_();
 
-  npv = 0;
-  npvTrue = 0;
   rho = 0.;
   rhoCentralCalo = 0.;
   /* BEGIN CUSTOM EventMonophoton.cc.doInit_ */
@@ -289,6 +265,7 @@ panda::EventMonophoton::doUnlink_(TTree& _tree)
   /* BEGIN CUSTOM EventMonophoton.cc.doUnlink_ */
   /* END CUSTOM */
 }
+
 
 
 /* BEGIN CUSTOM EventMonophoton.cc.global */

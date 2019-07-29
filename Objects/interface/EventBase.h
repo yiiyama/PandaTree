@@ -3,11 +3,14 @@
 #include "../../Framework/interface/TreeEntry.h"
 #include "Constants.h"
 #include "HLTBits.h"
+#include "Parton.h"
+#include "Vertex.h"
 #include "Run.h"
 #include "TList.h"
 #include "TFile.h"
 #include "TKey.h"
 #include "HLTObjectStore.h"
+#include "GenParticleBase.h"
 #include "PandaTree/Framework/interface/RRNG.h"
 
 namespace panda {
@@ -22,13 +25,20 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
+    virtual GenParticleBaseCollection const* genParticleCollection() const { return nullptr; }
+    virtual GenParticleBaseCollection* genParticleCollection() { return nullptr; }
+
     HLTBits triggers = HLTBits("triggers");
+    PartonCollection partons = PartonCollection("partons", 8);
+    Vertex genVertex = Vertex("genVertex");
 
     UInt_t runNumber{};
     UInt_t lumiNumber{};
     ULong64_t eventNumber{};
     Bool_t isData{};
     Float_t weight{};
+    UShort_t npv{};
+    UShort_t npvTrue{};
 
     static utils::BranchList getListOfBranches(Bool_t direct = kFALSE);
 

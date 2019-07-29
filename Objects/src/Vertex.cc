@@ -114,11 +114,7 @@ panda::Vertex::Vertex(Vertex const& _src) :
   y(gStore.getData(this).y[0]),
   z(gStore.getData(this).z[0])
 {
-  Element::operator=(_src);
-
-  x = _src.x;
-  y = _src.y;
-  z = _src.z;
+  operator=(_src);
 }
 
 panda::Vertex::Vertex(datastore& _data, UInt_t _idx) :

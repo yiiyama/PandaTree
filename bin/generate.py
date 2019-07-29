@@ -85,6 +85,7 @@ constants = []
 asserts = []
 enums = []
 functions = []
+mixins = []
 phobjects = []
 trees = []
 
@@ -146,6 +147,12 @@ for fname in args.configs:
             pass
 
         try:
+            mixins.append(Mixin(line, configFile))
+            continue
+        except Definition.NoMatch:
+            pass
+
+        try:
             phobjects.append(PhysicsObject(line, configFile))
             continue
         except Definition.NoMatch:
@@ -160,6 +167,9 @@ for fname in args.configs:
         print 'Skipping unrecognized pattern:', line
 
     configFile.close()
+
+for objdef in phobjects:
+    objdef.set_mixins(mixins)
 
 # create directories if necessary
 if not os.path.isdir(common.PACKDIR + '/Objects/interface'):
@@ -246,7 +256,7 @@ src.write_custom_block('Constants.cc.global')
 src.close()
 
 # write code for all objects and trees
-for objdef in phobjects + trees:
+for objdef in phobjects + trees + mixins:
     objdef.generate_header()
     objdef.generate_source()
 

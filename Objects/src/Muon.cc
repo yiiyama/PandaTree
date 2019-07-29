@@ -485,48 +485,7 @@ panda::Muon::Muon(Muon const& _src) :
   rochCorr(gStore.getData(this).rochCorr[0]),
   rochCorrErr(gStore.getData(this).rochCorrErr[0])
 {
-  Lepton::operator=(_src);
-
-  mediumPrompt = _src.mediumPrompt;
-  globalHighPt = _src.globalHighPt;
-  trkHighPt = _src.trkHighPt;
-  soft = _src.soft;
-  softMVA = _src.softMVA;
-  mvaLoose = _src.mvaLoose;
-  mvaMedium = _src.mvaMedium;
-  mvaTight = _src.mvaTight;
-  pfIsoVeryLoose = _src.pfIsoVeryLoose;
-  pfIsoLoose = _src.pfIsoLoose;
-  pfIsoMedium = _src.pfIsoMedium;
-  pfIsoTight = _src.pfIsoTight;
-  pfIsoVeryTight = _src.pfIsoVeryTight;
-  tkIsoLoose = _src.tkIsoLoose;
-  tkIsoTight = _src.tkIsoTight;
-  miniIsoLoose = _src.miniIsoLoose;
-  miniIsoMedium = _src.miniIsoMedium;
-  miniIsoTight = _src.miniIsoTight;
-  miniIsoVeryTight = _src.miniIsoVeryTight;
-  global = _src.global;
-  pf = _src.pf;
-  tracker = _src.tracker;
-  standalone = _src.standalone;
-  calo = _src.calo;
-  rpc = _src.rpc;
-  gem = _src.gem;
-  me0 = _src.me0;
-  validFraction = _src.validFraction;
-  nValidMuon = _src.nValidMuon;
-  nValidPixel = _src.nValidPixel;
-  trkLayersWithMmt = _src.trkLayersWithMmt;
-  pixLayersWithMmt = _src.pixLayersWithMmt;
-  nMatched = _src.nMatched;
-  normChi2 = _src.normChi2;
-  chi2LocalPosition = _src.chi2LocalPosition;
-  trkKink = _src.trkKink;
-  segmentCompatibility = _src.segmentCompatibility;
-  r03Iso = _src.r03Iso;
-  rochCorr = _src.rochCorr;
-  rochCorrErr = _src.rochCorrErr;
+  operator=(_src);
 }
 
 panda::Muon::Muon(datastore& _data, UInt_t _idx) :

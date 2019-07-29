@@ -134,13 +134,7 @@ panda::PackedTrack::PackedTrack(PackedTrack const& _src) :
   packedDPhi(gStore.getData(this).packedDPhi[0]),
   highPurity(gStore.getData(this).highPurity[0])
 {
-  Element::operator=(_src);
-
-  packedPtError = _src.packedPtError;
-  packedDxy = _src.packedDxy;
-  packedDz = _src.packedDz;
-  packedDPhi = _src.packedDPhi;
-  highPurity = _src.highPurity;
+  operator=(_src);
 }
 
 panda::PackedTrack::PackedTrack(datastore& _data, UInt_t _idx) :

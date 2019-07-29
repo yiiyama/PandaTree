@@ -236,23 +236,7 @@ panda::FatJet::FatJet(FatJet const& _src) :
   ecfs(gStore.getData(this).ecfs[0]),
   subjets(gStore.getData(this).subjetsContainer_, (*gStore.getData(this).subjets_)[0])
 {
-  Jet::operator=(_src);
-
-  tau1 = _src.tau1;
-  tau2 = _src.tau2;
-  tau3 = _src.tau3;
-  mSD = _src.mSD;
-  mPruned = _src.mPruned;
-  tau1SD = _src.tau1SD;
-  tau2SD = _src.tau2SD;
-  tau3SD = _src.tau3SD;
-  htt_mass = _src.htt_mass;
-  htt_frec = _src.htt_frec;
-  double_sub = _src.double_sub;
-  deepBBprobQ = _src.deepBBprobQ;
-  deepBBprobH = _src.deepBBprobH;
-  std::memcpy(ecfs, _src.ecfs, sizeof(Float_t) * 3 * 4 * 4);
-  subjets = _src.subjets;
+  operator=(_src);
 }
 
 panda::FatJet::FatJet(datastore& _data, UInt_t _idx) :

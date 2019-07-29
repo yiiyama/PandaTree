@@ -186,18 +186,7 @@ panda::SecondaryVertex::SecondaryVertex(SecondaryVertex const& _src) :
   vtx3DVal(gStore.getData(this).vtx3DVal[0]),
   vtx3DeVal(gStore.getData(this).vtx3DeVal[0])
 {
-  ParticleM::operator=(_src);
-
-  x = _src.x;
-  y = _src.y;
-  z = _src.z;
-  ntrk = _src.ntrk;
-  ndof = _src.ndof;
-  chi2 = _src.chi2;
-  daughters = _src.daughters;
-  significance = _src.significance;
-  vtx3DVal = _src.vtx3DVal;
-  vtx3DeVal = _src.vtx3DeVal;
+  operator=(_src);
 }
 
 panda::SecondaryVertex::SecondaryVertex(datastore& _data, UInt_t _idx) :

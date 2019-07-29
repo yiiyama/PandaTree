@@ -6,7 +6,7 @@
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
 #include "../../Framework/interface/RefVector.h"
-#include "PFCand.h"
+#include "PFCandBase.h"
 
 namespace panda {
 
@@ -16,14 +16,6 @@ namespace panda {
       datastore() : ParticleM::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* ParticleP
-      Float_t* pt_{0};
-      Float_t* eta_{0};
-      Float_t* phi_{0};
-      */
-      /* ParticleM
-      Float_t* mass_{0};
-      */
       Float_t* x{0};
       Float_t* y{0};
       Float_t* z{0};
@@ -72,22 +64,11 @@ namespace panda {
     UShort_t& ntrk;
     Float_t& ndof;
     Float_t& chi2;
-    RefVector<PFCand> daughters;
+    RefVector<PFCandBase> daughters;
     Float_t& significance;
     Float_t& vtx3DVal;
     Float_t& vtx3DeVal;
 
-  protected:
-    /* ParticleP
-    Float_t& pt_;
-    Float_t& eta_;
-    Float_t& phi_;
-    */
-    /* ParticleM
-    Float_t& mass_;
-    */
-
-  public:
     /* BEGIN CUSTOM SecondaryVertex.h.classdef */
     /* END CUSTOM */
 

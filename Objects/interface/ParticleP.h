@@ -2,6 +2,7 @@
 #define PandaTree_Objects_ParticleP_h
 #include "Constants.h"
 #include "Particle.h"
+#include "PtEtaPhiMixin.h"
 #include "../../Framework/interface/Array.h"
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
@@ -9,15 +10,17 @@
 
 namespace panda {
 
-  class ParticleP : public Particle {
+  class ParticleP : public Particle, public PtEtaPhiMixin {
   public:
-    struct datastore : public Particle::datastore {
-      datastore() : Particle::datastore() {}
+    struct datastore : public Particle::datastore, public PtEtaPhiMixin::datastore {
+      datastore() : Particle::datastore(), PtEtaPhiMixin::datastore() {}
       ~datastore() { deallocate(); }
 
+      /* PtEtaPhiMixin
       Float_t* pt_{0};
       Float_t* eta_{0};
       Float_t* phi_{0};
+      */
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -54,9 +57,11 @@ namespace panda {
     void setXYZE(double px, double py, double pz, double) override;
 
   protected:
+    /* PtEtaPhiMixin
     Float_t& pt_;
     Float_t& eta_;
     Float_t& phi_;
+    */
 
   public:
     /* BEGIN CUSTOM ParticleP.h.classdef */

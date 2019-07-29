@@ -30,3 +30,12 @@ class Typedef(OneLiner):
     def __init__(self, line):
         OneLiner.__init__(self, line, 'typedef +[^ ]+ +[^ ]+$')
 
+
+class FwdDecl(OneLiner):
+    """
+    C++ class forward declaration.
+    """
+
+    def __init__(self, line):
+        OneLiner.__init__(self, line, 'class +[^ ]+$')
+

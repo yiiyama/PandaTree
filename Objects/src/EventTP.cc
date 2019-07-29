@@ -3,9 +3,9 @@
 panda::EventTP::EventTP() :
   EventBase()
 {
-  std::vector<Object*> myObjects{{&tp, &jets, &t1Met}};
+  std::vector<Object*> myObjects{{&electrons, &muons, &photons, &tp, &jets, &t1Met}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&tp, &jets}};
+  std::vector<CollectionBase*> myCollections{{&electrons, &muons, &photons, &tp, &jets}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
   /* BEGIN CUSTOM EventTP.cc.ctor */
   /* END CUSTOM */
@@ -13,17 +13,18 @@ panda::EventTP::EventTP() :
 
 panda::EventTP::EventTP(EventTP const& _src) :
   EventBase(_src),
+  electrons(_src.electrons),
+  muons(_src.muons),
+  photons(_src.photons),
   tp(_src.tp),
   jets(_src.jets),
   t1Met(_src.t1Met),
-  npv(_src.npv),
-  npvTrue(_src.npvTrue),
   rho(_src.rho),
   sample(_src.sample)
 {
-  std::vector<Object*> myObjects{{&tp, &jets, &t1Met}};
+  std::vector<Object*> myObjects{{&electrons, &muons, &photons, &tp, &jets, &t1Met}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&tp, &jets}};
+  std::vector<CollectionBase*> myCollections{{&electrons, &muons, &photons, &tp, &jets}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
   /* BEGIN CUSTOM EventTP.cc.copy_ctor */
@@ -44,11 +45,12 @@ panda::EventTP::operator=(EventTP const& _src)
   /* BEGIN CUSTOM EventTP.cc.operator= */
   /* END CUSTOM */
 
-  npv = _src.npv;
-  npvTrue = _src.npvTrue;
   rho = _src.rho;
   sample = _src.sample;
 
+  electrons = _src.electrons;
+  muons = _src.muons;
+  photons = _src.photons;
   tp = _src.tp;
   jets = _src.jets;
   t1Met = _src.t1Met;
@@ -69,11 +71,12 @@ panda::EventTP::dump(std::ostream& _out/* = std::cout*/) const
 {
   EventBase::dump(_out);
 
-  _out << "npv = " << npv << std::endl;
-  _out << "npvTrue = " << npvTrue << std::endl;
   _out << "rho = " << rho << std::endl;
   _out << "sample = " << sample << std::endl;
 
+  electrons.dump(_out);
+  muons.dump(_out);
+  photons.dump(_out);
   tp.dump(_out);
   jets.dump(_out);
   t1Met.dump(_out);
@@ -86,8 +89,11 @@ panda::EventTP::getListOfBranches(Bool_t _direct/* = kFALSE*/)
   utils::BranchList blist;
   blist += EventBase::getListOfBranches(_direct);
 
-  blist += {"npv", "npvTrue", "rho", "sample"};
+  blist += {"rho", "sample"};
   if (!_direct) {
+    blist += Electron::getListOfBranches().fullNames("electrons");
+    blist += Muon::getListOfBranches().fullNames("muons");
+    blist += Photon::getListOfBranches().fullNames("photons");
     blist += TPPair::getListOfBranches().fullNames("tp");
     blist += Jet::getListOfBranches().fullNames("jets");
     blist += RecoMet::getListOfBranches().fullNames("t1Met");
@@ -102,8 +108,6 @@ void
 panda::EventTP::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 {
   EventBase::doSetStatus_(_tree, _branches);
-  utils::setStatus(_tree, "", "npv", _branches);
-  utils::setStatus(_tree, "", "npvTrue", _branches);
   utils::setStatus(_tree, "", "rho", _branches);
   utils::setStatus(_tree, "", "sample", _branches);
 }
@@ -115,8 +119,6 @@ panda::EventTP::doGetStatus_(TTree& _tree) const
   utils::BranchList blist;
   blist += EventBase::doGetStatus_(_tree);
 
-  blist.push_back(utils::getStatus(_tree, "", "npv"));
-  blist.push_back(utils::getStatus(_tree, "", "npvTrue"));
   blist.push_back(utils::getStatus(_tree, "", "rho"));
   blist.push_back(utils::getStatus(_tree, "", "sample"));
   return blist;
@@ -135,8 +137,6 @@ panda::EventTP::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, 
 {
   EventBase::doSetAddress_(_tree, _branches, _setStatus);
 
-  utils::setAddress(_tree, "", "npv", &npv, _branches, _setStatus);
-  utils::setAddress(_tree, "", "npvTrue", &npvTrue, _branches, _setStatus);
   utils::setAddress(_tree, "", "rho", &rho, _branches, _setStatus);
   utils::setAddress(_tree, "", "sample", &sample, _branches, _setStatus);
 }
@@ -147,8 +147,6 @@ panda::EventTP::doBook_(TTree& _tree, utils::BranchList const& _branches)
 {
   EventBase::doBook_(_tree, _branches);
 
-  utils::book(_tree, "", "npv", "", 's', &npv, _branches);
-  utils::book(_tree, "", "npvTrue", "", 's', &npvTrue, _branches);
   utils::book(_tree, "", "rho", "", 'F', &rho, _branches);
   utils::book(_tree, "", "sample", "", 'i', &sample, _branches);
 }
@@ -168,8 +166,6 @@ panda::EventTP::doInit_()
 {
   EventBase::doInit_();
 
-  npv = 0;
-  npvTrue = 0;
   rho = 0.;
   sample = 0;
   /* BEGIN CUSTOM EventTP.cc.doInit_ */

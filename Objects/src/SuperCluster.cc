@@ -114,11 +114,7 @@ panda::SuperCluster::SuperCluster(SuperCluster const& _src) :
   eta(gStore.getData(this).eta[0]),
   phi(gStore.getData(this).phi[0])
 {
-  Element::operator=(_src);
-
-  rawPt = _src.rawPt;
-  eta = _src.eta;
-  phi = _src.phi;
+  operator=(_src);
 }
 
 panda::SuperCluster::SuperCluster(datastore& _data, UInt_t _idx) :

@@ -1,7 +1,8 @@
 #ifndef PandaTree_Objects_GenParticle_h
 #define PandaTree_Objects_GenParticle_h
 #include "Constants.h"
-#include "PackedParticle.h"
+#include "GenParticleBase.h"
+#include "PackedMomentumMixin.h"
 #include "../../Framework/interface/Array.h"
 #include "../../Framework/interface/Collection.h"
 #include "../../Framework/interface/Ref.h"
@@ -9,45 +10,28 @@
 
 namespace panda {
 
-  class GenParticle : public PackedParticle {
+  class UnpackedGenParticle;
+
+  class GenParticle : public GenParticleBase, public PackedMomentumMixin {
   public:
-    enum StatusFlag {
-      kIsPrompt,
-      kIsDecayedLeptonHadron,
-      kIsTauDecayProduct,
-      kIsPromptTauDecayProduct,
-      kIsDirectTauDecayProduct,
-      kIsDirectPromptTauDecayProduct,
-      kIsDirectHadronDecayProduct,
-      kIsHardProcess,
-      kFromHardProcess,
-      kIsHardProcessTauDecayProduct,
-      kIsDirectHardProcessTauDecayProduct,
-      kFromHardProcessBeforeFSR,
-      kIsFirstCopy,
-      kIsLastCopy,
-      kIsLastCopyBeforeFSR,
-      nStatusFlags
-    };
-
-    static TString StatusFlagName[nStatusFlags];
-
-    struct datastore : public PackedParticle::datastore {
-      datastore() : PackedParticle::datastore() {}
+    struct datastore : public GenParticleBase::datastore, public PackedMomentumMixin::datastore {
+      datastore() : GenParticleBase::datastore(), PackedMomentumMixin::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* PackedParticle
-      UShort_t* packedPt{0};
-      Short_t* packedEta{0};
-      Short_t* packedPhi{0};
-      UShort_t* packedM{0};
-      */
+      /* GenParticleBase
       Int_t* pdgid{0};
       Bool_t* finalState{0};
       Bool_t* miniaodPacked{0};
       UShort_t* statusFlags{0};
       ContainerBase const* parentContainer_{0};
       Short_t* parent_{0};
+      */
+      /* PackedMomentumMixin
+      UShort_t* packedPt{0};
+      Short_t* packedEta{0};
+      Short_t* packedPhi{0};
+      UShort_t* packedM{0};
+      */
 
       void allocate(UInt_t n) override;
       void deallocate() override;
@@ -63,7 +47,7 @@ namespace panda {
     typedef Array<GenParticle> array_type;
     typedef Collection<GenParticle> collection_type;
 
-    typedef PackedParticle base_type;
+    typedef GenParticleBase base_type;
 
     GenParticle(char const* name = "");
     GenParticle(GenParticle const&);
@@ -76,21 +60,29 @@ namespace panda {
     void print(std::ostream& = std::cout, UInt_t level = 1) const override;
     void dump(std::ostream& = std::cout) const override;
 
-    bool testFlag(StatusFlag f) const { return ((statusFlags >> f) & 1) == 1; }
+    double pt() const override { unpack_(); return pt_; }
+    double eta() const override { unpack_(); return eta_; }
+    double phi() const override { unpack_(); return phi_; }
+    double m() const override { unpack_(); return mass_; }
+    void setPtEtaPhiM(double pt, double eta, double phi, double m) override { setPtEtaPhiMPacked_(pt, eta, phi, m); }
+    void setXYZE(double px, double py, double pz, double e) override { setXYZEPacked_(px, py, pz, e); }
 
-    /* PackedParticle
+    /* GenParticleBase
+    Int_t& pdgid;
+    Bool_t& finalState;
+    Bool_t& miniaodPacked; ///< True if this came from a MINIAOD packed collection
+    UShort_t& statusFlags;
+    Ref<GenParticleBase> parent;
+    */
+    /* PackedMomentumMixin
     UShort_t& packedPt;
     Short_t& packedEta;
     Short_t& packedPhi;
     UShort_t& packedM;
     */
-    Int_t& pdgid;
-    Bool_t& finalState;
-    Bool_t& miniaodPacked; ///< True if this came from a MINIAOD packed collection
-    UShort_t& statusFlags;
-    Ref<GenParticle> parent;
 
     /* BEGIN CUSTOM GenParticle.h.classdef */
+    GenParticle& operator=(UnpackedGenParticle const&);
     /* END CUSTOM */
 
     static utils::BranchList getListOfBranches();

@@ -15,11 +15,6 @@ namespace panda {
       datastore() : Lepton::datastore() {}
       ~datastore() { deallocate(); }
 
-      /* ParticleP
-      Float_t* pt_{0};
-      Float_t* eta_{0};
-      Float_t* phi_{0};
-      */
       /* Lepton
       Float_t* pfPt{0};
       Char_t* charge{0};
@@ -124,8 +119,8 @@ namespace panda {
     Float_t& puIso;
     Float_t& dxy;
     Float_t& dz;
-    Ref<PFCand> matchedPF;
-    Ref<GenParticle> matchedGen;
+    Ref<PFCandBase> matchedPF;
+    Ref<GenParticleBase> matchedGen;
     Ref<Vertex> vertex;
     */
     Bool_t& mediumPrompt;
@@ -169,14 +164,6 @@ namespace panda {
     Float_t& rochCorr;
     Float_t& rochCorrErr;
 
-  protected:
-    /* ParticleP
-    Float_t& pt_;
-    Float_t& eta_;
-    Float_t& phi_;
-    */
-
-  public:
     /* BEGIN CUSTOM Muon.h.classdef */
     /* END CUSTOM */
 

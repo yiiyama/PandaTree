@@ -3,9 +3,9 @@
 panda::Event::Event() :
   EventBase()
 {
-  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &secondaryVertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &genVertex, &partons, &protons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metFilters, &recoil}};
+  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &secondaryVertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &protons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metFilters, &recoil}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &secondaryVertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons, &protons}};
+  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &secondaryVertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &protons}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
   pfCandidates.data.vertexContainer_ = &vertices;
@@ -78,8 +78,6 @@ panda::Event::Event(Event const& _src) :
   ak8GenJets(_src.ak8GenJets),
   ca15GenJets(_src.ca15GenJets),
   genParticles(_src.genParticles),
-  genVertex(_src.genVertex),
-  partons(_src.partons),
   protons(_src.protons),
   pfMet(_src.pfMet),
   puppiMet(_src.puppiMet),
@@ -94,14 +92,12 @@ panda::Event::Event(Event const& _src) :
   genMet(_src.genMet),
   metFilters(_src.metFilters),
   recoil(_src.recoil),
-  npv(_src.npv),
-  npvTrue(_src.npvTrue),
   rho(_src.rho),
   rhoCentralCalo(_src.rhoCentralCalo)
 {
-  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &secondaryVertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &genVertex, &partons, &protons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metFilters, &recoil}};
+  std::vector<Object*> myObjects{{&genReweight, &pfCandidates, &vertices, &secondaryVertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &protons, &pfMet, &puppiMet, &rawMet, &caloMet, &noMuMet, &noHFMet, &trkMet, &neutralMet, &photonMet, &hfMet, &genMet, &metFilters, &recoil}};
   objects_.insert(objects_.end(), myObjects.begin(), myObjects.end());
-  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &secondaryVertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &partons, &protons}};
+  std::vector<CollectionBase*> myCollections{{&pfCandidates, &vertices, &secondaryVertices, &tracks, &superClusters, &electrons, &muons, &taus, &photons, &chsAK4Jets, &puppiAK4Jets, &chsAK8Jets, &chsAK8Subjets, &chsCA15Jets, &chsCA15Subjets, &puppiAK8Jets, &puppiAK8Subjets, &puppiCA15Jets, &puppiCA15Subjets, &ak4GenJets, &ak8GenJets, &ca15GenJets, &genParticles, &protons}};
   collections_.insert(collections_.end(), myCollections.begin(), myCollections.end());
 
 
@@ -163,8 +159,6 @@ panda::Event::operator=(Event const& _src)
   /* BEGIN CUSTOM Event.cc.operator= */
   /* END CUSTOM */
 
-  npv = _src.npv;
-  npvTrue = _src.npvTrue;
   rho = _src.rho;
   rhoCentralCalo = _src.rhoCentralCalo;
 
@@ -192,8 +186,6 @@ panda::Event::operator=(Event const& _src)
   ak8GenJets = _src.ak8GenJets;
   ca15GenJets = _src.ca15GenJets;
   genParticles = _src.genParticles;
-  genVertex = _src.genVertex;
-  partons = _src.partons;
   protons = _src.protons;
   pfMet = _src.pfMet;
   puppiMet = _src.puppiMet;
@@ -279,8 +271,6 @@ panda::Event::dump(std::ostream& _out/* = std::cout*/) const
 {
   EventBase::dump(_out);
 
-  _out << "npv = " << npv << std::endl;
-  _out << "npvTrue = " << npvTrue << std::endl;
   _out << "rho = " << rho << std::endl;
   _out << "rhoCentralCalo = " << rhoCentralCalo << std::endl;
 
@@ -308,8 +298,6 @@ panda::Event::dump(std::ostream& _out/* = std::cout*/) const
   ak8GenJets.dump(_out);
   ca15GenJets.dump(_out);
   genParticles.dump(_out);
-  genVertex.dump(_out);
-  partons.dump(_out);
   protons.dump(_out);
   pfMet.dump(_out);
   puppiMet.dump(_out);
@@ -333,7 +321,7 @@ panda::Event::getListOfBranches(Bool_t _direct/* = kFALSE*/)
   utils::BranchList blist;
   blist += EventBase::getListOfBranches(_direct);
 
-  blist += {"npv", "npvTrue", "rho", "rhoCentralCalo"};
+  blist += {"rho", "rhoCentralCalo"};
   if (!_direct) {
     blist += GenReweight::getListOfBranches().fullNames("genReweight");
     blist += PFCand::getListOfBranches().fullNames("pfCandidates");
@@ -359,8 +347,6 @@ panda::Event::getListOfBranches(Bool_t _direct/* = kFALSE*/)
     blist += GenJet::getListOfBranches().fullNames("ak8GenJets");
     blist += GenJet::getListOfBranches().fullNames("ca15GenJets");
     blist += GenParticle::getListOfBranches().fullNames("genParticles");
-    blist += Vertex::getListOfBranches().fullNames("genVertex");
-    blist += Parton::getListOfBranches().fullNames("partons");
     blist += Proton::getListOfBranches().fullNames("protons");
     blist += RecoMet::getListOfBranches().fullNames("pfMet");
     blist += RecoMet::getListOfBranches().fullNames("puppiMet");
@@ -386,8 +372,6 @@ void
 panda::Event::doSetStatus_(TTree& _tree, utils::BranchList const& _branches)
 {
   EventBase::doSetStatus_(_tree, _branches);
-  utils::setStatus(_tree, "", "npv", _branches);
-  utils::setStatus(_tree, "", "npvTrue", _branches);
   utils::setStatus(_tree, "", "rho", _branches);
   utils::setStatus(_tree, "", "rhoCentralCalo", _branches);
 }
@@ -399,8 +383,6 @@ panda::Event::doGetStatus_(TTree& _tree) const
   utils::BranchList blist;
   blist += EventBase::doGetStatus_(_tree);
 
-  blist.push_back(utils::getStatus(_tree, "", "npv"));
-  blist.push_back(utils::getStatus(_tree, "", "npvTrue"));
   blist.push_back(utils::getStatus(_tree, "", "rho"));
   blist.push_back(utils::getStatus(_tree, "", "rhoCentralCalo"));
   return blist;
@@ -419,8 +401,6 @@ panda::Event::doSetAddress_(TTree& _tree, utils::BranchList const& _branches, Bo
 {
   EventBase::doSetAddress_(_tree, _branches, _setStatus);
 
-  utils::setAddress(_tree, "", "npv", &npv, _branches, _setStatus);
-  utils::setAddress(_tree, "", "npvTrue", &npvTrue, _branches, _setStatus);
   utils::setAddress(_tree, "", "rho", &rho, _branches, _setStatus);
   utils::setAddress(_tree, "", "rhoCentralCalo", &rhoCentralCalo, _branches, _setStatus);
 }
@@ -431,8 +411,6 @@ panda::Event::doBook_(TTree& _tree, utils::BranchList const& _branches)
 {
   EventBase::doBook_(_tree, _branches);
 
-  utils::book(_tree, "", "npv", "", 's', &npv, _branches);
-  utils::book(_tree, "", "npvTrue", "", 's', &npvTrue, _branches);
   utils::book(_tree, "", "rho", "", 'F', &rho, _branches);
   utils::book(_tree, "", "rhoCentralCalo", "", 'F', &rhoCentralCalo, _branches);
 }
@@ -488,8 +466,6 @@ panda::Event::doInit_()
 {
   EventBase::doInit_();
 
-  npv = 0;
-  npvTrue = 0;
   rho = 0.;
   rhoCentralCalo = 0.;
   /* BEGIN CUSTOM Event.cc.doInit_ */
@@ -504,6 +480,7 @@ panda::Event::doUnlink_(TTree& _tree)
   /* BEGIN CUSTOM Event.cc.doUnlink_ */
   /* END CUSTOM */
 }
+
 
 
 /* BEGIN CUSTOM Event.cc.global */
