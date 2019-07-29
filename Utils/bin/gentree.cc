@@ -1,5 +1,5 @@
 #include "PandaTree/Utils/interface/PNode.h"
-#include "PandaTree/Objects/interface/Event.h"
+#include "PandaTree/Objects/interface/EventAnalysis.h"
 
 #include "TFile.h"
 #include "TTree.h"
@@ -11,7 +11,7 @@
 struct PNodePanda : public PNode {
   short motherPanda{-1};
 
-  PNodePanda(panda::GenParticle const& _part) : PNode() {
+  PNodePanda(panda::GenParticleBase const& _part) : PNode() {
     pdgId = _part.pdgid;
     status = _part.finalState ? 1 : 2;
     statusBits = std::bitset<15>(_part.statusFlags);
@@ -62,18 +62,24 @@ main(int argc, char* argv[])
   }
   delete matches;
 
-  panda::Event event;
-  event.setAddress(*tree, {"runNumber", "lumiNumber", "eventNumber", "genParticles"});
+  panda::EventAnalysis event;
+  event.setAddress(*tree, {"runNumber", "lumiNumber", "eventNumber", "genParticles", "genParticlesU"});
 
   long iEntry(0);
   while (iEntry != nEntries && event.getEntry(*tree, iEntry++) > 0) {
     if (runNumber != 0 && (event.runNumber != runNumber || event.lumiNumber != lumiNumber || event.eventNumber != eventNumber))
       continue;
 
-    std::vector<PNodePanda> pnodes;
-    pnodes.reserve(event.genParticles.size());
+    panda::GenParticleBaseCollection const* parts{nullptr};
+    if (event.genParticles.size() != 0)
+      parts = &event.genParticles;
+    else
+      parts = &event.genParticlesU;
 
-    for (auto& gen : event.genParticles)
+    std::vector<PNodePanda> pnodes;
+    pnodes.reserve(parts->size());
+
+    for (auto& gen : *parts)
       pnodes.emplace_back(gen);
 
     std::vector<PNode*> rootNodes;
